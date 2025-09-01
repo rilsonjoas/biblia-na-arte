@@ -56,9 +56,9 @@ export default function Index() {
               </Button>
               <Button 
                 asChild 
-                variant="outline" 
+                variant="hero"
                 size="lg" 
-                className="shadow-classical text-lg px-8 py-6 border-white/30 text-white hover:bg-white/10"
+                className="shadow-classical text-lg px-8 py-6"
               >
                 <Link to="/arte">
                   <Palette className="w-5 h-5 mr-2" />
