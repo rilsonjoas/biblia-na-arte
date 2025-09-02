@@ -149,4 +149,13 @@
   .shadow-golden {
     box-shadow: var(--shadow-golden);
   }
+  
+  .gradient-text {
+    background: linear-gradient(135deg, #8B4513 0%, #A0522D 30%, #CD853F 70%, #D2691E 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    /* Fallback for browsers that don't support background-clip */
+    color: #8B4513;
+  }
 }

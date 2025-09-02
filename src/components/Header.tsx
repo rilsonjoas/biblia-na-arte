@@ -13,6 +13,7 @@ export default function Header() {
   const handleSearch = () => {
     if (searchQuery.trim()) {
       navigate(`/busca?q=${encodeURIComponent(searchQuery.trim())}`);
+      setSearchQuery(''); // Clear search after navigation
     }
   };
 

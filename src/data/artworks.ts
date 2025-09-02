@@ -134,5 +134,154 @@ export const artworks: Artwork[] = [
     ],
     sourceUrl: "https://pt.wikipedia.org/wiki/Messiah_(Handel)",
     dimensionsOrDuration: "~2h 30min"
+  },
+  {
+    id: "rembrandt-return-prodigal-son",
+    title: "O Retorno do Filho Pródigo",
+    artistOrDirector: "Rembrandt van Rijn",
+    year: "1661-1669",
+    category: "painting",
+    mediumOrGenre: "Óleo sobre tela",
+    imageUrl: "/src/assets/rembrandt-prodigal-son.jpg",
+    description: "Uma das obras mais tocantes de Rembrandt, retratando o momento de reconciliação entre pai e filho. A composição magistral usa luz e sombra para transmitir compaixão, perdão e amor incondicional paterno.",
+    references: [
+      { book: "Lucas", bookSlug: "luke", chapter: 15, verses: "11-32" }
+    ],
+    sourceUrl: "https://pt.wikipedia.org/wiki/O_Retorno_do_Filho_Pr%C3%B3digo",
+    dimensionsOrDuration: "262 cm × 205 cm"
+  },
+  {
+    id: "sistine-chapel-ceiling",
+    title: "Teto da Capela Sistina",
+    artistOrDirector: "Michelangelo",
+    year: "1508-1512",
+    category: "painting",
+    mediumOrGenre: "Afresco",
+    imageUrl: "/src/assets/sistine-chapel-ceiling.jpg",
+    description: "Obra monumental que narra episódios do Antigo Testamento no teto da Capela Sistina. Inclui a famosa Criação de Adão e outros episódios bíblicos, demonstrando a genialidade de Michelangelo na representação da narrativa sagrada.",
+    references: [
+      { book: "Gênesis", bookSlug: "genesis", chapter: 1, verses: "1-31" },
+      { book: "Gênesis", bookSlug: "genesis", chapter: 2, verses: "7" },
+      { book: "Gênesis", bookSlug: "genesis", chapter: 3, verses: "1-24" }
+    ],
+    sourceUrl: "https://pt.wikipedia.org/wiki/Capela_Sistina",
+    dimensionsOrDuration: "40,9 m × 13,4 m"
+  },
+  {
+    id: "van-gogh-starry-night-over-rhone",
+    title: "Noite Estrelada sobre o Ródano",
+    artistOrDirector: "Vincent van Gogh",
+    year: "1888",
+    category: "painting",
+    mediumOrGenre: "Óleo sobre tela",
+    imageUrl: "/src/assets/van-gogh-starry-night.jpg",
+    description: "Embora não explicitamente religiosa, esta obra captura a magnificência da criação divina. Van Gogh, profundamente religioso, via na natureza a manifestação de Deus, especialmente no céu noturno e nas estrelas.",
+    references: [
+      { book: "Gênesis", bookSlug: "genesis", chapter: 1, verses: "14-16" },
+      { book: "Salmos", bookSlug: "psalms", chapter: 8, verses: "3-4" },
+      { book: "Salmos", bookSlug: "psalms", chapter: 19, verses: "1" }
+    ],
+    sourceUrl: "https://pt.wikipedia.org/wiki/Noite_Estrelada_sobre_o_R%C3%B3dano",
+    dimensionsOrDuration: "72,5 cm × 92 cm"
+  },
+  {
+    id: "pergolesi-stabat-mater",
+    title: "Stabat Mater",
+    artistOrDirector: "Giovanni Battista Pergolesi",
+    year: "1736",
+    category: "music",
+    mediumOrGenre: "Obra Coral Sacra",
+    embedUrl: "https://www.youtube.com/embed/gczJp8RlWoE",
+    description: "Uma das mais belas composições sobre o sofrimento de Maria aos pés da cruz. Esta obra tocante expressa com profundidade o lamento maternal diante da crucificação de Cristo.",
+    references: [
+      { book: "João", bookSlug: "john", chapter: 19, verses: "25-27" },
+      { book: "Lucas", bookSlug: "luke", chapter: 2, verses: "35" }
+    ],
+    sourceUrl: "https://pt.wikipedia.org/wiki/Stabat_Mater_(Pergolesi)",
+    dimensionsOrDuration: "~42 min"
+  },
+  {
+    id: "mozart-requiem",
+    title: "Réquiem em Ré menor",
+    artistOrDirector: "Wolfgang Amadeus Mozart",
+    year: "1791",
+    category: "music",
+    mediumOrGenre: "Missa de Réquiem",
+    embedUrl: "https://www.youtube.com/embed/sPlhKP0nZII",
+    description: "A última obra de Mozart, inacabada devido à sua morte. Esta missa fúnebre reflete profundamente sobre a morte, o julgamento final e a esperança da ressurreição eterna.",
+    references: [
+      { book: "1 Coríntios", bookSlug: "1-corinthians", chapter: 15, verses: "51-57" },
+      { book: "Apocalipse", bookSlug: "revelation", chapter: 21, verses: "4" },
+      { book: "Mateus", bookSlug: "matthew", chapter: 25, verses: "31-46" }
+    ],
+    sourceUrl: "https://pt.wikipedia.org/wiki/R%C3%A9quiem_(Mozart)",
+    dimensionsOrDuration: "~90 min"
+  },
+  {
+    id: "palerina-missa-papae-marcelli",
+    title: "Missa Papae Marcelli",
+    artistOrDirector: "Giovanni Pierluigi da Palestrina",
+    year: "1562",
+    category: "music",
+    mediumOrGenre: "Missa Polifônica",
+    embedUrl: "https://www.youtube.com/embed/YTlNNJdUDnw",
+    description: "Considerada uma das obras-primas da música sacra renascentista. Esta missa polifônica exemplifica a pureza e clareza musical que o Concílio de Trento desejava para a liturgia católica.",
+    references: [
+      { book: "1 Coríntios", bookSlug: "1-corinthians", chapter: 11, verses: "23-26" },
+      { book: "Lucas", bookSlug: "luke", chapter: 22, verses: "19-20" }
+    ],
+    sourceUrl: "https://pt.wikipedia.org/wiki/Missa_Papae_Marcelli",
+    dimensionsOrDuration: "~35 min"
+  },
+  {
+    id: "botticelli-nativity",
+    title: "Natividade Mística",
+    artistOrDirector: "Sandro Botticelli",
+    year: "1500-1501",
+    category: "painting",
+    mediumOrGenre: "Têmpera sobre tela",
+    imageUrl: "/src/assets/botticelli-nativity.jpg",
+    description: "Uma interpretação única do nascimento de Cristo, combinando elementos tradicionais com simbolismo místico. A obra reflete as preocupações espirituais de Botticelli em seus últimos anos.",
+    references: [
+      { book: "Lucas", bookSlug: "luke", chapter: 2, verses: "1-20" },
+      { book: "Mateus", bookSlug: "matthew", chapter: 1, verses: "18-25" }
+    ],
+    sourceUrl: "https://pt.wikipedia.org/wiki/Natividade_M%C3%ADstica",
+    dimensionsOrDuration: "108,5 cm × 75 cm"
+  },
+  {
+    id: "paixao-de-cristo-mel-gibson",
+    title: "A Paixão de Cristo",
+    artistOrDirector: "Mel Gibson",
+    year: "2004",
+    category: "film",
+    mediumOrGenre: "Drama Épico",
+    imageUrl: "/src/assets/passion-of-christ.jpg",
+    description: "Filme que retrata de forma visceral as últimas 12 horas da vida de Jesus Cristo. A obra, controversa mas poderosa, apresenta uma visão crua e emocional do sacrifício de Cristo pela humanidade.",
+    references: [
+      { book: "Mateus", bookSlug: "matthew", chapter: 26, verses: "36-75" },
+      { book: "Mateus", bookSlug: "matthew", chapter: 27, verses: "1-66" },
+      { book: "João", bookSlug: "john", chapter: 18, verses: "1-40" },
+      { book: "João", bookSlug: "john", chapter: 19, verses: "1-42" }
+    ],
+    sourceUrl: "https://pt.wikipedia.org/wiki/A_Paix%C3%A3o_de_Cristo",
+    dimensionsOrDuration: "127 min"
+  },
+  {
+    id: "ben-hur-1959",
+    title: "Ben-Hur",
+    artistOrDirector: "William Wyler",
+    year: "1959",
+    category: "film",
+    mediumOrGenre: "Épico Histórico",
+    imageUrl: "/src/assets/ben-hur-1959.jpg",
+    description: "Épico cinematográfico que narra a história de Judah Ben-Hur, ambientada na época de Cristo. O filme entrelaça a jornada pessoal do protagonista com a vida e ministério de Jesus.",
+    references: [
+      { book: "Mateus", bookSlug: "matthew", chapter: 2, verses: "1-12" },
+      { book: "Lucas", bookSlug: "luke", chapter: 23, verses: "32-43" },
+      { book: "Mateus", bookSlug: "matthew", chapter: 27, verses: "45-54" }
+    ],
+    sourceUrl: "https://pt.wikipedia.org/wiki/Ben-Hur_(filme_de_1959)",
+    dimensionsOrDuration: "212 min"
   }
 ];

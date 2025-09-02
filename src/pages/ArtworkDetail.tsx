@@ -5,30 +5,65 @@ import { Button } from '@/components/ui/button';
 import { AspectRatio } from '@/components/ui/aspect-ratio';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import { getArtworkById } from '@/lib/data';
+import { LoadingCard } from '@/components/ui/loading';
+import { ErrorCard, NotFoundError } from '@/components/ui/error-display';
+import { useArtwork } from '@/hooks/use-artworks';
 import { Music, Film, Palette, ExternalLink, Calendar, User, Ruler } from 'lucide-react';
 
 export default function ArtworkDetail() {
   const { artworkId } = useParams<{ artworkId: string }>();
   
+  const { data: artwork, isLoading, isError, error, refetch } = useArtwork(artworkId);
+  
   if (!artworkId) {
-    return <div>Artwork ID not provided</div>;
+    return (
+      <div className="min-h-screen bg-background">
+        <Header />
+        <div className="container mx-auto px-4 py-12">
+          <ErrorCard 
+            error={new Error('ID da obra não fornecido')} 
+            title="Erro de Navegação"
+          />
+        </div>
+        <Footer />
+      </div>
+    );
   }
   
-  const artwork = getArtworkById(artworkId);
-  
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-background">
+        <Header />
+        <div className="container mx-auto px-4 py-12">
+          <LoadingCard text="Carregando obra de arte..." />
+        </div>
+        <Footer />
+      </div>
+    );
+  }
+
+  if (isError) {
+    return (
+      <div className="min-h-screen bg-background">
+        <Header />
+        <div className="container mx-auto px-4 py-12">
+          <ErrorCard 
+            error={error} 
+            onRetry={refetch}
+            title="Erro ao carregar obra"
+          />
+        </div>
+        <Footer />
+      </div>
+    );
+  }
+
   if (!artwork) {
     return (
       <div className="min-h-screen bg-background">
         <Header />
-        <div className="container mx-auto px-4 py-12 text-center">
-          <h1 className="text-display text-2xl font-bold mb-4">Obra não encontrada</h1>
-          <p className="text-muted-foreground mb-6">
-            A obra que você procurava não foi encontrada em nossa coleção.
-          </p>
-          <Button asChild>
-            <Link to="/arte">Voltar às Obras</Link>
-          </Button>
+        <div className="container mx-auto px-4 py-12">
+          <NotFoundError />
         </div>
         <Footer />
       </div>

@@ -1,73 +1,96 @@
-# Welcome to your Lovable project
+# Bíblia na Arte 🎨✨
 
-## Project info
+Uma plataforma digital que explora a profunda conexão entre as Sagradas Escrituras e as manifestações artísticas ao longo da história. Descobra como pinturas, músicas e outras formas de arte deram vida às narrativas bíblicas.
 
-**URL**: https://lovable.dev/projects/e2f47c66-1aeb-4050-9e5f-b03c390c5b30
+## Sobre o Projeto
 
-## How can I edit this code?
+BiblianaArte.com é um projeto cultural e educativo que celebra a intersecção entre fé, arte e história. Nossa missão é tornar acessível o vasto patrimônio artístico inspirado pela Bíblia, oferecendo uma experiência rica e envolvente para estudantes, pesquisadores, artistas e entusiastas da cultura.
 
-There are several ways of editing your application.
+### ✨ Características
 
-**Use Lovable**
+- 🎨 **Galeria Curada**: Obras de arte cuidadosamente selecionadas com suas referências bíblicas
+- 📖 **Navegação Bíblica**: Explore arte através dos livros e capítulos da Bíblia
+- 🔍 **Pesquisa Inteligente**: Encontre obras por artista, período, passagem bíblica ou tema
+- 🎵 **Múltiplas Mídias**: Pinturas, esculturas, música sacra e outras manifestações artísticas
+- 📱 **Design Responsivo**: Experiência otimizada para todos os dispositivos
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/e2f47c66-1aeb-4050-9e5f-b03c390c5b30) and start prompting.
+## Como Executar Localmente
 
-Changes made via Lovable will be committed automatically to this repo.
+### Pré-requisitos
+- Node.js (versão 16 ou superior) - [Instalar com nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+- npm ou yarn
 
-**Use your preferred IDE**
+### Passos para Instalação
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+```bash
+# 1. Clone este repositório
+git clone https://github.com/seu-usuario/biblia-na-arte.git
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+# 2. Navegue até o diretório do projeto
+cd biblia-na-arte
 
-Follow these steps:
+# 3. Instale as dependências
+npm install
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+# 4. Inicie o servidor de desenvolvimento
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+O projeto estará disponível em `http://localhost:8080`
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+### Scripts Disponíveis
 
-**Use GitHub Codespaces**
+```bash
+npm run dev      # Servidor de desenvolvimento
+npm run build    # Build para produção
+npm run preview  # Visualizar build de produção
+npm run lint     # Verificar código com ESLint
+```
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+## Tecnologias Utilizadas
 
-## What technologies are used for this project?
+Este projeto foi construído com amor usando tecnologias modernas:
 
-This project is built with:
+- ⚡ **Vite** - Build tool ultrarrápida
+- ⚛️ **React 18** - Biblioteca para interfaces de usuário
+- 📘 **TypeScript** - JavaScript com tipagem estática
+- 🎨 **Tailwind CSS** - Framework CSS utilitário
+- 🧩 **shadcn/ui** - Componentes acessíveis e customizáveis
+- 🎯 **React Router** - Navegação no lado do cliente
+- 🔍 **TanStack Query** - Gerenciamento de estado assíncrono
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+## Estrutura do Projeto
 
-## How can I deploy this project?
+```
+src/
+├── components/     # Componentes reutilizáveis
+├── pages/         # Páginas da aplicação
+├── data/          # Dados estáticos (obras de arte, estrutura bíblica)
+├── lib/           # Utilitários e helpers
+├── types/         # Definições TypeScript
+└── assets/        # Imagens e recursos estáticos
+```
 
-Simply open [Lovable](https://lovable.dev/projects/e2f47c66-1aeb-4050-9e5f-b03c390c5b30) and click on Share -> Publish.
+## Contribuindo
 
-## Can I connect a custom domain to my Lovable project?
+Acreditamos que a arte inspirada pela fé deve ser preservada e compartilhada. Se você tem conhecimento sobre obras de arte com temática bíblica, ficamos felizes em receber sua contribuição!
 
-Yes, you can!
+### Como Contribuir
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+1. 🍴 Faça um fork do projeto
+2. 🌟 Crie uma branch para sua feature (`git checkout -b feature/nova-obra`)
+3. ✅ Commit suas mudanças (`git commit -m 'Adiciona nova obra: [Nome da Obra]'`)
+4. 📤 Push para a branch (`git push origin feature/nova-obra`)
+5. 🔄 Abra um Pull Request
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+### Adicionando Novas Obras
+
+Para adicionar uma nova obra de arte:
+1. Adicione a imagem em `src/assets/`
+2. Inclua os dados da obra em `src/data/artworks.ts`
+3. Certifique-se de incluir as referências bíblicas precisas
+4. Teste localmente antes de submeter
+
+## Licença
+
+Este projeto é uma iniciativa educacional e cultural. Todas as obras de arte referenciadas são de domínio público ou utilizadas para fins educacionais.

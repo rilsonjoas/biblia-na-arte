@@ -5,12 +5,14 @@ import { Badge } from '@/components/ui/badge';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import ArtworkCard from '@/components/ArtworkCard';
-import { getArtworks } from '@/lib/data';
+import { LoadingGrid } from '@/components/ui/loading';
+import { ErrorCard } from '@/components/ui/error-display';
+import { useFeaturedArtworks } from '@/hooks/use-artworks';
 import { Book, Palette, Music, Film, Sparkles } from 'lucide-react';
 import heroImage from '@/assets/hero-banner.jpg';
 
 export default function Index() {
-  const featuredArtworks = getArtworks().slice(0, 6);
+  const { data: featuredArtworks = [], isLoading, isError, error, refetch } = useFeaturedArtworks();
 
   return (
     <div className="min-h-screen bg-background">
@@ -176,11 +178,21 @@ export default function Index() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {featuredArtworks.map((artwork) => (
-              <ArtworkCard key={artwork.id} artwork={artwork} />
-            ))}
-          </div>
+          {isLoading ? (
+            <LoadingGrid count={6} />
+          ) : isError ? (
+            <ErrorCard 
+              error={error} 
+              onRetry={refetch}
+              title="Erro ao carregar obras em destaque" 
+            />
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {featuredArtworks.map((artwork) => (
+                <ArtworkCard key={artwork.id} artwork={artwork} />
+              ))}
+            </div>
+          )}
 
           <div className="text-center mt-12">
             <Button asChild variant="outline" size="lg" className="shadow-card">

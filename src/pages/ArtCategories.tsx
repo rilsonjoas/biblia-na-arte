@@ -4,12 +4,26 @@ import { Badge } from '@/components/ui/badge';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import ArtworkCard from '@/components/ArtworkCard';
-import { getArtworksByCategory } from '@/lib/data';
+import { LoadingGrid, Loading } from '@/components/ui/loading';
+import { ErrorCard } from '@/components/ui/error-display';
+import { useArtworksByCategory, useArtworks } from '@/hooks/use-artworks';
 import { Music, Film, Palette, Sparkles } from 'lucide-react';
 import { ArtworkCategory } from '@/types';
 
 export default function ArtCategories() {
   const { category } = useParams<{ category?: string }>();
+
+  // Get all artworks for category counts (when showing all categories)
+  const { data: allArtworks = [] } = useArtworks();
+  
+  // Get specific category data (when showing a specific category)
+  const { 
+    data: categoryArtworks = [], 
+    isLoading: isCategoryLoading, 
+    isError: isCategoryError, 
+    error: categoryError,
+    refetch: refetchCategory 
+  } = useArtworksByCategory(category);
 
   const categories = [
     {
@@ -17,21 +31,21 @@ export default function ArtCategories() {
       name: 'Pinturas',
       description: 'Desde as obras renascentistas até os mestres barrocos, contemple como a arte visual interpretou as Sagradas Escrituras ao longo dos séculos.',
       icon: Palette,
-      count: getArtworksByCategory('painting').length
+      count: allArtworks.filter(a => a.category === 'painting').length
     },
     {
       slug: 'music',
       name: 'Músicas',
       description: 'Dos hinos gregorianos aos grandes oratórios clássicos, ouça como a fé cristã encontrou sua voz mais sublime na música sacra.',
       icon: Music,
-      count: getArtworksByCategory('music').length
+      count: allArtworks.filter(a => a.category === 'music').length
     },
     {
       slug: 'film',
       name: 'Filmes',
       description: 'Descubra como o cinema moderno e clássico trouxe as narrativas bíblicas para as telas, criando experiências visuais impactantes.',
       icon: Film,
-      count: getArtworksByCategory('film').length
+      count: allArtworks.filter(a => a.category === 'film').length
     }
   ];
 
@@ -117,11 +131,58 @@ export default function ArtCategories() {
   // Show specific category
   const currentCategory = categories.find(cat => cat.slug === category);
   if (!currentCategory) {
-    return <div>Categoria não encontrada</div>;
+    return (
+      <div className="min-h-screen bg-background">
+        <Header />
+        <div className="container mx-auto px-4 py-12">
+          <ErrorCard 
+            error={new Error('Categoria não encontrada')} 
+            title="Categoria Inválida"
+          />
+        </div>
+        <Footer />
+      </div>
+    );
   }
 
-  const artworks = getArtworksByCategory(category as ArtworkCategory);
   const IconComponent = currentCategory.icon;
+
+  if (isCategoryLoading) {
+    return (
+      <div className="min-h-screen bg-background">
+        <Header />
+        <div className="container mx-auto px-4 py-12">
+          <div className="text-center mb-12">
+            <Badge variant="secondary" className="mb-4">
+              <IconComponent className="w-4 h-4 mr-2" />
+              {currentCategory.name}
+            </Badge>
+            <h1 className="text-display text-3xl md:text-4xl font-bold mb-4">
+              {currentCategory.name} Inspiradas na Bíblia
+            </h1>
+          </div>
+          <LoadingGrid count={6} />
+        </div>
+        <Footer />
+      </div>
+    );
+  }
+
+  if (isCategoryError) {
+    return (
+      <div className="min-h-screen bg-background">
+        <Header />
+        <div className="container mx-auto px-4 py-12">
+          <ErrorCard 
+            error={categoryError} 
+            onRetry={refetchCategory}
+            title="Erro ao carregar categoria"
+          />
+        </div>
+        <Footer />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-background">
@@ -145,15 +206,15 @@ export default function ArtCategories() {
 
           <div className="flex justify-center">
             <Badge variant="outline" className="text-sm">
-              {artworks.length} obras encontradas
+              {categoryArtworks.length} obras encontradas
             </Badge>
           </div>
         </div>
 
         {/* Artworks Grid */}
-        {artworks.length > 0 ? (
+        {categoryArtworks.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {artworks.map((artwork) => (
+            {categoryArtworks.map((artwork) => (
               <ArtworkCard key={artwork.id} artwork={artwork} />
             ))}
           </div>
