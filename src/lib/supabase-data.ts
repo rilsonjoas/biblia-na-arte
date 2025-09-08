@@ -1,8 +1,6 @@
 import { supabase, handleSupabaseError } from './supabase'
 import type { ArtworkWithReferences, BibleBookRow } from '@/types/supabase'
 import type { Artwork, BibleBook } from '@/types'
-import { artworks as staticArtworks } from '@/data/artworks'
-import { bibleBooks as staticBibleBooks } from '@/data/bibleStructure'
 
 // Transform Supabase data to match our existing interfaces
 function transformArtwork(artwork: ArtworkWithReferences): Artwork {
@@ -37,212 +35,165 @@ function transformBibleBook(book: BibleBookRow): BibleBook {
 }
 
 export async function getBibleBooks(): Promise<BibleBook[]> {
-  try {
-    const { data, error } = await supabase
-      .from('bible_books')
-      .select('*')
-      .order('testament', { ascending: true })
-      .order('name', { ascending: true })
+  const { data, error } = await supabase
+    .from('bible_books')
+    .select('*')
+    .order('testament', { ascending: true })
+    .order('name', { ascending: true })
 
-    if (error) {
-      if (error.code === 'PGRST205') {
-        console.warn('Database tables not found, using fallback data')
-        return staticBibleBooks
-      }
-      console.error('Error fetching bible books:', error)
-      throw new Error(handleSupabaseError(error))
-    }
-
-    // If database is empty, use fallback data
-    if (!data || data.length === 0) {
-      console.warn('Bible books table is empty, using fallback data')
-      return staticBibleBooks
-    }
-
-    return data.map(transformBibleBook)
-  } catch (error) {
-    console.error('getBibleBooks error, using fallback:', error)
-    return staticBibleBooks
+  if (error) {
+    console.error('Error fetching bible books:', error)
+    throw new Error(handleSupabaseError(error))
   }
+
+  if (!data) {
+    throw new Error('No bible books found in database')
+  }
+
+  return data.map(transformBibleBook)
 }
 
 export async function getBibleBookBySlug(slug: string): Promise<BibleBook | undefined> {
-  try {
-    const { data, error } = await supabase
-      .from('bible_books')
-      .select('*')
-      .eq('slug', slug)
-      .single()
+  const { data, error } = await supabase
+    .from('bible_books')
+    .select('*')
+    .eq('slug', slug)
+    .single()
 
-    if (error) {
-      if (error.code === 'PGRST116') {
-        // No record found - try fallback
-        console.warn('Bible book not found in database, using fallback data')
-        return staticBibleBooks.find(book => book.slug === slug)
-      }
-      if (error.code === 'PGRST205') {
-        console.warn('Database tables not found, using fallback data')
-        return staticBibleBooks.find(book => book.slug === slug)
-      }
-      console.error('Error fetching bible book:', error)
-      throw new Error(handleSupabaseError(error))
+  if (error) {
+    if (error.code === 'PGRST116') {
+      // No record found
+      return undefined
     }
-
-    // If no data returned (empty table), use fallback
-    if (!data) {
-      console.warn('Bible book data is empty, using fallback data')
-      return staticBibleBooks.find(book => book.slug === slug)
-    }
-
-    return transformBibleBook(data)
-  } catch (error) {
-    console.error('getBibleBookBySlug error, using fallback:', error)
-    return staticBibleBooks.find(book => book.slug === slug)
+    console.error('Error fetching bible book:', error)
+    throw new Error(handleSupabaseError(error))
   }
+
+  if (!data) {
+    return undefined
+  }
+
+  return transformBibleBook(data)
 }
 
 export async function getArtworks(): Promise<Artwork[]> {
-  try {
-    // First, try to get all artworks
-    const { data: artworks, error: artworksError } = await supabase
-      .from('artworks')
-      .select('*')
-      .order('created_at', { ascending: false })
+  // Get all artworks
+  const { data: artworks, error: artworksError } = await supabase
+    .from('artworks')
+    .select('*')
+    .order('created_at', { ascending: false })
 
-    if (artworksError) {
-      if (artworksError.code === 'PGRST205') {
-        console.warn('Database tables not found, using fallback data')
-        return staticArtworks
-      }
-      console.error('Error fetching artworks:', artworksError)
-      throw new Error(handleSupabaseError(artworksError))
-    }
-
-    // Then get all bible references
-    const { data: references, error: referencesError } = await supabase
-      .from('bible_references')
-      .select('*')
-
-    if (referencesError) {
-      console.warn('Error fetching references:', referencesError)
-    }
-
-    // If database is empty, use fallback data
-    if (!artworks || artworks.length === 0) {
-      console.warn('Database tables are empty, using fallback data')
-      return staticArtworks
-    }
-
-    // Combine artworks with their references
-    const artworksWithReferences = artworks.map(artwork => ({
-      ...artwork,
-      bible_references: (references || []).filter(ref => ref.artwork_id === artwork.id)
-    }))
-
-    return artworksWithReferences.map(transformArtwork)
-  } catch (error) {
-    console.error('getArtworks error, using fallback:', error)
-    return staticArtworks
+  if (artworksError) {
+    console.error('Error fetching artworks:', artworksError)
+    throw new Error(handleSupabaseError(artworksError))
   }
+
+  // Get all bible references
+  const { data: references, error: referencesError } = await supabase
+    .from('bible_references')
+    .select('*')
+
+  if (referencesError) {
+    console.error('Error fetching references:', referencesError)
+    throw new Error(handleSupabaseError(referencesError))
+  }
+
+  if (!artworks) {
+    return []
+  }
+
+  // Combine artworks with their references
+  const artworksWithReferences = artworks.map(artwork => ({
+    ...artwork,
+    bible_references: (references || []).filter(ref => ref.artwork_id === artwork.id)
+  }))
+
+  return artworksWithReferences.map(transformArtwork)
 }
 
 export async function getArtworkById(id: string): Promise<Artwork | undefined> {
-  try {
-    const { data: artwork, error } = await supabase
-      .from('artworks')
-      .select('*')
-      .eq('id', id)
-      .single()
+  const { data: artwork, error } = await supabase
+    .from('artworks')
+    .select('*')
+    .eq('id', id)
+    .single()
 
-    if (error) {
-      if (error.code === 'PGRST116') {
-        return undefined
-      }
-      if (error.code === 'PGRST205') {
-        console.warn('Database tables not found, using fallback data')
-        return staticArtworks.find(artwork => artwork.id === id)
-      }
-      console.error('Error fetching artwork:', error)
-      throw new Error(handleSupabaseError(error))
+  if (error) {
+    if (error.code === 'PGRST116') {
+      return undefined
     }
-
-    // Get bible references for this artwork
-    const { data: references, error: refError } = await supabase
-      .from('bible_references')
-      .select('*')
-      .eq('artwork_id', id)
-
-    if (refError) {
-      console.warn('Error fetching references for artwork:', refError)
-    }
-
-    // Combine artwork with its references
-    const artworkWithReferences = {
-      ...artwork,
-      bible_references: references || []
-    }
-
-    return transformArtwork(artworkWithReferences)
-  } catch (error) {
-    console.error('getArtworkById error, using fallback:', error)
-    return staticArtworks.find(artwork => artwork.id === id)
+    console.error('Error fetching artwork:', error)
+    throw new Error(handleSupabaseError(error))
   }
+
+  if (!artwork) {
+    return undefined
+  }
+
+  // Get bible references for this artwork
+  const { data: references, error: refError } = await supabase
+    .from('bible_references')
+    .select('*')
+    .eq('artwork_id', id)
+
+  if (refError) {
+    console.error('Error fetching references for artwork:', refError)
+    throw new Error(handleSupabaseError(refError))
+  }
+
+  // Combine artwork with its references
+  const artworkWithReferences = {
+    ...artwork,
+    bible_references: references || []
+  }
+
+  return transformArtwork(artworkWithReferences)
 }
 
 export async function getArtworksByCategory(category: string): Promise<Artwork[]> {
-  try {
-    const { data: artworks, error } = await supabase
-      .from('artworks')
-      .select('*')
-      .eq('category', category)
-      .order('created_at', { ascending: false })
+  const { data: artworks, error } = await supabase
+    .from('artworks')
+    .select('*')
+    .eq('category', category)
+    .order('created_at', { ascending: false })
 
-    if (error) {
-      if (error.code === 'PGRST205') {
-        console.warn('Database tables not found, using fallback data')
-        return staticArtworks.filter(artwork => artwork.category === category)
-      }
-      console.error('Error fetching artworks by category:', error)
-      throw new Error(handleSupabaseError(error))
-    }
-
-    // If database is empty, use fallback data
-    if (!artworks || artworks.length === 0) {
-      console.warn(`Category ${category} table is empty, using fallback data`)
-      return staticArtworks.filter(artwork => artwork.category === category)
-    }
-
-    // Get bible references for these artworks
-    const artworkIds = artworks.map(artwork => artwork.id)
-    const { data: references, error: refError } = await supabase
-      .from('bible_references')
-      .select('*')
-      .in('artwork_id', artworkIds)
-
-    if (refError) {
-      console.warn('Error fetching references for category artworks:', refError)
-    }
-
-    // Group references by artwork_id
-    const referencesByArtwork = (references || []).reduce((acc, ref) => {
-      if (!acc[ref.artwork_id]) {
-        acc[ref.artwork_id] = []
-      }
-      acc[ref.artwork_id].push(ref)
-      return acc
-    }, {} as Record<string, any[]>)
-
-    // Combine artworks with their references
-    const artworksWithReferences = artworks.map(artwork => ({
-      ...artwork,
-      bible_references: referencesByArtwork[artwork.id] || []
-    }))
-
-    return artworksWithReferences.map(transformArtwork)
-  } catch (error) {
-    console.error('getArtworksByCategory error, using fallback:', error)
-    return staticArtworks.filter(artwork => artwork.category === category)
+  if (error) {
+    console.error('Error fetching artworks by category:', error)
+    throw new Error(handleSupabaseError(error))
   }
+
+  if (!artworks) {
+    return []
+  }
+
+  // Get bible references for these artworks
+  const artworkIds = artworks.map(artwork => artwork.id)
+  const { data: references, error: refError } = await supabase
+    .from('bible_references')
+    .select('*')
+    .in('artwork_id', artworkIds)
+
+  if (refError) {
+    console.error('Error fetching references for category artworks:', refError)
+    throw new Error(handleSupabaseError(refError))
+  }
+
+  // Group references by artwork_id
+  const referencesByArtwork = (references || []).reduce((acc, ref) => {
+    if (!acc[ref.artwork_id]) {
+      acc[ref.artwork_id] = []
+    }
+    acc[ref.artwork_id].push(ref)
+    return acc
+  }, {} as Record<string, any[]>)
+
+  // Combine artworks with their references
+  const artworksWithReferences = artworks.map(artwork => ({
+    ...artwork,
+    bible_references: referencesByArtwork[artwork.id] || []
+  }))
+
+  return artworksWithReferences.map(transformArtwork)
 }
 
 export async function getArtworksByBibleReference(
@@ -250,71 +201,42 @@ export async function getArtworksByBibleReference(
   chapterNum?: number,
   verses?: string
 ): Promise<Artwork[]> {
-  try {
-    let query = supabase
-      .from('artworks')
-      .select(`
-        *,
-        bible_references!inner(
-          id, book, book_slug, chapter, verses
-        )
-      `)
-      .eq('bible_references.book_slug', bookSlug)
-
-    if (chapterNum !== undefined) {
-      query = query.eq('bible_references.chapter', chapterNum)
-    }
-
-    if (verses !== undefined) {
-      query = query.eq('bible_references.verses', verses)
-    }
-
-    const { data, error } = await query.order('created_at', { ascending: false })
-
-    if (error) {
-      if (error.code === 'PGRST205') {
-        console.warn('Database tables not found, using fallback data for bible reference')
-        return staticArtworks.filter(artwork => 
-          artwork.references.some(ref => 
-            ref.bookSlug === bookSlug &&
-            (chapterNum === undefined || ref.chapter === chapterNum) &&
-            (verses === undefined || ref.verses === verses)
-          )
-        )
-      }
-      console.error('Error fetching artworks by bible reference:', error)
-      throw new Error(handleSupabaseError(error))
-    }
-
-    // If database is empty, use fallback data
-    if (!data || data.length === 0) {
-      console.warn(`Bible reference ${bookSlug} table is empty, using fallback data`)
-      return staticArtworks.filter(artwork => 
-        artwork.references.some(ref => 
-          ref.bookSlug === bookSlug &&
-          (chapterNum === undefined || ref.chapter === chapterNum) &&
-          (verses === undefined || ref.verses === verses)
-        )
+  let query = supabase
+    .from('artworks')
+    .select(`
+      *,
+      bible_references!inner(
+        id, book, book_slug, chapter, verses
       )
-    }
+    `)
+    .eq('bible_references.book_slug', bookSlug)
 
-    // Transform the data to match our expected format
-    const transformedData = data.map(artwork => ({
-      ...artwork,
-      bible_references: artwork.bible_references || []
-    }))
-
-    return transformedData.map(transformArtwork)
-  } catch (error) {
-    console.error('getArtworksByBibleReference error, using fallback:', error)
-    return staticArtworks.filter(artwork => 
-      artwork.references.some(ref => 
-        ref.bookSlug === bookSlug &&
-        (chapterNum === undefined || ref.chapter === chapterNum) &&
-        (verses === undefined || ref.verses === verses)
-      )
-    )
+  if (chapterNum !== undefined) {
+    query = query.eq('bible_references.chapter', chapterNum)
   }
+
+  if (verses !== undefined) {
+    query = query.eq('bible_references.verses', verses)
+  }
+
+  const { data, error } = await query.order('created_at', { ascending: false })
+
+  if (error) {
+    console.error('Error fetching artworks by bible reference:', error)
+    throw new Error(handleSupabaseError(error))
+  }
+
+  if (!data) {
+    return []
+  }
+
+  // Transform the data to match our expected format
+  const transformedData = data.map(artwork => ({
+    ...artwork,
+    bible_references: artwork.bible_references || []
+  }))
+
+  return transformedData.map(transformArtwork)
 }
 
 export async function searchArtworks(query: string): Promise<Artwork[]> {
@@ -322,166 +244,89 @@ export async function searchArtworks(query: string): Promise<Artwork[]> {
     return []
   }
 
-  try {
-    // Use the custom search function for better results
-    const { data, error } = await supabase
-      .rpc('search_artworks', { search_query: query })
+  // Use the custom search function for better results
+  const { data, error } = await supabase
+    .rpc('search_artworks', { search_query: query })
 
-    if (error) {
-      if (error.code === 'PGRST205' || error.code === 'PGRST202') {
-        console.warn('Database search function not found, using fallback data')
-        const lowerQuery = query.toLowerCase()
-        return staticArtworks.filter(artwork => 
-          artwork.title.toLowerCase().includes(lowerQuery) ||
-          artwork.artistOrDirector.toLowerCase().includes(lowerQuery) ||
-          artwork.description.toLowerCase().includes(lowerQuery) ||
-          (artwork.mediumOrGenre && artwork.mediumOrGenre.toLowerCase().includes(lowerQuery))
-        )
-      }
-      console.error('Error searching artworks:', error)
-      throw new Error(handleSupabaseError(error))
-    }
-
-    // Get bible references for each artwork
-    const artworkIds = data.map(artwork => artwork.id)
-    
-    const { data: references, error: refError } = await supabase
-      .from('bible_references')
-      .select('*')
-      .in('artwork_id', artworkIds)
-
-    if (refError) {
-      console.warn('Error fetching references for search results:', refError)
-    }
-
-    // Group references by artwork_id
-    const referencesByArtwork = (references || []).reduce((acc, ref) => {
-      if (!acc[ref.artwork_id]) {
-        acc[ref.artwork_id] = []
-      }
-      acc[ref.artwork_id].push(ref)
-      return acc
-    }, {} as Record<string, any[]>)
-
-    // Combine artwork data with references
-    const artworksWithReferences = data.map(artwork => ({
-      ...artwork,
-      bible_references: referencesByArtwork[artwork.id] || []
-    }))
-
-    return artworksWithReferences.map(transformArtwork)
-  } catch (error) {
-    console.error('searchArtworks error, using fallback:', error)
-    const lowerQuery = query.toLowerCase()
-    return staticArtworks.filter(artwork => 
-      artwork.title.toLowerCase().includes(lowerQuery) ||
-      artwork.artistOrDirector.toLowerCase().includes(lowerQuery) ||
-      artwork.description.toLowerCase().includes(lowerQuery) ||
-      (artwork.mediumOrGenre && artwork.mediumOrGenre.toLowerCase().includes(lowerQuery))
-    )
+  if (error) {
+    console.error('Error searching artworks:', error)
+    throw new Error(handleSupabaseError(error))
   }
+
+  if (!data) {
+    return []
+  }
+
+  // Get bible references for each artwork
+  const artworkIds = data.map(artwork => artwork.id)
+  
+  const { data: references, error: refError } = await supabase
+    .from('bible_references')
+    .select('*')
+    .in('artwork_id', artworkIds)
+
+  if (refError) {
+    console.error('Error fetching references for search results:', refError)
+    throw new Error(handleSupabaseError(refError))
+  }
+
+  // Group references by artwork_id
+  const referencesByArtwork = (references || []).reduce((acc, ref) => {
+    if (!acc[ref.artwork_id]) {
+      acc[ref.artwork_id] = []
+    }
+    acc[ref.artwork_id].push(ref)
+    return acc
+  }, {} as Record<string, any[]>)
+
+  // Combine artwork data with references
+  const artworksWithReferences = data.map(artwork => ({
+    ...artwork,
+    bible_references: referencesByArtwork[artwork.id] || []
+  }))
+
+  return artworksWithReferences.map(transformArtwork)
 }
 
 export async function getOldTestamentBooks(): Promise<BibleBook[]> {
-  try {
-    const { data, error } = await supabase
-      .from('bible_books')
-      .select('*')
-      .eq('testament', 'old')
-      .order('name', { ascending: true })
+  const { data, error } = await supabase
+    .from('bible_books')
+    .select('*')
+    .eq('testament', 'old')
+    .order('name', { ascending: true })
 
-    if (error) {
-      if (error.code === 'PGRST205') {
-        console.warn('Database tables not found, using fallback data')
-        return staticBibleBooks.filter(book => book.testament === 'old')
-      }
-      console.error('Error fetching old testament books:', error)
-      throw new Error(handleSupabaseError(error))
-    }
-
-    // If database is empty, use fallback data
-    if (!data || data.length === 0) {
-      console.warn('Old testament books table is empty, using fallback data')
-      return staticBibleBooks.filter(book => book.testament === 'old')
-    }
-
-    return data.map(transformBibleBook)
-  } catch (error) {
-    console.error('getOldTestamentBooks error, using fallback:', error)
-    return staticBibleBooks.filter(book => book.testament === 'old')
+  if (error) {
+    console.error('Error fetching old testament books:', error)
+    throw new Error(handleSupabaseError(error))
   }
+
+  if (!data) {
+    return []
+  }
+
+  return data.map(transformBibleBook)
 }
 
 export async function getNewTestamentBooks(): Promise<BibleBook[]> {
-  try {
-    const { data, error } = await supabase
-      .from('bible_books')
-      .select('*')
-      .eq('testament', 'new')
-      .order('name', { ascending: true })
+  const { data, error } = await supabase
+    .from('bible_books')
+    .select('*')
+    .eq('testament', 'new')
+    .order('name', { ascending: true })
 
-    if (error) {
-      if (error.code === 'PGRST205') {
-        console.warn('Database tables not found, using fallback data')
-        return staticBibleBooks.filter(book => book.testament === 'new')
-      }
-      console.error('Error fetching new testament books:', error)
-      throw new Error(handleSupabaseError(error))
-    }
-
-    // If database is empty, use fallback data
-    if (!data || data.length === 0) {
-      console.warn('New testament books table is empty, using fallback data')
-      return staticBibleBooks.filter(book => book.testament === 'new')
-    }
-
-    return data.map(transformBibleBook)
-  } catch (error) {
-    console.error('getNewTestamentBooks error, using fallback:', error)
-    return staticBibleBooks.filter(book => book.testament === 'new')
+  if (error) {
+    console.error('Error fetching new testament books:', error)
+    throw new Error(handleSupabaseError(error))
   }
+
+  if (!data) {
+    return []
+  }
+
+  return data.map(transformBibleBook)
 }
 
-// Helper function for client-side search when database is not available
-function performClientSideSearch(query: string, filters: SearchFilters): Artwork[] {
-  let results = [...staticArtworks]
-  
-  // Apply text search if query provided
-  if (query.trim()) {
-    const lowerQuery = query.toLowerCase()
-    results = results.filter(artwork => 
-      artwork.title.toLowerCase().includes(lowerQuery) ||
-      artwork.artistOrDirector.toLowerCase().includes(lowerQuery) ||
-      artwork.description.toLowerCase().includes(lowerQuery) ||
-      (artwork.mediumOrGenre && artwork.mediumOrGenre.toLowerCase().includes(lowerQuery))
-    )
-  }
-  
-  // Apply filters
-  if (filters.category) {
-    results = results.filter(artwork => artwork.category === filters.category)
-  }
-
-  if (filters.artist) {
-    const lowerArtist = filters.artist.toLowerCase()
-    results = results.filter(artwork => 
-      artwork.artistOrDirector.toLowerCase().includes(lowerArtist)
-    )
-  }
-
-  // Client-side filtering for testament
-  if (filters.testament) {
-    const testamentBooks = staticBibleBooks
-      .filter(book => book.testament === filters.testament)
-      .map(book => book.slug)
-    
-    results = results.filter(artwork =>
-      artwork.references.some(ref => testamentBooks.includes(ref.bookSlug))
-    )
-  }
-
-  return results.slice(0, 50) // Reasonable limit
-}
+// Advanced search with filters
 
 // Advanced search with filters
 export interface SearchFilters {
@@ -496,88 +341,250 @@ export async function searchArtworksAdvanced(
   query: string,
   filters: SearchFilters = {}
 ): Promise<Artwork[]> {
+  let dbQuery = supabase
+    .from('artworks')
+    .select('*')
+
+  // Apply text search if query provided
+  if (query.trim()) {
+    dbQuery = dbQuery.textSearch('title', query, { type: 'websearch' })
+  }
+
+  // Apply filters
+  if (filters.category) {
+    dbQuery = dbQuery.eq('category', filters.category)
+  }
+
+  if (filters.artist) {
+    dbQuery = dbQuery.ilike('artist_or_director', `%${filters.artist}%`)
+  }
+
+  const { data: artworks, error } = await dbQuery
+    .order('created_at', { ascending: false })
+    .limit(50) // Reasonable limit
+
+  if (error) {
+    console.error('Error in advanced search:', error)
+    throw new Error(handleSupabaseError(error))
+  }
+
+  if (!artworks) {
+    return []
+  }
+
+  // Get bible references for these artworks
+  const artworkIds = artworks.map(artwork => artwork.id)
+  const { data: references, error: refError } = await supabase
+    .from('bible_references')
+    .select('*')
+    .in('artwork_id', artworkIds)
+
+  if (refError) {
+    console.error('Error fetching references for search results:', refError)
+    throw new Error(handleSupabaseError(refError))
+  }
+
+  // Group references by artwork_id
+  const referencesByArtwork = (references || []).reduce((acc, ref) => {
+    if (!acc[ref.artwork_id]) {
+      acc[ref.artwork_id] = []
+    }
+    acc[ref.artwork_id].push(ref)
+    return acc
+  }, {} as Record<string, any[]>)
+
+  // Combine artworks with their references
+  const artworksWithReferences = artworks.map(artwork => ({
+    ...artwork,
+    bible_references: referencesByArtwork[artwork.id] || []
+  }))
+
+  let results = artworksWithReferences.map(transformArtwork)
+
+  // Client-side filtering for testament
+  if (filters.testament) {
+    const testamentBooks = await (filters.testament === 'old' 
+      ? getOldTestamentBooks() 
+      : getNewTestamentBooks())
+    const testamentSlugs = testamentBooks.map(book => book.slug)
+    
+    results = results.filter(artwork =>
+      artwork.references.some(ref => testamentSlugs.includes(ref.bookSlug))
+    )
+  }
+
+  return results
+}
+
+// Update an artwork and its references
+export async function updateArtwork(artwork: Artwork): Promise<void> {
   try {
-    let dbQuery = supabase
+
+    // First, update the artwork itself
+    const { error: artworkError } = await supabase
       .from('artworks')
-      .select('*')
+      .update({
+        title: artwork.title,
+        artist_or_director: artwork.artistOrDirector,
+        year: artwork.year || null,
+        category: artwork.category,
+        medium_or_genre: artwork.mediumOrGenre || null,
+        description: artwork.description,
+        image_url: artwork.imageUrl || null,
+        embed_url: artwork.embedUrl || null,
+        source_url: artwork.sourceUrl || null,
+        dimensions_or_duration: artwork.dimensionsOrDuration || null,
+        updated_at: new Date().toISOString(),
+      })
+      .eq('id', artwork.id)
 
-    // Apply text search if query provided
-    if (query.trim()) {
-      dbQuery = dbQuery.textSearch('title', query, { type: 'websearch' })
+    if (artworkError) {
+      console.error('Error updating artwork:', artworkError)
+      throw new Error(handleSupabaseError(artworkError))
     }
 
-    // Apply filters
-    if (filters.category) {
-      dbQuery = dbQuery.eq('category', filters.category)
-    }
-
-    if (filters.artist) {
-      dbQuery = dbQuery.ilike('artist_or_director', `%${filters.artist}%`)
-    }
-
-    const { data: artworks, error } = await dbQuery
-      .order('created_at', { ascending: false })
-      .limit(50) // Reasonable limit
-
-    if (error) {
-      if (error.code === 'PGRST205') {
-        console.warn('Database tables not found, using fallback data for advanced search')
-        return performClientSideSearch(query, filters)
-      }
-      console.error('Error in advanced search:', error)
-      throw new Error(handleSupabaseError(error))
-    }
-
-    // If database is empty, use fallback data
-    if (!artworks || artworks.length === 0) {
-      console.warn('Advanced search table is empty, using fallback data')
-      return performClientSideSearch(query, filters)
-    }
-
-    // Get bible references for these artworks
-    const artworkIds = artworks.map(artwork => artwork.id)
-    const { data: references, error: refError } = await supabase
+    // Delete existing bible references
+    const { error: deleteRefError } = await supabase
       .from('bible_references')
-      .select('*')
-      .in('artwork_id', artworkIds)
+      .delete()
+      .eq('artwork_id', artwork.id)
+
+    if (deleteRefError) {
+      console.error('Error deleting old bible references:', deleteRefError)
+      throw new Error(handleSupabaseError(deleteRefError))
+    }
+
+    // Insert new bible references if any
+    if (artwork.references.length > 0) {
+      const referencesToInsert = artwork.references.map(ref => ({
+        artwork_id: artwork.id,
+        book: ref.book,
+        book_slug: ref.bookSlug,
+        chapter: ref.chapter,
+        verses: ref.verses || null,
+      }))
+
+      const { error: insertRefError } = await supabase
+        .from('bible_references')
+        .insert(referencesToInsert)
+
+      if (insertRefError) {
+        console.error('Error inserting new bible references:', insertRefError)
+        throw new Error(handleSupabaseError(insertRefError))
+      }
+    }
+
+    console.log(`Artwork ${artwork.id} updated successfully`)
+  } catch (error) {
+    console.error('updateArtwork error:', error)
+    throw error
+  }
+}
+
+// Delete an artwork and its references
+export async function deleteArtwork(id: string): Promise<void> {
+  try {
+
+    // First, delete all bible references for this artwork
+    const { error: refError } = await supabase
+      .from('bible_references')
+      .delete()
+      .eq('artwork_id', id)
 
     if (refError) {
-      console.warn('Error fetching references for search results:', refError)
+      console.error('Error deleting bible references:', refError)
+      throw new Error(handleSupabaseError(refError))
     }
 
-    // Group references by artwork_id
-    const referencesByArtwork = (references || []).reduce((acc, ref) => {
-      if (!acc[ref.artwork_id]) {
-        acc[ref.artwork_id] = []
-      }
-      acc[ref.artwork_id].push(ref)
-      return acc
-    }, {} as Record<string, any[]>)
+    // Then delete the artwork itself
+    const { error: artworkError } = await supabase
+      .from('artworks')
+      .delete()
+      .eq('id', id)
 
-    // Combine artworks with their references
-    const artworksWithReferences = artworks.map(artwork => ({
-      ...artwork,
-      bible_references: referencesByArtwork[artwork.id] || []
-    }))
-
-    let results = artworksWithReferences.map(transformArtwork)
-
-    // Client-side filtering for testament (temporary solution)
-    if (filters.testament) {
-      const testamentBooks = await (filters.testament === 'old' 
-        ? getOldTestamentBooks() 
-        : getNewTestamentBooks())
-      const testamentSlugs = testamentBooks.map(book => book.slug)
-      
-      results = results.filter(artwork =>
-        artwork.references.some(ref => testamentSlugs.includes(ref.bookSlug))
-      )
+    if (artworkError) {
+      console.error('Error deleting artwork:', artworkError)
+      throw new Error(handleSupabaseError(artworkError))
     }
 
-    return results
+    console.log(`Artwork ${id} deleted successfully`)
   } catch (error) {
-    console.error('searchArtworksAdvanced error, using fallback:', error)
-    return performClientSideSearch(query, filters)
+    console.error('deleteArtwork error:', error)
+    throw error
+  }
+}
+
+// Create a new artwork with references
+export async function createArtwork(artwork: Omit<Artwork, 'id'>): Promise<Artwork> {
+  try {
+    // First, create the artwork
+    const { data: artworkData, error: artworkError } = await supabase
+      .from('artworks')
+      .insert({
+        title: artwork.title,
+        artist_or_director: artwork.artistOrDirector,
+        year: artwork.year || null,
+        category: artwork.category,
+        medium_or_genre: artwork.mediumOrGenre || null,
+        description: artwork.description,
+        image_url: artwork.imageUrl || null,
+        embed_url: artwork.embedUrl || null,
+        source_url: artwork.sourceUrl || null,
+        dimensions_or_duration: artwork.dimensionsOrDuration || null,
+      })
+      .select()
+      .single()
+
+    if (artworkError) {
+      console.error('Error creating artwork:', artworkError)
+      throw new Error(handleSupabaseError(artworkError))
+    }
+
+    if (!artworkData) {
+      throw new Error('No artwork data returned after creation')
+    }
+
+    // Insert bible references if any
+    if (artwork.references.length > 0) {
+      const referencesToInsert = artwork.references.map(ref => ({
+        artwork_id: artworkData.id,
+        book: ref.book,
+        book_slug: ref.bookSlug,
+        chapter: ref.chapter,
+        verses: ref.verses || null,
+      }))
+
+      const { error: insertRefError } = await supabase
+        .from('bible_references')
+        .insert(referencesToInsert)
+
+      if (insertRefError) {
+        console.error('Error inserting bible references:', insertRefError)
+        throw new Error(handleSupabaseError(insertRefError))
+      }
+    }
+
+    // Return the created artwork with references
+    const createdArtwork: Artwork = {
+      id: artworkData.id,
+      title: artworkData.title,
+      artistOrDirector: artworkData.artist_or_director,
+      year: artworkData.year || undefined,
+      category: artworkData.category,
+      mediumOrGenre: artworkData.medium_or_genre || undefined,
+      description: artworkData.description,
+      imageUrl: artworkData.image_url || undefined,
+      embedUrl: artworkData.embed_url || undefined,
+      sourceUrl: artworkData.source_url || undefined,
+      dimensionsOrDuration: artworkData.dimensions_or_duration || undefined,
+      references: artwork.references,
+    }
+
+    console.log(`Artwork ${createdArtwork.id} created successfully`)
+    return createdArtwork
+  } catch (error) {
+    console.error('createArtwork error:', error)
+    throw error
   }
 }
 

@@ -1,4 +1,4 @@
-import { useQuery, useInfiniteQuery } from '@tanstack/react-query'
+import { useQuery, useInfiniteQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import {
   getArtworks,
   getArtworkById,
@@ -7,8 +7,12 @@ import {
   searchArtworks,
   searchArtworksAdvanced,
   getArtworkStats,
+  createArtwork,
+  updateArtwork,
+  deleteArtwork,
   type SearchFilters,
 } from '@/lib/supabase-data'
+import type { Artwork } from '@/types'
 
 // Query keys for React Query
 export const artworkKeys = {
@@ -32,6 +36,9 @@ export function useArtworks() {
     gcTime: 10 * 60 * 1000, // 10 minutes
   })
 }
+
+// Alias for admin dashboard
+export const useAllArtworks = useArtworks;
 
 // Hook for fetching a single artwork by ID
 export function useArtwork(id: string | undefined) {
@@ -173,4 +180,55 @@ export function useArtworksLoading() {
     isError: artworks.isError,
     error: artworks.error,
   }
+}
+
+// Hook for updating an artwork
+export function useUpdateArtwork() {
+  const queryClient = useQueryClient()
+  
+  return useMutation({
+    mutationFn: updateArtwork,
+    onSuccess: (_, artwork) => {
+      // Invalidate and refetch artwork queries
+      queryClient.invalidateQueries({ queryKey: artworkKeys.all })
+      console.log(`Artwork ${artwork.id} updated and cache invalidated`)
+    },
+    onError: (error, artwork) => {
+      console.error(`Failed to update artwork ${artwork.id}:`, error)
+    },
+  })
+}
+
+// Hook for creating an artwork
+export function useCreateArtwork() {
+  const queryClient = useQueryClient()
+  
+  return useMutation({
+    mutationFn: createArtwork,
+    onSuccess: (newArtwork) => {
+      // Invalidate and refetch artwork queries
+      queryClient.invalidateQueries({ queryKey: artworkKeys.all })
+      console.log(`Artwork ${newArtwork.id} created and cache invalidated`)
+    },
+    onError: (error, artwork) => {
+      console.error(`Failed to create artwork "${artwork.title}":`, error)
+    },
+  })
+}
+
+// Hook for deleting an artwork
+export function useDeleteArtwork() {
+  const queryClient = useQueryClient()
+  
+  return useMutation({
+    mutationFn: deleteArtwork,
+    onSuccess: (_, artworkId) => {
+      // Invalidate and refetch artwork queries
+      queryClient.invalidateQueries({ queryKey: artworkKeys.all })
+      console.log(`Artwork ${artworkId} deleted and cache invalidated`)
+    },
+    onError: (error, artworkId) => {
+      console.error(`Failed to delete artwork ${artworkId}:`, error)
+    },
+  })
 }
