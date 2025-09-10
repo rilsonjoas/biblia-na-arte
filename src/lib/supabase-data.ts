@@ -2,6 +2,24 @@ import { supabase, handleSupabaseError } from './supabase'
 import type { ArtworkWithReferences, BibleBookRow } from '@/types/supabase'
 import type { Artwork, BibleBook } from '@/types'
 
+// Helper function to process image URLs
+function processImageUrl(imageUrl: string | null): string | undefined {
+  if (!imageUrl) return undefined;
+  
+  // If it's already a full URL (from Supabase Storage), return as-is
+  if (imageUrl.startsWith('http')) {
+    return imageUrl;
+  }
+  
+  // If it's a local path (legacy), keep as-is for backward compatibility
+  if (imageUrl.startsWith('/src/assets/')) {
+    return imageUrl;
+  }
+  
+  // Default case
+  return imageUrl;
+}
+
 // Transform Supabase data to match our existing interfaces
 function transformArtwork(artwork: ArtworkWithReferences): Artwork {
   return {
@@ -12,7 +30,7 @@ function transformArtwork(artwork: ArtworkWithReferences): Artwork {
     category: artwork.category,
     mediumOrGenre: artwork.medium_or_genre || undefined,
     description: artwork.description,
-    imageUrl: artwork.image_url || undefined,
+    imageUrl: processImageUrl(artwork.image_url),
     embedUrl: artwork.embed_url || undefined,
     sourceUrl: artwork.source_url || undefined,
     dimensionsOrDuration: artwork.dimensions_or_duration || undefined,

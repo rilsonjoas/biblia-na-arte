@@ -12,7 +12,9 @@
     "db:test": "tsx scripts/test-connection.ts",
     "db:setup": "tsx scripts/setup-database.ts",
     "db:migrate": "tsx scripts/migrate-data.ts",
-    "db:reset": "tsx scripts/migrate-data.ts"
+    "db:reset": "tsx scripts/migrate-data.ts",
+    "storage:migrate": "node scripts/migrate-images-to-storage.js",
+    "storage:setup": "scripts/run-image-migration.sh"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",

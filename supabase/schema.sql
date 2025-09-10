@@ -166,7 +166,8 @@ CREATE POLICY "Allow read access to bible_books" ON bible_books
 -- Insert/Update/Delete policies can be added later for admin functionality
 
 -- Create a view for artworks with their bible references
-CREATE OR REPLACE VIEW artworks_with_references AS
+CREATE OR REPLACE VIEW artworks_with_references
+WITH (security_invoker = true) AS
 SELECT 
     a.*,
     COALESCE(
