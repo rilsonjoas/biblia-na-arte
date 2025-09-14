@@ -27,7 +27,7 @@ export default function Footer() {
 
           {/* Navigation Links */}
           <div>
-            <h3 className="text-display font-semibold mb-4">Navegação</h3>
+            <h3 className="text-display font-semibold mb-4 text-white">Navegação</h3>
             <div className="space-y-2">
               <Link 
                 to="/biblia" 
@@ -58,7 +58,7 @@ export default function Footer() {
 
           {/* Resources */}
           <div>
-            <h3 className="text-display font-semibold mb-4">Recursos</h3>
+            <h3 className="text-display font-semibold mb-4 text-white">Recursos</h3>
             <div className="space-y-2">
               <Link 
                 to="/sobre" 
