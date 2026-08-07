@@ -9,7 +9,9 @@
     "start": "node dist/server.js",
     "lint": "eslint .",
     "db:generate": "drizzle-kit generate",
-    "db:migrate": "tsx src/db/migrate.ts"
+    "db:migrate": "tsx src/db/migrate.ts",
+    "export:vault": "tsx scripts/export-vault-data.ts",
+    "db:seed": "tsx scripts/import-seed-data.ts"
   },
   "dependencies": {
     "@fastify/cors": "^10.0.1",
@@ -20,6 +22,7 @@
     "fastify": "^5.1.0",
     "pino-pretty": "^11.3.0",
     "postgres": "^3.4.5",
+    "yaml": "^2.6.1",
     "zod": "^3.23.8"
   },
   "devDependencies": {
