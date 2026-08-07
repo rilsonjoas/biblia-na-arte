@@ -1,16 +1,14 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger } from '@/components/ui/navigation-menu';
-import { Book, Palette, Search, Menu, Settings } from 'lucide-react';
+import { Book, Palette, Search, Menu } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import { useAuth } from '@/contexts/AuthContext';
 import { useState } from 'react';
 
 export default function Header() {
   const [searchQuery, setSearchQuery] = useState('');
   const navigate = useNavigate();
-  const { user } = useAuth();
 
   const handleSearch = () => {
     if (searchQuery.trim()) {
@@ -146,22 +144,6 @@ export default function Header() {
                 }}
               />
             </div>
-
-            {/* Admin Access */}
-            {user ? (
-              <Button asChild variant="ghost" size="sm">
-                <Link to="/admin/dashboard">
-                  <Settings className="w-4 h-4 mr-2" />
-                  Admin
-                </Link>
-              </Button>
-            ) : (
-              <Button asChild variant="ghost" size="icon">
-                <Link to="/admin/login">
-                  <Settings className="w-4 h-4" />
-                </Link>
-              </Button>
-            )}
           </div>
 
           {/* Mobile Menu */}
@@ -195,19 +177,6 @@ export default function Header() {
                     }}
                   />
                 </div>
-                
-                {/* Admin Access Mobile */}
-                {user ? (
-                  <Link to="/admin/dashboard" className="flex items-center space-x-2 p-2 hover:bg-accent rounded-md">
-                    <Settings className="w-4 h-4" />
-                    <span>Administração</span>
-                  </Link>
-                ) : (
-                  <Link to="/admin/login" className="flex items-center space-x-2 p-2 hover:bg-accent rounded-md">
-                    <Settings className="w-4 h-4" />
-                    <span>Admin</span>
-                  </Link>
-                )}
               </div>
             </SheetContent>
           </Sheet>

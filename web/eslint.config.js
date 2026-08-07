@@ -5,7 +5,10 @@ import reactRefresh from "eslint-plugin-react-refresh";
 import tseslint from "typescript-eslint";
 
 export default tseslint.config(
-  { ignores: ["dist"] },
+  // src/_archived-supabase-admin/: UI de admin arquivada em 2026-08-07,
+  // dependia do Supabase Auth (morto), não é importada pelo app ativo —
+  // ver README na própria pasta.
+  { ignores: ["dist", "src/_archived-supabase-admin"] },
   {
     extends: [js.configs.recommended, ...tseslint.configs.recommended],
     files: ["**/*.{ts,tsx}"],

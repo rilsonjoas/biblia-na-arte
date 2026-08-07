@@ -81,13 +81,26 @@ export async function getArtworkById(id: string): Promise<ArtworkWithReferences 
 
 /** Usa a função search_artworks() (full-text search em português, com
  *  ranking) definida em db/custom-sql/functions.sql — SQL puro, não dá
- *  pra expressar ts_rank no query builder do Drizzle de forma limpa. */
+ *  pra expressar ts_rank no query builder do Drizzle de forma limpa.
+ *  Aliases explícitos pra devolver camelCase — sem isso, `db.execute` traz
+ *  os nomes de coluna crus do Postgres (snake_case), inconsistente com o
+ *  resto da API que passa pelo query builder do Drizzle. */
 export async function searchArtworks({ q, limit }: SearchArtworksQuery) {
   const rows = await db.execute<ArtworkRow>(
-    sql`SELECT id, title, artist_or_director, year, category, medium_or_genre,
-               description, image_url, embed_url, source_url,
-               dimensions_or_duration, license_type, attribution_text,
-               created_at, updated_at
+    sql`SELECT
+          id, title,
+          artist_or_director AS "artistOrDirector",
+          year, category,
+          medium_or_genre AS "mediumOrGenre",
+          description,
+          image_url AS "imageUrl",
+          embed_url AS "embedUrl",
+          source_url AS "sourceUrl",
+          dimensions_or_duration AS "dimensionsOrDuration",
+          license_type AS "licenseType",
+          attribution_text AS "attributionText",
+          created_at AS "createdAt",
+          updated_at AS "updatedAt"
         FROM search_artworks(${q})
         LIMIT ${limit}`,
   );

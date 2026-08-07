@@ -20,6 +20,11 @@ export interface Artwork {
   sourceUrl?: string;
   dimensionsOrDuration?: string;
   references: BibleReference[];
+  /** 'public-domain' | 'cc-by-sa-4.0' | ... — resultado da auditoria de
+   * direitos autorais (2026-08-07). Toda obra que não é domínio público
+   * simples exige attributionText visível na página, conforme a licença. */
+  licenseType: string;
+  attributionText?: string;
 }
 
 export interface BibleBook {

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { cn } from '@/lib/utils';
-import { isStorageUrl, isLocalAsset } from '@/lib/storage';
+import { isLocalAsset } from '@/lib/storage';
 
 interface ArtworkImageProps {
   src?: string;
@@ -58,11 +58,7 @@ export const ArtworkImage: React.FC<ArtworkImageProps> = ({
   const imageSrc = currentSrc || fallbackSrc;
 
   // Determine image source type for debugging/analytics
-  const sourceType = isStorageUrl(imageSrc) 
-    ? 'storage' 
-    : isLocalAsset(imageSrc) 
-    ? 'local' 
-    : 'external';
+  const sourceType = isLocalAsset(imageSrc) ? 'local' : 'external';
 
   return (
     <div 
@@ -113,16 +109,15 @@ export const ArtworkImage: React.FC<ArtworkImageProps> = ({
       {/* Image overlay for additional info (dev mode) */}
       {process.env.NODE_ENV === 'development' && (
         <div className="absolute top-1 right-1">
-          <span 
+          <span
             className={cn(
               'px-1 py-0.5 text-xs font-mono rounded',
-              sourceType === 'storage' && 'bg-green-500 text-white',
               sourceType === 'local' && 'bg-yellow-500 text-black',
               sourceType === 'external' && 'bg-blue-500 text-white'
             )}
             title={`Image source: ${sourceType} (${imageSrc})`}
           >
-            {sourceType === 'storage' ? 'S' : sourceType === 'local' ? 'L' : 'E'}
+            {sourceType === 'local' ? 'L' : 'E'}
           </span>
         </div>
       )}

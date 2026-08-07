@@ -9,6 +9,10 @@ export const listArtworksQuerySchema = paginationSchema.extend({
   chapter: z.coerce.number().int().positive().optional(),
   verses: z.string().max(50).optional(),
   artist: z.string().min(1).max(200).optional(),
+  // Catálogo tem ~850 obras — o frontend ainda busca "tudo de uma vez"
+  // pra filtrar/contar no cliente (Search, ArtCategories); teto mais alto
+  // que o padrão genérico de paginação (100) só nesta rota.
+  limit: z.coerce.number().int().min(1).max(1000).default(24),
 });
 
 export const searchArtworksQuerySchema = z.object({

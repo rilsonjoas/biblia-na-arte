@@ -25,7 +25,7 @@ import {
 import { useArtworkSearchAdvanced, useArtworks } from '@/hooks/use-artworks';
 import { useBibleBooks } from '@/hooks/use-bible-books';
 import { Artwork, ArtworkCategory } from '@/types';
-import type { SearchFilters } from '@/lib/supabase-data';
+import type { SearchFilters } from '@/lib/api-data';
 
 export default function Search() {
   const [searchParams, setSearchParams] = useSearchParams();

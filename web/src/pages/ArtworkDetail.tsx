@@ -8,7 +8,7 @@ import Footer from '@/components/Footer';
 import { LoadingCard } from '@/components/ui/loading';
 import { ErrorCard, NotFoundError } from '@/components/ui/error-display';
 import { useArtwork } from '@/hooks/use-artworks';
-import { Music, Film, Palette, ExternalLink, Calendar, User, Ruler } from 'lucide-react';
+import { Music, Film, Palette, ExternalLink, Calendar, User, Ruler, Info } from 'lucide-react';
 
 export default function ArtworkDetail() {
   const { artworkId } = useParams<{ artworkId: string }>();
@@ -195,6 +195,15 @@ export default function ArtworkDetail() {
                 {artwork.description}
               </p>
             </div>
+
+            {/* Atribuição — obrigatória por licença (ex. CC BY-SA), não
+                cosmética. Ver auditoria de direitos autorais no vault. */}
+            {artwork.attributionText && (
+              <div className="flex items-start space-x-2 text-sm text-muted-foreground bg-muted/50 rounded-lg p-4">
+                <Info className="w-4 h-4 mt-0.5 flex-shrink-0" />
+                <span>{artwork.attributionText}</span>
+              </div>
+            )}
 
             {artwork.sourceUrl && (
               <Button asChild variant="outline" className="shadow-card">
