@@ -27,15 +27,16 @@ const OUTPUT_JSON = path.resolve(import.meta.dirname, 'vault-export.json');
 // Nomes exatamente como aparecem no campo `autor:` corrigido (wikilink).
 // ---------------------------------------------------------------------
 
-/** Lista 🔴 completa (alto risco) + Wang/Latimore (licenciamento pendente,
- * ainda sem resposta) + Nobleheart (achado durante a migração — artista
+/** Lista 🔴 completa (alto risco) + Wang/Latimore (decisão 2026-08-07: não
+ * perseguir licenciamento por enquanto, fica pra um futuro se fizer
+ * sentido revisitar) + Nobleheart (achado durante a migração — artista
  * pseudônimo contemporâneo de arte devocional web, mesmo perfil de risco
  * dos outros, nunca foi auditado por não aparecer com esse nome antes). */
 const EXCLUDED_ARTISTS = new Set([
   'Kirk Richards',
   'Andrei Bodko',
   'Ivanka Demchuk',
-  'Elizabeth Wang', // licenciamento pendente (Radiant Light)
+  'Elizabeth Wang', // licenciamento não é prioridade agora (Radiant Light)
   'Candido Portinari',
   'Cândido Portinari',
   'Yongsung Kim',
@@ -46,7 +47,7 @@ const EXCLUDED_ARTISTS = new Set([
   'Janet McKenzie',
   'Timothy Schmalz',
   'The Chosen', // nem é pintura, still de série de TV
-  'Kelly Latimore', // licenciamento pendente
+  'Kelly Latimore', // licenciamento não é prioridade agora
   'Josh Tiessen',
   'Danny Hahlbohm',
   'Dan Hillier',
