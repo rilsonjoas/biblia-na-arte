@@ -16,59 +16,76 @@ BiblianaArte.com é um projeto cultural e educativo que celebra a intersecção 
 
 ## Como Executar Localmente
 
+> [!NOTE]
+> Desde 2026-08-07 este é um **monorepo pnpm workspace** (`web/` +
+> `server/`) — o projeto saiu do Supabase (banco de dados e storage) e está
+> migrando pra self-host num VPS próprio. Detalhes técnicos em
+> [`CLAUDE.md`](CLAUDE.md).
+
 ### Pré-requisitos
-- Node.js (versão 16 ou superior) - [Instalar com nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-- npm ou yarn
+- Node.js 20+
+- **pnpm** (não npm/yarn/bun — o lockfile do workspace é do pnpm)
+- **git-lfs** instalado antes de clonar (as imagens em `web/src/assets/`
+  são ~467MB versionadas via Git LFS — sem o `git-lfs`, você recebe só
+  ponteiros de texto, não as imagens de verdade)
 
 ### Passos para Instalação
 
 ```bash
-# 1. Clone este repositório
-git clone https://github.com/seu-usuario/biblia-na-arte.git
-
-# 2. Navegue até o diretório do projeto
+# 1. Clone este repositório (com git-lfs já instalado)
+git clone https://github.com/rilsonjoas/biblia-na-arte.git
 cd biblia-na-arte
 
-# 3. Instale as dependências
-npm install
+# 2. Instale as dependências (todo o workspace: web + server)
+pnpm install
 
-# 4. Inicie o servidor de desenvolvimento
-npm run dev
+# 3. Frontend
+pnpm dev:web       # http://localhost:8080
+
+# 4. Backend (precisa de um Postgres rodando e configurado em server/.env)
+pnpm dev:server    # http://localhost:3000
 ```
 
-O projeto estará disponível em `http://localhost:8080`
-
-### Scripts Disponíveis
+### Scripts Disponíveis (raiz do workspace)
 
 ```bash
-npm run dev      # Servidor de desenvolvimento
-npm run build    # Build para produção
-npm run preview  # Visualizar build de produção
-npm run lint     # Verificar código com ESLint
+pnpm dev:web        # Frontend em desenvolvimento
+pnpm dev:server     # API em desenvolvimento
+pnpm build:web      # Build de produção do frontend
+pnpm build:server   # Build de produção da API
+pnpm lint           # Lint em todos os pacotes do workspace
 ```
 
 ## Tecnologias Utilizadas
 
-Este projeto foi construído com amor usando tecnologias modernas:
+**Frontend (`web/`):**
+- ⚡ **Vite** + SWC · ⚛️ **React 18** · 📘 **TypeScript**
+- 🎨 **Tailwind CSS** + **shadcn/ui** · 🎯 **React Router** · 🔍 **TanStack Query**
 
-- ⚡ **Vite** - Build tool ultrarrápida
-- ⚛️ **React 18** - Biblioteca para interfaces de usuário
-- 📘 **TypeScript** - JavaScript com tipagem estática
-- 🎨 **Tailwind CSS** - Framework CSS utilitário
-- 🧩 **shadcn/ui** - Componentes acessíveis e customizáveis
-- 🎯 **React Router** - Navegação no lado do cliente
-- 🔍 **TanStack Query** - Gerenciamento de estado assíncrono
+**Backend (`server/`):**
+- 🚀 **Fastify** — API REST, leve, adequada pro VPS pequeno onde roda
+- 🗄️ **Drizzle ORM** + Postgres — sem engine binária separada
+- ✅ **Zod** — validação de entrada
+- 🔒 helmet + rate limit + CORS restrito
 
 ## Estrutura do Projeto
 
 ```
-src/
-├── components/     # Componentes reutilizáveis
-├── pages/         # Páginas da aplicação
-├── data/          # Dados estáticos (obras de arte, estrutura bíblica)
-├── lib/           # Utilitários e helpers
-├── types/         # Definições TypeScript
-└── assets/        # Imagens e recursos estáticos
+biblia-na-arte/
+├── pnpm-workspace.yaml
+├── web/                  # Frontend
+│   └── src/
+│       ├── components/   # Componentes reutilizáveis
+│       ├── pages/        # Páginas da aplicação
+│       ├── lib/          # Utilitários e helpers
+│       ├── types/        # Definições TypeScript
+│       └── assets/       # Imagens (Git LFS)
+└── server/               # API REST
+    └── src/
+        ├── db/           # Schema Drizzle, client, migrations
+        ├── routes/       # Handlers HTTP
+        ├── schemas/      # Validação Zod
+        └── plugins/      # Segurança, error handling
 ```
 
 ## Contribuindo
@@ -93,4 +110,10 @@ Para adicionar uma nova obra de arte:
 
 ## Licença
 
-Este projeto é uma iniciativa educacional e cultural. Todas as obras de arte referenciadas são de domínio público ou utilizadas para fins educacionais.
+Este projeto é uma iniciativa educacional e cultural. A publicação de cada
+obra segue uma auditoria de direitos autorais (feita em 2026-08-07, ver nota
+correspondente no vault Obsidian do mantenedor) — a maioria do acervo é
+domínio público (morte do artista há 70+ anos), algumas obras contemporâneas
+são publicadas com atribuição sob licença explícita (ex. Andrei Mironov,
+CC BY-SA 4.0), e obras sem licença clara **não entram no catálogo público**,
+mesmo estando disponíveis no repositório de dados interno.
