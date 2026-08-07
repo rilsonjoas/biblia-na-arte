@@ -9,7 +9,11 @@ import { LoadingGrid } from '@/components/ui/loading';
 import { ErrorCard } from '@/components/ui/error-display';
 import { useFeaturedArtworks } from '@/hooks/use-artworks';
 import { Book, Palette, Music, Film, Sparkles } from 'lucide-react';
-import heroImage from '@/assets/hero-banner.jpg';
+
+// Servido de web/public/ (não é uma pintura do catálogo, é asset de UI) —
+// path fixo em vez de import, sem precisar de hash de build pra um banner
+// único que não muda com frequência.
+const heroImage = '/hero-banner.jpg';
 
 export default function Index() {
   const { data: featuredArtworks = [], isLoading, isError, error, refetch } = useFeaturedArtworks();

@@ -62,7 +62,7 @@ REST API só-leitura (v1), Fastify + Drizzle ORM + Zod, aponta pro
   schema) → `pnpm --filter server db:migrate` (aplica no Postgres)
 - Deploy: `server/Dockerfile`, multi-stage com `pnpm deploy` (poda pra só
   as deps de produção), build a partir da **raiz** do monorepo:
-  `docker build -f server/Dockerfile -t biblianarte-api .`
+  `docker build -f server/Dockerfile -t biblianaarte-api .`
 
 ## Arquitetura de dados
 
@@ -79,8 +79,8 @@ Fonte da verdade: `~/Downloads/Programação/1 - Pessoal/hetzner-infra/MIGRATION
 
 - Banco: Postgres compartilhado do VPS, banco lógico `biblia_na_arte_db` (já
   criado)
-- API: container `biblianarte-api` na `proxy-network` do Traefik, subdomínio
-  `api-biblianarte.narniano.com`
+- API: container `biblianaarte-api` na `proxy-network` do Traefik, subdomínio
+  `api-biblianaarte.narniano.com`
 - Frontend: build estático do Vite, servido também via Traefik
 - Imagens: estático via Traefik direto de `web/src/assets/` no VPS (não é
   upload de usuário, não precisa de S3/MinIO)
