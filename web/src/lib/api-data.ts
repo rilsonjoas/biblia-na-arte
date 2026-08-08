@@ -1,14 +1,37 @@
 import { apiClient, ApiError } from './api-client';
-import type { Artwork, BibleBook } from '@/types';
+import type { Artwork, BibleBook, Artist } from '@/types';
 
-// Catálogo tem ~850 obras — as páginas que pedem "tudo" (Search,
-// ArtCategories) esperam a coleção inteira numa chamada só, não paginação
-// de verdade. Ver server/src/schemas/artwork.schema.ts pro teto do backend.
 const ALL_ARTWORKS_LIMIT = 1000;
 
-interface ArtworksResponse {
+export interface ArtworksResponse {
   items: Artwork[];
   total: number;
+}
+
+export interface PaginatedArtworksParams {
+  page?: number;
+  limit?: number;
+  category?: string;
+  artist?: string;
+  bookSlug?: string;
+  chapter?: number;
+  verses?: string;
+}
+
+export async function getArtworksPaginated(params: PaginatedArtworksParams = {}): Promise<ArtworksResponse> {
+  return apiClient.request<ArtworksResponse>('/artworks', {
+    page: params.page ?? 1,
+    limit: params.limit ?? 24,
+    category: params.category,
+    artist: params.artist,
+    bookSlug: params.bookSlug,
+    chapter: params.chapter,
+    verses: params.verses,
+  });
+}
+
+export async function getArtists(): Promise<Artist[]> {
+  return apiClient.request<Artist[]>('/artists');
 }
 
 export async function getArtworks(): Promise<Artwork[]> {

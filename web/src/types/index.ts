@@ -36,3 +36,8 @@ export interface BibleBook {
   chapters: number;
   testament: 'old' | 'new';
 }
+
+export interface Artist {
+  name: string;
+  artworkCount: number;
+}

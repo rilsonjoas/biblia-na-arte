@@ -120,3 +120,21 @@ export async function getBibleBookBySlug(slug: string) {
   const [row] = await db.select().from(bibleBooks).where(eq(bibleBooks.slug, slug)).limit(1);
   return row;
 }
+
+export interface ArtistAggregate {
+  name: string;
+  artworkCount: number;
+}
+
+export async function listArtists(): Promise<ArtistAggregate[]> {
+  const rows = await db.execute<{ name: string; artworkCount: number }>(
+    sql`SELECT
+          artist_or_director AS "name",
+          count(*)::int AS "artworkCount"
+        FROM artworks
+        WHERE artist_or_director IS NOT NULL AND artist_or_director != ''
+        GROUP BY artist_or_director
+        ORDER BY count(*) DESC, artist_or_director ASC`
+  );
+  return rows as unknown as ArtistAggregate[];
+}

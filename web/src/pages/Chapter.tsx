@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import ArtworkCard, { ArtworkCardSkeleton } from '@/components/ArtworkCard';
+import { SEO } from '@/components/SEO';
 import { LoadingGrid, Loading } from '@/components/ui/loading';
 import { ErrorCard, NotFoundError } from '@/components/ui/error-display';
 import { useBibleBookBySlug } from '@/hooks/use-bible-books';
@@ -79,8 +80,26 @@ export default function Chapter() {
   const prevChapter = chapterNum > 1 ? chapterNum - 1 : null;
   const nextChapter = chapterNum < book.chapters ? chapterNum + 1 : null;
 
+  const chapterSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: `${book.name} ${chapterNum} na Arte`,
+    description: `Pinturas e arte sacra retratando os eventos do capítulo ${chapterNum} do livro de ${book.name}.`,
+    hasPart: artworks.map((art) => ({
+      '@type': 'VisualArtwork',
+      name: art.title,
+      creator: { '@type': 'Person', name: art.artistOrDirector },
+      image: art.imageUrl,
+    })),
+  };
+
   return (
     <div className="min-h-screen bg-background">
+      <SEO
+        title={`${book.name} ${chapterNum} — Texto Bíblico e Obras de Arte`}
+        description={`Leia o capítulo ${chapterNum} de ${book.name} na tradução Almeida e explore ${artworks.length} obras de arte inspiradas nesta passagem.`}
+        schema={chapterSchema}
+      />
       <Header />
 
       <div className="container mx-auto px-4 py-12">

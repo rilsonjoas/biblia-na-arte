@@ -5,6 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import ArtworkCard, { ArtworkCardSkeleton } from '@/components/ArtworkCard';
+import { SEO } from '@/components/SEO';
 import { ErrorCard } from '@/components/ui/error-display';
 import { useFeaturedArtworks } from '@/hooks/use-artworks';
 import { Book, Palette, Music, Film, Sparkles } from 'lucide-react';
@@ -17,8 +18,22 @@ const heroImage = '/hero-banner.jpg';
 export default function Index() {
   const { data: featuredArtworks = [], isLoading, isError, error, refetch } = useFeaturedArtworks();
 
+  const websiteSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: 'Bíblia na Arte',
+    url: typeof window !== 'undefined' ? window.location.origin : 'https://biblianaarte.com',
+    description: 'Catálogo de arte sacra e pinturas históricas inspiradas nas Sagradas Escrituras.',
+    potentialAction: {
+      '@type': 'SearchAction',
+      target: `${typeof window !== 'undefined' ? window.location.origin : 'https://biblianaarte.com'}/busca?q={search_term_string}`,
+      'query-input': 'required name=search_term_string',
+    },
+  };
+
   return (
     <div className="min-h-screen bg-background">
+      <SEO schema={websiteSchema} />
       <Header />
       
       {/* Hero Section */}

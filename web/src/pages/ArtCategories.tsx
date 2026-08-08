@@ -1,15 +1,21 @@
+import { useState } from 'react';
 import { Link, useParams } from 'react-router';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import ArtworkCard, { ArtworkCardSkeleton } from '@/components/ArtworkCard';
+import { SEO } from '@/components/SEO';
 import { ErrorCard } from '@/components/ui/error-display';
 import { useArtworksByCategory, useArtworks } from '@/hooks/use-artworks';
-import { Music, Film, Palette, Sparkles } from 'lucide-react';
+import { Music, Film, Palette, Sparkles, ChevronLeft, ChevronRight } from 'lucide-react';
+
+const PAGE_SIZE = 24;
 
 export default function ArtCategories() {
   const { category } = useParams<{ category?: string }>();
+  const [page, setPage] = useState(1);
 
   // Get all artworks for category counts (when showing all categories)
   const { data: allArtworks = [] } = useArtworks();
@@ -186,8 +192,15 @@ export default function ArtCategories() {
     );
   }
 
+  const totalPages = Math.ceil(categoryArtworks.length / PAGE_SIZE) || 1;
+  const paginatedArtworks = categoryArtworks.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
+
   return (
     <div className="min-h-screen bg-background">
+      <SEO
+        title={`${currentCategory.name} Inspiradas na Bíblia`}
+        description={currentCategory.description}
+      />
       <Header />
       
       <div className="container mx-auto px-4 py-12">
@@ -215,11 +228,48 @@ export default function ArtCategories() {
 
         {/* Artworks Grid */}
         {categoryArtworks.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {categoryArtworks.map((artwork) => (
-              <ArtworkCard key={artwork.id} artwork={artwork} />
-            ))}
-          </div>
+          <>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-8">
+              {paginatedArtworks.map((artwork) => (
+                <ArtworkCard key={artwork.id} artwork={artwork} />
+              ))}
+            </div>
+
+            {/* Pagination Controls */}
+            {totalPages > 1 && (
+              <div className="flex items-center justify-center gap-3 pt-6 border-t border-border/50">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => {
+                    setPage((p) => Math.max(p - 1, 1));
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                  }}
+                  disabled={page === 1}
+                  className="gap-1"
+                >
+                  <ChevronLeft className="w-4 h-4" />
+                  Anterior
+                </Button>
+                <span className="text-sm text-muted-foreground">
+                  Página <strong className="text-foreground">{page}</strong> de {totalPages}
+                </span>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => {
+                    setPage((p) => Math.min(p + 1, totalPages));
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                  }}
+                  disabled={page >= totalPages}
+                  className="gap-1"
+                >
+                  Próxima
+                  <ChevronRight className="w-4 h-4" />
+                </Button>
+              </div>
+            )}
+          </>
         ) : (
           <div className="text-center py-16">
             <IconComponent className="w-16 h-16 mx-auto text-muted-foreground mb-4" />

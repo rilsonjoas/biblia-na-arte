@@ -5,7 +5,10 @@ import {
   getArtworksByCategory,
   getArtworksByBibleReference,
   searchArtworksAdvanced,
+  getArtists,
+  getArtworksPaginated,
   type SearchFilters,
+  type PaginatedArtworksParams,
 } from '@/lib/api-data'
 
 // Query keys for React Query
@@ -88,5 +91,25 @@ export function useFeaturedArtworks() {
     },
     staleTime: 15 * 60 * 1000, // 15 minutes
     gcTime: 30 * 60 * 1000, // 30 minutes
+  })
+}
+
+// Hook for listing aggregated artists
+export function useArtists() {
+  return useQuery({
+    queryKey: ['artists'],
+    queryFn: getArtists,
+    staleTime: 30 * 60 * 1000, // 30 minutes
+    gcTime: 60 * 60 * 1000,
+  })
+}
+
+// Hook for paginated artworks
+export function useArtworksPaginated(params: PaginatedArtworksParams) {
+  return useQuery({
+    queryKey: ['artworks', 'paginated', params],
+    queryFn: () => getArtworksPaginated(params),
+    staleTime: 5 * 60 * 1000,
+    gcTime: 15 * 60 * 1000,
   })
 }

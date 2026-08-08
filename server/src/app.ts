@@ -7,6 +7,7 @@ import { healthRoutes } from './routes/health.js';
 import { artworkRoutes } from './routes/artworks.js';
 import { bibleBookRoutes } from './routes/bible-books.js';
 import { bibleTextRoutes } from './routes/bible-text.js';
+import { artistRoutes } from './routes/artists.js';
 
 export async function buildApp() {
   const app = Fastify({
@@ -28,6 +29,7 @@ export async function buildApp() {
   await app.register(artworkRoutes, { prefix: '/api/v1' });
   await app.register(bibleBookRoutes, { prefix: '/api/v1' });
   await app.register(bibleTextRoutes, { prefix: '/api/v1' });
+  await app.register(artistRoutes, { prefix: '/api/v1' });
 
   // JSON do OpenAPI em /docs (a UI Swagger fica por conta de um serviço
   // separado ou do usuário abrindo o JSON direto).

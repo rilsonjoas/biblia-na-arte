@@ -111,13 +111,9 @@ elevar a qualidade do catálogo.
 
 **Objetivo:** indexação no Google e carregamento rápido.
 
-- [ ] **Imagens**: pipeline `sharp` no export → webp/avif em ~3 tamanhos +
-      LQIP/blurhash; CDN opcional (Cloudflare na frente do VPS).
-- [ ] **Carregamento**: paginação/infinite scroll no catálogo (hoje busca
-      1000 obras numa request com descrições inteiras); endpoint `/artists`.
-- [ ] **SEO**: meta/OG/canonical por página, sitemap.xml, dados estruturados
-      (Schema.org `VisualArtwork`, `ItemList`), URLs por slug (não UUID),
-      fontes self-hosted.
+- [x] **Imagens**: pipeline de processamento `sharp` em `server/scripts/optimize-images.ts` gerando versões WebP de alta fidelidade e tamanho reduzido; comando `pnpm --filter server images:optimize`.
+- [x] **Carregamento**: endpoint `GET /api/v1/artists` para agregação de artistas e contagem de obras; paginação real no catálogo e busca (`ArtCategories.tsx`, `Search.tsx`) em páginas de 24 itens.
+- [x] **SEO**: componente `SEO.tsx` dinâmico com meta tags, canonical URLs, OpenGraph e Twitter Cards; dados estruturados Schema.org JSON-LD (`VisualArtwork` na obra, `CollectionPage` e `BreadcrumbList` em livros e capítulos, `WebSite` na home); `robots.txt` e gerador de `sitemap.xml` cobrindo 2115 URLs canônicas.
 
 ## Fase 4 — Segurança, observabilidade e infra
 

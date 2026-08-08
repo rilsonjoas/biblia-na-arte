@@ -16,7 +16,9 @@
     "db:generate": "drizzle-kit generate",
     "db:migrate": "tsx src/db/migrate.ts",
     "export:vault": "tsx scripts/export-vault-data.ts",
-    "db:seed": "tsx scripts/import-seed-data.ts"
+    "db:seed": "tsx scripts/import-seed-data.ts",
+    "images:optimize": "tsx scripts/optimize-images.ts",
+    "sitemap:generate": "tsx scripts/generate-sitemap.ts"
   },
   "dependencies": {
     "@fastify/cors": "^10.0.1",
@@ -39,6 +41,7 @@
     "drizzle-kit": "^0.31.10",
     "eslint": "^9.32.0",
     "globals": "^15.15.0",
+    "sharp": "^0.35.3",
     "tsx": "^4.20.5",
     "typescript": "^5.8.3",
     "typescript-eslint": "^8.38.0",

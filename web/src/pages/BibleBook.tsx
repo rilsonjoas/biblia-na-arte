@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import ArtworkCard, { ArtworkCardSkeleton } from '@/components/ArtworkCard';
+import { SEO } from '@/components/SEO';
 import { LoadingGrid, Loading } from '@/components/ui/loading';
 import { ErrorCard, NotFoundError } from '@/components/ui/error-display';
 import { useBibleBookBySlug } from '@/hooks/use-bible-books';
@@ -88,8 +89,26 @@ export default function BibleBook() {
     );
   }
 
+  const bookSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: `Livro de ${book.name} na Arte`,
+    description: bookDescription?.description || `Obras de arte inspiradas no livro de ${book.name}.`,
+    hasPart: artworks.slice(0, 10).map((art) => ({
+      '@type': 'VisualArtwork',
+      name: art.title,
+      creator: { '@type': 'Person', name: art.artistOrDirector },
+      image: art.imageUrl,
+    })),
+  };
+
   return (
     <div className="min-h-screen bg-background">
+      <SEO
+        title={`Livro de ${book.name} — Obras de Arte Bíblica`}
+        description={bookDescription?.description || `Explore pinturas e obras de arte inspiradas nos ${book.chapters} capítulos de ${book.name}.`}
+        schema={bookSchema}
+      />
       <Header />
       
       <div className="container mx-auto px-4 py-12">

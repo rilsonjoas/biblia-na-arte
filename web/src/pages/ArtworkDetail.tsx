@@ -9,6 +9,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import ArtworkCard from '@/components/ArtworkCard';
 import { ArtworkLightbox } from '@/components/ArtworkLightbox';
+import { SEO } from '@/components/SEO';
 import { ErrorCard, NotFoundError } from '@/components/ui/error-display';
 import { Markdown } from '@/components/ui/markdown';
 import { useArtwork, useArtworksByBibleReference, useArtworks } from '@/hooks/use-artworks';
@@ -158,8 +159,32 @@ export default function ArtworkDetail() {
 
   const imageUrl = artwork.imageUrl;
 
+  const artworkSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'VisualArtwork',
+    name: artwork.title,
+    alternateName: artwork.subtitle,
+    creator: {
+      '@type': 'Person',
+      name: artwork.artistOrDirector,
+    },
+    dateCreated: artwork.year ? String(artwork.year) : undefined,
+    artMedium: artwork.mediumOrGenre || 'Pintura',
+    artform: 'Painting',
+    image: imageUrl,
+    description: artwork.description,
+    license: artwork.licenseType === 'public-domain' ? 'https://creativecommons.org/publicdomain/mark/1.0/' : undefined,
+  };
+
   return (
     <div className="min-h-screen bg-background flex flex-col">
+      <SEO
+        title={`${artwork.title} — ${artwork.artistOrDirector}`}
+        description={artwork.description.slice(0, 160)}
+        image={imageUrl}
+        type="article"
+        schema={artworkSchema}
+      />
       <Header />
 
       <main className="container mx-auto px-4 py-8 flex-1">

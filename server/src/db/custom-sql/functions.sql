@@ -25,6 +25,7 @@ CREATE OR REPLACE FUNCTION search_artworks(search_query TEXT)
 RETURNS TABLE(
     id UUID,
     title TEXT,
+    subtitle TEXT,
     artist_or_director TEXT,
     year TEXT,
     category artwork_category,
@@ -43,13 +44,14 @@ RETURNS TABLE(
 BEGIN
     RETURN QUERY
     SELECT
-        a.id, a.title, a.artist_or_director, a.year, a.category,
+        a.id, a.title, a.subtitle, a.artist_or_director, a.year, a.category,
         a.medium_or_genre, a.description, a.image_url, a.embed_url,
         a.source_url, a.dimensions_or_duration, a.license_type,
         a.attribution_text, a.created_at, a.updated_at,
         ts_rank(
             to_tsvector('portuguese',
                 coalesce(a.title, '') || ' ' ||
+                coalesce(a.subtitle, '') || ' ' ||
                 coalesce(a.description, '') || ' ' ||
                 coalesce(a.artist_or_director, '')
             ),
@@ -58,6 +60,7 @@ BEGIN
     FROM artworks a
     WHERE to_tsvector('portuguese',
         coalesce(a.title, '') || ' ' ||
+        coalesce(a.subtitle, '') || ' ' ||
         coalesce(a.description, '') || ' ' ||
         coalesce(a.artist_or_director, '')
     ) @@ plainto_tsquery('portuguese', search_query)

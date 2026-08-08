@@ -51,6 +51,11 @@ export const bibleBookResponseSchema = z.object({
   createdAt: timestamp.nullable().optional(),
 });
 
+export const artistResponseSchema = z.object({
+  name: z.string(),
+  artworkCount: z.number().int().nonnegative(),
+});
+
 export const errorResponseSchema = z.object({
   error: z.string(),
   message: z.string(),

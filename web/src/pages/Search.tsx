@@ -8,6 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import ArtworkCard, { ArtworkCardSkeleton } from '@/components/ArtworkCard';
+import { SEO } from '@/components/SEO';
 import { ErrorCard } from '@/components/ui/error-display';
 import { 
   Search as SearchIcon, 
@@ -19,15 +20,20 @@ import {
   Calendar,
   User,
   Tag,
-  RefreshCcw
+  RefreshCcw,
+  ChevronLeft,
+  ChevronRight
 } from 'lucide-react';
 import { useArtworkSearchAdvanced, useArtworks } from '@/hooks/use-artworks';
 import type { SearchFilters } from '@/lib/api-data';
+
+const PAGE_SIZE = 24;
 
 export default function Search() {
   const [searchParams, setSearchParams] = useSearchParams();
   const [query, setQuery] = useState(searchParams.get('q') || '');
   const [showFilters, setShowFilters] = useState(false);
+  const [page, setPage] = useState(1);
   
   // Filtros avançados
   const [selectedCategory, setSelectedCategory] = useState<string>('');
@@ -102,6 +108,10 @@ export default function Search() {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO
+        title={query ? `Busca: "${query}"` : 'Busca Avançada de Obras de Arte Bíblica'}
+        description="Pesquise pinturas, músicas e arte sacra inspiradas na Bíblia por tema, artista, período histórico ou referências bíblicas."
+      />
       <Header />
       
       <div className="container mx-auto px-4 py-12">
@@ -344,11 +354,48 @@ export default function Search() {
                 </CardContent>
               </Card>
             ) : searchResults.length > 0 ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {searchResults.map((artwork) => (
-                  <ArtworkCard key={artwork.id} artwork={artwork} />
-                ))}
-              </div>
+              <>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-8">
+                  {searchResults.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE).map((artwork) => (
+                    <ArtworkCard key={artwork.id} artwork={artwork} />
+                  ))}
+                </div>
+
+                {/* Pagination Controls */}
+                {Math.ceil(searchResults.length / PAGE_SIZE) > 1 && (
+                  <div className="flex items-center justify-center gap-3 pt-6 border-t border-border/50">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => {
+                        setPage((p) => Math.max(p - 1, 1));
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                      }}
+                      disabled={page === 1}
+                      className="gap-1"
+                    >
+                      <ChevronLeft className="w-4 h-4" />
+                      Anterior
+                    </Button>
+                    <span className="text-sm text-muted-foreground">
+                      Página <strong className="text-foreground">{page}</strong> de {Math.ceil(searchResults.length / PAGE_SIZE)}
+                    </span>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => {
+                        setPage((p) => Math.min(p + 1, Math.ceil(searchResults.length / PAGE_SIZE)));
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                      }}
+                      disabled={page >= Math.ceil(searchResults.length / PAGE_SIZE)}
+                      className="gap-1"
+                    >
+                      Próxima
+                      <ChevronRight className="w-4 h-4" />
+                    </Button>
+                  </div>
+                )}
+              </>
             ) : null}
           </div>
         )}
