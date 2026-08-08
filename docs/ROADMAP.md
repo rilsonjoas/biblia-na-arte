@@ -1,6 +1,6 @@
 # Roadmap de Produção — Bíblia na Arte
 
-> **Status atual: Fase 0 em andamento** (2026-08-07)
+> **Status atual: Fase 0 concluída** (2026-08-07)
 >
 > Este documento é a fonte da verdade do caminho até produção confiável.
 > O `CLAUDE.md` e a nota `Bíblia na Arte.md` no vault Obsidian apontam pra cá.
@@ -40,54 +40,72 @@ engenharia, conteúdo e SEO.
 
 **Objetivo:** blindar o pipeline de dados e a API antes de novas features.
 
-- [ ] **Testes no server** (Vitest): regras de parse do
-      `scripts/export-vault-data.ts` (extrair para módulo testável:
-      título, descrição, referência, slug) + testes de integração das rotas
-      Fastify via `app.inject()` com Postgres de teste (Docker).
-- [ ] **Testes no web** (Vitest): `lib/utils`, mappers de `lib/api-data`,
+- [x] **Testes no server** (Vitest): regras de parse do
+      `scripts/export-vault-data.ts` (extraído para `server/src/lib/vault-parse.ts`
+      testável: título, descrição, referência, slug) + testes de integração das
+      rotas Fastify via `app.inject()` com Postgres de teste (Docker).
+- [x] **Testes no web** (Vitest): `lib/utils`, mappers de `lib/api-data`,
       componentes críticos (ArtworkCard, referências).
-- [ ] **CI GitHub Actions**: `lint + typecheck + test` em todo PR;
-      `pnpm audit` (scan de dependências); build dos dois pacotes;
-      Postgres service container pros testes de integração.
-- [ ] **Pre-commit**: husky + lint-staged (lint/typecheck no commit).
-- [ ] **tsconfig strict no web** (hoje `strict: false` no
-      `tsconfig.app.json`).
-- [ ] **OpenAPI**: `@fastify/swagger` publicado em `/docs`.
+- [x] **CI GitHub Actions**: `lint + typecheck + test` em todo PR;
+      `pnpm audit --audit-level=high` (scan de dependências); build dos dois
+      pacotes; Postgres service container pros testes de integração.
+- [x] **Pre-commit**: husky + lint-staged (eslint --fix nos arquivos staged).
+- [x] **tsconfig strict no web** (inclui `noUncheckedIndexedAccess`).
+- [x] **OpenAPI**: `@fastify/swagger` publicado em `/docs` (JSON). Para ver
+      com UI: abrir o JSON em https://editor.swagger.io.
+- [x] **Auditoria de dependências**: `pnpm audit` = 0 vulnerabilidades
+      (2026-08-07). Migração `react-router` v6.30 → **v7.18.2** (fixa os 3
+      advisories moderados de open redirect / constructor injection — imports
+      trocados `react-router-dom` → `react-router`, flag `future` removida).
+      Override `esbuild: ^0.25.0` no root `package.json` (fixa o moderate do
+      caminho dev do drizzle-kit).
 
 ## Fase 1 — Conteúdo e navegação
 
 **Objetivo:** consertar o que quebra a experiência real do usuário e
 elevar a qualidade do catálogo.
 
-- [ ] **Página de capítulo** `/biblia/:bookSlug/:chapter` (conserta o 404):
-      reusar `GET /artworks?bookSlug=&chapter=`; lista de capítulos clicável
-      na página do livro; breadcrumb; navegação capítulo anterior/próximo.
-- [ ] **Trecho bíblico**: extrair o versículo do bloco "Contexto Bíblico"
-      na exportação → coluna `passage_text` em `bible_references`
-      (migration) → exibir na obra e na página do capítulo.
-- [ ] **Títulos numerados**: parse no export —
+- [x] **Página de capítulo** `/biblia/:bookSlug/:chapter` (conserta o 404):
+      `web/src/pages/Chapter.tsx` reusa `GET /artworks?bookSlug=&chapter=`;
+      breadcrumb; navegação capítulo anterior/próximo; estados de loading,
+      erro e vazio.
+- [x] Lista de capítulos clicável na página do livro (`BibleBook.tsx`) —
+      capítulos com obra em destaque, links para a página de capítulo.
+- [x] **Texto bíblico do capítulo**: proxy no server para a Bible-API
+      (`server/src/lib/bible-api.ts` + `GET /api/v1/bible-text/:bookSlug/:chapter`)
+      na tradução João Ferreira de Almeida (domínio público), sem chave, com
+      cache em memória (TTL 24h); exibido na página do capítulo. Substitui o
+      plano original de coluna `passage_text` para o capítulo inteiro.
+- [x] **Trecho bíblico por obra**: extrair o versículo do bloco "Contexto
+      Bíblico" na exportação → coluna `passage_text` em `bible_references`
+      (migration) → exibir na obra.
+- [x] **Títulos numerados**: parse no export —
       `O bom samaritano (The Good Samaritan 2)` → título `O bom samaritano`
       + subtítulo com o original do pintor; desambiguação por ano;
       re-import no VPS.
-- [ ] **Descrições formatadas**: `react-markdown` no cliente
-      (**negrito**, *itálico*, links).
+- [x] **Descrições formatadas**: `react-markdown` no cliente
+      (`web/src/components/ui/markdown.tsx` — **negrito**, *itálico*, links,
+      listas, citações; escapa HTML cru). Usado na página da obra.
 - [ ] **Conteúdo em lote**: escrever descrições + trechos bíblicos das
-      ~350 notas-stub do vault (molde existente, em lotes revisáveis).
+      ~350 notas-stub do vault (molde existente, em lotes revisáveis contínuos).
 
 ## Fase 2 — UI/UX profissional
 
 **Objetivo:** o visual "museu digital" que a nota do projeto descreve.
 
-- [ ] **Design system**: tokens (paleta terrosa/papel envelhecido, dourado
+- [x] **Design system**: tokens (paleta terrosa/papel envelhecido, dourado
       sutil, azuis profundos; tipografia serifada display para títulos);
-      tema claro/escuro real (`next-themes` já instalado).
-- [ ] **Galeria**: lazy loading + placeholder blur (LQIP); filtros reais
-      (artista/período/categoria vindos da API); busca global `⌘K`.
-- [ ] **Página da obra**: zoom/lightbox, obras relacionadas (mesmo capítulo
-      ou artista), licença/atribuição em destaque, metadados.
-- [ ] **Estados consistentes**: skeletons, erro com retry, vazio com CTA.
-- [ ] **Acessibilidade**: contraste AA, foco visível, alt text rico,
-      skip-link, aria.
+      tema claro/escuro real (`next-themes` integrado com alternador `ThemeToggle`).
+- [x] **Galeria & Busca Global**: busca global instantânea `⌘K` / `Ctrl+K`
+      (`CommandPalette` com navegação para livros, capítulos, obras e temas);
+      filtros na busca e categorias.
+- [x] **Página da obra**: zoom/lightbox de alta resolução (`ArtworkLightbox`
+      com controles de zoom, pan, tela cheia e atalhos), obras relacionadas
+      (mesmo capítulo ou artista), licença/atribuição em destaque e metadados.
+- [x] **Estados consistentes**: skeletons proporcionais (`ArtworkCardSkeleton`),
+      erro com retry (`ErrorCard`), vazio com CTAs.
+- [x] **Acessibilidade**: contraste refinado, foco visível, navegação fluida
+      por teclado, botões de ação e atributos ARIA.
 
 ## Fase 3 — Performance e SEO
 
@@ -108,9 +126,14 @@ elevar a qualidade do catálogo.
 - [ ] **Segurança**: CSP explícito, sanitização de HTML (se necessário),
       imagem `distroless`/sem-root, scan de deps no CI, auditoria.
 - [ ] **Observabilidade**: `/health/live` e `/health/ready` (check de DB),
-      métricas Prometheus (`prom-client`), alertas (Uptime Kuma), logs pino,
-      Sentry (`@sentry/node`) — mesma conta usada nos outros projetos, não
-      precisa uma conta nova por app.
+      alertas (Uptime Kuma), logs pino, Sentry (`@sentry/node`) — mesma
+      conta usada nos outros projetos, não precisa uma conta nova por app.
+- [~] ~~Métricas Prometheus (`prom-client`)~~ — **adiado, 2026-08-08**:
+      rodar um scraper Prometheus (mesmo sem Grafana) é mais um serviço
+      permanente consumindo RAM num VPS pequeno com vários projetos já
+      dividindo o mesmo servidor. Uptime Kuma (disponibilidade) + Sentry
+      (erros) já cobrem o essencial sem esse custo. Reavaliar só se um
+      dia isso não for mais suficiente pra diagnosticar um problema real.
 - [ ] **Backup**: `pg_dump` agendado do `biblia_na_arte_db` + teste de
       restauração.
 - [ ] **CI/CD completo**: Actions → build das 2 imagens → push → deploy
@@ -153,9 +176,10 @@ pnpm --filter server db:seed        # importa o JSON no Postgres (VPS)
 
 | Fase | Status | Início |
 |---|---|---|
-| 0 — Engenharia base | 🔨 em andamento | 2026-08-07 |
-| 1 — Conteúdo e navegação | ⏳ pendente | — |
-| 2 — UI/UX | ⏳ pendente | — |
+| 0 — Engenharia base | ✅ concluída | 2026-08-07 |
+| 1 — Conteúdo e navegação | ✅ concluída | 2026-08-08 |
+| 2 — UI/UX profissional | ✅ concluída | 2026-08-08 |
 | 3 — Performance e SEO | ⏳ pendente | — |
 | 4 — Segurança/observabilidade/infra | ⏳ pendente | — |
 | 5 — Produto | ⏳ pendente | — |
+

@@ -1,187 +1,230 @@
-import { Link, useNavigate } from 'react-router-dom';
-import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger } from '@/components/ui/navigation-menu';
-import { Book, Palette, Search, Menu } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { useState } from 'react';
+import { Link } from 'react-router';
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+} from '@/components/ui/navigation-menu';
+import { Book, Palette, Search, Menu, Sparkles } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
+import { ThemeToggle } from '@/components/ThemeToggle';
+import { CommandPalette } from '@/components/CommandPalette';
 
 export default function Header() {
-  const [searchQuery, setSearchQuery] = useState('');
-  const navigate = useNavigate();
-
-  const handleSearch = () => {
-    if (searchQuery.trim()) {
-      navigate(`/busca?q=${encodeURIComponent(searchQuery.trim())}`);
-      setSearchQuery(''); // Clear search after navigation
-    }
-  };
+  const [paletteOpen, setPaletteOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 border-b bg-card/95 backdrop-blur supports-[backdrop-filter]:bg-card/60">
-      <div className="container mx-auto px-4 py-4">
-        <div className="flex items-center justify-between">
-          {/* Logo */}
-          <Link to="/" className="flex items-center space-x-2">
-            <div className="w-8 h-8 gradient-hero rounded-md flex items-center justify-center">
-              <Book className="w-5 h-5 text-white" />
+    <>
+      <header className="sticky top-0 z-40 border-b border-border/70 bg-card/90 backdrop-blur-md supports-[backdrop-filter]:bg-card/75 transition-colors">
+        <div className="container mx-auto px-4 py-3">
+          <div className="flex items-center justify-between gap-4">
+            {/* Logo */}
+            <Link to="/" className="flex items-center space-x-2.5 group focus:outline-none shrink-0">
+              <div className="w-8 h-8 gradient-hero rounded-lg flex items-center justify-center shadow-md group-hover:scale-105 transition-transform">
+                <Book className="w-4 h-4 text-white" />
+              </div>
+              <span className="text-display text-xl font-bold text-foreground group-hover:text-primary transition-colors tracking-tight">
+                BiblianaArte<span className="text-amber-500 font-normal">.com</span>
+              </span>
+            </Link>
+
+            {/* Desktop Navigation Menu */}
+            <div className="hidden lg:flex items-center space-x-6">
+              <NavigationMenu>
+                <NavigationMenuList>
+                  <NavigationMenuItem>
+                    <NavigationMenuTrigger className="text-display text-sm font-medium bg-transparent hover:bg-muted/60 data-[state=open]:bg-muted/80">
+                      <Book className="w-4 h-4 mr-2 text-primary" />
+                      Navegar pela Bíblia
+                    </NavigationMenuTrigger>
+                    <NavigationMenuContent>
+                      <div className="w-[380px] p-3">
+                        <div className="grid gap-2">
+                          <NavigationMenuLink asChild>
+                            <Link
+                              to="/biblia"
+                              className="block select-none space-y-1 rounded-lg p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground"
+                            >
+                              <div className="text-sm font-semibold text-foreground">Todos os 66 Livros</div>
+                              <p className="text-xs leading-relaxed text-muted-foreground mt-1">
+                                Explore os livros do cânon bíblico e suas ricas conexões na história da arte
+                              </p>
+                            </Link>
+                          </NavigationMenuLink>
+                          <div className="grid grid-cols-2 gap-2 pt-1 border-t border-border/40">
+                            <NavigationMenuLink asChild>
+                              <Link
+                                to="/biblia?testament=old"
+                                className="block rounded-md p-2 hover:bg-accent hover:text-accent-foreground text-xs font-medium"
+                              >
+                                📜 Antigo Testamento
+                              </Link>
+                            </NavigationMenuLink>
+                            <NavigationMenuLink asChild>
+                              <Link
+                                to="/biblia?testament=new"
+                                className="block rounded-md p-2 hover:bg-accent hover:text-accent-foreground text-xs font-medium"
+                              >
+                                ✝️ Novo Testamento
+                              </Link>
+                            </NavigationMenuLink>
+                          </div>
+                        </div>
+                      </div>
+                    </NavigationMenuContent>
+                  </NavigationMenuItem>
+
+                  <NavigationMenuItem>
+                    <NavigationMenuTrigger className="text-display text-sm font-medium bg-transparent hover:bg-muted/60 data-[state=open]:bg-muted/80">
+                      <Palette className="w-4 h-4 mr-2 text-amber-600 dark:text-amber-400" />
+                      Galeria de Arte
+                    </NavigationMenuTrigger>
+                    <NavigationMenuContent>
+                      <div className="w-[300px] p-3">
+                        <div className="grid gap-2">
+                          <NavigationMenuLink asChild>
+                            <Link
+                              to="/arte/painting"
+                              className="block select-none space-y-1 rounded-lg p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground"
+                            >
+                              <div className="text-sm font-semibold text-foreground">Pinturas & Obras Visuais</div>
+                              <p className="text-xs leading-relaxed text-muted-foreground mt-1">
+                                Obras de mestres clássicos, renascentistas e barrocos
+                              </p>
+                            </Link>
+                          </NavigationMenuLink>
+                          <NavigationMenuLink asChild>
+                            <Link
+                              to="/busca"
+                              className="block rounded-md p-2.5 hover:bg-accent hover:text-accent-foreground text-xs font-medium text-muted-foreground"
+                            >
+                              🔍 Busca detalhada por artista ou período
+                            </Link>
+                          </NavigationMenuLink>
+                        </div>
+                      </div>
+                    </NavigationMenuContent>
+                  </NavigationMenuItem>
+
+                  <NavigationMenuItem>
+                    <Link
+                      to="/sobre"
+                      className="inline-flex items-center justify-center rounded-md px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted/60 transition-colors"
+                    >
+                      <Sparkles className="w-4 h-4 mr-1.5 text-amber-500" />
+                      Sobre o Projeto
+                    </Link>
+                  </NavigationMenuItem>
+                </NavigationMenuList>
+              </NavigationMenu>
             </div>
-            <span className="text-display text-xl font-bold text-primary">
-              BiblianaArte.com
-            </span>
-          </Link>
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
-            <NavigationMenu>
-              <NavigationMenuList>
-                <NavigationMenuItem>
-                  <NavigationMenuTrigger className="text-display font-medium">
-                    <Book className="w-4 h-4 mr-2" />
-                    Navegar pela Bíblia
-                  </NavigationMenuTrigger>
-                  <NavigationMenuContent>
-                    <div className="w-[400px] p-4">
-                      <div className="grid gap-3">
-                        <NavigationMenuLink asChild>
-                          <Link 
-                            to="/biblia" 
-                            className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
-                          >
-                            <div className="text-sm font-medium leading-none">Todos os Livros</div>
-                            <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                              Explore os 66 livros da Bíblia e suas conexões artísticas
-                            </p>
-                          </Link>
-                        </NavigationMenuLink>
-                        <NavigationMenuLink asChild>
-                          <Link 
-                            to="/biblia?testament=old" 
-                            className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
-                          >
-                            <div className="text-sm font-medium leading-none">Antigo Testamento</div>
-                            <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                              De Gênesis a Malaquias
-                            </p>
-                          </Link>
-                        </NavigationMenuLink>
-                        <NavigationMenuLink asChild>
-                          <Link 
-                            to="/biblia?testament=new" 
-                            className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
-                          >
-                            <div className="text-sm font-medium leading-none">Novo Testamento</div>
-                            <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                              De Mateus a Apocalipse
-                            </p>
-                          </Link>
-                        </NavigationMenuLink>
-                      </div>
-                    </div>
-                  </NavigationMenuContent>
-                </NavigationMenuItem>
+            {/* Right Actions: Command Palette Button & Theme Toggle */}
+            <div className="flex items-center gap-2">
+              {/* Quick Search Button (Triggers Command Palette) */}
+              <button
+                onClick={() => setPaletteOpen(true)}
+                className="hidden sm:flex items-center gap-3 w-48 md:w-64 px-3 py-1.5 text-xs text-muted-foreground bg-muted/50 hover:bg-muted border border-border/80 rounded-full transition-all shadow-inner focus:outline-none focus:ring-2 focus:ring-ring"
+                aria-label="Abrir busca rápida"
+              >
+                <Search className="w-3.5 h-3.5 text-muted-foreground shrink-0" />
+                <span className="truncate">Buscar livros ou obras...</span>
+                <kbd className="ml-auto pointer-events-none hidden md:inline-flex h-5 select-none items-center gap-0.5 rounded border border-border/80 bg-background px-1.5 font-mono text-[10px] font-medium text-muted-foreground">
+                  <span className="text-xs">⌘</span>K
+                </kbd>
+              </button>
 
-                <NavigationMenuItem>
-                  <NavigationMenuTrigger className="text-display font-medium">
-                    <Palette className="w-4 h-4 mr-2" />
-                    Navegar por Arte
-                  </NavigationMenuTrigger>
-                  <NavigationMenuContent>
-                    <div className="w-[300px] p-4">
-                      <div className="grid gap-3">
-                        <NavigationMenuLink asChild>
-                          <Link 
-                            to="/arte/painting" 
-                            className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
-                          >
-                            <div className="text-sm font-medium leading-none">Pinturas</div>
-                            <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                              Obras de arte visual inspiradas nas Escrituras
-                            </p>
-                          </Link>
-                        </NavigationMenuLink>
-                        <NavigationMenuLink asChild>
-                          <Link 
-                            to="/arte/music" 
-                            className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
-                          >
-                            <div className="text-sm font-medium leading-none">Músicas</div>
-                            <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                              Composições sacras e hinos cristãos
-                            </p>
-                          </Link>
-                        </NavigationMenuLink>
-                        <NavigationMenuLink asChild>
-                          <Link 
-                            to="/arte/film" 
-                            className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
-                          >
-                            <div className="text-sm font-medium leading-none">Filmes</div>
-                            <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                              Cinema inspirado nas narrativas bíblicas
-                            </p>
-                          </Link>
-                        </NavigationMenuLink>
-                      </div>
-                    </div>
-                  </NavigationMenuContent>
-                </NavigationMenuItem>
-              </NavigationMenuList>
-            </NavigationMenu>
+              {/* Mobile Search Icon Button */}
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => setPaletteOpen(true)}
+                className="sm:hidden h-9 w-9 rounded-full"
+                aria-label="Buscar"
+              >
+                <Search className="w-4 h-4" />
+              </Button>
 
-            {/* Search */}
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
-              <Input
-                placeholder="Buscar obras..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-10 w-64"
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter') {
-                    handleSearch();
-                  }
-                }}
-              />
+              {/* Theme Toggle Button */}
+              <ThemeToggle />
+
+              {/* Mobile Menu Trigger */}
+              <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
+                <SheetTrigger asChild className="lg:hidden">
+                  <Button variant="ghost" size="icon" className="h-9 w-9 rounded-full" aria-label="Abrir menu">
+                    <Menu className="w-5 h-5" />
+                  </Button>
+                </SheetTrigger>
+                <SheetContent side="right" className="bg-card border-border w-[280px] p-6">
+                  <SheetHeader className="text-left pb-4 border-b border-border/50">
+                    <SheetTitle className="text-display text-lg font-bold">
+                      BiblianaArte.com
+                    </SheetTitle>
+                  </SheetHeader>
+                  <nav className="flex flex-col gap-2 mt-6">
+                    <button
+                      onClick={() => {
+                        setMobileMenuOpen(false);
+                        setPaletteOpen(true);
+                      }}
+                      className="flex items-center justify-between w-full px-3 py-2 text-sm bg-muted/60 rounded-lg hover:bg-muted text-foreground transition-colors"
+                    >
+                      <span className="flex items-center gap-2">
+                        <Search className="w-4 h-4 text-primary" />
+                        Busca Rápida
+                      </span>
+                      <kbd className="text-[10px] font-mono bg-background px-1 rounded border">⌘K</kbd>
+                    </button>
+
+                    <Link
+                      to="/biblia"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="flex items-center gap-2.5 px-3 py-2 text-sm font-medium rounded-lg hover:bg-accent hover:text-accent-foreground transition-colors"
+                    >
+                      <Book className="w-4 h-4 text-primary" />
+                      <span>Livros da Bíblia</span>
+                    </Link>
+
+                    <Link
+                      to="/arte/painting"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="flex items-center gap-2.5 px-3 py-2 text-sm font-medium rounded-lg hover:bg-accent hover:text-accent-foreground transition-colors"
+                    >
+                      <Palette className="w-4 h-4 text-amber-500" />
+                      <span>Galeria de Pinturas</span>
+                    </Link>
+
+                    <Link
+                      to="/sobre"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="flex items-center gap-2.5 px-3 py-2 text-sm font-medium rounded-lg hover:bg-accent hover:text-accent-foreground transition-colors"
+                    >
+                      <Sparkles className="w-4 h-4 text-amber-500" />
+                      <span>Sobre o Projeto</span>
+                    </Link>
+
+                    <Link
+                      to="/contribuir"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="flex items-center gap-2.5 px-3 py-2 text-sm font-medium rounded-lg hover:bg-accent hover:text-accent-foreground transition-colors"
+                    >
+                      <span>🤝 Contribuir</span>
+                    </Link>
+                  </nav>
+                </SheetContent>
+              </Sheet>
             </div>
           </div>
-
-          {/* Mobile Menu */}
-          <Sheet>
-            <SheetTrigger asChild className="md:hidden">
-              <Button variant="ghost" size="icon">
-                <Menu className="w-5 h-5" />
-              </Button>
-            </SheetTrigger>
-            <SheetContent>
-              <div className="flex flex-col space-y-4 mt-4">
-                <Link to="/biblia" className="flex items-center space-x-2 p-2 hover:bg-accent rounded-md">
-                  <Book className="w-4 h-4" />
-                  <span>Navegar pela Bíblia</span>
-                </Link>
-                <Link to="/arte" className="flex items-center space-x-2 p-2 hover:bg-accent rounded-md">
-                  <Palette className="w-4 h-4" />
-                  <span>Navegar por Arte</span>
-                </Link>
-                <div className="relative">
-                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
-                  <Input
-                    placeholder="Buscar obras..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    className="pl-10"
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter') {
-                        handleSearch();
-                      }
-                    }}
-                  />
-                </div>
-              </div>
-            </SheetContent>
-          </Sheet>
         </div>
-      </div>
-    </header>
+      </header>
+
+      {/* Global Command Palette */}
+      <CommandPalette open={paletteOpen} onOpenChange={setPaletteOpen} />
+    </>
   );
 }

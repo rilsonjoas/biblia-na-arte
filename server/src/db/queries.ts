@@ -88,7 +88,7 @@ export async function getArtworkById(id: string): Promise<ArtworkWithReferences 
 export async function searchArtworks({ q, limit }: SearchArtworksQuery) {
   const rows = await db.execute<ArtworkRow>(
     sql`SELECT
-          id, title,
+          id, title, subtitle,
           artist_or_director AS "artistOrDirector",
           year, category,
           medium_or_genre AS "mediumOrGenre",

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useSearchParams, Link } from 'react-router-dom';
+import { useSearchParams, Link } from 'react-router';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -7,8 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import ArtworkCard from '@/components/ArtworkCard';
-import { LoadingGrid } from '@/components/ui/loading';
+import ArtworkCard, { ArtworkCardSkeleton } from '@/components/ArtworkCard';
 import { ErrorCard } from '@/components/ui/error-display';
 import { 
   Search as SearchIcon, 
@@ -314,7 +313,11 @@ export default function Search() {
             </div>
 
             {isLoading ? (
-              <LoadingGrid count={6} />
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {Array.from({ length: 6 }).map((_, index) => (
+                  <ArtworkCardSkeleton key={index} />
+                ))}
+              </div>
             ) : isError ? (
               <ErrorCard 
                 error={error} 

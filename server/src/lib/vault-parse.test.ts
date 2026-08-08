@@ -7,9 +7,11 @@ import {
   extractFrontmatter,
   extractWikilink,
   extractDescription,
+  extractPassageText,
   parseChapterLink,
   deriveArtistFromFilename,
   normalizeForComparison,
+  parseTitleParts,
   titleFromFilename,
   findImageFile,
 } from './vault-parse.js';
@@ -172,6 +174,51 @@ describe('titleFromFilename', () => {
   });
 });
 
+describe('parseTitleParts', () => {
+  it('separa o original entre parênteses e remove o número desambiguador de dentro', () => {
+    expect(parseTitleParts('O bom samaritano (The Good Samaritan 2)')).toEqual({
+      title: 'O bom samaritano',
+      subtitle: 'The Good Samaritan',
+    });
+  });
+
+  it('separa o original e remove o número depois do parêntese', () => {
+    expect(parseTitleParts('A Ceia em Emaús (De maaltijd te Emmaüs) 2')).toEqual({
+      title: 'A Ceia em Emaús',
+      subtitle: 'De maaltijd te Emmaüs',
+    });
+  });
+
+  it('remove o número desambiguador no fim do título sem parêntese', () => {
+    expect(parseTitleParts('O bom samaritano 2')).toEqual({
+      title: 'O bom samaritano',
+      subtitle: undefined,
+    });
+  });
+
+  it('mantém títulos sem parêntese e sem numeração', () => {
+    expect(parseTitleParts('José explica o sonho do Faraó')).toEqual({
+      title: 'José explica o sonho do Faraó',
+      subtitle: undefined,
+    });
+  });
+
+  it('não confunde anos de 4 dígitos com desambiguador', () => {
+    expect(parseTitleParts('O bom pastor (The Good Shepherd, 2020)')).toEqual({
+      title: 'O bom pastor',
+      subtitle: 'The Good Shepherd, 2020',
+    });
+    expect(parseTitleParts('Desembarque de Pedro Álvares Cabral em Porto Seguro em 1500')).toEqual({
+      title: 'Desembarque de Pedro Álvares Cabral em Porto Seguro em 1500',
+      subtitle: undefined,
+    });
+  });
+
+  it('não remove número de 3 dígitos como título de salmo', () => {
+    expect(parseTitleParts('Salmo 148')).toEqual({ title: 'Salmo 148', subtitle: undefined });
+  });
+});
+
 describe('findImageFile', () => {
   it('encontra a imagem embutida em 0 - Anexos', () => {
     const dir = mkdtempSync(path.join(tmpdir(), 'vault-parse-test-'));
@@ -195,3 +242,49 @@ describe('findImageFile', () => {
     expect(findImageFile('![[faltando.jpg]]', '/nao/existe')).toBeNull();
   });
 });
+
+describe('extractPassageText', () => {
+  it('extrai citações bíblicas da amostra', () => {
+    const passage = extractPassageText(SAMPLE_NOTE);
+    expect(passage).toBe(
+      '"E, chegando-se a ele, atou-lhe as feridas..."\n— **Lucas 10:34**',
+    );
+  });
+
+  it('extrai múltiplas citações e ignora o comentário teológico abaixo', () => {
+    const note = `---
+autor: "[[Albrecht Dürer]]"
+---
+### 📖 Contexto Bíblico
+> "Sei que buscais a Jesus, que foi crucificado."
+> — **[[Mateus 28]]:5-6**
+
+> "Mas de fato Cristo ressuscitou..."
+> — **[[1 Coríntios 15]]:20**
+
+Teologicamente, Cristo ressurreto é primícias da nova criação...
+`;
+    const passage = extractPassageText(note);
+    expect(passage).toContain('"Sei que buscais a Jesus, que foi crucificado."');
+    expect(passage).toContain('— **Mateus 28:5-6**');
+    expect(passage).toContain('"Mas de fato Cristo ressuscitou..."');
+    expect(passage).toContain('— **1 Coríntios 15:20**');
+    expect(passage).not.toContain('Teologicamente');
+  });
+
+  it('retorna null para notas-stub "Ver [[Livro]]"', () => {
+    const stub = `---
+autor: "[[Autor]]"
+---
+### Contexto Bíblico
+Ver [[Lucas]], [[Lucas 10]].
+`;
+    expect(extractPassageText(stub)).toBeNull();
+  });
+
+  it('retorna null se a seção estiver vazia ou ausente', () => {
+    expect(extractPassageText('--- \nautor: "X"\n---')).toBeNull();
+    expect(extractPassageText('### Contexto Bíblico\n\n')).toBeNull();
+  });
+});
+

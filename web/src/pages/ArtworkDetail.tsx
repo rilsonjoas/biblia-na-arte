@@ -1,42 +1,106 @@
-import { useParams, Link } from 'react-router-dom';
+import { useState } from 'react';
+import { useParams, Link } from 'react-router';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { AspectRatio } from '@/components/ui/aspect-ratio';
+import { Skeleton } from '@/components/ui/skeleton';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import { LoadingCard } from '@/components/ui/loading';
+import ArtworkCard from '@/components/ArtworkCard';
+import { ArtworkLightbox } from '@/components/ArtworkLightbox';
 import { ErrorCard, NotFoundError } from '@/components/ui/error-display';
-import { useArtwork } from '@/hooks/use-artworks';
-import { Music, Film, Palette, ExternalLink, Calendar, User, Ruler, Info } from 'lucide-react';
+import { Markdown } from '@/components/ui/markdown';
+import { useArtwork, useArtworksByBibleReference, useArtworks } from '@/hooks/use-artworks';
+import {
+  Music,
+  Film,
+  Palette,
+  ExternalLink,
+  Calendar,
+  User,
+  Ruler,
+  Info,
+  Maximize2,
+  BookOpen,
+  ShieldCheck,
+  ChevronRight,
+} from 'lucide-react';
 
 export default function ArtworkDetail() {
   const { artworkId } = useParams<{ artworkId: string }>();
-  
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [imageLoaded, setImageLoaded] = useState(false);
+
   const { data: artwork, isLoading, isError, error, refetch } = useArtwork(artworkId);
-  
+
+  // Fetch related artworks by first Bible reference
+  const firstRef = artwork?.references?.[0];
+  const { data: chapterArtworks = [] } = useArtworksByBibleReference(
+    firstRef?.bookSlug,
+    firstRef?.chapter
+  );
+
+  // Fetch other works by same artist
+  const { data: allArtworks = [] } = useArtworks();
+  const artistArtworks = artwork
+    ? allArtworks.filter(
+        (a) =>
+          a.id !== artwork.id &&
+          a.artistOrDirector.toLowerCase() === artwork.artistOrDirector.toLowerCase()
+      )
+    : [];
+
+  const relatedArtworks = (
+    chapterArtworks.filter((a) => a.id !== artwork?.id).length > 0
+      ? chapterArtworks.filter((a) => a.id !== artwork?.id)
+      : artistArtworks
+  ).slice(0, 4);
+
   if (!artworkId) {
     return (
-      <div className="min-h-screen bg-background">
+      <div className="min-h-screen bg-background flex flex-col">
         <Header />
-        <div className="container mx-auto px-4 py-12">
-          <ErrorCard 
-            error={new Error('ID da obra não fornecido')} 
-            title="Erro de Navegação"
-          />
-        </div>
+        <main className="container mx-auto px-4 py-12 flex-1">
+          <ErrorCard error={new Error('ID da obra não fornecido')} title="Erro de Navegação" />
+        </main>
         <Footer />
       </div>
     );
   }
-  
+
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-background">
+      <div className="min-h-screen bg-background flex flex-col">
         <Header />
-        <div className="container mx-auto px-4 py-12">
-          <LoadingCard text="Carregando obra de arte..." />
-        </div>
+        <main className="container mx-auto px-4 py-8 flex-1">
+          {/* Skeleton Breadcrumb */}
+          <div className="flex items-center space-x-2 mb-8">
+            <Skeleton className="h-4 w-16" />
+            <Skeleton className="h-4 w-4" />
+            <Skeleton className="h-4 w-24" />
+            <Skeleton className="h-4 w-4" />
+            <Skeleton className="h-4 w-48" />
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-12">
+            <div className="lg:col-span-7">
+              <AspectRatio ratio={4 / 3}>
+                <Skeleton className="w-full h-full rounded-xl" />
+              </AspectRatio>
+            </div>
+            <div className="lg:col-span-5 space-y-4">
+              <Skeleton className="h-6 w-24 rounded-full" />
+              <Skeleton className="h-10 w-3/4" />
+              <Skeleton className="h-6 w-1/2" />
+              <div className="space-y-2 pt-4">
+                <Skeleton className="h-4 w-full" />
+                <Skeleton className="h-4 w-full" />
+                <Skeleton className="h-4 w-3/4" />
+              </div>
+            </div>
+          </div>
+        </main>
         <Footer />
       </div>
     );
@@ -44,15 +108,11 @@ export default function ArtworkDetail() {
 
   if (isError) {
     return (
-      <div className="min-h-screen bg-background">
+      <div className="min-h-screen bg-background flex flex-col">
         <Header />
-        <div className="container mx-auto px-4 py-12">
-          <ErrorCard 
-            error={error} 
-            onRetry={refetch}
-            title="Erro ao carregar obra"
-          />
-        </div>
+        <main className="container mx-auto px-4 py-12 flex-1">
+          <ErrorCard error={error} onRetry={refetch} title="Erro ao carregar obra" />
+        </main>
         <Footer />
       </div>
     );
@@ -60,11 +120,11 @@ export default function ArtworkDetail() {
 
   if (!artwork) {
     return (
-      <div className="min-h-screen bg-background">
+      <div className="min-h-screen bg-background flex flex-col">
         <Header />
-        <div className="container mx-auto px-4 py-12">
+        <main className="container mx-auto px-4 py-12 flex-1">
           <NotFoundError />
-        </div>
+        </main>
         <Footer />
       </div>
     );
@@ -73,13 +133,13 @@ export default function ArtworkDetail() {
   const getCategoryIcon = () => {
     switch (artwork.category) {
       case 'painting':
-        return <Palette className="w-5 h-5" />;
+        return <Palette className="w-4 h-4" />;
       case 'music':
-        return <Music className="w-5 h-5" />;
+        return <Music className="w-4 h-4" />;
       case 'film':
-        return <Film className="w-5 h-5" />;
+        return <Film className="w-4 h-4" />;
       default:
-        return <Palette className="w-5 h-5" />;
+        return <Palette className="w-4 h-4" />;
     }
   };
 
@@ -96,151 +156,226 @@ export default function ArtworkDetail() {
     }
   };
 
+  const imageUrl = artwork.imageUrl;
+
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background flex flex-col">
       <Header />
-      
-      <div className="container mx-auto px-4 py-12">
+
+      <main className="container mx-auto px-4 py-8 flex-1">
         {/* Breadcrumb */}
-        <div className="flex items-center space-x-2 text-sm text-muted-foreground mb-8">
-          <Link to="/" className="hover:text-foreground transition-colors">
+        <nav aria-label="Breadcrumb" className="flex items-center flex-wrap gap-2 text-xs md:text-sm text-muted-foreground mb-6">
+          <Link to="/" className="hover:text-primary transition-colors">
             Início
           </Link>
-          <span>/</span>
-          <Link to="/arte" className="hover:text-foreground transition-colors">
+          <ChevronRight className="w-3.5 h-3.5 text-muted-foreground/60" />
+          <Link to="/arte" className="hover:text-primary transition-colors">
             Arte
           </Link>
-          <span>/</span>
-          <Link to={`/arte/${artwork.category}`} className="hover:text-foreground transition-colors">
+          <ChevronRight className="w-3.5 h-3.5 text-muted-foreground/60" />
+          <Link to={`/arte/${artwork.category}`} className="hover:text-primary transition-colors">
             {getCategoryLabel()}
           </Link>
-          <span>/</span>
-          <span className="text-foreground">{artwork.title}</span>
-        </div>
+          <ChevronRight className="w-3.5 h-3.5 text-muted-foreground/60" />
+          <span className="text-foreground font-medium truncate max-w-[200px] sm:max-w-md">
+            {artwork.title}
+          </span>
+        </nav>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-12">
-          {/* Image/Media Section */}
-          <div>
-            <Card className="gradient-card border-0 overflow-hidden">
-              <CardContent className="p-0">
-                <AspectRatio ratio={4/3}>
-                  {artwork.embedUrl ? (
-                    <iframe
-                      src={artwork.embedUrl}
-                      title={artwork.title}
-                      className="w-full h-full rounded-lg"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowFullScreen
-                    />
-                  ) : artwork.imageUrl ? (
+        {/* Main Artwork Stage */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 mb-12 items-start">
+          {/* Image / Media Column */}
+          <div className="lg:col-span-7 space-y-3">
+            <div className="relative group rounded-xl overflow-hidden bg-muted/40 border border-border/70 shadow-lg">
+              <AspectRatio ratio={4 / 3}>
+                {artwork.embedUrl ? (
+                  <iframe
+                    src={artwork.embedUrl}
+                    title={artwork.title}
+                    className="w-full h-full rounded-xl"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  />
+                ) : imageUrl ? (
+                  <>
+                    {!imageLoaded && (
+                      <Skeleton className="absolute inset-0 w-full h-full rounded-none" />
+                    )}
                     <img
-                      src={artwork.imageUrl}
+                      src={imageUrl}
                       alt={artwork.title}
-                      className="w-full h-full object-cover rounded-lg"
+                      onLoad={() => setImageLoaded(true)}
+                      className={`w-full h-full object-contain bg-black/5 dark:bg-black/40 rounded-xl transition-all duration-300 group-hover:scale-[1.02] cursor-pointer ${
+                        imageLoaded ? 'opacity-100' : 'opacity-0'
+                      }`}
+                      onClick={() => setLightboxOpen(true)}
                     />
-                  ) : (
-                    <div className="w-full h-full bg-muted rounded-lg flex items-center justify-center">
-                      {getCategoryIcon()}
-                    </div>
-                  )}
-                </AspectRatio>
-              </CardContent>
-            </Card>
+                    {/* Hover Zoom Overlay Badge */}
+                    <button
+                      onClick={() => setLightboxOpen(true)}
+                      className="absolute bottom-3 right-3 flex items-center gap-1.5 bg-black/75 hover:bg-black/90 text-white backdrop-blur px-3 py-1.5 rounded-full text-xs font-medium shadow-lg transition-transform group-hover:scale-105"
+                      title="Clique para ampliar em alta resolução"
+                    >
+                      <Maximize2 className="w-3.5 h-3.5 text-amber-400" />
+                      <span>Ampliar Obra (HD)</span>
+                    </button>
+                  </>
+                ) : (
+                  <div className="w-full h-full bg-muted rounded-xl flex items-center justify-center">
+                    {getCategoryIcon()}
+                  </div>
+                )}
+              </AspectRatio>
+            </div>
+
+            {/* Quick action bar below image */}
+            <div className="flex items-center justify-between text-xs text-muted-foreground px-1">
+              <span className="italic">{artwork.mediumOrGenre || 'Óleo sobre tela'}</span>
+              <button
+                onClick={() => setLightboxOpen(true)}
+                className="hover:text-primary transition-colors flex items-center gap-1 underline underline-offset-4"
+              >
+                Inspecionar detalhes da pintura
+              </button>
+            </div>
           </div>
 
-          {/* Details Section */}
-          <div className="space-y-6">
+          {/* Artwork Info & Metadata Column */}
+          <div className="lg:col-span-5 space-y-6">
             <div>
-              <Badge variant="secondary" className="mb-4">
-                {getCategoryIcon()}
-                <span className="ml-2">{getCategoryLabel()}</span>
-              </Badge>
-              
-              <h1 className="text-display text-3xl md:text-4xl font-bold mb-4">
+              <div className="flex items-center gap-2 mb-3">
+                <Badge variant="secondary" className="gap-1.5 px-2.5 py-1 text-xs">
+                  {getCategoryIcon()}
+                  <span>{getCategoryLabel()}</span>
+                </Badge>
+
+                {artwork.licenseType === 'public-domain' ? (
+                  <Badge variant="outline" className="text-xs text-emerald-600 dark:text-emerald-400 border-emerald-500/30 bg-emerald-500/5 gap-1">
+                    <ShieldCheck className="w-3.5 h-3.5" />
+                    <span>Domínio Público</span>
+                  </Badge>
+                ) : (
+                  <Badge variant="outline" className="text-xs text-amber-600 dark:text-amber-400 border-amber-500/30 bg-amber-500/5 gap-1">
+                    <Info className="w-3.5 h-3.5" />
+                    <span>Licenciado</span>
+                  </Badge>
+                )}
+              </div>
+
+              <h1 className="text-display text-2xl md:text-4xl font-bold mb-2 leading-tight">
                 {artwork.title}
               </h1>
-              
-              <div className="space-y-3 text-lg">
-                <div className="flex items-center space-x-2">
-                  <User className="w-5 h-5 text-muted-foreground" />
-                  <span className="font-semibold">{artwork.artistOrDirector}</span>
+
+              {artwork.subtitle && (
+                <p className="text-lg md:text-xl text-muted-foreground italic mb-4 font-serif">
+                  {artwork.subtitle}
+                </p>
+              )}
+
+              {/* Creator & Metadata details */}
+              <div className="p-4 rounded-xl bg-card border border-border/70 space-y-2.5 text-sm">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2 text-muted-foreground">
+                    <User className="w-4 h-4 text-primary" />
+                    <span>Artista:</span>
+                  </div>
+                  <span className="font-semibold text-foreground">{artwork.artistOrDirector}</span>
                 </div>
-                
+
                 {artwork.year && (
-                  <div className="flex items-center space-x-2">
-                    <Calendar className="w-5 h-5 text-muted-foreground" />
-                    <span>{artwork.year}</span>
+                  <div className="flex items-center justify-between border-t border-border/40 pt-2">
+                    <div className="flex items-center gap-2 text-muted-foreground">
+                      <Calendar className="w-4 h-4 text-primary" />
+                      <span>Ano / Datação:</span>
+                    </div>
+                    <span className="font-mono text-foreground">{artwork.year}</span>
                   </div>
                 )}
-                
-                {artwork.mediumOrGenre && (
-                  <div className="flex items-center space-x-2">
-                    <Palette className="w-5 h-5 text-muted-foreground" />
-                    <span>{artwork.mediumOrGenre}</span>
-                  </div>
-                )}
-                
+
                 {artwork.dimensionsOrDuration && (
-                  <div className="flex items-center space-x-2">
-                    <Ruler className="w-5 h-5 text-muted-foreground" />
-                    <span>{artwork.dimensionsOrDuration}</span>
+                  <div className="flex items-center justify-between border-t border-border/40 pt-2">
+                    <div className="flex items-center gap-2 text-muted-foreground">
+                      <Ruler className="w-4 h-4 text-primary" />
+                      <span>Dimensões:</span>
+                    </div>
+                    <span className="text-foreground">{artwork.dimensionsOrDuration}</span>
                   </div>
                 )}
               </div>
             </div>
 
+            {/* Description Section */}
             <div>
-              <h2 className="text-display text-xl font-semibold mb-3">Descrição</h2>
-              <p className="text-foreground/80 leading-relaxed">
-                {artwork.description}
-              </p>
+              <h2 className="text-display text-xl font-semibold mb-2">Sobre esta Obra</h2>
+              <div className="text-foreground/90 text-sm md:text-base leading-relaxed">
+                <Markdown content={artwork.description} />
+              </div>
             </div>
 
-            {/* Atribuição — obrigatória por licença (ex. CC BY-SA), não
-                cosmética. Ver auditoria de direitos autorais no vault. */}
+            {/* License and Attribution */}
             {artwork.attributionText && (
-              <div className="flex items-start space-x-2 text-sm text-muted-foreground bg-muted/50 rounded-lg p-4">
-                <Info className="w-4 h-4 mt-0.5 flex-shrink-0" />
-                <span>{artwork.attributionText}</span>
+              <div className="flex items-start space-x-3 text-xs text-muted-foreground bg-muted/40 border border-border/60 rounded-xl p-3.5">
+                <Info className="w-4 h-4 mt-0.5 text-primary shrink-0" />
+                <div className="space-y-0.5">
+                  <p className="font-medium text-foreground">Direitos e Atribuição</p>
+                  <p className="leading-snug">{artwork.attributionText}</p>
+                </div>
               </div>
             )}
 
             {artwork.sourceUrl && (
-              <Button asChild variant="outline" className="shadow-card">
+              <Button asChild variant="outline" size="sm" className="w-full">
                 <a href={artwork.sourceUrl} target="_blank" rel="noopener noreferrer">
                   <ExternalLink className="w-4 h-4 mr-2" />
-                  Ver Fonte Original
+                  Ver Fonte Original do Museu
                 </a>
               </Button>
             )}
           </div>
         </div>
 
-        {/* Biblical References */}
+        {/* Biblical References Section */}
         {artwork.references.length > 0 && (
-          <Card className="gradient-card border-0 mb-12">
-            <CardHeader>
-              <CardTitle className="text-display text-2xl">
-                Referências Bíblicas
-              </CardTitle>
+          <Card className="border border-border/70 bg-card mb-12 shadow-sm rounded-xl overflow-hidden">
+            <CardHeader className="bg-muted/30 border-b border-border/40 pb-4">
+              <div className="flex items-center gap-2">
+                <BookOpen className="w-5 h-5 text-primary" />
+                <CardTitle className="text-display text-xl md:text-2xl">
+                  Passagens Bíblicas Relacionadas
+                </CardTitle>
+              </div>
             </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <CardContent className="p-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {artwork.references.map((ref, index) => (
-                  <Card key={index} className="border bg-background/50">
-                    <CardContent className="p-4">
-                      <Link 
-                        to={`/biblia/${ref.bookSlug}/${ref.chapter}`}
-                        className="block hover:text-primary transition-colors"
-                      >
-                        <h3 className="font-semibold mb-1">
+                  <Card key={index} className="border border-border/60 bg-background/80 flex flex-col justify-between hover:border-accent/50 transition-colors">
+                    <CardContent className="p-4 space-y-3">
+                      <div className="flex items-center justify-between">
+                        <Link
+                          to={`/biblia/${ref.bookSlug}/${ref.chapter}`}
+                          className="font-display text-lg font-semibold text-primary hover:underline"
+                        >
                           {ref.book} {ref.chapter}
                           {ref.verses && `:${ref.verses}`}
-                        </h3>
-                        <p className="text-sm text-muted-foreground">
-                          Clique para ver outras obras inspiradas nesta passagem
-                        </p>
-                      </Link>
+                        </Link>
+                        <Badge variant="outline" className="text-xs">
+                          Capítulo {ref.chapter}
+                        </Badge>
+                      </div>
+
+                      {ref.passageText && (
+                        <div className="pt-2 border-t border-border/40 text-xs md:text-sm text-foreground/90 font-serif leading-relaxed italic bg-muted/20 p-3 rounded-lg">
+                          <Markdown content={ref.passageText} />
+                        </div>
+                      )}
+
+                      <div className="pt-2">
+                        <Button asChild variant="ghost" size="sm" className="h-7 text-xs px-2 hover:text-primary">
+                          <Link to={`/biblia/${ref.bookSlug}/${ref.chapter}`}>
+                            Ler capítulo completo e ver outras obras →
+                          </Link>
+                        </Button>
+                      </div>
                     </CardContent>
                   </Card>
                 ))}
@@ -249,20 +384,40 @@ export default function ArtworkDetail() {
           </Card>
         )}
 
-        {/* Navigation */}
-        <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <Button asChild variant="outline" className="shadow-card">
-            <Link to={`/arte/${artwork.category}`}>
-              Ver Mais {getCategoryLabel()}s
-            </Link>
-          </Button>
-          <Button asChild variant="outline" className="shadow-card">
-            <Link to="/arte">
-              Explorar Todas as Artes
-            </Link>
-          </Button>
-        </div>
-      </div>
+        {/* Related Artworks Section */}
+        {relatedArtworks.length > 0 && (
+          <section className="mb-12">
+            <div className="flex items-center justify-between mb-6">
+              <div>
+                <h2 className="text-display text-2xl font-bold">Obras Relacionadas</h2>
+                <p className="text-xs md:text-sm text-muted-foreground">
+                  Explore outras representações desta passagem ou do mesmo mestre da arte
+                </p>
+              </div>
+              {firstRef && (
+                <Button asChild variant="outline" size="sm">
+                  <Link to={`/biblia/${firstRef.bookSlug}/${firstRef.chapter}`}>
+                    Ver todas do capítulo
+                  </Link>
+                </Button>
+              )}
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              {relatedArtworks.map((related) => (
+                <ArtworkCard key={related.id} artwork={related} showReferences={false} />
+              ))}
+            </div>
+          </section>
+        )}
+      </main>
+
+      {/* Lightbox Modal */}
+      <ArtworkLightbox
+        artwork={artwork}
+        isOpen={lightboxOpen}
+        onClose={() => setLightboxOpen(false)}
+      />
 
       <Footer />
     </div>

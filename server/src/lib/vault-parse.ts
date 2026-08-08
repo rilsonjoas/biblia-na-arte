@@ -98,6 +98,84 @@ export function titleFromFilename(filename: string): string {
     : nameWithoutExt;
 }
 
+/** Remove o número desambiguador que o vault acrescenta quando há mais de
+ *  uma obra com o mesmo título ("O bom samaritano 2" -> "O bom samaritano").
+ *  Só mexe em números de 1-2 dígitos no fim — anos de 4 dígitos ("...em
+ *  1500") e títulos como "Salmo 148" ficam intactos. */
+function stripTrailingNumber(value: string): string {
+  return value.replace(/\s+(\d{1,2})\s*$/, '').trim();
+}
+
+/** Separa o título da obra do título original do pintor (entre parênteses no
+ *  nome do arquivo) e remove o número desambiguador. O desambiguador pode
+ *  aparecer no fim do título ("O bom samaritano 2"), depois do parêntese
+ *  ("A Ceia em Emaús (De maaltijd te Emmaüs) 2") ou dentro dele
+ *  ("O bom samaritano (The Good Samaritan 2)") — em todos os casos a
+ *  desambiguação final é por ano (frontmatter), não pelo número do arquivo.
+ *
+ *  "O bom samaritano (The Good Samaritan 2)" -> { title: "O bom samaritano", subtitle: "The Good Samaritan" }
+ *  "A Ceia em Emaús (De maaltijd te Emmaüs) 2" -> { title: "A Ceia em Emaús", subtitle: "De maaltijd te Emmaüs" }
+ *  "O bom samaritano 2" -> { title: "O bom samaritano", subtitle: undefined }
+ *  "José explica o sonho do Faraó" -> { title: "José explica o sonho do Faraó", subtitle: undefined }
+ */
+export function parseTitleParts(rawTitle: string): { title: string; subtitle?: string } {
+  const trimmed = rawTitle.trim();
+  const parenMatch = trimmed.match(/^(.*?)\s*\(([^()]*)\)\s*(\d{1,2})?$/);
+  if (parenMatch?.[1] && parenMatch[2] !== undefined) {
+    const title = stripTrailingNumber(parenMatch[1]) || trimmed;
+    const subtitle = stripTrailingNumber(parenMatch[2]);
+    // "(O bezerro de ouro)" repetindo o título não é subtítulo — é ruído.
+    return subtitle && subtitle !== title ? { title, subtitle } : { title };
+  }
+  return { title: stripTrailingNumber(trimmed) };
+}
+
+/** Extrai os trechos em citação (> ...) da seção "Contexto Bíblico".
+ *  Ignora notas-stub do tipo "Ver [[Livro]]" e comentários teológicos abaixo das citações.
+ *  Desembrulha wikilinks para formato markdown limpo (ex: [[João 8]] -> João 8).
+ */
+export function extractPassageText(content: string): string | null {
+  const match = content.match(/###\s*(?:📖\s*)?Contexto Bíblico\s*\n+([\s\S]*?)(?=\n---|\n###|$)/i);
+  if (!match?.[1]) return null;
+
+  const section = match[1].trim();
+  if (!section || section.startsWith('Ver [[')) return null;
+
+  const lines = section.split('\n');
+  const quotes: string[] = [];
+  let currentQuote: string[] = [];
+
+  for (const line of lines) {
+    const trimmed = line.trim();
+    if (trimmed.startsWith('>')) {
+      currentQuote.push(trimmed.replace(/^>\s?/, ''));
+    } else if (trimmed === '' && currentQuote.length > 0) {
+      quotes.push(currentQuote.join('\n'));
+      currentQuote = [];
+    } else if (trimmed !== '' && !trimmed.startsWith('>')) {
+      // Linha de comentário pós-citação — interrompe a coleta de citações bíblicas
+      if (currentQuote.length > 0) {
+        quotes.push(currentQuote.join('\n'));
+        currentQuote = [];
+      }
+      break;
+    }
+  }
+  if (currentQuote.length > 0) {
+    quotes.push(currentQuote.join('\n'));
+  }
+
+  if (quotes.length === 0) return null;
+
+  const cleaned = quotes
+    .join('\n\n')
+    .replace(/\[\[([^\]]+)\]\]/g, '$1')
+    .replace(/\*\*([^*]+)\*\*:(\d+[\d\-,]*)/g, '**$1:$2**')
+    .trim();
+
+  return cleaned.length > 0 ? cleaned.slice(0, 3000) : null;
+}
+
 /** Procura a imagem embutida (`![[arquivo.jpg|600]]`) em 0 - Anexos. */
 export function findImageFile(content: string, anexosDir: string): string | null {
   const m = content.match(/!\[\[([^\]|]+\.(?:jpe?g|png|gif|webp|svg))/i);
@@ -106,3 +184,4 @@ export function findImageFile(content: string, anexosDir: string): string | null
   const fullPath = path.join(anexosDir, basename);
   return existsSync(fullPath) ? fullPath : null;
 }
+

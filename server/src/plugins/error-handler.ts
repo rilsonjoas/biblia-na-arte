@@ -1,6 +1,7 @@
 import type { FastifyInstance, FastifyError } from 'fastify';
 import { ZodError } from 'zod';
 import { isProduction } from '../config.js';
+import { BibleTextNotFoundError, BibleTextUpstreamError } from '../lib/bible-api.js';
 
 export class NotFoundError extends Error {
   constructor(resource: string) {
@@ -21,6 +22,24 @@ export function registerErrorHandler(app: FastifyInstance) {
 
     if (error instanceof NotFoundError) {
       return reply.status(404).send({ error: 'not_found', message: error.message });
+    }
+
+    if (error instanceof BibleTextNotFoundError) {
+      return reply.status(404).send({ error: 'not_found', message: error.message });
+    }
+
+    if (error instanceof BibleTextUpstreamError) {
+      return reply.status(502).send({ error: 'upstream_error', message: error.message });
+    }
+
+    // Validação do Fastify (schemas JSON das rotas) — mesmo formato do Zod,
+    // pra quem consome a API não precisar saber de qual camada veio o 400.
+    if ('validation' in error && error.validation) {
+      return reply.status(400).send({
+        error: 'validation_error',
+        message: 'Parâmetros inválidos',
+        issues: error.validation,
+      });
     }
 
     // fastify-rate-limit anexa statusCode 429 no erro

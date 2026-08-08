@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { Navigate } from 'react-router-dom';
+import { Navigate } from 'react-router';
 import { useAuth } from '@/contexts/AuthContext';
 import { LoadingCard } from '@/components/ui/loading';
 import Header from '@/components/Header';

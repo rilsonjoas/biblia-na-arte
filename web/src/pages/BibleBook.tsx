@@ -1,10 +1,11 @@
-import { useParams, Link } from 'react-router-dom';
+import { useMemo } from 'react';
+import { useParams, Link } from 'react-router';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import ArtworkCard from '@/components/ArtworkCard';
+import ArtworkCard, { ArtworkCardSkeleton } from '@/components/ArtworkCard';
 import { LoadingGrid, Loading } from '@/components/ui/loading';
 import { ErrorCard, NotFoundError } from '@/components/ui/error-display';
 import { useBibleBookBySlug } from '@/hooks/use-bible-books';
@@ -26,6 +27,17 @@ export default function BibleBook() {
 
   // Get description data
   const bookDescription = bibleDescriptions.find(desc => desc.slug === bookSlug);
+
+  // Capítulos que têm pelo menos uma obra de arte (destaque na navegação)
+  const chaptersWithArtwork = useMemo(() => {
+    const chapters = new Set<number>();
+    for (const artwork of artworks) {
+      for (const ref of artwork.references) {
+        if (ref.bookSlug === bookSlug) chapters.add(ref.chapter);
+      }
+    }
+    return chapters;
+  }, [artworks, bookSlug]);
 
   if (!bookSlug) {
     return (
@@ -141,6 +153,43 @@ export default function BibleBook() {
           </div>
         </div>
 
+        {/* Chapters Navigator */}
+        <div className="mb-16">
+          <div className="text-center mb-8">
+            <Badge variant="secondary" className="mb-4 shadow-golden">
+              <Book className="w-4 h-4 mr-2" />
+              Capítulos
+            </Badge>
+
+            <h2 className="text-display text-3xl font-bold mb-2">
+              Navegue por Capítulos
+            </h2>
+
+            <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
+              Os capítulos em destaque têm obras de arte. Clique em qualquer
+              um para ver o texto bíblico e as obras relacionadas.
+            </p>
+          </div>
+
+          <div className="flex flex-wrap gap-2 justify-center">
+            {Array.from({ length: book.chapters }, (_, index) => index + 1).map((chapter) => {
+              const hasArtwork = chaptersWithArtwork.has(chapter);
+              return (
+                <Link key={chapter} to={`/biblia/${book.slug}/${chapter}`}>
+                  <Badge
+                    variant={hasArtwork ? 'secondary' : 'outline'}
+                    className={`px-3 py-2 text-sm transition-colors hover:bg-primary hover:text-primary-foreground ${
+                      hasArtwork ? 'shadow-sm' : 'opacity-70'
+                    }`}
+                  >
+                    {chapter}
+                  </Badge>
+                </Link>
+              );
+            })}
+          </div>
+        </div>
+
         {/* Book Information Grid */}
         {bookDescription && (
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
@@ -235,11 +284,10 @@ export default function BibleBook() {
 
           {/* Artworks Loading State */}
           {artworksLoading && (
-            <div className="space-y-8">
-              <div className="text-center">
-                <Loading text="Carregando obras de arte..." />
-              </div>
-              <LoadingGrid count={6} />
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {Array.from({ length: 6 }).map((_, index) => (
+                <ArtworkCardSkeleton key={index} />
+              ))}
             </div>
           )}
 

@@ -43,6 +43,7 @@ export const artworks = pgTable(
   {
     id: uuid('id').defaultRandom().primaryKey(),
     title: text('title').notNull(),
+    subtitle: text('subtitle'),
     artistOrDirector: text('artist_or_director').notNull(),
     year: text('year'),
     category: artworkCategoryEnum('category').notNull(),
@@ -91,6 +92,7 @@ export const bibleReferences = pgTable(
     bookSlug: text('book_slug').notNull(),
     chapter: integer('chapter').notNull(),
     verses: text('verses'),
+    passageText: text('passage_text'),
     createdAt: timestamp('created_at', { withTimezone: true }).defaultNow(),
   },
   (table) => [
@@ -99,3 +101,4 @@ export const bibleReferences = pgTable(
     index('idx_bible_references_chapter').on(table.chapter),
   ],
 );
+

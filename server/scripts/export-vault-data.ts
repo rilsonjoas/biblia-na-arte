@@ -17,11 +17,13 @@ import path from 'node:path';
 import {
   extractDescription,
   extractFrontmatter,
+  extractPassageText,
   extractWikilink,
   findImageFile,
   deriveArtistFromFilename,
   normalizeForComparison,
   parseChapterLink,
+  parseTitleParts,
   slugify,
   titleFromFilename,
 } from '../src/lib/vault-parse.js';
@@ -128,19 +130,21 @@ interface ExportedReference {
   book: string;
   bookSlug: string;
   chapter: number;
-  verses?: string;
+  verses?: string | undefined;
+  passageText?: string | undefined;
 }
 
 interface ExportedArtwork {
   slug: string;
   title: string;
+  subtitle?: string | undefined;
   artistOrDirector: string;
-  year?: string;
+  year?: string | undefined;
   category: 'painting';
   description: string;
   imageFile: string; // nome do arquivo já copiado pra web/public/images/
   licenseType: string;
-  attributionText?: string;
+  attributionText?: string | undefined;
   references: ExportedReference[];
 }
 
@@ -187,16 +191,19 @@ function main() {
       continue;
     }
 
-    const title = titleFromFilename(file);
+    const parsedTitle = parseTitleParts(titleFromFilename(file));
+    const title = parsedTitle.title;
     const slug = slugify(`${artist}-${title}`);
     const ext = path.extname(imageSourcePath);
     const imageFile = `${slug}${ext}`;
 
     copyFileSync(imageSourcePath, path.join(OUTPUT_IMAGES_DIR, imageFile));
 
+    const passageText = extractPassageText(content);
     const references: ExportedReference[] = [];
     const capitulos = Array.isArray(frontmatter.capítulos) ? frontmatter.capítulos : [];
-    for (const raw of capitulos) {
+    for (let i = 0; i < capitulos.length; i++) {
+      const raw = capitulos[i];
       const parsed = parseChapterLink(raw);
       if (!parsed) continue;
       const book = resolveBibleBook(parsed.book);
@@ -209,6 +216,7 @@ function main() {
         bookSlug: book.slug,
         chapter: parsed.chapter,
         verses: parsed.verse,
+        passageText: (i === 0 && passageText) ? passageText : undefined,
       });
     }
 
@@ -219,6 +227,7 @@ function main() {
     artworks.push({
       slug,
       title,
+      subtitle: parsedTitle.subtitle,
       artistOrDirector: artist,
       year,
       category: 'painting',
@@ -241,7 +250,7 @@ function main() {
   }
 
   const skipCounts = skipped.reduce<Record<string, number>>((acc, s) => {
-    const key = s.reason.split(':')[0];
+    const key = s.reason.split(':')[0] ?? s.reason;
     acc[key] = (acc[key] ?? 0) + 1;
     return acc;
   }, {});

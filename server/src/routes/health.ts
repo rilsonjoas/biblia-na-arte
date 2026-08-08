@@ -1,16 +1,23 @@
 import type { FastifyInstance } from 'fastify';
-import { sql } from 'drizzle-orm';
-import { db } from '../db/client.js';
+import { z } from 'zod';
+import { zodToJsonSchema } from 'zod-to-json-schema';
+import { errorResponseSchema } from '../schemas/response.schema.js';
 
-// Usado pelo Traefik/Uptime Kuma pra saber se o serviço (e o banco) estão
-// de pé. Sem autenticação — não vaza nada sensível, só um booleano.
+const healthResponseJson = zodToJsonSchema(z.object({ status: z.string() }), {
+  $refStrategy: 'none',
+});
+const errorJson = zodToJsonSchema(errorResponseSchema, { $refStrategy: 'none' });
+
 export async function healthRoutes(app: FastifyInstance) {
-  app.get('/health', async (_request, reply) => {
-    try {
-      await db.execute(sql`SELECT 1`);
-      return reply.send({ status: 'ok', db: 'up' });
-    } catch {
-      return reply.status(503).send({ status: 'degraded', db: 'down' });
-    }
-  });
+  app.get(
+    '/health',
+    {
+      schema: {
+        tags: ['saude'],
+        summary: 'Health check',
+        response: { 200: healthResponseJson, 500: errorJson },
+      },
+    },
+    async () => ({ status: 'ok' }),
+  );
 }

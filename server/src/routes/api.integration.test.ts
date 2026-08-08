@@ -1,4 +1,4 @@
-import { beforeAll, afterAll, describe, it, expect } from 'vitest';
+import { beforeAll, afterAll, describe, it, expect, vi } from 'vitest';
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import postgres from 'postgres';
@@ -60,6 +60,58 @@ describe('API v1 — integração (Postgres real de teste)', () => {
     const res = await app.inject({ method: 'GET', url: '/health' });
     expect(res.statusCode).toBe(200);
     expect(res.json()).toHaveProperty('status', 'ok');
+  });
+
+  it('GET /docs expõe o OpenAPI com as rotas', async () => {
+    const res = await app.inject({ method: 'GET', url: '/docs' });
+    expect(res.statusCode).toBe(200);
+    const spec = res.json();
+    expect(spec.openapi).toBe('3.0.3');
+    expect(spec.info.title).toBe('Bíblia na Arte — API');
+    expect(spec.paths['/api/v1/artworks'].get).toBeDefined();
+    expect(spec.paths['/api/v1/artworks'].get.parameters.length).toBeGreaterThan(0);
+    expect(spec.paths['/api/v1/bible-text/{bookSlug}/{chapter}'].get).toBeDefined();
+  });
+
+  it('GET /api/v1/bible-text/:bookSlug/:chapter devolve o capítulo do upstream', async () => {
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async () =>
+        new Response(
+          JSON.stringify({
+            reference: 'Lucas 10',
+            verses: [{ book_id: 'luk', book_name: 'Lucas', chapter: 10, verse: 1, text: 'Ora, havia...' }],
+            translation_name: 'João Ferreira de Almeida',
+          }),
+          { status: 200 },
+        ),
+      ),
+    );
+
+    const res = await app.inject({ method: 'GET', url: '/api/v1/bible-text/luke/10' });
+    expect(res.statusCode).toBe(200);
+    const body = res.json();
+    expect(body.bookSlug).toBe('luke');
+    expect(body.chapter).toBe(10);
+    expect(body.translation).toBe('João Ferreira de Almeida');
+    expect(body.verses).toEqual([expect.objectContaining({ verse: 1, text: 'Ora, havia...' })]);
+    expect(res.headers['cache-control']).toContain('max-age=3600');
+
+    vi.unstubAllGlobals();
+  });
+
+  it('404 para capítulo/livro inexistente no upstream', async () => {
+    vi.stubGlobal('fetch', vi.fn(async () => new Response('{"error":"not found"}', { status: 404 })));
+    const res = await app.inject({ method: 'GET', url: '/api/v1/bible-text/luke/99' });
+    expect(res.statusCode).toBe(404);
+    expect(res.json().error).toBe('not_found');
+    vi.unstubAllGlobals();
+  });
+
+  it('400 para capítulo inválido na URL', async () => {
+    const res = await app.inject({ method: 'GET', url: '/api/v1/bible-text/luke/abc' });
+    expect(res.statusCode).toBe(400);
+    expect(res.json().error).toBe('validation_error');
   });
 
   it('lista obras paginadas com referências anexadas', async () => {

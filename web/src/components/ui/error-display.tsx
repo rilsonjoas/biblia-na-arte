@@ -2,7 +2,7 @@ import { AlertTriangle, RefreshCw, Home } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Alert, AlertDescription } from '@/components/ui/alert'
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router'
 
 interface ErrorDisplayProps {
   error: Error | null

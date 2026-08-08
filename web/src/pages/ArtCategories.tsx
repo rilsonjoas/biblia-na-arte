@@ -1,10 +1,9 @@
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import ArtworkCard from '@/components/ArtworkCard';
-import { LoadingGrid } from '@/components/ui/loading';
+import ArtworkCard, { ArtworkCardSkeleton } from '@/components/ArtworkCard';
 import { ErrorCard } from '@/components/ui/error-display';
 import { useArtworksByCategory, useArtworks } from '@/hooks/use-artworks';
 import { Music, Film, Palette, Sparkles } from 'lucide-react';
@@ -160,7 +159,11 @@ export default function ArtCategories() {
               {currentCategory.name} Inspiradas na Bíblia
             </h1>
           </div>
-          <LoadingGrid count={6} />
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {Array.from({ length: 6 }).map((_, index) => (
+              <ArtworkCardSkeleton key={index} />
+            ))}
+          </div>
         </div>
         <Footer />
       </div>

@@ -60,6 +60,23 @@ export interface SearchFilters {
   yearTo?: number;
 }
 
+export interface BibleVerse {
+  verse: number;
+  text: string;
+}
+
+export interface BiblePassage {
+  reference: string;
+  translation: string;
+  bookSlug: string;
+  chapter: number;
+  verses: BibleVerse[];
+}
+
+export async function getBiblePassage(bookSlug: string, chapter: number): Promise<BiblePassage> {
+  return apiClient.request<BiblePassage>(`/bible-text/${bookSlug}/${chapter}`);
+}
+
 export async function searchArtworksAdvanced(query: string, filters: SearchFilters = {}): Promise<Artwork[]> {
   let results: Artwork[];
 

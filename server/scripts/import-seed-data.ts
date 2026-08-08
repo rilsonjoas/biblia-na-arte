@@ -23,6 +23,7 @@ const EXPORT_JSON = path.resolve(import.meta.dirname, 'vault-export.json');
 interface ExportedArtwork {
   slug: string;
   title: string;
+  subtitle?: string;
   artistOrDirector: string;
   year?: string;
   category: 'painting';
@@ -30,7 +31,7 @@ interface ExportedArtwork {
   imageFile: string;
   licenseType: string;
   attributionText?: string;
-  references: { book: string; bookSlug: string; chapter: number; verses?: string }[];
+  references: { book: string; bookSlug: string; chapter: number; verses?: string; passageText?: string }[];
 }
 
 async function main() {
@@ -60,6 +61,7 @@ async function main() {
         .insert(artworks)
         .values({
           title: item.title,
+          subtitle: item.subtitle,
           artistOrDirector: item.artistOrDirector,
           year: item.year,
           category: item.category,
@@ -78,6 +80,7 @@ async function main() {
             bookSlug: ref.bookSlug,
             chapter: ref.chapter,
             verses: ref.verses,
+            passageText: ref.passageText,
           })),
         );
       }
