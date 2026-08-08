@@ -2,6 +2,7 @@ import type { FastifyInstance, FastifyError } from 'fastify';
 import { ZodError } from 'zod';
 import { isProduction } from '../config.js';
 import { BibleTextNotFoundError, BibleTextUpstreamError } from '../lib/bible-api.js';
+import { captureException } from '../lib/sentry.js';
 
 export class NotFoundError extends Error {
   constructor(resource: string) {
@@ -46,6 +47,15 @@ export function registerErrorHandler(app: FastifyInstance) {
     const statusCode = 'statusCode' in error ? (error.statusCode ?? 500) : 500;
 
     request.log.error(error);
+
+    if (statusCode >= 500) {
+      captureException(error, {
+        url: request.url,
+        method: request.method,
+        params: request.params,
+        query: request.query,
+      });
+    }
 
     return reply.status(statusCode).send({
       error: statusCode === 429 ? 'rate_limited' : 'internal_error',

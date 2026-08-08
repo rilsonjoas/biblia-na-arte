@@ -8,8 +8,11 @@ import { artworkRoutes } from './routes/artworks.js';
 import { bibleBookRoutes } from './routes/bible-books.js';
 import { bibleTextRoutes } from './routes/bible-text.js';
 import { artistRoutes } from './routes/artists.js';
+import { initSentry } from './lib/sentry.js';
 
 export async function buildApp() {
+  initSentry();
+
   const app = Fastify({
     logger: isProduction
       ? true // JSON estruturado em produção — pino puro, sem custo de formatação

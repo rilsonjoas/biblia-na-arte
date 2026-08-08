@@ -51,8 +51,8 @@ describe('API v1 — integração (Postgres real de teste)', () => {
   });
 
   afterAll(async () => {
-    await app.close();
-    await admin.end({ timeout: 5 });
+    if (app) await app.close();
+    if (admin) await admin.end({ timeout: 5 });
     await closeDb();
   });
 
@@ -60,6 +60,30 @@ describe('API v1 — integração (Postgres real de teste)', () => {
     const res = await app.inject({ method: 'GET', url: '/health' });
     expect(res.statusCode).toBe(200);
     expect(res.json()).toHaveProperty('status', 'ok');
+  });
+
+  it('GET /health/live responde status live', async () => {
+    const res = await app.inject({ method: 'GET', url: '/health/live' });
+    expect(res.statusCode).toBe(200);
+    expect(res.json()).toHaveProperty('status', 'live');
+  });
+
+  it('GET /health/ready valida conexão ativa com o banco', async () => {
+    const res = await app.inject({ method: 'GET', url: '/health/ready' });
+    expect(res.statusCode).toBe(200);
+    expect(res.json()).toEqual({ status: 'ready', database: 'connected' });
+  });
+
+  it('GET /api/v1/artists lista artistas agregados com contagem', async () => {
+    const res = await app.inject({ method: 'GET', url: '/api/v1/artists' });
+    expect(res.statusCode).toBe(200);
+    const body = res.json();
+    expect(body.length).toBeGreaterThan(0);
+    expect(body).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ name: 'Rembrandt', artworkCount: 1 }),
+      ]),
+    );
   });
 
   it('GET /docs expõe o OpenAPI com as rotas', async () => {

@@ -21,6 +21,7 @@ CREATE TRIGGER update_artworks_updated_at
 -- Busca full-text em português com ranking, mesma lógica do schema.sql
 -- original do Supabase (copiada 1:1 — é Postgres puro, nada específico
 -- de PostgREST).
+DROP FUNCTION IF EXISTS search_artworks(TEXT);
 CREATE OR REPLACE FUNCTION search_artworks(search_query TEXT)
 RETURNS TABLE(
     id UUID,
