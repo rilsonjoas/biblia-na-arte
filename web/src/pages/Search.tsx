@@ -8,7 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import ArtworkCard from '@/components/ArtworkCard';
-import { LoadingGrid, Loading } from '@/components/ui/loading';
+import { LoadingGrid } from '@/components/ui/loading';
 import { ErrorCard } from '@/components/ui/error-display';
 import { 
   Search as SearchIcon, 
@@ -23,8 +23,6 @@ import {
   RefreshCcw
 } from 'lucide-react';
 import { useArtworkSearchAdvanced, useArtworks } from '@/hooks/use-artworks';
-import { useBibleBooks } from '@/hooks/use-bible-books';
-import { Artwork, ArtworkCategory } from '@/types';
 import type { SearchFilters } from '@/lib/api-data';
 
 export default function Search() {
@@ -40,7 +38,6 @@ export default function Search() {
 
   // Hooks para dados
   const { data: allArtworks = [] } = useArtworks();
-  const { data: bibleBooks = [] } = useBibleBooks();
   
   // Build search filters
   const searchFilters: SearchFilters = {

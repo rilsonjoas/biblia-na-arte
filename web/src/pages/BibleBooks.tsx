@@ -13,7 +13,7 @@ export default function BibleBooks() {
   const [searchParams] = useSearchParams();
   const testament = searchParams.get('testament');
   
-  const { data: allBooks = [], isLoading: allLoading, isError: allError, error: allErrorData, refetch: refetchAll } = useBibleBooks();
+  const { isLoading: allLoading, isError: allError, error: allErrorData, refetch: refetchAll } = useBibleBooks();
   const { data: oldTestamentBooks = [], isLoading: oldLoading, isError: oldError, error: oldErrorData, refetch: refetchOld } = useOldTestamentBooks();
   const { data: newTestamentBooks = [], isLoading: newLoading, isError: newError, error: newErrorData, refetch: refetchNew } = useNewTestamentBooks();
 

@@ -4,11 +4,10 @@ import { Badge } from '@/components/ui/badge';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import ArtworkCard from '@/components/ArtworkCard';
-import { LoadingGrid, Loading } from '@/components/ui/loading';
+import { LoadingGrid } from '@/components/ui/loading';
 import { ErrorCard } from '@/components/ui/error-display';
 import { useArtworksByCategory, useArtworks } from '@/hooks/use-artworks';
 import { Music, Film, Palette, Sparkles } from 'lucide-react';
-import { ArtworkCategory } from '@/types';
 
 export default function ArtCategories() {
   const { category } = useParams<{ category?: string }>();

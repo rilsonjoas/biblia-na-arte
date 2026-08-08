@@ -10,7 +10,9 @@ export async function buildApp() {
   const app = Fastify({
     logger: isProduction
       ? true // JSON estruturado em produção — pino puro, sem custo de formatação
-      : { transport: { target: 'pino-pretty' } },
+      : process.env.NODE_ENV === 'test'
+        ? false // testes de integração: output limpo no CI
+        : { transport: { target: 'pino-pretty' } },
     trustProxy: true, // atrás do Traefik — pega o IP real do cliente pro rate limit
   });
 

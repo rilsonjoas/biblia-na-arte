@@ -8,6 +8,11 @@
     "build": "tsc -p tsconfig.json",
     "start": "node dist/server.js",
     "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:integration": "vitest run --config vitest.integration.config.ts",
+    "test:integration:setup": "docker compose -f docker-compose.test.yml up -d",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "tsx src/db/migrate.ts",
     "export:vault": "tsx scripts/export-vault-data.ts",
@@ -18,7 +23,7 @@
     "@fastify/helmet": "^12.0.1",
     "@fastify/rate-limit": "^10.1.1",
     "dotenv": "^17.2.1",
-    "drizzle-orm": "^0.36.4",
+    "drizzle-orm": "^0.45.2",
     "fastify": "^5.1.0",
     "pino-pretty": "^11.3.0",
     "postgres": "^3.4.5",
@@ -28,12 +33,13 @@
   "devDependencies": {
     "@eslint/js": "^9.32.0",
     "@types/node": "^22.9.0",
-    "drizzle-kit": "^0.28.1",
+    "drizzle-kit": "^0.31.10",
     "eslint": "^9.32.0",
     "globals": "^15.15.0",
     "tsx": "^4.20.5",
     "typescript": "^5.8.3",
-    "typescript-eslint": "^8.38.0"
+    "typescript-eslint": "^8.38.0",
+    "vitest": "^3.2.7"
   },
   "engines": {
     "node": ">=20"

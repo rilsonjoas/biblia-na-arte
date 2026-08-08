@@ -142,7 +142,7 @@ export function NetworkError({ onRetry }: { onRetry?: () => void }) {
   )
 }
 
-export function NotFoundError() {
+export function NotFoundError({ message = 'O item que você está procurando não existe ou foi removido.' }: { message?: string }) {
   return (
     <Card>
       <CardContent className="p-12 text-center">
@@ -151,7 +151,7 @@ export function NotFoundError() {
         </div>
         <h3 className="text-xl font-semibold mb-2">Conteúdo não encontrado</h3>
         <p className="text-muted-foreground mb-6">
-          O item que você está procurando não existe ou foi removido.
+          {message}
         </p>
         <Button asChild>
           <Link to="/">

@@ -85,14 +85,10 @@ Fonte da verdade: `~/Downloads/Programação/1 - Pessoal/hetzner-infra/MIGRATION
 - Imagens: estático via Traefik direto de `web/src/assets/` no VPS (não é
   upload de usuário, não precisa de S3/MinIO)
 
-## O que falta pro ar (em ordem)
+## Roadmap até produção
 
-1. Rodar as migrations no Postgres real do VPS
-2. Reescrever `server/scripts-legacy/migrate-data.ts` pra popular o banco a
-   partir do vault Obsidian, aplicando as decisões da auditoria de direitos
-   autorais (excluir os artistas 🔴 "não incluir", incluir Andrei Mironov
-   com atribuição CC BY-SA)
-3. Trocar `web/src/lib/data.ts` pra chamar a API nova em vez do Supabase
-4. `docker-compose.yml` do serviço em `hetzner-infra/biblia-na-arte/`
-   (seguir o padrão de `hetzner-infra/bancada/docker-compose.yml`)
-5. Deploy + DNS + validação
+O site está **no ar** (self-host VPS, zero Supabase), mas o caminho até
+"produção confiável" (testes, CI, SEO, monitoramento, conteúdo completo) é
+o **`docs/ROADMAP.md`** — fonte da verdade, atualizada em toda fase
+concluída. Fases: 0 engenharia base → 1 conteúdo/navegação → 2 UI/UX →
+3 performance/SEO → 4 segurança/observabilidade/infra → 5 produto.

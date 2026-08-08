@@ -1,0 +1,67 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: biblia_test
+          POSTGRES_PASSWORD: biblia_test
+          POSTGRES_DB: biblia_na_arte_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U biblia_test -d biblia_na_arte_test"
+          --health-interval 2s
+          --health-timeout 2s
+          --health-retries 15
+
+    env:
+      TEST_DATABASE_URL: postgresql://biblia_test:biblia_test@localhost:5432/biblia_na_arte_test
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          lfs: true
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install
+        run: pnpm install --frozen-lockfile
+
+      - name: Lint
+        run: pnpm lint
+
+      - name: Typecheck
+        run: pnpm typecheck
+
+      - name: Testes unitários
+        run: pnpm test
+
+      - name: Testes de integração (Postgres service)
+        run: pnpm test:integration
+
+      - name: Build web
+        run: pnpm build:web
+
+      - name: Build server
+        run: pnpm build:server
+
+      - name: Auditoria de dependências
+        run: pnpm audit --audit-level=high

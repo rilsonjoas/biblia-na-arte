@@ -8,9 +8,26 @@
     "dev:server": "pnpm --filter server dev",
     "build:web": "pnpm --filter web build",
     "build:server": "pnpm --filter server build",
-    "lint": "pnpm -r lint"
+    "lint": "pnpm -r lint",
+    "typecheck": "pnpm -r typecheck",
+    "test": "pnpm -r test",
+    "test:integration": "pnpm --filter server test:integration",
+    "prepare": "husky"
   },
   "engines": {
     "node": ">=20"
+  },
+  "lint-staged": {
+    "server/**/*.ts": "pnpm --filter server exec eslint --fix",
+    "web/**/*.{ts,tsx}": "pnpm --filter web exec eslint --fix"
+  },
+  "pnpm": {
+    "overrides": {
+      "vite": "^6.4.3"
+    }
+  },
+  "devDependencies": {
+    "husky": "^9.1.7",
+    "lint-staged": "^17.3.0"
   }
 }

@@ -11,10 +11,20 @@
  *
  * Uso: pnpm --filter server exec tsx scripts/export-vault-data.ts
  */
-import { readFileSync, writeFileSync, mkdirSync, copyFileSync, existsSync } from 'node:fs';
+import { readFileSync, writeFileSync, mkdirSync, copyFileSync } from 'node:fs';
 import { readdirSync } from 'node:fs';
 import path from 'node:path';
-import { parse as parseYaml } from 'yaml';
+import {
+  extractDescription,
+  extractFrontmatter,
+  extractWikilink,
+  findImageFile,
+  deriveArtistFromFilename,
+  normalizeForComparison,
+  parseChapterLink,
+  slugify,
+  titleFromFilename,
+} from '../src/lib/vault-parse.js';
 import { resolveBibleBook } from '../src/db/seed-data/bible-books.js';
 
 const VAULT_PINTURAS = '/home/narniano/Documentos/Rilson/10 - Arte e literatura/Pinturas';
@@ -114,16 +124,6 @@ const LICENSED_ARTISTS: Record<string, { licenseType: string; attributionText: s
 
 // ---------------------------------------------------------------------
 
-interface RawFrontmatter {
-  autor?: string;
-  ano?: string | number;
-  data?: string | number;
-  titulo_original?: string;
-  livros?: string[];
-  capítulos?: string[];
-  tags?: string[];
-}
-
 interface ExportedReference {
   book: string;
   bookSlug: string;
@@ -142,77 +142,6 @@ interface ExportedArtwork {
   licenseType: string;
   attributionText?: string;
   references: ExportedReference[];
-}
-
-function slugify(input: string): string {
-  return input
-    .normalize('NFD')
-    .replace(/[̀-ͯ]/g, '')
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-+|-+$/g, '')
-    .slice(0, 100);
-}
-
-function extractFrontmatter(content: string): RawFrontmatter | null {
-  const match = content.match(/^---\n([\s\S]*?)\n---/);
-  if (!match) return null;
-  try {
-    return parseYaml(match[1]) as RawFrontmatter;
-  } catch {
-    return null;
-  }
-}
-
-function extractWikilink(value: unknown): string {
-  if (typeof value !== 'string' || !value) return '';
-  const m = value.match(/\[\[([^\]]*)\]\]/);
-  return (m ? m[1] : value).trim();
-}
-
-function extractDescription(content: string): string {
-  const afterFrontmatter = content.replace(/^---\n[\s\S]*?\n---/, '').trim();
-  const descMatch = afterFrontmatter.match(/###\s*Descrição da Obra\s*\n+([\s\S]*?)(?=\n---|\n###|$)/);
-  if (descMatch) return descMatch[1].trim().slice(0, 2000);
-  // Fallback: primeiro parágrafo de texto depois da imagem embutida
-  const withoutImage = afterFrontmatter.replace(/!\[\[[^\]]+\]\]/, '').trim();
-  const firstParagraph = withoutImage.split(/\n{2,}/).find((p) => p.trim().length > 20);
-  return (firstParagraph ?? '').trim().slice(0, 2000);
-}
-
-/** "Gênesis 18" -> {book: "Gênesis", chapter: 18}
- *  "Jó 2 1"     -> {book: "Jó", chapter: 2, verse: "1"}
- *  "1 Samuel 17" -> {book: "1 Samuel", chapter: 17}         */
-function parseChapterLink(raw: unknown): { book: string; chapter: number; verse?: string } | null {
-  const inner = extractWikilink(raw);
-  const m = inner.match(/^(.+?)\s+(\d+)(?:\s+(\d+))?$/);
-  if (!m) return null;
-  return { book: m[1].trim(), chapter: Number(m[2]), verse: m[3] };
-}
-
-function findImageFile(content: string): string | null {
-  const m = content.match(/!\[\[([^\]|]+\.(?:jpe?g|png|gif|webp|svg))/i);
-  if (!m) return null;
-  const basename = path.basename(m[1]);
-  const fullPath = path.join(VAULT_ANEXOS, basename);
-  return existsSync(fullPath) ? fullPath : null;
-}
-
-/** Só confia no nome do arquivo como fallback de autor quando ele segue a
- * convenção "Autor - Título.md" — senão devolve vazio em vez de usar o
- * título inteiro como se fosse nome de artista. */
-function deriveArtistFromFilename(filename: string): string {
-  const nameWithoutExt = filename.replace(/\.md$/, '');
-  if (!nameWithoutExt.includes(' - ')) return '';
-  return nameWithoutExt.split(' - ')[0].trim();
-}
-
-function normalizeForComparison(s: string): string {
-  return s
-    .normalize('NFD')
-    .replace(/[̀-ͯ]/g, '')
-    .toLowerCase()
-    .trim();
 }
 
 function main() {
@@ -252,19 +181,13 @@ function main() {
       continue;
     }
 
-    const imageSourcePath = findImageFile(content);
+    const imageSourcePath = findImageFile(content, VAULT_ANEXOS);
     if (!imageSourcePath) {
       skipped.push({ file, reason: 'sem imagem válida em 0 - Anexos' });
       continue;
     }
 
-    // Nem todo arquivo segue "Autor - Título.md" (ex. "Jesus chorou.md",
-    // autor só no frontmatter) — se não tem " - ", o nome inteiro é o
-    // título, não fica vazio.
-    const nameWithoutExt = file.replace(/\.md$/, '');
-    const title = nameWithoutExt.includes(' - ')
-      ? nameWithoutExt.split(' - ').slice(1).join(' - ')
-      : nameWithoutExt;
+    const title = titleFromFilename(file);
     const slug = slugify(`${artist}-${title}`);
     const ext = path.extname(imageSourcePath);
     const imageFile = `${slug}${ext}`;
