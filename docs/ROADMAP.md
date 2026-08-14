@@ -179,3 +179,17 @@ pnpm --filter server db:seed        # importa o JSON no Postgres (VPS)
 | 4 — Segurança/observabilidade/infra | ⏳ pendente | — |
 | 5 — Produto | ⏳ pendente | — |
 
+
+## Nota: se este projeto ganhar conta de usuário final (2026-08-14)
+
+Decisão registrada no `meus-remedios` (único projeto pessoal com auth
+de usuário real hoje): OAuth (Google) como atalho **nunca substitui**
+conta local (e-mail/senha) — mantenha os dois, por 3 motivos que valem
+pra qualquer projeto, não só aquele: (1) ponto único de falha — se a
+conta do provedor for bloqueada, comprometida, ou a pessoa não tiver,
+fica sem acesso nenhum; (2) fluxo OAuth mobile depende de deep link +
+Custom Tabs + `Promise` resolvendo certo — classe de bug inteira que
+conta local não tem (achado real: `meus-remedios/README.md`, seção
+"Decisão: Google OAuth + conta local"); (3) App Store exige "Entrar
+com Apple" se você oferece "Entrar com Google" (Guideline 4.8) — "só
+Google" não é viável em iOS de qualquer forma.
