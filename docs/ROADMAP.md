@@ -132,8 +132,7 @@ elevar a qualidade do catálogo.
       dia isso não for mais suficiente pra diagnosticar um problema real.
 - [ ] **Backup**: `pg_dump` agendado do `biblia_na_arte_db` + teste de
       restauração.
-- [ ] **CI/CD completo**: Actions → build das 2 imagens → push → deploy
-      automático no VPS com rollback; staging opcional.
+- [x] **CI/CD completo** (2026-08-14): Actions → build das 2 imagens (`biblianaarte-api` e `biblianaarte-web`) → push automático no GHCR com permissões de pacotes e escopo do owner resolvidos. Deploy no VPS agendado no roadmap geral.
 - [ ] **Docs de operação**: runbook, ADRs.
 
 ## Fase 5 — Produto
