@@ -119,19 +119,18 @@ elevar a qualidade do catálogo.
 
 **Objetivo:** operação confiável e de baixo susto.
 
-- [ ] **Segurança**: CSP explícito, sanitização de HTML (se necessário),
-      imagem `distroless`/sem-root, scan de deps no CI, auditoria.
-- [ ] **Observabilidade**: `/health/live` e `/health/ready` (check de DB),
-      alertas (Uptime Kuma), logs pino, Sentry (`@sentry/node`) — mesma
-      conta usada nos outros projetos, não precisa uma conta nova por app.
+- [x] **Segurança — CSP (2026-08-14)**: Cabeçalho `Content-Security-Policy` configurado no `web/nginx.conf` cobrindo `script-src`, `style-src`, `font-src`, `img-src` e `connect-src`. Pendente: imagem `distroless`/sem-root, scan de deps no CI, auditoria completa.
+- [x] **Google Search Console verificado (2026-08-14)**: Tag `<meta name="google-site-verification">` adicionada ao `web/index.html`; propriedade `https://biblianaarte.narniano.com` verificada com sucesso.
+- [ ] **Verificar sitemap no Search Console**: Acessar [Google Search Console](https://search.google.com/search-console) → propriedade `biblianaarte.narniano.com` → Sitemaps → confirmar que `https://biblianaarte.narniano.com/sitemap.xml` está com status "Sucesso" e URLs sendo indexadas.
+- [x] **Backup (2026-08-14)**: Confirmado. O banco `biblia_na_arte_db` está incluído no VPS Hetzner, coberto pelo script de backup diário (`backup.sh`) e validado pelo teste de restore semanal automático (`backup-restore-test.sh`).
+- [x] **Observabilidade e Resiliência (2026-08-14)**: `/health`, `/health/live` e `/health/ready` (validação de DB ativa) implementados no Fastify; tratamento gracioso de `SIGTERM`/`SIGINT` configurado; Sentry integrado.
 - [~] ~~Métricas Prometheus (`prom-client`)~~ — **adiado, 2026-08-08**:
       rodar um scraper Prometheus (mesmo sem Grafana) é mais um serviço
       permanente consumindo RAM num VPS pequeno com vários projetos já
       dividindo o mesmo servidor. Uptime Kuma (disponibilidade) + Sentry
       (erros) já cobrem o essencial sem esse custo. Reavaliar só se um
       dia isso não for mais suficiente pra diagnosticar um problema real.
-- [ ] **Backup**: `pg_dump` agendado do `biblia_na_arte_db` + teste de
-      restauração.
+- [x] **Backup (2026-08-14)**: `pg_dump` diário do `biblia_na_arte_db` confirmado via `hetzner-infra/backup/backup.sh`; teste de restore automático semanal via `backup-restore-test.sh`.
 - [x] **CI/CD completo** (2026-08-14): Actions → build das 2 imagens (`biblianaarte-api` e `biblianaarte-web`) → push automático no GHCR com permissões de pacotes e escopo do owner resolvidos. Deploy no VPS agendado no roadmap geral.
 - [ ] **Docs de operação**: runbook, ADRs.
 
