@@ -56,6 +56,31 @@ pnpm build:server   # Build de produção da API
 pnpm lint           # Lint em todos os pacotes do workspace
 ```
 
+## Deploy (VPS Hetzner)
+
+O site roda em `biblianaarte.narniano.com` (web) e
+`api-biblianaarte.narniano.com` (API) num VPS Hetzner, atrás do Traefik.
+
+**Fluxo automático (recomendado):** o workflow `.github/workflows/deploy.yml`
+faz o deploy a cada push em `main` — conecta por SSH no VPS, faz
+`git pull --ff-only` em `/opt/biblia-na-arte` (que é um clone real do
+GitHub) e roda `make deploy service=biblia-na-arte` no
+`~/hetzner-infra` (rebuilda as imagens e sobe os containers). Depois faz
+um smoke test nas URLs públicas.
+
+**Fluxo manual (se precisar):**
+
+```bash
+ssh narniano@167.233.254.53
+cd /opt/biblia-na-arte && git pull --ff-only origin main
+cd ~/hetzner-infra && make deploy service=biblia-na-arte
+```
+
+O VPS acessa o GitHub via deploy key read-only do repo (nunca use uma
+chave com acesso de escrita pra isso). O GitHub Actions acessa o VPS via
+uma chave SSH própria, instalada em `~/.ssh/authorized_keys`, com os
+segredos `DEPLOY_SSH_KEY`, `VPS_HOST` e `VPS_USER` configurados no repo.
+
 ## Tecnologias Utilizadas
 
 **Frontend (`web/`):**
