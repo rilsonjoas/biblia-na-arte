@@ -13,4 +13,4 @@ Allow: /
 User-agent: *
 Allow: /
 
-Sitemap: https://biblianaarte.com/sitemap.xml
+Sitemap: https://biblianaarte.narniano.com/sitemap.xml

@@ -3,7 +3,7 @@ import { writeFileSync, existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { bibleBooksSeed } from '../src/db/seed-data/bible-books.js';
 
-const DOMAIN = 'https://biblianaarte.com';
+const DOMAIN = process.env.SITE_DOMAIN ?? 'https://biblianaarte.narniano.com';
 const OUTPUT_SITEMAP = path.resolve(import.meta.dirname, '../../web/public/sitemap.xml');
 const VAULT_EXPORT_JSON = path.resolve(import.meta.dirname, 'vault-export.json');
 

@@ -22,11 +22,11 @@ export default function Index() {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
     name: 'Bíblia na Arte',
-    url: typeof window !== 'undefined' ? window.location.origin : 'https://biblianaarte.com',
+    url: typeof window !== 'undefined' ? window.location.origin : 'https://biblianaarte.narniano.com',
     description: 'Catálogo de arte sacra e pinturas históricas inspiradas nas Sagradas Escrituras.',
     potentialAction: {
       '@type': 'SearchAction',
-      target: `${typeof window !== 'undefined' ? window.location.origin : 'https://biblianaarte.com'}/busca?q={search_term_string}`,
+      target: `${typeof window !== 'undefined' ? window.location.origin : 'https://biblianaarte.narniano.com'}/busca?q={search_term_string}`,
       'query-input': 'required name=search_term_string',
     },
   };
