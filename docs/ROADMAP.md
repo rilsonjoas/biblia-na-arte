@@ -111,6 +111,26 @@ elevar a qualidade do catálogo.
   - [ ] **Restam 166 obras** (184 − 18) com descrição curta mas não
         vazia, e 73 sem referência — trabalho de curadoria contínua,
         próximos lotes quando fizer sentido retomar.
+  - [x] **3 achados reais testando as 18 no ar (2026-08-16), corrigidos
+        na raiz**:
+        1. Blocos `[!info]` (sintaxe exclusiva do Obsidian) apareciam
+           crus no site, com "[info]" literal na tela — convertidos
+           pra link markdown simples nas 17 notas afetadas.
+        2. **Achado maior do que parecia**: minha citação
+           `- **[[Livro Cap]]:verso` dentro do blockquote nunca fecha
+           o `**` — bold sem fechamento quebra a renderização
+           (asteriscos literais). Isso não afetava só as minhas 18 —
+           **~100 notas do vault usam essa mesma convenção**, bug
+           pré-existente nunca antes percebido. Corrigido de vez em
+           `extractPassageText()` (`vault-parse.ts`): descarta linhas
+           de citação automaticamente, não precisa editar nota por
+           nota, corrige as ~100 de uma vez (presente e futuro).
+        3. Hero ainda ilegível no tema escuro: `bg-primary/80` parecia
+           ok no claro, mas `--primary` no escuro é dourado (cor de
+           marca), não o vinho do claro — "dourado sobre dourado",
+           contraste real **1.13:1** calculado. Trocado por
+           `--hero-scrim`, token fixo dedicado (não compartilha com
+           cor de marca) — 5.77:1/10.49:1 nos dois temas agora.
 
 ## Fase 2 — UI/UX profissional
 
