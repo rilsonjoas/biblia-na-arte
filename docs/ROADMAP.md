@@ -108,9 +108,38 @@ elevar a qualidade do catálogo.
         temperados e os intemperados" nem é cena bíblica — é iluminura
         ilustrando Valério Máximo (autor romano), catalogada pelo tema
         moral partilhado, não por narrar episódio das Escrituras.
-  - [ ] **Restam 166 obras** (184 − 18) com descrição curta mas não
-        vazia, e 73 sem referência — trabalho de curadoria contínua,
-        próximos lotes quando fizer sentido retomar.
+  - [x] **`extractDescription()` tinha bug real, achado testando o
+        próximo lote (2026-08-16)**: 29 obras mostravam literalmente
+        "---" como descrição (capturava o divisor markdown por causa
+        do `\s*` guloso quando a seção existe mas está vazia) e ~138
+        mostravam o placeholder de navegação "Ver [[Livro]], [[Livro
+        Capítulo]]." como se fosse texto real. Corrigido na função
+        (`isPlaceholderText()`, com 2 testes novos, 46/46 passando) —
+        as ~167 obras voltam a cair no fallback "X, de Y." em vez de
+        mostrar lixo, sem precisar editar nota por nota.
+  - [x] **2º lote de conteúdo real — 10 obras (2026-08-16)**: Rembrandt
+        (O retorno do filho pródigo, O sacrifício de Isaque, O bom
+        samaritano, Pedro na Prisão, O apedrejamento de Estevão —
+        primeira obra assinada dele, aos 19 anos —, Moisés com os dez
+        mandamentos), Ticiano (O descer do Espírito Santo, O
+        sepultamento de Cristo), William Blake (O fantasma de Samuel
+        aparecendo a Saul), Willem de Poorter (Salomão e a Rainha de
+        Sabá). 1 correção de capítulo (Moisés: Êxodo 34 → 32, a cena é
+        antes de quebrar as tábuas, não a segunda entrega).
+  - [ ] **4 problemas de embed pré-existentes no vault (achado
+        2026-08-16, script de verificação, não fazem parte do lote de
+        hoje)**: Briton Riviere "Daniel na cova dos leões", Giotto
+        "Jonas Sendo Engolido Pelo Grande Peixe", James Tissot "Adão e
+        Eva São Expulsos do Paraíso" (embed genérico "Pasted image
+        ...png", arquivo original parece ter sido renomeado/perdido),
+        Kim Ki-chang "A Última Ceia" — todas com embed apontando pra
+        arquivo que não existe mais em `0 - Anexos`, excluídas
+        silenciosamente do catálogo. Achar a imagem certa (ou uma
+        substituta em domínio público) quando for a vez dessas.
+  - [ ] **Restam 153 obras com fallback genérico e 55 sem referência
+        bíblica** (checado via API real, 2026-08-16, não estimativa)
+        — trabalho de curadoria contínua, próximos lotes quando fizer
+        sentido retomar.
   - [x] **3 achados reais testando as 18 no ar (2026-08-16), corrigidos
         na raiz**:
         1. Blocos `[!info]` (sintaxe exclusiva do Obsidian) apareciam
