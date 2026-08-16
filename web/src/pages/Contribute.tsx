@@ -88,7 +88,7 @@ export default function Contribute() {
           </h1>
           
           <p className="text-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-            O BiblianaArte.com é um projeto colaborativo. Sua participação é fundamental 
+            A Bíblia na Arte é um projeto colaborativo. Sua participação é fundamental 
             para enriquecer nossa coleção e fortalecer a conexão entre fé e arte.
           </p>
         </div>
@@ -255,7 +255,7 @@ export default function Contribute() {
               "Cada contribuição, por menor que seja, ajuda a preservar e compartilhar 
               o rico patrimônio da arte bíblica para as futuras gerações."
             </p>
-            <p className="text-sm font-medium mt-2">— Equipe BiblianaArte.com</p>
+            <p className="text-sm font-medium mt-2">— Equipe Bíblia na Arte</p>
           </div>
         </div>
       </div>

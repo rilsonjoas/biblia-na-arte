@@ -12,6 +12,7 @@ import { ArtworkLightbox } from '@/components/ArtworkLightbox';
 import { SEO } from '@/components/SEO';
 import { ErrorCard, NotFoundError } from '@/components/ui/error-display';
 import { Markdown } from '@/components/ui/markdown';
+import { stripMarkdown } from '@/lib/utils';
 import { useArtwork, useArtworksByBibleReference, useArtworks } from '@/hooks/use-artworks';
 import {
   Music,
@@ -172,7 +173,7 @@ export default function ArtworkDetail() {
     artMedium: artwork.mediumOrGenre || 'Pintura',
     artform: 'Painting',
     image: imageUrl,
-    description: artwork.description,
+    description: stripMarkdown(artwork.description),
     license: artwork.licenseType === 'public-domain' ? 'https://creativecommons.org/publicdomain/mark/1.0/' : undefined,
   };
 
@@ -180,7 +181,7 @@ export default function ArtworkDetail() {
     <div className="min-h-screen bg-background flex flex-col">
       <SEO
         title={`${artwork.title} — ${artwork.artistOrDirector}`}
-        description={artwork.description.slice(0, 160)}
+        description={stripMarkdown(artwork.description).slice(0, 160)}
         image={imageUrl}
         type="article"
         schema={artworkSchema}

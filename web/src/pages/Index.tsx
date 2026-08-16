@@ -42,7 +42,12 @@ export default function Index() {
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{ backgroundImage: `url(${heroImage})` }}
         />
-        <div className="absolute inset-0 bg-primary/60" />
+        {/* Overlay em 80% (não 60%) — achado real 2026-08-16: com 60% o
+            gradiente dourado do título ficava com contraste real de
+            ~2.9:1 sobre a imagem de fundo também dourada, abaixo do
+            mínimo WCAG de 3:1 pra texto grande. Calculado com luminância
+            real, não só "parece ok". */}
+        <div className="absolute inset-0 bg-primary/80" />
         
         <div className="relative z-10 container mx-auto px-4 text-center text-white">
           <div className="max-w-4xl mx-auto">
@@ -231,7 +236,7 @@ export default function Index() {
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
             <h2 className="text-display text-3xl md:text-4xl font-bold mb-6">
-              Sobre o BiblianaArte.com
+              Sobre a Bíblia na Arte
             </h2>
             <p className="text-lg text-muted-foreground leading-relaxed mb-8">
               Este projeto nasceu da paixão por descobrir como a Palavra de Deus 

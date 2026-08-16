@@ -29,7 +29,7 @@ export default function Header() {
                 <Book className="w-4 h-4 text-white" />
               </div>
               <span className="text-display text-xl font-bold text-foreground group-hover:text-primary transition-colors tracking-tight">
-                BiblianaArte<span className="text-amber-500 font-normal">.com</span>
+                Bíblia<span className="text-amber-500 font-normal"> na Arte</span>
               </span>
             </Link>
 
@@ -163,7 +163,7 @@ export default function Header() {
                 <SheetContent side="right" className="bg-card border-border w-[280px] p-6">
                   <SheetHeader className="text-left pb-4 border-b border-border/50">
                     <SheetTitle className="text-display text-lg font-bold">
-                      BiblianaArte.com
+                      Bíblia na Arte
                     </SheetTitle>
                   </SheetHeader>
                   <nav className="flex flex-col gap-2 mt-6">

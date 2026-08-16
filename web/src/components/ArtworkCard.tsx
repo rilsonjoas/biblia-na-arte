@@ -6,6 +6,7 @@ import { AspectRatio } from '@/components/ui/aspect-ratio';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Artwork } from '@/types';
 import { Music, Film, Palette, ImageIcon } from 'lucide-react';
+import { stripMarkdown } from '@/lib/utils';
 
 interface ArtworkCardProps {
   artwork: Artwork;
@@ -120,7 +121,7 @@ export default function ArtworkCard({ artwork, showReferences = true }: ArtworkC
 
           {artwork.description && (
             <p className="text-xs md:text-sm text-muted-foreground line-clamp-2 mb-3 leading-relaxed">
-              {artwork.description}
+              {stripMarkdown(artwork.description)}
             </p>
           )}
 

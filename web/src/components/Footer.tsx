@@ -1,5 +1,5 @@
 import { Link } from 'react-router';
-import { Book, Heart } from 'lucide-react';
+import { Book } from 'lucide-react';
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -15,7 +15,7 @@ export default function Footer() {
                 <Book className="w-4 h-4 text-white" />
               </div>
               <span className="text-display text-xl font-bold text-foreground">
-                BiblianaArte<span className="text-amber-500 font-normal">.com</span>
+                Bíblia<span className="text-amber-500 font-normal"> na Arte</span>
               </span>
             </div>
             <p className="text-muted-foreground text-sm leading-relaxed max-w-md">
@@ -71,11 +71,7 @@ export default function Footer() {
         </div>
 
         <div className="border-t border-border/50 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-muted-foreground gap-4">
-          <p>
-            © {currentYear} BiblianaArte.com. Desenvolvido com{' '}
-            <Heart className="inline w-3.5 h-3.5 text-amber-500 fill-amber-500" />{' '}
-            para a contemplação da arte sacra.
-          </p>
+          <p>© {currentYear} Bíblia na Arte.</p>
           <p>
             Obras de domínio público e licenciadas com atribuição.
           </p>

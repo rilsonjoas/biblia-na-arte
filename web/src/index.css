@@ -8,7 +8,7 @@
 @tailwind components;
 @tailwind utilities;
 
-/* BiblianaArte.com - Sistema Unificado Reino com estética clássica */
+/* Bíblia na Arte - Sistema Unificado Reino com estética clássica */
 
 @layer base {
   :root {
@@ -132,6 +132,13 @@
 
     --destructive: 0 60% 55%;
     --destructive-foreground: 35 20% 95%;
+
+    /* Achado real 2026-08-16: --gradient-card não tinha override aqui,
+       então no escuro herdava o segundo stop fixo do claro (95% de luz,
+       quase branco) — cartão ficava parcialmente claro, texto
+       muted-foreground (calibrado pro escuro) ficava ilegível em cima.
+       Contraste calculado: 6.18-7.46:1 nas duas pontas do gradiente. */
+    --gradient-card: linear-gradient(145deg, hsl(var(--card)), hsl(30 10% 16%));
 
     --border: 30 8% 22%;
     --input: 30 8% 22%;

@@ -86,8 +86,16 @@ elevar a qualidade do catálogo.
 - [x] **Descrições formatadas**: `react-markdown` no cliente
       (`web/src/components/ui/markdown.tsx` — **negrito**, *itálico*, links,
       listas, citações; escapa HTML cru). Usado na página da obra.
-- [ ] **Conteúdo em lote**: escrever descrições + trechos bíblicos das
-      ~350 notas-stub do vault (molde existente, em lotes revisáveis contínuos).
+- [ ] **Conteúdo em lote — números reais (checado 2026-08-16, achado
+      testando o site em produção)**: de 853 obras, **184 (21%) têm
+      descrição curta demais** (<80 caracteres), sendo **18 delas só o
+      fallback genérico do export** ("X, de Y.", sem conteúdo real
+      nenhum) e **73 (8%) sem nenhuma referência bíblica associada**.
+      Não é suposição — contado via API real, obra por obra. Trabalho
+      de curadoria no vault (não é bug de código): escrever descrição +
+      achar/confirmar referência pra cada uma das 184, priorizando as
+      18 do fallback genérico primeiro (são as piores, zero contexto
+      pro visitante). Fazer em lotes revisáveis, não tudo de uma vez.
 
 ## Fase 2 — UI/UX profissional
 
@@ -107,12 +115,28 @@ elevar a qualidade do catálogo.
 - [x] **Acessibilidade**: contraste refinado, foco visível, navegação fluida
       por teclado, botões de ação e atributos ARIA.
 - [ ] **Achado 2026-08-16, checagem rápida**: 17 `aria-label`/`alt` em 81
-      componentes (~21%) — diferente do Lecionário, este projeto nunca
-      passou por uma auditoria de contraste com conta real (luminância/
-      WCAG AA calculado, não só "olhar"). O item acima é uma afirmação
-      qualitativa antiga, sem número por trás. Vale repetir a mesma
-      receita que funcionou lá antes de considerar isto realmente
-      concluído.
+      componentes (~21%) — ainda não auditado a fundo (contagem, não
+      auditoria completa de teclado/foco).
+- [x] **2 falhas WCAG reais corrigidas, com conta (2026-08-16, testando
+      em produção)**: (1) título do hero ("Arte e Cultura") com gradiente
+      dourado sobre imagem também dourada — contraste real calculado
+      **2.92:1** (abaixo do mínimo de 3:1 pra texto grande); overlay de
+      `bg-primary/60` pra `/80` resolve, sobe pra 4.46:1. (2)
+      `--gradient-card` não tinha override no tema escuro — herdava o
+      segundo stop do claro (95% de luz, quase branco), cards com
+      `CardDescription` (calibrado pro escuro) ficavam ilegíveis por
+      cima. Corrigido com override específico, contraste real
+      6.18-7.46:1 nas duas pontas do gradiente.
+- [x] **Markdown cru vazando pra fora da página da obra (2026-08-16)**:
+      cards (`ArtworkCard.tsx`) e meta description/JSON-LD
+      (`ArtworkDetail.tsx`) mostravam literalmente `**Édouard Manet**`
+      com os asteriscos — só a página da obra em si renderizava
+      markdown de verdade. Nova função `stripMarkdown()` em
+      `lib/utils.ts` pra resumo em texto puro (cards/meta não devem
+      renderizar markdown de qualquer forma — `line-clamp` corta no
+      meio de elemento em bloco).
+- [x] **Rodapé/cabeçalho: "BiblianaArte.com" e "Desenvolvido com ♡..."
+      removidos (2026-08-16)** — ver item de marca corrigida acima.
 
 ## Fase 3 — Performance e SEO
 
@@ -157,16 +181,16 @@ elevar a qualidade do catálogo.
       drama.
 - [x] **Carregamento**: endpoint `GET /api/v1/artists` para agregação de artistas e contagem de obras; paginação real no catálogo e busca (`ArtCategories.tsx`, `Search.tsx`) em páginas de 24 itens.
 - [x] **SEO**: componente `SEO.tsx` dinâmico com meta tags, canonical URLs, OpenGraph e Twitter Cards; dados estruturados Schema.org JSON-LD (`VisualArtwork` na obra, `CollectionPage` e `BreadcrumbList` em livros e capítulos, `WebSite` na home); `robots.txt` e gerador de `sitemap.xml` cobrindo 2115 URLs canônicas.
-- [ ] **Marca errada em `<title>`/OG/Twitter (achado 2026-08-14)**:
-      `web/index.html` (e o parágrafo de abertura do `CLAUDE.md`) usam
-      **"BiblianaArte.com"** como se fosse o nome do produto — em
-      `<title>`, `og:title` e `twitter:title`. A marca é **"Bíblia na
-      Arte"** (com espaço e acento); o domínio é só onde o site roda
-      hoje (`biblianaarte.narniano.com`) e pode mudar sem que a marca
-      mude. Trocar as 3 ocorrências em `web/index.html` para
-      `Bíblia na Arte - A Bíblia através da Arte e Cultura` (sem
-      `.com` grudado) — isso é literalmente o que aparece no Google e
-      em cards de compartilhamento social.
+- [x] **Marca errada — resolvido de vez (2026-08-16)**: o problema era
+      bem mais espalhado do que o achado original de 2026-08-14
+      registrava (só `<title>`/OG). "BiblianaArte.com" aparecia em **16
+      lugares reais**: cabeçalho e rodapé do site (visível pra todo
+      visitante, achado pelo Rilson testando em produção), `SEO.tsx`
+      (`SITE_NAME`), páginas Sobre/Contribuir/Index, `index.css`
+      (comentário) e `index.html` (title/OG/Twitter). Trocado em todo
+      lugar por "Bíblia na Arte" — incluindo concordância de gênero
+      corrigida ("a Bíblia na Arte", não "o", já que "Bíblia" é
+      feminino).
 - [x] **`mailto:contato@biblianaarte.com` removido (2026-08-14)** —
       domínio que o Rilson não possui, todo clique falharia. Pendência
       real pra trás: e-mail de contato de verdade. Decisão central em

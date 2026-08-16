@@ -20,7 +20,7 @@ export default function About() {
           </Badge>
           
           <h1 className="text-display text-3xl md:text-4xl font-bold mb-6">
-            A História do BiblianaArte.com
+            A História da Bíblia na Arte
           </h1>
           
           <p className="text-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed">
@@ -38,7 +38,7 @@ export default function About() {
                 Nossa Missão
               </h2>
               <p className="text-foreground/80 leading-relaxed mb-4">
-                O BiblianaArte.com nasceu da paixão por descobrir como a Palavra de Deus 
+                A Bíblia na Arte nasceu da paixão por descobrir como a Palavra de Deus 
                 inspirou os maiores artistas da humanidade. Nosso objetivo é criar pontes 
                 entre a fé ancestral e a expressão artística, oferecendo uma experiência 
                 contemplativa e educativa única.
@@ -155,7 +155,7 @@ export default function About() {
             
             <div className="prose prose-lg mx-auto text-foreground/80 leading-relaxed">
               <p className="mb-4">
-                A ideia do BiblianaArte.com surgiu durante uma visita à Capela Sistina, 
+                A ideia da Bíblia na Arte surgiu durante uma visita à Capela Sistina, 
                 quando observávamos as obras-primas de Michelangelo. Ali, rodeados por 
                 séculos de arte inspirada nas Escrituras, percebemos quão rica e 
                 profunda é a relação entre a Bíblia and a expressão artística.
@@ -170,7 +170,7 @@ export default function About() {
               </p>
               
               <p>
-                Hoje, o BiblianaArte.com continua crescendo, sempre com o objetivo de 
+                Hoje, a Bíblia na Arte continua crescendo, sempre com o objetivo de 
                 preservar, educar e inspirar. Cada obra adicionada à nossa coleção é 
                 cuidadosamente pesquisada e contextualizada, garantindo que nossa 
                 comunidade tenha acesso ao melhor conteúdo sobre arte bíblica.

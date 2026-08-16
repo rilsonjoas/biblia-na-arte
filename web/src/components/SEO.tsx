@@ -13,7 +13,7 @@ const DEFAULT_TITLE = 'Bíblia na Arte — As Sagradas Escrituras Através das A
 const DEFAULT_DESCRIPTION =
   'Explore pinturas, obras de arte e expressões visuais inspiradas na Bíblia Sagrada ao longo dos séculos. Mestres clássicos, renascentistas e barrocos.';
 const DEFAULT_IMAGE = '/hero-banner.jpg';
-const SITE_NAME = 'BiblianaArte.com';
+const SITE_NAME = 'Bíblia na Arte';
 
 function setMetaTag(nameOrProperty: 'name' | 'property', key: string, content: string) {
   let element = document.querySelector(`meta[${nameOrProperty}="${key}"]`);
