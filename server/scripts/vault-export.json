@@ -146,32 +146,53 @@
       "artistOrDirector": "Aert de Gelder",
       "year": "1685",
       "category": "painting",
-      "description": "Ester e Mardoqueu, de Aert de Gelder.",
+      "description": "Óleo sobre tela de **Aert de Gelder** (1645–1727), datado de **1685** e hoje no Museu de Belas Artes de Budapeste — parte de um ciclo de pinturas sobre Ester que o pintor produziu ao longo da década de 1680, revisitando o mesmo par de personagens em composições variadas. Aqui, Ester, com véu e adereços de rainha, e Mardoqueu, de barba longa e turbante, aparecem em conversa próxima, quase confidencial, à mesa.\n\nDe Gelder, o discípulo mais tardio e mais fiel de Rembrandt, mantém a fórmula que aprendeu do mestre: luz concentrada sobre os rostos e as mãos, fundo quase apagado em sombra, tecidos pintados com pinceladas soltas e cor densa. Não é ilustração de um versículo específico, é retrato de uma relação — a confiança entre uma rainha e o parente que a criou, através da qual todo o livro de Ester se desenrola.\n\n> [!info] Esther and Mordecai — Museum of Fine Arts, Budapest\n> https://www.mfab.hu/artworks/9183/",
       "imageFile": "aert-de-gelder-ester-e-mardoqueu.webp",
       "licenseType": "public-domain",
-      "references": []
+      "references": [
+        {
+          "book": "Ester",
+          "bookSlug": "esther",
+          "chapter": 8,
+          "passageText": "\"E o rei tirou o seu anel, que tinha tomado a Hamã, e o deu a Mardoqueu. E Ester pôs a Mardoqueu sobre a casa de Hamã.\"\n- **Ester 8:2\n\n\"Porque, quem és tu, para que resistas a este povo, o povo do meu Deus? E quem sabe se para tal tempo como este chegaste a este reino?\"\n- **Ester 4:14"
+        }
+      ]
     },
     {
       "slug": "aert-de-gelder-ester-e-mardoqueu-escrevendo-a-primeira-carta-do-purim",
       "title": "Ester e Mardoqueu escrevendo a primeira carta do Purim",
       "artistOrDirector": "Aert de Gelder",
-      "year": "1675",
+      "year": "c. 1675",
       "category": "painting",
-      "description": "Ester e Mardoqueu escrevendo a primeira carta do Purim, de Aert de Gelder.",
+      "description": "Óleo sobre tela de **Aert de Gelder** (1645–1727), o último e mais dedicado discípulo de Rembrandt — o único pintor holandês a manter viva a linguagem do estilo tardio do mestre até bem entrado o século XVIII —, datado de **c. 1675** e hoje no Museo Nacional de Bellas Artes, em Buenos Aires. A obra retrata Ester e Mardoqueu debruçados sobre uma mesa, redigindo a carta que instituiria a festa de Purim em memória da salvação do povo judeu.\n\nMardoqueu, de turbante, segura a pena com a mão firme sobre o pergaminho; Ester, ao seu lado, olha o texto com atenção grave. A paleta terrosa e a luz concentrada sobre as figuras, deixando o fundo quase todo em sombra, são a assinatura mais reconhecível do estilo que de Gelder herdou de Rembrandt — não é cena de ação, é cena de decisão sendo posta no papel.\n\n> [!info] Esther and Mordecai Writing the First Letter of Purim, c.1675\n> https://www.artbible.info/art/large/539.html",
       "imageFile": "aert-de-gelder-ester-e-mardoqueu-escrevendo-a-primeira-carta-do-purim.webp",
       "licenseType": "public-domain",
-      "references": []
+      "references": [
+        {
+          "book": "Ester",
+          "bookSlug": "esther",
+          "chapter": 9,
+          "passageText": "\"Escreveu, pois, a rainha Ester, filha de Abiail, com Mardoqueu, o judeu, com toda a autoridade, para confirmar esta segunda carta de Purim.\"\n- **Ester 9:29\n\n\"E o mandado de Ester confirmou estas coisas dos judeus a respeito de Purim; e isto foi escrito no livro.\"\n- **Ester 9:32"
+        }
+      ]
     },
     {
       "slug": "aert-de-gelder-ester-se-permite-ser-decorada",
       "title": "Ester se permite ser decorada",
       "artistOrDirector": "Aert de Gelder",
-      "year": "1685",
+      "year": "c. 1684",
       "category": "painting",
-      "description": "Ester se permite ser decorada, de Aert de Gelder.",
+      "description": "Óleo sobre tela de **Aert de Gelder** (1645–1727), datado de **c. 1684** e hoje na Alte Pinakothek, em Munique — uma de apenas duas versões conhecidas do século XVII desse tema específico pintadas pelo artista. A cena mostra Ester sentada, envolta em manto de arminho e veste ricamente bordada, enquanto duas aias a preparam: uma ajusta um véu dourado sobre seus ombros, outra observa de perto. Ao fundo direito, um espelho sobre um pedestal e uma arca de joias completam a cena de preparação.\n\n\"Toucador de Ester\" é o título tradicional dado a esse tipo de cena na história da arte — o momento de preparação da jovem antes de ser apresentada ao rei Assuero, parte do processo de seleção da nova rainha da Pérsia. De Gelder pinta luxo e cuidado material, mas há também, no rosto sereno e quase resignado de Ester, algo que escapa à simples vaidade: ela está sendo preparada para um destino que não escolheu inteiramente.\n\n> [!info] The Toilette of Esther — Alte Pinakothek, Munique\n> https://en.wikipedia.org/wiki/The_Toilette_of_Esther",
       "imageFile": "aert-de-gelder-ester-se-permite-ser-decorada.webp",
       "licenseType": "public-domain",
-      "references": []
+      "references": [
+        {
+          "book": "Ester",
+          "bookSlug": "esther",
+          "chapter": 2,
+          "passageText": "\"E, chegando a vez de cada uma das moças de entrarem ao rei Assuero, depois de haver estado doze meses, segundo a lei das mulheres (porque assim se cumpriam os dias das suas purificações, seis meses com óleo de mirra, e outros seis meses com especiarias, e com as coisas para a purificação das mulheres).\"\n- **Ester 2:12\n\n\"E a moça Ester foi levada ao rei Assuero, ao seu real paço, no décimo mês, que é o mês de Tebet, no sétimo ano do seu reinado. E o rei amou a Ester mais do que a todas as outras mulheres, e ela alcançou graça e favor diante dele, mais do que todas as virgens.\"\n- **Ester 2:16-17"
+        }
+      ]
     },
     {
       "slug": "aert-de-gelder-juda-e-tamar",
@@ -1418,15 +1439,27 @@
       "references": []
     },
     {
-      "slug": "autor-desconhecido-os-temperados-e-os-intemperados",
+      "slug": "mestre-do-livro-de-oracoes-de-dresden-os-temperados-e-os-intemperados",
       "title": "Os temperados e os intemperados",
-      "artistOrDirector": "Autor Desconhecido",
-      "year": "1480",
+      "artistOrDirector": "Mestre do Livro de Orações de Dresden",
+      "year": "c. 1475–1480",
       "category": "painting",
-      "description": "Os temperados e os intemperados, de Autor Desconhecido.",
-      "imageFile": "autor-desconhecido-os-temperados-e-os-intemperados.webp",
+      "description": "Iluminura em têmpera e tinta, datada de **c. 1475–1480**, hoje no J. Paul Getty Museum, em Los Angeles. A cena mostra um grande salão de banquete: à esquerda, Valério (vestido de azul) instrui o imperador Tibério sobre o valor da temperança, apontando para a mesa da frente, onde camponeses embriagados se divertem descontroladamente — bebem, caem, dormem. Ao fundo, em contraste, nobres sentados em ordem numa mesa organizada comem com sobriedade rígida, corpos eretos, espaçamento uniforme entre eles.\n\nA composição é didática por design — literalmente um exemplo visual da virtude cardeal da temperança contra o vício do excesso, encomendada como material educativo pra nobreza medieval. Está catalogada em \"Bíblia na Arte\" pelo tema moral que compartilha com boa parte da sabedoria bíblica sobre autocontrole, não por narrar um episódio das Escrituras.\n\n> [!info] The Temperate and the Intemperate — J. Paul Getty Museum\n> https://www.getty.edu/art/collection/objects/105137/",
+      "imageFile": "mestre-do-livro-de-oracoes-de-dresden-os-temperados-e-os-intemperados.webp",
       "licenseType": "public-domain",
-      "references": []
+      "references": [
+        {
+          "book": "Provérbios",
+          "bookSlug": "proverbs",
+          "chapter": 23,
+          "passageText": "\"Não estejas entre os beberrões de vinho, nem entre os comilões de carne. Porque o beberrão e o comilão empobrecerão; e a sonolência os vestirá de trapos.\"\n- **Provérbios 23:20-21\n\n\"Mas o fruto do Espírito é: amor, gozo, paz, longanimidade, benignidade, bondade, fé, mansidão, temperança.\"\n- **Gálatas 5:22-23"
+        },
+        {
+          "book": "Gálatas",
+          "bookSlug": "galatians",
+          "chapter": 5
+        }
+      ]
     },
     {
       "slug": "autor-desconhecido-paulo-e-barnabe-tomados-por-deuses",
@@ -4992,10 +5025,22 @@
       "artistOrDirector": "Frans Floris",
       "year": "1562",
       "category": "painting",
-      "description": "Jesus Cristo, Filho de Deus, reunindo e protegendo a humanidade por seu sacrifício na Cruz, de Frans Floris.",
+      "description": "Óleo sobre painel de **Frans Floris** (c. 1519/1520–1570), pintor maneirista de Antuérpia, datado de **1562** e conhecido pelo título \"Alegoria da Trindade\" (*Allegory of the Trinity*). Mais de vinte figuras humanas estão reunidas sob a figura da Trindade, protegidas pelo amor divino; ao centro, o corpo pálido de Cristo pende de uma cruz representada como uma árvore firmemente enraizada na terra — imagem que une o registro celeste e o terreno da composição, funcionando ao mesmo tempo como centro formal e centro espiritual do quadro.\n\nA obra pertence a um momento de tensão religiosa real: pintada em Antuérpia às vésperas dos conflitos mais agudos entre catolicismo e as reformas protestantes nos Países Baixos, é lida por historiadores da arte como uma declaração visual sobre os limites da tolerância religiosa da época — uma imagem que insiste na unidade de toda a humanidade sob a cruz, num momento em que essa unidade estava sendo posta à prova pelas divisões confessionais.\n\nFloris organiza a multidão de figuras não como espectadores passivos, mas como quem literalmente encontra abrigo — a cruz como árvore da vida que reúne, e não apenas redime individualmente.\n\n> [!info] Frans Floris's Allegory of the Trinity (1562) and the Limits of Tolerance — Art History 38 (2015)\n> https://academic.oup.com/arthistory/article-abstract/38/1/38/7278282",
       "imageFile": "frans-floris-jesus-cristo-filho-de-deus-reunindo-e-protegendo-a-humanidade-por-seu-sacrificio-na-cru.webp",
       "licenseType": "public-domain",
-      "references": []
+      "references": [
+        {
+          "book": "João",
+          "bookSlug": "john",
+          "chapter": 12,
+          "passageText": "\"E eu, quando for levantado da terra, todos atrairei a mim.\"\n- **João 12:32\n\n\"E que, havendo por ele feito a paz pelo sangue da sua cruz, por meio dele reconciliasse consigo mesmo todas as coisas, tanto as que estão na terra como as que estão nos céus.\"\n- **Colossenses 1:20"
+        },
+        {
+          "book": "Colossenses",
+          "bookSlug": "colossians",
+          "chapter": 1
+        }
+      ]
     },
     {
       "slug": "frederic-leighton-davi-quem-dera-eu-tivesse-asas",
@@ -5356,12 +5401,24 @@
       "slug": "gebhard-fugel-jesus-curando-os-enfermos",
       "title": "Jesus curando os enfermos",
       "artistOrDirector": "Gebhard Fugel",
-      "year": "1920",
+      "year": "c. 1920",
       "category": "painting",
-      "description": "Jesus curando os enfermos, de Gebhard Fugel.",
+      "description": "Óleo de **Gebhard Fugel** (1863–1939), pintor alemão associado ao movimento nazareno — grupo que buscava recuperar a simplicidade espiritual da pintura religiosa do início do Renascimento —, datado de **c. 1920** e hoje no Dombergmuseum, em Freising. A cena retrata Jesus, vestido de branco, inclinado sobre um homem doente deitado numa esteira junto ao muro de uma cidade, tocando-o em gesto de cura.\n\nAo longo do muro, uma fileira de enfermos e mendigos aguarda — um ancião apoiado num bastão, uma mulher com o rosto coberto pelas mãos, figuras enroladas em mantas, esperando a mesma atenção. À esquerda, uma figura de manto vermelho observa a cena a distância, postura que sugere desconfiança ou julgamento — um contraste silencioso com a compaixão concreta e física de Jesus, que se abaixa e toca quem ninguém mais tocaria.\n\nFugel já havia pintado o mesmo tema em 1885, com boa recepção em Munique; esta versão de 1920 retoma o assunto no fim da carreira, com a paleta luminosa e a composição serena características do estilo nazareno — menos drama teatral, mais convite silencioso à contemplação.\n\n> [!info] Gebhard Fugel, Christus heilt Kranke — Wikimedia Commons\n> https://commons.wikimedia.org/wiki/File:Gebhard_Fugel_Christus_heilt_Kranke_c1920.jpg",
       "imageFile": "gebhard-fugel-jesus-curando-os-enfermos.webp",
       "licenseType": "public-domain",
-      "references": []
+      "references": [
+        {
+          "book": "Mateus",
+          "bookSlug": "matthew",
+          "chapter": 9,
+          "passageText": "\"E percorria Jesus toda a Galileia, ensinando nas suas sinagogas, e pregando o evangelho do reino, e curando toda a enfermidade e toda a moléstia entre o povo.\"\n- **Mateus 9:35\n\n\"E, sendo já tarde, ao pôr do sol, trouxeram-lhe todos os que se achavam enfermos, e os endemoninhados. E toda a cidade se ajuntou à porta. E curou muitos que se achavam enfermos de diversas enfermidades.\"\n- **Marcos 1:32-34"
+        },
+        {
+          "book": "Marcos",
+          "bookSlug": "mark",
+          "chapter": 1
+        }
+      ]
     },
     {
       "slug": "gebhard-fugel-o-bom-pastor",
@@ -5398,11 +5455,24 @@
       "title": "Um sonho de Natal",
       "subtitle": "A dream of Christmas",
       "artistOrDirector": "George Hitchcock",
+      "year": "?",
       "category": "painting",
-      "description": "Um sonho de Natal, de George Hitchcock.",
+      "description": "Óleo de **George Hitchcock** (1850–1913), pintor americano radicado na Holanda, conhecido por cenas simbolistas ambientadas em paisagens holandesas e por retratos religiosos de tom contemplativo, mais do que narrativo. **\"Um Sonho de Natal\"** não ilustra um episódio bíblico específico — é uma cena simbólica: uma figura solitária, envolta num manto escuro com forro avermelhado, ajoelhada na neve entre troncos nus de inverno, rosto voltado para cima em oração. Junto ao chão, uma lanterna acesa é a única fonte de luz quente numa paisagem inteiramente fria e azulada.\n\nHitchcock não está ilustrando os pastores de Belém nem a Sagrada Família — está pintando a postura de quem espera e vigia, sozinho, no frio, com uma luz pequena que insiste em não se apagar. É uma imagem de Advento mais do que de Natal propriamente dito: o gesto de orar voltado pro alto, a lanterna como promessa contra a escuridão ao redor.\n\n**Nota de proveniência**: não foi possível confirmar a data exata de composição em fontes consultadas — Hitchcock foi ativo majoritariamente entre as décadas de 1880 e 1900.",
       "imageFile": "george-hitchcock-um-sonho-de-natal.webp",
       "licenseType": "public-domain",
-      "references": []
+      "references": [
+        {
+          "book": "Lucas",
+          "bookSlug": "luke",
+          "chapter": 2,
+          "passageText": "\"E havia naquela mesma comarca pastores que estavam no campo, e guardavam durante as vigílias da noite o seu rebanho. E eis que um anjo do Senhor apareceu-lhes, e a glória do Senhor os cercou de resplendor, e tiveram grande temor.\"\n- **Lucas 2:8-9\n\n\"A luz brilha nas trevas, e as trevas não prevaleceram contra ela.\"\n- **João 1:5"
+        },
+        {
+          "book": "João",
+          "bookSlug": "john",
+          "chapter": 1
+        }
+      ]
     },
     {
       "slug": "george-richmond-a-agonia-no-getsemani",
@@ -6431,10 +6501,17 @@
       "artistOrDirector": "Guercino",
       "year": "1639",
       "category": "painting",
-      "description": "Ester diante de Assuero, de Guercino.",
+      "description": "Óleo sobre tela de **Guercino** (Giovanni Francesco Barbieri, 1591–1666), mestre barroco italiano, datado de **1639**, hoje no University of Michigan Museum of Art. A obra retrata o momento decisivo do livro de Ester: a rainha se apresenta diante do rei Assuero sem ter sido chamada — ato punível com morte — para interceder pela vida do seu povo, ameaçado de extermínio pelo decreto obtido por Hamã.\n\nAssuero, com robes vermelhos majestosos, colarinho de arminho e turbante verde encimado pela coroa, está sentado em seu trono à esquerda. Ester se aproxima, tomada pela emoção do risco que corre, amparada por duas servas — uma sustenta seu corpo, a outra carrega sua cauda. Comovido, o rei se inclina para a frente e estende o cetro, sinal de que a perdoa por ter se apresentado sem convocação e aceita ouvi-la.\n\nGuercino capta o instante de maior tensão dramática de toda a narrativa de Ester — o momento em que uma vida (e, por trás dela, um povo inteiro) está literalmente pendurada num gesto do rei. A composição não é sobre triunfo ainda, é sobre risco e graça: Ester já tomou a decisão irreversível de \"perecer, se perecer\" (Ester 4:16), e o quadro congela o segundo exato em que essa aposta é respondida com misericórdia.\n\n> [!info] Esther before Ahasuerus — University of Michigan Museum of Art\n> https://umma.umich.edu/objects/esther-before-ahasuerus-1963-2-45/",
       "imageFile": "guercino-ester-diante-de-assuero.webp",
       "licenseType": "public-domain",
-      "references": []
+      "references": [
+        {
+          "book": "Ester",
+          "bookSlug": "esther",
+          "chapter": 5,
+          "passageText": "\"E sucedeu que, ao terceiro dia, Ester se vestiu de trajes reais, e se pôs no pátio interior da casa do rei, defronte da casa do rei; e o rei estava assentado sobre o seu trono real na casa do reino, defronte da porta da casa.\"\n- **Ester 5:1\n\n\"E sucedeu que, vendo o rei a rainha Ester, que estava em pé no pátio, ela alcançou graça aos seus olhos; e o rei estendeu a Ester o cetro de ouro que tinha na mão, e Ester se chegou, e tocou a ponta do cetro.\"\n- **Ester 5:2\n\n\"E, se perecer, pereço.\"\n- **Ester 4:16"
+        }
+      ]
     },
     {
       "slug": "guercino-o-retorno-do-filho-prodigo",
@@ -6476,10 +6553,22 @@
       "artistOrDirector": "Guido Reni",
       "year": "1640",
       "category": "painting",
-      "description": "José e Cristo menino, de Guido Reni.",
+      "description": "Óleo sobre tela de **Guido Reni** (1575–1642), mestre boloñês do Barroco, datado de **1640** e hoje na Rienzi Collection do Museum of Fine Arts, Houston. A obra retrata José, pai adotivo de Jesus, segurando o menino nos braços com uma ternura que domina toda a composição — um homem simples, não um patriarca solene, envolvido no gesto mais comum e ao mesmo tempo mais decisivo de sua vida.\n\nDiferente de boa parte da tradição pictórica anterior à Contrarreforma, que usava auréolas para marcar a santidade das figuras, Reni ilumina o rosto de José com claro-escuro — luz e sombra dramáticas que dão ao pai adotivo um protagonismo visual incomum para a época, quando José costumava aparecer como figura secundária diante de Maria e do menino.\n\nUm detalhe carrega peso teológico: o menino Jesus segura uma fruta nas mãos. É referência dupla — à queda de Adão no Éden, e à fecundidade da redenção que o próprio Cristo, segurando o fruto, virá a realizar. José, sem saber, segura nos braços quem vai desfazer o que a fruta do Éden começou.\n\n> [!info] Saint Joseph and the Christ Child — Museum of Fine Arts, Houston\n> https://www.mfah.org/blogs/behind-scenes-rienzi/saint-joseph-and-christ-child",
       "imageFile": "guido-reni-jose-e-cristo-menino.webp",
       "licenseType": "public-domain",
-      "references": []
+      "references": [
+        {
+          "book": "Gênesis",
+          "bookSlug": "genesis",
+          "chapter": 3,
+          "passageText": "\"E ao homem disse: Porquanto deste ouvidos à voz de tua mulher, e comeste da árvore de que te ordenei, dizendo: Não comerás dela, maldita é a terra por tua causa.\"\n- **Gênesis 3:17\n\n\"E chamarás o seu nome JESUS; porque ele salvará o seu povo dos seus pecados.\"\n- **Mateus 1:21"
+        },
+        {
+          "book": "Mateus",
+          "bookSlug": "matthew",
+          "chapter": 1
+        }
+      ]
     },
     {
       "slug": "guido-reni-jose-e-a-mulher-de-potifar",
@@ -6503,12 +6592,24 @@
       "title": "O martírio de André",
       "subtitle": "The martydom of St. Andrew",
       "artistOrDirector": "Guido Reni",
-      "year": "1600",
+      "year": "1608",
       "category": "painting",
-      "description": "O martírio de André, de Guido Reni.",
+      "description": "Afresco de **Guido Reni** (1575–1642) na igreja de San Gregorio Magno al Celio, em Roma, datado de **1608**, retratando André sendo conduzido ao martírio. Segundo a tradição da igreja (não registrada no Novo Testamento, mas transmitida desde os primeiros séculos), André teria pedido para ser crucificado numa cruz em forma de X — a \"cruz de Santo André\" — por se considerar indigno de morrer na mesma forma de cruz que Cristo. Reni pinta essa cruz em X ao fundo, marca visual que se tornaria o símbolo mais reconhecível do apóstolo em toda a arte cristã posterior.\n\nA obra teve influência duradoura: um artista veneziano anônimo do século XVII copiou a composição de Reni numa pequena imagem devocional, hoje no Cleveland Museum of Art — sinal de como a iconografia criada por Reni para esse episódio se tornou referência para gerações seguintes de pintores do tema.\n\n> [!info] St Andrew Led to Martyrdom — Web Gallery of Art\n> https://www.wga.hu/html_m/r/reni/1/oratorio.html",
       "imageFile": "guido-reni-o-martirio-de-andre.webp",
       "licenseType": "public-domain",
-      "references": []
+      "references": [
+        {
+          "book": "Mateus",
+          "bookSlug": "matthew",
+          "chapter": 4,
+          "passageText": "\"E, andando Jesus junto ao mar da Galileia, viu a dois irmãos, Simão, chamado Pedro, e André, seu irmão, que lançavam a rede ao mar, porque eram pescadores. E disse-lhes: Vinde após mim, e eu vos farei pescadores de homens. Então eles, deixando logo as redes, o seguiram.\"\n- **Mateus 4:18-20\n\n\"André, irmão de Simão Pedro, era um dos dois que ouviram aquilo de João, e o haviam seguido. Ele achou primeiro a seu irmão Simão, e disse-lhe: Havemos achado o Messias.\"\n- **João 1:40-41"
+        },
+        {
+          "book": "João",
+          "bookSlug": "john",
+          "chapter": 1
+        }
+      ]
     },
     {
       "slug": "gustav-amberger-o-crucifixo-ao-luar",
@@ -7429,11 +7530,24 @@
       "slug": "gustave-dore-jesus-caindo-da-cruz",
       "title": "Jesus caindo da cruz",
       "artistOrDirector": "Gustave Doré",
+      "year": "1866",
       "category": "painting",
-      "description": "Jesus caindo da cruz, de Gustave Doré.",
+      "description": "Gravura de **Gustave Doré** (1832–1883), produzida para a Bíblia Ilustrada de Doré (**1866**), uma das séries de ilustrações bíblicas mais reproduzidas da história — 19 x 24 cm, no característico claro-escuro dramático das gravuras do artista. A cena mostra Jesus caído sob o peso da cruz que carregava a caminho do Gólgota, enquanto Simão de Cirene se abaixa para ajudar a erguer o madeiro.\n\n> [!note] Honestidade sobre a cena\n> Os quatro Evangelhos registram que Simão de Cirene foi obrigado a carregar a cruz (Mateus 27:32, Marcos 15:21, Lucas 23:26), mas **nenhum deles narra Jesus caindo**. A imagem de Jesus tropeçando sob o peso do madeiro é tradição devocional consolidada — está nas Estações da Via-Sacra —, inferida do fato de que Simão precisou assumir a carga, não um evento descrito literalmente no texto bíblico. Doré, como quase todos os pintores que trataram do tema, segue a tradição, não o texto ao pé da letra.\n\nDoré usa a queda para intensificar o que o texto de fato afirma: um homem física e emocionalmente esgotado, que precisa de ajuda alheia pra continuar o caminho até o próprio sacrifício.\n\n> [!info] Jesus Falling Beneath the Cross — Doré's Bible (1866)\n> https://www.wikiart.org/en/gustave-dore/jesus-falling-beneath-the-cross",
       "imageFile": "gustave-dore-jesus-caindo-da-cruz.webp",
       "licenseType": "public-domain",
-      "references": []
+      "references": [
+        {
+          "book": "Marcos",
+          "bookSlug": "mark",
+          "chapter": 15,
+          "passageText": "\"E, saindo, encontraram um homem cireneu, chamado Simão; a este constrangeram a levar a sua cruz.\"\n- **Marcos 15:21\n\n\"E, levando-o, tomaram um certo Simão, cireneu, que vinha do campo, e puseram-lhe a cruz às costas, para que a levasse após Jesus.\"\n- **Lucas 23:26"
+        },
+        {
+          "book": "Lucas",
+          "bookSlug": "luke",
+          "chapter": 23
+        }
+      ]
     },
     {
       "slug": "gustave-dore-jesus-caminha-sobre-as-aguas",
@@ -7967,11 +8081,24 @@
       "slug": "gustave-dore-os-martires-cristaos",
       "title": "Os mártires cristãos",
       "artistOrDirector": "Gustave Doré",
+      "year": "1871",
       "category": "painting",
-      "description": "Os mártires cristãos, de Gustave Doré.",
+      "description": "Óleo de **Gustave Doré** (1832–1883), pintado em **1871** para a Doré Gallery, exposição permanente da obra do artista em Londres, visitada por mais de dois milhões de pessoas entre 1868 e 1892. Diferente das gravuras bíblicas mais conhecidas de Doré, esta é uma pintura de grande escala num cenário arquitetônico monumental — arcos curvos e assentos escalonados que lembram um anfiteatro romano, o mesmo tipo de cenário de perseguição que aparece em tantas outras obras do período (compare com \"Mártires Cristãos no Coliseu\", de Konstantin Flavitsky, no mesmo catálogo).\n\nNo primeiro plano, corpos vestidos com longas túnicas jazem no chão, alguns imóveis; uma das figuras tem uma auréola tênue sobre a cabeça. Dominando a composição de cima, um anjo de asas abertas desce em direção aos caídos. Doré usa tons contidos e sombreamento cuidadoso pra dar à figura angélica uma qualidade etérea, em contraste com a solenidade pesada da cena abaixo — não é só registro do sofrimento, é a resposta celeste a ele.\n\n> [!info] The Christian Martyrs — National Gallery of Art\n> https://www.nga.gov/artworks/73471-christian-martyrs",
       "imageFile": "gustave-dore-os-martires-cristaos.webp",
       "licenseType": "public-domain",
-      "references": []
+      "references": [
+        {
+          "book": "Apocalipse",
+          "bookSlug": "revelation",
+          "chapter": 7,
+          "passageText": "\"Depois destas coisas olhei, e eis uma multidão, a qual ninguém podia contar, de todas as nações, e tribos, e povos, e línguas, que estavam diante do trono, e perante o Cordeiro, trajando vestes brancas, e com palmas nas mãos.\"\n- **Apocalipse 7:9\n\n\"Precioso é à vista do Senhor a morte dos seus santos.\"\n- **Salmos 116:15"
+        },
+        {
+          "book": "Salmos",
+          "bookSlug": "psalms",
+          "chapter": 116
+        }
+      ]
     },
     {
       "slug": "gustave-dore-paulo-discursa-apos-sair-da-prisao",
@@ -8671,10 +8798,17 @@
       "artistOrDirector": "Henry Ossawa Tanner",
       "year": "1899",
       "category": "painting",
-      "description": "Nicodemos visitando Jesus, de Henry Ossawa Tanner.",
+      "description": "Óleo sobre tela de **Henry Ossawa Tanner** (1859–1937), pintado em **1899** em Jerusalém, durante a segunda estadia do artista na Palestina, hoje na Pennsylvania Academy of the Fine Arts (que concedeu à obra o Prêmio Lippincott naquele ano). Tanner — o primeiro pintor afro-americano a alcançar reconhecimento internacional — passou seis meses morando em Jerusalém especificamente para dar autenticidade à cena, usando moradores locais como modelos.\n\nA obra retrata Jesus e Nicodemos sentados juntos, aparentemente num pátio ou terraço, numa das pinturas noturnas pelas quais Tanner ficou conhecido — cenas banhadas por luz de lua ou lamparina, num azul profundo que se tornaria assinatura do artista. É exatamente esse tratamento noturno que faz da luz o próprio tema visual da obra: Nicodemos, fariseu e chefe dos judeus, veio \"de noite\" — e Tanner pinta essa noite literalmente, não como pano de fundo, mas como personagem da cena.\n\n> [!info] Nicodemus Visiting Jesus — Pennsylvania Academy of the Fine Arts (PAFA)\n> https://www.pafa.org/museum/collection/item/nicodemus",
       "imageFile": "henry-ossawa-tanner-nicodemos-visitando-jesus.webp",
       "licenseType": "public-domain",
-      "references": []
+      "references": [
+        {
+          "book": "João",
+          "bookSlug": "john",
+          "chapter": 3,
+          "passageText": "\"E havia entre os fariseus um homem, chamado Nicodemos, príncipe dos judeus. Este foi ter de noite com Jesus, e disse-lhe: Rabi, bem sabemos que és Mestre, vindo de Deus; porque ninguém pode fazer estes sinais que tu fazes, se Deus não for com ele.\"\n- **João 3:1-2\n\n\"Porque Deus amou o mundo de tal maneira que deu o seu Filho unigênito, para que todo aquele que nele crê não pereça, mas tenha a vida eterna.\"\n- **João 3:16"
+        }
+      ]
     },
     {
       "slug": "henry-ossawa-tanner-o-salvador",
@@ -10553,12 +10687,19 @@
       "slug": "jan-bruegel-o-velho-profecia-do-profeta-isaias",
       "title": "Profecia do profeta Isaías",
       "artistOrDirector": "Jan Bruegel o Velho",
-      "year": "1569",
+      "year": "c. 1609",
       "category": "painting",
-      "description": "Profecia do profeta Isaías, de Jan Bruegel o Velho.",
+      "description": "Óleo sobre tela de **Jan Bruegel o Velho** (1568–1625), pintor flamengo, filho de Pieter Bruegel o Velho, datado de **c. 1609** e hoje na Alte Pinakothek, em Munique. A obra ilustra literalmente a profecia de Isaías 2:4 — a inscrição na própria pintura cita o versículo: as nações baterão suas espadas em relhas de arado, e suas lanças em foices.\n\nNo centro, a figura do profeta Isaías. Ao seu redor, a alegoria ganha corpo: a Paz queima um capacete sobre uma fogueira, segurando um ramo de oliveira; junto a uma forja, figuras transformam espadas em instrumentos de lavoura, cumprindo a profecia diante dos olhos de quem observa. À direita, figuras femininas personificam os frutos da paz — Felicidade, Piedade e Abundância.\n\nA obra foi provavelmente encomendada por (ou destinada a) Maximiliano I da Baviera, líder da Liga Católica, como referência à Trégua dos Doze Anos, que em 1609 suspendeu temporariamente a guerra entre as Províncias Unidas e a Espanha. Bruegel não pinta só uma cena bíblica — pinta uma esperança política concreta do seu próprio tempo, emprestando à profecia de Isaías o peso de um evento histórico real que os primeiros espectadores da obra reconheceriam de imediato.\n\n> [!info] The Prophecy of Isaiah — Jan Brueghel Complete Catalog\n> http://janbrueghel.net/janbrueghel/the-prophecy-of-isaiah-munich",
       "imageFile": "jan-bruegel-o-velho-profecia-do-profeta-isaias.webp",
       "licenseType": "public-domain",
-      "references": []
+      "references": [
+        {
+          "book": "Isaías",
+          "bookSlug": "isaiah",
+          "chapter": 2,
+          "passageText": "\"E julgará entre as nações, e repreenderá a muitos povos; e converterão as suas espadas em relhas de arado, e as suas lanças em foices; não levantará espada nação contra nação, nem aprenderão mais a guerra.\"\n- **Isaías 2:4"
+        }
+      ]
     },
     {
       "slug": "jan-bruegel-o-velho-estrada-para-o-golgota",
@@ -11981,10 +12122,22 @@
       "artistOrDirector": "Konstantin Flavitsky",
       "year": "1862",
       "category": "painting",
-      "description": "Mártires cristãos no Coliseu, de Konstantin Flavitsky.",
+      "description": "Óleo sobre tela de grande formato (385 x 539 cm) do pintor russo **Konstantin Flavitsky** (1830–1866), concluído em **1862** durante sua viagem de formação na Itália, hoje no Museu Russo, em São Petersburgo. A cena não ilustra um episódio bíblico específico, mas a experiência coletiva da igreja perseguida nos primeiros séculos: um grupo de cristãos — homens, mulheres, crianças, um ancião — reunido numa câmara subterrânea do Coliseu romano, no instante em que os portões se abrem para a claridade ofuscante da arena.\n\nUm homem junto à porta ergue uma cruz de madeira diante da luz que invade o recinto; ao fundo, um guarda romano empurra os prisioneiros adiante. Em primeiro plano, uma mulher desfalece, amparada pelos outros, enquanto uma criança se debruça sobre ela em aflição. O rosto do ancião à direita, sereno em meio ao pavor geral ao redor, sugere a resignação de quem já fez as pazes com o próprio fim. Flavitsky, influenciado pela obra \"O Último Dia de Pompeia\" de Karl Briullov, monta uma composição teatral e monumental, mas o tema não é a catástrofe — é a fé sob pressão máxima, no instante exato antes do sacrifício.\n\n> [!info] Christian Martyrs in the Colosseum — Russian Museum, São Petersburgo\n> https://rusmuseumvrm.ru/data/collections/painting/19_20/zh_5688/index.php?lang=en",
       "imageFile": "konstantin-flavitsky-martires-cristaos-no-coliseu.webp",
       "licenseType": "public-domain",
-      "references": []
+      "references": [
+        {
+          "book": "Apocalipse",
+          "bookSlug": "revelation",
+          "chapter": 6,
+          "passageText": "\"E, havendo aberto o quinto selo, vi debaixo do altar as almas dos que foram mortos por causa da palavra de Deus, e por causa do testemunho que deram. E clamavam com grande voz, dizendo: Até quando, ó Soberano Senhor, santo e verdadeiro, não julgas e vingas o nosso sangue dos que habitam sobre a terra?\"\n- **Apocalipse 6:9-10\n\n\"E foram apedrejados, serrados, tentados, mortos ao fio da espada; andaram vestidos de peles de ovelhas e de cabras, necessitados, aflitos, e maltratados (dos quais o mundo não era digno).\"\n- **Hebreus 11:37-38"
+        },
+        {
+          "book": "Hebreus",
+          "bookSlug": "hebrews",
+          "chapter": 11
+        }
+      ]
     },
     {
       "slug": "konstantin-flavitsky-o-julgamento-de-salomao",
@@ -15039,12 +15192,24 @@
       "title": "O apóstolo Paulo",
       "subtitle": "The Apostle Paul",
       "artistOrDirector": "Rembrandt van Rijn",
-      "year": "1657",
+      "year": "c. 1657",
       "category": "painting",
-      "description": "O apóstolo Paulo, de Rembrandt van Rijn.",
+      "description": "Óleo sobre tela de **Rembrandt van Rijn** (1606–1669), pintor holandês do **Século de Ouro**, datado de **c. 1657**, hoje na National Gallery of Art, em Washington. A obra retrata o apóstolo Paulo sentado diante de uma mesa no recesso de uma cela de prisão, a mão levada à cabeça enquanto pondera as palavras que está prestes a escrever no grande livro aberto à sua frente.\n\nA expressão pesada e introspectiva do rosto sublinha a profundidade de sua fé e o peso da missão de levar o evangelho aos gentios. Acima do livro, encostada, uma espada — símbolo tanto da \"espada do Espírito\" que Paulo descreve em Efésios 6:17 quanto, possivelmente, um eco do seu passado de perseguidor antes da conversão e um presságio do martírio que o esperava.\n\nRembrandt voltou a Paulo várias vezes ao longo da carreira, talvez por suas cartas serem a fonte teológica central da Reforma protestante, talvez por Paulo encarnar o ideal cristão da graça recebida independentemente de mérito — um tema que atravessa boa parte da obra religiosa do pintor. Estudos técnicos indicam que a composição pode ter começado como a imagem de um erudito em seu estudo, só depois transformada na figura do apóstolo, possivelmente com participação do ateliê de Rembrandt.\n\n> [!info] The Apostle Paul, c. 1657 — National Gallery of Art, Washington\n> https://www.nga.gov/research/publications/online-editions/dutch-paintings-seventeenth-century-apostle-paul-c-1657",
       "imageFile": "rembrandt-van-rijn-o-apostolo-paulo.webp",
       "licenseType": "public-domain",
-      "references": []
+      "references": [
+        {
+          "book": "Efésios",
+          "bookSlug": "ephesians",
+          "chapter": 6,
+          "passageText": "\"Tomai também o capacete da salvação, e a espada do Espírito, que é a palavra de Deus.\"\n- **Efésios 6:17\n\n\"Já não sou eu que vivo, mas Cristo vive em mim; e a vida que agora vivo na carne, vivo-a na fé do Filho de Deus, o qual me amou, e se entregou a si mesmo por mim.\"\n- **Gálatas 2:20\n\n\"Combati o bom combate, acabei a carreira, guardei a fé. Desde agora, a coroa da justiça me está guardada, a qual o Senhor, justo juiz, me dará naquele dia.\"\n- **2 Timóteo 4:7-8"
+        },
+        {
+          "book": "2 Timóteo",
+          "bookSlug": "2-timothy",
+          "chapter": 4
+        }
+      ]
     },
     {
       "slug": "rembrandt-van-rijn-o-bom-samaritano",
@@ -15084,12 +15249,24 @@
       "slug": "rembrandt-van-rijn-o-rosto-de-cristo",
       "title": "O rosto de Cristo",
       "artistOrDirector": "Rembrandt van Rijn",
-      "year": "1656",
+      "year": "c. 1648–1656",
       "category": "painting",
-      "description": "O rosto de Cristo, de Rembrandt van Rijn.",
+      "description": "Óleo sobre painel de **Rembrandt van Rijn** (1606–1669), pertencente a uma série de cerca de sete estudos do rosto de Cristo pintados entre **1648 e 1656**, no auge da maturidade artística do pintor holandês. É um retrato de busto, o rosto de um homem jovem, iluminado com suavidade, cada versão da série com uma expressão ligeiramente diferente — contemplativa, serena, humana.\n\nO que torna essa série um marco na história da arte é o método: um inventário de 1656 da casa de Rembrandt registra um quadro como \"uma cabeça de Cristo, feita do natural\" — evidência de que o pintor usou como modelo um vizinho judeu do bairro onde morava, em Amsterdã. Ao posar um modelo real, etnicamente coerente com a origem judaica de Jesus, Rembrandt rompeu com séculos de arte cristã que repetiam protótipos rígidos e idealizados para o rosto de Cristo, herdados de tradições bizantinas.\n\nÉ um Cristo sem auréola dourada nem beleza sobre-humana — só um rosto real, humano, encontrado na própria vizinhança do pintor. A série é, ao mesmo tempo, ousadia artística e confissão teológica: Deus que se fez carne não escolheu um rosto de estátua, escolheu um rosto comum.\n\n> [!info] Head of Christ — Philadelphia Museum of Art\n> https://www.philamuseum.org/collection/object/102264",
       "imageFile": "rembrandt-van-rijn-o-rosto-de-cristo.webp",
       "licenseType": "public-domain",
-      "references": []
+      "references": [
+        {
+          "book": "João",
+          "bookSlug": "john",
+          "chapter": 1,
+          "passageText": "\"E o Verbo se fez carne, e habitou entre nós, e vimos a sua glória, como a glória do unigênito do Pai, cheio de graça e de verdade.\"\n- **João 1:14\n\n\"Nasceu como renovo perante ele, e como raiz de uma terra seca; não tem parecer nem formosura; e, olhando nós para ele, nenhuma beleza víamos, para que o desejássemos.\"\n- **Isaías 53:2"
+        },
+        {
+          "book": "Isaías",
+          "bookSlug": "isaiah",
+          "chapter": 53
+        }
+      ]
     },
     {
       "slug": "rembrandt-van-rijn-o-sacrificio-de-isaque",
@@ -17940,11 +18117,23 @@
       "artistOrDirector": "Édouard Manet",
       "year": "1865",
       "category": "painting",
-      "description": "O rosto de Cristo, de Édouard Manet.",
+      "description": "Detalhe do rosto de Cristo em **\"Jesus Insultado pelos Soldados\"** (*Jésus insulté par les soldats*), óleo sobre tela de **Édouard Manet** (1832–1883), sua última obra de tema religioso, pintada em **1865** e hoje no Art Institute of Chicago. É o rosto exausto, sem auréola, coroado de espinhos — sangue escorrendo da testa, olhar entre a dor e uma dignidade silenciosa que resiste à zombaria em curso ao redor dele.\n\nManet rompeu com a tradição de representar Cristo glorificado mesmo na Paixão: aqui é um corpo pálido, quase translúcido, de vulnerabilidade física real, sem o triunfalismo comum na pintura religiosa acadêmica do período. A crítica da época reagiu com hostilidade — Paul de Saint-Victor chamou a obra de \"o horrível Ecce Homo do Sr. Manet\". Historiadores da arte identificam influência de Anthony van Dyck e de Ticiano em composições anteriores do mesmo tema, mas o tratamento de Manet é deliberadamente menos idealizado que os dois.\n\nÉ exatamente essa recusa da beleza heroica que aproxima a obra da profecia de Isaías sobre o Servo Sofredor — \"sem beleza para que o desejássemos\". Manet, sem necessariamente pretender isso, pintou um Cristo teologicamente mais próximo do texto profético do que boa parte da tradição pictórica anterior.\n\n> [!info] Jesus Insulted by the Soldiers — Art Institute of Chicago\n> https://en.wikipedia.org/wiki/Jesus_Insulted_by_the_Soldiers",
       "imageFile": "edouard-manet-o-rosto-de-cristo.webp",
       "licenseType": "public-domain",
-      "references": []
+      "references": [
+        {
+          "book": "Mateus",
+          "bookSlug": "matthew",
+          "chapter": 27,
+          "passageText": "\"Então os soldados do presidente, levando consigo Jesus à audiência, ajuntaram ao pé dele toda a coorte. E, despindo-o, o cobriram com uma capa de escarlata. E, tecendo uma coroa de espinhos, puseram-lha na cabeça, e em sua mão direita uma cana; e, ajoelhando diante dele, o escarneciam, dizendo: Salve, rei dos judeus.\"\n- **Mateus 27:27-29\n\n\"E, cuspindo nele, tiraram-lhe a cana, e batiam-lhe com ela na cabeça.\"\n- **Mateus 27:30\n\n\"Não tem parecer nem formosura; e, olhando nós para ele, nenhuma beleza víamos, para que o desejássemos. Foi desprezado, e o mais rejeitado entre os homens, homem de dores, e experimentado nos trabalhos.\"\n- **Isaías 53:2-3"
+        },
+        {
+          "book": "Isaías",
+          "bookSlug": "isaiah",
+          "chapter": 53
+        }
+      ]
     }
   ],
-  "exportedAt": "2026-08-16T02:56:00.149Z"
+  "exportedAt": "2026-08-16T19:34:38.654Z"
 }

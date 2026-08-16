@@ -86,16 +86,31 @@ elevar a qualidade do catálogo.
 - [x] **Descrições formatadas**: `react-markdown` no cliente
       (`web/src/components/ui/markdown.tsx` — **negrito**, *itálico*, links,
       listas, citações; escapa HTML cru). Usado na página da obra.
-- [ ] **Conteúdo em lote — números reais (checado 2026-08-16, achado
+- [~] **Conteúdo em lote — números reais (checado 2026-08-16, achado
       testando o site em produção)**: de 853 obras, **184 (21%) têm
       descrição curta demais** (<80 caracteres), sendo **18 delas só o
       fallback genérico do export** ("X, de Y.", sem conteúdo real
       nenhum) e **73 (8%) sem nenhuma referência bíblica associada**.
-      Não é suposição — contado via API real, obra por obra. Trabalho
-      de curadoria no vault (não é bug de código): escrever descrição +
-      achar/confirmar referência pra cada uma das 184, priorizando as
-      18 do fallback genérico primeiro (são as piores, zero contexto
-      pro visitante). Fazer em lotes revisáveis, não tudo de uma vez.
+      Não é suposição — contado via API real, obra por obra.
+  - [x] **As 18 do fallback genérico — concluídas (2026-08-16)**: cada
+        uma pesquisada de verdade (não texto genérico gerado) — fonte
+        real por obra (National Gallery of Art, Philadelphia Museum,
+        Met, Getty, Alte Pinakothek, museus russos e outros), formato
+        completo (Descrição da Obra + Contexto Bíblico verso a verso).
+        3 correções de dado achadas no caminho: ano errado do Brueghel
+        (1569 era o nascimento do pintor, não da obra — corrigido pra
+        c. 1609), ano errado do Guido Reni "Martírio de André" (1600 →
+        1608, confirmado pela obra original), link do Notion quebrado
+        no campo `livros` da nota de Ester/Guercino. Honestidade
+        teológica mantida onde relevante: desmaio de Ester é das
+        Adições Gregas (apócrifas), não do texto hebraico canônico;
+        cruz em X de André é tradição da igreja, não Escritura; "Os
+        temperados e os intemperados" nem é cena bíblica — é iluminura
+        ilustrando Valério Máximo (autor romano), catalogada pelo tema
+        moral partilhado, não por narrar episódio das Escrituras.
+  - [ ] **Restam 166 obras** (184 − 18) com descrição curta mas não
+        vazia, e 73 sem referência — trabalho de curadoria contínua,
+        próximos lotes quando fizer sentido retomar.
 
 ## Fase 2 — UI/UX profissional
 
