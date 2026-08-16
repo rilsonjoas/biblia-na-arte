@@ -167,6 +167,14 @@ elevar a qualidade do catálogo.
       `Bíblia na Arte - A Bíblia através da Arte e Cultura` (sem
       `.com` grudado) — isso é literalmente o que aparece no Google e
       em cards de compartilhamento social.
+- [x] **`mailto:contato@biblianaarte.com` removido (2026-08-14)** —
+      domínio que o Rilson não possui, todo clique falharia. Pendência
+      real pra trás: e-mail de contato de verdade. Decisão central em
+      `hetzner-infra/README.md` ("Roadmap") — alias no cPanel do
+      narniano.com redirecionando pro Gmail já monitorado, não caixa
+      nova por projeto. Até lá, se precisar de um contato clicável aqui,
+      usar `rilsonjoas10@gmail.com` direto (mesmo padrão do
+      `scriptorium-divinum`, 2026-08-16).
 
 ## Fase 4 — Segurança, observabilidade e infra
 
