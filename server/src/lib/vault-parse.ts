@@ -45,13 +45,34 @@ export function extractWikilink(value: unknown): string {
 
 /** Extrai a seção "### Descrição da Obra". Fallback: primeiro parágrafo de
  *  texto depois da imagem embutida. Mesmo comportamento do script original. */
+/** Detecta "conteúdo" que na verdade não é descrição nenhuma — nota-stub
+ * genuína (seção vazia, capturando só o "---" do divisor seguinte por
+ * causa do `\s*` guloso do regex principal) ou placeholder de navegação
+ * interna do Obsidian ("Ver [[Livro]], [[Livro Capítulo]]."). Achado real
+ * 2026-08-16, testando descrições curtas em produção: sem essa checagem,
+ * 29 obras mostravam literalmente "---" como descrição, e ~138 mostravam
+ * o placeholder de navegação cru. */
+function isPlaceholderText(text: string): boolean {
+  const t = text.trim();
+  if (!t) return true;
+  if (/^-{2,}$/.test(t)) return true;
+  if (/^Ver\s+(\[\[[^\]]+\]\](,\s*)?)+\.?$/i.test(t)) return true;
+  if (/^#{1,6}\s/.test(t)) return true;
+  return false;
+}
+
 export function extractDescription(content: string): string {
   const afterFrontmatter = content.replace(/^---\n[\s\S]*?\n---/, '').trim();
   const descMatch = afterFrontmatter.match(/###\s*Descrição da Obra\s*\n+([\s\S]*?)(?=\n---|\n###|$)/);
-  if (descMatch?.[1]) return descMatch[1].trim().slice(0, 2000);
-  // Fallback: primeiro parágrafo de texto depois da imagem embutida
+  const captured = descMatch?.[1]?.trim();
+  if (captured && !isPlaceholderText(captured)) return captured.slice(0, 2000);
+  // Fallback: primeiro parágrafo de texto real depois da imagem embutida
+  // (pula placeholders de navegação e linhas de heading, não só o primeiro
+  // trecho >20 caracteres que aparecer)
   const withoutImage = afterFrontmatter.replace(/!\[\[[^\]]+\]\]/, '').trim();
-  const firstParagraph = withoutImage.split(/\n{2,}/).find((p) => p.trim().length > 20);
+  const firstParagraph = withoutImage
+    .split(/\n{2,}/)
+    .find((p) => p.trim().length > 20 && !isPlaceholderText(p.trim()));
   return (firstParagraph ?? '').trim().slice(0, 2000);
 }
 

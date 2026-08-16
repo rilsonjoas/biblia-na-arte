@@ -121,6 +121,38 @@ Segundo parágrafo.
   it('retorna vazio quando não há texto', () => {
     expect(extractDescription('---\nautor: "[[X]]"\n---')).toBe('');
   });
+
+  it('retorna vazio quando a seção Descrição da Obra existe mas está vazia (achado real 2026-08-16: capturava "---" do divisor)', () => {
+    const note = `---
+autor: "[[X]]"
+---
+![[img.png]]
+### Descrição da Obra
+
+
+---
+
+### Contexto Bíblico
+
+`;
+    expect(extractDescription(note)).toBe('');
+  });
+
+  it('ignora placeholder de navegação "Ver [[...]]" no fallback (achado real 2026-08-16)', () => {
+    const note = `---
+autor: "[[X]]"
+livros:
+  - "[[Salmos]]"
+---
+
+![[img.jpg|600]]
+
+### Contexto Bíblico
+
+Ver [[Salmos]], [[Salmo 19]].
+`;
+    expect(extractDescription(note)).toBe('');
+  });
 });
 
 describe('parseChapterLink', () => {
