@@ -25,8 +25,24 @@ export default function Header() {
           <div className="flex items-center justify-between gap-4">
             {/* Logo */}
             <Link to="/" className="flex items-center space-x-2.5 group focus:outline-none shrink-0">
-              <div className="w-8 h-8 gradient-hero rounded-lg flex items-center justify-center shadow-md group-hover:scale-105 transition-transform">
-                <Book className="w-4 h-4 text-white" />
+              <div className="w-8 h-8 rounded-lg overflow-hidden shadow-md group-hover:scale-105 transition-transform shrink-0">
+                {/* Duas versões (clara/escura) trocadas via CSS, sem JS — mesmo
+                    padrão do resto do site (--primary muda de vinho pra
+                    dourado no dark mode; a logo acompanha). */}
+                <img
+                  src="/logo-header-light.png"
+                  alt="Bíblia na Arte"
+                  className="w-8 h-8 dark:hidden"
+                  width={32}
+                  height={32}
+                />
+                <img
+                  src="/logo-header-dark.png"
+                  alt="Bíblia na Arte"
+                  className="hidden w-8 h-8 dark:block"
+                  width={32}
+                  height={32}
+                />
               </div>
               <span className="text-display text-xl font-bold text-foreground group-hover:text-primary transition-colors tracking-tight">
                 Bíblia<span className="text-amber-500 font-normal"> na Arte</span>
