@@ -106,6 +106,13 @@ elevar a qualidade do catálogo.
       erro com retry (`ErrorCard`), vazio com CTAs.
 - [x] **Acessibilidade**: contraste refinado, foco visível, navegação fluida
       por teclado, botões de ação e atributos ARIA.
+- [ ] **Achado 2026-08-16, checagem rápida**: 17 `aria-label`/`alt` em 81
+      componentes (~21%) — diferente do Lecionário, este projeto nunca
+      passou por uma auditoria de contraste com conta real (luminância/
+      WCAG AA calculado, não só "olhar"). O item acima é uma afirmação
+      qualitativa antiga, sem número por trás. Vale repetir a mesma
+      receita que funcionou lá antes de considerar isto realmente
+      concluído.
 
 ## Fase 3 — Performance e SEO
 
