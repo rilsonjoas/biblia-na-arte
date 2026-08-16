@@ -126,19 +126,55 @@ elevar a qualidade do catálogo.
         aparecendo a Saul), Willem de Poorter (Salomão e a Rainha de
         Sabá). 1 correção de capítulo (Moisés: Êxodo 34 → 32, a cena é
         antes de quebrar as tábuas, não a segunda entrega).
+  - [x] **3º lote de conteúdo real — 10 obras (2026-08-16)**: Rembrandt
+        (Simeão e Ana no Templo, Paisagem na fuga para o Egito, O sonho
+        de José, Jesus expulsando os vendilhões do Templo, Fuga para o
+        Egito — 5 obras diferentes do mesmo pintor, cada uma com fonte
+        própria), Ticiano (Salomé com a cabeça de João Batista — versão
+        de oficina, distinta da nota já existente sobre a versão do
+        Prado —, Os peregrinos em Emaús), Pieter Bruegel o Velho
+        (Jesus e os discípulos no caminho de Emaús), Philippe de
+        Champaigne (O bom pastor), Rogier van der Weyden (O nascimento
+        de João Batista, painel do Tríptico de São João Batista).
+        2 achados no caminho:
+        1. **Correção de dado**: "O sonho de José" de Rembrandt estava
+           catalogado como Gênesis 37 (sonho de José filho de Jacó) —
+           mas a obra retrata o segundo sonho de José, marido de
+           Maria, avisado a fugir para o Egito (Mateus 2:13-15); a
+           própria imagem mostra um anjo sobre a Sagrada Família
+           dormindo, não os irmãos de José reagindo a um sonho.
+           Corrigido `livros`/`capítulos` no frontmatter.
+        2. **Honestidade sobre o meio**: a nota "Jesus e os discípulos
+           no caminho de Emaús" atribuída a Bruegel não é uma pintura
+           — é uma gravura de Philips Galle publicada em 1571, dois
+           anos depois da morte de Bruegel, a partir de um desenho
+           dele (inscrições "P. BRVEGEL INVENTOR" / "P. GAL. FE." na
+           própria chapa). Descrito como tal no texto, em vez de
+           tratar como óleo original.
+  - [x] **3 obras do Van Gogh excluídas do catálogo (achado 2026-08-16,
+        curadoria, não bug de parsing)**: "A Amoreira", "Celebração" e
+        "Paisagem com casas" eram notas-esqueleto (frontmatter e corpo
+        vazios, `livros`/`capítulos` nunca preenchidos) — paisagens/
+        gênero sem nenhuma cena bíblica. Mesmo princípio já usado pra
+        obra sem licença permissiva: se não pertence de fato ao
+        escopo, não entra forçado. Excluídas via lista explícita em
+        `export-vault-data.ts` (`EXCLUDED_NON_BIBLICAL_FILENAMES`),
+        notas continuam no vault, só fora da exportação.
   - [ ] **4 problemas de embed pré-existentes no vault (achado
-        2026-08-16, script de verificação, não fazem parte do lote de
-        hoje)**: Briton Riviere "Daniel na cova dos leões", Giotto
-        "Jonas Sendo Engolido Pelo Grande Peixe", James Tissot "Adão e
-        Eva São Expulsos do Paraíso" (embed genérico "Pasted image
-        ...png", arquivo original parece ter sido renomeado/perdido),
-        Kim Ki-chang "A Última Ceia" — todas com embed apontando pra
-        arquivo que não existe mais em `0 - Anexos`, excluídas
-        silenciosamente do catálogo. Achar a imagem certa (ou uma
-        substituta em domínio público) quando for a vez dessas.
-  - [ ] **Restam 153 obras com fallback genérico e 55 sem referência
-        bíblica** (checado via API real, 2026-08-16, não estimativa)
-        — trabalho de curadoria contínua, próximos lotes quando fizer
+        2026-08-16, script de verificação, não fazem parte dos lotes
+        de conteúdo)**: Briton Riviere "Daniel na cova dos leões",
+        Giotto "Jonas Sendo Engolido Pelo Grande Peixe", James Tissot
+        "Adão e Eva São Expulsos do Paraíso" (embed genérico "Pasted
+        image ...png", arquivo original parece ter sido renomeado/
+        perdido), Kim Ki-chang "A Última Ceia" — todas com embed
+        apontando pra arquivo que não existe mais em `0 - Anexos`,
+        excluídas silenciosamente do catálogo. Achar a imagem certa
+        (ou uma substituta em domínio público) quando for a vez
+        dessas.
+  - [ ] **Restam ~143 obras com fallback genérico e ~53 sem referência
+        bíblica** (estimado a partir dos 153/55 do check anterior menos
+        as 10 deste lote; confirmar via API real depois do reseed) —
+        trabalho de curadoria contínua, próximos lotes quando fizer
         sentido retomar.
   - [x] **3 achados reais testando as 18 no ar (2026-08-16), corrigidos
         na raiz**:

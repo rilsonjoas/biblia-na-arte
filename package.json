@@ -21,12 +21,6 @@
     "server/**/*.ts": "pnpm --filter server exec eslint --fix",
     "web/**/*.{ts,tsx}": "pnpm --filter web exec eslint --fix"
   },
-  "pnpm": {
-    "overrides": {
-      "vite": "^6.4.3",
-      "esbuild": "^0.25.0"
-    }
-  },
   "devDependencies": {
     "husky": "^9.1.7",
     "lint-staged": "^17.3.0"

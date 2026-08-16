@@ -124,6 +124,21 @@ const ALLOWED_UNKNOWN_AUTHOR_FILENAMES = new Set([
   'Autor Desconhecido - Pentecoste (Pentecoste).md', // capela de Eugenio Cisterna, Lourdes, 1893-1907
 ]);
 
+/** Notas vazias (stub) que entraram na pasta Pinturas mas cujo tema NÃO é
+ * bíblico — achado 2026-08-16 ao investigar por que ficaram sem referência
+ * bíblica mesmo depois de 2 lotes de conteúdo: as 3 são paisagens/gêneros
+ * de Van Gogh (nenhuma cena da Bíblia), com frontmatter e corpo vazios
+ * (nunca chegaram a ter descrição nem livros/capítulos preenchidos). Em vez
+ * de forçar uma "conexão bíblica" inventada, ficam de fora do catálogo —
+ * mesmo princípio já usado para obras sem licença permissiva: se não
+ * pertence de fato ao escopo, não entra. As notas continuam no vault
+ * (não foram apagadas), só excluídas da exportação. */
+const EXCLUDED_NON_BIBLICAL_FILENAMES = new Set([
+  'Vincent Van Gogh - A Amoreira (The Mulberry Tree).md',
+  'Vincent Van Gogh - Celebração.md',
+  'Vincent Van Gogh - Paisagem com casas.md',
+]);
+
 /** Autor -> { licença, texto de atribuição } pra quem não é domínio
  * público simples mas está aprovado com licença explícita. */
 const LICENSED_ARTISTS: Record<string, { licenseType: string; attributionText: string }> = {
@@ -173,6 +188,11 @@ async function main() {
     const fullPath = path.join(VAULT_PINTURAS, file);
     const content = readFileSync(fullPath, 'utf-8');
     const frontmatter = extractFrontmatter(content);
+
+    if (EXCLUDED_NON_BIBLICAL_FILENAMES.has(file)) {
+      skipped.push({ file, reason: 'stub sem tema bíblico (obra confirmada não-bíblica, achado 2026-08-16)' });
+      continue;
+    }
 
     if (!frontmatter || !frontmatter.autor) {
       skipped.push({ file, reason: 'sem frontmatter válido ou sem campo autor' });
