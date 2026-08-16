@@ -1,5 +1,4 @@
 import { Link } from 'react-router';
-import { Book } from 'lucide-react';
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -11,8 +10,21 @@ export default function Footer() {
           {/* Logo and Description */}
           <div className="col-span-1 md:col-span-2">
             <div className="flex items-center space-x-2.5 mb-4">
-              <div className="w-8 h-8 gradient-hero rounded-lg flex items-center justify-center shadow-md">
-                <Book className="w-4 h-4 text-white" />
+              <div className="w-8 h-8 rounded-lg overflow-hidden shadow-md shrink-0">
+                <img
+                  src="/logo-header-light.png"
+                  alt="Bíblia na Arte"
+                  className="w-8 h-8 dark:hidden"
+                  width={32}
+                  height={32}
+                />
+                <img
+                  src="/logo-header-dark.png"
+                  alt="Bíblia na Arte"
+                  className="hidden w-8 h-8 dark:block"
+                  width={32}
+                  height={32}
+                />
               </div>
               <span className="text-display text-xl font-bold text-foreground">
                 Bíblia<span className="text-amber-500 font-normal"> na Arte</span>
