@@ -2,18 +2,28 @@
 /**
  * Lê as ~1000 notas de pintura do vault Obsidian, aplica as decisões da
  * auditoria de direitos autorais (ver "Auditoria de Direitos Autorais -
- * Bíblia na Arte" no vault, 2026-08-07), copia as imagens aprovadas pra
- * web/public/images/ e escreve um JSON com os dados prontos pra importar
- * no Postgres (import-seed-data.ts, que roda perto do banco no VPS).
+ * Bíblia na Arte" no vault, 2026-08-07), converte as imagens aprovadas pra
+ * WebP direto em web/public/images/ (não copia o original — ver "Pipeline
+ * de imagens" no ROADMAP.md, decisão 2026-08-15: antes disso a otimização
+ * era um script manual à parte, fácil de esquecer de rodar de novo depois
+ * de um re-export; agora todo re-export já sai otimizado, sem passo extra)
+ * e escreve um JSON com os dados prontos pra importar no Postgres
+ * (import-seed-data.ts, que roda perto do banco no VPS).
+ *
+ * Limpa OUTPUT_IMAGES_DIR antes de regenerar — o diretório é 100% derivado
+ * do vault (mesma filosofia do import-seed-data.ts: fonte da verdade é o
+ * vault, não o disco), então um re-export não deve deixar sobras de
+ * artistas excluídos numa auditoria anterior.
  *
  * Só roda no desktop do Rilson (é onde o vault mora) — não faz parte do
  * deploy, é uma etapa de curadoria manual.
  *
  * Uso: pnpm --filter server exec tsx scripts/export-vault-data.ts
  */
-import { readFileSync, writeFileSync, mkdirSync, copyFileSync } from 'node:fs';
+import { readFileSync, writeFileSync, mkdirSync, rmSync } from 'node:fs';
 import { readdirSync } from 'node:fs';
 import path from 'node:path';
+import sharp from 'sharp';
 import {
   extractDescription,
   extractFrontmatter,
@@ -148,7 +158,8 @@ interface ExportedArtwork {
   references: ExportedReference[];
 }
 
-function main() {
+async function main() {
+  rmSync(OUTPUT_IMAGES_DIR, { recursive: true, force: true });
   mkdirSync(OUTPUT_IMAGES_DIR, { recursive: true });
 
   const files = readdirSync(VAULT_PINTURAS).filter((f) => f.endsWith('.md'));
@@ -156,6 +167,7 @@ function main() {
   const artworks: ExportedArtwork[] = [];
   const skipped: { file: string; reason: string }[] = [];
   const unresolvedBooks = new Set<string>();
+  let optimizeFailures = 0;
 
   for (const file of files) {
     const fullPath = path.join(VAULT_PINTURAS, file);
@@ -194,10 +206,21 @@ function main() {
     const parsedTitle = parseTitleParts(titleFromFilename(file));
     const title = parsedTitle.title;
     const slug = slugify(`${artist}-${title}`);
-    const ext = path.extname(imageSourcePath);
-    const imageFile = `${slug}${ext}`;
+    const imageFile = `${slug}.webp`;
 
-    copyFileSync(imageSourcePath, path.join(OUTPUT_IMAGES_DIR, imageFile));
+    // Mesmos parâmetros do antigo optimize-images.ts (agora só um backfill
+    // manual, não faz mais parte do fluxo normal): max 1600px, qualidade
+    // 82 — fidelidade adequada pra arte, ~79% menor que jpg/png original.
+    try {
+      await sharp(imageSourcePath)
+        .resize({ width: 1600, height: 1600, fit: 'inside', withoutEnlargement: true })
+        .webp({ quality: 82, effort: 4 })
+        .toFile(path.join(OUTPUT_IMAGES_DIR, imageFile));
+    } catch (err) {
+      optimizeFailures++;
+      skipped.push({ file, reason: `falha ao converter imagem pra WebP: ${(err as Error).message}` });
+      continue;
+    }
 
     const passageText = extractPassageText(content);
     const references: ExportedReference[] = [];
@@ -241,9 +264,9 @@ function main() {
 
   writeFileSync(OUTPUT_JSON, JSON.stringify({ artworks, exportedAt: new Date().toISOString() }, null, 2));
 
-  console.log(`✅ ${artworks.length} pinturas exportadas`);
-  console.log(`⏭️  ${skipped.length} puladas`);
-  console.log(`📁 Imagens copiadas pra: ${OUTPUT_IMAGES_DIR}`);
+  console.log(`✅ ${artworks.length} pinturas exportadas (imagens já em WebP)`);
+  console.log(`⏭️  ${skipped.length} puladas${optimizeFailures > 0 ? ` (${optimizeFailures} por falha de conversão WebP)` : ''}`);
+  console.log(`📁 Imagens em: ${OUTPUT_IMAGES_DIR}`);
   console.log(`📄 JSON: ${OUTPUT_JSON}`);
   if (unresolvedBooks.size > 0) {
     console.log(`⚠️  Livros bíblicos não reconhecidos (referência pulada, obra mantida):`, [...unresolvedBooks]);
@@ -257,4 +280,7 @@ function main() {
   console.log('📊 Motivos de exclusão:', skipCounts);
 }
 
-main();
+main().catch((error) => {
+  console.error('❌ Falha na exportação:', error);
+  process.exit(1);
+});

@@ -111,9 +111,58 @@ elevar a qualidade do catálogo.
 
 **Objetivo:** indexação no Google e carregamento rápido.
 
-- [x] **Imagens**: pipeline de processamento `sharp` em `server/scripts/optimize-images.ts` gerando versões WebP de alta fidelidade e tamanho reduzido; comando `pnpm --filter server images:optimize`.
+- [x] **Imagens — pipeline automático, não mais manual (2026-08-15/16)**:
+      até aqui a otimização WebP era um script à parte
+      (`images:optimize`) que só valia se alguém lembrasse de rodar
+      *depois* de todo re-export do vault — e ninguém lembrava: só 25 de
+      ~1580 arquivos em `web/public/images/` estavam em WebP, o banco de
+      produção nunca apontou pra nenhum deles (`imageUrl` guardava a
+      extensão original, `.jpg`/`.png`), e o diretório tinha acumulado
+      ~2280 imagens órfãs de artistas excluídos numa auditoria de
+      direitos autorais anterior. Corrigido na fonte:
+      `server/scripts/export-vault-data.ts` agora converte cada imagem
+      pra WebP (mesmos parâmetros de antes: max 1600px, qualidade 82)
+      **no momento da cópia do vault**, já salva com `imageFile =
+      slug.webp`, e limpa `web/public/images/` antes de regenerar (o
+      diretório é saída 100% derivada do vault, mesma filosofia do
+      `import-seed-data.ts` — não deve acumular sobra). `images:optimize`
+      continua existindo só pra backfill manual pontual, não faz mais
+      parte do fluxo normal. Rodado de ponta a ponta e **verificado em
+      produção**: 853 obras, banco reseedado com `imageUrl` em `.webp`
+      (confirmado via API real, `content-type: image/webp` na imagem
+      servida), catálogo de imagens **958MB → 111MB** (~88%,
+      incluindo a limpeza das órfãs — a redução só de WebP já validada
+      antes era ~79%).
+- [ ] **Achado no caminho (2026-08-16): 7 pares de notas duplicadas no
+      vault** — mesmo título+artista (ex.: "Rembrandt van Rijn - A Ceia
+      em Emaús" e "... 2.md"), gerando o mesmo slug e por isso a mesma
+      imagem. Não quebra nada (as duas linhas do banco mostram a obra
+      certa), mas infla a contagem do catálogo em ~7. Provavelmente são
+      versões diferentes da mesma cena (Rembrandt pintou "A Ceia em
+      Emaús" mais de uma vez) que o parser de título simplificou pro
+      mesmo nome — checar no vault e, se forem obras diferentes mesmo,
+      ajustar o título de uma delas pra desempatar o slug.
+- [ ] **Achado no caminho (2026-08-16): `web/public/images/` (853
+      arquivos, ~111MB) é rastreado no git** — é saída 100% derivada do
+      vault (mesma fonte da verdade do banco), então cada re-export vira
+      um diff binário grande permanente no histórico do repo. Considerar
+      `.gitignore` + entrega das imagens pro VPS por `rsync` separado do
+      `git`/deploy (hoje elas chegam no build via o mesmo `rsync` do
+      código) — não fiz essa mudança agora pra não somar risco a um
+      deploy que já mexeu em banco de produção na mesma sessão; é uma
+      decisão de arquitetura pra revisitar com calma.
 - [x] **Carregamento**: endpoint `GET /api/v1/artists` para agregação de artistas e contagem de obras; paginação real no catálogo e busca (`ArtCategories.tsx`, `Search.tsx`) em páginas de 24 itens.
 - [x] **SEO**: componente `SEO.tsx` dinâmico com meta tags, canonical URLs, OpenGraph e Twitter Cards; dados estruturados Schema.org JSON-LD (`VisualArtwork` na obra, `CollectionPage` e `BreadcrumbList` em livros e capítulos, `WebSite` na home); `robots.txt` e gerador de `sitemap.xml` cobrindo 2115 URLs canônicas.
+- [ ] **Marca errada em `<title>`/OG/Twitter (achado 2026-08-14)**:
+      `web/index.html` (e o parágrafo de abertura do `CLAUDE.md`) usam
+      **"BiblianaArte.com"** como se fosse o nome do produto — em
+      `<title>`, `og:title` e `twitter:title`. A marca é **"Bíblia na
+      Arte"** (com espaço e acento); o domínio é só onde o site roda
+      hoje (`biblianaarte.narniano.com`) e pode mudar sem que a marca
+      mude. Trocar as 3 ocorrências em `web/index.html` para
+      `Bíblia na Arte - A Bíblia através da Arte e Cultura` (sem
+      `.com` grudado) — isso é literalmente o que aparece no Google e
+      em cards de compartilhamento social.
 
 ## Fase 4 — Segurança, observabilidade e infra
 
@@ -124,6 +173,18 @@ elevar a qualidade do catálogo.
 - [ ] **Verificar sitemap no Search Console**: Acessar [Google Search Console](https://search.google.com/search-console) → propriedade `biblianaarte.narniano.com` → Sitemaps → confirmar que `https://biblianaarte.narniano.com/sitemap.xml` está com status "Sucesso" e URLs sendo indexadas.
 - [x] **Backup (2026-08-14)**: Confirmado. O banco `biblia_na_arte_db` está incluído no VPS Hetzner, coberto pelo script de backup diário (`backup.sh`) e validado pelo teste de restore semanal automático (`backup-restore-test.sh`).
 - [x] **Observabilidade e Resiliência (2026-08-14)**: `/health`, `/health/live` e `/health/ready` (validação de DB ativa) implementados no Fastify; tratamento gracioso de `SIGTERM`/`SIGINT` configurado; Sentry integrado.
+- [ ] **`biblianaarte-web` sem healthcheck (achado 2026-08-14)**: o
+      `docker-compose.yml` em `hetzner-infra/biblia-na-arte/` define
+      `healthcheck` só na API — o serviço `biblianaarte-web` (nginx)
+      não tem. Se o Nginx travar sem derrubar o processo, o Traefik
+      continua roteando tráfego pra um container quebrado silenciosamente,
+      sem o Uptime Kuma necessariamente pegar no mesmo instante (depende
+      do endpoint monitorado). Adicionar `healthcheck` simples (`curl`/`wget`
+      no `/` servido pelo nginx) segue o mesmo padrão já usado na API.
+- [x] **Uptime Kuma com alerta real**: monitorando `biblianaarte.narniano.com`
+      e `api-biblianaarte.narniano.com`, com alerta configurado em
+      **Telegram e e-mail** (não é só painel visual) — item concluído,
+      sem pendência.
 - [~] ~~Métricas Prometheus (`prom-client`)~~ — **adiado, 2026-08-08**:
       rodar um scraper Prometheus (mesmo sem Grafana) é mais um serviço
       permanente consumindo RAM num VPS pequeno com vários projetos já
@@ -133,6 +194,54 @@ elevar a qualidade do catálogo.
 - [x] **Backup (2026-08-14)**: `pg_dump` diário do `biblia_na_arte_db` confirmado via `hetzner-infra/backup/backup.sh`; teste de restore automático semanal via `backup-restore-test.sh`.
 - [x] **CI/CD completo** (2026-08-14): Actions → build das 2 imagens (`biblianaarte-api` e `biblianaarte-web`) → push automático no GHCR com permissões de pacotes e escopo do owner resolvidos. Deploy no VPS agendado no roadmap geral.
 - [ ] **Docs de operação**: runbook, ADRs.
+- [x] **Achado e corrigido (2026-08-16): migration `0001_fuzzy_overlord.sql`
+      nunca tinha rodado em produção** — existia no repo desde a
+      reestruturação em monorepo, mas nunca foi aplicada no
+      `biblia_na_arte_db` real. Resultado: a coluna `subtitle` não
+      existia na tabela `artworks`, e qualquer query que a selecionasse
+      (a listagem de obras da API, `GET /api/v1/artworks`) quebrava com
+      `internal_error` — **esse era o "não consigo ver as obras no site"
+      que o Rilson já vinha notando**, não relacionado a WebP. Rodado
+      `pnpm --filter server db:migrate` contra produção via container
+      temporário (`node:22-alpine` isolado, `--network proxy-network`,
+      código copiado por `docker cp` — não fica nada residual no host);
+      confirmado a coluna existe e a API volta a responder com dados
+      reais.
+- [x] **Incidente registrado (2026-08-16): `.env` de produção apagado por
+      engano, recuperado sem downtime** — durante o deploy da migração
+      WebP, um `rsync -az --delete` do repo local pro `/opt/biblia-na-arte/`
+      apagou `server/.env` (só existe no VPS, nunca no repo local — o
+      `--delete` espelha o destino igual à origem, e origem não tinha o
+      arquivo). Os containers já rodando não caíram (Compose só lê
+      `env_file` na *criação* do container, não em restart — mesmo achado
+      já documentado no `hetzner-infra/README.md`), então produção seguiu
+      no ar o tempo todo; a senha foi restaurada do Bitwarden e
+      verificada com uma query real antes de qualquer outra ação. Lição
+      prática: **nunca rodar `rsync --delete` sem `--exclude='.env'`
+      explícito** quando a origem é um repo local que não tem os
+      segredos do destino — melhor ainda, considerar excluir `.env` por
+      padrão do fluxo de deploy documentado no `hetzner-infra/README.md`
+      (hoje o exemplo de comando lá não tem esse exclude).
+
+## Identidade aplicada aqui (2026-08-15)
+
+> Fonte: `Identidade visual geral.md` e `Identidade Visual - Guia Técnico
+> (Código).md` no vault. Registro predominante: **A Biblioteca**, com
+> toque pontual de **Os Céus** em obras de temática de criação/cosmos.
+> A cara própria deste projeto, vs. o Scriptorium (que compartilha a
+> mesma base): aqui a assinatura é a **moldura da obra**, não o texto.
+
+- [ ] Cada obra do catálogo ganha `frame-arch` ou `frame-tondo` (nunca
+      `<img>` solto num retângulo) — a pintura tratada como pintura
+      emoldurada, não como foto de stock
+- [ ] Capitular (`.capitular::first-letter`) no primeiro parágrafo da
+      descrição de cada obra
+- [ ] `.signature-italic` nos subtítulos/legendas de artista
+- [ ] `--gradiente-ceus` + `.halo-glow` reservado só pra obras de temática
+      de criação/cosmos (ex. representações da Criação, Gênesis 1) — não
+      usar em todo lugar, senão perde o significado
+- [ ] Curvas `--ease-liturgico`/`--ease-vela` nas transições de lightbox
+      e hover de card, no lugar do easing padrão do Tailwind
 
 ## Fase 5 — Produto
 
@@ -143,6 +252,65 @@ elevar a qualidade do catálogo.
 - [ ] Modo devocional/leitura.
 - [ ] Compartilhamento com OG-image dinâmica.
 - [ ] Favoritos locais.
+
+### Integração com o Lecionário — "Pintura do Dia" (2026-08-16)
+
+Ideia do Rilson: o Lecionário mostra um card opcional com obra de arte
+relacionada à leitura do dia, linkando pra cá. Lado recíproco registrado
+em `lecionario/ROADMAP.md`, seção 4.5 — este projeto **não precisa fazer
+nada além do que já existe**: `GET /api/v1/artworks?bookSlug=&chapter=`
+já está pronto e testado, é só o Lecionário consumir. Nenhum trabalho
+novo aqui, só o link de conhecimento entre os dois roadmaps.
+
+### PWA instalável, antes de considerar app nativo (2026-08-16)
+
+Discutido: cabe um app React Native pra este projeto? Decisão consciente
+por enquanto — **não agora**. Manter um segundo app nativo em paralelo
+ao Lecionário tem custo real e permanente (visto na prática nesta mesma
+sessão: build EAS, versão de SDK, ícone/splash, acessibilidade por
+plataforma). Caminho mais barato primeiro: **PWA instalável**, mesmo
+padrão que o Lecionário já usa e validou (manifest, "Adicionar à tela
+inicial", cache de imagem). Reavaliar React Native só se uso real
+mostrar que PWA não é suficiente — não por suposição.
+
+- [ ] Adicionar manifest.json + ícones PWA (mesmo padrão do Lecionário)
+- [ ] Avaliar service worker pra cache de imagem (galeria funciona bem
+      offline depois da primeira visita)
+
+### Rodapé cruzado — cluster A Biblioteca (2026-08-16)
+
+- [ ] Mesmo item registrado nos outros 3 projetos (`lecionario/ROADMAP.md`
+      4.8) — link estático pros 4 (este, Scriptorium, Lecionário, Gerador
+      C.S. Lewis), sem integração de dado
+
+### Estratégia — o que "sucesso" significa aqui (2026-08-15)
+
+Público-alvo: qualquer pessoa com interesse em arte sacra e referência
+bíblica precisa — professores de EBD, seminaristas, pastores buscando
+imagem pra sermão, estudantes de arte/teologia, amantes de arte em
+geral. Sem recorte denominacional — a proposta (buscar por passagem
+bíblica → obra de arte) serve igualmente a qualquer tradição cristã.
+
+**Estimativa de potencial (teto plausível, não medição real):** o
+diferencial real é a curadoria com referência bíblica verificada, algo
+que busca de imagem genérica (Google Imagens) não oferece. Isso é nicho
+de cauda longa em SEO, não produto de massa — sucesso plausível é
+tráfego orgânico constante de buscas específicas ("pintura Bíblia
+Gênesis 1", "arte sacra domínio público"), não viralização.
+
+**O que isso implica pra estratégia e infra:**
+- Cada página de obra com contexto histórico-bíblico é uma página de
+  SEO — vale mais investir aí do que em features novas antes de medir
+  se o tráfego orgânico está crescendo.
+- **Gargalo real em escala não é a API, é servir imagem em alta
+  resolução.** Com ~467MB hoje isso não é problema; se o catálogo
+  crescer bastante, migrar imagens pra armazenamento tipo objeto
+  (Cloudflare R2/Backblaze B2, ambos com free tier generoso) é a
+  próxima etapa de infra — não antes disso ser um problema real.
+- Monetização, se fizer sentido, com cuidado pra não quebrar a
+  experiência contemplativa (ads intrusivos destroem esse tipo de
+  produto) — apoio via PIX/Patreon combina melhor com o propósito do
+  que ads agressivos.
 
 ---
 

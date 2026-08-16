@@ -14,6 +14,14 @@ BiblianaArte.com é um projeto cultural e educativo que celebra a intersecção 
 - 🎵 **Múltiplas Mídias**: Pinturas, esculturas, música sacra e outras manifestações artísticas
 - 📱 **Design Responsivo**: Experiência otimizada para todos os dispositivos
 
+## Por que isto existe
+
+A arte que a Bíblia inspirou ao longo de dois mil anos está espalhada — museus, acervos, coleções privadas — sem nenhum fio que conecte uma pintura de volta ao versículo que a gerou. Quem quer estudar Gênesis 1 e ver como Michelangelo, Doré e outros visualizaram a criação não tem onde buscar isso de forma curada; o Google Imagens não distingue "João 3:16" de "João Batista".
+
+Eu construo isto porque contemplar a beleza que Deus espalhou na criação — inclusive a beleza que passa pela mão humana — não é secundário à fé, é parte dela. Arte sacra não é decoração, é teologia visual. Um catálogo bem curado, com referência bíblica precisa e proveniência de direitos autorais séria, é mordomia: tornar esse patrimônio acessível sem custo pra quem quer estudar, pregar ou só contemplar.
+
+Hoje isso é uma fundação técnica sólida (self-host, sem Supabase, catálogo real, ~850 obras) buscando a audiência certa via SEO de nicho — não virá de campanha, vem de quem já está procurando "arte bíblica Gênesis" e encontra algo curado em vez de resultado genérico. A visão de mais longo prazo é virar referência: coleções temáticas (Vida de Cristo, Parábolas), modo devocional, o tipo de profundidade que só cresce com curadoria contínua — não um catálogo estático, uma biblioteca visual que vale a pena voltar.
+
 ## Como Executar Localmente
 
 > [!NOTE]

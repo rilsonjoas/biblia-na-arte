@@ -1,8 +1,14 @@
 #!/usr/bin/env tsx
 /**
- * Otimizador de imagens usando Sharp:
- * Processa as imagens em web/public/images/, gerando versões WebP
- * otimizadas para carregamento ultra-rápido no navegador.
+ * Otimizador de imagens usando Sharp — histórico: era o passo manual que
+ * gerava os WebP depois do export-vault-data.ts copiar os originais.
+ * Desde 2026-08-15 isso não é mais necessário: export-vault-data.ts já
+ * converte pra WebP direto na cópia (mesmos parâmetros deste script), e
+ * web/public/images/ nunca mais tem originais jpg/png soltos.
+ *
+ * Este script fica só pra backfill manual (ex.: se algum WebP corrompido
+ * escapou de alguma forma) ou pra experimentar outra qualidade/tamanho
+ * sem rodar o export inteiro de novo — não faz parte do fluxo normal.
  *
  * Uso: pnpm --filter server exec tsx scripts/optimize-images.ts
  */
