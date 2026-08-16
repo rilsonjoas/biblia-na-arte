@@ -142,15 +142,12 @@ elevar a qualidade do catálogo.
       Emaús" mais de uma vez) que o parser de título simplificou pro
       mesmo nome — checar no vault e, se forem obras diferentes mesmo,
       ajustar o título de uma delas pra desempatar o slug.
-- [ ] **Achado no caminho (2026-08-16): `web/public/images/` (853
-      arquivos, ~111MB) é rastreado no git** — é saída 100% derivada do
-      vault (mesma fonte da verdade do banco), então cada re-export vira
-      um diff binário grande permanente no histórico do repo. Considerar
-      `.gitignore` + entrega das imagens pro VPS por `rsync` separado do
-      `git`/deploy (hoje elas chegam no build via o mesmo `rsync` do
-      código) — não fiz essa mudança agora pra não somar risco a um
-      deploy que já mexeu em banco de produção na mesma sessão; é uma
-      decisão de arquitetura pra revisitar com calma.
+- [x] ~~`web/public/images/` rastreado no git~~ — checado 2026-08-16: já é
+      **Git LFS** (`.gitattributes` cobre `*.webp`/`*.jpg`/`*.png` e
+      `web/public/images/*`), não git normal. Não é o problema que
+      pareceu à primeira vista — LFS já resolve o inchaço de histórico.
+      845 objetos WebP novos (~114MB) enviados via `git lfs push` sem
+      drama.
 - [x] **Carregamento**: endpoint `GET /api/v1/artists` para agregação de artistas e contagem de obras; paginação real no catálogo e busca (`ArtCategories.tsx`, `Search.tsx`) em páginas de 24 itens.
 - [x] **SEO**: componente `SEO.tsx` dinâmico com meta tags, canonical URLs, OpenGraph e Twitter Cards; dados estruturados Schema.org JSON-LD (`VisualArtwork` na obra, `CollectionPage` e `BreadcrumbList` em livros e capítulos, `WebSite` na home); `robots.txt` e gerador de `sitemap.xml` cobrindo 2115 URLs canônicas.
 - [ ] **Marca errada em `<title>`/OG/Twitter (achado 2026-08-14)**:
