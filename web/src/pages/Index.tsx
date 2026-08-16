@@ -42,12 +42,13 @@ export default function Index() {
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{ backgroundImage: `url(${heroImage})` }}
         />
-        {/* Overlay em 80% (não 60%) — achado real 2026-08-16: com 60% o
-            gradiente dourado do título ficava com contraste real de
-            ~2.9:1 sobre a imagem de fundo também dourada, abaixo do
-            mínimo WCAG de 3:1 pra texto grande. Calculado com luminância
-            real, não só "parece ok". */}
-        <div className="absolute inset-0 bg-primary/80" />
+        {/* Scrim fixo (não bg-primary) a 75% — achado real 2026-08-16:
+            bg-primary/NN quebrava no tema escuro, onde --primary vira
+            dourado (cor de marca no escuro) e o overlay ficava "dourado
+            sobre imagem dourada", contraste real de 1.13:1. Cor fixa
+            (--hero-scrim, ver index.css) funciona igual nos dois temas:
+            5.77:1 (texto dourado) / 10.49:1 (branco). */}
+        <div className="absolute inset-0 bg-[hsl(var(--hero-scrim))]/75" />
         
         <div className="relative z-10 container mx-auto px-4 text-center text-white">
           <div className="max-w-4xl mx-auto">

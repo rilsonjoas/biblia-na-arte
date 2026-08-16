@@ -145,10 +145,21 @@ export function extractPassageText(content: string): string | null {
   const quotes: string[] = [];
   let currentQuote: string[] = [];
 
+  // Linha de citação de referência dentro do blockquote (ex.: "- **[[Gênesis
+  // 33]]:1", sem fechar o **) — convenção usada em ~100 notas do vault pra
+  // marcar de qual verso é a citação. É redundante com o capítulo já mostrado
+  // como badge na página da obra, e o "**" sem fechar quebra a renderização
+  // markdown (asteriscos literais aparecendo na tela). Descartada aqui, não
+  // editando nota por nota. Achado real 2026-08-16, testando em produção.
+  const isReferenceCitationLine = (text: string) => /^-\s*\*\*/.test(text);
+
   for (const line of lines) {
     const trimmed = line.trim();
     if (trimmed.startsWith('>')) {
-      currentQuote.push(trimmed.replace(/^>\s?/, ''));
+      const inner = trimmed.replace(/^>\s?/, '');
+      if (!isReferenceCitationLine(inner)) {
+        currentQuote.push(inner);
+      }
     } else if (trimmed === '' && currentQuote.length > 0) {
       quotes.push(currentQuote.join('\n'));
       currentQuote = [];

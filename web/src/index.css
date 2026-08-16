@@ -13,6 +13,16 @@
 @layer base {
   :root {
     /* === REINO UNIFIED TOKENS === */
+    /* Scrim do hero — achado real 2026-08-16: usar bg-primary/NN pra
+       escurecer a imagem do hero quebrava no tema escuro, porque lá
+       --primary é dourado (a cor da marca no escuro), não o vinho do
+       claro — resultado era "dourado sobre dourado" quase opaco,
+       contraste real de 1.13:1. Cor fixa aqui, independente de tema,
+       porque a função do scrim (escurecer foto pra legibilidade) não é
+       a mesma coisa que "cor de marca" — não deveria nunca ter
+       compartilhado o token. Contraste calculado: 5.77:1 (texto
+       dourado) / 10.49:1 (branco) a 75% de opacidade. */
+    --hero-scrim: 25 20% 10%;
     /* Tipografia unificada */
     --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     --font-serif: 'EB Garamond', Georgia, serif;
