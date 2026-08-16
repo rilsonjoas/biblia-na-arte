@@ -501,3 +501,25 @@ conta local não tem (achado real: `meus-remedios/README.md`, seção
 "Decisão: Google OAuth + conta local"); (3) App Store exige "Entrar
 com Apple" se você oferece "Entrar com Google" (Guideline 4.8) — "só
 Google" não é viável em iOS de qualquer forma.
+
+## Identidade visual — logo real aplicada (2026-08-16)
+
+- [x] **Logo real no favicon/header/footer**, escolhida pelo Rilson
+      entre 2 versões (moldura dourada sobre vinho — a outra, livro +
+      planta, ficou genérica demais pra um projeto sobre *arte*).
+      Variação clara/escura gerada (vinho↔dourado invertidos), trocada
+      via `dark:` do Tailwind, sem JS. Conjunto completo de favicons
+      (ico, 16/32px, apple-touch-icon, android-chrome, webmanifest).
+      Faz parte do **Design Narniano**, cluster "A Biblioteca" — ver
+      `12 - Redes sociais/Identidade visual geral.md` no vault (seção
+      1C, Mapa de Aplicação) e `hetzner-infra/PADRAO-DE-ENGENHARIA.md`
+      pro lado técnico/deploy. Pendência registrada lá: o dourado da
+      logo (`#F0C663`) não bate com o token oficial (`--dourado:
+      #B49A60`) — reconciliar quando fizer sentido, não urgente.
+      2 achados no caminho: esqueci o Footer na primeira passada (só
+      tinha trocado o Header — Rilson achou testando ao vivo); e um
+      bug sério de infra descoberto durante o deploy — `git-lfs` não
+      instalado na VPS fazia toda imagem (não só a logo) virar um
+      ponteiro de texto de ~130 bytes em vez do binário real, quebrando
+      a exibição de **todas** as pinturas do site por um tempo.
+      Corrigido e documentado em `hetzner-infra/README.md`.
