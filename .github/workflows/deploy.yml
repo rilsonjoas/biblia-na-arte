@@ -32,6 +32,13 @@ jobs:
 
       - name: Smoke test
         run: |
-          sleep 3
-          curl -sf -o /dev/null https://biblianaarte.narniano.com/
-          curl -sf -o /dev/null https://api-biblianaarte.narniano.com/health
+          # Achado 2026-08-16: "sleep 3" fixo dava falso-negativo (container
+          # às vezes ainda reiniciando) mesmo com o deploy tendo funcionado.
+          # Retry de verdade: até 10 tentativas, 3s entre elas.
+          for url in https://biblianaarte.narniano.com/ https://api-biblianaarte.narniano.com/health; do
+            for i in $(seq 1 10); do
+              curl -sf -o /dev/null "$url" && break
+              [ "$i" -eq 10 ] && exit 1
+              sleep 3
+            done
+          done
