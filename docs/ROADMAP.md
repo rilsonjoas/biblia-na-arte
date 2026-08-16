@@ -254,6 +254,12 @@ elevar a qualidade do catálogo.
       usar em todo lugar, senão perde o significado
 - [ ] Curvas `--ease-liturgico`/`--ease-vela` nas transições de lightbox
       e hover de card, no lugar do easing padrão do Tailwind
+- [ ] **Logo/favicon — ainda é o padrão genérico do template (pedido do
+      Rilson, 2026-08-16)**: `web/public/favicon.ico` (73x74 PNG) e
+      `favicon.svg` ao lado do `placeholder.svg` — sobra de scaffold,
+      sem identidade própria. Precisa de marca coerente com o registro
+      "A Biblioteca" acima — mesma pendência no `scriptorium-divinum`
+      (ver o ROADMAP de lá).
 
 ## Fase 5 — Produto
 
