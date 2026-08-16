@@ -15159,14 +15159,15 @@
       "artistOrDirector": "Rembrandt van Rijn",
       "year": "1659",
       "category": "painting",
-      "description": "´",
+      "description": "Óleo sobre tela (168,5 x 136,5 cm) de **Rembrandt van Rijn** (1606–1669), datado de **1659**, hoje na Gemäldegalerie, em Berlim. Pintado quando Rembrandt tinha 53 anos, já perto do fim da carreira — morreria dez anos depois —, o quadro retrata Moisés no instante de indecisão sobre quebrar ou não as tábuas originais da Lei, ao descer do Monte Sinai e encontrar o povo de Israel adorando o bezerro de ouro.\n\nAs pinturas da última década de vida de Rembrandt compartilham características marcantes: são maiores, com pinceladas e cor mais evidentes no lugar do detalhamento minucioso que marcava seus trabalhos anteriores. A qualidade monumental desta obra vem, entre outras coisas, do posicionamento da figura bem na borda frontal da composição, do tratamento quase abstrato do fundo, das pinceladas altamente expressivas e do abandono deliberado de detalhe fino, além da paleta de cores reduzida. Um detalhe notável: a transcrição hebraica nas tábuas é precisa — sinal da atenção de Rembrandt a fontes reais, não invenção decorativa.\n\n*Fonte: [Moses with the Ten Commandments — Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Rembrandt_-_Moses_with_the_Ten_Commandments_-_Google_Art_Project.jpg)*",
       "imageFile": "rembrandt-van-rijn-moises-com-os-dez-mandamentos.webp",
       "licenseType": "public-domain",
       "references": [
         {
           "book": "Êxodo",
           "bookSlug": "exodus",
-          "chapter": 34
+          "chapter": 32,
+          "passageText": "\"E aconteceu que, chegando ele perto do arraial, e vendo o bezerro e as danças, a ira de Moisés se acendeu, e lançou as tábuas de suas mãos, e as quebrou ao pé do monte.\"\n\n\"E, tornando-se Moisés ao Senhor, disse: Ah, este povo pecou grande pecado, fazendo para si deuses de ouro! Ora, pois, se perdoares o seu pecado; e, se não, risca-me, peço-te, do teu livro que tens escrito.\""
         }
       ]
     },
@@ -15176,14 +15177,15 @@
       "artistOrDirector": "Rembrandt van Rijn",
       "year": "1625",
       "category": "painting",
-      "description": "O apedrejamento de Estevão, de Rembrandt van Rijn.",
+      "description": "Óleo sobre painel (89,5 x 123,6 cm), a **primeira pintura assinada** de **Rembrandt van Rijn** (1606–1669) — feita aos 19 anos, sua obra mais antiga conhecida até hoje, hoje no Museu de Belas Artes de Lyon. Retrata o martírio de Estêvão, jovem diácono da comunidade cristã de Jerusalém, condenado à morte por apedrejamento com base em testemunho falso.\n\nA obra sofreu influência clara de Caravaggio e de Adam Elsheimer, visível no uso do claro-escuro e na composição dramática e compacta. Um detalhe curioso, identificado por historiadores da arte: o que parece ser o primeiro autorretrato do próprio Rembrandt, discretamente pintado logo acima da cabeça de Estêvão, no centro da composição — o jovem artista se inserindo, ainda que timidamente, na multidão que assiste (ou participa) da execução.\n\nÉ notável que Rembrandt tenha escolhido justamente esse tema — não uma cena serena, mas violência religiosa real — pra sua primeira obra assinada, um sinal precoce do interesse que marcaria toda sua carreira: o sofrimento humano como lugar de revelação, não de espetáculo.\n\n*Fonte: [The Stoning of Saint Stephen — Wikipedia](https://en.wikipedia.org/wiki/The_Stoning_of_Saint_Stephen)*",
       "imageFile": "rembrandt-van-rijn-o-apedrejamento-de-estevao.webp",
       "licenseType": "public-domain",
       "references": [
         {
           "book": "Atos",
           "bookSlug": "acts",
-          "chapter": 7
+          "chapter": 7,
+          "passageText": "\"E, arrastando-o para fora da cidade, o apedrejaram. E as testemunhas depuseram as suas vestes aos pés de um jovem, chamado Saulo. E apedrejavam a Estêvão, que orava e dizia: Senhor Jesus, recebe o meu espírito.\"\n\n\"E, pondo-se de joelhos, clamou com grande voz: Senhor, não lhes imputes este pecado. E, tendo dito isto, adormeceu.\""
         }
       ]
     },
@@ -15215,16 +15217,17 @@
       "slug": "rembrandt-van-rijn-o-bom-samaritano",
       "title": "O bom samaritano",
       "artistOrDirector": "Rembrandt van Rijn",
-      "year": "1633",
+      "year": "c. 1630–1633",
       "category": "painting",
-      "description": "O bom samaritano, de Rembrandt van Rijn.",
+      "description": "Óleo sobre painel de **Rembrandt van Rijn** (1606–1669), do início da carreira — período de Leiden, quando o pintor ainda tinha entre 24 e 27 anos —, hoje na Wallace Collection, em Londres. A cena mostra o momento seguinte ao socorro: o homem ferido, seminu e com a cabeça enfaixada, é ajudado a descer do cavalo branco diante da estalagem, enquanto o samaritano negocia com o estalajadeiro à porta. Um menino segura as rédeas do cavalo em primeiro plano; ao fundo, à esquerda, outra figura se debruça sobre um poço.\n\nRembrandt voltaria ao mesmo tema três anos depois numa gravura assinada e datada de 1633, com composição tão próxima que parece ter sido copiada diretamente da pintura — só que ali acrescentou um cachorro e outros detalhes ao primeiro plano, ausentes na versão pintada. A autoria da pintura já foi contestada por historiadores da arte ao longo dos anos, mas a segurança do desenho do cavalo e a fluidez do tratamento da figura do cavalariço sustentam a atribuição a Rembrandt.\n\nO que chama atenção na composição é o que ela NÃO mostra: o ferido já foi socorrido, o samaritano já pagou. Rembrandt pinta a continuidade prática do cuidado — alguém que não só para no caminho, mas garante que a ajuda dure além do próprio gesto inicial.\n\n*Fonte: [The Good Samaritan — Wallace Collection](https://wallacelive.wallacecollection.org/eMP/eMuseumPlus?service=ExternalInterface&module=collection&objectId=65137&viewType=detailView)*",
       "imageFile": "rembrandt-van-rijn-o-bom-samaritano.webp",
       "licenseType": "public-domain",
       "references": [
         {
           "book": "Lucas",
           "bookSlug": "luke",
-          "chapter": 10
+          "chapter": 10,
+          "passageText": "\"E, aproximando-se, atou-lhe as feridas, aplicando-lhes azeite e vinho; e, pondo-o sobre a sua cavalgadura, levou-o para uma estalagem, e cuidou dele. E partindo ao outro dia, tirou dois dinheiros, e deu-os ao hospedeiro, e disse-lhe: Cuida dele; e tudo o que gastares de mais, eu to pagarei quando voltar.\"\n\n\"Qual, pois, destes três te parece que foi o próximo daquele que caiu nas mãos dos salteadores? E ele disse: O que usou de misericórdia para com ele. Disse-lhe pois Jesus: Vai, e faze tu o mesmo.\""
         }
       ]
     },
@@ -15232,16 +15235,17 @@
       "slug": "rembrandt-van-rijn-o-retorno-do-filho-prodigo",
       "title": "O retorno do filho pródigo",
       "artistOrDirector": "Rembrandt van Rijn",
-      "year": "1665",
+      "year": "c. 1661–1669",
       "category": "painting",
-      "description": "O retorno do filho pródigo, de Rembrandt van Rijn.",
+      "description": "Óleo sobre tela (262 x 205 cm) de **Rembrandt van Rijn** (1606–1669), uma das últimas obras do pintor, concluída nos dois últimos anos de vida — hoje no Hermitage, em São Petersburgo. É o instante em que o filho mais novo, esfarrapado e de cabeça raspada, ajoelha-se diante do pai, o rosto escondido contra o peito dele; o pai, cego ou quase cego pela idade, curva-se sobre o filho, as duas mãos pousadas nas costas dele.\n\nO detalhe mais comentado por historiadores da arte: as duas mãos do pai são visivelmente diferentes — a esquerda, larga e forte, de contorno masculino; a direita, menor e mais delicada. Muitos estudiosos leem isso como intencional: Rembrandt teria dado ao pai uma mão paterna e uma mão materna ao mesmo tempo, símbolo de um amor que reúne os dois em completude. Rembrandt posiciona o encontro fora do centro da tela, abrindo espaço considerável pra uma figura em pé, observando a cena com reprovação — identificada por estudiosos como o irmão mais velho.\n\nO crítico Rosenberg chamou a obra de \"monumental\", dizendo que ela \"interpreta a ideia cristã de misericórdia com solenidade extraordinária\" e \"vai além de qualquer outro artista barroco na evocação de sentimento religioso e simpatia humana\". A luz divina que ilumina pai e filho, contra o fundo quase todo em sombra, é o clímax de décadas de domínio do claro-escuro por Rembrandt — aqui a serviço não de drama, mas de graça.\n\n*Fonte: [The Return of the Prodigal Son — Hermitage Museum](https://www.hermitagemuseum.org/digital-collection/43413?lng=en)*",
       "imageFile": "rembrandt-van-rijn-o-retorno-do-filho-prodigo.webp",
       "licenseType": "public-domain",
       "references": [
         {
           "book": "Lucas",
           "bookSlug": "luke",
-          "chapter": 15
+          "chapter": 15,
+          "passageText": "\"E, levantando-se, foi para seu pai; e, quando ainda estava longe, viu-o seu pai, e moveu-se de íntima compaixão, e, correndo, lançou-se-lhe ao pescoço, e o beijou.\"\n\n\"Mas o pai disse aos seus servos: Trazei depressa a melhor roupa, e vesti-lho, e ponde-lhe um anel na mão, e alparcas nos pés. E trazei o bezerro cevado, e matai-o; e comamos, e alegremo-nos; porque este meu filho estava morto, e reviveu; tinha-se perdido, e foi achado. E começaram a alegrar-se.\""
         }
       ]
     },
@@ -15274,14 +15278,15 @@
       "artistOrDirector": "Rembrandt van Rijn",
       "year": "1635",
       "category": "painting",
-      "description": "O sacrifício de Isaque, de Rembrandt van Rijn.",
+      "description": "Óleo sobre tela (193 x 132 cm) de **Rembrandt van Rijn** (1606–1669), datado de **1635**, hoje no Hermitage, em São Petersburgo. A composição capta o instante mais tenso de toda a narrativa: Abraão já ergueu a adaga sobre o corpo submisso e indefeso do filho, quando um anjo aparece de repente pra deter o patriarca e declarar o sacrifício desnecessário. A faca ainda brilha ameaçadoramente enquanto o anjo mergulha com urgência, a mão estendida e o olhar intenso fixado em Abraão — uma ordem divina em forma de gesto.\n\nIsaque está deitado sobre um altar de madeira, banhado em luz quase pura, nu exceto por um pano na cintura — sublinhando sua inocência. Em vez de colocar a mão de Abraão sobre a cabeça do filho, Rembrandt transforma a própria mão numa espécie de venda, cobrindo por completo o rosto de Isaque, quase sufocando-o — ao mesmo tempo gesto de ternura e violência esmagadora. É um dos detalhes mais lidos e comentados da obra: o pai não consegue olhar pro que está prestes a fazer.\n\nO dramatismo intenso, a forma monumental, o movimento turbulento e os contrastes fortes de luz e sombra são típicos do Rembrandt da década de 1630 e refletem plenamente as características do Barroco em seu auge.\n\n*Fonte: [The Sacrifice of Isaac — Wikipedia](https://en.wikipedia.org/wiki/The_Sacrifice_of_Isaac_(Rembrandt))*",
       "imageFile": "rembrandt-van-rijn-o-sacrificio-de-isaque.webp",
       "licenseType": "public-domain",
       "references": [
         {
           "book": "Gênesis",
           "bookSlug": "genesis",
-          "chapter": 22
+          "chapter": 22,
+          "passageText": "\"E, chegando eles ao lugar que Deus lhe dissera, edificou Abraão ali um altar, e pôs a lenha em ordem, e amarrou a Isaque seu filho, e o pôs no altar em cima da lenha. E estendeu Abraão a sua mão, e pegou o cutelo, para imolar a seu filho.\"\n\n\"Mas o anjo do Senhor lhe bradou desde os céus, e disse: Abraão, Abraão! E ele disse: Eis-me aqui. E disse o anjo: Não estendas a tua mão sobre o moço, e não lhe faças nada; porquanto agora sei que temes a Deus, e não me negaste o teu filho, o teu único.\""
         }
       ]
     },
@@ -15325,14 +15330,15 @@
       "artistOrDirector": "Rembrandt van Rijn",
       "year": "1631",
       "category": "painting",
-      "description": "Pedro na Prisão, de Rembrandt van Rijn.",
+      "description": "Óleo sobre painel (59 x 47,8 cm) de **Rembrandt van Rijn** (1606–1669), datado de **1631**, hoje no Museu de Israel, em Jerusalém — também conhecido como \"O Apóstolo Pedro Ajoelhado\". A obra mostra Pedro em sua cela de prisão em Jerusalém, logo depois da prisão, ajoelhado em oração. Um feixe de luz dourada e suave cai sobre ele vindo de fonte invisível, deixando grande parte do quadro em obscuridade total.\n\nA composição é mergulhada no uso dramático do claro-escuro que Rembrandt manipula com grande habilidade pra dirigir toda a atenção à figura de Pedro — nada mais na cena compete com ele. É interpretação de um tema já familiar na arte religiosa da época, mas que exemplifica o gênio particular de Rembrandt pra retratar estados de espírito e qualidades espirituais através da linguagem da luz e da sombra: aqui, a luz não vem de uma auréola pintada, vem de algo mais ambíguo — talvez esperança, talvez apenas a única janela da cela, talvez as duas coisas ao mesmo tempo.\n\nPintado quando Rembrandt tinha só 25 anos, ainda no início da carreira em Leiden, o quadro já mostra o domínio da técnica que definiria toda sua obra madura.\n\n*Fonte: [St. Peter in Prison — Artchive](https://www.artchive.com/artwork/st-peter-in-prison-rembrandt-1631/)*",
       "imageFile": "rembrandt-van-rijn-pedro-na-prisao.webp",
       "licenseType": "public-domain",
       "references": [
         {
           "book": "Atos",
           "bookSlug": "acts",
-          "chapter": 12
+          "chapter": 12,
+          "passageText": "\"Sendo Pedro guardado na prisão; mas a igreja fazia contínua oração por ele a Deus.\"\n\n\"E eis que sobreveio um anjo do Senhor, e uma luz resplandeceu na prisão; e, tocando a Pedro no lado, o despertou, dizendo: Levanta-te depressa. E caíram-lhe das mãos as cadeias.\""
         }
       ]
     },
@@ -16257,14 +16263,15 @@
       "artistOrDirector": "Ticiano",
       "year": "1545",
       "category": "painting",
-      "description": "O descer do Espírito Santo, de Ticiano.",
+      "description": "Óleo sobre tela monumental (570 x 260 cm) de **Ticiano** (Tiziano Vecellio, c. 1488/90–1576), concluído em **1545** e ainda hoje no local pra onde foi pintado: a sacristia da Basílica de Santa Maria della Salute, em Veneza. A obra retrata o Pentecoste — o momento em que o Espírito Santo desce sobre os apóstolos reunidos, marcando o nascimento visível da igreja.\n\nDiferente da tradição artística anterior, que costumava alinhar as figuras em fileira estática, Ticiano faz os apóstolos torcerem os corpos e se esticarem com energia emocional real — gesticulando, orando, reagindo fisicamente ao fogo do Espírito que desce sobre eles. A composição usa um cenário arquitetônico com profundidade real: uma abóbada em caixotões acima das figuras parece recuar até a parede do fundo, onde uma abertura revela a pomba do Espírito Santo, fonte de luz que organiza toda a cena.\n\nNa época em que pintou esta obra, Ticiano já era reconhecido como colorista brilhante, mas seu estilo maduro aqui mostra tons mais contidos que o cromatismo vívido de sua fase inicial — talvez porque o tema pedisse gravidade, não espetáculo.\n\n*Fonte: [The Descent of the Holy Spirit — Arthive](https://arthive.com/titian/works/355031~The_descent_of_the_Holy_spirit_on_the_apostles)*",
       "imageFile": "ticiano-o-descer-do-espirito-santo.webp",
       "licenseType": "public-domain",
       "references": [
         {
           "book": "Atos",
           "bookSlug": "acts",
-          "chapter": 2
+          "chapter": 2,
+          "passageText": "\"E, cumprindo-se o dia de Pentecoste, estavam todos concordemente no mesmo lugar; e de repente veio do céu um som, como de um vento veemente e impetuoso, e encheu toda a casa em que estavam assentados. E foram vistas por eles línguas repartidas, como que de fogo, as quais pousaram sobre cada um deles.\"\n\n\"E todos foram cheios do Espírito Santo, e começaram a falar em outras línguas, conforme o Espírito Santo lhes concedia que falassem.\""
         }
       ]
     },
@@ -16309,16 +16316,22 @@
       "slug": "ticiano-o-sepultamento-de-cristo",
       "title": "O sepultamento de Cristo",
       "artistOrDirector": "Ticiano",
-      "year": "1520",
+      "year": "c. 1520",
       "category": "painting",
-      "description": "O sepultamento de Cristo, de Ticiano.",
+      "description": "Óleo sobre tela (148 x 212 cm) de **Ticiano** (c. 1488/90–1576), datado de **c. 1520**, hoje no Museu do Louvre, em Paris. A cena mostra o corpo morto de Cristo sendo carregado ao túmulo por três homens: Nicodemos segura os ombros, José de Arimateia as pernas, e o apóstolo João o braço direito. Atrás deles, à esquerda, Maria em luto é amparada por Maria Madalena.\n\nA cena é escura e sombria, as figuras iluminadas por uma única fonte de luz. A composição triangular enfatiza o peso real do corpo morto sendo carregado, e Ticiano usa a direção da luz pra sugerir o movimento do grupo caminhando para a direita, com o contraste entre claro e escuro concentrado justamente sobre o corpo de Cristo — o verdadeiro centro de gravidade, literal e visual, da tela inteira.\n\nA obra passou pela coleção da família Gonzaga antes de ser comprada em 1627 por Carlos I da Inglaterra, depois adquirida pelo banqueiro parisiense Jabach, e finalmente por Luís XIV em 1662 — uma trajetória de posse que atravessa quase toda a Europa do início da era moderna antes de chegar ao Louvre.\n\n*Fonte: [The Entombment of Christ — Wikipedia](https://en.wikipedia.org/wiki/The_Entombment_of_Christ_(Titian))*",
       "imageFile": "ticiano-o-sepultamento-de-cristo.webp",
       "licenseType": "public-domain",
       "references": [
         {
           "book": "Mateus",
           "bookSlug": "matthew",
-          "chapter": 27
+          "chapter": 27,
+          "passageText": "\"E, tomando José o corpo, envolveu-o num fino e limpo lençol. E pô-lo no seu sepulcro novo, que havia lavrado em rocha; e, revolvendo uma grande pedra para a porta do sepulcro, foi-se.\"\n\n\"E foi também Nicodemos (aquele que anteriormente se dirigira de noite a Jesus), levando quase cem arráteis dum composto de mirra e aloés. Tomaram, pois, o corpo de Jesus, e o envolveram em lençóis com as especiarias, como os judeus costumavam fazer nos preparos para o sepulcro.\""
+        },
+        {
+          "book": "João",
+          "bookSlug": "john",
+          "chapter": 19
         }
       ]
     },
@@ -16789,16 +16802,17 @@
       "slug": "willem-de-poorter-salomao-e-a-rainha-de-saba",
       "title": "Salomão e a Rainha de Sabá",
       "artistOrDirector": "Willem de Poorter",
-      "year": "1630",
+      "year": "c. 1630",
       "category": "painting",
-      "description": "Salomão e a Rainha de Sabá, de Willem de Poorter.",
+      "description": "Óleo sobre painel (35 x 44 cm) de **Willem de Poorter** (1608–1648), pintor holandês formado sob influência direta de Rembrandt, datado de **c. 1630** — obra não assinada nem datada originalmente, atribuída a De Poorter só em 1983, hoje na Leiden Collection. Retrata a visita da Rainha de Sabá a Salomão, narrada em 1 Reis 10:1-13: a rainha viajou desde a distante terra de Sabá (provavelmente no atual Iêmen) carregando presentes luxuosos de ouro, especiarias e joias, com a intenção de testar o rei com uma série de perguntas difíceis.\n\nO estilo é típico das imagens religiosas de De Poorter — uso dramático de luz e sombra, texturas de tecidos finos que lembram diretamente o tratamento de Rembrandt, de quem De Poorter foi aluno em Amsterdã. O historiador da arte Sumowski relacionou este painel a outros dois trabalhos iniciais de De Poorter de dimensões parecidas, o que ajudou a estabelecer a atribuição da obra.\n\n*Fonte: [Solomon and the Queen of Sheba — The Leiden Collection](https://www.theleidencollection.com/artwork/solomon-and-the-queen-of-sheba/)*",
       "imageFile": "willem-de-poorter-salomao-e-a-rainha-de-saba.webp",
       "licenseType": "public-domain",
       "references": [
         {
           "book": "1 Reis",
           "bookSlug": "1-kings",
-          "chapter": 10
+          "chapter": 10,
+          "passageText": "\"Ouvindo, pois, a rainha de Sabá a fama de Salomão, no que tange ao nome do Senhor, veio para prová-lo com enigmas. E veio a Jerusalém com um mui grande cortejo, com camelos carregados de especiarias, e ouro em abundância, e pedras preciosas.\"\n\n\"E disse ao rei: Verdade era a palavra que ouvi na minha terra acerca dos teus feitos e da tua sabedoria. Mas eu não o credite, até que vim, e meus olhos o viram; e eis que a metade não me foi anunciada: sabedoria e bens em maior abundância excedem a fama que ouvi.\""
         }
       ]
     },
@@ -16983,16 +16997,17 @@
       "slug": "william-blake-o-fantasma-de-samuel-aparecendo-a-saul",
       "title": "O fantasma de Samuel aparecendo a Saul",
       "artistOrDirector": "William Blake",
-      "year": "1800",
+      "year": "c. 1800",
       "category": "painting",
-      "description": "O fantasma de Samuel aparecendo a Saul, de William Blake.",
+      "description": "Aquarela sobre pena e tinta (32 x 34,4 cm) de **William Blake** (1757–1827), poeta e artista visionário inglês, datada de **c. 1800**, hoje na National Gallery of Art, em Washington. A figura central é um homem de manto longo, cabelo e barba compridos descendo até as coxas, pele, cabelo e roupas quase inteiramente brancos — os dois indicadores apontando pra baixo. À esquerda, uma figura ajoelhada vestida de vermelho ergue as mãos abertas; à direita, outra figura encolhida em azul cobre o rosto com um braço enquanto o outro se estende pra trás, o cabelo laranja arrepiado ao redor da cabeça, o rosto em expressão de choque e pavor puro.\n\nA cena retrata o rei Saul prostrado diante do fantasma convocado de Samuel — episódio em que Saul, na véspera de uma batalha contra os filisteus, procura a médium de En-Dor, que consegue invocar o espírito de Samuel. Blake, com seu estilo visionário característico, transforma a cena bíblica num confronto quase sobrenatural entre luz espectral e terror humano, típico de sua obra que mistura mitologia pessoal com iconografia bíblica.\n\n*Fonte: [The Ghost of Samuel Appearing to Saul — National Gallery of Art](https://www.nga.gov/artworks/11498-ghost-samuel-appearing-saul)*",
       "imageFile": "william-blake-o-fantasma-de-samuel-aparecendo-a-saul.webp",
       "licenseType": "public-domain",
       "references": [
         {
           "book": "1 Samuel",
           "bookSlug": "1-samuel",
-          "chapter": 28
+          "chapter": 28,
+          "passageText": "\"E disse a mulher: A quem te farei subir? E ele disse: Faze-me subir a Samuel. Vendo, pois, a mulher a Samuel, gritou em alta voz; e a mulher falou a Saul, dizendo: Por que me enganaste? pois tu mesmo és Saul.\"\n\n\"Então disse Samuel: Por que, pois, me perguntas a mim, visto que o Senhor se apartou de ti, e se tornou teu inimigo? [...] Amanhã tu e teus filhos estareis comigo; também o Senhor entregará o exército de Israel na mão dos filisteus.\""
         }
       ]
     },
@@ -18135,5 +18150,5 @@
       ]
     }
   ],
-  "exportedAt": "2026-08-16T20:10:06.779Z"
+  "exportedAt": "2026-08-16T20:28:51.890Z"
 }
