@@ -225,9 +225,11 @@ export default function Contribute() {
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button variant="outline" className="shadow-card" disabled>
-                <Mail className="w-4 h-4 mr-2" />
-                Contato em breve
+              <Button variant="outline" className="shadow-card" asChild>
+                <a href="mailto:biblianaarte@narniano.com">
+                  <Mail className="w-4 h-4 mr-2" />
+                  biblianaarte@narniano.com
+                </a>
               </Button>
               <Button asChild variant="outline" className="shadow-card">
                 <Link to="/sobre">
