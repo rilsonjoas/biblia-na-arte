@@ -523,3 +523,19 @@ Google" não é viável em iOS de qualquer forma.
       ponteiro de texto de ~130 bytes em vez do binário real, quebrando
       a exibição de **todas** as pinturas do site por um tempo.
       Corrigido e documentado em `hetzner-infra/README.md`.
+
+---
+
+## Backlog de Produto — Issues e Bugs (levantamento 2026-08-21)
+
+> Levantamento feito pelo Rilson — complementa o roadmap de Fases acima.
+
+### 🔴 Crítico — bloqueio de confiança e monetização
+
+- [ ] **Git LFS — push com objetos desconhecidos** — `Your push referenced at least 2 unknown Git LFS objects`. Verificar `.gitattributes` do LFS, reconfigurar o servidor LFS ou migrar imagens pesadas para armazenamento externo (bucket S3-compatível, CDN). Resolver antes de qualquer colaboração ou deploy automatizado.
+- [ ] **Auditoria de direitos autorais das obras** — verificar sistematicamente se todas as ~850 obras têm direitos liberados (domínio público verificado por data de morte do artista + 70 anos na maioria das jurisdições). Sem essa auditoria concluída, **não ativar AdSense** (risco real de takedown). Criar planilha de controle com: obra, artista, ano de morte, fonte de verificação, status.
+
+### 🟡 Melhoria — produto (ver Fases 1-3 do roadmap principal)
+
+- [ ] **Scroll to top na navegação** — verificar se React Router está restaurando scroll ao navegar entre obras. Se não, adicionar `ScrollRestoration` ou `useEffect` com `window.scrollTo(0,0)`. (Mesmo bug da Bancada e Scriptorium.)
+- [ ] **Descrições com markdown cru** — algumas obras têm `**negrito**` visível como texto. Verificar se `react-markdown` está aplicado em todas as rotas de detalhe de obra.
