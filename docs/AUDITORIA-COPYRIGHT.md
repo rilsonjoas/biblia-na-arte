@@ -106,6 +106,31 @@ desativadas (já estão nos UPDATEs do `data-fixes.sql`).
    formal do autor (opção aberta para o futuro — vários são vivos e
    acessíveis), basta `active=true` + `license_type` + `attribution_text`
 
+## Quase-acidente do deploy deste mesmo dia (registrado por valor de lição)
+
+O primeiro push da auditoria (`cc3f54a`) quase derrubou produção, por
+três falhas encadeadas que **só foram pegas porque o build foi testado
+localmente ponta a ponta antes de insistir no deploy**:
+
+1. **Migrations não rodavam em lugar nenhum automaticamente** — nem no
+   startup do container, nem no `make deploy`. O código novo referenciava
+   uma coluna que o banco de produção ainda não tinha. Estrutural: agora
+   `server.ts` chama `runMigrations()` antes de ouvir tráfego — schema e
+   código nunca mais dessincronizam num deploy.
+2. **`prepare` do npm quebrava CI e build Docker** — `husky && git lfs
+   install` conflitava com o hook criado pelo husky (CI) e com a
+   ausência de git na imagem alpine (Docker). Corrigido com fallback
+   tolerante `(husky || true) && (git lfs install --force || true)`.
+3. **Typo pré-existente `TIMESTZ`** no `functions.sql` (tipo não existe
+   no Postgres; o correto é `TIMESTAMPTZ`) — nunca tinha explodido
+   justamente porque o SQL não era aplicado há tempos. O fix do item 1
+   faria ele explodir em produção no primeiro boot; foi corrigido junto.
+
+Lição alinhada ao padrão de engenharia: **testar o build de produção
+localmente antes de depurar via deploy** pegou os três problemas sem
+nenhum minuto de indisponibilidade real (o deploy quebrado falhou antes
+de trocar o container).
+
 ## Checklist para qualquer inclusão futura
 
 - [ ] Autor morreu ≤ **1955**? → pode incluir como `public-domain`
