@@ -786,6 +786,11 @@ Google" não é viável em iOS de qualquer forma.
 
 ### Monetização (destrava após auditoria)
 
+- **Limite de saque é por CONTA, não por site** (esclarecido ao Rilson em
+  2026-08-22): todos os sites cadastrados despejam no mesmo saldo único
+  de US$ 100. Cadastrar o subdomínio separadamente separa apenas
+  RELATÓRIOS (quanto cada projeto rende), nunca o pagamento. Fragmentar
+  só ocorreria com contas AdSense distintas por projeto — evitar.
 - AdSense + Amazon Associates (livros de arte sacra) — planejados desde a
   concepção; o bloqueio de copyright **foi removido em 2026-08-22**
   (auditoria concluída, ver 🔴 acima)
