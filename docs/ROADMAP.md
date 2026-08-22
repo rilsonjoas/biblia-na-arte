@@ -562,6 +562,81 @@ depois:
       inconsistência.
 
 
+## Achados 2026-08-22 (continuação) — busca, IA de navegação, links
+
+4 achados novos do Rilson, registrados sem mexer no código ainda (pedido
+explícito: só documentar desta vez). Cada um já foi checado contra a
+API/código real antes de escrever aqui — não é suposição.
+
+- [ ] **Buscar artista no `/busca` não retorna nada** — investigado, mas
+      sem causa raiz confirmada ainda. O que já foi checado e **funciona
+      certo**, via `curl` direto na API:
+      - Texto livre com nome de artista: `GET /artworks/search?q=Rembrandt`
+        → 20 resultados (a busca full-text já cobre `artist_or_director`).
+      - Filtro por artista sem texto (o caminho que `searchArtworksAdvanced`
+        usa quando o campo de busca está vazio): `GET /artworks?artist=Rembrandt&limit=1000`
+        → 41 resultados.
+      - Não há variantes de nome pro mesmo artista bagunçando o filtro
+        (checado via `/api/v1/artists`: só existe "Rembrandt van Rijn",
+        nenhuma outra grafia).
+      Ou seja, o backend responde certo pros 2 caminhos que
+      `searchArtworksAdvanced` (`web/src/lib/api-data.ts:103`) usa. O bug
+      deve estar na camada de interação do frontend — hipóteses a checar
+      com reprodução real no navegador (não dá pra confirmar só por
+      `curl`):
+      1. `<SelectItem value="">Todos os artistas</SelectItem>` em
+         `Search.tsx:261` — string vazia como `value` é um padrão
+         desaconselhado/restrito no Radix UI Select (a lib reserva
+         string vazia pra "sem seleção"); pode estar quebrando o
+         comportamento do dropdown de formas não óbvias.
+      2. Possível condição de corrida entre `useArtworks()` (popula o
+         dropdown de artistas) e o filtro sendo aplicado antes dos dados
+         carregarem.
+- [ ] **Os dropdowns "Navegar pela Bíblia" e "Galeria de Arte" fazem
+      sentido?** — questão honesta do Rilson, vale registrar a análise:
+      - "Navegar pela Bíblia" ainda se justifica (AT/NT é uma
+        subdivisão real e útil).
+      - "Galeria de Arte" é mais fraco — hoje tem só 2 itens, um deles
+        ("Pinturas & Obras Visuais") aponta pro MESMO destino
+        (`/arte/painting`) que o clique direto no rótulo já leva
+        (depois do split trigger de 2026-08-22) — ficou redundante.
+        O outro item é "Busca detalhada por artista ou período", que é
+        uma ação primária (buscar) escondida como item secundário de
+        dropdown.
+      - **A pergunta maior do Rilson**: por que `/busca` (com texto +
+        filtros de categoria/testamento/século/artista) e
+        `/arte/painting` (grade simples da categoria) são páginas
+        separadas, se as duas existem só pra achar obra? Faz sentido
+        unificar — `/arte/:category` viraria a MESMA experiência que
+        `/busca`, só pré-filtrada por categoria via query param (ex.:
+        `/busca?category=painting`), eliminando a duplicação de UI e a
+        pergunta "que página eu uso pra achar uma obra". Não é troca
+        trivial: as URLs atuais (`/arte/painting`, `/busca`) estão
+        indexadas no Google (2.115 páginas no sitemap, confirmado no
+        Search Console) — precisa de redirect 301 bem pensado pra não
+        perder o SEO já conquistado, não só trocar rota.
+- [ ] **"Parte de Uma Biblioteca Maior" (`/sobre`, seção adicionada
+      2026-08-22) linka pros 3 projetos-irmãos mas não pro narniano.com
+      em si** — o hub raiz do cluster ficou de fora, achado real,
+      omissão simples de corrigir (`web/src/pages/About.tsx`, bloco da
+      seção "Parte de Uma Biblioteca Maior").
+- [ ] **`/arte` ainda fala de Músicas e Filmes como se já existissem** —
+      confirmado contra a API: `GET /artworks?category=music` e
+      `category=film` retornam **0 obras** (828 são pinturas, 100% do
+      catálogo hoje). O card de cada categoria em `ArtCategories.tsx`
+      já mostra a contagem real (então tecnicamente não mente), mas o
+      texto descritivo ("Dos hinos gregorianos aos grandes oratórios
+      clássicos, ouça como...", linha ~44; "Descubra como o cinema...
+      trouxe as narrativas bíblicas pras telas...", linha ~51) é escrito
+      no presente, como se already existissem obras pra explorar —
+      choca com o princípio #1 do Padrão de Qualidade de Conteúdo
+      (fato/promessa não verificada não entra) igual ao espírito do
+      achado da Capela Sistina. Ajuste sugerido: badge "Em breve" nas 2
+      categorias vazias, ou reescrever a descrição pro futuro
+      ("Em breve, vamos explorar como..."), até ter pelo menos 1 obra
+      real em cada.
+
+
 ## Qualidade de Conteúdo (2026-08-22)
 
 Padrão cross-projeto: `Padrão de Qualidade de Conteúdo.md` no vault
