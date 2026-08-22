@@ -38,8 +38,8 @@ RETURNS TABLE(
     dimensions_or_duration TEXT,
     license_type TEXT,
     attribution_text TEXT,
-    created_at TIMESTZ,
-    updated_at TIMESTZ,
+    created_at TIMESTAMPTZ,
+    updated_at TIMESTAMPTZ,
     active BOOLEAN,
     rank REAL
 ) AS $$

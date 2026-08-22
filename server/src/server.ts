@@ -1,8 +1,14 @@
 import { buildApp } from './app.js';
 import { env } from './config.js';
 import { closeDb } from './db/client.js';
+import { runMigrations } from './db/migrate.js';
 
 async function main() {
+  // Migrations antes de ouvir tráfego: garante que o schema do banco
+  // está em dia com o código que está subindo (falha aqui = container
+  // reinicia via restart policy, não serve API quebrada).
+  await runMigrations();
+
   const app = await buildApp();
 
   try {
