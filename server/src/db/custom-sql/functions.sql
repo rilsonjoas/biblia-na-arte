@@ -18,9 +18,23 @@ CREATE TRIGGER update_artworks_updated_at
     FOR EACH ROW
     EXECUTE PROCEDURE update_updated_at_column();
 
--- Busca full-text em português com ranking, mesma lógica do schema.sql
--- original do Supabase (copiada 1:1 — é Postgres puro, nada específico
--- de PostgREST).
+-- Busca full-text em português com ranking. Reescrita 2026-08-22 —
+-- versão original (schema.sql do Supabase, copiada 1:1) tinha 2
+-- problemas reais reportados pelo Rilson:
+--
+-- 1. "Preciso digitar a palavra inteira pra achar a obra" —
+--    plainto_tsquery exige o STEM da palavra completa batendo exato
+--    ("lamen" nunca casava com "Lamentando", só "lamentando"/"lamento"
+--    completos casariam). Trocado por to_tsquery com sufixo :* (prefix
+--    match) em cada termo — padrão usado por qualquer busca
+--    "conforme digita" sobre tsvector do Postgres.
+-- 2. "A busca só acha por livro OU por obra, nunca os 2" — o texto
+--    pesquisável não incluía as referências bíblicas da obra
+--    (tabela bible_references), só título/subtítulo/descrição/artista.
+--    Uma obra sobre Gênesis só aparecia buscando o que está escrito NA
+--    descrição, nunca buscando "Gênesis" em si, mesmo com a referência
+--    cadastrada. Agora agrega os livros referenciados (LEFT JOIN
+--    LATERAL) no texto pesquisável também.
 DROP FUNCTION IF EXISTS search_artworks(TEXT);
 CREATE OR REPLACE FUNCTION search_artworks(search_query TEXT)
 RETURNS TABLE(
@@ -43,7 +57,26 @@ RETURNS TABLE(
     active BOOLEAN,
     rank REAL
 ) AS $$
+DECLARE
+    tsquery_text TEXT;
+    parsed_query tsquery;
 BEGIN
+    -- Sanitiza: mantém só letras (com acento), números e espaço — remove
+    -- caracteres com significado especial pro parser de tsquery
+    -- (&, |, !, (, ), :, ', ") que dariam erro de sintaxe vindos de
+    -- input livre do usuário.
+    tsquery_text := trim(regexp_replace(search_query, '[^[:alnum:]À-ÿ ]', ' ', 'g'));
+    tsquery_text := trim(regexp_replace(tsquery_text, '\s+', ' ', 'g'));
+
+    IF tsquery_text = '' THEN
+        RETURN;
+    END IF;
+
+    -- Cada termo vira prefixo (:*), termos entre si em AND (&) — busca
+    -- "conforme digita": query com N palavras exige as N presentes,
+    -- cada uma podendo estar incompleta.
+    parsed_query := to_tsquery('portuguese', regexp_replace(tsquery_text, ' ', ':* & ', 'g') || ':*');
+
     RETURN QUERY
     SELECT
         a.id, a.title, a.subtitle, a.artist_or_director, a.year, a.category,
@@ -55,17 +88,24 @@ BEGIN
                 coalesce(a.title, '') || ' ' ||
                 coalesce(a.subtitle, '') || ' ' ||
                 coalesce(a.description, '') || ' ' ||
-                coalesce(a.artist_or_director, '')
+                coalesce(a.artist_or_director, '') || ' ' ||
+                coalesce(refs.books, '')
             ),
-            plainto_tsquery('portuguese', search_query)
+            parsed_query
         ) as rank
     FROM artworks a
+    LEFT JOIN LATERAL (
+        SELECT string_agg(DISTINCT br.book, ' ') AS books
+        FROM bible_references br
+        WHERE br.artwork_id = a.id
+    ) refs ON true
     WHERE to_tsvector('portuguese',
         coalesce(a.title, '') || ' ' ||
         coalesce(a.subtitle, '') || ' ' ||
         coalesce(a.description, '') || ' ' ||
-        coalesce(a.artist_or_director, '')
-    ) @@ plainto_tsquery('portuguese', search_query)
+        coalesce(a.artist_or_director, '') || ' ' ||
+        coalesce(refs.books, '')
+    ) @@ parsed_query
     ORDER BY rank DESC, a.created_at DESC;
 END;
 $$ LANGUAGE plpgsql;

@@ -167,6 +167,26 @@ describe('API v1 — integração (Postgres real de teste)', () => {
     expect(body.some((a: { title: string }) => a.title === 'O bom samaritano')).toBe(true);
   });
 
+  // Achado real 2026-08-22: plainto_tsquery exigia a palavra completa
+  // ("samarit" não achava "samaritano") — reescrito pra prefix match (:*).
+  it('busca por prefixo de palavra (sem precisar digitar a palavra inteira)', async () => {
+    const res = await app.inject({ method: 'GET', url: '/api/v1/artworks/search?q=samarit' });
+    expect(res.statusCode).toBe(200);
+    const body = res.json();
+    expect(body.some((a: { title: string }) => a.title === 'O bom samaritano')).toBe(true);
+  });
+
+  // Achado real 2026-08-22: buscar o nome de um livro bíblico referenciado
+  // (não presente no título/descrição da obra em si) não achava nada —
+  // search_artworks só olhava título/subtítulo/descrição/artista, nunca
+  // as referências bíblicas cadastradas em bible_references.
+  it('busca por livro bíblico referenciado na obra (não só texto da obra)', async () => {
+    const res = await app.inject({ method: 'GET', url: '/api/v1/artworks/search?q=Lucas' });
+    expect(res.statusCode).toBe(200);
+    const body = res.json();
+    expect(body.some((a: { title: string }) => a.title === 'O bom samaritano')).toBe(true);
+  });
+
   it('GET /api/v1/bible-books lista os livros', async () => {
     const res = await app.inject({ method: 'GET', url: '/api/v1/bible-books' });
     expect(res.statusCode).toBe(200);
