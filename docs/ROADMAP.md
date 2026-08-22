@@ -790,17 +790,21 @@ Google" não é viável em iOS de qualquer forma.
   concepção; o bloqueio de copyright **foi removido em 2026-08-22**
   (auditoria concluída, ver 🔴 acima)
 - **Passos do AdSense (2026-08-22, Rilson iniciou o cadastro):**
-  1. Adicionar no "Adicionar site" o **subdomínio
-     `https://biblianaarte.narniano.com`** — NUNCA `biblianaarte.com`,
-     domínio que o Rilson não possui (mesmo achado do mailto removido em
-     2026-08-14). `narniano.com` já está Pronto/Autorizado na conta,
-     vinculado ao Site Kit — subdomínio herda a raiz verificada
-  2. Quando aprovado/vinculado: servir `ads.txt` em
-     `https://biblianaarte.narniano.com/ads.txt` com a linha do
-     publisher-ID (arquivo vai em `web/public/ads.txt` — hoje não existe;
-     os outros sites da conta mostram "ads.txt Não encontrado", mesma
-     dívida)
-  3. Recomendado antes de ativar anúncios: página de Política de
+  1. **Não é obrigatório cadastrar o subdomínio** — a raiz `narniano.com`
+     já está Pronto/Autorizada (vinculada ao Site Kit), e aprovação de
+     raiz COBRE os subdomínios. Recomendado cadastrar
+     `https://biblianaarte.narniano.com` mesmo assim: entra como "Pronto"
+     herdando da raiz (zero revisão extra) e dá **métrica/gestão
+     separada por projeto** na conta — vale num cenário multi-projeto
+     sob o mesmo domínio. NUNCA cadastrar `biblianaarte.com`, domínio
+     que o Rilson não possui (mesmo achado do mailto removido 2026-08-14)
+  2. **`ads.txt` resolve pela RAIZ** (spec IAB: crawler procura em
+     `narniano.com/ads.txt` quando o subdomínio não tem o próprio) —
+     UMA linha de publisher-ID na raiz cobre todos os subdomínios
+     monetizados de uma vez (biblianaarte, lecionario, scriptorium...).
+     Duplicar no subdomínio é opcional. Conta hoje mostra "ads.txt
+     Não encontrado" = mesma dívida, resolvível de graça na raiz
+  3. Recomendado antes de ATIVAR anúncios: página de Política de
      Privacidade mencionando cookies de anúncios (AdSense exige menção);
      hoje o site não tem
   4. Amazon Associates: cadastro separado, sem bloqueio técnico
