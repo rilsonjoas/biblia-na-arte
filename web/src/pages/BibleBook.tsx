@@ -146,7 +146,7 @@ export default function BibleBook() {
                     {book.testament === 'old' ? 'Antigo Testamento' : 'Novo Testamento'}
                   </Badge>
                   
-                  <h1 className="text-display text-4xl md:text-6xl font-bold mb-6 gradient-text">
+                  <h1 className="text-display text-3xl sm:text-4xl md:text-6xl font-bold mb-6 gradient-text">
                     {book.name}
                   </h1>
                   
@@ -162,7 +162,7 @@ export default function BibleBook() {
                   </div>
 
                   {bookDescription && (
-                    <p className="text-xl text-foreground/80 max-w-4xl mx-auto leading-relaxed">
+                    <p className="text-base sm:text-lg text-foreground/80 max-w-4xl mx-auto leading-relaxed">
                       {bookDescription.description}
                     </p>
                   )}
@@ -180,7 +180,7 @@ export default function BibleBook() {
               Capítulos
             </Badge>
 
-            <h2 className="text-display text-3xl font-bold mb-2">
+            <h2 className="text-display text-xl sm:text-2xl md:text-3xl font-bold mb-2">
               Navegue por Capítulos
             </h2>
 
@@ -291,7 +291,7 @@ export default function BibleBook() {
               Obras de Arte
             </Badge>
             
-            <h2 className="text-display text-3xl font-bold mb-4">
+            <h2 className="text-display text-xl sm:text-2xl md:text-3xl font-bold mb-4">
               Arte Inspirada em {book.name}
             </h2>
             

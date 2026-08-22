@@ -212,7 +212,7 @@ export default function ArtworkDetail() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 mb-12 items-start">
           {/* Image / Media Column */}
           <div className="lg:col-span-7 space-y-3">
-            <div className="relative group rounded-xl overflow-hidden bg-muted/40 border border-border/70 shadow-lg">
+            <div className="relative group rounded-xl overflow-hidden bg-muted/40 border border-border/70 shadow-lg gallery-frame">
               <AspectRatio ratio={4 / 3}>
                 {artwork.embedUrl ? (
                   <iframe
@@ -231,7 +231,7 @@ export default function ArtworkDetail() {
                       src={imageUrl}
                       alt={artwork.title}
                       onLoad={() => setImageLoaded(true)}
-                      className={`w-full h-full object-contain bg-black/5 dark:bg-black/40 rounded-xl transition-all duration-300 group-hover:scale-[1.02] cursor-pointer ${
+                      className={`w-full h-full object-contain bg-black/5 dark:bg-black/40 rounded-xl transition-all duration-300 [transition-timing-function:var(--ease-liturgico)] group-hover:scale-[1.02] cursor-pointer ${
                         imageLoaded ? 'opacity-100' : 'opacity-0'
                       }`}
                       onClick={() => setLightboxOpen(true)}
@@ -276,12 +276,12 @@ export default function ArtworkDetail() {
                 </Badge>
 
                 {artwork.licenseType === 'public-domain' ? (
-                  <Badge variant="outline" className="text-xs text-emerald-600 dark:text-emerald-400 border-emerald-500/30 bg-emerald-500/5 gap-1">
+                  <Badge variant="outline" className="text-xs text-muted-foreground border-border bg-muted/50 gap-1">
                     <ShieldCheck className="w-3.5 h-3.5" />
                     <span>Domínio Público</span>
                   </Badge>
                 ) : (
-                  <Badge variant="outline" className="text-xs text-amber-600 dark:text-amber-400 border-amber-500/30 bg-amber-500/5 gap-1">
+                  <Badge variant="outline" className="text-xs text-muted-foreground border-border bg-muted/50 gap-1">
                     <Info className="w-3.5 h-3.5" />
                     <span>Licenciado</span>
                   </Badge>
@@ -293,7 +293,7 @@ export default function ArtworkDetail() {
               </h1>
 
               {artwork.subtitle && (
-                <p className="text-lg md:text-xl text-muted-foreground italic mb-4 font-serif">
+                <p className="signature-italic text-lg md:text-xl mb-4">
                   {artwork.subtitle}
                 </p>
               )}
@@ -333,7 +333,7 @@ export default function ArtworkDetail() {
             {/* Description Section */}
             <div>
               <h2 className="text-display text-xl font-semibold mb-2">Sobre esta Obra</h2>
-              <div className="text-foreground/90 text-sm md:text-base leading-relaxed">
+              <div className="capitular text-foreground/90 text-base leading-relaxed">
                 <Markdown content={artwork.description} />
               </div>
             </div>
@@ -390,7 +390,7 @@ export default function ArtworkDetail() {
                       </div>
 
                       {ref.passageText && (
-                        <div className="pt-2 border-t border-border/40 text-xs md:text-sm text-foreground/90 font-serif leading-relaxed italic bg-muted/20 p-3 rounded-lg">
+                        <div className="pt-2 border-t border-border/40 text-sm md:text-base text-foreground/90 font-serif leading-relaxed italic bg-muted/20 p-3 rounded-lg">
                           <Markdown content={ref.passageText} />
                         </div>
                       )}

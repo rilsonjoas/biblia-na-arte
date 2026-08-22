@@ -4,7 +4,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import { Book, Heart, Users, Target, Lightbulb, Globe } from 'lucide-react';
+import { Book, Heart, Users, Target, Lightbulb, Globe, Instagram } from 'lucide-react';
 
 export default function About() {
   return (
@@ -19,7 +19,7 @@ export default function About() {
             Sobre o Projeto
           </Badge>
           
-          <h1 className="text-display text-3xl md:text-4xl font-bold mb-6">
+          <h1 className="text-display text-2xl sm:text-3xl md:text-4xl font-bold mb-6">
             A História da Bíblia na Arte
           </h1>
           
@@ -38,13 +38,13 @@ export default function About() {
                 Nossa Missão
               </h2>
               <p className="text-foreground/80 leading-relaxed mb-4">
-                A Bíblia na Arte nasceu da paixão por descobrir como a Palavra de Deus 
-                inspirou os maiores artistas da humanidade. Nosso objetivo é criar pontes 
-                entre a fé ancestral e a expressão artística, oferecendo uma experiência 
-                contemplativa e educativa única.
+                Nossa missão é criar pontes entre as Escrituras e a expressão 
+                artística da humanidade, oferecendo uma experiência contemplativa 
+                e educativa única: buscar uma passagem bíblica e encontrar as 
+                obras que ela inspirou ao longo dos séculos.
               </p>
               <p className="text-foreground/80 leading-relaxed">
-                Acreditamos que cada pintura, música e filme inspirado nas Escrituras 
+                Acreditamos que cada pintura inspirada nas Escrituras 
                 não é apenas uma obra de arte, mas uma janela para compreender como 
                 diferentes culturas e épocas interpretaram as verdades eternas da Bíblia.
               </p>
@@ -155,25 +155,51 @@ export default function About() {
             
             <div className="prose prose-lg mx-auto text-foreground/80 leading-relaxed">
               <p className="mb-4">
-                A ideia da Bíblia na Arte surgiu durante uma visita à Capela Sistina, 
-                quando observávamos as obras-primas de Michelangelo. Ali, rodeados por 
-                séculos de arte inspirada nas Escrituras, percebemos quão rica e 
-                profunda é a relação entre a Bíblia and a expressão artística.
+                A Bíblia na Arte nasceu de uma paixão pessoal por arte bíblica — 
+                paixão que ganhou vocabulário na leitura de Hans Rookmaaker, 
+                historiador holandês que dedicou a vida a pensar a relação 
+                entre fé e criação artística. Foi lendo Rookmaaker que entendi: 
+                a arte inspirada nas Escrituras não é enfeite devocional nem 
+                propaganda religiosa — é teologia feita imagem, séculos de 
+                leitura da Palavra registrados em tela, madeira e afresco. Ele 
+                escreveu o que virou o lema deste projeto:
               </p>
-              
+
+              <blockquote className="border-l-4 border-accent/60 pl-6 my-8 italic text-foreground">
+                "A arte não precisa de justificativa — nem por motivos 
+                religiosos ou propósitos evangelísticos, nem por fins 
+                econômicos ou políticos."
+                <footer className="text-sm not-italic text-muted-foreground mt-2">
+                  — Hans Rookmaaker, <em>A Arte Não Precisa de Justificativa</em> (1978)
+                </footer>
+              </blockquote>
+
               <p className="mb-4">
-                Descobrimos que muitas pessoas, mesmo aquelas que apreciam arte ou 
-                estudam a Bíblia, desconhecem as intrincadas conexões entre essas duas 
-                dimensões da experiência humana. Assim nasceu nossa missão: criar uma 
-                ponte entre esses mundos, oferecendo uma plataforma onde qualquer pessoa 
-                possa explorar e descobrir essas conexões sagradas.
+                Essa inquietação virou projeto primeiro no Instagram, com o{' '}
+                <a
+                  href="https://www.instagram.com/artecristadiaria/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-primary hover:underline inline-flex items-center gap-1.5"
+                >
+                  <Instagram className="w-4 h-4 shrink-0" />
+                  Arte Cristã Diária
+                </a>{' '}
+                — um museu devocional digital que transforma rolar o feed em 
+                pausa, contemplação e adoração silenciosa: <em>Ora et 
+                Contempla</em>, uma obra por dia, com contexto bíblico e 
+                histórico na legenda. Foi ali que a curadoria ganhou método — 
+                pesquisar cada pintura, verificar a referência bíblica, 
+                contar a história por trás da obra.
               </p>
-              
+
               <p>
-                Hoje, a Bíblia na Arte continua crescendo, sempre com o objetivo de 
-                preservar, educar e inspirar. Cada obra adicionada à nossa coleção é 
-                cuidadosamente pesquisada e contextualizada, garantindo que nossa 
-                comunidade tenha acesso ao melhor conteúdo sobre arte bíblica.
+                O site veio depois, como casa permanente desse acervo: um lugar 
+                onde cada obra está ligada à passagem que a gerou, pesquisável 
+                por livro, capítulo e tema. O que começou como um post por dia 
+                hoje é uma biblioteca visual com centenas de obras — e continua 
+                crescendo uma a uma, cada qual cuidadosamente pesquisada e 
+                contextualizada.
               </p>
             </div>
           </CardContent>

@@ -19,6 +19,14 @@ export default {
 			}
 		},
 		extend: {
+			fontFamily: {
+				/* Mapeamento via vars do index.css (mesmo padrão do Lecionário).
+				   Achado 2026-08-22: sem isso a classe `font-display` não era
+				   gerada pelo Tailwind — título do lightbox caía no sans. */
+				display: ['var(--font-display)', 'Georgia', 'serif'],
+				serif: ['var(--font-serif)', 'Georgia', 'serif'],
+				sans: ['var(--font-sans)', 'system-ui', 'sans-serif'],
+			},
 			colors: {
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',

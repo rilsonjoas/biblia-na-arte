@@ -72,9 +72,9 @@ export default function ArtworkCard({ artwork, showReferences = true }: ArtworkC
   const linkTarget = `/obra/${artwork.id}`;
 
   return (
-    <Card className="group overflow-hidden hover:shadow-classical transition-all duration-300 hover:-translate-y-1 bg-card border border-border/60 hover:border-accent/40 rounded-xl">
+      <Card className="group overflow-hidden hover:shadow-classical transition-all duration-300 [transition-timing-function:var(--ease-liturgico)] hover:-translate-y-1 bg-card border border-border/60 hover:border-accent/40 rounded-xl">
       <Link to={linkTarget} className="block focus:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-xl">
-        <CardHeader className="p-0 relative overflow-hidden bg-muted/40">
+        <CardHeader className="p-0 relative overflow-hidden bg-muted/40 gallery-frame">
           <AspectRatio ratio={4 / 3}>
             {imageUrl ? (
               <>
@@ -86,7 +86,7 @@ export default function ArtworkCard({ artwork, showReferences = true }: ArtworkC
                   alt={artwork.title}
                   loading="lazy"
                   onLoad={() => setImageLoaded(true)}
-                  className={`w-full h-full object-cover rounded-t-xl group-hover:scale-105 transition-transform duration-500 ease-out ${
+                  className={`w-full h-full object-cover rounded-t-xl group-hover:scale-105 transition-transform duration-500 [transition-timing-function:var(--ease-vela)] ${
                     imageLoaded ? 'opacity-100' : 'opacity-0'
                   }`}
                 />

@@ -4,6 +4,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router";
 import { ThemeProvider } from "next-themes";
+import { ScrollToTop } from "@/components/ScrollToTop";
 import Index from "./pages/Index";
 import BibleBooks from "./pages/BibleBooks";
 import BibleBook from "./pages/BibleBook";
@@ -31,6 +32,7 @@ const App = () => (
         <Toaster />
         <Sonner />
         <BrowserRouter>
+          <ScrollToTop />
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/biblia" element={<BibleBooks />} />

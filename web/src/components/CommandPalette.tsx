@@ -93,7 +93,7 @@ export function CommandPalette({ open: controlledOpen, onOpenChange }: CommandPa
 
         {/* Artworks search results if searching */}
         {artworkResults.length > 0 && (
-          <CommandGroup heading="🎨 Obras de Arte Encontradas">
+          <CommandGroup heading="Obras de Arte Encontradas">
             {artworkResults.slice(0, 6).map((art) => (
               <CommandItem
                 key={art.id}
@@ -117,7 +117,7 @@ export function CommandPalette({ open: controlledOpen, onOpenChange }: CommandPa
         )}
 
         {/* Bible Books */}
-        <CommandGroup heading="📖 Livros Bíblicos">
+        <CommandGroup heading="Livros Bíblicos">
           {bibleBooks.map((book) => (
             <CommandItem
               key={book.slug}
@@ -139,7 +139,7 @@ export function CommandPalette({ open: controlledOpen, onOpenChange }: CommandPa
         <CommandSeparator />
 
         {/* Quick Navigation Links */}
-        <CommandGroup heading="🧭 Navegação Rápida">
+        <CommandGroup heading="Navegação Rápida">
           <CommandItem
             value="galeria pinturas obras arte catalogo"
             onSelect={() => handleSelect(() => navigate('/arte/painting'))}
@@ -185,7 +185,7 @@ export function CommandPalette({ open: controlledOpen, onOpenChange }: CommandPa
         <CommandSeparator />
 
         {/* Theme switching */}
-        <CommandGroup heading="🎨 Aparência / Tema">
+        <CommandGroup heading="Aparência / Tema">
           <CommandItem
             value="tema claro light mode dia"
             onSelect={() => handleSelect(() => setTheme('light'))}

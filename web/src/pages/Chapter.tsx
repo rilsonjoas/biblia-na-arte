@@ -141,7 +141,7 @@ export default function Chapter() {
                     {book.testament === 'old' ? 'Antigo Testamento' : 'Novo Testamento'}
                   </Badge>
 
-                  <h1 className="text-display text-4xl md:text-6xl font-bold mb-6 gradient-text">
+                  <h1 className="text-display text-3xl sm:text-4xl md:text-6xl font-bold mb-6 gradient-text">
                     {book.name} {chapterNum}
                   </h1>
 
@@ -251,7 +251,7 @@ export default function Chapter() {
               Obras de Arte
             </Badge>
 
-            <h2 className="text-display text-3xl font-bold mb-4">
+            <h2 className="text-display text-xl sm:text-2xl md:text-3xl font-bold mb-4">
               {book.name} {chapterNum} na Arte
             </h2>
 

@@ -67,7 +67,7 @@ export default function ArtCategories() {
               Categorias Artísticas
             </Badge>
             
-            <h1 className="text-display text-3xl md:text-4xl font-bold mb-4">
+            <h1 className="text-display text-2xl sm:text-3xl md:text-4xl font-bold mb-4">
               Explorar por Arte
             </h1>
             
@@ -161,7 +161,7 @@ export default function ArtCategories() {
               <IconComponent className="w-4 h-4 mr-2" />
               {currentCategory.name}
             </Badge>
-            <h1 className="text-display text-3xl md:text-4xl font-bold mb-4">
+            <h1 className="text-display text-2xl sm:text-3xl md:text-4xl font-bold mb-4">
               {currentCategory.name} Inspiradas na Bíblia
             </h1>
           </div>
@@ -211,7 +211,7 @@ export default function ArtCategories() {
             {currentCategory.name}
           </Badge>
           
-          <h1 className="text-display text-3xl md:text-4xl font-bold mb-4">
+          <h1 className="text-display text-2xl sm:text-3xl md:text-4xl font-bold mb-4">
             {currentCategory.name} Inspiradas na Bíblia
           </h1>
           

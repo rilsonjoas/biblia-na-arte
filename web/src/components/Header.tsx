@@ -8,7 +8,7 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from '@/components/ui/navigation-menu';
-import { Book, Palette, Search, Menu, Sparkles } from 'lucide-react';
+import { Book, Palette, Search, Menu, Sparkles, ScrollText, Cross, HeartHandshake } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { ThemeToggle } from '@/components/ThemeToggle';
@@ -78,7 +78,8 @@ export default function Header() {
                                 to="/biblia?testament=old"
                                 className="block rounded-md p-2 hover:bg-accent hover:text-accent-foreground text-xs font-medium"
                               >
-                                📜 Antigo Testamento
+                                <ScrollText className="w-3.5 h-3.5 inline mr-1.5 text-primary" />
+                                Antigo Testamento
                               </Link>
                             </NavigationMenuLink>
                             <NavigationMenuLink asChild>
@@ -86,7 +87,8 @@ export default function Header() {
                                 to="/biblia?testament=new"
                                 className="block rounded-md p-2 hover:bg-accent hover:text-accent-foreground text-xs font-medium"
                               >
-                                ✝️ Novo Testamento
+                                <Cross className="w-3.5 h-3.5 inline mr-1.5 text-primary" />
+                                Novo Testamento
                               </Link>
                             </NavigationMenuLink>
                           </div>
@@ -119,7 +121,8 @@ export default function Header() {
                               to="/busca"
                               className="block rounded-md p-2.5 hover:bg-accent hover:text-accent-foreground text-xs font-medium text-muted-foreground"
                             >
-                              🔍 Busca detalhada por artista ou período
+                              <Search className="w-3.5 h-3.5 inline mr-1.5" />
+                              Busca detalhada por artista ou período
                             </Link>
                           </NavigationMenuLink>
                         </div>
@@ -229,7 +232,8 @@ export default function Header() {
                       onClick={() => setMobileMenuOpen(false)}
                       className="flex items-center gap-2.5 px-3 py-2 text-sm font-medium rounded-lg hover:bg-accent hover:text-accent-foreground transition-colors"
                     >
-                      <span>🤝 Contribuir</span>
+                      <HeartHandshake className="w-4 h-4 text-primary" />
+                      <span>Contribuir</span>
                     </Link>
                   </nav>
                 </SheetContent>

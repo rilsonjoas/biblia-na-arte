@@ -8,7 +8,7 @@ import ArtworkCard, { ArtworkCardSkeleton } from '@/components/ArtworkCard';
 import { SEO } from '@/components/SEO';
 import { ErrorCard } from '@/components/ui/error-display';
 import { useFeaturedArtworks } from '@/hooks/use-artworks';
-import { Book, Palette, Music, Film, Sparkles } from 'lucide-react';
+import { Book, Palette, Music, Film, Sparkles, Instagram } from 'lucide-react';
 
 // Servido de web/public/ (não é uma pintura do catálogo, é asset de UI) —
 // path fixo em vez de import, sem precisar de hash de build pra um banner
@@ -57,16 +57,17 @@ export default function Index() {
               Explore as Conexões Sagradas
             </Badge>
             
-            <h1 className="text-display text-4xl md:text-6xl font-bold mb-6 leading-tight">
+            <h1 className="text-display text-3xl sm:text-4xl md:text-6xl font-bold mb-6 leading-tight">
               A Bíblia através da
               <span className="block gradient-accent bg-clip-text text-transparent">
                 Arte e Cultura
               </span>
             </h1>
             
-            <p className="text-xl md:text-2xl mb-8 text-white/90 max-w-3xl mx-auto leading-relaxed">
-              Descubra como as narrativas sagradas foram interpretadas e retratadas 
-              ao longo da história através de pinturas, músicas e filmes.
+            <p className="text-base sm:text-xl md:text-2xl mb-8 text-white/90 max-w-3xl mx-auto leading-relaxed">
+              Descubra como as narrativas sagradas foram interpretadas 
+              ao longo da história através de pinturas cuidadosamente 
+              curadas, ligadas às passagens que as inspiraram.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -100,7 +101,7 @@ export default function Index() {
       <section className="py-20 bg-background">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-display text-3xl md:text-4xl font-bold mb-4">
+            <h2 className="text-display text-2xl sm:text-3xl md:text-4xl font-bold mb-4">
               Como Explorar
             </h2>
             <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
@@ -193,7 +194,7 @@ export default function Index() {
       <section className="py-20 bg-muted/30">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-display text-3xl md:text-4xl font-bold mb-4">
+            <h2 className="text-display text-2xl sm:text-3xl md:text-4xl font-bold mb-4">
               Obras em Destaque
             </h2>
             <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
@@ -236,27 +237,38 @@ export default function Index() {
       <section className="py-20 bg-background">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-display text-3xl md:text-4xl font-bold mb-6">
+            <h2 className="text-display text-2xl sm:text-3xl md:text-4xl font-bold mb-6">
               Sobre a Bíblia na Arte
             </h2>
             <p className="text-lg text-muted-foreground leading-relaxed mb-8">
               Este projeto nasceu da paixão por descobrir como a Palavra de Deus 
-              inspirou os maiores artistas da humanidade. Aqui, cada pintura, música 
-              e filme não é apenas uma obra de arte, mas uma janela para 
-              compreender como diferentes culturas e épocas interpretaram as 
-              verdades eternas das Escrituras.
+              inspirou os artistas ao longo dos séculos — paixão afiada pela 
+              leitura de Hans Rookmaaker, para quem "a arte não precisa de 
+              justificativa". Aqui, cada pintura não é apenas uma obra de arte, 
+              mas uma janela para compreender como diferentes culturas e épocas 
+              interpretaram as verdades eternas das Escrituras.
             </p>
             <p className="text-lg text-muted-foreground leading-relaxed mb-8">
-              Nossa missão é criar pontes entre a fé ancestral e a expressão 
-              artística, oferecendo uma experiência contemplativa e educativa 
-              para todos que buscam aprofundar sua compreensão tanto da Bíblia 
-              quanto da arte que ela inspirou.
+              Na prática, tudo começou no Instagram com o Arte Cristã Diária, um 
+              museu devocional digital — <em>Ora et Contempla</em>, uma obra por 
+              dia. Este site é a casa permanente desse acervo: cada pintura 
+              ligada à passagem que a gerou, numa experiência contemplativa e 
+              educativa para todos que buscam aprofundar tanto a Bíblia quanto 
+              a arte que ela inspirou.
             </p>
-            <Button asChild size="lg" className="shadow-classical">
-              <Link to="/sobre">
-                Saiba Mais sobre o Projeto
-              </Link>
-            </Button>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button asChild size="lg" className="shadow-classical">
+                <Link to="/sobre">
+                  Saiba Mais sobre o Projeto
+                </Link>
+              </Button>
+              <Button asChild variant="outline" size="lg" className="shadow-card">
+                <a href="https://www.instagram.com/artecristadiaria/" target="_blank" rel="noopener noreferrer">
+                  <Instagram className="w-5 h-5 mr-2" />
+                  Seguir o Arte Cristã Diária
+                </a>
+              </Button>
+            </div>
           </div>
         </div>
       </section>
