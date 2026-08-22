@@ -311,12 +311,14 @@ elevar a qualidade do catálogo.
 - [x] **Backup (2026-08-14)**: Confirmado. O banco `biblia_na_arte_db` está incluído no VPS Hetzner, coberto pelo script de backup diário (`backup.sh`) e validado pelo teste de restore semanal automático (`backup-restore-test.sh`).
 - [x] **Observabilidade e Resiliência (2026-08-14)**: `/health`, `/health/live` e `/health/ready` (validação de DB ativa) implementados no Fastify; tratamento gracioso de `SIGTERM`/`SIGINT` configurado; Sentry integrado.
 - [x] **`biblianaarte-web` sem healthcheck (achado 2026-08-14) — corrigido
-      no código 2026-08-22**: `healthcheck` adicionado em
+      e aplicado em produção 2026-08-22**: `healthcheck` adicionado em
       `hetzner-infra/biblia-na-arte/docker-compose.yml`
       (`wget --spider http://127.0.0.1/`, mesmo padrão do
-      `cslewis/docker-compose.yml`). **Falta aplicar no VPS** — `git pull
-      && docker compose up -d` (ou `make deploy service=biblia-na-arte`)
-      em `hetzner-infra`; sessão sem SSH configurado pra aplicar direto.
+      `cslewis/docker-compose.yml`). Aplicado via SSH (Tailscale,
+      `debian13-4gb-narniano`) com `make deploy service=biblia-na-arte`;
+      `docker ps` confirma `biblianaarte-web` e `biblianaarte-api` como
+      `(healthy)`, site seguiu no ar durante o recreate (HTTP 200 nos
+      dois depois).
 - [x] **Uptime Kuma com alerta real**: monitorando `biblianaarte.narniano.com`
       e `api-biblianaarte.narniano.com`, com alerta configurado em
       **Telegram e e-mail** (não é só painel visual) — item concluído,
