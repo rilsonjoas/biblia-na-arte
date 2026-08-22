@@ -240,20 +240,24 @@ export default function Index() {
             <h2 className="text-display text-2xl sm:text-3xl md:text-4xl font-bold mb-6">
               Sobre a Bíblia na Arte
             </h2>
-            <p className="text-lg text-muted-foreground leading-relaxed mb-8">
-              Este projeto nasceu da paixão por descobrir como a Palavra de Deus 
-              inspirou os artistas ao longo dos séculos — paixão afiada pela 
-              leitura de Hans Rookmaaker, para quem "a arte não precisa de 
-              justificativa". Aqui, cada pintura não é apenas uma obra de arte, 
-              mas uma janela para compreender como diferentes culturas e épocas 
+            {/* text-foreground/80, sem text-lg: mesmo texto existe em About.tsx
+                (/sobre) com esse estilo — aqui estava com text-lg
+                text-muted-foreground, tamanho e cor diferentes pro mesmo
+                parágrafo em duas páginas — achado real 2026-08-22 */}
+            <p className="text-foreground/80 leading-relaxed mb-8">
+              Este projeto nasceu da paixão por descobrir como a Palavra de Deus
+              inspirou os artistas ao longo dos séculos — paixão afiada pela
+              leitura de Hans Rookmaaker, para quem "a arte não precisa de
+              justificativa". Aqui, cada pintura não é apenas uma obra de arte,
+              mas uma janela para compreender como diferentes culturas e épocas
               interpretaram as verdades eternas das Escrituras.
             </p>
-            <p className="text-lg text-muted-foreground leading-relaxed mb-8">
-              Na prática, tudo começou no Instagram com o Arte Cristã Diária, um 
-              museu devocional digital — <em>Ora et Contempla</em>, uma obra por 
-              dia. Este site é a casa permanente desse acervo: cada pintura 
-              ligada à passagem que a gerou, numa experiência contemplativa e 
-              educativa para todos que buscam aprofundar tanto a Bíblia quanto 
+            <p className="text-foreground/80 leading-relaxed mb-8">
+              Na prática, tudo começou no Instagram com o Arte Cristã Diária, um
+              museu devocional digital — <em>Ora et Contempla</em>, uma obra por
+              dia. Este site é a casa permanente desse acervo: cada pintura
+              ligada à passagem que a gerou, numa experiência contemplativa e
+              educativa para todos que buscam aprofundar tanto a Bíblia quanto
               a arte que ela inspirou.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">

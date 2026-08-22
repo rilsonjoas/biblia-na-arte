@@ -131,9 +131,14 @@ export default function Header() {
                   </NavigationMenuItem>
 
                   <NavigationMenuItem>
+                    {/* text-display: os dois itens irmãos (NavigationMenuTrigger
+                        acima) já usam a fonte serifada da marca — este link
+                        simples tinha ficado sem, caindo no sans padrão e
+                        destoando visualmente dos outros dois — achado real
+                        2026-08-22 */}
                     <Link
                       to="/sobre"
-                      className="inline-flex items-center justify-center rounded-md px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted/60 transition-colors"
+                      className="inline-flex items-center justify-center rounded-md px-3 py-2 text-display text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted/60 transition-colors"
                     >
                       <Sparkles className="w-4 h-4 mr-1.5 text-amber-500" />
                       Sobre o Projeto
