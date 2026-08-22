@@ -3,7 +3,8 @@
 > **Status atual: Fase 0 concluída** (2026-08-07)
 >
 > Este documento é a fonte da verdade do caminho até produção confiável.
-> O `CLAUDE.md` e a nota `Bíblia na Arte.md` no vault Obsidian apontam pra cá.
+> O `README.md` do repo e a nota `Bíblia na Arte.md` no vault Obsidian
+> apontam pra cá.
 > Toda fase concluída deve marcar os itens e atualizar o `## Status` aqui.
 >
 > As fases 0/4 abaixo já cobrem, na prática, o mesmo padrão comum
@@ -367,23 +368,40 @@ elevar a qualidade do catálogo.
 > A cara própria deste projeto, vs. o Scriptorium (que compartilha a
 > mesma base): aqui a assinatura é a **moldura da obra**, não o texto.
 
-- [ ] Cada obra do catálogo ganha `frame-arch` ou `frame-tondo` (nunca
-      `<img>` solto num retângulo) — a pintura tratada como pintura
-      emoldurada, não como foto de stock
-- [ ] Capitular (`.capitular::first-letter`) no primeiro parágrafo da
-      descrição de cada obra
-- [ ] `.signature-italic` nos subtítulos/legendas de artista
+- [~] Moldura em cada obra — EXECUTADO 2026-08-22 como **`.gallery-frame`**
+      (filete duplo dourado em passe-partout via overlay, tokens crus
+      `--canela/--dourado/--vinho` adicionados ao `index.css`): aplicado
+      nos cards do catálogo e no hero da página da obra. Decisão honesta:
+      o `frame-arch` literal do guia (retrato 280×380) exigiria RECORTAR
+      pinturas paisagem com object-cover — aqui a obra fica inteira dentro
+      da moldura. Arco literal reservado pra contextos retrato futuros.
+- [x] Capitular (`.capitular::first-letter`) na descrição da obra
+      (2026-08-22) — com a lição WCAG do Lecionário respeitada: vinho no
+      tema claro, dourado só no escuro.
+- [x] `.signature-italic` no subtítulo de artista na página da obra
+      (2026-08-22).
 - [ ] `--gradiente-ceus` + `.halo-glow` reservado só pra obras de temática
       de criação/cosmos (ex. representações da Criação, Gênesis 1) — não
-      usar em todo lugar, senão perde o significado
-- [ ] Curvas `--ease-liturgico`/`--ease-vela` nas transições de lightbox
-      e hover de card, no lugar do easing padrão do Tailwind
-- [ ] **Logo/favicon — ainda é o padrão genérico do template (pedido do
-      Rilson, 2026-08-16)**: `web/public/favicon.ico` (73x74 PNG) e
-      `favicon.svg` ao lado do `placeholder.svg` — sobra de scaffold,
-      sem identidade própria. Precisa de marca coerente com o registro
-      "A Biblioteca" acima — mesma pendência no `scriptorium-divinum`
-      (ver o ROADMAP de lá).
+      usar em todo lugar, senão perde o significado. Dependência: marcar
+      quais obras são de Criação.
+- [x] Curvas `--ease-liturgico`/`--ease-vela` nas transições (2026-08-22):
+      zoom do lightbox, hover dos cards e transição do hero.
+- [x] **Convergência tipográfica com o cânone (2026-08-22)**: display
+      migrado Playfair Display → **Cormorant Garamond** (igual ao
+      Lecionário); import do Playfair REMOVIDO — uma fonte a menos.
+      Bônus: tailwind.config ganhou mapeamento `fontFamily` via vars
+      (padrão Lecionário) — sem ele a classe `font-display` nem existia
+      (bug silencioso: título do lightbox caía no sans). Inter segue no
+      chrome de UI (igual aos irmãos), EB Garamond no corpo.
+- [x] **Footer "Conheça também" (2026-08-22)** — modelo Gerador adaptado:
+      rótulo caps espaçadas + Narniano · Scriptorium · Lecionário · Gerador
+      unidos por ✦ dourado (`var(--dourado)`), pares atômicos flex-wrap.
+      Fecha o item cruzado dos 4 projetos.
+- [x] **Logo/favicon — dourado divergente é tarefa de ASSET, não de código
+      (verificado 2026-08-22)**: grep confirma que `#F0C663` não existe em
+      nenhum código/CSS — está queimado nos PNGs (`logo-header-*.png`,
+      favicons). Reconciliar com `#B49A60` exige regenerar os assets a
+      partir do arquivo de design original. Manual, quando houver acesso.
 
 ## Fase 5 — Produto
 
@@ -394,6 +412,17 @@ elevar a qualidade do catálogo.
 - [ ] Modo devocional/leitura.
 - [ ] Compartilhamento com OG-image dinâmica.
 - [ ] Favoritos locais.
+- [ ] **Expansão do acervo: música e cinema (2026-08-22)** — decisão do
+      Rilson: precisa necessariamente acontecer, depois das pinturas
+      estarem sólidas. O schema já nasceu com `category`
+      (pintura|música|filme) e a UI já prevê filtros/cards (ArtCategories,
+      Search, ArtworkCard) — mas o catálogo real hoje é 100% pintura, e a
+      cópia prometia os três meios (hero, footer, About, Contribute,
+      Search): textos ajustados pra verdade em 2026-08-22, cards/filtros
+      ficam como infra pronta esperando o primeiro lote real de cada meio
+      (ou esconder até lá — decidir na hora). Material de curadoria no
+      vault: notas de música sacra/livros (`10 - Arte e literatura`) e
+      análise de cinema via Rookmaaker (`3 - Clippings`, Scorsese).
 
 ### Integração com o Lecionário — "Pintura do Dia" (2026-08-16)
 
@@ -526,18 +555,252 @@ Google" não é viável em iOS de qualquer forma.
 
 ---
 
-## Backlog de Produto — Issues e Bugs (levantamento 2026-08-21)
+## Backlog de Produto — Issues e Bugs (levantamentos 2026-08-21 e 2026-08-22)
 
 > Levantamento feito pelo Rilson — complementa o roadmap de Fases acima.
 
 ### 🔴 Crítico — bloqueio de confiança e monetização
 
-- [ ] **Git LFS — push com objetos desconhecidos** — `Your push referenced at least 2 unknown Git LFS objects`. Verificar `.gitattributes` do LFS, reconfigurar o servidor LFS ou migrar imagens pesadas para armazenamento externo (bucket S3-compatível, CDN). Resolver antes de qualquer colaboração ou deploy automatizado.
-- [ ] **Auditoria de direitos autorais das obras** — verificar sistematicamente se todas as ~850 obras têm direitos liberados (domínio público verificado por data de morte do artista + 70 anos na maioria das jurisdições). Sem essa auditoria concluída, **não ativar AdSense** (risco real de takedown). Criar planilha de controle com: obra, artista, ano de morte, fonte de verificação, status.
+- [x] **Git LFS — push com objetos desconhecidos (RESOLVIDO 2026-08-22,
+      era quase todo falso alarme)** — `Your push referenced at least 2
+      unknown Git LFS objects`. Diagnóstico definitivo em vez de chute:
+      inventário dos **1.904 OIDs que já existiram em todo o histórico**
+      (`git lfs ls-files --all` + dry-run salvo) consultado um a um na
+      **Batch API do GitHub** (`POST .../info/lfs/objects/batch`,
+      chunks de 100, auth via `gh auth token`). Resultado: **1.903/1.904
+      presentes e íntegros no servidor** — todas as pinturas, logos e
+      favicons, incluindo versões antigas substituídas por re-exports.
+      Local também íntegro (`git lfs fsck` OK). O único faltante é o OID
+      da **string vazia** (`e3b0c442…b855`, sha256 de zero bytes),
+      associado ao `server/db-legacy-supabase-reference/fix-security-view.sql`
+      — arquivo-placeholder VAZIO da era Supabase. Causa-raiz: git-lfs
+      **não gerencia arquivos de 0 byte** ("does not manage files with a
+      size of 0 bytes") — nenhum commit alcançável jamais guardou ponteiro
+      daquele arquivo (o blob no histórico é o vazio puro do git,
+      `e69de29…`); o fantasma nasce do scan interno do próprio git-lfs.
+      Tentativas de subir o objeto vazio (push --object-id, PUT manual na
+      URL assinada do S3 com headers assinados) falham ou são ignoradas
+      pelo backend — **GitHub não indexa objeto LFS de 0 byte**, ponto.
+      Impacto residual: ZERO — clone fresco funciona perfeito, nada de
+      valor faltando. Lições registradas: (1) esse aviso do GitHub não diz
+      quais objetos são — o caminho certo de auditoria é a Batch API;
+      (2) nunca commitar arquivos vazios sob padrões rastreados pelo LFS;
+      (3) `--dry-run` do git-lfs lista TODOS os elegíveis sem consultar o
+      servidor — não serve pra medir o que falta.
+- [x] **Auditoria de direitos autorais das obras (CONCLUÍDA — fonte da
+      verdade: [`AUDITORIA-COPYRIGHT.md`](AUDITORIA-COPYRIGHT.md))** — a
+      "planilha de controle" pedida aqui virou aquele documento, melhor:
+      critério legal brasileiro (LDA 9.610/98, morte ≤ 1955), 19 casos
+      bloqueados com verificação individual e fonte primária, implementação
+      no banco (coluna `active`, migration 0002, API só serve active=true,
+      `data-fixes.sql` idempotente a cada deploy) e checklist pra inclusão
+      futura. Cauda dos 4 pendentes fechada em 2026-08-22 por busca web
+      com fonte primária: **Clementz (†1930) e Guétin (†1916) liberados**
+      — reativação já escrita no `data-fixes.sql`, entra no próximo deploy;
+      **Lu Hongnian bloqueado até 2059** (†1989); **Gao Di'an intracável**
+      (permanece bloqueado por precaução). Com isso o pré-requisito de
+      confiança pra **AdSense está cumprido** (ver seção Monetização).
+- [ ] **Informação fabricada no "Sobre o projeto" (2026-08-22)** — a seção
+      "Como Tudo Começou" (`web/src/pages/About.tsx`, ~linha 153) inventa uma
+      origem que **não aconteceu** ("surgiu durante uma visita à Capela
+      Sistina observando Michelangelo"). A história real: o projeto nasceu da
+      paixão por arte bíblica, da leitura de Hans Rookmaaker, e foi lançado
+      primeiro como **Arte Cristã Diária** no Instagram — o site veio depois.
+      Reescrever com a história verdadeira e revisar o resto da página (e o
+      parágrafo equivalente na home, `Index.tsx`) contra fatos verificáveis.
+      Mesma classe de problema do item de copyright: a credibilidade é o
+      produto.
 
 ### 🟡 Melhoria — produto (ver Fases 1-3 do roadmap principal)
 
 - [ ] **"Conheça também" no rodapé — seção de links do cluster A Biblioteca** — o footer atual (4 colunas) não linka os projetos irmãos. Adicionar bloco compacto seguindo o **modelo aprovado no Gerador C.S. Lewis (2026-08-21)**: rótulo-nicho em caps espaçadas ("CONHEÇA TAMBÉM", tom apagado) → links uniformes (mesmo tamanho/peso) separados por ✦ dourado, em grupos atômicos `flex-wrap` (ornamento + link indivisíveis, quebra de linha limpa no mobile) → © discreto na base. Uma família tipográfica só, coluna centrada. Links: Narniano, Scriptorium Divinum, Lecionário, Gerador C.S. Lewis. Referência: `ClusterFooter.tsx` em `GeradorCSLewis/src/components/`. (Mesma tarefa registrada nos ROADMAPs do Lecionário e Scriptorium.)
 
-- [ ] **Scroll to top na navegação** — verificar se React Router está restaurando scroll ao navegar entre obras. Se não, adicionar `ScrollRestoration` ou `useEffect` com `window.scrollTo(0,0)`. (Mesmo bug da Bancada e Scriptorium.)
+- [x] **Scroll to top na navegação** — RESOLVIDO (2026-08-22): confirmado
+      que NÃO havia restauração — SPA preservava posição de scroll entre
+      rotas (abrir obra vinda de catálogo rolado = página "carrega no
+      meio", reclamação original do Rilson). Criado
+      `web/src/components/ScrollToTop.tsx` (`useLocation` →
+      `window.scrollTo(0,0)` a cada troca de pathname), montado dentro do
+      `BrowserRouter` no `App.tsx`. Os scrolls manuais de paginação
+      (ArtCategories/Search) permanecem inofensivos. (Mesmo bug da Bancada
+      e Scriptorium — replicar lá.)
 - [ ] **Descrições com markdown cru** — algumas obras têm `**negrito**` visível como texto. Verificar se `react-markdown` está aplicado em todas as rotas de detalhe de obra.
+
+### 🟡 Melhoria — mobile e UX da página da obra (2026-08-22)
+
+> Contexto do Rilson: maior parte dos usuários vem de mobile e não há app
+> nativo — legibilidade, breakpoints bem feitos e visual fácil de seguir
+> são prioridade. Princípio adotado: **corpo de texto nunca abaixo de
+> 16px no mobile**; o que se reduziu foi o EXAGERO dos títulos, nunca o
+> corpo.
+
+- [~] **Responsividade mobile geral + escala tipográfica** — normalizada a
+      escala em todas as páginas principais: hero/H1 de livro/capítulo
+      `text-4xl md:text-6xl` → `text-3xl sm:text-4xl md:text-6xl`; H1s de
+      página `text-3xl` → `text-2xl sm:text-3xl md:text-4xl`; H2s estáticos
+      de 30px → escala progressiva; subtítulo do hero 20px→16px no base.
+      **Legibilidade de corpo corrigida onde feria o princípio**: descrição
+      da obra era `text-sm` (14px!) no mobile → `text-base`; texto das
+      passagens bíblicas era `text-xs` (12px!) → `text-sm md:text-base`.
+      Pendente: varredura final nas páginas secundárias com viewport real.
+- [x] **Ampliação da obra no mobile sem layout próprio** — ArtworkLightbox
+      reconstruído (2026-08-22): barra superior agora **empilha** no mobile
+      (título truncado numa linha, toolbar na outra — acabou a disputa de
+      pixel com o "menuzinho"; percentual de zoom some no mobile);
+      **gestos touch reais**: pinch-zoom, pan com um dedo quando ampliado,
+      duplo-toque alterna ajustado↔2x (`touch-none` entrega os gestos pros
+      handlers em vez do navegador); paddings reservam topo e painel
+      inferior pra imagem nunca ficar debaixo deles. Typecheck + 22/22
+      testes passando.
+- [x] **Badges de licença chamando atenção demais** — "Domínio Público"
+      estava em VERDE esmeralda e "Licenciado" em âmbar na página da obra:
+      metadado tratado como CTA. Ambos agora neutros com tokens do tema
+      (`text-muted-foreground border-border bg-muted/50`) — adapta aos dois
+      temas sem cor gritante.
+- [x] **Botão ℹ️ da inspeção repetia informação** — mostrava exatamente
+      título/artista/ano/licença que já estavam na barra de topo. Agora tem
+      função própria: revela a **descrição da obra** em texto puro
+      (`stripMarkdown()`, `line-clamp-4`) + atribuição; só cai pro rótulo
+      clássico quando não há descrição (obras-stub). Atribuição permanece
+      visível porque é obrigação de licença CC, não decoração.
+
+### ❓ Pendência — modo claro/escuro à altura dos irmãos (2026-08-22)
+
+- [ ] **Auditoria de paridade dark/light vs Lecionário e Gerador** —
+      esclarecimento: o modo claro/escuro JÁ EXISTE aqui (next-themes +
+      ThemeToggle no Header, padrão "system", Fase 2 concluída; contraste
+      do hero e gradient-card no escuro já corrigidos com conta feita). A
+      pendência real é outra: percorrer TODAS as páginas/componentes nos
+      DOIS temas comparando com o padrão dos irmãos (Lecionário tem motor
+      de 8 estações litúrgicas recolorindo o tema; Gerador tem tokens
+      cs-* próprios por tema) — procurar elementos que só ficam bons num
+      dos temas, estados de hover/foco esquecidos no escuro, e decidir se
+      vale adotar tokens de marca crus (canela/dourado/vinho) em mais
+      pontos hoje cobertos só pelos HSL genéricos.
+
+### 🟡 Passada de padrão-indústria no mobile (2026-08-22, mesma sessão)
+
+- [x] **Scroll ao navegar** — ver item do backlog 2026-08-21 acima:
+      `ScrollToTop` criado e montado no router.
+- [x] **Alvos de toque** — botões da toolbar do lightbox eram 32px
+      (`h-8 w-8`), abaixo do mínimo de 44px (Apple HIG) / 48dp (Material):
+      agora 40px no mobile, 32px preservado no desktop (`h-10 w-10
+      sm:h-8 sm:w-8`) — a toolbar própria já ocupa linha exclusiva, então
+      cabe sem aperto.
+- [x] **Safe areas do iPhone (notch/home indicator)** — barra superior do
+      lightbox respeita `env(safe-area-inset-top)` e painel inferior
+      `env(safe-area-inset-bottom)` via `max()` com o padding normal.
+- [x] **Zoom involuntário do iOS em inputs** — Safari dá zoom automático ao
+      focar input com fonte <16px: `CommandInput` (⌘K) estava `text-sm`
+      (14px) → `text-base md:text-sm`. O `Input` do shadcn e o campo de
+      busca grande já estavam corretos.
+- [x] **`prefers-reduced-motion`** — media query global no `index.css`
+      anulando animações/transições pra quem pede menos movimento no
+      sistema (acessibilidade, padrão da indústria).
+- [x] **Viewport meta confirmada correta** (`width=device-width,
+      initial-scale=1.0`).
+
+### 🟡 Melhoria — identidade visual (2026-08-22)
+
+- [x] **Emojis no lugar de lucide-react** — RESOLVIDO (2026-08-22), varredura
+      completa: Header (📜→`ScrollText`, ✝️→`Cross`, 🔍→`Search`,
+      🤝→`HeartHandshake`), CommandPalette (4 headings com emoji — removidos,
+      o estilo do cmdk já hierarquiza) e ThemeToggle (✓→`Check`). Grep final
+      de emojis em pages+components: **zero**.
+- [ ] **Auditoria tipográfica vs Design Narniano** — nem todas as fontes do
+      app conversam com a identidade ("algumas definitivamente não
+      combinam"); revisar stack de fontes contra `Identidade visual geral.md`
+      (vault, seção 1C) e consolidar tokens.
+
+### 🟡 Melhoria — conteúdo (2026-08-22)
+
+- [ ] **Conexões bíblicas mais evidentes** — nem sempre a ligação entre a
+      pintura e a passagem fica clara na descrição; explicitar o porquê da
+      conexão cena a cena (continuidade natural dos lotes de curadoria da
+      Fase 1 — qualidade acima de quantidade nos próximos lotes).
+
+### ❓ Questão em aberto — vozes dos clássicos nas descrições (2026-08-22)
+
+- [ ] **Cabe citar Rookmaaker, Schaeffer e C.S. Lewis comentando obras
+      específicas dentro das descrições delas?** (levado pelo Rilson como
+      questão aberta, não decisão). Onde um desses autores opinou sobre uma
+      obra que já está no catálogo, trazer a opinião pra descrição —
+      profundidade alinhada à missão. Pontos a pesar antes de decidir:
+      1. **Fonte verificada**: só entra opinião textualmente confirmada nos
+         livros deles (o vault já tem notas de vários: *A arte não precisa
+         de justificativa*, *Filosofia e Estética*, *O dom criativo*,
+         *A arte e a Bíblia*...) — nada de paráfrase travestida de citação.
+      2. **Copyright dos próprios autores** (ironia não perdida aqui):
+         Rookmaaker (†1977 → protegido até 2047), Schaeffer (†1984 → 2054),
+         Lewis (†1963 → 2033). Trecho breve com fonte e fim de crítica/
+         discussão cabe na exceção de citação da LDA art. 46, VIII; bloco
+         extenso exigiria autorização de editora (Ultimato, Hagnos etc.).
+         Definir limite de extensão ANTES de escrever a primeira.
+      3. **Escopo real**: mapear primeiro quais obras do catálogo têm
+         comentário documentado (Rookmaaker estudou Rembrandt a fundo;
+         Schaeffer discute obras pontuais em *Art and the Bible*) —
+         provavelmente conjunto pequeno e precioso, curadoria de
+         profundidade, não escala.
+      4. **Forma**: seção própria na página da obra ("Na leitura de...")
+         vs. integrado à descrição — decidir com exemplos reais na mão.
+
+### 🟢 Features de produto (candidatas à Fase 5 — 2026-08-22)
+
+- [ ] **Botão de doação** como o do Lecionário — **PIX CRIADO (2026-08-22):
+      `biblianaarte@narniano.com`**, mesma forma do Lecionário. Padrão de
+      implementação pronto pra copiar: `lecionario-web/src/lib/pix.ts`
+      (geração do payload BR Code) + `components/apoiar/PixDonationCard.tsx`,
+      com testes (`pix.test.ts`). Trocar a chave no componente pela
+      biblianaarte@narniano.com. Coerente com a estratégia já registrada
+      na Fase 5 (apoio direto combina mais que ads).
+- [ ] **Botão de copiar imagem** na página da obra.
+- [ ] **Botão de copiar descrição** no bloco "Sobre a Obra" — mesmo padrão
+      dos versículos e outros dados copiáveis do Lecionário.
+- [ ] **Exportar Story do Instagram** — imagem + metadados da obra +
+      logo/nome do projeto na fonte certa, tudo seguindo o design; mesmo
+      padrão já validado no Gerador C.S. Lewis e no Teste Político.
+      Sinergia direta com @artecristadiaria (seção Distribuição abaixo):
+      material altamente compartilhável gerado do próprio catálogo.
+
+---
+
+## Distribuição e Marketing (2026-08-22)
+
+### Bloqueio anterior a qualquer push: auditoria de copyright
+
+- 🔴 Item crítico acima. **Não divulgar antes de resolver** — obra contestada viralizando vira print e derruba a credibilidade do site inteiro (mesma lógica do item 0 do plano do Teste Político)
+
+### A sinergia principal: @artecristadiaria (manual pronto no Obsidian)
+
+- O manual (`12 - Redes sociais/@artecristadiaria.md`) **é** a estratégia de distribuição deste site: museu devocional digital, Obra do Dia, carrossel de detalhes, reels de zoom contemplativo
+- Cada post liga à página da obra aqui no site (as descrições reais escritas em 16/08 são exatamente a legenda desses posts) → Instagram alimenta o site, o site dá profundidade ao Instagram
+
+### Pinterest (segunda frente)
+
+- Arte sacra performa muito bem e o pin vive anos — tráfego composto; pins linkando as páginas das obras
+
+### SEO em curso
+
+- Sitemap 2.115 URLs + GSC verificados (2026-08-14); monitorar indexação semanal
+- Cauda longa: "[passagem] arte", "quadros sobre [tema bíblico]", "arte sacra domínio público"
+
+### Monetização (destrava após auditoria)
+
+- AdSense + Amazon Associates (livros de arte sacra) — planejados desde a
+  concepção; o bloqueio de copyright **foi removido em 2026-08-22**
+  (auditoria concluída, ver 🔴 acima)
+- **Passos do AdSense (2026-08-22, Rilson iniciou o cadastro):**
+  1. Adicionar no "Adicionar site" o **subdomínio
+     `https://biblianaarte.narniano.com`** — NUNCA `biblianaarte.com`,
+     domínio que o Rilson não possui (mesmo achado do mailto removido em
+     2026-08-14). `narniano.com` já está Pronto/Autorizado na conta,
+     vinculado ao Site Kit — subdomínio herda a raiz verificada
+  2. Quando aprovado/vinculado: servir `ads.txt` em
+     `https://biblianaarte.narniano.com/ads.txt` com a linha do
+     publisher-ID (arquivo vai em `web/public/ads.txt` — hoje não existe;
+     os outros sites da conta mostram "ads.txt Não encontrado", mesma
+     dívida)
+  3. Recomendado antes de ativar anúncios: página de Política de
+     Privacidade mencionando cookies de anúncios (AdSense exige menção);
+     hoje o site não tem
+  4. Amazon Associates: cadastro separado, sem bloqueio técnico

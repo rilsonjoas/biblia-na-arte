@@ -63,10 +63,27 @@ desativadas (já estão nos UPDATEs do `data-fixes.sql`).
 
 | # | Artista | Obra no acervo | Ano | O que falta |
 |---|---|---|---|---|
-| 20 | Gao Di'an | Jesus recitando uma lição | 1948 | datas do artista |
-| 21 | Lu Hongnian | O nascimento de Cristo | 1941 | datas do artista |
-| 22 | Hermann Clementz | Cristo no Getsêmani | ~1900 | datas do artista |
-| 23 | Victor Oscar Guetin | Jesus ressuscita a filha de Jairo | ~1902 | datas do artista |
+| 20 | Gao Di'an | Jesus recitando uma lição | 1948 | datas do artista — buscas em 2026-08-22 ("Gao Di'an", "Gao Dian", grafias Wade-Giles) não retornaram NENHUM artista correspondente; provavelmente intracável. Tratar como protegido indefinidamente ou descartar a obra do acervo |
+
+### Resolução dos demais pendentes (2026-08-22, mesma rodada)
+
+Os outros 3 da lista original de pendentes foram verificados por busca web
+com fonte primária:
+
+- **Hermann Clementz** → **LIBERADO**: † 13/04/1930 (Wikipedia DE, GND/DNB
+  nº 103785246X, Commons `PD-old-auto-expired deathyear=1930`) — domínio
+  público no Brasil ✔. Reativar via `data-fixes.sql`.
+- **Victor Octave Guétin** → **LIBERADO**: † 01/11/1916 (Wikipédia FR,
+  AGORHA/INHA, Art Resource). A obra do acervo É o Prix de Rome 1902 dele
+  ("La résurrection de la fille de Jaïre", Beaux-Arts de Paris) — domínio
+  público ✔. Reativar via `data-fixes.sql`. Grafia no banco: "Guetin" sem
+  acento.
+- **Lu Hongnian** → **BLOQUEADO definitivo**: † outubro/1989 (Associação
+  chinesa de artistas caanet.com.cn: 1919.9—1989.10; estudo acadêmico
+  china-zentrum.de "The Chinese Face of Jesus Christ": 1914–1989 — ano de
+  nascimento diverge entre fontes, morte não). Protegido até **2059**
+  (morte+70). Escola "Ars Sacra Pekinensis", Fu Jen Catholic University,
+  Pequim. Só sai do bloqueio com licença formal do espólio/herdeiros.
 
 ## ✔ Verificados e LIBERADOS (falso alarme desta rodada — não re-bloquear)
 

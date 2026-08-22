@@ -26,16 +26,19 @@ Hoje isso é uma fundação técnica sólida (self-host, sem Supabase, catálogo
 
 > [!NOTE]
 > Desde 2026-08-07 este é um **monorepo pnpm workspace** (`web/` +
-> `server/`) — o projeto saiu do Supabase (banco de dados e storage) e está
-> migrando pra self-host num VPS próprio. Detalhes técnicos em
-> [`CLAUDE.md`](CLAUDE.md).
+> `server/`) — o projeto saiu do Supabase (banco de dados e storage morto
+> por inatividade em set/2025) e roda hoje em self-host num VPS Hetzner.
+> **Não usar Supabase de novo** — decisão explícita do mantenedor. O
+> caminho até produção confiável e o backlog completo vivem no
+> [`docs/ROADMAP.md`](docs/ROADMAP.md).
 
 ### Pré-requisitos
 - Node.js 20+
 - **pnpm** (não npm/yarn/bun — o lockfile do workspace é do pnpm)
-- **git-lfs** instalado antes de clonar (as imagens em `web/src/assets/`
-  são ~467MB versionadas via Git LFS — sem o `git-lfs`, você recebe só
-  ponteiros de texto, não as imagens de verdade)
+- **git-lfs** instalado antes de clonar (as imagens do catálogo em
+  `web/public/images/`, ~111MB em WebP, são versionadas via Git LFS —
+  sem o `git-lfs`, você recebe só ponteiros de texto, não as imagens
+  de verdade)
 
 ### Passos para Instalação
 
@@ -101,21 +104,51 @@ segredos `DEPLOY_SSH_KEY`, `VPS_HOST` e `VPS_USER` configurados no repo.
 - ✅ **Zod** — validação de entrada
 - 🔒 helmet + rate limit + CORS restrito
 
+A API é **só-leitura** (v1). Notas operacionais que não são óbvias:
+
+- Schema das tabelas em `server/src/db/schema.ts` — os campos
+  `license_type` e `attribution_text` de `artworks` existem por causa da
+  auditoria de direitos autorais de 2026-08-07
+- SQL puro não-expressável no DSL do Drizzle vive em
+  `server/src/db/custom-sql/functions.sql` (trigger de `updated_at` e a
+  função `search_artworks()`, full-text search em português via
+  `ts_rank`), aplicado junto das migrations
+- Migrations: gerar com `pnpm --filter server db:generate`, aplicar com
+  `pnpm --filter server db:migrate`
+- A imagem Docker da API se constrói a partir da **raiz** do monorepo:
+  `docker build -f server/Dockerfile -t biblianaarte-api .`
+
+Pipeline de dados (curadoria manual a partir do vault Obsidian, roda no
+desktop do mantenedor — não faz parte do deploy; comandos documentados no
+[`docs/ROADMAP.md`](docs/ROADMAP.md), seção "Como executar"): o export
+converte as imagens pra WebP no momento da cópia (`web/public/images/`
+é saída 100% derivada do vault) e o seed importa o JSON no Postgres.
+
+## Arquitetura de Dados
+
+Três tabelas, relacionamentos diretos:
+
+- **Artwork** — título, artista/diretor, ano, categoria, descrição,
+  imagem, `license_type` + `attribution_text`
+- **BibleReference** — liga uma obra a livro/capítulo/versículo(s)
+- **BibleBook** — metadados de livro bíblico (slug, capítulos, testamento)
+
 ## Estrutura do Projeto
 
 ```
 biblia-na-arte/
 ├── pnpm-workspace.yaml
 ├── web/                  # Frontend
+│   ├── public/
+│   │   └── images/       # Imagens do catálogo em WebP (Git LFS)
 │   └── src/
 │       ├── components/   # Componentes reutilizáveis
 │       ├── pages/        # Páginas da aplicação
-│       ├── lib/          # Utilitários e helpers
-│       ├── types/        # Definições TypeScript
-│       └── assets/       # Imagens (Git LFS)
+│       ├── lib/          # Utilitários, camada de API, helpers
+│       └── types/        # Definições TypeScript
 └── server/               # API REST
     └── src/
-        ├── db/           # Schema Drizzle, client, migrations
+        ├── db/           # Schema Drizzle, client, migrations, SQL custom
         ├── routes/       # Handlers HTTP
         ├── schemas/      # Validação Zod
         └── plugins/      # Segurança, error handling
