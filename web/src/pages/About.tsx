@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { SEO } from '@/components/SEO';
-import { Book, Heart, Users, Target, Lightbulb, Globe, Instagram } from 'lucide-react';
+import { Book, Heart, Users, Target, Lightbulb, Globe, Instagram, Library } from 'lucide-react';
 
 export default function About() {
   return (
@@ -210,6 +210,45 @@ export default function About() {
                 crescendo uma a uma, cada qual cuidadosamente pesquisada e 
                 contextualizada.
               </p>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* A Biblioteca — achado real 2026-08-22: a página não mencionava
+            fazer parte do cluster narniano.com/a-biblioteca/. Texto abaixo
+            reflete o que a própria página da Biblioteca diz ("salas de
+            uma mesma casa", não uma lista genérica). */}
+        <Card className="gradient-card border-0 mb-16">
+          <CardContent className="p-8 text-center">
+            <Library className="w-8 h-8 mx-auto mb-4 text-accent" />
+            <h2 className="text-display text-2xl font-bold mb-4">
+              Parte de Uma Biblioteca Maior
+            </h2>
+            <p className="text-foreground/80 leading-relaxed max-w-2xl mx-auto mb-6">
+              A Bíblia na Arte integra{' '}
+              <a
+                href="https://www.narniano.com/a-biblioteca/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-primary hover:underline font-medium"
+              >
+                A Biblioteca
+              </a>
+              , o conjunto de projetos do Narniano dedicados a preservar,
+              traduzir e tornar acessível a herança escrita da fé cristã.
+              Como a própria Biblioteca descreve: os projetos não competem
+              entre si — são salas de uma mesma casa.
+            </p>
+            <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm">
+              <a href="https://cslewis.narniano.com" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
+                Gerador C.S. Lewis
+              </a>
+              <a href="https://lecionario.narniano.com" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
+                Lecionário
+              </a>
+              <a href="https://scriptorium.narniano.com" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
+                Scriptorium Divinum
+              </a>
             </div>
           </CardContent>
         </Card>
