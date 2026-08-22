@@ -517,6 +517,32 @@ pnpm --filter server db:seed        # importa o JSON no Postgres (VPS)
 | 5 — Produto | ⏳ pendente | — |
 
 
+## Qualidade de Conteúdo (2026-08-22)
+
+Padrão cross-projeto: `Padrão de Qualidade de Conteúdo.md` no vault
+(princípio #7 de `Filosofia e Padrões de Engenharia.md`). Aqui
+especificamente:
+
+- **Já aconteceu de errado**: a página "Sobre o Projeto" contava a
+  origem do projeto como inspirada na "Capela Sistina" — história
+  fabricada, nunca aconteceu de verdade. Corrigida em 2026-08-22 pela
+  história real (Rookmaaker → Arte Cristã Diária → o site), com
+  citação real do Rookmaaker atribuída a obra e ano — esse rodapé de
+  citação (`— Hans Rookmaaker, *A Arte Não Precisa de Justificativa*
+  (1978)`) é o padrão a repetir sempre que citar alguém direto.
+- **Checklist antes de publicar obra/descrição nova**:
+  - [ ] Referência bíblica confirmada (livro/capítulo/versículo bate
+        com o conteúdo da obra, não só "parece bíblico")
+  - [ ] Dados da obra (autor, ano, técnica, dimensões) confirmados na
+        fonte do museu/instituição, não copiados de agregador terceiro
+  - [ ] Se a descrição cita alguém (Rookmaaker, Schaeffer, Lewis...):
+        trecho textualmente confirmado no livro, não paráfrase de
+        memória — ver questão aberta abaixo ("vozes dos clássicos")
+  - [ ] Licença/domínio público confirmado, não assumido
+  - [ ] Uma releitura antes de publicar — erro de conteúdo não aparece
+        em `tsc --noEmit` nem nos 28 testes
+
+
 ## Nota: se este projeto ganhar conta de usuário final (2026-08-14)
 
 Decisão registrada no `meus-remedios` (único projeto pessoal com auth
