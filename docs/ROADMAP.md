@@ -310,14 +310,13 @@ elevar a qualidade do catálogo.
 - [ ] **Verificar sitemap no Search Console**: Acessar [Google Search Console](https://search.google.com/search-console) → propriedade `biblianaarte.narniano.com` → Sitemaps → confirmar que `https://biblianaarte.narniano.com/sitemap.xml` está com status "Sucesso" e URLs sendo indexadas.
 - [x] **Backup (2026-08-14)**: Confirmado. O banco `biblia_na_arte_db` está incluído no VPS Hetzner, coberto pelo script de backup diário (`backup.sh`) e validado pelo teste de restore semanal automático (`backup-restore-test.sh`).
 - [x] **Observabilidade e Resiliência (2026-08-14)**: `/health`, `/health/live` e `/health/ready` (validação de DB ativa) implementados no Fastify; tratamento gracioso de `SIGTERM`/`SIGINT` configurado; Sentry integrado.
-- [ ] **`biblianaarte-web` sem healthcheck (achado 2026-08-14)**: o
-      `docker-compose.yml` em `hetzner-infra/biblia-na-arte/` define
-      `healthcheck` só na API — o serviço `biblianaarte-web` (nginx)
-      não tem. Se o Nginx travar sem derrubar o processo, o Traefik
-      continua roteando tráfego pra um container quebrado silenciosamente,
-      sem o Uptime Kuma necessariamente pegar no mesmo instante (depende
-      do endpoint monitorado). Adicionar `healthcheck` simples (`curl`/`wget`
-      no `/` servido pelo nginx) segue o mesmo padrão já usado na API.
+- [x] **`biblianaarte-web` sem healthcheck (achado 2026-08-14) — corrigido
+      no código 2026-08-22**: `healthcheck` adicionado em
+      `hetzner-infra/biblia-na-arte/docker-compose.yml`
+      (`wget --spider http://127.0.0.1/`, mesmo padrão do
+      `cslewis/docker-compose.yml`). **Falta aplicar no VPS** — `git pull
+      && docker compose up -d` (ou `make deploy service=biblia-na-arte`)
+      em `hetzner-infra`; sessão sem SSH configurado pra aplicar direto.
 - [x] **Uptime Kuma com alerta real**: monitorando `biblianaarte.narniano.com`
       e `api-biblianaarte.narniano.com`, com alerta configurado em
       **Telegram e e-mail** (não é só painel visual) — item concluído,
