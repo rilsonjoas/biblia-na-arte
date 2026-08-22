@@ -9,6 +9,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import ArtworkCard from '@/components/ArtworkCard';
 import { ArtworkLightbox } from '@/components/ArtworkLightbox';
+import { AdUnit } from '@/components/AdUnit';
 import { SEO } from '@/components/SEO';
 import { ErrorCard, NotFoundError } from '@/components/ui/error-display';
 import { Markdown } from '@/components/ui/markdown';
@@ -409,6 +410,13 @@ export default function ArtworkDetail() {
             </CardContent>
           </Card>
         )}
+
+        {/* Anúncio — único slot da página, numa quebra natural de conteúdo
+            (depois das referências, antes das obras relacionadas), nunca
+            dentro do texto de descrição/citação */}
+        <div className="mb-12">
+          <AdUnit slot="4884773751" />
+        </div>
 
         {/* Related Artworks Section */}
         {relatedArtworks.length > 0 && (

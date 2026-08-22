@@ -84,11 +84,17 @@ export default function Footer() {
               >
                 Sobre o Projeto
               </Link>
-              <Link 
-                to="/contribuir" 
+              <Link
+                to="/contribuir"
                 className="block text-muted-foreground hover:text-primary transition-colors"
               >
                 Como Contribuir
+              </Link>
+              <Link
+                to="/privacidade"
+                className="block text-muted-foreground hover:text-primary transition-colors"
+              >
+                Política de Privacidade
               </Link>
             </div>
           </div>

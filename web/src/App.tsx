@@ -14,6 +14,7 @@ import ArtworkDetail from "./pages/ArtworkDetail";
 import About from "./pages/About";
 import Contribute from "./pages/Contribute";
 import Search from "./pages/Search";
+import Privacy from "./pages/Privacy";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient({
@@ -44,6 +45,7 @@ const App = () => (
             <Route path="/sobre" element={<About />} />
             <Route path="/contribuir" element={<Contribute />} />
             <Route path="/busca" element={<Search />} />
+            <Route path="/privacidade" element={<Privacy />} />
 
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />

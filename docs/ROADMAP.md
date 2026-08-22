@@ -797,20 +797,31 @@ Google" não é viável em iOS de qualquer forma.
 - AdSense + Amazon Associates (livros de arte sacra) — planejados desde a
   concepção; o bloqueio de copyright **foi removido em 2026-08-22**
   (auditoria concluída, ver 🔴 acima)
-- **Passos do AdSense (2026-08-22, Rilson iniciou o cadastro):**
+- **Passos do AdSense (2026-08-22, Rilson iniciou o cadastro) — código
+  concluído no mesmo dia:**
   1. **Não é obrigatório cadastrar o subdomínio — e na prática JÁ ESTÁ
      cadastrado** (2026-08-22): ao tentar adicionar, o AdSense respondeu
      "você já adicionou esse site" — subdomínios da raiz verificada são
      associados automaticamente. Confirmar em Sites buscando
      "biblianaarte". NUNCA cadastrar `biblianaarte.com`, domínio que o
      Rilson não possui (mesmo achado do mailto removido 2026-08-14)
-  2. **`ads.txt` resolve pela RAIZ** (spec IAB: crawler procura em
-     `narniano.com/ads.txt` quando o subdomínio não tem o próprio) —
-     UMA linha de publisher-ID na raiz cobre todos os subdomínios
-     monetizados de uma vez (biblianaarte, lecionario, scriptorium...).
-     Duplicar no subdomínio é opcional. Conta hoje mostra "ads.txt
-     Não encontrado" = mesma dívida, resolvível de graça na raiz
-  3. Recomendado antes de ATIVAR anúncios: página de Política de
-     Privacidade mencionando cookies de anúncios (AdSense exige menção);
-     hoje o site não tem
-  4. Amazon Associates: cadastro separado, sem bloqueio técnico
+  2. [x] **`ads.txt`** — a raiz `narniano.com/ads.txt` já cobre todos os
+     subdomínios (spec IAB), mas duplicamos em `web/public/ads.txt`
+     deste subdomínio também por robustez (mesma linha de publisher-ID)
+     — antes `/ads.txt` aqui caía no fallback do SPA e servia
+     `index.html` com 200, o que não ajudava o crawler.
+  3. [x] **Página de Política de Privacidade** — `/privacidade`
+     (`src/pages/Privacy.tsx`), mencionando cookies de anúncios,
+     AdSense, doação via Pix e direitos LGPD; linkada no rodapé.
+  4. [x] **Script + tag + CSP** — `<meta name="google-adsense-account">`
+     + loader `adsbygoogle.js` (client `ca-pub-5482566824255473`) no
+     `index.html`; `nginx.conf` CSP liberado pros domínios do Google
+     (script/frame/img/connect-src — cada anúncio roda em iframe
+     isolado com seu próprio CSP, então isso só libera carregar o
+     iframe, não o script-src de dentro dele); um único slot
+     (`AdUnit.tsx`, ad-slot `4884773751`) na página de obra, numa
+     quebra natural de conteúdo (depois das referências bíblicas, antes
+     de "Obras Relacionadas") — nunca dentro do texto de
+     descrição/citação, pra não brigar com a experiência contemplativa.
+     Verificado: tsc limpo, 28/28 testes passando, build ok.
+  5. Amazon Associates: cadastro separado, sem bloqueio técnico
