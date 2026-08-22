@@ -5,6 +5,7 @@ import {
   uuid,
   text,
   integer,
+  boolean,
   timestamp,
   index,
 } from 'drizzle-orm/pg-core';
@@ -62,6 +63,13 @@ export const artworks = pgTable(
     // com nome + link pra fonte, conforme exigido pela licença.
     licenseType: text('license_type').default('public-domain').notNull(),
     attributionText: text('attribution_text'),
+
+    // Soft-delete resultado da auditoria de 2026-08-22: obras sem licença
+    // que permita uso ficam com active=false em vez de serem apagadas —
+    // se um dia o artista liberar (licença formal/CC), basta voltar pra
+    // true. A API só devolve active=true (ver queries.ts e functions.sql).
+    // Lista do que está desativado e por quê: docs/AUDITORIA-COPYRIGHT.md
+    active: boolean('active').default(true).notNull(),
 
     createdAt: timestamp('created_at', { withTimezone: true }).defaultNow(),
     updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow(),

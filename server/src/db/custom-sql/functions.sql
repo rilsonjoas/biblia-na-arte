@@ -38,8 +38,9 @@ RETURNS TABLE(
     dimensions_or_duration TEXT,
     license_type TEXT,
     attribution_text TEXT,
-    created_at TIMESTAMPTZ,
-    updated_at TIMESTAMPTZ,
+    created_at TIMESTZ,
+    updated_at TIMESTZ,
+    active BOOLEAN,
     rank REAL
 ) AS $$
 BEGIN
@@ -48,7 +49,7 @@ BEGIN
         a.id, a.title, a.subtitle, a.artist_or_director, a.year, a.category,
         a.medium_or_genre, a.description, a.image_url, a.embed_url,
         a.source_url, a.dimensions_or_duration, a.license_type,
-        a.attribution_text, a.created_at, a.updated_at,
+        a.attribution_text, a.created_at, a.updated_at, a.active,
         ts_rank(
             to_tsvector('portuguese',
                 coalesce(a.title, '') || ' ' ||

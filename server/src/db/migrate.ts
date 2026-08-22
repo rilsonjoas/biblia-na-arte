@@ -22,6 +22,14 @@ async function main() {
   );
   await migrationClient.unsafe(functionsSql);
 
+  // Correções de dados idempotentes (ex.: desativação de obras sem licença,
+  // docs/AUDITORIA-COPYRIGHT.md) — roda todo deploy, é determinístico.
+  const dataFixesSql = readFileSync(
+    path.join(__dirname, 'custom-sql/data-fixes.sql'),
+    'utf-8',
+  );
+  await migrationClient.unsafe(dataFixesSql);
+
   console.log('✅ Migrations concluídas.');
   await migrationClient.end();
 }

@@ -32,7 +32,7 @@ async function attachReferences(rows: ArtworkRow[]): Promise<ArtworkWithReferenc
 }
 
 export async function listArtworks(filters: ListArtworksQuery) {
-  const conditions = [];
+  const conditions = [eq(artworks.active, true)];
 
   if (filters.category) conditions.push(eq(artworks.category, filters.category));
   if (filters.artist) conditions.push(ilike(artworks.artistOrDirector, `%${filters.artist}%`));
@@ -72,7 +72,11 @@ export async function listArtworks(filters: ListArtworksQuery) {
 }
 
 export async function getArtworkById(id: string): Promise<ArtworkWithReferences | undefined> {
-  const [row] = await db.select().from(artworks).where(eq(artworks.id, id)).limit(1);
+  const [row] = await db
+    .select()
+    .from(artworks)
+    .where(and(eq(artworks.id, id), eq(artworks.active, true)))
+    .limit(1);
   if (!row) return undefined;
 
   const [withRefs] = await attachReferences([row]);
@@ -102,6 +106,7 @@ export async function searchArtworks({ q, limit }: SearchArtworksQuery) {
           created_at AS "createdAt",
           updated_at AS "updatedAt"
         FROM search_artworks(${q})
+        WHERE active
         LIMIT ${limit}`,
   );
 
@@ -132,7 +137,7 @@ export async function listArtists(): Promise<ArtistAggregate[]> {
           artist_or_director AS "name",
           count(*)::int AS "artworkCount"
         FROM artworks
-        WHERE artist_or_director IS NOT NULL AND artist_or_director != ''
+        WHERE active AND artist_or_director IS NOT NULL AND artist_or_director != ''
         GROUP BY artist_or_director
         ORDER BY count(*) DESC, artist_or_director ASC`
   );
