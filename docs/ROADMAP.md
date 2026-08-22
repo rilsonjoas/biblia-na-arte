@@ -795,14 +795,12 @@ Google" não é viável em iOS de qualquer forma.
   concepção; o bloqueio de copyright **foi removido em 2026-08-22**
   (auditoria concluída, ver 🔴 acima)
 - **Passos do AdSense (2026-08-22, Rilson iniciou o cadastro):**
-  1. **Não é obrigatório cadastrar o subdomínio** — a raiz `narniano.com`
-     já está Pronto/Autorizada (vinculada ao Site Kit), e aprovação de
-     raiz COBRE os subdomínios. Recomendado cadastrar
-     `https://biblianaarte.narniano.com` mesmo assim: entra como "Pronto"
-     herdando da raiz (zero revisão extra) e dá **métrica/gestão
-     separada por projeto** na conta — vale num cenário multi-projeto
-     sob o mesmo domínio. NUNCA cadastrar `biblianaarte.com`, domínio
-     que o Rilson não possui (mesmo achado do mailto removido 2026-08-14)
+  1. **Não é obrigatório cadastrar o subdomínio — e na prática JÁ ESTÁ
+     cadastrado** (2026-08-22): ao tentar adicionar, o AdSense respondeu
+     "você já adicionou esse site" — subdomínios da raiz verificada são
+     associados automaticamente. Confirmar em Sites buscando
+     "biblianaarte". NUNCA cadastrar `biblianaarte.com`, domínio que o
+     Rilson não possui (mesmo achado do mailto removido 2026-08-14)
   2. **`ads.txt` resolve pela RAIZ** (spec IAB: crawler procura em
      `narniano.com/ads.txt` quando o subdomínio não tem o próprio) —
      UMA linha de publisher-ID na raiz cobre todos os subdomínios
