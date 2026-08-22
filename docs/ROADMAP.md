@@ -518,6 +518,50 @@ pnpm --filter server db:seed        # importa o JSON no Postgres (VPS)
 | 5 — Produto | ⏳ pendente | — |
 
 
+## Sessão de polish 2026-08-22 (menu, busca, títulos) — pausada a pedido do Rilson
+
+Rodada de 9 achados reportados com screenshot numa sessão só. 7 já
+shipados e verificados ao vivo; 2 ficam registrados aqui pra continuar
+depois:
+
+- [x] Menu desktop: "Sobre o Projeto" mais apagado que os irmãos
+      (`text-muted-foreground` a mais) — corrigido.
+- [x] Hover dos triggers do menu ilegível no escuro (texto quase preto
+      sobre fundo quase preto) — corrigido.
+- [x] "Navegar pela Bíblia"/"Galeria de Arte" agora navegam direto ao
+      clicar no rótulo (split trigger — chevron separado só abre o
+      submenu).
+- [x] Busca: prefix match (não exige palavra inteira), passou a cobrir
+      referências bíblicas da obra (não só título/descrição), e ignora
+      acento — 3 problemas reais na mesma função SQL, 3 testes de
+      regressão novos.
+- [x] Rótulos do rodapé "Navegação"/"Projeto" → "Explorar"/"Sobre".
+- [x] Título da aba errado em 5 páginas (About, BibleBooks, Contribute,
+      Privacy, NotFound sem `<SEO>` — ficavam com o título da última
+      obra visitada). NotFound também reescrita (era boilerplate de
+      scaffold, nunca tinha sido adaptada ao site).
+- [x] "Sobre o Projeto" agora menciona fazer parte de **A Biblioteca**
+      (narniano.com/a-biblioteca/), com o texto real da própria página
+      ("salas de uma mesma casa"), não inventado.
+
+**Pendente pra retomar:**
+- [ ] **Botões de copiar imagem / copiar descrição na obra** — já
+      rastreados mais abaixo ("Features de produto candidatas à Fase
+      5"), ainda não construídos. Mesmo padrão de copiar-e-colar já
+      usado no Pix (`PixDonationCard.tsx`).
+- [ ] **"As páginas estão profissionais o suficiente?" — resposta
+      honesta, achado concreto**: `Contribute.tsx` fala em "nossa
+      equipe de curadores" (linha ~201) e "Junte-se à Nossa Comunidade"
+      (linha ~228) — linguagem de projeto com equipe/comunidade
+      formada, mas é um projeto de 1 pessoa. Mesmo padrão já corrigido
+      no Scriptorium Divinum ("Como Contribuir" reescrito pra realidade
+      de projeto solo, ver seção Backlog daquele repo). Vale a mesma
+      correção aqui: linguagem honesta sobre curadoria pessoal, sem
+      fingir equipe que não existe — isso é o tipo de coisa que
+      derruba credibilidade se um contribuidor real perceber a
+      inconsistência.
+
+
 ## Qualidade de Conteúdo (2026-08-22)
 
 Padrão cross-projeto: `Padrão de Qualidade de Conteúdo.md` no vault
