@@ -300,32 +300,44 @@ export default function ArtworkDetail() {
               )}
 
               {/* Creator & Metadata details */}
+              {/* items-start (não center) + shrink-0 no rótulo + min-w-0 no
+                  valor: sem isso, um nome de artista ou dimensão longa
+                  (comum — "Michelangelo Merisi da Caravaggio", "203 × 152
+                  cm, óleo sobre tela") empurra o texto pra fora da borda
+                  do card em vez de quebrar linha — achado real 2026-08-22
+                  ("texto não respeitando o tamanho do card") */}
               <div className="p-4 rounded-xl bg-card border border-border/70 space-y-2.5 text-sm">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2 text-muted-foreground">
+                <div className="flex items-start justify-between gap-3">
+                  <div className="flex items-center gap-2 text-muted-foreground shrink-0">
                     <User className="w-4 h-4 text-primary" />
                     <span>Artista:</span>
                   </div>
-                  <span className="font-semibold text-foreground">{artwork.artistOrDirector}</span>
+                  <span className="font-semibold text-foreground text-right min-w-0 break-words">
+                    {artwork.artistOrDirector}
+                  </span>
                 </div>
 
                 {artwork.year && (
-                  <div className="flex items-center justify-between border-t border-border/40 pt-2">
-                    <div className="flex items-center gap-2 text-muted-foreground">
+                  <div className="flex items-start justify-between gap-3 border-t border-border/40 pt-2">
+                    <div className="flex items-center gap-2 text-muted-foreground shrink-0">
                       <Calendar className="w-4 h-4 text-primary" />
                       <span>Ano / Datação:</span>
                     </div>
-                    <span className="font-mono text-foreground">{artwork.year}</span>
+                    <span className="font-mono text-foreground text-right min-w-0 break-words">
+                      {artwork.year}
+                    </span>
                   </div>
                 )}
 
                 {artwork.dimensionsOrDuration && (
-                  <div className="flex items-center justify-between border-t border-border/40 pt-2">
-                    <div className="flex items-center gap-2 text-muted-foreground">
+                  <div className="flex items-start justify-between gap-3 border-t border-border/40 pt-2">
+                    <div className="flex items-center gap-2 text-muted-foreground shrink-0">
                       <Ruler className="w-4 h-4 text-primary" />
                       <span>Dimensões:</span>
                     </div>
-                    <span className="text-foreground">{artwork.dimensionsOrDuration}</span>
+                    <span className="text-foreground text-right min-w-0 break-words">
+                      {artwork.dimensionsOrDuration}
+                    </span>
                   </div>
                 )}
               </div>
