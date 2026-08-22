@@ -746,13 +746,16 @@ Google" não é viável em iOS de qualquer forma.
 
 ### 🟢 Features de produto (candidatas à Fase 5 — 2026-08-22)
 
-- [ ] **Botão de doação** como o do Lecionário — **PIX CRIADO (2026-08-22):
-      `biblianaarte@narniano.com`**, mesma forma do Lecionário. Padrão de
-      implementação pronto pra copiar: `lecionario-web/src/lib/pix.ts`
-      (geração do payload BR Code) + `components/apoiar/PixDonationCard.tsx`,
-      com testes (`pix.test.ts`). Trocar a chave no componente pela
-      biblianaarte@narniano.com. Coerente com a estratégia já registrada
-      na Fase 5 (apoio direto combina mais que ads).
+- [x] **Botão de doação** como o do Lecionário — **feito (2026-08-22)**:
+      Pix estático (BR Code EMV) com a chave `biblianaarte@narniano.com`,
+      mesmo padrão do Lecionário copiado 1:1 (`src/lib/pix.ts` — geração
+      do payload + CRC16 — e `src/components/apoiar/PixDonationCard.tsx`
+      — QR + copiar código), com 6 testes (`pix.test.ts`, mesmos vetores
+      do Lecionário). Integrado na página `/contribuir`, seção "Apoie o
+      Projeto". Sem valor fixo: quem doa escolhe quanto. Verificado:
+      tsc limpo, 28/28 testes passando (22 + 6 novos), build ok.
+      Coerente com a estratégia já registrada na Fase 5 (apoio direto
+      combina mais que ads).
 - [ ] **Botão de copiar imagem** na página da obra.
 - [ ] **Botão de copiar descrição** no bloco "Sobre a Obra" — mesmo padrão
       dos versículos e outros dados copiáveis do Lecionário.

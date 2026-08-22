@@ -4,14 +4,15 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import { 
-  Users, 
-  BookOpen, 
-  Search, 
-  Edit, 
-  Share, 
-  Heart, 
-  Mail, 
+import { PixDonationCard } from '@/components/apoiar/PixDonationCard';
+import {
+  Users,
+  BookOpen,
+  Search,
+  Edit,
+  Share,
+  Heart,
+  Mail,
   ExternalLink,
   CheckCircle
 } from 'lucide-react';
@@ -240,6 +241,25 @@ export default function Contribute() {
             </div>
           </CardContent>
         </Card>
+
+        {/* Pix Donation Section */}
+        <div className="mb-16">
+          <h2 className="text-display text-2xl font-bold text-center mb-4 flex items-center justify-center">
+            <Heart className="w-6 h-6 mr-3 text-accent" />
+            Apoie o Projeto
+          </h2>
+          <p className="text-muted-foreground mb-8 max-w-2xl mx-auto text-center">
+            Manter o catálogo crescendo — pesquisa, curadoria e hospedagem — tem custo.
+            Se a Bíblia na Arte tem sido útil pra você, considere apoiar com um Pix,
+            no valor que fizer sentido.
+          </p>
+
+          <Card className="gradient-card border-0 max-w-xl mx-auto">
+            <CardContent className="p-8">
+              <PixDonationCard />
+            </CardContent>
+          </Card>
+        </div>
 
         {/* Recognition Section */}
         <div className="text-center">
