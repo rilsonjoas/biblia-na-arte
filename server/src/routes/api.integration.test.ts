@@ -187,6 +187,15 @@ describe('API v1 — integração (Postgres real de teste)', () => {
     expect(body.some((a: { title: string }) => a.title === 'O bom samaritano')).toBe(true);
   });
 
+  // Achado real 2026-08-22: digitar sem acento não achava nada
+  // ("descricao" não achava "Descrição") — comum no celular.
+  it('busca ignora acento (unaccent)', async () => {
+    const res = await app.inject({ method: 'GET', url: '/api/v1/artworks/search?q=descricao' });
+    expect(res.statusCode).toBe(200);
+    const body = res.json();
+    expect(body.some((a: { title: string }) => a.title === 'O bom samaritano')).toBe(true);
+  });
+
   it('GET /api/v1/bible-books lista os livros', async () => {
     const res = await app.inject({ method: 'GET', url: '/api/v1/bible-books' });
     expect(res.statusCode).toBe(200);

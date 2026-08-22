@@ -18,8 +18,13 @@ CREATE TRIGGER update_artworks_updated_at
     FOR EACH ROW
     EXECUTE PROCEDURE update_updated_at_column();
 
+-- unaccent: pra busca ignorar acento ("genesis" achar "Gênesis") — muito
+-- comum digitar sem acento no celular. Extensão builtin do Postgres,
+-- idempotente (IF NOT EXISTS).
+CREATE EXTENSION IF NOT EXISTS unaccent;
+
 -- Busca full-text em português com ranking. Reescrita 2026-08-22 —
--- versão original (schema.sql do Supabase, copiada 1:1) tinha 2
+-- versão original (schema.sql do Supabase, copiada 1:1) tinha 3
 -- problemas reais reportados pelo Rilson:
 --
 -- 1. "Preciso digitar a palavra inteira pra achar a obra" —
@@ -35,6 +40,9 @@ CREATE TRIGGER update_artworks_updated_at
 --    descrição, nunca buscando "Gênesis" em si, mesmo com a referência
 --    cadastrada. Agora agrega os livros referenciados (LEFT JOIN
 --    LATERAL) no texto pesquisável também.
+-- 3. Busca sem acento não achava nada ("genesis" não achava "Gênesis")
+--    — comum digitar sem acento no celular. unaccent() nos dois lados
+--    (documento indexado e query) resolve.
 DROP FUNCTION IF EXISTS search_artworks(TEXT);
 CREATE OR REPLACE FUNCTION search_artworks(search_query TEXT)
 RETURNS TABLE(
@@ -65,7 +73,7 @@ BEGIN
     -- caracteres com significado especial pro parser de tsquery
     -- (&, |, !, (, ), :, ', ") que dariam erro de sintaxe vindos de
     -- input livre do usuário.
-    tsquery_text := trim(regexp_replace(search_query, '[^[:alnum:]À-ÿ ]', ' ', 'g'));
+    tsquery_text := trim(regexp_replace(unaccent(search_query), '[^[:alnum:] ]', ' ', 'g'));
     tsquery_text := trim(regexp_replace(tsquery_text, '\s+', ' ', 'g'));
 
     IF tsquery_text = '' THEN
@@ -84,13 +92,13 @@ BEGIN
         a.source_url, a.dimensions_or_duration, a.license_type,
         a.attribution_text, a.created_at, a.updated_at, a.active,
         ts_rank(
-            to_tsvector('portuguese',
+            to_tsvector('portuguese', unaccent(
                 coalesce(a.title, '') || ' ' ||
                 coalesce(a.subtitle, '') || ' ' ||
                 coalesce(a.description, '') || ' ' ||
                 coalesce(a.artist_or_director, '') || ' ' ||
                 coalesce(refs.books, '')
-            ),
+            )),
             parsed_query
         ) as rank
     FROM artworks a
@@ -99,13 +107,13 @@ BEGIN
         FROM bible_references br
         WHERE br.artwork_id = a.id
     ) refs ON true
-    WHERE to_tsvector('portuguese',
+    WHERE to_tsvector('portuguese', unaccent(
         coalesce(a.title, '') || ' ' ||
         coalesce(a.subtitle, '') || ' ' ||
         coalesce(a.description, '') || ' ' ||
         coalesce(a.artist_or_director, '') || ' ' ||
         coalesce(refs.books, '')
-    ) @@ parsed_query
+    )) @@ parsed_query
     ORDER BY rank DESC, a.created_at DESC;
 END;
 $$ LANGUAGE plpgsql;
