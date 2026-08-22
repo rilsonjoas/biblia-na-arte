@@ -10,6 +10,20 @@
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
     <meta name="theme-color" content="#561e22" />
+
+    <!-- Fontes via <link> + preconnect, não @import no CSS (achado real
+         2026-08-22): @import é bloqueante em cadeia — o navegador só
+         descobre o pedido da fonte depois de baixar E parsear o CSS que
+         contém o @import, então o "preload scanner" (que já dispara
+         fetches assim que encontra <link> no HTML, em paralelo com tudo
+         o mais) nunca vê essa requisição cedo. As 3 famílias (antes 3
+         @imports = 3 round-trips em cadeia) viraram 1 request só. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500;1,600&display=swap"
+    />
     <meta name="description" content="Explore as profundas conexões entre a Bíblia e as artes. Descubra pinturas, músicas e filmes inspirados nas Escrituras Sagradas." />
     <meta name="author" content="Bíblia na Arte" />
     <meta name="google-site-verification" content="GZKfUeS1__5B7yeJQ0mV3q72MYtwx7mg25uIngyYVME" />

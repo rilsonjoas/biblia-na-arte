@@ -163,12 +163,14 @@ export default function Header() {
                 </kbd>
               </button>
 
-              {/* Mobile Search Icon Button */}
+              {/* Mobile Search Icon Button — h-11 w-11 (44px), não h-9 w-9
+                  (36px): alvo de toque abaixo do recomendado pelo Apple HIG
+                  (44px) e Material (48dp) — achado real 2026-08-22 */}
               <Button
                 variant="ghost"
                 size="icon"
                 onClick={() => setPaletteOpen(true)}
-                className="sm:hidden h-9 w-9 rounded-full"
+                className="sm:hidden h-11 w-11 rounded-full"
                 aria-label="Buscar"
               >
                 <Search className="w-4 h-4" />
@@ -180,7 +182,7 @@ export default function Header() {
               {/* Mobile Menu Trigger */}
               <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
                 <SheetTrigger asChild className="lg:hidden">
-                  <Button variant="ghost" size="icon" className="h-9 w-9 rounded-full" aria-label="Abrir menu">
+                  <Button variant="ghost" size="icon" className="h-11 w-11 rounded-full" aria-label="Abrir menu">
                     <Menu className="w-5 h-5" />
                   </Button>
                 </SheetTrigger>
