@@ -537,5 +537,7 @@ Google" não é viável em iOS de qualquer forma.
 
 ### 🟡 Melhoria — produto (ver Fases 1-3 do roadmap principal)
 
+- [ ] **"Conheça também" no rodapé — seção de links do cluster A Biblioteca** — o footer atual (4 colunas) não linka os projetos irmãos. Adicionar bloco compacto seguindo o **modelo aprovado no Gerador C.S. Lewis (2026-08-21)**: rótulo-nicho em caps espaçadas ("CONHEÇA TAMBÉM", tom apagado) → links uniformes (mesmo tamanho/peso) separados por ✦ dourado, em grupos atômicos `flex-wrap` (ornamento + link indivisíveis, quebra de linha limpa no mobile) → © discreto na base. Uma família tipográfica só, coluna centrada. Links: Narniano, Scriptorium Divinum, Lecionário, Gerador C.S. Lewis. Referência: `ClusterFooter.tsx` em `GeradorCSLewis/src/components/`. (Mesma tarefa registrada nos ROADMAPs do Lecionário e Scriptorium.)
+
 - [ ] **Scroll to top na navegação** — verificar se React Router está restaurando scroll ao navegar entre obras. Se não, adicionar `ScrollRestoration` ou `useEffect` com `window.scrollTo(0,0)`. (Mesmo bug da Bancada e Scriptorium.)
 - [ ] **Descrições com markdown cru** — algumas obras têm `**negrito**` visível como texto. Verificar se `react-markdown` está aplicado em todas as rotas de detalhe de obra.
