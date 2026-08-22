@@ -4,6 +4,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import { SEO } from '@/components/SEO';
 import { PixDonationCard } from '@/components/apoiar/PixDonationCard';
 import {
   Users,
@@ -74,8 +75,14 @@ export default function Contribute() {
 
   return (
     <div className="min-h-screen bg-background">
+      {/* Sem <SEO>, a aba ficava com o título da última página com SEO
+          visitada — achado real 2026-08-22. */}
+      <SEO
+        title="Como Contribuir"
+        description="Saiba como contribuir com a Bíblia na Arte: sugerir obras, ajudar na curadoria, revisar conteúdo ou apoiar o projeto via Pix."
+      />
       <Header />
-      
+
       <div className="container mx-auto px-4 py-12">
         {/* Header Section */}
         <div className="text-center mb-16">

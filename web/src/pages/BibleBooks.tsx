@@ -4,6 +4,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import { SEO } from '@/components/SEO';
 import { LoadingGrid, Loading } from '@/components/ui/loading';
 import { ErrorCard } from '@/components/ui/error-display';
 import { useBibleBooks, useOldTestamentBooks, useNewTestamentBooks } from '@/hooks/use-bible-books';
@@ -37,8 +38,12 @@ export default function BibleBooks() {
 
   return (
     <div className="min-h-screen bg-background">
+      {/* Sem <SEO>, a aba ficava com o título da última página com SEO
+          visitada (document.title não reseta ao trocar de rota na SPA) —
+          achado real 2026-08-22. */}
+      <SEO title={getTitle()} description={getDescription()} />
       <Header />
-      
+
       <div className="container mx-auto px-4 py-12">
         {/* Header Section */}
         <div className="text-center mb-12">

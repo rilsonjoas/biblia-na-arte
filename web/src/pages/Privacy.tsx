@@ -3,11 +3,18 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import { SEO } from '@/components/SEO';
 import { Shield } from 'lucide-react';
 
 export default function Privacy() {
   return (
     <div className="min-h-screen bg-background">
+      {/* Sem <SEO>, a aba ficava com o título da última página com SEO
+          visitada — achado real 2026-08-22. */}
+      <SEO
+        title="Política de Privacidade"
+        description="Política de Privacidade e Cookies da Bíblia na Arte: dados coletados, uso de AdSense e seus direitos sob a LGPD."
+      />
       <Header />
 
       <div className="container mx-auto px-4 py-12">

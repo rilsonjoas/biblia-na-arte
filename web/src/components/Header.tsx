@@ -54,10 +54,26 @@ export default function Header() {
               <NavigationMenu>
                 <NavigationMenuList>
                   <NavigationMenuItem>
-                    <NavigationMenuTrigger className="text-display text-sm font-medium bg-transparent hover:bg-muted/60 data-[state=open]:bg-muted/80">
-                      <Book className="w-4 h-4 mr-2 text-primary" />
-                      Navegar pela Bíblia
-                    </NavigationMenuTrigger>
+                    {/* Split trigger — achado real 2026-08-22: "clicar em
+                        Navegar pela Bíblia deveria levar direto a todos os
+                        livros". Rótulo é <Link> de verdade (navega direto
+                        pra /biblia); o chevron é o NavigationMenuTrigger
+                        (só ele abre o submenu). hover/focus/data-[state=open]
+                        repassam text-foreground nos dois — a base do Radix
+                        usa hover:text-accent-foreground, cor pensada pra
+                        cair sobre bg-accent, não sobre o bg-muted/60 daqui;
+                        sem isso o texto ficava ilegível no hover em modo
+                        escuro (achado real 2026-08-22). */}
+                    <div className="flex items-center rounded-md overflow-hidden">
+                      <Link
+                        to="/biblia"
+                        className="inline-flex h-10 items-center rounded-l-md bg-transparent pl-4 pr-1 text-display text-sm font-medium hover:bg-muted/60 hover:text-foreground focus:bg-muted/60 focus:text-foreground focus:outline-none transition-colors"
+                      >
+                        <Book className="w-4 h-4 mr-2 text-primary" />
+                        Navegar pela Bíblia
+                      </Link>
+                      <NavigationMenuTrigger className="h-10 rounded-l-none rounded-r-md bg-transparent pl-1 pr-3 hover:bg-muted/60 hover:text-foreground focus:text-foreground data-[state=open]:bg-muted/80 data-[state=open]:text-foreground" />
+                    </div>
                     <NavigationMenuContent>
                       <div className="w-[380px] p-3">
                         <div className="grid gap-2">
@@ -98,10 +114,19 @@ export default function Header() {
                   </NavigationMenuItem>
 
                   <NavigationMenuItem>
-                    <NavigationMenuTrigger className="text-display text-sm font-medium bg-transparent hover:bg-muted/60 data-[state=open]:bg-muted/80">
-                      <Palette className="w-4 h-4 mr-2 text-amber-600 dark:text-amber-400" />
-                      Galeria de Arte
-                    </NavigationMenuTrigger>
+                    {/* Mesmo split trigger de cima — clicar em "Galeria de
+                        Arte" leva direto pra /arte/painting, chevron abre
+                        o submenu. */}
+                    <div className="flex items-center rounded-md overflow-hidden">
+                      <Link
+                        to="/arte/painting"
+                        className="inline-flex h-10 items-center rounded-l-md bg-transparent pl-4 pr-1 text-display text-sm font-medium hover:bg-muted/60 hover:text-foreground focus:bg-muted/60 focus:text-foreground focus:outline-none transition-colors"
+                      >
+                        <Palette className="w-4 h-4 mr-2 text-amber-600 dark:text-amber-400" />
+                        Galeria de Arte
+                      </Link>
+                      <NavigationMenuTrigger className="h-10 rounded-l-none rounded-r-md bg-transparent pl-1 pr-3 hover:bg-muted/60 hover:text-foreground focus:text-foreground data-[state=open]:bg-muted/80 data-[state=open]:text-foreground" />
+                    </div>
                     <NavigationMenuContent>
                       <div className="w-[300px] p-3">
                         <div className="grid gap-2">
@@ -135,10 +160,14 @@ export default function Header() {
                         acima) já usam a fonte serifada da marca — este link
                         simples tinha ficado sem, caindo no sans padrão e
                         destoando visualmente dos outros dois — achado real
-                        2026-08-22 */}
+                        2026-08-22. Sem text-muted-foreground: os triggers
+                        irmãos não setam cor própria (herdam foreground, o
+                        tom "cheio"); com muted-foreground este link ficava
+                        num tom mais apagado que os outros dois — segundo
+                        achado real do mesmo screenshot 2026-08-22. */}
                     <Link
                       to="/sobre"
-                      className="inline-flex items-center justify-center rounded-md px-3 py-2 text-display text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted/60 transition-colors"
+                      className="inline-flex items-center justify-center rounded-md px-3 py-2 text-display text-sm font-medium hover:bg-muted/60 transition-colors"
                     >
                       <Sparkles className="w-4 h-4 mr-1.5 text-amber-500" />
                       Sobre o Projeto

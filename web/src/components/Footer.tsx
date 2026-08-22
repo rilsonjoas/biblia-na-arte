@@ -49,9 +49,12 @@ export default function Footer() {
             </a>
           </div>
 
-          {/* Navigation Links */}
+          {/* Navigation Links — "Explorar", não "Navegação": mesmo verbo já
+              usado nos CTAs do site ("Explorar pela Bíblia", "Descobrir
+              Arte") — achado real 2026-08-22 ("Navegação é uma palavra
+              estranha pra isso") */}
           <div>
-            <h3 className="text-display font-semibold mb-4 text-foreground">Navegação</h3>
+            <h3 className="text-display font-semibold mb-4 text-foreground">Explorar</h3>
             <div className="space-y-2 text-sm">
               <Link 
                 to="/biblia" 
@@ -74,9 +77,10 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Resources */}
+          {/* Resources — "Sobre", não "Projeto": evita repetir "Projeto"
+              dentro do próprio link "Sobre o Projeto" logo abaixo */}
           <div>
-            <h3 className="text-display font-semibold mb-4 text-foreground">Projeto</h3>
+            <h3 className="text-display font-semibold mb-4 text-foreground">Sobre</h3>
             <div className="space-y-2 text-sm">
               <Link 
                 to="/sobre" 

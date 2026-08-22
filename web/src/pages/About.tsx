@@ -4,11 +4,20 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import { SEO } from '@/components/SEO';
 import { Book, Heart, Users, Target, Lightbulb, Globe, Instagram } from 'lucide-react';
 
 export default function About() {
   return (
     <div className="min-h-screen bg-background">
+      {/* Sem <SEO> aqui, a aba do navegador ficava com o título da ÚLTIMA
+          página visitada que tinha SEO (ex.: uma obra) — document.title é
+          mutação direta, sem reset ao trocar de rota via SPA. Achado real
+          2026-08-22 ("Sobre" mostrando o título de uma obra na aba). */}
+      <SEO
+        title="Sobre o Projeto"
+        description="Conheça a história e a missão da Bíblia na Arte: conectar as Escrituras à expressão artística da humanidade ao longo dos séculos."
+      />
       <Header />
       
       <div className="container mx-auto px-4 py-12">
