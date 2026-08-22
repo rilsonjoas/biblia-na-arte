@@ -79,8 +79,78 @@ export function CommandPalette({ open: controlledOpen, onOpenChange }: CommandPa
     action();
   };
 
+  // Filtro manual — cmdk teria filtro embutido, mas os resultados de obra já
+  // vêm filtrados pelo servidor (busca full-text por descrição/referência,
+  // não só título). Se deixar o filtro embutido do cmdk ligado (no
+  // <Command> raiz, via CommandDialog), ele filtra de novo no cliente
+  // contra o texto digitado e derruba resultado válido sempre que o
+  // termo buscado não aparece literal no título da obra — achado real
+  // 2026-08-22 ("busca por livro funciona, por obra não"). Solução:
+  // shouldFilter={false} no CommandDialog (repassado pro <Command> raiz,
+  // ver ui/command.tsx) + filtro manual abaixo, aplicado igual pros itens
+  // estáticos (que antes dependiam do filtro embutido do cmdk).
+  const q = query.trim().toLowerCase();
+  const matches = (text: string) => q === '' || text.toLowerCase().includes(q);
+  const filteredBooks = bibleBooks.filter((book) =>
+    matches(`${book.name} ${book.slug} ${book.testament === 'old' ? 'antigo testamento at' : 'novo testamento nt'}`)
+  );
+
+  const quickNavItems = [
+    {
+      value: 'galeria pinturas obras arte catalogo',
+      onSelect: () => handleSelect(() => navigate('/arte/painting')),
+      icon: <Layers className="w-4 h-4 mr-2 text-amber-600 dark:text-amber-400" />,
+      label: 'Galeria Completa de Pinturas',
+    },
+    {
+      value: 'antigo testamento genesis salmos isaias',
+      onSelect: () => handleSelect(() => navigate('/biblia?testament=old')),
+      icon: <BookOpen className="w-4 h-4 mr-2 text-primary" />,
+      label: 'Antigo Testamento',
+    },
+    {
+      value: 'novo testamento evangelhos mateus marcos lucas joao',
+      onSelect: () => handleSelect(() => navigate('/biblia?testament=new')),
+      icon: <BookOpen className="w-4 h-4 mr-2 text-primary" />,
+      label: 'Novo Testamento',
+    },
+    {
+      value: 'busca avancada pesquisar filtro',
+      onSelect: () => handleSelect(() => navigate(query.trim() ? `/busca?q=${encodeURIComponent(query)}` : '/busca')),
+      icon: <Search className="w-4 h-4 mr-2 text-muted-foreground" />,
+      label: 'Página de Busca Avançada',
+    },
+    {
+      value: 'sobre o projeto biblia na arte missao',
+      onSelect: () => handleSelect(() => navigate('/sobre')),
+      icon: <Sparkles className="w-4 h-4 mr-2 text-amber-500" />,
+      label: 'Sobre o Projeto Bíblia na Arte',
+    },
+  ].filter((item) => matches(`${item.value} ${item.label}`));
+
+  const themeItems = [
+    {
+      value: 'tema claro light mode dia',
+      onSelect: () => handleSelect(() => setTheme('light')),
+      icon: <Sun className="w-4 h-4 mr-2 text-amber-600" />,
+      label: 'Mudar para Tema Claro',
+    },
+    {
+      value: 'tema escuro dark mode noite',
+      onSelect: () => handleSelect(() => setTheme('dark')),
+      icon: <Moon className="w-4 h-4 mr-2 text-amber-400" />,
+      label: 'Mudar para Tema Escuro',
+    },
+    {
+      value: 'tema sistema automatico os',
+      onSelect: () => handleSelect(() => setTheme('system')),
+      icon: <Laptop className="w-4 h-4 mr-2 text-muted-foreground" />,
+      label: 'Usar Tema do Sistema',
+    },
+  ].filter((item) => matches(`${item.value} ${item.label}`));
+
   return (
-    <CommandDialog open={isOpen} onOpenChange={setIsOpen}>
+    <CommandDialog open={isOpen} onOpenChange={setIsOpen} shouldFilter={false}>
       <CommandInput
         placeholder="Buscar livros bíblicos, pinturas, artistas ou atalhos..."
         value={query}
@@ -117,100 +187,64 @@ export function CommandPalette({ open: controlledOpen, onOpenChange }: CommandPa
         )}
 
         {/* Bible Books */}
-        <CommandGroup heading="Livros Bíblicos">
-          {bibleBooks.map((book) => (
-            <CommandItem
-              key={book.slug}
-              value={`${book.name} ${book.slug} ${book.testament === 'old' ? 'Antigo Testamento AT' : 'Novo Testamento NT'}`}
-              onSelect={() => handleSelect(() => navigate(`/biblia/${book.slug}`))}
-              className="flex items-center justify-between cursor-pointer"
-            >
-              <div className="flex items-center gap-2">
-                <Book className="w-4 h-4 text-primary/80" />
-                <span>{book.name}</span>
-              </div>
-              <span className="text-xs text-muted-foreground font-mono">
-                {book.chapters} cap. ({book.testament === 'old' ? 'AT' : 'NT'})
-              </span>
-            </CommandItem>
-          ))}
-        </CommandGroup>
+        {filteredBooks.length > 0 && (
+          <CommandGroup heading="Livros Bíblicos">
+            {filteredBooks.map((book) => (
+              <CommandItem
+                key={book.slug}
+                value={`${book.name} ${book.slug} ${book.testament === 'old' ? 'Antigo Testamento AT' : 'Novo Testamento NT'}`}
+                onSelect={() => handleSelect(() => navigate(`/biblia/${book.slug}`))}
+                className="flex items-center justify-between cursor-pointer"
+              >
+                <div className="flex items-center gap-2">
+                  <Book className="w-4 h-4 text-primary/80" />
+                  <span>{book.name}</span>
+                </div>
+                <span className="text-xs text-muted-foreground font-mono">
+                  {book.chapters} cap. ({book.testament === 'old' ? 'AT' : 'NT'})
+                </span>
+              </CommandItem>
+            ))}
+          </CommandGroup>
+        )}
 
-        <CommandSeparator />
+        {filteredBooks.length > 0 && quickNavItems.length > 0 && <CommandSeparator />}
 
         {/* Quick Navigation Links */}
-        <CommandGroup heading="Navegação Rápida">
-          <CommandItem
-            value="galeria pinturas obras arte catalogo"
-            onSelect={() => handleSelect(() => navigate('/arte/painting'))}
-            className="cursor-pointer"
-          >
-            <Layers className="w-4 h-4 mr-2 text-amber-600 dark:text-amber-400" />
-            <span>Galeria Completa de Pinturas</span>
-          </CommandItem>
-          <CommandItem
-            value="antigo testamento genesis salmos isaias"
-            onSelect={() => handleSelect(() => navigate('/biblia?testament=old'))}
-            className="cursor-pointer"
-          >
-            <BookOpen className="w-4 h-4 mr-2 text-primary" />
-            <span>Antigo Testamento</span>
-          </CommandItem>
-          <CommandItem
-            value="novo testamento evangelhos mateus marcos lucas joao"
-            onSelect={() => handleSelect(() => navigate('/biblia?testament=new'))}
-            className="cursor-pointer"
-          >
-            <BookOpen className="w-4 h-4 mr-2 text-primary" />
-            <span>Novo Testamento</span>
-          </CommandItem>
-          <CommandItem
-            value="busca avancada pesquisar filtro"
-            onSelect={() => handleSelect(() => navigate(query.trim() ? `/busca?q=${encodeURIComponent(query)}` : '/busca'))}
-            className="cursor-pointer"
-          >
-            <Search className="w-4 h-4 mr-2 text-muted-foreground" />
-            <span>Página de Busca Avançada</span>
-          </CommandItem>
-          <CommandItem
-            value="sobre o projeto biblia na arte missao"
-            onSelect={() => handleSelect(() => navigate('/sobre'))}
-            className="cursor-pointer"
-          >
-            <Sparkles className="w-4 h-4 mr-2 text-amber-500" />
-            <span>Sobre o Projeto Bíblia na Arte</span>
-          </CommandItem>
-        </CommandGroup>
+        {quickNavItems.length > 0 && (
+          <CommandGroup heading="Navegação Rápida">
+            {quickNavItems.map((item) => (
+              <CommandItem
+                key={item.value}
+                value={item.value}
+                onSelect={item.onSelect}
+                className="cursor-pointer"
+              >
+                {item.icon}
+                <span>{item.label}</span>
+              </CommandItem>
+            ))}
+          </CommandGroup>
+        )}
 
-        <CommandSeparator />
+        {quickNavItems.length > 0 && themeItems.length > 0 && <CommandSeparator />}
 
         {/* Theme switching */}
-        <CommandGroup heading="Aparência / Tema">
-          <CommandItem
-            value="tema claro light mode dia"
-            onSelect={() => handleSelect(() => setTheme('light'))}
-            className="cursor-pointer"
-          >
-            <Sun className="w-4 h-4 mr-2 text-amber-600" />
-            <span>Mudar para Tema Claro</span>
-          </CommandItem>
-          <CommandItem
-            value="tema escuro dark mode noite"
-            onSelect={() => handleSelect(() => setTheme('dark'))}
-            className="cursor-pointer"
-          >
-            <Moon className="w-4 h-4 mr-2 text-amber-400" />
-            <span>Mudar para Tema Escuro</span>
-          </CommandItem>
-          <CommandItem
-            value="tema sistema automatico os"
-            onSelect={() => handleSelect(() => setTheme('system'))}
-            className="cursor-pointer"
-          >
-            <Laptop className="w-4 h-4 mr-2 text-muted-foreground" />
-            <span>Usar Tema do Sistema</span>
-          </CommandItem>
-        </CommandGroup>
+        {themeItems.length > 0 && (
+          <CommandGroup heading="Aparência / Tema">
+            {themeItems.map((item) => (
+              <CommandItem
+                key={item.value}
+                value={item.value}
+                onSelect={item.onSelect}
+                className="cursor-pointer"
+              >
+                {item.icon}
+                <span>{item.label}</span>
+              </CommandItem>
+            ))}
+          </CommandGroup>
+        )}
       </CommandList>
     </CommandDialog>
   );
