@@ -28,16 +28,23 @@ pnpm --filter web dev   # olhar as obras novas/alteradas em localhost
 #    service=biblia-na-arte, hetzner-infra/README.md)
 
 # 5. Seed dos dados no Postgres de produção — via SSH, container one-off
-#    na proxy-network (não roda local contra prod):
+#    na proxy-network (não roda local contra prod). Espera o "Deploy VPS"
+#    (dispara sozinho no push) terminar primeiro — reseed usa o código já
+#    deployado (schema/queries.ts precisam bater com as colunas do seed).
 ssh narniano@debian13-4gb-narniano
 cd /opt/biblia-na-arte
 docker run --rm --network proxy-network \
   --env-file server/.env \
-  -e NODE_ENV=development \
+  -e NODE_ENV=development -e CI=true \
   -v $(pwd):/app -w /app \
-  node:22-alpine sh -c "corepack enable && pnpm install && pnpm --filter server db:seed"
+  node:22-alpine sh -c "corepack enable && pnpm install --frozen-lockfile --filter server --config.dangerously-allow-all-builds=true && pnpm --filter server db:seed"
 # NODE_ENV=development é necessário só pra tsx instalar certo — não afeta
-# o app rodando (containers biblianaarte-api/web seguem com NODE_ENV real)
+# o app rodando (containers biblianaarte-api/web seguem com NODE_ENV real).
+# --config.dangerously-allow-all-builds=true (achado 2026-08-23): sem
+# isso, pnpm 11.x recusa instalar com ERR_PNPM_IGNORED_BUILDS (esbuild/
+# @swc/core do web pedem aprovação interativa de build script, que não
+# existe num container efêmero não-interativo) — flag pula a aprovação
+# só nesse install pontual, não afeta o resto do repo.
 
 # 6. Sitemap (se mudou quantidade de páginas indexáveis)
 pnpm --filter server sitemap:generate
@@ -56,19 +63,33 @@ pnpm --filter server sitemap:generate
   rsync. Os containers já rodando não caem na hora (Compose só lê
   `env_file` na criação, não em restart), mas o próximo `docker compose
   up` sem o `.env` recriado vai falhar.
-- **Migration nova não roda sozinha em produção** — `pnpm
-  --filter server db:migrate` precisa ser disparado manualmente contra o
-  VPS depois de qualquer PR que adicione uma migration (mesmo padrão do
-  container one-off acima, trocando o comando final). Sintoma de
-  migration esquecida: API responde `internal_error` na listagem de
-  obras, coluna nova não existe na tabela real.
+- **Migration e `functions.sql`/`data-fixes.sql` RODAM SOZINHOS no boot**
+  (`server.ts` → `runMigrations()`) — confirmado ao vivo 2026-08-23 (2
+  migrations novas + `functions.sql` atualizado aplicaram sozinhos no
+  restart do "Deploy VPS", sem passo manual). Achado antigo (0001,
+  16/08) que dizia o contrário está desatualizado — foi corrigido depois
+  daquele incidente, exatamente pra nunca mais precisar de passo manual
+  aqui. O que **continua** manual: o **seed** (dado, não schema — rodar
+  em todo boot re-inseriria/duplicaria, por isso é deliberadamente um
+  passo à parte, ver item 5 acima).
+- **Função SQL com lista de coluna escrita à mão esquece coluna nova
+  fácil** (achado 2026-08-23): `search_artworks()` em `functions.sql` +
+  o wrapper em `queries.ts` (`SELECT` explícito de `search_artworks(...)`)
+  listam cada coluna por fora — ao adicionar campo no `schema.ts`,
+  `GET /artworks/:id` pega sozinho (Drizzle `select()` sem lista pega
+  tudo), mas `GET /artworks/search` fica pra trás em silêncio até
+  alguém notar campo faltando. Checklist ao adicionar coluna: `schema.ts`
+  → migration → `export-vault-data.ts`/`import-seed-data.ts` →
+  `response.schema.ts` → **`functions.sql` + `queries.ts` (search)** →
+  frontend `types/index.ts` + UI.
 
 ## Diagnóstico rápido — sintoma → causa provável
 
 | Sintoma | Causa provável | Onde checar |
 |---|---|---|
 | Imagem quebrada (ícone de arquivo, não a pintura) | `git-lfs` não instalado no VPS, ou obra excluída da auditoria de copyright | `docker exec` no container, ver se o arquivo é ponteiro de texto (~130 bytes) ou binário real; conferir `AUDITORIA-COPYRIGHT.md` |
-| `GET /api/v1/artworks` retorna `internal_error` | Migration não aplicada em produção | `db:migrate` manual (ver acima) |
+| `GET /api/v1/artworks` retorna `internal_error` | Coluna nova no schema sem migration correspondente gerada (`db:generate` esquecido) | Conferir `server/src/db/migrations/`; migration em si roda sozinha no boot, só falta ela existir |
+| `GET /artworks/:id` mostra campo novo certo mas `GET /artworks/search` devolve `null` | `functions.sql`/`queries.ts` (search) não atualizados com a coluna nova | Ver achado 2026-08-23 acima — checklist de onde atualizar |
 | Obra nova não aparece no site depois do export | Seed não rodou em produção, ou `autor` bate em `UNKNOWN_AUTHOR_VALUES` sem estar no `ALLOWED_UNKNOWN_AUTHOR_FILENAMES` | Rodar `export:vault` local e checar o log de `skipped` no console |
 | Duas obras com a mesma imagem | Colisão de slug (mesmo artista+título, ano igual ou ausente) | Log `⚠️ Slug duplicado desambiguado` do `export:vault`; preencher `ano` na nota mais recente ajuda o dedupe |
 | Busca não acha nada com filtro sem texto | Regressão específica já documentada — ver `Search.tsx` / achado 22/08 no ROADMAP | `ROADMAP.md` § "Buscar artista no /busca" |

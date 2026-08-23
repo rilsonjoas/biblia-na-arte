@@ -1378,3 +1378,38 @@ dia:
 
 Typecheck limpo (com os comandos certos do CI), 46 testes web, lint
 sem erro, build ok. Commitado e deployado.
+
+**Continuação — achados verificando o Rembrandt novo ao vivo em
+produção depois do deploy** (mesma sessão, mesmo dia):
+
+- [x] **Wikilink do Obsidian vazando cru pra tela**: `[[Filosofia e
+      Estética]]` na citação do Rookmaaker aparecia com colchetes duplos
+      literais na página — `unwrapWikilinks()` já existia, mas só dentro
+      de `extractPassageText`, não em `extractDescription` nem no
+      `extractClassicCommentary` novo. Achado igual em obra JÁ publicada:
+      "Saudade" (Almeida Júnior) citava `[[C. S. Lewis]]` na própria
+      Descrição da Obra. Extraído helper compartilhado, aplicado nos 3
+      lugares. Achado 2 (imediato, testando de novo): wikilink com alias
+      `[[Nota Real|Texto Exibido]]` (usado na própria nota do Rembrandt,
+      linkando a irmã "A Descida da Cruz") mostrava os DOIS lados do pipe
+      — regex corrigida pra usar só o texto exibido. 3 testes novos.
+- [x] **Busca (`/artworks/search`) não devolvia `location`/vozes dos
+      clássicos**: `GET /artworks/:id` mostrava certo (Drizzle `select()`
+      sem lista de coluna pega tudo do schema sozinho), mas a função SQL
+      `search_artworks()` + o wrapper em `queries.ts` listam cada coluna
+      à mão — ficaram pra trás quando os campos foram adicionados.
+      Corrigido nos 2 lugares + teste de regressão (fixture com
+      `location`/`classicCommentary` preenchidos, asserção explícita nos
+      campos da resposta da busca). `functions.sql` roda sozinho no boot
+      (`runMigrations()`), só precisou de deploy, sem passo manual —
+      **achado bônus, RUNBOOK.md corrigido**: a nota antiga dizia que
+      migration precisa de disparo manual (baseada num incidente de
+      16/08 já resolvido depois); confirmado ao vivo hoje que migration
+      + `functions.sql` + `data-fixes.sql` rodam automáticos — só o
+      **seed** (dado) continua manual, e com razão (rodar em todo boot
+      duplicaria).
+
+Ciclo completo: export → deploy → reseed → verificação ao vivo →
+achado de bug → fix → re-export → redeploy → reseed → reverificação,
+repetido 3x até tudo bater. 56 testes server (unit+integração), build
+ok, tudo no ar confirmado via curl real na API de produção.
