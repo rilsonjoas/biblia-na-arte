@@ -5,13 +5,11 @@ export interface BibleBookSeed {
   slug: string;
   chapters: number;
   testament: 'old' | 'new';
+  order: number;
 }
 
-// Cânone protestante completo (39 + 27 = 66 livros) — o bibleStructure.ts
-// original do frontend só tinha 34 ("focusing on books with rich artistic
-// traditions"), insuficiente pra migrar o vault real (~1000 pinturas
-// cobrem praticamente todos os livros).
-export const bibleBooksSeed: BibleBookSeed[] = [
+// Cânone protestante completo (39 + 27 = 66 livros) em ordem canônica (1 a 66).
+const rawBibleBooksSeed: Omit<BibleBookSeed, 'order'>[] = [
   // Antigo Testamento
   { name: 'Gênesis', slug: 'genesis', chapters: 50, testament: 'old' },
   { name: 'Êxodo', slug: 'exodus', chapters: 40, testament: 'old' },
@@ -82,6 +80,11 @@ export const bibleBooksSeed: BibleBookSeed[] = [
   { name: 'Judas', slug: 'jude', chapters: 1, testament: 'new' },
   { name: 'Apocalipse', slug: 'revelation', chapters: 22, testament: 'new' },
 ];
+
+export const bibleBooksSeed: BibleBookSeed[] = rawBibleBooksSeed.map((b, i) => ({
+  ...b,
+  order: i + 1,
+}));
 
 function normalize(s: string): string {
   return s

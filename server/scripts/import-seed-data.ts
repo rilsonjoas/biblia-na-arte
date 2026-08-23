@@ -56,6 +56,7 @@ async function main() {
         slug: b.slug,
         chapters: b.chapters,
         testament: b.testament,
+        order: b.order,
       })),
     );
 

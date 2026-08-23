@@ -139,7 +139,7 @@ export async function listBibleBooks(testament?: 'old' | 'new') {
     .select()
     .from(bibleBooks)
     .where(testament ? eq(bibleBooks.testament, testament) : undefined)
-    .orderBy(bibleBooks.testament, bibleBooks.name);
+    .orderBy(bibleBooks.order);
 }
 
 export async function getBibleBookBySlug(slug: string) {

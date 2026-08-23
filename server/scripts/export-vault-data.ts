@@ -29,6 +29,7 @@ import {
   extractDescription,
   extractFrontmatter,
   extractPassageText,
+  extractVerseFromContext,
   extractWikilink,
   findImageFile,
   deriveArtistFromFilename,
@@ -286,11 +287,12 @@ async function main() {
         unresolvedBooks.add(parsed.book);
         continue;
       }
+      const verses = parsed.verse || extractVerseFromContext(content, book.name, parsed.chapter) || extractVerseFromContext(content, parsed.book, parsed.chapter);
       references.push({
         book: book.name,
         bookSlug: book.slug,
         chapter: parsed.chapter,
-        verses: parsed.verse,
+        verses: verses || undefined,
         passageText: (i === 0 && passageText) ? passageText : undefined,
       });
     }

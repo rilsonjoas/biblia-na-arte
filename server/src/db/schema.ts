@@ -31,11 +31,13 @@ export const bibleBooks = pgTable(
     slug: text('slug').notNull().unique(),
     chapters: integer('chapters').notNull(),
     testament: testamentEnum('testament').notNull(),
+    order: integer('order').notNull().default(0),
     createdAt: timestamp('created_at', { withTimezone: true }).defaultNow(),
   },
   (table) => [
     index('idx_bible_books_slug').on(table.slug),
     index('idx_bible_books_testament').on(table.testament),
+    index('idx_bible_books_order').on(table.order),
   ],
 );
 

@@ -84,11 +84,32 @@ function unwrapWikilinks(text: string): string {
   return text.replace(/\[\[([^\]|]+)(?:\|([^\]]+))?\]\]/g, (_, target, alias) => alias ?? target);
 }
 
+/** Sanitiza descrições removendo blocos promocionais como `> [!info]`,
+ *  anúncios de "Buy ... as fine art print", links para meisterdrucke, etc. */
+export function sanitizeDescription(text: string): string {
+  if (!text) return '';
+  const cleaned = text
+    // Remove blocos Obsidian > [!info] inteiros (incluindo linhas seguintes do blockquote)
+    .replace(/^>\s*\[!info\][\s\S]*?(?=\n\n|\n[^\s>]|$)/gim, '')
+    // Remove qualquer linha restante com meisterdrucke ou fine art print
+    .split('\n')
+    .filter((line) => {
+      const l = line.toLowerCase();
+      if (l.includes('meisterdrucke')) return false;
+      if (l.includes('fine art print')) return false;
+      if (l.includes('buy ') && l.includes('as fine art')) return false;
+      return true;
+    })
+    .join('\n')
+    .trim();
+  return cleaned;
+}
+
 export function extractDescription(content: string): string {
   const afterFrontmatter = content.replace(/^---\n[\s\S]*?\n---/, '').trim();
   const descMatch = afterFrontmatter.match(/###\s*Descrição da Obra\s*\n+([\s\S]*?)(?=\n---|\n###|$)/);
   const captured = descMatch?.[1]?.trim();
-  if (captured && !isPlaceholderText(captured)) return unwrapWikilinks(captured).slice(0, 2000);
+  if (captured && !isPlaceholderText(captured)) return sanitizeDescription(unwrapWikilinks(captured)).slice(0, 2000);
   // Fallback: primeiro parágrafo de texto real depois da imagem embutida
   // (pula placeholders de navegação e linhas de heading, não só o primeiro
   // trecho >20 caracteres que aparecer)
@@ -96,23 +117,37 @@ export function extractDescription(content: string): string {
   const firstParagraph = withoutImage
     .split(/\n{2,}/)
     .find((p) => p.trim().length > 20 && !isPlaceholderText(p.trim()));
-  return unwrapWikilinks((firstParagraph ?? '').trim()).slice(0, 2000);
+  return sanitizeDescription(unwrapWikilinks((firstParagraph ?? '').trim())).slice(0, 2000);
 }
 
 /** "Gênesis 18" -> {book: "Gênesis", chapter: 18}
- *  "Jó 2 1"     -> {book: "Jó", chapter: 2, verse: "1"}
+ *  "Gênesis 18:1-15" -> {book: "Gênesis", chapter: 18, verse: "1-15"}
+ *  "Jó 2:1"     -> {book: "Jó", chapter: 2, verse: "1"}
  *  "1 Samuel 17" -> {book: "1 Samuel", chapter: 17}          */
 export function parseChapterLink(raw: unknown): { book: string; chapter: number; verse?: string } | null {
   const inner = extractWikilink(raw);
-  const m = inner.match(/^(.+?)\s+(\d+)(?:\s+(\d+))?$/);
+  const m = inner.match(/^(.+?)\s+(\d+)(?:[:\s]+([\d\-,]+))?$/);
   if (!m) return null;
   const book = m[1]?.trim();
   const chapter = m[2] ? Number(m[2]) : NaN;
   if (!book || !Number.isInteger(chapter) || chapter <= 0) return null;
-  const verse = m[3];
+  const verse = m[3]?.trim();
   const result: { book: string; chapter: number; verse?: string } = { book, chapter };
   if (verse) result.verse = verse;
   return result;
+}
+
+/** Tenta extrair a faixa de versículos (ex: "16-28" ou "1-5") da seção "Contexto Bíblico"
+ *  quando o frontmatter da nota especificou apenas o livro e capítulo. */
+export function extractVerseFromContext(content: string, bookName: string, chapter: number): string | undefined {
+  const match = content.match(/###\s*(?:📖\s*)?Contexto Bíblico\s*\n+([\s\S]*?)(?=\n---|\n###|$)/i);
+  if (!match?.[1]) return undefined;
+
+  const section = match[1];
+  const escapedBook = bookName.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&');
+  const reg = new RegExp(`(?:\\*\\*|\\[\\[)?${escapedBook}\\s+${chapter}(?:\\]\\]|\\*\\*)?:\\s*([\\d\\-,]+)`, 'i');
+  const vm = section.match(reg);
+  return vm?.[1]?.trim();
 }
 
 /** Só confia no nome do arquivo como fallback de autor quando ele segue a
