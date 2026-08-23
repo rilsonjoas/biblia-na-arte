@@ -1465,17 +1465,32 @@ e deployado nesta rodada:
       Reality* — suavizada pra paráfrase sem aspas (McGrath está vivo,
       diferente do Rookmaaker; ver Padrão de Qualidade de Conteúdo,
       princípio #3).
-- [ ] **20 obras clássicas em domínio público pra enriquecer o vault** —
-      lista de 21 obras (Rembrandt, Caravaggio, Michelangelo, Rubens,
-      Botticelli, Fra Angelico etc.) já existia. Checado contra o
-      export atual: **4 de 21 já estão no acervo** ("A Conversão de São
-      Paulo", "A Criação de Adão", "A Anunciação" de Fra Angelico,
-      "A Ressurreição da Filha de Jairo" de Repin). **17 ainda faltam**
-      — curadoria real (achar imagem de fonte confiável em domínio
-      público, escrever a nota do vault, verificar direitos) pra cada
-      uma, não é code fix. Fica como trabalho pendente, não tentado
-      nesta rodada pra não arriscar entrada de dado sem verificação
-      (mesmo princípio que gerou o achado abaixo).
+- [x] **21 obras clássicas em domínio público pra enriquecer o vault —
+      fechado 2026-08-23**: **correção real** — a contagem anterior
+      ("4 de 21 já no acervo") estava errada, checagem por substring de
+      título tinha falhado com variações de tradução (Belsazar/
+      Baltazar, Rafael/Raphael, chamado/vocação). Rechecado obra por
+      obra contra o vault real: eram **11 de 21 já existentes**, não 4.
+      Faltavam de verdade **10** (não 17) — 9 curadas nesta rodada
+      (Judite Decapitando Holofernes de Artemisia Gentileschi ficou de
+      fora por decisão do Rilson: livro apócrifo, fora do cânon
+      protestante de 66 livros do projeto):
+      - 8 obras novas — imagem verificada no Wikimedia Commons (domínio
+        público confirmado, fonte no frontmatter), citação bíblica real
+        via bible-api.com (tradução Almeida, mesma fonte já usada no
+        projeto), descrição histórico-artística: Leonardo da Vinci
+        (A Anunciação), Peter Paul Rubens (A Descida da Cruz; Daniel na
+        Cova dos Leões), El Greco (O Despojamento de Cristo), Jacopo
+        Tintoretto (A Última Ceia), Sandro Botticelli (A Adoração dos
+        Magos), Gustave Doré (O Dilúvio), Nicolas Poussin (O Julgamento
+        de Salomão).
+      - 1 nota enriquecida — Claude Lorrain "Jacó com Labão e suas
+        filhas" era um esboço sem descrição nem citação (só uma linha
+        "Ver Gênesis 29"); completada em vez de criar 9ª nota
+        potencialmente duplicada pro mesmo tema.
+      Export rodado (868 obras, era 860), reseed em produção,
+      verificado ao vivo (imagens WebP respondendo HTTP 200, dados
+      corretos, exclusões de copyright reaplicadas — total 845).
 - [x] **Texto promocional vazando na descrição ("Buy... fine art print",
       meisterdrucke.uk)** — `sanitizeDescription()` já existia no
       working tree, remove blocos de callout do Obsidian inteiros +
