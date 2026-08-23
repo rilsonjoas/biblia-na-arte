@@ -24,10 +24,20 @@ import {
   ChevronLeft,
   ChevronRight
 } from 'lucide-react';
-import { useArtworkSearchAdvanced, useArtworks } from '@/hooks/use-artworks';
+import { useArtworkSearchAdvanced, useArtists } from '@/hooks/use-artworks';
 import type { SearchFilters } from '@/lib/api-data';
 
 const PAGE_SIZE = 24;
+
+// "Século XVII" = anos 1600-1699 (intuição de busca por década inicial,
+// não a convenção estrita 1601-1700 usada por historiadores).
+const CENTURY_RANGES: Record<string, { from: number; to: number }> = {
+  '9th': { from: 800, to: 899 },
+  '15th': { from: 1400, to: 1499 },
+  '16th': { from: 1500, to: 1599 },
+  '17th': { from: 1600, to: 1699 },
+  '18th': { from: 1700, to: 1799 }
+};
 
 export default function Search() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -42,13 +52,15 @@ export default function Search() {
   const [selectedArtist, setSelectedArtist] = useState<string>('');
 
   // Hooks para dados
-  const { data: allArtworks = [] } = useArtworks();
-  
+  const { data: artists = [] } = useArtists();
+
   // Build search filters
+  const centuryRange = selectedCentury ? CENTURY_RANGES[selectedCentury] : undefined;
   const searchFilters: SearchFilters = {
     ...(selectedCategory && { category: selectedCategory }),
     ...(selectedTestament && { testament: selectedTestament as 'old' | 'new' }),
     ...(selectedArtist && { artist: selectedArtist }),
+    ...(centuryRange && { yearFrom: centuryRange.from, yearTo: centuryRange.to }),
   };
 
   // Search hook
@@ -79,8 +91,9 @@ export default function Search() {
     { value: '18th', label: 'Século XVIII' }
   ];
 
-  // Obter lista única de artistas dos dados carregados
-  const artists = Array.from(new Set(allArtworks.map(artwork => artwork.artistOrDirector))).sort();
+  // Obter lista única de artistas do endpoint agregado (não baixa o
+  // catálogo inteiro só pra extrair nomes)
+  const artistNames = artists.map(artist => artist.name);
 
   useEffect(() => {
     const searchQuery = searchParams.get('q');
@@ -88,6 +101,12 @@ export default function Search() {
       setQuery(searchQuery);
     }
   }, [searchParams]);
+
+  // Trocar busca ou qualquer filtro volta pra página 1 — senão a
+  // paginação antiga cai fora do alcance do resultado novo (grade vazia)
+  useEffect(() => {
+    setPage(1);
+  }, [query, selectedCategory, selectedTestament, selectedCentury, selectedArtist]);
 
   const handleSearch = () => {
     if (query.trim()) {
@@ -202,12 +221,12 @@ export default function Search() {
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                 <div>
                   <label className="text-sm font-medium mb-2 block">Categoria</label>
-                  <Select value={selectedCategory} onValueChange={setSelectedCategory}>
+                  <Select value={selectedCategory || 'all'} onValueChange={(v) => setSelectedCategory(v === 'all' ? '' : v)}>
                     <SelectTrigger>
                       <SelectValue placeholder="Todas as categorias" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="">Todas as categorias</SelectItem>
+                      <SelectItem value="all">Todas as categorias</SelectItem>
                       {categories.map(category => (
                         <SelectItem key={category.value} value={category.value}>
                           {category.label}
@@ -219,12 +238,12 @@ export default function Search() {
 
                 <div>
                   <label className="text-sm font-medium mb-2 block">Testamento</label>
-                  <Select value={selectedTestament} onValueChange={setSelectedTestament}>
+                  <Select value={selectedTestament || 'all'} onValueChange={(v) => setSelectedTestament(v === 'all' ? '' : v)}>
                     <SelectTrigger>
                       <SelectValue placeholder="Todos os testamentos" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="">Todos os testamentos</SelectItem>
+                      <SelectItem value="all">Todos os testamentos</SelectItem>
                       {testaments.map(testament => (
                         <SelectItem key={testament.value} value={testament.value}>
                           {testament.label}
@@ -236,12 +255,12 @@ export default function Search() {
 
                 <div>
                   <label className="text-sm font-medium mb-2 block">Período</label>
-                  <Select value={selectedCentury} onValueChange={setSelectedCentury}>
+                  <Select value={selectedCentury || 'all'} onValueChange={(v) => setSelectedCentury(v === 'all' ? '' : v)}>
                     <SelectTrigger>
                       <SelectValue placeholder="Todos os períodos" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="">Todos os períodos</SelectItem>
+                      <SelectItem value="all">Todos os períodos</SelectItem>
                       {centuries.map(century => (
                         <SelectItem key={century.value} value={century.value}>
                           {century.label}
@@ -253,13 +272,13 @@ export default function Search() {
 
                 <div>
                   <label className="text-sm font-medium mb-2 block">Artista</label>
-                  <Select value={selectedArtist} onValueChange={setSelectedArtist}>
+                  <Select value={selectedArtist || 'all'} onValueChange={(v) => setSelectedArtist(v === 'all' ? '' : v)}>
                     <SelectTrigger>
                       <SelectValue placeholder="Todos os artistas" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="">Todos os artistas</SelectItem>
-                      {artists.map(artist => (
+                      <SelectItem value="all">Todos os artistas</SelectItem>
+                      {artistNames.map(artist => (
                         <SelectItem key={artist} value={artist}>
                           {artist}
                         </SelectItem>
@@ -273,7 +292,7 @@ export default function Search() {
         )}
 
         {/* Results Section */}
-        {query && (
+        {(query.trim() || hasActiveFilters) && (
           <div className="mb-8">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-display text-xl font-semibold">
@@ -284,7 +303,7 @@ export default function Search() {
                   </span>
                 ) : (
                   <>
-                    Resultados para "{query}" 
+                    {query.trim() ? `Resultados para "${query}"` : 'Resultados filtrados'}
                     <Badge variant="secondary" className="ml-2">
                       {searchResults.length} {searchResults.length === 1 ? 'obra encontrada' : 'obras encontradas'}
                     </Badge>
@@ -335,7 +354,7 @@ export default function Search() {
                 title="Erro na busca" 
                 className="mb-8"
               />
-            ) : searchResults.length === 0 && query ? (
+            ) : searchResults.length === 0 ? (
               <Card className="gradient-card border-0">
                 <CardContent className="p-12 text-center">
                   <SearchIcon className="w-16 h-16 mx-auto text-muted-foreground mb-4" />
@@ -401,7 +420,7 @@ export default function Search() {
         )}
 
         {/* Search Tips */}
-        {!query && (
+        {!query.trim() && !hasActiveFilters && (
           <Card className="gradient-card border-0">
             <CardHeader>
               <CardTitle className="text-center">

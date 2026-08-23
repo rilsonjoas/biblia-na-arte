@@ -13,6 +13,7 @@ import { AdUnit } from '@/components/AdUnit';
 import { SEO } from '@/components/SEO';
 import { ErrorCard, NotFoundError } from '@/components/ui/error-display';
 import { Markdown } from '@/components/ui/markdown';
+import { CopyButton, CopyImageButton } from '@/components/ui/copy-button';
 import { stripMarkdown } from '@/lib/utils';
 import { useArtwork, useArtworksByBibleReference, useArtworks } from '@/hooks/use-artworks';
 import {
@@ -258,12 +259,20 @@ export default function ArtworkDetail() {
             {/* Quick action bar below image */}
             <div className="flex items-center justify-between text-xs text-muted-foreground px-1">
               <span className="italic">{artwork.mediumOrGenre || 'Óleo sobre tela'}</span>
-              <button
-                onClick={() => setLightboxOpen(true)}
-                className="hover:text-primary transition-colors flex items-center gap-1 underline underline-offset-4"
-              >
-                Inspecionar detalhes da pintura
-              </button>
+              {!artwork.embedUrl && imageUrl && (
+                <div className="flex items-center gap-4">
+                  <CopyImageButton
+                    url={imageUrl}
+                    className="hover:text-primary transition-colors flex items-center gap-1"
+                  />
+                  <button
+                    onClick={() => setLightboxOpen(true)}
+                    className="hover:text-primary transition-colors flex items-center gap-1 underline underline-offset-4"
+                  >
+                    Inspecionar detalhes da pintura
+                  </button>
+                </div>
+              )}
             </div>
           </div>
 
@@ -345,7 +354,16 @@ export default function ArtworkDetail() {
 
             {/* Description Section */}
             <div>
-              <h2 className="text-display text-xl font-semibold mb-2">Sobre esta Obra</h2>
+              <div className="flex items-center justify-between gap-3 mb-2">
+                <h2 className="text-display text-xl font-semibold">Sobre esta Obra</h2>
+                {artwork.description && (
+                  <CopyButton
+                    text={stripMarkdown(artwork.description)}
+                    label="Copiar descrição"
+                    className="shrink-0"
+                  />
+                )}
+              </div>
               <div className="capitular text-foreground/90 text-base leading-relaxed">
                 <Markdown content={artwork.description} />
               </div>

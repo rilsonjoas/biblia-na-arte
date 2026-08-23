@@ -5,6 +5,7 @@ import {
   getArtworkById,
   getArtworksByBibleReference,
   searchArtworksAdvanced,
+  parseYear,
   getBibleBooks,
   getBibleBookBySlug,
 } from './api-data';
@@ -91,6 +92,33 @@ describe('searchArtworksAdvanced', () => {
       .mockResolvedValueOnce([{ slug: 'isaiah' }]); // getOldTestamentBooks
     const results = await searchArtworksAdvanced('', { testament: 'old' });
     expect(results).toEqual([artwork]);
+  });
+
+  it('aplica filtro de ano (yearFrom/yearTo) no cliente', async () => {
+    const dentro = { id: '1', year: 1603, references: [] };
+    const fora = { id: '2', year: 1850, references: [] };
+    requestMock.mockResolvedValue({ items: [dentro, fora], total: 2 });
+    const results = await searchArtworksAdvanced('', { yearFrom: 1600, yearTo: 1699 });
+    expect(results).toEqual([dentro]);
+  });
+
+  it('exclui obras sem ano quando há filtro de ano', async () => {
+    const semAno = { id: '1', references: [] };
+    requestMock.mockResolvedValue({ items: [semAno], total: 1 });
+    const results = await searchArtworksAdvanced('', { yearFrom: 1500, yearTo: 1599 });
+    expect(results).toEqual([]);
+  });
+});
+
+describe('parseYear', () => {
+  it('extrai ano de string com prefixo ("c. 1609")', () => {
+    expect(parseYear('c. 1609')).toBe(1609);
+  });
+
+  it('aceita número direto e devolve null para lixo/ausência', () => {
+    expect(parseYear(1625)).toBe(1625);
+    expect(parseYear(undefined)).toBeNull();
+    expect(parseYear('s.d.')).toBeNull();
   });
 });
 

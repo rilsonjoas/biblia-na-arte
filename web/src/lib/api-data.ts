@@ -100,6 +100,12 @@ export async function getBiblePassage(bookSlug: string, chapter: number): Promis
   return apiClient.request<BiblePassage>(`/bible-text/${bookSlug}/${chapter}`);
 }
 
+export function parseYear(value: number | string | undefined | null): number | null {
+  if (typeof value === 'number') return Number.isFinite(value) ? value : null;
+  const match = /(\d{3,4})/.exec(String(value ?? ''));
+  return match?.[1] ? Number.parseInt(match[1], 10) : null;
+}
+
 export async function searchArtworksAdvanced(query: string, filters: SearchFilters = {}): Promise<Artwork[]> {
   let results: Artwork[];
 
@@ -117,6 +123,16 @@ export async function searchArtworksAdvanced(query: string, filters: SearchFilte
       limit: ALL_ARTWORKS_LIMIT,
     });
     results = items;
+  }
+
+  if (filters.yearFrom != null || filters.yearTo != null) {
+    results = results.filter((artwork) => {
+      const year = parseYear(artwork.year);
+      if (year === null) return false;
+      if (filters.yearFrom != null && year < filters.yearFrom) return false;
+      if (filters.yearTo != null && year > filters.yearTo) return false;
+      return true;
+    });
   }
 
   if (filters.testament) {

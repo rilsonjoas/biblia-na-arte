@@ -24,28 +24,32 @@ export default function Contribute() {
       icon: BookOpen,
       title: "Sugerir Obras",
       description: "Conhece alguma pintura, música ou filme inspirado na Bíblia que ainda não está em nossa coleção?",
-      action: "Envie suas sugestões",
+      action: "Enviar sugestão",
+      href: "mailto:biblianaarte@narniano.com?subject=Sugest%C3%A3o%20de%20obra",
       difficulty: "Fácil"
     },
     {
       icon: Search,
       title: "Pesquisa e Curadoria",
-      description: "Ajude-nos a pesquisar informações detalhadas sobre obras de arte e suas conexões bíblicas.",
-      action: "Participar da pesquisa",
+      description: "Ajude a pesquisar informações detalhadas sobre obras de arte e suas conexões bíblicas.",
+      action: "Quero ajudar na pesquisa",
+      href: "mailto:biblianaarte@narniano.com?subject=Quero%20ajudar%20na%20pesquisa",
       difficulty: "Médio"
     },
     {
       icon: Edit,
       title: "Revisão de Conteúdo",
       description: "Revise descrições, corrija informações e ajude a manter a qualidade do conteúdo.",
-      action: "Tornar-se revisor",
+      action: "Quero ajudar revisando",
+      href: "mailto:biblianaarte@narniano.com?subject=Quero%20ajudar%20revisando%20conte%C3%BAdo",
       difficulty: "Médio"
     },
     {
       icon: Share,
       title: "Compartilhar Conhecimento",
-      description: "Escreva artigos, análises ou estudos sobre arte bíblica para nossa comunidade.",
-      action: "Contribuir com artigos",
+      description: "Escreva artigos, análises ou estudos sobre arte bíblica para serem publicados no site.",
+      action: "Propor um artigo",
+      href: "mailto:biblianaarte@narniano.com?subject=Proposta%20de%20artigo",
       difficulty: "Avançado"
     }
   ];
@@ -92,12 +96,14 @@ export default function Contribute() {
           </Badge>
           
           <h1 className="text-display text-2xl sm:text-3xl md:text-4xl font-bold mb-6">
-            Faça Parte da Nossa Missão
+            Faça Parte do Projeto
           </h1>
-          
+
           <p className="text-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-            A Bíblia na Arte é um projeto colaborativo. Sua participação é fundamental 
-            para enriquecer nossa coleção e fortalecer a conexão entre fé e arte.
+            A Bíblia na Arte é um projeto pessoal: uma pessoa só cuida da
+            curadoria, do código e do conteúdo — sem equipe nem comunidade
+            formada. Contribuições são bem-vindas, e cada uma é revisada
+            individualmente, com o mesmo rigor das obras já publicadas.
           </p>
         </div>
 
@@ -129,8 +135,10 @@ export default function Contribute() {
                     <p className="text-muted-foreground mb-4">
                       {type.description}
                     </p>
-                    <Button variant="outline" size="sm" className="w-full">
-                      {type.action}
+                    <Button variant="outline" size="sm" className="w-full" asChild>
+                      <a href={type.href}>
+                        {type.action}
+                      </a>
                     </Button>
                   </CardContent>
                 </Card>
@@ -183,8 +191,8 @@ export default function Contribute() {
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground">
-                  Entre em contato conosco através do formulário ou email com 
-                  sua sugestão, pesquisa ou artigo.
+                  Entre em contato pelo e-mail com sua sugestão, pesquisa
+                  ou artigo.
                 </p>
               </CardContent>
             </Card>
@@ -198,8 +206,10 @@ export default function Contribute() {
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground">
-                  Nossa equipe de curadores revisará sua contribuição para 
-                  garantir qualidade e fidelidade às diretrizes.
+                  O curador do projeto — uma pessoa só, sem equipe — revisa
+                  cada contribuição pessoalmente, pela mesma régua das obras
+                  já publicadas: fonte confirmada, licença verificada e
+                  referência bíblica conferida.
                 </p>
               </CardContent>
             </Card>
@@ -225,13 +235,14 @@ export default function Contribute() {
         <Card className="gradient-card border-0 mb-16">
           <CardContent className="p-8 text-center">
             <h2 className="text-display text-2xl font-bold mb-4">
-              Junte-se à Nossa Comunidade
+              Fale Com o Projeto
             </h2>
             <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
-              Conecte-se com outros entusiastas de arte bíblica, participe de discussões 
-              e acompanhe as novidades do projeto.
+              Não há comunidade nem fórum — o canal é direto, por e-mail.
+              Sugestões de obras, correções de dados (referência, ano,
+              atribuição) e parcerias chegam direto ao curador.
             </p>
-            
+
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button variant="outline" className="shadow-card" asChild>
                 <a href="mailto:biblianaarte@narniano.com">
@@ -275,16 +286,16 @@ export default function Contribute() {
             Reconhecimento dos Colaboradores
           </h2>
           <p className="text-muted-foreground mb-8 max-w-2xl mx-auto">
-            Todos os colaboradores recebem créditos apropriados por suas contribuições, 
-            e os principais contribuidores são destacados em nossa página de agradecimentos.
+            Todos os colaboradores recebem créditos apropriados nas obras
+            para as quais contribuíram.
           </p>
-          
+
           <div className="bg-muted/30 rounded-lg p-6 max-w-lg mx-auto">
             <p className="text-sm text-muted-foreground italic">
-              "Cada contribuição, por menor que seja, ajuda a preservar e compartilhar 
+              "Cada contribuição, por menor que seja, ajuda a preservar e compartilhar
               o rico patrimônio da arte bíblica para as futuras gerações."
             </p>
-            <p className="text-sm font-medium mt-2">— Equipe Bíblia na Arte</p>
+            <p className="text-sm font-medium mt-2">— Bíblia na Arte</p>
           </div>
         </div>
       </div>

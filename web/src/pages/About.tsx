@@ -240,6 +240,9 @@ export default function About() {
               entre si — são salas de uma mesma casa.
             </p>
             <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm">
+              <a href="https://www.narniano.com" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
+                Narniano
+              </a>
               <a href="https://cslewis.narniano.com" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
                 Gerador C.S. Lewis
               </a>

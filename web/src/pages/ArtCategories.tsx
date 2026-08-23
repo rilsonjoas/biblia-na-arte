@@ -40,14 +40,14 @@ export default function ArtCategories() {
     {
       slug: 'music',
       name: 'Músicas',
-      description: 'Dos hinos gregorianos aos grandes oratórios clássicos, ouça como a fé cristã encontrou sua voz mais sublime na música sacra.',
+      description: 'Em breve, você poderá ouvir aqui como a fé cristã encontrou sua voz mais sublime — dos hinos gregorianos aos grandes oratórios clássicos da música sacra.',
       icon: Music,
       count: allArtworks.filter(a => a.category === 'music').length
     },
     {
       slug: 'film',
       name: 'Filmes',
-      description: 'Descubra como o cinema moderno e clássico trouxe as narrativas bíblicas para as telas, criando experiências visuais impactantes.',
+      description: 'Em breve, vamos explorar como o cinema moderno e clássico trouxe as narrativas bíblicas para as telas, criando experiências visuais impactantes.',
       icon: Film,
       count: allArtworks.filter(a => a.category === 'film').length
     }
@@ -88,12 +88,18 @@ export default function ArtCategories() {
                       <div className="w-20 h-20 mx-auto gradient-hero rounded-full flex items-center justify-center mb-4 group-hover:shadow-golden transition-all duration-300">
                         <IconComponent className="w-10 h-10 text-white" />
                       </div>
-                      <CardTitle className="text-display text-2xl group-hover:text-primary transition-colors mb-2">
+                      <CardTitle className="text-display text-2xl group-hover:text-primary transition-colors mb-1">
                         {cat.name}
                       </CardTitle>
-                      <Badge variant="outline" className="mb-4">
-                        {cat.count} obras
-                      </Badge>
+                      {cat.count > 0 ? (
+                        <p className="text-[11px] font-medium uppercase tracking-widest text-muted-foreground/60 mb-4">
+                          {cat.count} {cat.count === 1 ? 'obra' : 'obras'}
+                        </p>
+                      ) : (
+                        <p className="text-[11px] font-medium uppercase tracking-widest text-accent/80 mb-4">
+                          ✦ Em breve
+                        </p>
+                      )}
                     </CardHeader>
                     <CardContent>
                       <CardDescription className="text-center leading-relaxed">
@@ -278,6 +284,7 @@ export default function ArtCategories() {
             </h3>
             <p className="text-muted-foreground mb-6">
               Ainda não temos obras desta categoria em nossa coleção.
+              Volte em breve.
             </p>
             <Link 
               to="/arte"
