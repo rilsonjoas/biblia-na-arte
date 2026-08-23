@@ -10,6 +10,13 @@
 UPDATE artworks SET active = false, license_type = 'in-copyright'
 WHERE artist_or_director ILIKE 'Sylwia Perczak' AND title ILIKE 'A Santa Trindade';
 
+-- Sylwia Perczak — Senhor, salva-me! (autora viva; achada no reseed de
+-- 2026-08-23 — obra nova no vault desde a auditoria original de
+-- 2026-08-22, mesma artista já sinalizada acima mas título diferente,
+-- então o UPDATE anterior não cobria)
+UPDATE artworks SET active = false, license_type = 'in-copyright'
+WHERE artist_or_director ILIKE 'Sylwia Perczak' AND title ILIKE 'Senhor, salva-me!';
+
 -- Cecília Rosa — Uma coisa sei- eu era cego e agora vejo! (autora viva)
 UPDATE artworks SET active = false, license_type = 'in-copyright'
 WHERE artist_or_director ILIKE 'Cecília Rosa' AND title ILIKE 'Uma coisa sei- eu era cego e agora vejo!';

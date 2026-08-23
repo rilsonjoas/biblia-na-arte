@@ -35,7 +35,7 @@ retornou obra desse autor (não há liberação CC publicada lá).
 
 | # | Artista | Vida | Obra no acervo | Protegido até | Fonte |
 |---|---|---|---|---|---|
-| 1 | Sylwia Perczak | viva | A Santa Trindade (2026) | morte+70 | obra datada de 2026; zero arquivos no Commons |
+| 1 | Sylwia Perczak | viva | A Santa Trindade (2026); Senhor, salva-me! (2026, achada no reseed de 23/08) | morte+70 | obra datada de 2026; zero arquivos no Commons |
 | 2 | Cecília Rosa | viva | Uma coisa sei- eu era cego e agora vejo! (2024) | morte+70 | zero no Commons |
 | 3 | Ulyana Tomkevych | viva | Transfiguração (2024); O nascimento de Cristo (2016) | morte+70 | zero no Commons |
 | 4 | Leah Mitchell | viva | Uma alegoria de Eva e Maria (2022) | morte+70 | zero no Commons |
