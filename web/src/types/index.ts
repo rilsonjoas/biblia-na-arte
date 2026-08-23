@@ -28,6 +28,13 @@ export interface Artwork {
    * simples exige attributionText visível na página, conforme a licença. */
   licenseType: string;
   attributionText?: string;
+  /** "Onde ver pessoalmente" — museu/cidade/país, texto livre. Curadoria
+   * progressiva: nem toda obra tem isso preenchido ainda. */
+  location?: string;
+  /** "Vozes dos clássicos" — onde Rookmaaker/Schaeffer/Lewis comentaram
+   * esta obra específica (fonte verificada). Raro de propósito. */
+  classicCommentaryAuthor?: string;
+  classicCommentary?: string;
 }
 
 export interface BibleBook {

@@ -152,6 +152,15 @@ describe('API v1 — integração (Postgres real de teste)', () => {
     );
   });
 
+  it('"Me surpreenda" — devolve uma obra qualquer do fixture, com referências', async () => {
+    const res = await app.inject({ method: 'GET', url: '/api/v1/artworks/random' });
+    expect(res.statusCode).toBe(200);
+    const body = res.json();
+    expect(body.id).toBeDefined();
+    expect(['O bom samaritano', 'O filho pródigo']).toContain(body.title);
+    expect(Array.isArray(body.references)).toBe(true);
+  });
+
   it('filtra por livro + capítulo (base da futura página de capítulo)', async () => {
     const res = await app.inject({ method: 'GET', url: '/api/v1/artworks?bookSlug=luke&chapter=10' });
     expect(res.statusCode).toBe(200);

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useSearchParams, Link } from 'react-router';
+import { useSearchParams, useParams, Link } from 'react-router';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -10,13 +10,11 @@ import Footer from '@/components/Footer';
 import ArtworkCard, { ArtworkCardSkeleton } from '@/components/ArtworkCard';
 import { SEO } from '@/components/SEO';
 import { ErrorCard } from '@/components/ui/error-display';
-import { 
-  Search as SearchIcon, 
-  Filter, 
-  BookOpen, 
-  Palette, 
-  Music, 
-  Film, 
+import {
+  Search as SearchIcon,
+  Filter,
+  BookOpen,
+  Palette,
   Calendar,
   User,
   Tag,
@@ -26,6 +24,7 @@ import {
 } from 'lucide-react';
 import { useArtworkSearchAdvanced, useArtists } from '@/hooks/use-artworks';
 import type { SearchFilters } from '@/lib/api-data';
+import { CATEGORIES, getCategoryMeta } from '@/lib/categories';
 
 const PAGE_SIZE = 24;
 
@@ -40,13 +39,17 @@ const CENTURY_RANGES: Record<string, { from: number; to: number }> = {
 };
 
 export default function Search() {
+  // `category` só vem preenchido quando a rota é `/arte/:category` — em
+  // `/busca` fica undefined. Mesmo componente atende as duas rotas
+  // (achado 2026-08-23: unificar código sem mudar URL indexada).
+  const { category: categoryParam } = useParams<{ category?: string }>();
   const [searchParams, setSearchParams] = useSearchParams();
   const [query, setQuery] = useState(searchParams.get('q') || '');
   const [showFilters, setShowFilters] = useState(false);
   const [page, setPage] = useState(1);
-  
+
   // Filtros avançados
-  const [selectedCategory, setSelectedCategory] = useState<string>('');
+  const [selectedCategory, setSelectedCategory] = useState<string>(categoryParam || '');
   const [selectedTestament, setSelectedTestament] = useState<string>('');
   const [selectedCentury, setSelectedCentury] = useState<string>('');
   const [selectedArtist, setSelectedArtist] = useState<string>('');
@@ -72,11 +75,7 @@ export default function Search() {
     refetch 
   } = useArtworkSearchAdvanced(query, searchFilters);
 
-  const categories = [
-    { value: 'painting', label: 'Pinturas', icon: Palette },
-    { value: 'music', label: 'Músicas', icon: Music },
-    { value: 'film', label: 'Filmes', icon: Film }
-  ];
+  const currentCategory = getCategoryMeta(categoryParam);
 
   const testaments = [
     { value: 'old', label: 'Antigo Testamento' },
@@ -101,6 +100,12 @@ export default function Search() {
       setQuery(searchQuery);
     }
   }, [searchParams]);
+
+  // Sincroniza quando o param de rota muda entre navegações dentro do
+  // mesmo componente (ex.: /arte/painting -> /arte/music sem remount).
+  useEffect(() => {
+    setSelectedCategory(categoryParam || '');
+  }, [categoryParam]);
 
   // Trocar busca ou qualquer filtro volta pra página 1 — senão a
   // paginação antiga cai fora do alcance do resultado novo (grade vazia)
@@ -128,8 +133,18 @@ export default function Search() {
   return (
     <div className="min-h-screen bg-background">
       <SEO
-        title={query ? `Busca: "${query}"` : 'Busca Avançada de Obras de Arte Bíblica'}
-        description="Pesquise pinturas, músicas e arte sacra inspiradas na Bíblia por tema, artista, período histórico ou referências bíblicas."
+        title={
+          currentCategory
+            ? `${currentCategory.name} Inspiradas na Bíblia`
+            : query
+              ? `Busca: "${query}"`
+              : 'Busca Avançada de Obras de Arte Bíblica'
+        }
+        description={
+          currentCategory
+            ? currentCategory.description
+            : 'Pesquise pinturas, músicas e arte sacra inspiradas na Bíblia por tema, artista, período histórico ou referências bíblicas.'
+        }
       />
       <Header />
       
@@ -138,16 +153,17 @@ export default function Search() {
         <div className="text-center mb-12">
           <Badge variant="secondary" className="mb-4 shadow-golden">
             <SearchIcon className="w-4 h-4 mr-2" />
-            Pesquisa Avançada
+            {currentCategory ? currentCategory.name : 'Pesquisa Avançada'}
           </Badge>
-          
+
           <h1 className="text-display text-2xl sm:text-3xl md:text-4xl font-bold mb-6">
-            Encontre Obras de Arte Bíblica
+            {currentCategory ? `${currentCategory.name} Inspiradas na Bíblia` : 'Encontre Obras de Arte Bíblica'}
           </h1>
-          
+
           <p className="text-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-            Use nossa ferramenta de pesquisa avançada para descobrir obras específicas, 
-            filtrar por categoria, período histórico ou referência bíblica.
+            {currentCategory
+              ? currentCategory.description
+              : 'Use nossa ferramenta de pesquisa avançada para descobrir obras específicas, filtrar por categoria, período histórico ou referência bíblica.'}
           </p>
         </div>
 
@@ -227,9 +243,9 @@ export default function Search() {
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="all">Todas as categorias</SelectItem>
-                      {categories.map(category => (
-                        <SelectItem key={category.value} value={category.value}>
-                          {category.label}
+                      {CATEGORIES.map(category => (
+                        <SelectItem key={category.slug} value={category.slug}>
+                          {category.name}
                         </SelectItem>
                       ))}
                     </SelectContent>
@@ -313,12 +329,16 @@ export default function Search() {
               
               {hasActiveFilters && (
                 <div className="flex flex-wrap gap-2">
-                  {selectedCategory && (
-                    <Badge variant="outline">
-                      <Palette className="w-3 h-3 mr-1" />
-                      {categories.find(c => c.value === selectedCategory)?.label}
-                    </Badge>
-                  )}
+                  {selectedCategory && (() => {
+                    const meta = getCategoryMeta(selectedCategory);
+                    const CategoryIcon = meta?.icon ?? Palette;
+                    return (
+                      <Badge variant="outline">
+                        <CategoryIcon className="w-3 h-3 mr-1" />
+                        {meta?.name}
+                      </Badge>
+                    );
+                  })()}
                   {selectedTestament && (
                     <Badge variant="outline">
                       <BookOpen className="w-3 h-3 mr-1" />

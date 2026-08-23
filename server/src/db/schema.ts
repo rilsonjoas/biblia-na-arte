@@ -64,6 +64,19 @@ export const artworks = pgTable(
     licenseType: text('license_type').default('public-domain').notNull(),
     attributionText: text('attribution_text'),
 
+    // "Onde ver pessoalmente" (roadmap Fase 5) — texto livre, ex.
+    // "Cleveland Museum of Art, Cleveland, EUA". Curadoria progressiva,
+    // não retroativa: preenchido só quando a fonte primária já foi
+    // confirmada (mesmo padrão de `attributionText`).
+    location: text('location'),
+
+    // "Vozes dos clássicos" (roadmap Fase 5, 2026-08-23) — onde
+    // Rookmaaker/Schaeffer/Lewis já comentaram esta obra específica, com
+    // fonte verificada (não paráfrase). Curadoria de profundidade, não de
+    // escala — a maioria das obras nunca terá isso preenchido, e não deveria.
+    classicCommentaryAuthor: text('classic_commentary_author'),
+    classicCommentary: text('classic_commentary'),
+
     // Soft-delete resultado da auditoria de 2026-08-22: obras sem licença
     // que permita uso ficam com active=false em vez de serem apagadas —
     // se um dia o artista liberar (licença formal/CC), basta voltar pra

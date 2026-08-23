@@ -1,8 +1,7 @@
-import { useQuery } from '@tanstack/react-query'
+import { useQuery, useQueries } from '@tanstack/react-query'
 import {
   getArtworks,
   getArtworkById,
-  getArtworksByCategory,
   getArtworksByBibleReference,
   searchArtworksAdvanced,
   getArtists,
@@ -44,15 +43,25 @@ export function useArtwork(id: string | undefined) {
   })
 }
 
-// Hook for fetching artworks by category
-export function useArtworksByCategory(category: string | undefined) {
-  return useQuery({
-    queryKey: artworkKeys.list({ category }),
-    queryFn: () => getArtworksByCategory(category!),
-    enabled: !!category,
-    staleTime: 5 * 60 * 1000, // 5 minutes
-    gcTime: 10 * 60 * 1000, // 10 minutes
+// Favoritos locais (roadmap Fase 5) — busca cada obra favoritada
+// individualmente (reusa o cache de `useArtwork` se a obra já foi vista),
+// não existe endpoint de "várias por IDs" e não vale criar um só pra isso
+// — a lista de favoritos de uma pessoa real é pequena.
+export function useFavoriteArtworks(ids: string[]) {
+  const results = useQueries({
+    queries: ids.map((id) => ({
+      queryKey: artworkKeys.detail(id),
+      queryFn: () => getArtworkById(id),
+      staleTime: 10 * 60 * 1000,
+      gcTime: 30 * 60 * 1000,
+    })),
   })
+
+  return {
+    artworks: results.map((r) => r.data).filter((a): a is NonNullable<typeof a> => !!a),
+    isLoading: results.some((r) => r.isLoading),
+    isError: results.some((r) => r.isError),
+  }
 }
 
 // Hook for fetching artworks by bible reference

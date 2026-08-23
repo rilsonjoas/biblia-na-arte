@@ -48,12 +48,11 @@ export async function getArtworkById(id: string): Promise<Artwork | undefined> {
   }
 }
 
-export async function getArtworksByCategory(category: string): Promise<Artwork[]> {
-  const { items } = await apiClient.request<ArtworksResponse>('/artworks', {
-    category,
-    limit: ALL_ARTWORKS_LIMIT,
-  });
-  return items;
+/** "Me surpreenda" — obra aleatória do acervo, no estilo do artigo
+ *  aleatório da Wikipédia. Escolha no server (`ORDER BY RANDOM()`), não
+ *  no cliente — evitar baixar 1000 obras só pra sortear uma no browser. */
+export async function getRandomArtwork(): Promise<Artwork> {
+  return apiClient.request<Artwork>('/artworks/random');
 }
 
 export async function getArtworksByBibleReference(

@@ -83,6 +83,24 @@ export async function getArtworkById(id: string): Promise<ArtworkWithReferences 
   return withRefs;
 }
 
+/** Feature "Me surpreenda" (roadmap Fase 5, item de menor esforço).
+ *  ORDER BY RANDOM() faz table scan completo, mas com ~850 obras isso é
+ *  irrelevante (<1ms de diferença real) — não vale a complexidade de
+ *  TABLESAMPLE só pra essa escala. Revisitar só se o acervo crescer bem
+ *  além de milhares de linhas. */
+export async function getRandomArtwork(): Promise<ArtworkWithReferences | undefined> {
+  const [row] = await db
+    .select()
+    .from(artworks)
+    .where(eq(artworks.active, true))
+    .orderBy(sql`RANDOM()`)
+    .limit(1);
+  if (!row) return undefined;
+
+  const [withRefs] = await attachReferences([row]);
+  return withRefs;
+}
+
 /** Usa a função search_artworks() (full-text search em português, com
  *  ranking) definida em db/custom-sql/functions.sql — SQL puro, não dá
  *  pra expressar ts_rank no query builder do Drizzle de forma limpa.

@@ -25,6 +25,7 @@ import { readdirSync } from 'node:fs';
 import path from 'node:path';
 import sharp from 'sharp';
 import {
+  extractClassicCommentary,
   extractDescription,
   extractFrontmatter,
   extractPassageText,
@@ -171,6 +172,14 @@ interface ExportedArtwork {
   imageFile: string; // nome do arquivo já copiado pra web/public/images/
   licenseType: string;
   attributionText?: string | undefined;
+  // "Onde ver pessoalmente" (roadmap Fase 5) — campo `localizacao` no
+  // frontmatter do vault, texto livre tipo "Cleveland Museum of Art,
+  // Cleveland, EUA". Opcional de propósito: preenchido só onde a
+  // curadoria já confirmou museu/acervo — não força dado que não existe.
+  location?: string | undefined;
+  sourceUrl?: string | undefined;
+  classicCommentaryAuthor?: string | undefined;
+  classicCommentary?: string | undefined;
   references: ExportedReference[];
 }
 
@@ -289,6 +298,7 @@ async function main() {
     const licensed = LICENSED_ARTISTS[artist];
     const yearRaw = frontmatter.ano ?? frontmatter.data;
     const year = yearRaw !== undefined && yearRaw !== '' ? String(yearRaw) : undefined;
+    const classicCommentary = extractClassicCommentary(content);
 
     artworks.push({
       slug,
@@ -301,6 +311,14 @@ async function main() {
       imageFile,
       licenseType: licensed?.licenseType ?? 'public-domain',
       attributionText: licensed?.attributionText,
+      location: typeof frontmatter.localizacao === 'string' && frontmatter.localizacao.trim()
+        ? frontmatter.localizacao.trim()
+        : undefined,
+      sourceUrl: typeof frontmatter.fonte === 'string' && frontmatter.fonte.trim()
+        ? frontmatter.fonte.trim()
+        : undefined,
+      classicCommentaryAuthor: classicCommentary?.author,
+      classicCommentary: classicCommentary?.text,
       references,
     });
   }

@@ -14,6 +14,7 @@ import ArtworkDetail from "./pages/ArtworkDetail";
 import About from "./pages/About";
 import Contribute from "./pages/Contribute";
 import Search from "./pages/Search";
+import Favorites from "./pages/Favorites";
 import Privacy from "./pages/Privacy";
 import NotFound from "./pages/NotFound";
 
@@ -40,11 +41,15 @@ const App = () => (
             <Route path="/biblia/:bookSlug" element={<BibleBook />} />
             <Route path="/biblia/:bookSlug/:chapter" element={<Chapter />} />
             <Route path="/arte" element={<ArtCategories />} />
-            <Route path="/arte/:category" element={<ArtCategories />} />
+            {/* Achado 2026-08-23: /arte/:category unificado com Search —
+                mesma UI de /busca, categoria pré-selecionada pela rota.
+                URL preservada de propósito (2.115 páginas indexadas). */}
+            <Route path="/arte/:category" element={<Search />} />
             <Route path="/obra/:artworkId" element={<ArtworkDetail />} />
             <Route path="/sobre" element={<About />} />
             <Route path="/contribuir" element={<Contribute />} />
             <Route path="/busca" element={<Search />} />
+            <Route path="/favoritos" element={<Favorites />} />
             <Route path="/privacidade" element={<Privacy />} />
 
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

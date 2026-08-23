@@ -15,6 +15,13 @@ export interface RawFrontmatter {
   livros?: string[];
   capítulos?: string[];
   tags?: string[];
+  // "Onde ver pessoalmente" (roadmap Fase 5) — texto livre, ex.
+  // "Cleveland Museum of Art, Cleveland, EUA". Opcional.
+  localizacao?: string;
+  // Link da página oficial do museu/acervo pra obra — fonte primária de
+  // citação, não agregador. Alimenta o botão "Ver Fonte Original do
+  // Museu" que já existia na UI, mas nunca era populado pelo pipeline.
+  fonte?: string;
 }
 
 export function slugify(input: string): string {
@@ -149,6 +156,22 @@ export function parseTitleParts(rawTitle: string): { title: string; subtitle?: s
     return subtitle && subtitle !== title ? { title, subtitle } : { title };
   }
   return { title: stripTrailingNumber(trimmed) };
+}
+
+/** "Vozes dos clássicos" (roadmap Fase 5, 2026-08-23) — extrai a seção
+ *  opcional "### Na leitura de {Autor}", onde Rookmaaker/Schaeffer/Lewis
+ *  já comentaram (com fonte verificada, citação breve) a obra específica
+ *  da nota. Curadoria de profundidade, não de escala: a maioria das notas
+ *  não tem essa seção, e não deveria — só entra onde a fonte é real. */
+export function extractClassicCommentary(content: string): { author: string; text: string } | null {
+  const match = content.match(/###\s*Na leitura de\s+(.+?)\s*\n+([\s\S]*?)(?=\n---|\n###|$)/);
+  if (!match?.[1] || !match[2]) return null;
+
+  const author = match[1].trim();
+  const text = match[2].trim();
+  if (!author || !text || isPlaceholderText(text)) return null;
+
+  return { author, text: text.slice(0, 4000) };
 }
 
 /** Extrai os trechos em citação (> ...) da seção "Contexto Bíblico".

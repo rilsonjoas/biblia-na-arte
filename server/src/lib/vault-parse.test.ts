@@ -8,6 +8,7 @@ import {
   extractWikilink,
   extractDescription,
   extractPassageText,
+  extractClassicCommentary,
   parseChapterLink,
   deriveArtistFromFilename,
   normalizeForComparison,
@@ -317,6 +318,61 @@ Ver [[Lucas]], [[Lucas 10]].
   it('retorna null se a seção estiver vazia ou ausente', () => {
     expect(extractPassageText('--- \nautor: "X"\n---')).toBeNull();
     expect(extractPassageText('### Contexto Bíblico\n\n')).toBeNull();
+  });
+});
+
+describe('extractClassicCommentary', () => {
+  it('extrai autor e texto da seção "Na leitura de {Autor}"', () => {
+    const note = `---
+autor: "[[Rembrandt van Rijn]]"
+---
+### Descrição da Obra
+Descrição normal aqui.
+
+---
+
+### Na leitura de Rookmaaker
+Hans Rookmaaker cita esta obra por nome.
+
+> "trecho breve citado"
+> — Hans Rookmaaker, *Filosofia e Estética*, p. 199-202
+
+---
+
+### 📖 Contexto Bíblico
+> "E, havendo-o crucificado..."
+> — **[[Mateus 27]]:35**
+`;
+    const result = extractClassicCommentary(note);
+    expect(result).not.toBeNull();
+    expect(result?.author).toBe('Rookmaaker');
+    expect(result?.text).toContain('Hans Rookmaaker cita esta obra por nome.');
+    expect(result?.text).toContain('Filosofia e Estética');
+  });
+
+  it('não vaza pra dentro de Descrição da Obra nem de Contexto Bíblico', () => {
+    const note = `---
+autor: "[[X]]"
+---
+### Descrição da Obra
+Só a descrição, sem menção a leitura nenhuma.
+
+---
+
+### 📖 Contexto Bíblico
+> "citação"
+> — **[[Lucas 10]]:34**
+`;
+    expect(extractClassicCommentary(note)).toBeNull();
+  });
+
+  it('retorna null quando a seção não existe', () => {
+    expect(extractClassicCommentary('### Descrição da Obra\nSó isso.\n')).toBeNull();
+  });
+
+  it('retorna null se o texto ficar vazio', () => {
+    const note = '### Na leitura de Schaeffer\n\n---\n### Contexto Bíblico\n';
+    expect(extractClassicCommentary(note)).toBeNull();
   });
 });
 

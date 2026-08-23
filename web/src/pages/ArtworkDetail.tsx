@@ -14,6 +14,8 @@ import { SEO } from '@/components/SEO';
 import { ErrorCard, NotFoundError } from '@/components/ui/error-display';
 import { Markdown } from '@/components/ui/markdown';
 import { CopyButton, CopyImageButton } from '@/components/ui/copy-button';
+import { DownloadStoryButton } from '@/components/DownloadStoryButton';
+import { FavoriteButton } from '@/components/FavoriteButton';
 import { stripMarkdown } from '@/lib/utils';
 import { useArtwork, useArtworksByBibleReference, useArtworks } from '@/hooks/use-artworks';
 import {
@@ -29,6 +31,8 @@ import {
   BookOpen,
   ShieldCheck,
   ChevronRight,
+  MapPin,
+  Quote,
 } from 'lucide-react';
 
 export default function ArtworkDetail() {
@@ -265,6 +269,10 @@ export default function ArtworkDetail() {
                     url={imageUrl}
                     className="hover:text-primary transition-colors flex items-center gap-1"
                   />
+                  <DownloadStoryButton
+                    artwork={artwork}
+                    className="hover:text-primary transition-colors flex items-center gap-1"
+                  />
                   <button
                     onClick={() => setLightboxOpen(true)}
                     className="hover:text-primary transition-colors flex items-center gap-1 underline underline-offset-4"
@@ -298,8 +306,9 @@ export default function ArtworkDetail() {
                 )}
               </div>
 
-              <h1 className="text-display text-2xl md:text-4xl font-bold mb-2 leading-tight">
-                {artwork.title}
+              <h1 className="text-display text-2xl md:text-4xl font-bold mb-2 leading-tight flex items-start gap-3">
+                <span>{artwork.title}</span>
+                <FavoriteButton artworkId={artwork.id} className="shrink-0 mt-1.5" />
               </h1>
 
               {artwork.subtitle && (
@@ -349,6 +358,31 @@ export default function ArtworkDetail() {
                     </span>
                   </div>
                 )}
+
+                {artwork.location && (
+                  <div className="flex items-start justify-between gap-3 border-t border-border/40 pt-2">
+                    <div className="flex items-center gap-2 text-muted-foreground shrink-0">
+                      <MapPin className="w-4 h-4 text-primary" />
+                      <span>Onde ver:</span>
+                    </div>
+                    <span className="text-foreground text-right min-w-0 break-words">
+                      {artwork.location}
+                      {' '}
+                      {/* Auto-gerado a partir do texto de localização — sem
+                          curadoria extra, funciona pra toda obra com
+                          `localizacao` preenchida (achado 2026-08-22, ideia
+                          do Rilson). */}
+                      <a
+                        href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(artwork.location)}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-primary hover:underline whitespace-nowrap"
+                      >
+                        (ver no mapa)
+                      </a>
+                    </span>
+                  </div>
+                )}
               </div>
             </div>
 
@@ -368,6 +402,23 @@ export default function ArtworkDetail() {
                 <Markdown content={artwork.description} />
               </div>
             </div>
+
+            {/* "Vozes dos clássicos" (2026-08-23) — raro de propósito, só
+                aparece onde a curadoria já confirmou fonte verificada de
+                Rookmaaker/Schaeffer/Lewis comentando ESTA obra específica. */}
+            {artwork.classicCommentary && (
+              <div className="border-l-4 rounded-r-xl bg-muted/30 p-5" style={{ borderColor: 'var(--dourado)' }}>
+                <div className="flex items-center gap-2 mb-3">
+                  <Quote className="w-4 h-4 shrink-0" style={{ color: 'var(--dourado)' }} />
+                  <h2 className="text-display text-lg font-semibold">
+                    Na leitura de {artwork.classicCommentaryAuthor}
+                  </h2>
+                </div>
+                <div className="text-foreground/90 text-sm leading-relaxed">
+                  <Markdown content={artwork.classicCommentary} />
+                </div>
+              </div>
+            )}
 
             {/* License and Attribution */}
             {artwork.attributionText && (

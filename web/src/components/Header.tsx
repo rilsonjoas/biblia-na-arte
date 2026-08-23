@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -8,15 +8,33 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from '@/components/ui/navigation-menu';
-import { Book, Palette, Search, Menu, Sparkles, ScrollText, Cross, HeartHandshake } from 'lucide-react';
+import { Book, Palette, Search, Menu, Sparkles, ScrollText, Cross, HeartHandshake, Shuffle, RefreshCcw, Heart } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { CommandPalette } from '@/components/CommandPalette';
+import { SurpriseMeButton } from '@/components/SurpriseMeButton';
+import { getRandomArtwork } from '@/lib/api-data';
 
 export default function Header() {
+  const navigate = useNavigate();
   const [paletteOpen, setPaletteOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [surpriseLoading, setSurpriseLoading] = useState(false);
+
+  async function handleSurpriseMe() {
+    if (surpriseLoading) return;
+    setSurpriseLoading(true);
+    try {
+      const artwork = await getRandomArtwork();
+      setMobileMenuOpen(false);
+      navigate(`/obra/${artwork.id}`);
+    } catch (error) {
+      console.warn('[SurpriseMe] falha ao buscar obra aleatória:', error);
+    } finally {
+      setSurpriseLoading(false);
+    }
+  }
 
   return (
     <>
@@ -24,7 +42,7 @@ export default function Header() {
         <div className="container mx-auto px-4 py-3">
           <div className="flex items-center justify-between gap-4">
             {/* Logo */}
-            <Link to="/" className="flex items-center space-x-2.5 group focus:outline-none shrink-0">
+            <Link to="/" className="flex items-center space-x-2.5 group rounded-md focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 shrink-0">
               <div className="w-8 h-8 rounded-lg overflow-hidden shadow-md group-hover:scale-105 transition-transform shrink-0">
                 {/* Duas versões (clara/escura) trocadas via CSS, sem JS — mesmo
                     padrão do resto do site (--primary muda de vinho pra
@@ -80,7 +98,7 @@ export default function Header() {
                           <NavigationMenuLink asChild>
                             <Link
                               to="/biblia"
-                              className="block select-none space-y-1 rounded-lg p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground"
+                              className="block select-none space-y-1 rounded-lg p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
                             >
                               <div className="text-sm font-semibold text-foreground">Todos os 66 Livros</div>
                               <p className="text-xs leading-relaxed text-muted-foreground mt-1">
@@ -133,7 +151,7 @@ export default function Header() {
                           <NavigationMenuLink asChild>
                             <Link
                               to="/arte/painting"
-                              className="block select-none space-y-1 rounded-lg p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground"
+                              className="block select-none space-y-1 rounded-lg p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
                             >
                               <div className="text-sm font-semibold text-foreground">Pinturas & Obras Visuais</div>
                               <p className="text-xs leading-relaxed text-muted-foreground mt-1">
@@ -205,6 +223,22 @@ export default function Header() {
                 <Search className="w-4 h-4" />
               </Button>
 
+              {/* Me surpreenda — só desktop, header mobile já está no
+                  limite de alvos de toque (busca + tema + menu) */}
+              <SurpriseMeButton className="hidden sm:inline-flex h-11 w-11 rounded-full" />
+
+              {/* Favoritos — mesmo critério do Me surpreenda, só desktop */}
+              <Button
+                asChild
+                variant="ghost"
+                size="icon"
+                className="hidden sm:inline-flex h-11 w-11 rounded-full"
+              >
+                <Link to="/favoritos" aria-label="Meus favoritos">
+                  <Heart className="w-4 h-4" />
+                </Link>
+              </Button>
+
               {/* Theme Toggle Button */}
               <ThemeToggle />
 
@@ -252,6 +286,28 @@ export default function Header() {
                     >
                       <Palette className="w-4 h-4 text-amber-500" />
                       <span>Galeria de Pinturas</span>
+                    </Link>
+
+                    <button
+                      onClick={handleSurpriseMe}
+                      disabled={surpriseLoading}
+                      className="flex items-center gap-2.5 px-3 py-2 text-sm font-medium rounded-lg hover:bg-accent hover:text-accent-foreground transition-colors text-left disabled:opacity-60"
+                    >
+                      {surpriseLoading ? (
+                        <RefreshCcw className="w-4 h-4 text-amber-500 animate-spin" />
+                      ) : (
+                        <Shuffle className="w-4 h-4 text-amber-500" />
+                      )}
+                      <span>Me surpreenda</span>
+                    </button>
+
+                    <Link
+                      to="/favoritos"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="flex items-center gap-2.5 px-3 py-2 text-sm font-medium rounded-lg hover:bg-accent hover:text-accent-foreground transition-colors"
+                    >
+                      <Heart className="w-4 h-4 text-amber-500" />
+                      <span>Meus Favoritos</span>
                     </Link>
 
                     <Link

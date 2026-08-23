@@ -161,17 +161,11 @@ elevar a qualidade do catálogo.
         escopo, não entra forçado. Excluídas via lista explícita em
         `export-vault-data.ts` (`EXCLUDED_NON_BIBLICAL_FILENAMES`),
         notas continuam no vault, só fora da exportação.
-  - [ ] **4 problemas de embed pré-existentes no vault (achado
-        2026-08-16, script de verificação, não fazem parte dos lotes
-        de conteúdo)**: Briton Riviere "Daniel na cova dos leões",
-        Giotto "Jonas Sendo Engolido Pelo Grande Peixe", James Tissot
-        "Adão e Eva São Expulsos do Paraíso" (embed genérico "Pasted
-        image ...png", arquivo original parece ter sido renomeado/
-        perdido), Kim Ki-chang "A Última Ceia" — todas com embed
-        apontando pra arquivo que não existe mais em `0 - Anexos`,
-        excluídas silenciosamente do catálogo. Achar a imagem certa
-        (ou uma substituta em domínio público) quando for a vez
-        dessas.
+  - [x] **4 problemas de embed pré-existentes no vault — resolvidos
+        (2026-08-22 noite, checkbox estava desatualizado)**: ver detalhe
+        completo na seção "Qualidade de Conteúdo" mais abaixo — Riviere e
+        Giotto e Tissot com imagem recuperada/corrigida, Kim Ki-chang
+        bloqueado por copyright (item #21 da auditoria).
   - [ ] **Restam ~143 obras com fallback genérico e ~53 sem referência
         bíblica** (estimado a partir dos 153/55 do check anterior menos
         as 10 deste lote; confirmar via API real depois do reseed) —
@@ -215,9 +209,18 @@ elevar a qualidade do catálogo.
       erro com retry (`ErrorCard`), vazio com CTAs.
 - [x] **Acessibilidade**: contraste refinado, foco visível, navegação fluida
       por teclado, botões de ação e atributos ARIA.
-- [ ] **Achado 2026-08-16, checagem rápida**: 17 `aria-label`/`alt` em 81
-      componentes (~21%) — ainda não auditado a fundo (contagem, não
-      auditoria completa de teclado/foco).
+- [x] **Auditoria de teclado/foco e rótulos ARIA — concluída (2026-08-22)**:
+      o número de 17/81 (2026-08-16) era só contagem, não auditoria — feita
+      de verdade agora, componente por componente. Achados reais, corrigidos:
+      (1) os 6 botões só-ícone da toolbar do `ArtworkLightbox` (zoom −/+,
+      resetar, tela cheia, info, fechar) tinham `title` mas nenhum
+      `aria-label` — leitor de tela anunciava só "botão"; (2) itens dos
+      dropdowns "Navegar pela Bíblia"/"Galeria de Arte" no `Header` tinham
+      `outline-none` sem nenhum `focus:` de reposição — foco de teclado
+      **invisível** (WCAG 2.4.7), não só falha estética; (3) mesmo padrão no
+      link da logo. `<img>` do app real (fora do `_archived-supabase-admin`,
+      código morto) e `copy-button.tsx` já estavam com `alt`/`aria-label`
+      corretos, sem achado ali. Typecheck limpo, 32/32 testes.
 - [x] **2 falhas WCAG reais corrigidas, com conta (2026-08-16, testando
       em produção)**: (1) título do hero ("Arte e Cultura") com gradiente
       dourado sobre imagem também dourada — contraste real calculado
@@ -265,7 +268,7 @@ elevar a qualidade do catálogo.
       servida), catálogo de imagens **958MB → 111MB** (~88%,
       incluindo a limpeza das órfãs — a redução só de WebP já validada
       antes era ~79%).
-- [~] **Achado no caminho (2026-08-16): notas duplicadas no vault —
+- [x] **Achado no caminho (2026-08-16): notas duplicadas no vault —
       varredura completa feita 2026-08-22 com a lógica real do export
       (parseTitleParts + slugify + listas de exclusão): não são "7
       pares", são **7 colisões reais no export** (varredura bruta das
@@ -279,24 +282,40 @@ elevar a qualidade do catálogo.
       colidido faz as duas gravarem o MESMO arquivo webp: **pelo menos
       uma obra de cada par aparece com a imagem errada em produção**.
       Varredura visual das imagens:
-      1. **Gustave Doré "A Morte de Sansão"** (Death of/The Death of):
-         MESMA gravura, uma nota é recorte da outra — duplicado
-         verdadeiro. Recomendação: excluir 1 (precedente Van Gogh),
-         manter o .jpeg maior.
-      2. **Rembrandt "A Ceia em Emaús"** (ambas ano 1648): composições
-         diferentes (versão escura vs. versão de arco claro) — obras
-         distintas mesmo; conferir anos/fontes na curadoria.
-      3. **Ticiano Adúltera (1510/1520)** e **Salomé (1515/1550)**,
-         **Decamps Samaritano (1842/1853)**: anos distintos = versões
-         diferentes da mesma cena — desempatar por ano.
-      4. **Briton Riviere Daniel**: uma das duas notas aponta pra arquivo
-         que não existe mais no Anexos (só sobrevive a variante com
-         apóstrofo tipográfico diferente) — é o MESMO caso da lista de 4
-         embeds quebrados; resolver junto com ela.
-      5. **Esqueletos**: "A natividade 2" (Autor desconhecino), "O filho
-         pródigo 4" (Burnand), "O bom samaritano 2/3" (Margetson) — notas
-         sem ano/dado preenchido, cada uma com imagem própria; decidir
-         preencher ou excluir.
+      1. **Gustave Doré "A Morte de Sansão" — RESOLVIDO**: já excluído
+         (ver seção "Qualidade de Conteúdo" abaixo) — nota+imagem
+         removidas do vault, wikilinks órfãos limpos. Checkbox aqui
+         estava desatualizado.
+      2. **Rembrandt "A Ceia em Emaús" — RESOLVIDO (2026-08-22)**: não eram
+         a mesma obra com ano igual — a nota sem "2" tinha `ano: 1648` e
+         descrição *errada* (descrevia a obra do Louvre). A imagem anexada
+         é na verdade a versão c. 1628 do Musée Jacquemart-André (Paris),
+         confirmada via busca web — efeito de contraluz, Cristo em
+         silhueta, sem o arco arquitetônico da versão madura. Frontmatter e
+         descrição corrigidos na nota; a "2" (Louvre, 1648) já estava certa.
+      3. **Ticiano Adúltera (1510/1520) e Salomé (1515/1550) — CONFIRMADOS,
+         sem correção necessária (2026-08-22)**: Adúltera verificado via
+         busca web — 1510 é a versão de Glasgow (Kelvingrove), 1520 é a de
+         Viena (Kunsthistorisches Museum, daí o título original em alemão
+         na nota). Salomé já tinha descrições distintas e bem fundamentadas
+         nas duas notas (uma com fonte do Prado citada) — nenhuma edição
+         necessária.
+      3b. **Decamps Samaritano (1842/1853) — RESOLVIDO (2026-08-22)**:
+         confirmados via busca web como duas obras reais e distintas — 1842
+         é "The Good Samaritan" do Cleveland Museum of Art (#1980.253,
+         paisagem com ruínas e pinheiros), 1853 é a versão do Metropolitan
+         Museum (#29.160.36, cena de pátio, admirada por Delacroix). Ambas
+         eram esqueletos sem descrição — preenchidas com fonte primária
+         (museu, acervo, proveniência), fecha também 2 obras do backlog de
+         "fallback genérico" da Fase 1.
+      4. **Briton Riviere Daniel — RESOLVIDO**: já corrigido (ver seção
+         "Qualidade de Conteúdo" abaixo) — apóstrofo tipográfico do embed
+         corrigido. Checkbox aqui estava desatualizado.
+      5. **Esqueletos — RESOLVIDO**: ver seção própria "Esqueletos"
+         abaixo — Burnand e Margetson identificados, "A natividade 2"
+         documentada (descrição+contexto bíblico preenchidos 2026-08-22),
+         segue fora do catálogo até identificação do autor por questão de
+         copyright, não por falta de dado.
       **Correção de engenharia aplicada (2026-08-22): dedupe determinístico
       de slug no export-vault-data.ts** — 1ª ocorrência mantém o slug limpo
       (URLs/imagens indexadas ficam estáveis); duplicatas recebem ano da
@@ -368,7 +387,14 @@ elevar a qualidade do catálogo.
       dia isso não for mais suficiente pra diagnosticar um problema real.
 - [x] **Backup (2026-08-14)**: `pg_dump` diário do `biblia_na_arte_db` confirmado via `hetzner-infra/backup/backup.sh`; teste de restore automático semanal via `backup-restore-test.sh`.
 - [x] **CI/CD completo** (2026-08-14): Actions → build das 2 imagens (`biblianaarte-api` e `biblianaarte-web`) → push automático no GHCR com permissões de pacotes e escopo do owner resolvidos. Deploy no VPS agendado no roadmap geral.
-- [ ] **Docs de operação**: runbook, ADRs.
+- [x] **Docs de operação — concluído (2026-08-22)**: [`docs/RUNBOOK.md`](RUNBOOK.md)
+      (pipeline de dados vault→export→seed, gotchas já vividos — git-lfs,
+      `.env` apagado por rsync, migration não aplicada —, tabela
+      sintoma→causa) e [`docs/adr/`](adr/) (5 ADRs: self-host sem
+      Supabase, texto bíblico híbrido, WebP no export, dedupe de slug,
+      PWA antes de nativo). Recuperação de desastre de infra (clone,
+      `.env`, containers, DNS) não duplicada — já vive em
+      `hetzner-infra/RECUPERACAO.md`.
 - [x] **Achado e corrigido (2026-08-16): migration `0001_fuzzy_overlord.sql`
       nunca tinha rodado em produção** — existia no repo desde a
       reestruturação em monorepo, mas nunca foi aplicada no
@@ -418,10 +444,14 @@ elevar a qualidade do catálogo.
       tema claro, dourado só no escuro.
 - [x] `.signature-italic` no subtítulo de artista na página da obra
       (2026-08-22).
-- [ ] `--gradiente-ceus` + `.halo-glow` reservado só pra obras de temática
-      de criação/cosmos (ex. representações da Criação, Gênesis 1) — não
-      usar em todo lugar, senão perde o significado. Dependência: marcar
-      quais obras são de Criação.
+- [x] `--gradiente-ceus` + `.halo-glow` — **decisão: NÃO fazer (2026-08-22)**.
+      Exigiria categorizar o acervo por temática (Criação/cosmos) só pra
+      justificar um efeito visual — forçar taxonomia de conteúdo pra caber
+      design é o oposto do que o Rilson decidiu no Gerador C.S. Lewis:
+      seguir o padrão geral e a filosofia da identidade, não fragmentar o
+      site em tratamentos especiais por categoria. Mesmo princípio vale
+      aqui. Reservado no Guia Técnico como possibilidade, não como
+      pendência — sem dependência de curadoria daqui pra frente.
 - [x] Curvas `--ease-liturgico`/`--ease-vela` nas transições (2026-08-22):
       zoom do lightbox, hover dos cards e transição do hero.
 - [x] **Convergência tipográfica com o cânone (2026-08-22)**: display
@@ -447,7 +477,8 @@ elevar a qualidade do catálogo.
 
 - [ ] Coleções/playlists temáticas ("A Vida de Cristo", "As Parábolas")
       reaproveitando o vault (personagens, parábolas, milagres).
-- [ ] Modo devocional/leitura.
+- [x] ~~Modo devocional/leitura~~ — **decisão: tirar da lista (2026-08-23)**,
+      Rilson descartou ao revisar a Fase 5.
 - [ ] Compartilhamento com OG-image dinâmica.
 - [ ] Favoritos locais.
 - [ ] **Expansão do acervo: música e cinema (2026-08-22)** — decisão do
@@ -467,25 +498,56 @@ elevar a qualidade do catálogo.
 > Propostas do Ox (fora do roadmap até hoje), aprovadas pelo Rilson —
 > exceto widget embedável, descartada. Ordem: da menor pro maior esforço.
 
-- [ ] **Botão "Me surpreenda"** — obra aleatória no estilo do artigo
-      aleatório da Wikipédia: um clique, qualquer obra do catálogo com
-      contexto completo. Esforço mínimo (endpoint `?random=1` ou escolha
-      client-side), vício contemplativo puro.
+- [x] **Botão "Me surpreenda" — concluído (2026-08-22)**: `GET
+      /api/v1/artworks/random` no server (`ORDER BY RANDOM()`, filtra
+      `active=true` — nunca sorteia obra bloqueada por copyright; escolha
+      no server, não client-side, pra não baixar 1000 obras só pra
+      sortear uma), `SurpriseMeButton.tsx` no web (ícone no header
+      desktop, item com rótulo no menu mobile — header mobile já estava
+      no limite de alvos de toque). Testado: 1 teste de integração
+      (server), 3 testes do componente (web, sucesso/falha/rótulo).
+      Typecheck limpo, build ok nos dois pacotes.
 - [ ] **Newsletter semanal por e-mail** — 1 obra + 1 verso + 3 linhas de
       reflexão, toda semana. Hoje a distribuição é 100% terra alugada
       (Instagram/Pinterest); e-mail é canal próprio, combina com o ritmo
       devocional do produto e independe de algoritmo. Enviar via alias
       `biblianaarte@narniano.com`.
-- [ ] **"Onde ver pessoalmente"** — museu/cidade/país da obra na página
-      dela (dado já parcialmente presente na curadoria), com link pra
-      página do museu. Intenção de viagem é cauda longa de SEO alto
-      ("onde está a pintura X", "ver A Ceia em Emaús ao vivo") — serve
-      quem ama arte de verdade e planeja visita.
-- [ ] **Linha do tempo da passagem** — a mesma cena através dos séculos:
-      todas as obras de um versículo/cena em ordem cronológica ("A
-      Anunciação vista por 600 anos de pintores"). Transforma as "versões
-      duplicadas" achadas na varredura de slugs em feature-assinatura —
-      é a coisa que Google Imagens nunca vai fazer.
+- [x] **"Onde ver pessoalmente" — concluído (2026-08-22)**: campo
+      `location` novo (migration 0003) + `localizacao`/`fonte` no
+      frontmatter do vault (curadoria progressiva, não retroativa — só
+      preenchido onde já confirmado, mesmo padrão do `attributionText`).
+      UI: linha "Onde ver" na página da obra, com **link auto-gerado pro
+      Google Maps** (query direto do texto de localização, zero curadoria
+      extra, funciona em qualquer obra com `localizacao` preenchida —
+      ideia do Rilson) + o botão "Ver Fonte Original do Museu" (já
+      existia na UI, nunca tinha sido populado pelo pipeline — ligado
+      agora via `sourceUrl`). Wikipédia descartada como link principal:
+      é sobre a obra, não sobre "onde ver pessoalmente"; página oficial
+      do museu é a fonte primária, consistente com o padrão de citação já
+      usado no projeto. 6 obras populadas hoje como exemplo real
+      (Decamps ×2, Rembrandt ×2, Ticiano ×1 com fonte confirmada por
+      busca web — Ticiano Glasgow ficou só com localização, sem `fonte`:
+      não achei página de objeto pública confiável pra confirmar o link).
+      Typecheck limpo, 46 testes unit + 20 integração (server), 35 testes
+      (web), build ok nos dois pacotes.
+      **Ideia registrada pro futuro, não construída agora** (Fase 5): uma
+      página "monte sua viagem" listando obras por cidade/museu — mesma
+      cauda longa de SEO já mapeada ("onde está a pintura X"), mas com só
+      6 obras localizadas hoje ficaria vazia. Retomar quando a densidade
+      de `location` no catálogo justificar.
+- [x] **Linha do tempo da passagem — concluído (2026-08-23)**: não virou
+      página nova — a página de capítulo já lista as obras da passagem
+      (`useArtworksByBibleReference`), só faltava tratamento cronológico.
+      `PassageTimeline.tsx`: reusa `parseYear()` (já existia, tolera "c.
+      1609") pra ordenar por ano; só renderiza com **2+ anos distintos**
+      parseáveis — com 1 ano só (ou obras sem ano) a linha do tempo não
+      conta história nenhuma, fica só a grade normal. Faixa horizontal
+      com scroll, ponto+ano+miniatura+artista por obra, linha conectora
+      atrás dos pontos. Aparece automaticamente acima da grade em
+      `Chapter.tsx` quando qualifica — os 2 Rembrandt de Emaús (1628/1648,
+      corrigidos hoje) e os 2 Ticiano da Adúltera (1510/1520) já
+      qualificam agora. 3 testes novos (nada com <2 anos, nada com anos
+      iguais, ordem cronológica certa), typecheck limpo, build ok.
 
 
 ### Integração com o Lecionário — "Pintura do Dia" (2026-08-16)
@@ -508,15 +570,31 @@ padrão que o Lecionário já usa e validou (manifest, "Adicionar à tela
 inicial", cache de imagem). Reavaliar React Native só se uso real
 mostrar que PWA não é suficiente — não por suposição.
 
-- [ ] Adicionar manifest.json + ícones PWA (mesmo padrão do Lecionário)
-- [ ] Avaliar service worker pra cache de imagem (galeria funciona bem
-      offline depois da primeira visita)
+- [x] **Manifest + service worker — concluído (2026-08-22)**: `site.webmanifest`
+      já existia funcional (ícones 192/512 reais, tema, `standalone`) —
+      só faltavam campos (`start_url`, `scope`, `lang`, `description`,
+      `categories`), adicionados. Service worker via `vite-plugin-pwa`
+      (Workbox por baixo, mesma base do Lecionário — que usa `next-pwa`;
+      adaptado pro Vite deste projeto em vez de copiar código do Next.js
+      direto). `manifest: false` no plugin — não duplica o webmanifest já
+      existente. Runtime caching com 3 regras, focado no objetivo real do
+      item ("galeria funciona offline depois da 1ª visita"): imagens do
+      acervo `CacheFirst` (60 dias, 300 entradas), fontes Google
+      `CacheFirst` (1 ano), API `NetworkFirst` com timeout de 5s
+      (resiliência a queda momentânea, sem servir catálogo velho por
+      muito tempo — conteúdo muda com a curadoria). Verificado no build:
+      `dist/sw.js` gerado com as 3 regras, `registerSW.js` injetado no
+      `index.html`. Typecheck limpo, 32/32 testes, build ok.
 
 ### Rodapé cruzado — cluster A Biblioteca (2026-08-16)
 
-- [ ] Mesmo item registrado nos outros 3 projetos (`lecionario/ROADMAP.md`
-      4.8) — link estático pros 4 (este, Scriptorium, Lecionário, Gerador
-      C.S. Lewis), sem integração de dado
+- [x] **Concluído nos 4 (verificado 2026-08-22)**: Gerador
+      (`ClusterFooter.tsx`, origem do padrão), Lecionário (`Footer.tsx`,
+      mesma língua tipográfica — rótulo caps espaçadas + pares
+      ornamento+link) e Scriptorium já implementaram por conta própria;
+      Bíblia na Arte já tinha os 4 links desde 22/08. Checkbox aqui
+      estava desatualizado — item já fechado, nenhuma mudança de código
+      necessária.
 
 ### Estratégia — o que "sucesso" significa aqui (2026-08-15)
 
@@ -577,7 +655,7 @@ pnpm --filter server db:seed        # importa o JSON no Postgres (VPS)
 | 1 — Conteúdo e navegação | ✅ concluída | 2026-08-08 |
 | 2 — UI/UX profissional | ✅ concluída | 2026-08-08 |
 | 3 — Performance e SEO | ⏳ pendente | — |
-| 4 — Segurança/observabilidade/infra | ⏳ pendente | — |
+| 4 — Segurança/observabilidade/infra | ✅ concluída (2 itens adiados/decididos conscientemente: métricas Prometheus, moldura arco literal) | 2026-08-22 |
 | 5 — Produto | ⏳ pendente | — |
 
 
@@ -669,29 +747,27 @@ API/código real antes de escrever aqui — não é suposição.
       5. Paginação reseta pra página 1 ao mudar busca/filtros (antes,
          página antiga podia cair fora do alcance do resultado novo).
       Typecheck limpo, 32/32 testes.
-- [ ] **Os dropdowns "Navegar pela Bíblia" e "Galeria de Arte" fazem
-      sentido?** — questão honesta do Rilson, vale registrar a análise:
-      - "Navegar pela Bíblia" ainda se justifica (AT/NT é uma
-        subdivisão real e útil).
-      - "Galeria de Arte" é mais fraco — hoje tem só 2 itens, um deles
-        ("Pinturas & Obras Visuais") aponta pro MESMO destino
-        (`/arte/painting`) que o clique direto no rótulo já leva
-        (depois do split trigger de 2026-08-22) — ficou redundante.
-        O outro item é "Busca detalhada por artista ou período", que é
-        uma ação primária (buscar) escondida como item secundário de
-        dropdown.
-      - **A pergunta maior do Rilson**: por que `/busca` (com texto +
-        filtros de categoria/testamento/século/artista) e
-        `/arte/painting` (grade simples da categoria) são páginas
-        separadas, se as duas existem só pra achar obra? Faz sentido
-        unificar — `/arte/:category` viraria a MESMA experiência que
-        `/busca`, só pré-filtrada por categoria via query param (ex.:
-        `/busca?category=painting`), eliminando a duplicação de UI e a
-        pergunta "que página eu uso pra achar uma obra". Não é troca
-        trivial: as URLs atuais (`/arte/painting`, `/busca`) estão
-        indexadas no Google (2.115 páginas no sitemap, confirmado no
-        Search Console) — precisa de redirect 301 bem pensado pra não
-        perder o SEO já conquistado, não só trocar rota.
+- [x] **Os dropdowns "Navegar pela Bíblia" e "Galeria de Arte" fazem
+      sentido? — unificado (2026-08-23)**: questão honesta do Rilson,
+      resolvida sem risco de SEO. Duas abordagens possíveis: (a) trocar a
+      URL de verdade (`/arte/:category` → `/busca?category=X`, com
+      redirect 301 no nginx) ou (b) só unificar o CÓDIGO, mantendo as
+      URLs intactas. **Decisão do Rilson: opção (b)** — zero risco em
+      cima das 2.115 páginas já indexadas no Search Console, mesmo
+      ganho de manutenção. Implementado: `lib/categories.ts` novo
+      (metadados de categoria únicos, antes duplicados em 2 arquivos);
+      `Search.tsx` agora lê `useParams<{category}>()` além de
+      `useSearchParams()` — mesma UI atende `/busca` e `/arte/:category`,
+      com SEO (title/description/H1) sensível à categoria quando vem da
+      rota; `ArtCategories.tsx` simplificado pra só o picker de `/arte`
+      (~150 linhas de lógica duplicada removidas — loading/erro/paginação
+      próprios que replicavam o que `Search.tsx` já fazia). Rota trocada
+      no `App.tsx`: `/arte/:category` → `<Search />`. Código morto
+      removido (`useArtworksByCategory`, `getArtworksByCategory`, sem uso
+      depois da unificação). URLs, canonical e sitemap **inalterados** —
+      nenhum redirect necessário. 3 testes novos (`categories.test.ts`),
+      typecheck limpo, build ok (bundle principal até encolheu, menos
+      código duplicado).
 - [x] **"Parte de Uma Biblioteca Maior" (`/sobre`) não linkava o
       narniano.com em si — corrigido (2026-08-22)**: "Narniano" adicionado
       como primeiro link da lista de irmãos (`About.tsx`), junto de
@@ -743,7 +819,7 @@ Anexos" — decisões do Rilson tomadas por questionário, aplicadas pelo Ox:
       removidas do vault (backup em `/tmp/opencode/backup-dore/`,
           transitório); wikilinks órfãos limpos em `Gustave Doré.md`
       e `Juízes 16.md`.
-- [~] **Esqueletos** (notas com imagem mas sem dados):
+- [x] **Esqueletos** (notas com imagem mas sem dados):
 - [x] **Esqueletos resolvidos (2026-08-22, noite)** — o Ox editou as
       notas do vault direto (com ok do Rilson), sem precisar dos olhos
       dele, via comparação de hash perceptual (sharp 16×16, distância de
@@ -900,7 +976,7 @@ Google" não é viável em iOS de qualquer forma.
       `BrowserRouter` no `App.tsx`. Os scrolls manuais de paginação
       (ArtCategories/Search) permanecem inofensivos. (Mesmo bug da Bancada
       e Scriptorium — replicar lá.)
-- [ ] **Descrições com markdown cru** — algumas obras têm `**negrito**` visível como texto. Verificar se `react-markdown` está aplicado em todas as rotas de detalhe de obra.
+- [x] **Descrições com markdown cru — verificado limpo (2026-08-22)**: `artwork.description` (único campo vindo do vault em markdown) já passa por `stripMarkdown()` ou pelo componente `<Markdown>` nos 3 lugares reais onde aparece (`ArtworkDetail.tsx`, `ArtworkCard.tsx`, `ArtworkLightbox.tsx`). As demais descrições na tela (categorias em `ArtCategories.tsx`, livros da Bíblia em `data/bibleDescriptions.ts`) são texto estático sem sintaxe markdown — sem achado.
 
 ### 🟡 Melhoria — mobile e UX da página da obra (2026-08-22)
 
@@ -918,7 +994,16 @@ Google" não é viável em iOS de qualquer forma.
       **Legibilidade de corpo corrigida onde feria o princípio**: descrição
       da obra era `text-sm` (14px!) no mobile → `text-base`; texto das
       passagens bíblicas era `text-xs` (12px!) → `text-sm md:text-base`.
-      Pendente: varredura final nas páginas secundárias com viewport real.
+- [x] **Varredura final nas páginas secundárias — concluída (2026-08-22)**:
+      About, BibleBooks, Contribute, NotFound, Privacy conferidas contra
+      larguras fixas, grid sem breakpoint, alvo de toque <44px, flex sem
+      wrap e corpo <16px — a maioria já estava limpa. 2 achados reais (a
+      mesma classe de bug do parágrafo anterior, tinha passado batido):
+      as 3 descrições de "Nossos Objetivos" em `About.tsx` e as descrições
+      das diretrizes em `Contribute.tsx` estavam em `text-sm` (14px) —
+      prosa real que o usuário lê, não legenda/badge/citação (esses
+      ficaram como estão, contexto legítimo pra texto pequeno). Corrigido
+      pra `text-base`. Typecheck limpo, 32/32 testes.
 - [x] **Ampliação da obra no mobile sem layout próprio** — ArtworkLightbox
       reconstruído (2026-08-22): barra superior agora **empilha** no mobile
       (título truncado numa linha, toolbar na outra — acabou a disputa de
@@ -942,17 +1027,44 @@ Google" não é viável em iOS de qualquer forma.
 
 ### ❓ Pendência — modo claro/escuro à altura dos irmãos (2026-08-22)
 
-- [ ] **Auditoria de paridade dark/light vs Lecionário e Gerador** —
+- [x] **Auditoria de paridade dark/light vs Lecionário e Gerador** —
       esclarecimento: o modo claro/escuro JÁ EXISTE aqui (next-themes +
       ThemeToggle no Header, padrão "system", Fase 2 concluída; contraste
-      do hero e gradient-card no escuro já corrigidos com conta feita). A
-      pendência real é outra: percorrer TODAS as páginas/componentes nos
-      DOIS temas comparando com o padrão dos irmãos (Lecionário tem motor
-      de 8 estações litúrgicas recolorindo o tema; Gerador tem tokens
-      cs-* próprios por tema) — procurar elementos que só ficam bons num
-      dos temas, estados de hover/foco esquecidos no escuro, e decidir se
-      vale adotar tokens de marca crus (canela/dourado/vinho) em mais
-      pontos hoje cobertos só pelos HSL genéricos.
+      do hero e gradient-card no escuro já corrigidos com conta feita).
+  - [x] **Varredura de código — concluída (2026-08-22)**: grep de hex/rgb
+        cru fora do `index.css` (limpo — nenhum achado), de `text-white`/
+        `bg-white`/`bg-black` fora de contexto seguro (QR code precisa de
+        fundo branco sempre, badge de debug só roda em `NODE_ENV=development`,
+        hero já usa `--hero-scrim` dedicado desde 16/08) e de `outline-none`
+        sem substituto — e 2 bugs reais de contraste calculado, corrigidos:
+        1. **`.gradient-text`** (H1 de Chapter/BibleBook) usava hex cru:
+           **2.82:1** no claro (trecho final do degradê) e **2.58:1** no
+           escuro (trecho inicial) — abaixo do mínimo de 3:1 pra texto
+           grande, nos dois temas, em pontas opostas do gradiente. Trocado
+           por `--gradient-text` tokenizado (vinho→canela no claro,
+           dourado→dourado-claro no escuro), verificado ponto a ponto do
+           degradê: mínimo 6.7:1 nos dois temas.
+        2. **`--gradient-hero`** (badges com ícone branco: BibleBooks,
+           About, Contribute, ArtCategories, Index — ~10 instâncias) não
+           tinha override no escuro, herdava `hsl(var(--primary))` como 1º
+           stop — no escuro `--primary` é dourado claro (45 60% 55%),
+           ícone branco em cima cai pra **2.11:1** (abaixo do mínimo de
+           3:1 pra elementos gráficos, WCAG 1.4.11). Mesma raiz do bug já
+           documentado no hero em 16/08, só que este ninguém tinha pego
+           porque não é `bg-primary` direto. Override `.dark` com 1º stop
+           escurecido pra L30%, contraste real 5.78:1. Conferido também:
+           o padrão `bg-primary`+`text-primary-foreground` usado no resto
+           do site (Button, Badge, links do ArtCategories) já é calibrado
+           certo nos dois temas (8.68:1 no escuro) — o problema era só o
+           `text-white` fixo por fora desse par semântico. Typecheck
+           limpo, 32/32 testes, build ok.
+  - [x] **Comparação visual com Lecionário/Gerador — decisão: não fazer
+        (2026-08-22)**. O Rilson avaliou o tema atual e considera que já
+        está bom — não vale abrir uma frente de julgamento de design
+        (motor de 8 estações do Lecionário, tokens cs-* do Gerador) sobre
+        algo que já funciona. Os bugs reais de contraste (achados na
+        varredura de código acima) foram corrigidos; paridade estética
+        fina com os irmãos não é um problema a resolver.
 
 ### 🟡 Passada de padrão-indústria no mobile (2026-08-22, mesma sessão)
 
@@ -983,42 +1095,97 @@ Google" não é viável em iOS de qualquer forma.
       🤝→`HeartHandshake`), CommandPalette (4 headings com emoji — removidos,
       o estilo do cmdk já hierarquiza) e ThemeToggle (✓→`Check`). Grep final
       de emojis em pages+components: **zero**.
-- [ ] **Auditoria tipográfica vs Design Narniano** — nem todas as fontes do
-      app conversam com a identidade ("algumas definitivamente não
-      combinam"); revisar stack de fontes contra `Identidade visual geral.md`
-      (vault, seção 1C) e consolidar tokens.
+- [x] **Auditoria tipográfica vs Design Narniano — concluída (2026-08-22)**:
+      conferido contra os 2 documentos do vault (`Identidade visual geral.md`
+      e `Identidade Visual - Guia Técnico (Código).md`). Display (Cormorant
+      Garamond, alternativa sancionada a "The Seasons") e corpo (EB Garamond)
+      já batiam. Achado real: **`--font-mono` nunca existiu** — o Guia
+      Técnico especifica `JetBrains Mono` no mesmo `@import` das outras
+      fontes, mas só `display`/`serif`/`sans` foram mapeados no
+      `tailwind.config` na migração de 22/08 (mesma classe de bug do
+      `font-display` já documentada ali). Os 9 usos reais de `font-mono`
+      (badge de ano, atalho ⌘K, zoom % do lightbox, erro 404...) caíam no
+      monoespaçado padrão do sistema. Corrigido: import adicionado no
+      `index.html`, token `--font-mono` no `index.css`, mapeamento `mono`
+      no `tailwind.config.ts`. Typecheck limpo, build ok.
+      **Achado à parte, registrado pra auditoria de tema (não corrigido
+      aqui — fora do escopo de fonte)**: `.gradient-text` (título H1 de
+      `Chapter.tsx`/`BibleBook.tsx`) usa hex cru (`#8B4513`→`#D2691E`)
+      fora dos tokens `--canela`/`--dourado`/`--vinho`, sem override
+      `.dark` visível — mesma classe de bug já achada no `--gradient-card`
+      em 16/08. Conferir contraste/paridade nos dois temas na próxima.
 
 ### 🟡 Melhoria — conteúdo (2026-08-22)
 
-- [ ] **Conexões bíblicas mais evidentes** — nem sempre a ligação entre a
-      pintura e a passagem fica clara na descrição; explicitar o porquê da
-      conexão cena a cena (continuidade natural dos lotes de curadoria da
-      Fase 1 — qualidade acima de quantidade nos próximos lotes).
+- [~] **Conexões bíblicas mais evidentes — dimensionado + 1º lote real
+      (2026-08-23)**: varredura de código (não estimativa) achou **237
+      notas** com autor real (fora da lista de exclusão por copyright) cujo
+      "Contexto Bíblico" é só citação solta, sem parágrafo explicando a
+      ligação — número bem maior que "às vezes". Nem toda bare-quote
+      precisa de prosa (título+versículo já bastam em muitos casos); o
+      número é teto de candidatas, não 237 defeitos confirmados. **1º lote
+      — 4 notas, escolhidas por ligação genuinamente não-óbvia (não
+      alfabético)**:
+      - Alexander Ivanov, "O anjo Gabriel aparece a Zacarias": explicado o
+        contraste Zacarias (dúvida, fica mudo) vs. Maria (fé, Lucas 1:38)
+        e o fim dos 400 anos de silêncio profético.
+      - Aert de Gelder, "Cântico de Louvor de Simeão": explicado o *Nunc
+        Dimittis* e o alcance teológico ("luz pra alumiar as nações") que
+        a citação sozinha não deixava claro.
+      - Andrea Mantegna, "Ecce Homo": explicada a ironia teológica da
+        frase de Pilatos, não só o sofrimento físico retratado.
+      - **Albrecht Dürer, "Adoração da Trindade" — correção de referência,
+        não só prosa**: a nota só citava Apocalipse 21:2 (Nova Jerusalém
+        descendo), mas a composição (santos de todas as épocas em anéis
+        concêntricos adorando) combina muito mais com a "multidão que
+        ninguém podia contar" de Apocalipse 7:9 — adicionado como
+        referência primária, 21:2 mantido como secundária (o "Cidade de
+        Deus" do título é conceito agostiniano, não ilustração literal de
+        21:2). Bônus verificado via busca web: o autorretrato de Dürer no
+        canto da tela é dele sozinho testemunhando a visão, não entre os
+        santos — e `localizacao` preenchida (Kunsthistorisches Museum,
+        Viena) de quebra.
+      **Resta**: ~233 candidatas pra próximos lotes — é trabalho de
+      curadoria contínua, mesma natureza do item de ~143 obras com
+      fallback genérico, não fecha numa sessão.
 
 ### ❓ Questão em aberto — vozes dos clássicos nas descrições (2026-08-22)
 
-- [ ] **Cabe citar Rookmaaker, Schaeffer e C.S. Lewis comentando obras
-      específicas dentro das descrições delas?** (levado pelo Rilson como
-      questão aberta, não decisão). Onde um desses autores opinou sobre uma
-      obra que já está no catálogo, trazer a opinião pra descrição —
-      profundidade alinhada à missão. Pontos a pesar antes de decidir:
-      1. **Fonte verificada**: só entra opinião textualmente confirmada nos
-         livros deles (o vault já tem notas de vários: *A arte não precisa
-         de justificativa*, *Filosofia e Estética*, *O dom criativo*,
-         *A arte e a Bíblia*...) — nada de paráfrase travestida de citação.
-      2. **Copyright dos próprios autores** (ironia não perdida aqui):
-         Rookmaaker (†1977 → protegido até 2047), Schaeffer (†1984 → 2054),
-         Lewis (†1963 → 2033). Trecho breve com fonte e fim de crítica/
-         discussão cabe na exceção de citação da LDA art. 46, VIII; bloco
-         extenso exigiria autorização de editora (Ultimato, Hagnos etc.).
-         Definir limite de extensão ANTES de escrever a primeira.
-      3. **Escopo real**: mapear primeiro quais obras do catálogo têm
-         comentário documentado (Rookmaaker estudou Rembrandt a fundo;
-         Schaeffer discute obras pontuais em *Art and the Bible*) —
-         provavelmente conjunto pequeno e precioso, curadoria de
-         profundidade, não escala.
-      4. **Forma**: seção própria na página da obra ("Na leitura de...")
-         vs. integrado à descrição — decidir com exemplos reais na mão.
+- [x] **"Vozes dos clássicos" — decisão tomada, feature construída, 1º
+      exemplo real (2026-08-23)**: Rilson topou a ideia. Resolvidos os 4
+      pontos em aberto:
+      1. **Fonte verificada**: confirmado no vault mesmo — busca pelos 3
+         nomes nas notas de Pinturas achou 3 menções existentes (Rossetti
+         "Lady Lilith", Almeida Júnior "Saudade", Rob Gonsalves "O Sol
+         Zarpa"), mas nenhuma é o autor comentando aquela obra específica —
+         são paralelos temáticos que o próprio vault já aplica com
+         honestidade (Lewis nunca viu o quadro do Almeida Júnior). Padrão
+         diferente do que este item pedia, mantido como está — não precisa
+         de mudança.
+      2. **Escopo real**: achado 1 caso genuíno — "Filosofia e Estética"
+         (Rookmaaker) cita por nome, com página (p. 199-202), o contraste
+         entre a *Crucificação* (1930) de Picasso e o **Erguimento da Cruz
+         (1633) de Rembrandt** — obra que não estava no catálogo (só a
+         irmã dela, "A Descida da Cruz", do mesmo par de encomenda de
+         Frederico Henrique). Confirmado via busca web (Alte Pinakothek,
+         Munique, autorretrato de Rembrandt entre os algozes que erguem a
+         cruz) e imagem de domínio público baixada do Wikimedia Commons —
+         **nota nova criada**: "Rembrandt van Rijn - O Erguimento da Cruz
+         (De kruisoprichting).md", com o comentário de Rookmaaker, fonte e
+         página, e honestidade sobre o que ele desenvolve vs. o que é só
+         exemplo dentro de uma lista de critérios.
+      3. **Extensão/copyright**: citação de ~30 palavras com fonte e
+         página — bem dentro da exceção de citação (LDA art. 46, VIII).
+      4. **Forma**: seção própria, "### Na leitura de {Autor}" — decidida
+         com o exemplo real na mão, não em abstrato.
+      **Plumbing construído** (mesmo padrão do "Onde ver pessoalmente"):
+      `extractClassicCommentary()` novo em `vault-parse.ts` (4 testes),
+      colunas `classic_commentary_author`/`classic_commentary` (migration
+      0004), export/seed atualizados, resposta da API com os campos
+      novos, UI própria em `ArtworkDetail.tsx` (bloco com borda dourada,
+      ícone de citação, renderiza markdown) — só aparece quando a obra
+      tem o campo preenchido, raro de propósito. Typecheck limpo, 50
+      testes server (unit+integração), 44 testes web, build ok.
 
 ### 🟢 Features de produto (candidatas à Fase 5 — 2026-08-22)
 
@@ -1045,11 +1212,22 @@ Google" não é viável em iOS de qualquer forma.
       descrição (obras-stub não ganham botão vazio); copia o texto com
       markdown removido (`stripMarkdown()`), pronto pra colar.
       Typecheck limpo, 32/32 testes, build ok.
-- [ ] **Exportar Story do Instagram** — imagem + metadados da obra +
-      logo/nome do projeto na fonte certa, tudo seguindo o design; mesmo
-      padrão já validado no Gerador C.S. Lewis e no Teste Político.
-      Sinergia direta com @artecristadiaria (seção Distribuição abaixo):
-      material altamente compartilhável gerado do próprio catálogo.
+- [x] **Exportar Story do Instagram — concluído (2026-08-22)**: mesmo
+      padrão do `ShareCard`/`QuoteGenerator` do Gerador C.S. Lewis
+      (`html2canvas` sobre card fora da tela, baixado como PNG) —
+      adaptado, não copiado direto: formato 1080×1920 (Story real, 9:16)
+      em vez do 1080×1080 de feed do Gerador, e sem reusar classes CSS
+      que só existem lá (`font-lato`, `.divider-ornament`) nem
+      `.gallery-frame` (usa `color-mix()`, arriscado pro html2canvas
+      rasterizar — mesma moldura dupla dourada "à mão", só bordas
+      simples). `ArtworkShareCard.tsx` (visual) + `DownloadStoryButton.tsx`
+      (self-contained: ref + handler + card escondido, mesmo espírito do
+      `CopyImageButton`) — um import na página da obra, sem inchar
+      `ArtworkDetail.tsx` com mais estado. `html2canvas` fica em chunk
+      lazy separado (202KB), só carrega no clique. Botão "Baixar Story"
+      na barra de ações sob a imagem, junto do "Copiar imagem". Sinergia
+      direta com @artecristadiaria mantida. 3 testes novos (sucesso,
+      conteúdo do card, falha silenciosa), typecheck limpo, build ok.
 
 ---
 

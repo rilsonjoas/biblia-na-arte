@@ -7,6 +7,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { Artwork } from '@/types';
 import { Music, Film, Palette, ImageIcon } from 'lucide-react';
 import { stripMarkdown } from '@/lib/utils';
+import { FavoriteButton } from '@/components/FavoriteButton';
 
 interface ArtworkCardProps {
   artwork: Artwork;
@@ -72,7 +73,14 @@ export default function ArtworkCard({ artwork, showReferences = true }: ArtworkC
   const linkTarget = `/obra/${artwork.id}`;
 
   return (
-      <Card className="group overflow-hidden hover:shadow-classical transition-all duration-300 [transition-timing-function:var(--ease-liturgico)] hover:-translate-y-1 bg-card border border-border/60 hover:border-accent/40 rounded-xl">
+      <Card className="group relative overflow-hidden hover:shadow-classical transition-all duration-300 [transition-timing-function:var(--ease-liturgico)] hover:-translate-y-1 bg-card border border-border/60 hover:border-accent/40 rounded-xl">
+      {/* Fora do <Link> de propósito — clique no coração não deve navegar
+          (achado 2026-08-23, feature de favoritos locais) */}
+      <FavoriteButton
+        artworkId={artwork.id}
+        size="sm"
+        className="absolute top-2 left-2 z-10 h-7 w-7 flex items-center justify-center rounded-full shadow-md backdrop-blur-md bg-card/85 border border-border/40"
+      />
       <Link to={linkTarget} className="block focus:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-xl">
         <CardHeader className="p-0 relative overflow-hidden bg-muted/40 gallery-frame">
           <AspectRatio ratio={4 / 3}>

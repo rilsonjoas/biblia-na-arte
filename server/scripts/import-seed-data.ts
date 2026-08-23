@@ -31,6 +31,10 @@ interface ExportedArtwork {
   imageFile: string;
   licenseType: string;
   attributionText?: string;
+  location?: string;
+  sourceUrl?: string;
+  classicCommentaryAuthor?: string;
+  classicCommentary?: string;
   references: { book: string; bookSlug: string; chapter: number; verses?: string; passageText?: string }[];
 }
 
@@ -69,6 +73,10 @@ async function main() {
           imageUrl: `/images/${item.imageFile}`,
           licenseType: item.licenseType,
           attributionText: item.attributionText,
+          location: item.location,
+          sourceUrl: item.sourceUrl,
+          classicCommentaryAuthor: item.classicCommentaryAuthor,
+          classicCommentary: item.classicCommentary,
         })
         .returning({ id: artworks.id });
 

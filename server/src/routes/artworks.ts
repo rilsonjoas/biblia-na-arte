@@ -1,6 +1,6 @@
 import type { FastifyInstance } from 'fastify';
 import { zodToJsonSchema } from 'zod-to-json-schema';
-import { listArtworks, getArtworkById, searchArtworks } from '../db/queries.js';
+import { listArtworks, getArtworkById, getRandomArtwork, searchArtworks } from '../db/queries.js';
 import {
   listArtworksQuerySchema,
   searchArtworksQuerySchema,
@@ -71,6 +71,24 @@ export async function artworkRoutes(app: FastifyInstance) {
     async (request) => {
       const query = searchArtworksQuerySchema.parse(request.query);
       return searchArtworks(query);
+    },
+  );
+
+  app.get(
+    '/artworks/random',
+    {
+      schema: {
+        tags: ['obras'],
+        summary: '"Me surpreenda" — obra aleatória do acervo',
+        description:
+          'Uma obra ativa qualquer, com contexto completo. Sem cache — cada chamada deve poder trazer outra obra.',
+        response: { 200: artworkJson, 404: errorJson },
+      },
+    },
+    async () => {
+      const artwork = await getRandomArtwork();
+      if (!artwork) throw new NotFoundError('Obra');
+      return artwork;
     },
   );
 

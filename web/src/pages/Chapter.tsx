@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import ArtworkCard, { ArtworkCardSkeleton } from '@/components/ArtworkCard';
+import { PassageTimeline } from '@/components/PassageTimeline';
 import { SEO } from '@/components/SEO';
 import { LoadingGrid, Loading } from '@/components/ui/loading';
 import { ErrorCard, NotFoundError } from '@/components/ui/error-display';
@@ -279,11 +280,14 @@ export default function Chapter() {
           {!artworksLoading && !artworksError && (
             <>
               {artworks.length > 0 ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                  {artworks.map((artwork) => (
-                    <ArtworkCard key={artwork.id} artwork={artwork} />
-                  ))}
-                </div>
+                <>
+                  <PassageTimeline artworks={artworks} />
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    {artworks.map((artwork) => (
+                      <ArtworkCard key={artwork.id} artwork={artwork} />
+                    ))}
+                  </div>
+                </>
               ) : (
                 <Card className="gradient-card border-0 text-center py-16">
                   <CardContent>
