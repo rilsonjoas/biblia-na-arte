@@ -182,6 +182,7 @@ async function main() {
   const artworks: ExportedArtwork[] = [];
   const skipped: { file: string; reason: string }[] = [];
   const unresolvedBooks = new Set<string>();
+  const usedSlugs = new Map<string, number>();
   let optimizeFailures = 0;
 
   for (const file of files) {
@@ -225,7 +226,28 @@ async function main() {
 
     const parsedTitle = parseTitleParts(titleFromFilename(file));
     const title = parsedTitle.title;
-    const slug = slugify(`${artist}-${title}`);
+
+    // Desempate determinístico de slug (achado 2026-08-22: 8 grupos de
+    // notas geravam o MESMO slug e, portanto, a mesma imagem no banco).
+    // O 1º arquivo mantém o slug limpo (URLs/imagens já indexadas ficam
+    // estáveis); duplicatas recebem o ano da obra e, se ainda colidir,
+    // sufixo numérico (-2, -3...). Curadoria final por par continua no
+    // vault (excluir duplicado verdadeiro como os 3 Van Gogh).
+    const baseSlug = slugify(`${artist}-${title}`);
+    let slug = baseSlug;
+    if (usedSlugs.has(baseSlug)) {
+      const yearDigits = String(frontmatter.ano ?? frontmatter.data ?? '').match(/\d{4}/)?.[0];
+      const withYear = yearDigits ? `${baseSlug}-${yearDigits}` : '';
+      if (withYear && !usedSlugs.has(withYear)) {
+        slug = withYear;
+      } else {
+        let suffix = 2;
+        while (usedSlugs.has(`${baseSlug}-${suffix}`)) suffix++;
+        slug = `${baseSlug}-${suffix}`;
+      }
+      console.warn(`⚠️  Slug duplicado desambiguado: ${baseSlug} -> ${slug} (${file})`);
+    }
+    usedSlugs.set(slug, (usedSlugs.get(slug) ?? 0) + 1);
     const imageFile = `${slug}.webp`;
 
     // Mesmos parâmetros do antigo optimize-images.ts (agora só um backfill
