@@ -1413,3 +1413,89 @@ Ciclo completo: export → deploy → reseed → verificação ao vivo →
 achado de bug → fix → re-export → redeploy → reseed → reverificação,
 repetido 3x até tudo bater. 56 testes server (unit+integração), build
 ok, tudo no ar confirmado via curl real na API de produção.
+
+
+## Achados 2026-08-23 (continuação) — 8 itens do Rilson, verificados um a um
+
+O Rilson pediu pra verificar se uma lista de 8 pendências (algumas já
+reportadas antes, outras novas) já tinham sido implementadas. Achado:
+grande parte já estava — só não commitada. Trabalho terminado, testado
+e deployado nesta rodada:
+
+- [x] **Home ainda falava de Música/Filmes** — já corrigido no working
+      tree (não commitado ainda quando a pergunta chegou); commitado,
+      testado e deployado agora. Confirmado ao vivo: zero menção a
+      "música"/"filme" na home renderizada.
+- [x] **Cobertura de versículos destacados** — `extractVerseFromContext()`
+      já existia no working tree, commitado agora. Resultado real após
+      reseed: **30% das referências (430 de 1.432) têm faixa de
+      versículo** — melhorou, mas a maioria ainda só tem livro+capítulo.
+      Fechar esse gap de verdade é trabalho de curadoria (escrever a
+      faixa de versículo em cada nota do vault que ainda não tem — nem
+      toda obra retrata um versículo específico, então nem todo caso é
+      "gap", mas vale uma passada).
+- [x] **Pintura bate com a passagem?** — amostra aleatória de 12 das 860
+      obras conferida uma a uma contra conhecimento bíblico/histórico
+      real (não vault): **12/12 corretas** (ex.: "Davi matando Golias"
+      → 1 Samuel 17 ✓, "Eu sou o Caminho, a Verdade e a Vida" → João 14
+      ✓, "O chamado dos santos Pedro e André" → Mateus 4:18-20 ✓). Sinal
+      bom, mas é amostra de 12 em 860 — não é auditoria completa. Se
+      quiser mais confiança, dá pra rodar em lotes maiores depois.
+- [x] **Campo de busca apertado/texto vazando no mobile** — já corrigido
+      no working tree (Search.tsx: `flex` numa linha só → `flex-col
+      sm:flex-row`, empilha no mobile). Commitado, testado, deployado.
+- [x] **Livros bíblicos em ordem alfabética** — código já existia
+      (coluna `order`, seed em ordem canônica, query ordenando por
+      ela), mas **faltava a migração de verdade** (schema.ts tinha o
+      campo, `drizzle-kit generate` nunca tinha rodado — 2 testes de
+      integração quebravam com 500 contra banco limpo, foi assim que
+      achei). Migração 0005 gerada, testada, deployada. Confirmado ao
+      vivo: `Gênesis, Êxodo, Levítico, Números, Deuteronômio...`.
+- [x] **Alister McGrath como pensador a citar** — já adicionado (About.tsx
+      e Index.tsx), mas a citação direta entre aspas não tinha sido
+      verificada contra a edição real de *Enriching Our Vision of
+      Reality* — suavizada pra paráfrase sem aspas (McGrath está vivo,
+      diferente do Rookmaaker; ver Padrão de Qualidade de Conteúdo,
+      princípio #3).
+- [ ] **20 obras clássicas em domínio público pra enriquecer o vault** —
+      lista de 21 obras (Rembrandt, Caravaggio, Michelangelo, Rubens,
+      Botticelli, Fra Angelico etc.) já existia. Checado contra o
+      export atual: **4 de 21 já estão no acervo** ("A Conversão de São
+      Paulo", "A Criação de Adão", "A Anunciação" de Fra Angelico,
+      "A Ressurreição da Filha de Jairo" de Repin). **17 ainda faltam**
+      — curadoria real (achar imagem de fonte confiável em domínio
+      público, escrever a nota do vault, verificar direitos) pra cada
+      uma, não é code fix. Fica como trabalho pendente, não tentado
+      nesta rodada pra não arriscar entrada de dado sem verificação
+      (mesmo princípio que gerou o achado abaixo).
+- [x] **Texto promocional vazando na descrição ("Buy... fine art print",
+      meisterdrucke.uk)** — `sanitizeDescription()` já existia no
+      working tree, remove blocos de callout do Obsidian inteiros +
+      qualquer linha residual com esses termos. Achado bônus na
+      verificação: **não era só a obra do Bezerro de Ouro** — "O bom
+      samaritano" (mesmo artista, William Henry Margetson) tinha um
+      callout parecido vazando URL/resolução do gallerix.org. Os dois
+      confirmados limpos depois do reseed.
+
+**Achado extra, fora da lista original — problema de compliance real**:
+ao cruzar as 23 obras de artistas vivos/protegidos já corrigidas em
+`data-fixes.sql` contra o export atual, achei uma 24ª: Sylwia Perczak
+(já tinha 1 obra sinalizada, "A Santa Trindade") ganhou uma segunda
+obra no vault desde a auditoria original ("Senhor, salva-me!") sem a
+mesma correção — ficou `active=true`/`public-domain` até essa
+verificação. Corrigido (novo UPDATE em `data-fixes.sql`, registrado em
+`AUDITORIA-COPYRIGHT.md`), confirmado desativada em produção.
+**Risco de processo**: nada hoje detecta automaticamente quando uma
+obra nova de um artista já sinalizado entra no vault — vale considerar
+uma checagem (lint simples: nome de artista já em `data-fixes.sql`
+aparecendo em obra nova no export) antes do próximo reseed.
+
+**Mecânica de deploy usada** (registrar pro próximo ciclo): migração de
+schema roda sozinha no boot da API (`runMigrations()`), mas o **reseed
+de dado é manual** — rodado via container temporário
+(`node:22-alpine`, `--network proxy-network`, `/opt/biblia-na-arte`
+montado como volume) porque a imagem de produção é `pnpm deploy --prod`
+podada (sem `tsx`, sem os scripts fonte). Depois do reseed, **restart
+do container da API é necessário** pra reaplicar `data-fixes.sql` (ele
+só roda no boot, não em background) — sem isso, obras de artista vivo
+recém-reinseridas ficam `active=true` até o próximo deploy natural.
