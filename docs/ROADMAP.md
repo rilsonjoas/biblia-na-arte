@@ -716,6 +716,57 @@ API/código real antes de escrever aqui — não é suposição.
 
 ## Qualidade de Conteúdo (2026-08-22)
 
+### Curadoria: embeds quebrados + duplicados + esqueletos (2026-08-22, noite)
+
+As 4 obras que estavam fora do catálogo por "sem imagem válida em 0 -
+Anexos" — decisões do Rilson tomadas por questionário, aplicadas pelo Ox:
+
+- [x] **Briton Riviere, Daniel na cova dos leões — consertado**: o arquivo
+      sempre existiu em Anexos com apóstrofo *curvo* (`Lion’s`); a nota
+      apontava pro *reto*. Embed corrigido no vault.
+- [x] **Giotto, Jonas engolido pelo grande peixe — imagem recuperada**:
+      baixada do Wikimedia Commons (scan WGA09258, 338×1200 — é o
+      original que existe; medalhão da faixa decorativa da Capela
+      Scrovegni, domínio público). Embed da nota trocado .png→.jpg.
+- [x] **James Tissot, Adão e Eva expulsos do Paraíso — imagem
+      recuperada**: a nota apontava pra um "Pasted image" nunca salvo;
+      baixado scan Google Art Project (1920×1367) do Commons (PD, Tissot
+      †1902). Embed apontado pro nome canônico.
+- [x] **Kim Ki-chang, A Última Ceia coreana (1952) — BLOQUEADO por
+      copyright**: artista faleceu em 2001 → protegido até 2071 no
+      Brasil (mesmo critério do Lê Phổ). Decisão do Rilson: excluir
+      artista. Registrado como #21 na `AUDITORIA-COPYRIGHT.md` e
+      adicionado ao `EXCLUDED_ARTISTS` do export.
+- [x] **Doré duplicado excluído**: "A Morte de Sansão (The Death of
+      Samson)" (.png) era recorte da mesma gravura de "(Death of
+      Samson)" (.jpeg) — este mantém o slug limpo indexado. Nota+imagem
+      removidas do vault (backup em `/tmp/opencode/backup-dore/`,
+          transitório); wikilinks órfãos limpos em `Gustave Doré.md`
+      e `Juízes 16.md`.
+- [~] **Esqueletos** (notas com imagem mas sem dados):
+- [x] **Esqueletos resolvidos (2026-08-22, noite)** — o Ox editou as
+      notas do vault direto (com ok do Rilson), sem precisar dos olhos
+      dele, via comparação de hash perceptual (sharp 16×16, distância de
+      Hamming):
+      - "O filho pródigo 4" (Burnand) **IDENTIFICADO**: hash 100%
+        idêntico ao "Heimgefunden" do Wikimedia Commons (2151×3441,
+        datado 1900) — não era duplicado do "(1896)" (42.6% = composições
+        distintas: paisagem vs retrato). Frontmatter preenchido:
+        `ano: 1900`, `titulo_original: "Heimgefunden"`. Slug final será
+        `...-filho-prodigo-1900`.
+      - "O bom samaritano 3" (Margetson): `ano: 1950` (fonte no callout
+        da própria nota: The Bible Picture Book, Thomas Nelson),
+        `titulo_original: "The Good Samaritan"`.
+      - "O bom samaritano 2" (Margetson): `titulo_original` preenchido;
+        ano fica vazio (coleção particular, sem data confiável).
+      - "A natividade 2" (Autor Desconhecido): comparada contra TODAS as
+        outras natividades do acervo (39–55% de similaridade = nenhuma
+        duplicata). Obra única e intracável às cegas; segue fora do
+        catálogo (frontmatter inválido) até identificação humana — zero
+        risco enquanto isso.
+
+
+
 Padrão cross-projeto: `Padrão de Qualidade de Conteúdo.md` no vault
 (princípio #7 de `Filosofia e Padrões de Engenharia.md`). Aqui
 especificamente:

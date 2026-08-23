@@ -54,6 +54,7 @@ retornou obra desse autor (não há liberação CC publicada lá).
 | 17 | Kiyoshi Yamashita | 1922–1971 | Fogos de artifício (1950) | **2041** | Wikipedia, museus japoneses |
 | 18 | Robert Henderson Blyth | 1919–1970 | À imagem do homem (1947) | **2040** | Art UK; National Galleries of Scotland marca © Estate |
 | 19 | Francis Hoyland | **vivo** (n. 1930) | Natividade (1961) | morte+70 | Art UK "b.1930"; exposição em 2025 |
+| 21 | Kim Ki-chang | 1913–2001 | A Última Ceia (1952, série "A Vida de Cristo") | **2071** | nota do vault (김기창, pintor surdo coreano); mesmo caso do Lê Phổ (#15). Nunca chegou a entrar no catálogo (imagem nunca esteve em Anexos); adicionado ao `EXCLUDED_ARTISTS` do export em 2026-08-22 pra não entrar se um dia a imagem aparecer — decisão do Rilson |
 
 ## ⚠️ PENDENTES — tratar como protegidos até verificar data de morte
 
