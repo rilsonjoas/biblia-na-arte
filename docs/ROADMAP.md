@@ -265,15 +265,46 @@ elevar a qualidade do catálogo.
       servida), catálogo de imagens **958MB → 111MB** (~88%,
       incluindo a limpeza das órfãs — a redução só de WebP já validada
       antes era ~79%).
-- [ ] **Achado no caminho (2026-08-16): 7 pares de notas duplicadas no
-      vault** — mesmo título+artista (ex.: "Rembrandt van Rijn - A Ceia
-      em Emaús" e "... 2.md"), gerando o mesmo slug e por isso a mesma
-      imagem. Não quebra nada (as duas linhas do banco mostram a obra
-      certa), mas infla a contagem do catálogo em ~7. Provavelmente são
-      versões diferentes da mesma cena (Rembrandt pintou "A Ceia em
-      Emaús" mais de uma vez) que o parser de título simplificou pro
-      mesmo nome — checar no vault e, se forem obras diferentes mesmo,
-      ajustar o título de uma delas pra desempatar o slug.
+- [~] **Achado no caminho (2026-08-16): notas duplicadas no vault —
+      varredura completa feita 2026-08-22 com a lógica real do export
+      (parseTitleParts + slugify + listas de exclusão): não são "7
+      pares", são **7 colisões reais no export** (varredura bruta das
+      notas achou mais 2 grupos — natividade 2 e Riviere Daniel — mas
+      eles nem chegam ao export: esqueleto sem dados e embed quebrado
+      são excluídos antes) + 3 grupos latentes em artistas já excluído
+      por copyright (Bodko ×5, Portinari
+      2+2, Kirk Richards ×2). E a estimativa antiga estava errada num
+      ponto importante: NÃO é inofensivo — as duas linhas de cada grupo
+      têm embed próprio (arquivos diferentes em `0 - Anexos`), mas o slug
+      colidido faz as duas gravarem o MESMO arquivo webp: **pelo menos
+      uma obra de cada par aparece com a imagem errada em produção**.
+      Varredura visual das imagens:
+      1. **Gustave Doré "A Morte de Sansão"** (Death of/The Death of):
+         MESMA gravura, uma nota é recorte da outra — duplicado
+         verdadeiro. Recomendação: excluir 1 (precedente Van Gogh),
+         manter o .jpeg maior.
+      2. **Rembrandt "A Ceia em Emaús"** (ambas ano 1648): composições
+         diferentes (versão escura vs. versão de arco claro) — obras
+         distintas mesmo; conferir anos/fontes na curadoria.
+      3. **Ticiano Adúltera (1510/1520)** e **Salomé (1515/1550)**,
+         **Decamps Samaritano (1842/1853)**: anos distintos = versões
+         diferentes da mesma cena — desempatar por ano.
+      4. **Briton Riviere Daniel**: uma das duas notas aponta pra arquivo
+         que não existe mais no Anexos (só sobrevive a variante com
+         apóstrofo tipográfico diferente) — é o MESMO caso da lista de 4
+         embeds quebrados; resolver junto com ela.
+      5. **Esqueletos**: "A natividade 2" (Autor desconhecino), "O filho
+         pródigo 4" (Burnand), "O bom samaritano 2/3" (Margetson) — notas
+         sem ano/dado preenchido, cada uma com imagem própria; decidir
+         preencher ou excluir.
+      **Correção de engenharia aplicada (2026-08-22): dedupe determinístico
+      de slug no export-vault-data.ts** — 1ª ocorrência mantém o slug limpo
+      (URLs/imagens indexadas ficam estáveis); duplicatas recebem ano da
+      obra e, se ainda colidir, sufixo (-2, -3...), com warning no console
+      pra cada desempate. Server typecheck limpo, 46/46 testes. **Efeito em
+      produção só após re-export + reseed + deploy.** Curadoria por par
+      (renomear no Obsidian / excluir duplicados) continua manual — renomear
+      fora do Obsidian quebraria wikilinks silenciosamente.
 - [x] ~~`web/public/images/` rastreado no git~~ — checado 2026-08-16: já é
       **Git LFS** (`.gitattributes` cobre `*.webp`/`*.jpg`/`*.png` e
       `web/public/images/*`), não git normal. Não é o problema que
@@ -293,13 +324,12 @@ elevar a qualidade do catálogo.
       corrigida ("a Bíblia na Arte", não "o", já que "Bíblia" é
       feminino).
 - [x] **`mailto:contato@biblianaarte.com` removido (2026-08-14)** —
-      domínio que o Rilson não possui, todo clique falharia. Pendência
-      real pra trás: e-mail de contato de verdade. Decisão central em
-      `hetzner-infra/README.md` ("Roadmap") — alias no cPanel do
-      narniano.com redirecionando pro Gmail já monitorado, não caixa
-      nova por projeto. Até lá, se precisar de um contato clicável aqui,
-      usar `rilsonjoas10@gmail.com` direto (mesmo padrão do
-      `scriptorium-divinum`, 2026-08-16).
+      domínio que o Rilson não possui, todo clique falharia.
+      **Atualização (2026-08-22): o alias definitivo já existe** —
+      `biblianaarte@narniano.com` foi criado no cPanel e é a MESMA chave
+      Pix do projeto (`src/lib/pix.ts`). É o endereço canônico de contato:
+      usar ele em todo clique de e-mail daqui pra frente, não mais o
+      Gmail pessoal (padrão antigo do Scriptorium superado aqui).
 
 ## Fase 4 — Segurança, observabilidade e infra
 
@@ -307,7 +337,9 @@ elevar a qualidade do catálogo.
 
 - [x] **Segurança — CSP (2026-08-14)**: Cabeçalho `Content-Security-Policy` configurado no `web/nginx.conf` cobrindo `script-src`, `style-src`, `font-src`, `img-src` e `connect-src`. Pendente: imagem `distroless`/sem-root, scan de deps no CI, auditoria completa.
 - [x] **Google Search Console verificado (2026-08-14)**: Tag `<meta name="google-site-verification">` adicionada ao `web/index.html`; propriedade `https://biblianaarte.narniano.com` verificada com sucesso.
-- [ ] **Verificar sitemap no Search Console**: Acessar [Google Search Console](https://search.google.com/search-console) → propriedade `biblianaarte.narniano.com` → Sitemaps → confirmar que `https://biblianaarte.narniano.com/sitemap.xml` está com status "Sucesso" e URLs sendo indexadas.
+- [x] **Verificar sitemap no Search Console (2026-08-22)**: sitemap enviado
+      em 14/08, última leitura 21/08, status "Processado", **2.115 páginas
+      encontradas** — confirmado pelo Rilson no Search Console.
 - [x] **Backup (2026-08-14)**: Confirmado. O banco `biblia_na_arte_db` está incluído no VPS Hetzner, coberto pelo script de backup diário (`backup.sh`) e validado pelo teste de restore semanal automático (`backup-restore-test.sh`).
 - [x] **Observabilidade e Resiliência (2026-08-14)**: `/health`, `/health/live` e `/health/ready` (validação de DB ativa) implementados no Fastify; tratamento gracioso de `SIGTERM`/`SIGINT` configurado; Sentry integrado.
 - [x] **`biblianaarte-web` sem healthcheck (achado 2026-08-14) — corrigido
@@ -424,6 +456,32 @@ elevar a qualidade do catálogo.
       (ou esconder até lá — decidir na hora). Material de curadoria no
       vault: notas de música sacra/livros (`10 - Arte e literatura`) e
       análise de cinema via Rookmaaker (`3 - Clippings`, Scorsese).
+
+### Ideias de produto — "o que faria deste site um lugar favorito" (2026-08-22)
+
+> Propostas do Ox (fora do roadmap até hoje), aprovadas pelo Rilson —
+> exceto widget embedável, descartada. Ordem: da menor pro maior esforço.
+
+- [ ] **Botão "Me surpreenda"** — obra aleatória no estilo do artigo
+      aleatório da Wikipédia: um clique, qualquer obra do catálogo com
+      contexto completo. Esforço mínimo (endpoint `?random=1` ou escolha
+      client-side), vício contemplativo puro.
+- [ ] **Newsletter semanal por e-mail** — 1 obra + 1 verso + 3 linhas de
+      reflexão, toda semana. Hoje a distribuição é 100% terra alugada
+      (Instagram/Pinterest); e-mail é canal próprio, combina com o ritmo
+      devocional do produto e independe de algoritmo. Enviar via alias
+      `biblianaarte@narniano.com`.
+- [ ] **"Onde ver pessoalmente"** — museu/cidade/país da obra na página
+      dela (dado já parcialmente presente na curadoria), com link pra
+      página do museu. Intenção de viagem é cauda longa de SEO alto
+      ("onde está a pintura X", "ver A Ceia em Emaús ao vivo") — serve
+      quem ama arte de verdade e planeja visita.
+- [ ] **Linha do tempo da passagem** — a mesma cena através dos séculos:
+      todas as obras de um versículo/cena em ordem cronológica ("A
+      Anunciação vista por 600 anos de pintores"). Transforma as "versões
+      duplicadas" achadas na varredura de slugs em feature-assinatura —
+      é a coisa que Google Imagens nunca vai fazer.
+
 
 ### Integração com o Lecionário — "Pintura do Dia" (2026-08-16)
 
@@ -545,21 +603,32 @@ depois:
       ("salas de uma mesma casa"), não inventado.
 
 **Pendente pra retomar:**
-- [ ] **Botões de copiar imagem / copiar descrição na obra** — já
-      rastreados mais abaixo ("Features de produto candidatas à Fase
-      5"), ainda não construídos. Mesmo padrão de copiar-e-colar já
-      usado no Pix (`PixDonationCard.tsx`).
-- [ ] **"As páginas estão profissionais o suficiente?" — resposta
-      honesta, achado concreto**: `Contribute.tsx` fala em "nossa
-      equipe de curadores" (linha ~201) e "Junte-se à Nossa Comunidade"
-      (linha ~228) — linguagem de projeto com equipe/comunidade
-      formada, mas é um projeto de 1 pessoa. Mesmo padrão já corrigido
-      no Scriptorium Divinum ("Como Contribuir" reescrito pra realidade
-      de projeto solo, ver seção Backlog daquele repo). Vale a mesma
-      correção aqui: linguagem honesta sobre curadoria pessoal, sem
-      fingir equipe que não existe — isso é o tipo de coisa que
-      derruba credibilidade se um contribuidor real perceber a
-      inconsistência.
+- [x] **Botão de copiar imagem na obra — feito (2026-08-22)**:
+      `CopyImageButton` em `ui/copy-button.tsx` — a imagem vira WebP, e o
+      clipboard só aceita PNG de forma confiável, então reencode via
+      canvas (`fetch → createImageBitmap → toBlob('image/png')`) antes do
+      `clipboard.write`; a Promise entra no `ClipboardItem` ainda dentro
+      do gesto (exigência do Safari), download/reencode rodam em paralelo.
+      Fica na barra de ações sob a imagem, junto de "Inspecionar
+      detalhes", só quando há imagem (embeds/iframe não ganham botão).
+      Navegadores sem `clipboard.write` falham silenciosamente com warn
+      no console. Verificado: typecheck limpo, 32/32 testes, build ok.
+- [x] **`Contribute.tsx` reescrito pra realidade de projeto solo
+      (2026-08-22)**: "Nossa equipe de curadores" e "Junte-se à Nossa
+      Comunidade" saíram — intro agora diz explicitamente que é projeto
+      pessoal de uma pessoa; passo 2 do processo descreve a revisão
+      individual pela mesma régua das obras publicadas (fonte, licença,
+      referência conferidas); seção de comunidade virou "Fale Com o
+      Projeto" (sem fórum, canal direto por e-mail); promessa de "página
+      de agradecimentos" (que não existe) removida. Bônus: os 4 botões
+      de contribuição eram decorativos (sem handler) — agora são links
+      `mailto:` com assunto pré-preenchido, todos apontando pra
+      `biblianaarte@narniano.com`. Typecheck limpo, 28/28 testes.
+      **Correção no mesmo dia**: cheguei a trocar o contato pra
+      `rilsonjoas10@gmail.com` achando que o alias ainda não existia
+      (a nota da Fase 3 abaixo estava desatualizada) — o Rilson corrigiu:
+      o alias **já existe** e é inclusive a chave Pix do projeto
+      (`src/lib/pix.ts`). Revertido pra `biblianaarte@narniano.com`.
 
 
 ## Achados 2026-08-22 (continuação) — busca, IA de navegação, links
@@ -568,30 +637,33 @@ depois:
 explícito: só documentar desta vez). Cada um já foi checado contra a
 API/código real antes de escrever aqui — não é suposição.
 
-- [ ] **Buscar artista no `/busca` não retorna nada** — investigado, mas
-      sem causa raiz confirmada ainda. O que já foi checado e **funciona
-      certo**, via `curl` direto na API:
-      - Texto livre com nome de artista: `GET /artworks/search?q=Rembrandt`
-        → 20 resultados (a busca full-text já cobre `artist_or_director`).
-      - Filtro por artista sem texto (o caminho que `searchArtworksAdvanced`
-        usa quando o campo de busca está vazio): `GET /artworks?artist=Rembrandt&limit=1000`
-        → 41 resultados.
-      - Não há variantes de nome pro mesmo artista bagunçando o filtro
-        (checado via `/api/v1/artists`: só existe "Rembrandt van Rijn",
-        nenhuma outra grafia).
-      Ou seja, o backend responde certo pros 2 caminhos que
-      `searchArtworksAdvanced` (`web/src/lib/api-data.ts:103`) usa. O bug
-      deve estar na camada de interação do frontend — hipóteses a checar
-      com reprodução real no navegador (não dá pra confirmar só por
-      `curl`):
-      1. `<SelectItem value="">Todos os artistas</SelectItem>` em
-         `Search.tsx:261` — string vazia como `value` é um padrão
-         desaconselhado/restrito no Radix UI Select (a lib reserva
-         string vazia pra "sem seleção"); pode estar quebrando o
-         comportamento do dropdown de formas não óbvias.
-      2. Possível condição de corrida entre `useArtworks()` (popula o
-         dropdown de artistas) e o filtro sendo aplicado antes dos dados
-         carregarem.
+- [x] **Buscar artista no `/busca` não retornava nada — RESOLVIDO
+      (2026-08-22), causa-raiz era outra**: nenhuma das 2 hipóteses
+      originais era o problema central. O bug real estava no
+      `Search.tsx` — a seção de resultados inteira só renderizava com
+      `{query && ...}`: escolhendo artista no filtro SEM digitar texto,
+      a busca rodava (`useArtworkSearchAdvanced` já tinha
+      `enabled: query || filters`, confirmado) mas a UI nunca mostrava.
+      Corrigido de uma vez, com achados extras no caminho:
+      1. Resultados agora renderizam com `query.trim() || hasActiveFilters`
+         ("Resultados filtrados" quando não há texto).
+      2. `<SelectItem value="">` (hipótese original #1) realmente era um
+         problema — string vazia não é valor válido pro Radix Select;
+         trocado por sentinela `'all'` normalizado nos 4 dropdowns.
+      3. **Achado novo: `selectedCentury` era estado morto** — aparecia na
+         UI e no badge, mas nunca entrava em `searchFilters`. `SearchFilters`
+         já declarava `yearFrom`/`yearTo` que ninguém aplicava. Agora cada
+         século mapeia pra faixa de anos (ex.: Século XVII = 1600-1699,
+         intuição por década inicial), filtrado no cliente pela função nova
+         `parseYear()` (tolera `"c. 1609"`; obras sem ano ficam de fora
+         quando há filtro de ano). 4 testes novos.
+      4. Dropdown de artistas migrou do "baixar catálogo inteiro e extrair
+         nomes" pro endpoint agregado `GET /artists` (`useArtists`) — mata
+         também a hipótese #2 (corrida do dropdown): fonte única, cacheada
+         30min.
+      5. Paginação reseta pra página 1 ao mudar busca/filtros (antes,
+         página antiga podia cair fora do alcance do resultado novo).
+      Typecheck limpo, 32/32 testes.
 - [ ] **Os dropdowns "Navegar pela Bíblia" e "Galeria de Arte" fazem
       sentido?** — questão honesta do Rilson, vale registrar a análise:
       - "Navegar pela Bíblia" ainda se justifica (AT/NT é uma
@@ -615,26 +687,26 @@ API/código real antes de escrever aqui — não é suposição.
         indexadas no Google (2.115 páginas no sitemap, confirmado no
         Search Console) — precisa de redirect 301 bem pensado pra não
         perder o SEO já conquistado, não só trocar rota.
-- [ ] **"Parte de Uma Biblioteca Maior" (`/sobre`, seção adicionada
-      2026-08-22) linka pros 3 projetos-irmãos mas não pro narniano.com
-      em si** — o hub raiz do cluster ficou de fora, achado real,
-      omissão simples de corrigir (`web/src/pages/About.tsx`, bloco da
-      seção "Parte de Uma Biblioteca Maior").
-- [ ] **`/arte` ainda fala de Músicas e Filmes como se já existissem** —
-      confirmado contra a API: `GET /artworks?category=music` e
-      `category=film` retornam **0 obras** (828 são pinturas, 100% do
-      catálogo hoje). O card de cada categoria em `ArtCategories.tsx`
-      já mostra a contagem real (então tecnicamente não mente), mas o
-      texto descritivo ("Dos hinos gregorianos aos grandes oratórios
-      clássicos, ouça como...", linha ~44; "Descubra como o cinema...
-      trouxe as narrativas bíblicas pras telas...", linha ~51) é escrito
-      no presente, como se already existissem obras pra explorar —
-      choca com o princípio #1 do Padrão de Qualidade de Conteúdo
-      (fato/promessa não verificada não entra) igual ao espírito do
-      achado da Capela Sistina. Ajuste sugerido: badge "Em breve" nas 2
-      categorias vazias, ou reescrever a descrição pro futuro
-      ("Em breve, vamos explorar como..."), até ter pelo menos 1 obra
-      real em cada.
+- [x] **"Parte de Uma Biblioteca Maior" (`/sobre`) não linkava o
+      narniano.com em si — corrigido (2026-08-22)**: "Narniano" adicionado
+      como primeiro link da lista de irmãos (`About.tsx`), junto de
+      Gerador/Lecionário/Scriptorium.
+- [x] **`/arte` falava de Músicas e Filmes como se já existissem —
+      corrigido (2026-08-22)**: confirmado contra a API que `category=music`
+      e `category=film` retornam 0 obras. Descrições dos 2 cards reescritas
+      pro futuro ("Em breve, você poderá ouvir aqui...", "Em breve, vamos
+      explorar como...") em `ArtCategories.tsx`; badge do card agora mostra
+      "Em breve" quando `count === 0` (derivado da contagem real — quando a
+      1ª obra de cada meio entrar, o badge volta a contar sozinho); estado
+      vazio da página de categoria ganhou "Volte em breve."
+- [x] **Achado visual do Rilson (2026-08-22, screenshot): cards de
+      `/arte` feios — borda do badge de contagem esticada em largura**
+      — o `Badge outline` dentro do `CardHeader` (flex-column,
+      `align-items: stretch`) vira uma barra com borda atravessando o
+      card. Redesenhado sem caixa: rótulo tipográfico quieto sob o título,
+      no padrão caps espaçadas do rodapé ("CONHEÇA TAMBÉM") — "828 OBRAS"
+      em muted; "✦ EM BREVE" em dourado (`text-accent/80`, ornamento ✦ já
+      consagrado no footer do cluster). Web typecheck limpo, 32/32 testes.
 
 
 ## Qualidade de Conteúdo (2026-08-22)
@@ -746,20 +818,22 @@ Google" não é viável em iOS de qualquer forma.
       **Lu Hongnian bloqueado até 2059** (†1989); **Gao Di'an intracável**
       (permanece bloqueado por precaução). Com isso o pré-requisito de
       confiança pra **AdSense está cumprido** (ver seção Monetização).
-- [ ] **Informação fabricada no "Sobre o projeto" (2026-08-22)** — a seção
-      "Como Tudo Começou" (`web/src/pages/About.tsx`, ~linha 153) inventa uma
-      origem que **não aconteceu** ("surgiu durante uma visita à Capela
-      Sistina observando Michelangelo"). A história real: o projeto nasceu da
-      paixão por arte bíblica, da leitura de Hans Rookmaaker, e foi lançado
-      primeiro como **Arte Cristã Diária** no Instagram — o site veio depois.
-      Reescrever com a história verdadeira e revisar o resto da página (e o
-      parágrafo equivalente na home, `Index.tsx`) contra fatos verificáveis.
-      Mesma classe de problema do item de copyright: a credibilidade é o
-      produto.
+- [x] **Informação fabricada no "Sobre o projeto" — RESOLVIDA
+      (2026-08-22)**: `About.tsx` e `Index.tsx` contam a história real
+      (paixão por arte bíblica → leitura de Rookmaaker → lançamento como
+      **Arte Cristã Diária** no Instagram → site depois), com citação real
+      do Rookmaaker atribuída a obra e ano; nenhuma menção à Capela Sistina
+      (confirmado por grep). Checkbox estava desatualizado — a correção já
+      tinha acontecido no mesmo dia em que o achado foi registrado (ver
+      seção Qualidade de Conteúdo acima).
 
 ### 🟡 Melhoria — produto (ver Fases 1-3 do roadmap principal)
 
-- [ ] **"Conheça também" no rodapé — seção de links do cluster A Biblioteca** — o footer atual (4 colunas) não linka os projetos irmãos. Adicionar bloco compacto seguindo o **modelo aprovado no Gerador C.S. Lewis (2026-08-21)**: rótulo-nicho em caps espaçadas ("CONHEÇA TAMBÉM", tom apagado) → links uniformes (mesmo tamanho/peso) separados por ✦ dourado, em grupos atômicos `flex-wrap` (ornamento + link indivisíveis, quebra de linha limpa no mobile) → © discreto na base. Uma família tipográfica só, coluna centrada. Links: Narniano, Scriptorium Divinum, Lecionário, Gerador C.S. Lewis. Referência: `ClusterFooter.tsx` em `GeradorCSLewis/src/components/`. (Mesma tarefa registrada nos ROADMAPs do Lecionário e Scriptorium.)
+- [x] **"Conheça também" no rodapé — CONCLUÍDO (2026-08-22)**: já está no
+      `Footer.tsx` (confirmado por grep), seguindo o modelo do Gerador —
+      ver item "[x] Footer 'Conheça também'" na seção Identidade acima.
+      Checkbox aqui estava desatualizado. (Falta ainda nos ROADMAPs do
+      Lecionário e Scriptorium.)
 
 - [x] **Scroll to top na navegação** — RESOLVIDO (2026-08-22): confirmado
       que NÃO havia restauração — SPA preservava posição de scroll entre
@@ -902,9 +976,19 @@ Google" não é viável em iOS de qualquer forma.
       tsc limpo, 28/28 testes passando (22 + 6 novos), build ok.
       Coerente com a estratégia já registrada na Fase 5 (apoio direto
       combina mais que ads).
-- [ ] **Botão de copiar imagem** na página da obra.
-- [ ] **Botão de copiar descrição** no bloco "Sobre a Obra" — mesmo padrão
-      dos versículos e outros dados copiáveis do Lecionário.
+- [x] **Botão de copiar imagem** na página da obra — feito (2026-08-22),
+      ver detalhe na seção da sessão de polish acima. Mesmo componente
+      família do copiar descrição (`CopyImageButton`), com reencode
+      WebP→PNG via canvas pra o clipboard aceitar.
+- [x] **Botão de copiar descrição** no bloco "Sobre a Obra" — feito
+      (2026-08-22): componente reutilizável novo
+      `web/src/components/ui/copy-button.tsx` (estado copiado + ícone
+      Check/Copy + `aria-label`, mesmo padrão do Pix) — serve pros
+      próximos botões de cópia (versículos, imagem). Na página da obra,
+      fica na linha do título "Sobre esta Obra" e só aparece quando há
+      descrição (obras-stub não ganham botão vazio); copia o texto com
+      markdown removido (`stripMarkdown()`), pronto pra colar.
+      Typecheck limpo, 32/32 testes, build ok.
 - [ ] **Exportar Story do Instagram** — imagem + metadados da obra +
       logo/nome do projeto na fonte certa, tudo seguindo o design; mesmo
       padrão já validado no Gerador C.S. Lewis e no Teste Político.
