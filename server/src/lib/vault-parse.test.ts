@@ -99,6 +99,18 @@ describe('extractDescription', () => {
     expect(desc).not.toContain('Contexto Bíblico');
   });
 
+  it('desembrulha wikilink do Obsidian no corpo da descrição (achado 2026-08-23: vazava cru pra tela — "Saudade" citava [[C. S. Lewis]])', () => {
+    const note = `---
+autor: "[[X]]"
+---
+### Descrição da Obra
+É próxima do que [[C. S. Lewis]] chamou de *Sehnsucht*.
+`;
+    const desc = extractDescription(note);
+    expect(desc).toContain('C. S. Lewis chamou de');
+    expect(desc).not.toContain('[[');
+  });
+
   it('corta em 2000 caracteres', () => {
     const long = `---\nautor: "[[X]]"\n---\n\n### Descrição da Obra\n\n${'a'.repeat(2500)}`;
     expect(extractDescription(long).length).toBe(2000);
@@ -348,6 +360,9 @@ Hans Rookmaaker cita esta obra por nome.
     expect(result?.author).toBe('Rookmaaker');
     expect(result?.text).toContain('Hans Rookmaaker cita esta obra por nome.');
     expect(result?.text).toContain('Filosofia e Estética');
+    // achado 2026-08-23: a nota real do Rembrandt citava *[[Filosofia e
+    // Estética]]* — sem desembrulhar, o site mostrava os colchetes crus.
+    expect(result?.text).not.toContain('[[');
   });
 
   it('não vaza pra dentro de Descrição da Obra nem de Contexto Bíblico', () => {

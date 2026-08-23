@@ -68,11 +68,23 @@ function isPlaceholderText(text: string): boolean {
   return false;
 }
 
+/** Desembrulha wikilinks do Obsidian pra markdown limpo (ex: [[João 8]] ->
+ *  João 8) — sem isso, `[[...]]` vaza cru pra tela: o `Markdown.tsx` do
+ *  frontend só sabe renderizar markdown padrão, não sintaxe do Obsidian.
+ *  Achado 2026-08-23: já existia só dentro de `extractPassageText`, mas
+ *  o mesmo problema afeta qualquer texto livre em prosa que cite algo
+ *  entre colchetes duplos (ex. "Saudade" do Almeida Júnior cita
+ *  `[[C. S. Lewis]]` na própria Descrição da Obra) — extraído aqui pra
+ *  reusar em toda função de extração de texto livre, não só citações. */
+function unwrapWikilinks(text: string): string {
+  return text.replace(/\[\[([^\]]+)\]\]/g, '$1');
+}
+
 export function extractDescription(content: string): string {
   const afterFrontmatter = content.replace(/^---\n[\s\S]*?\n---/, '').trim();
   const descMatch = afterFrontmatter.match(/###\s*Descrição da Obra\s*\n+([\s\S]*?)(?=\n---|\n###|$)/);
   const captured = descMatch?.[1]?.trim();
-  if (captured && !isPlaceholderText(captured)) return captured.slice(0, 2000);
+  if (captured && !isPlaceholderText(captured)) return unwrapWikilinks(captured).slice(0, 2000);
   // Fallback: primeiro parágrafo de texto real depois da imagem embutida
   // (pula placeholders de navegação e linhas de heading, não só o primeiro
   // trecho >20 caracteres que aparecer)
@@ -80,7 +92,7 @@ export function extractDescription(content: string): string {
   const firstParagraph = withoutImage
     .split(/\n{2,}/)
     .find((p) => p.trim().length > 20 && !isPlaceholderText(p.trim()));
-  return (firstParagraph ?? '').trim().slice(0, 2000);
+  return unwrapWikilinks((firstParagraph ?? '').trim()).slice(0, 2000);
 }
 
 /** "Gênesis 18" -> {book: "Gênesis", chapter: 18}
@@ -167,11 +179,11 @@ export function extractClassicCommentary(content: string): { author: string; tex
   const match = content.match(/###\s*Na leitura de\s+(.+?)\s*\n+([\s\S]*?)(?=\n---|\n###|$)/);
   if (!match?.[1] || !match[2]) return null;
 
-  const author = match[1].trim();
+  const author = unwrapWikilinks(match[1].trim());
   const text = match[2].trim();
   if (!author || !text || isPlaceholderText(text)) return null;
 
-  return { author, text: text.slice(0, 4000) };
+  return { author, text: unwrapWikilinks(text).slice(0, 4000) };
 }
 
 /** Extrai os trechos em citação (> ...) da seção "Contexto Bíblico".
@@ -222,9 +234,7 @@ export function extractPassageText(content: string): string | null {
 
   if (quotes.length === 0) return null;
 
-  const cleaned = quotes
-    .join('\n\n')
-    .replace(/\[\[([^\]]+)\]\]/g, '$1')
+  const cleaned = unwrapWikilinks(quotes.join('\n\n'))
     .replace(/\*\*([^*]+)\*\*:(\d+[\d\-,]*)/g, '**$1:$2**')
     .trim();
 
