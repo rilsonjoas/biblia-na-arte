@@ -1522,3 +1522,59 @@ podada (sem `tsx`, sem os scripts fonte). Depois do reseed, **restart
 do container da API é necessário** pra reaplicar `data-fixes.sql` (ele
 só roda no boot, não em background) — sem isso, obras de artista vivo
 recém-reinseridas ficam `active=true` até o próximo deploy natural.
+
+
+## Achado CRÍTICO 2026-08-23 — texto de terceiros/anotação editorial vazando pro site
+
+O Rilson pegou com screenshot: a página de "O Faraó e as parteiras"
+(James Tissot) mostrava o aviso completo do Google Arts & Culture
+("While the Jewish Museum is pleased to share this... scholarship and
+research... ongoing" + URL) direto em "Sobre esta Obra", no site
+público. Registrado aqui com o peso que merece — risco real de
+credibilidade, não só um bug de estilo.
+
+**2 causas raiz:**
+1. Nas 11 notas que eu tinha acabado de enriquecer nesta sessão, pus a
+   etiqueta de changelog "**Nota enriquecida em 2026-08-23**" como
+   primeira frase da própria Descrição da Obra — sem filtro nenhum pra
+   esse padrão, ia direto pro campo público.
+2. O `sanitizeDescription()` escrito mais cedo no mesmo dia (pro achado
+   do Bezerro de Ouro/Margetson) tinha um bug real: a regex que removia
+   blocos `> [!info]` só apagava a PRIMEIRA linha do blockquote quando
+   ele tinha várias linhas `>` seguidas. Era exatamente o caso do
+   Tissot — 3 linhas de callout, só a 1ª sumia, as outras 2 ficavam
+   órfãs e vazavam.
+
+**Varredura completa do catálogo (1016 notas) depois de corrigir os 2
+bugs** achou mais 5 notas de sessões anteriores com o mesmo padrão de
+aside editorial ("Correção de referência", "Nota de proveniência"
+etc.) — a mais grave (Dürer, Adoração da Trindade) tinha conteúdo real
+de pesquisa (autorretrato, disambiguação de referência bíblica) preso
+dentro do parágrafo de changelog; reescrita mantendo os fatos,
+descartando a moldura. As outras 4 já ficaram limpas só com o fix do
+parser.
+
+**Fix aplicado (não é só limpeza pontual — é estrutural):**
+`sanitizeDescription()` reescrito: remove blocos de callout inteiros
+(qualquer número de linhas, cobertura ampliada — Google Arts & Culture
+além de meisterdrucke/gallerix já cobertos), remove a frase de abertura
+de qualquer aside `**Nota/Correção/Achado/Atualização/Editorial**`
+(só a frase, não o parágrafo — várias vezes a etiqueta abre o MESMO
+parágrafo que já tem conteúdo real da obra logo em seguida), remove
+comentários Obsidian `%%...%%` e HTML `<!-- -->` como defesa extra.
+7 testes de regressão novos.
+
+**Verificado com rigor, não só "parece que funcionou"**: varredura das
+1016 notas do vault via `extractDescription()` real (não regex solta) —
+zero ocorrências de qualquer marcador conhecido. Depois do reseed em
+produção, **todas as 845 obras ativas buscadas direto da API real**
+(não amostra) — zero problema. Ciclo completo: achado → causa raiz →
+fix no parser → 7 testes novos → varredura de todo o vault → reseed →
+varredura de toda a API em produção.
+
+**Lição pra não repetir**: qualquer anotação sobre o HISTÓRICO DE
+EDIÇÃO de uma nota (changelog, correção, achado de pesquisa) nunca
+entra dentro de "### Descrição da Obra" ou "### Contexto Bíblico" —
+vai no corpo do commit do git (que já registra data/autor/motivo de
+sobra) ou, se precisar mesmo ficar visível no vault, fora dessas duas
+seções.
