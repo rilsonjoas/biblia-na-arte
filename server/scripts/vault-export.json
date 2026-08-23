@@ -136,7 +136,7 @@
           "book": "Lucas",
           "bookSlug": "luke",
           "chapter": 2,
-          "passageText": "\"Agora, Senhor, despedes em paz o teu servo, segundo a tua palavra; pois já os meus olhos viram a tua salvação.\"\n— **Lucas 2:29-30**"
+          "passageText": "\"Agora, Senhor, despedes em paz o teu servo, segundo a tua palavra; pois já os meus olhos viram a tua salvação, a qual preparaste perante a face de todos os povos; luz para alumiar as nações, e para glória de teu povo Israel.\"\n— **Lucas 2:29-32**"
         }
       ]
     },
@@ -368,12 +368,18 @@
       "description": "Esta obra de **Albrecht Dürer** retrata a adoração da Santa Trindade pela Cidade de Deus, representando santos, anjos e fiéis em veneração ao Pai, Filho e Espírito Santo.",
       "imageFile": "albrecht-durer-adoracao-da-trindade-pela-cidade-de-deus.webp",
       "licenseType": "public-domain",
+      "location": "Kunsthistorisches Museum, Viena, Áustria",
       "references": [
         {
           "book": "Apocalipse",
           "bookSlug": "revelation",
-          "chapter": 21,
-          "passageText": "\"E eu, João, vi a santa cidade, a nova Jerusalém, que de Deus descia do céu, adereçada como uma esposa ataviada para o seu marido.\"\n— **Apocalipse 21:2**"
+          "chapter": 7,
+          "passageText": "\"Depois destas coisas olhei, e eis aqui uma multidão, a qual ninguém podia contar, de todas as nações, e tribos, e povos, e línguas, que estavam diante do trono, e perante o Cordeiro, trajando compridas vestes brancas, e com palmas nas suas mãos.\"\n— **Apocalipse 7:9**\n\n\"E eu, João, vi a santa cidade, a nova Jerusalém, que de Deus descia do céu, adereçada como uma esposa ataviada para o seu marido.\"\n— **Apocalipse 21:2**"
+        },
+        {
+          "book": "Apocalipse",
+          "bookSlug": "revelation",
+          "chapter": 21
         }
       ]
     },
@@ -547,14 +553,17 @@
       "artistOrDirector": "Alexandre Gabriel Decamps",
       "year": "1842",
       "category": "painting",
-      "description": "O bom samaritano, de Alexandre Gabriel Decamps.",
+      "description": "Diferente da tradição de retratar a parábola como cena urbana, Decamps a situa numa paisagem orientalista: muros de pedra desgastados e pinheiros esguios erguendo-se de colinas rochosas, sob um céu alaranjado ao entardecer. Em primeiro plano, o samaritano socorre o viajante ferido, com um cavalo castanho e um cavalo branco (coberto por um manto vermelho) parados ao lado — os mesmos que levarão o ferido até a hospedaria. A escala pequena das figuras diante da paisagem monumental é assinatura do orientalismo francês de Decamps: o gesto de misericórdia soa quase incidental frente à imensidão da terra árida.\n\nÓleo sobre tecido, 28,8 × 46 cm — Cleveland Museum of Art (acervo 1980.253), doação do espólio de Noah L. Butkin. Proveniência: coleção de Paul Périer (Paris, vendida em 19/12/1846) → Galerie B. G. Verte (Paris, 1977) → Butkin (Cleveland).",
       "imageFile": "alexandre-gabriel-decamps-o-bom-samaritano.webp",
       "licenseType": "public-domain",
+      "location": "Cleveland Museum of Art, Cleveland, EUA",
+      "sourceUrl": "https://www.clevelandart.org/art/1980.253",
       "references": [
         {
           "book": "Lucas",
           "bookSlug": "luke",
-          "chapter": 10
+          "chapter": 10,
+          "passageText": "\"E, indo ele por um caminho, chegou a um lugar onde havia um homem quase morto, roubado e ferido... Mas um samaritano, que ia de viagem, chegou ao pé dele, e vendo-o, moveu-se de íntima compaixão; e, aproximando-se, atou-lhe as feridas... e pondo-o sobre a sua cavalgadura, o levou para uma estalagem, e cuidou dele.\"\n— **Lucas 10:30,33-34**"
         }
       ]
     },
@@ -565,14 +574,16 @@
       "artistOrDirector": "Alexandre Gabriel Decamps",
       "year": "1853",
       "category": "painting",
-      "description": "O bom samaritano, de Alexandre Gabriel Decamps.",
+      "description": "Ao contrário da paisagem aberta da outra tela de Decamps sobre o mesmo tema (1842), aqui a cena se fecha num pátio urbano de arquitetura oriental: o viajante ferido é erguido sobre um pano estendido no chão, cercado por figuras que o assistem, enquanto uma mulher observa de um terraço acima e dois cavalos aguardam à esquerda. A pincelada é grossa e empastada — a \"maneira tardia\" de Decamps, quando o artista já se preparava para fechar o ateliê em Paris e se retirar para Fontainebleau. A obra foi admirada por Eugène Delacroix em 1853, e trata o tema com uma austeridade formal incomum pra cenas de gênero orientalistas da época — o peso moral da parábola pesa mais que o pitoresco.\n\nÓleo sobre tela, 93 × 74 cm — Metropolitan Museum of Art, Nova York (acervo 29.160.36), na coleção desde 1929.",
       "imageFile": "alexandre-gabriel-decamps-o-bom-samaritano-1853.webp",
       "licenseType": "public-domain",
+      "location": "Metropolitan Museum of Art, Nova York, EUA",
       "references": [
         {
           "book": "Lucas",
           "bookSlug": "luke",
-          "chapter": 10
+          "chapter": 10,
+          "passageText": "\"E, indo ele por um caminho, chegou a um lugar onde havia um homem quase morto, roubado e ferido... Mas um samaritano, que ia de viagem, chegou ao pé dele, e vendo-o, moveu-se de íntima compaixão.\"\n— **Lucas 10:30,33**"
         }
       ]
     },
@@ -663,7 +674,7 @@
           "book": "João",
           "bookSlug": "john",
           "chapter": 19,
-          "passageText": "\"E disse-lhes Pilatos: Eis aqui o homem.\"\n— **João 19:5**"
+          "passageText": "\"Saiu, pois, Jesus, levando a coroa de espinhos e o manto de púrpura. E disse-lhes Pilatos: Eis aqui o homem!\"\n— **João 19:5**"
         }
       ]
     },
@@ -14739,6 +14750,8 @@
       "description": "Esta obra de **Rembrandt** é uma das mais respeitadas representações da Ceia em Emaús. Ao contrário da dramaticidade teatral de Caravaggio, Rembrandt opta por um **Realismo Psicológico**, focando na reação interior e espiritual dos discípulos. O artista utiliza o **tenebrismo** de forma mística: a luz não parece ter uma fonte física (como uma lâmpada), mas emana da própria presença de Cristo, simbolizando que Ele é a \"Luz do Mundo\".\n\nA composição utiliza uma **Simetria Arquitetônica** ao fundo, com um grande arco que emoldura Jesus, transformando a mesa comum em algo que lembra um altar. Rembrandt aplica a técnica do **esfumado** para tornar os contornos de Cristo menos nítidos do que os dos discípulos, sugerindo sua natureza glorificada e sobrenatural. A expressividade nos rostos — um discípulo com as mãos postas em oração e o outro em choque silencioso — captura o momento em que a explicação das Escrituras se torna visão real.",
       "imageFile": "rembrandt-van-rijn-a-ceia-em-emaus.webp",
       "licenseType": "public-domain",
+      "location": "Museu do Louvre, Paris, França",
+      "sourceUrl": "https://collections.louvre.fr/en/ark:/53355/cl010062023",
       "references": [
         {
           "book": "Lucas",
@@ -14748,15 +14761,17 @@
       ]
     },
     {
-      "slug": "rembrandt-van-rijn-a-ceia-em-emaus-1648",
+      "slug": "rembrandt-van-rijn-a-ceia-em-emaus-1628",
       "title": "A Ceia em Emaús",
       "subtitle": "De maaltijd te Emmaüs",
       "artistOrDirector": "Rembrandt van Rijn",
-      "year": "1648",
+      "year": "1628",
       "category": "painting",
-      "description": "Esta obra de 1648 representa a fase madura de **Rembrandt**, onde ele abandona o drama violento de sua juventude em favor de uma espiritualidade silenciosa e profunda. O quadro é um exemplo magistral do **Barroco Holandês**, utilizando o **tenebrismo** de forma sutil: a luz não parece vir de uma vela ou janela, mas emana suavemente do próprio Cristo, iluminando o pão e os rostos atônitos dos discípulos.\n\nA **Composição** é organizada em torno de um arco arquitetônico ao fundo, que funciona como um nicho sagrado, centralizando a figura de Jesus e conferindo à cena uma dignidade monumental, quase como um altar. Rembrandt utiliza a técnica do **sfumato** (suavização dos contornos) para criar uma atmosfera enevoada e mística, sugerindo que a presença de Cristo é, ao mesmo tempo, física e espiritual. A economia de gestos — o discípulo à esquerda com as mãos postas e o da direita em choque — foca a narrativa no momento exato da revelação interior.",
-      "imageFile": "rembrandt-van-rijn-a-ceia-em-emaus-1648.webp",
+      "description": "**Correção de dado (2026-08-22)**: esta nota estava com `ano: 1648` e uma descrição que na verdade correspondia à obra madura do Louvre (a outra nota deste par, \"... 2\"). A imagem anexada aqui é uma pintura diferente: **c. 1628**, óleo sobre papel colado em painel (39×42 cm), hoje no Musée Jacquemart-André, Paris — Rembrandt pintou o tema de Emaús várias vezes ao longo da carreira, e esta é a versão mais antiga e mais radical das duas.\n\nA cena usa um forte efeito de **contraluz (contre-jour)**: a fonte de luz fica atrás de Cristo, reduzindo sua figura quase inteiramente a uma silhueta contra a parede iluminada — o oposto do tratamento do Louvre de 1648, onde o rosto de Cristo é visível e a luz emana suavemente dele. Aqui o mistério é sugerido pela ausência: não se vê o rosto, só a forma. Um discípulo, iluminado de perfil, reage em choque silencioso à mesa; ao fundo, à esquerda, uma segunda figura (provavelmente um criado) mal se distingue na penumbra.",
+      "imageFile": "rembrandt-van-rijn-a-ceia-em-emaus-1628.webp",
       "licenseType": "public-domain",
+      "location": "Musée Jacquemart-André, Paris, França",
+      "sourceUrl": "https://www.musee-jacquemart-andre.com/en/works/supper-emmaus",
       "references": [
         {
           "book": "Lucas",
@@ -15310,6 +15325,44 @@
           "bookSlug": "exodus",
           "chapter": 32,
           "passageText": "\"E aconteceu que, chegando ele perto do arraial, e vendo o bezerro e as danças, a ira de Moisés se acendeu, e lançou as tábuas de suas mãos, e as quebrou ao pé do monte.\"\n\n\"E, tornando-se Moisés ao Senhor, disse: Ah, este povo pecou grande pecado, fazendo para si deuses de ouro! Ora, pois, se perdoares o seu pecado; e, se não, risca-me, peço-te, do teu livro que tens escrito.\""
+        }
+      ]
+    },
+    {
+      "slug": "rembrandt-van-rijn-o-erguimento-da-cruz",
+      "title": "O Erguimento da Cruz",
+      "subtitle": "De kruisoprichting",
+      "artistOrDirector": "Rembrandt van Rijn",
+      "year": "1633",
+      "category": "painting",
+      "description": "Segunda tela do ciclo da Paixão que Rembrandt pintou entre 1633 e 1639 para Frederico Henrique, Príncipe de Orange — a irmã desta obra, \"[[Rembrandt van Rijn - A Descida da Cruz (De kruisafname)|A Descida da Cruz]]\", já está no acervo. O quadro mostra o instante em que a cruz, com Cristo já pregado nela, é erguida do chão por um grupo de executores — não há queda dramática de luz messiânica aqui, como em outras cenas de Rembrandt: a escuridão quase total do fundo (óleo sobre tela, 95,7 × 72,2 cm) engole a multidão, e só o corpo pálido de Cristo e as figuras mais próximas da cruz recebem luz.\n\nO detalhe mais discutido pelos historiadores da obra é o autorretrato de Rembrandt: o homem de boina azul e casaco azul-claro, no centro da composição, ajudando a erguer a viga, tem os traços e a boina característica do próprio pintor. Diferente do autorretrato mais contemplativo em \"A Descida da Cruz\" (o homem que ampara as pernas de Cristo), aqui Rembrandt se pinta entre os **algozes** — um dos que efetivamente crucificam, não um dos que veneram o corpo depois. A leitura tradicional é de confissão teológica: o pintor se inclui entre os responsáveis pela morte de Cristo, não como espectador distante da cena.",
+      "imageFile": "rembrandt-van-rijn-o-erguimento-da-cruz.webp",
+      "licenseType": "public-domain",
+      "location": "Alte Pinakothek, Munique, Alemanha",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/Category:The_Raising_of_the_Cross_(Rembrandt)",
+      "classicCommentaryAuthor": "Rookmaaker",
+      "classicCommentary": "Hans Rookmaaker cita esta obra por nome no artigo \"Normas para a arte e a educação artística?\", ao propor seis critérios pra julgar uma obra de arte. Um dos critérios — \"cosmovisão do artista\", a visão de realidade que a obra expressa — ele ilustra contrastando diretamente esta pintura com a *Crucificação* (1930) de Picasso:\n\n> \"[...] a diferença entre a *Crucificação* (1930) de Picasso e o *Erguimento da Cruz* (1633) de Rembrandt.\"\n> — Hans Rookmaaker, *[[Filosofia e Estética]]*, p. 199-202\n\nRookmaaker não desenvolve o contraste em detalhe nesse trecho específico (é um exemplo dentro de uma lista de critérios, não uma análise estendida da obra), mas a escolha das duas obras não é arbitrária: Picasso fragmenta a cena em formas abstratas, sem rosto reconhecível de sofrimento; Rembrandt, um século e meio antes de qualquer vanguarda, já filma o acontecimento como drama humano concreto — com um rosto (o seu próprio) entre os que erguem a cruz. Para Rookmaaker, essa é precisamente a diferença entre uma cosmovisão que abstrai o sofrimento e uma que se implica nele.",
+      "references": [
+        {
+          "book": "Mateus",
+          "bookSlug": "matthew",
+          "chapter": 27,
+          "passageText": "\"E, havendo-o crucificado, repartiram as suas vestes, lançando sortes, para que se cumprisse o que foi dito pelo profeta: Repartiram entre si as minhas vestes, e sobre a minha túnica lançaram sortes.\"\n— **Mateus 27:35**\n\n\"E era a hora terceira, e o crucificaram. [...] E, com ele, crucificaram dois salteadores, um à sua direita, e outro à esquerda.\"\n— **Marcos 15:25,27**"
+        },
+        {
+          "book": "Marcos",
+          "bookSlug": "mark",
+          "chapter": 15
+        },
+        {
+          "book": "Lucas",
+          "bookSlug": "luke",
+          "chapter": 23
+        },
+        {
+          "book": "João",
+          "bookSlug": "john",
+          "chapter": 19
         }
       ]
     },
@@ -16310,6 +16363,7 @@
       "description": "Esta pintura de **Ticiano** retrata a cena em que os escribas e fariseus trazem uma mulher pega em adultério diante de Jesus, tentando colocá-lo em uma armadilha. A composição captura o momento dramático da confrontação.",
       "imageFile": "ticiano-cristo-e-a-mulher-adultera.webp",
       "licenseType": "public-domain",
+      "location": "Kelvingrove Art Gallery and Museum, Glasgow, Reino Unido",
       "references": [
         {
           "book": "João",
@@ -16329,6 +16383,8 @@
       "description": "Esta pintura de **Ticiano** retrata Jesus e a mulher apanhada em adultério, quando os fariseus tentaram usar a situação para acusá-lo.",
       "imageFile": "ticiano-cristo-e-a-mulher-adultera-1520.webp",
       "licenseType": "public-domain",
+      "location": "Kunsthistorisches Museum, Viena, Áustria",
+      "sourceUrl": "https://www.khm.at/objektdb/detail/1933/",
       "references": [
         {
           "book": "João",
@@ -18353,5 +18409,5 @@
       "references": []
     }
   ],
-  "exportedAt": "2026-08-23T01:29:26.795Z"
+  "exportedAt": "2026-08-23T11:42:19.838Z"
 }
