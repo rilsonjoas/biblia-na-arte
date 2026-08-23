@@ -197,6 +197,7 @@ export function ArtworkLightbox({ artwork, isOpen, onClose }: ArtworkLightboxPro
             disabled={zoom <= 0.8}
             className="h-10 w-10 sm:h-8 sm:w-8 text-white hover:bg-white/20 rounded-full"
             title="Diminuir Zoom (-)"
+            aria-label="Diminuir zoom"
           >
             <ZoomOut className="w-4 h-4" />
           </Button>
@@ -212,6 +213,7 @@ export function ArtworkLightbox({ artwork, isOpen, onClose }: ArtworkLightboxPro
             disabled={zoom >= 4}
             className="h-10 w-10 sm:h-8 sm:w-8 text-white hover:bg-white/20 rounded-full"
             title="Aumentar Zoom (+)"
+            aria-label="Aumentar zoom"
           >
             <ZoomIn className="w-4 h-4" />
           </Button>
@@ -222,6 +224,7 @@ export function ArtworkLightbox({ artwork, isOpen, onClose }: ArtworkLightboxPro
             onClick={handleReset}
             className="h-10 w-10 sm:h-8 sm:w-8 text-white hover:bg-white/20 rounded-full"
             title="Resetar Zoom (0)"
+            aria-label="Resetar zoom"
           >
             <RotateCcw className="w-4 h-4" />
           </Button>
@@ -234,6 +237,7 @@ export function ArtworkLightbox({ artwork, isOpen, onClose }: ArtworkLightboxPro
             onClick={toggleFullscreen}
             className="h-10 w-10 sm:h-8 sm:w-8 text-white hover:bg-white/20 rounded-full"
             title="Alternar Tela Cheia"
+            aria-label={isFullscreen ? 'Sair da tela cheia' : 'Entrar em tela cheia'}
           >
             {isFullscreen ? <Minimize2 className="w-4 h-4" /> : <Maximize2 className="w-4 h-4" />}
           </Button>
@@ -244,6 +248,8 @@ export function ArtworkLightbox({ artwork, isOpen, onClose }: ArtworkLightboxPro
             onClick={() => setShowInfo((v) => !v)}
             className={`h-10 w-10 sm:h-8 sm:w-8 rounded-full ${showInfo ? 'text-amber-400 bg-white/10' : 'text-white hover:bg-white/20'}`}
             title="Alternar Contexto da Obra (I)"
+            aria-label="Alternar contexto da obra"
+            aria-pressed={showInfo}
           >
             <Info className="w-4 h-4" />
           </Button>
@@ -256,6 +262,7 @@ export function ArtworkLightbox({ artwork, isOpen, onClose }: ArtworkLightboxPro
             onClick={onClose}
             className="h-10 w-10 sm:h-8 sm:w-8 text-white hover:bg-destructive hover:text-white rounded-full transition-colors"
             title="Fechar (Esc)"
+            aria-label="Fechar"
           >
             <X className="w-4 h-4" />
           </Button>

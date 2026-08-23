@@ -72,7 +72,7 @@ export default function About() {
                 <Globe className="w-5 h-5 mt-1 text-accent" />
                 <div>
                   <h4 className="font-semibold mb-1">Preservar o Patrimônio</h4>
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-base text-muted-foreground">
                     Catalogar e preservar obras de arte inspiradas nas Escrituras.
                   </p>
                 </div>
@@ -82,7 +82,7 @@ export default function About() {
                 <Users className="w-5 h-5 mt-1 text-accent" />
                 <div>
                   <h4 className="font-semibold mb-1">Educar e Inspirar</h4>
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-base text-muted-foreground">
                     Promover compreensão profunda da Bíblia através da arte.
                   </p>
                 </div>
@@ -92,7 +92,7 @@ export default function About() {
                 <Lightbulb className="w-5 h-5 mt-1 text-accent" />
                 <div>
                   <h4 className="font-semibold mb-1">Conectar Gerações</h4>
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-base text-muted-foreground">
                     Aproximar tradições antigas das expressões contemporâneas.
                   </p>
                 </div>

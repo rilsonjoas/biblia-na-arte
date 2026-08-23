@@ -28,6 +28,10 @@
     --font-serif: 'EB Garamond', Georgia, serif;
     --font-display: 'Cormorant Garamond', Georgia, serif;
     --font-classical: 'Cormorant Garamond', serif;
+    /* Achado 2026-08-22 (auditoria tipográfica): faltava no cânone —
+       Guia Técnico do vault já especifica JetBrains Mono pro mono, os 9
+       usos reais de font-mono no site caíam no monoespaçado do sistema. */
+    --font-mono: 'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
 
     /* Cores de marca do Design Narniano (Guia Técnico no vault) — cruas,
        pra componentes de identidade que não variam por tema */
@@ -101,6 +105,11 @@
     --gradient-hero: linear-gradient(135deg, hsl(var(--primary)), hsl(0 35% 20%));
     --gradient-card: linear-gradient(145deg, hsl(var(--card)), hsl(40 30% 95%));
     --gradient-accent: linear-gradient(120deg, hsl(var(--accent)), hsl(50 80% 70%));
+    /* Achado 2026-08-22 (auditoria de tema): .gradient-text usava hex cru
+       (#8B4513→#D2691E) que caía a 2.82:1 no trecho final — abaixo do
+       mínimo de 3:1 pra texto grande. Vinho→canela, verificado ponto a
+       ponto do gradiente: mínimo 6.7:1 (contraste real calculado). */
+    --gradient-text: linear-gradient(135deg, var(--vinho), var(--canela));
 
     /* Elegant shadows */
     --shadow-classical: 0 8px 32px -8px hsl(var(--primary) / 0.15);
@@ -160,6 +169,25 @@
        muted-foreground (calibrado pro escuro) ficava ilegível em cima.
        Contraste calculado: 6.18-7.46:1 nas duas pontas do gradiente. */
     --gradient-card: linear-gradient(145deg, hsl(var(--card)), hsl(30 10% 16%));
+
+    /* Achado 2026-08-22 (auditoria de tema): mesma classe de bug do
+       --gradient-card acima — sem override aqui, .gradient-text herdava
+       o par vinho→canela do claro, e vinho sobre fundo quase-preto dá
+       1.53:1 (calculado). Dourado→dourado-claro, verificado ponto a
+       ponto: mínimo 6.76:1. */
+    --gradient-text: linear-gradient(135deg, var(--dourado), #D8C48C);
+
+    /* Achado 2026-08-22 (auditoria de tema): --gradient-hero sem override
+       aqui herdava hsl(var(--primary)) como 1º stop — no escuro --primary
+       é dourado claro (45 60% 55%), e os ícones brancos dentro dos
+       "badges" que usam esse gradiente (BibleBooks, About, Contribute,
+       ArtCategories, Index — ~10 instâncias) caem pra 2.11:1 contra
+       branco, abaixo do mínimo de 3:1 pra elementos gráficos (WCAG
+       1.4.11). Mesma raiz do bug já documentado no hero em 16/08
+       (--hero-scrim), só que este ninguém tinha pego porque não é
+       bg-primary direto. 1º stop escurecido pra L30% (mantém "dourado",
+       contraste real 5.78:1). */
+    --gradient-hero: linear-gradient(135deg, hsl(45 60% 30%), hsl(0 35% 20%));
 
     --border: 30 8% 22%;
     --input: 30 8% 22%;
@@ -245,12 +273,13 @@
   }
   
   .gradient-text {
-    background: linear-gradient(135deg, #8B4513 0%, #A0522D 30%, #CD853F 70%, #D2691E 100%);
+    background: var(--gradient-text);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
-    /* Fallback for browsers that don't support background-clip */
-    color: #8B4513;
+    /* Fallback pra navegador sem background-clip: text — sempre no
+       tom do tema, nunca hex cru (achado 2026-08-22). */
+    color: hsl(var(--foreground));
   }
 
   /* === Identidade Design Narniano (2026-08-22) — ver Guia Técnico no vault === */

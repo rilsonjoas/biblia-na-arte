@@ -163,7 +163,7 @@ export default function Contribute() {
                       <IconComponent className="w-5 h-5 mt-1 text-accent flex-shrink-0" />
                       <div>
                         <h4 className="font-semibold mb-2">{guideline.title}</h4>
-                        <p className="text-sm text-muted-foreground">
+                        <p className="text-base text-muted-foreground">
                           {guideline.description}
                         </p>
                       </div>

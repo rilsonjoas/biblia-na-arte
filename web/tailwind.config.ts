@@ -26,6 +26,7 @@ export default {
 				display: ['var(--font-display)', 'Georgia', 'serif'],
 				serif: ['var(--font-serif)', 'Georgia', 'serif'],
 				sans: ['var(--font-sans)', 'system-ui', 'sans-serif'],
+				mono: ['var(--font-mono)', 'ui-monospace', 'monospace'],
 			},
 			colors: {
 				border: 'hsl(var(--border))',
