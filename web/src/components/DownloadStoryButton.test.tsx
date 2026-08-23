@@ -18,7 +18,7 @@ const artwork: Artwork = {
 const toDataURLMock = vi.fn(() => 'data:image/png;base64,fake');
 const html2canvasMock = vi.fn(async () => ({ toDataURL: toDataURLMock }));
 
-vi.mock('html2canvas', () => ({ default: (...args: unknown[]) => html2canvasMock(...args) }));
+vi.mock('html2canvas', () => ({ default: () => html2canvasMock() }));
 
 describe('DownloadStoryButton', () => {
   beforeEach(() => {

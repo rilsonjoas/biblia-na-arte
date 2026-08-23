@@ -20,12 +20,17 @@ export function PassageTimeline({ artworks }: PassageTimelineProps) {
     .sort((a, b) => a.year - b.year);
 
   const distinctYears = new Set(dated.map((item) => item.year));
-  if (distinctYears.size < 2) return null;
+  const first = dated[0];
+  const last = dated[dated.length - 1];
+  // distinctYears.size >= 2 já garante dated.length >= 2, mas o
+  // noUncheckedIndexedAccess do tsconfig não consegue provar isso sozinho
+  // — checagem explícita em vez de non-null assertion.
+  if (distinctYears.size < 2 || !first || !last) return null;
 
   return (
     <div className="mb-10">
       <p className="text-center text-sm text-muted-foreground mb-6">
-        Esta cena através dos séculos — {dated[0].year} a {dated[dated.length - 1].year}
+        Esta cena através dos séculos — {first.year} a {last.year}
       </p>
       <div className="relative">
         {/* A linha em si — fica atrás dos pontos, atravessando toda a largura */}
