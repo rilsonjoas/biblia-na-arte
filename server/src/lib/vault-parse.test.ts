@@ -111,6 +111,19 @@ autor: "[[X]]"
     expect(desc).not.toContain('[[');
   });
 
+  it('wikilink com alias [[Nota Real|Texto Exibido]] usa só o texto exibido (achado 2026-08-23, nota do Rembrandt)', () => {
+    const note = `---
+autor: "[[X]]"
+---
+### Descrição da Obra
+Ver "[[Rembrandt van Rijn - A Descida da Cruz (De kruisafname)|A Descida da Cruz]]" já no acervo.
+`;
+    const desc = extractDescription(note);
+    expect(desc).toContain('"A Descida da Cruz"');
+    expect(desc).not.toContain('kruisafname');
+    expect(desc).not.toContain('|');
+  });
+
   it('corta em 2000 caracteres', () => {
     const long = `---\nautor: "[[X]]"\n---\n\n### Descrição da Obra\n\n${'a'.repeat(2500)}`;
     expect(extractDescription(long).length).toBe(2000);

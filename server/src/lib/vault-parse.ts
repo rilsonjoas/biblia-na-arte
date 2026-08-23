@@ -77,7 +77,11 @@ function isPlaceholderText(text: string): boolean {
  *  `[[C. S. Lewis]]` na própria Descrição da Obra) — extraído aqui pra
  *  reusar em toda função de extração de texto livre, não só citações. */
 function unwrapWikilinks(text: string): string {
-  return text.replace(/\[\[([^\]]+)\]\]/g, '$1');
+  // [[Nota Real|Texto Exibido]] -> Texto Exibido (achado 2026-08-23: sem
+  // isso, a nota de "O Erguimento da Cruz" mostrava
+  // "Rembrandt van Rijn - A Descida da Cruz (De kruisafname)|A Descida da
+  // Cruz" cru na tela — só a barra ficava clara, não a intenção do alias).
+  return text.replace(/\[\[([^\]|]+)(?:\|([^\]]+))?\]\]/g, (_, target, alias) => alias ?? target);
 }
 
 export function extractDescription(content: string): string {
