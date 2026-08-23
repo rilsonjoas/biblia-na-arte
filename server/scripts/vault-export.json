@@ -559,14 +559,14 @@
       ]
     },
     {
-      "slug": "alexandre-gabriel-decamps-o-bom-samaritano",
+      "slug": "alexandre-gabriel-decamps-o-bom-samaritano-1853",
       "title": "O bom samaritano",
       "subtitle": "The Good Samaritan",
       "artistOrDirector": "Alexandre Gabriel Decamps",
       "year": "1853",
       "category": "painting",
       "description": "O bom samaritano, de Alexandre Gabriel Decamps.",
-      "imageFile": "alexandre-gabriel-decamps-o-bom-samaritano.webp",
+      "imageFile": "alexandre-gabriel-decamps-o-bom-samaritano-1853.webp",
       "licenseType": "public-domain",
       "references": [
         {
@@ -4079,12 +4079,12 @@
       ]
     },
     {
-      "slug": "eugene-burnand-o-filho-prodigo",
+      "slug": "eugene-burnand-o-filho-prodigo-2",
       "title": "O filho pródigo",
       "artistOrDirector": "Eugène Burnand",
       "category": "painting",
       "description": "O filho pródigo, de Eugène Burnand.",
-      "imageFile": "eugene-burnand-o-filho-prodigo.webp",
+      "imageFile": "eugene-burnand-o-filho-prodigo-2.webp",
       "licenseType": "public-domain",
       "references": [
         {
@@ -7011,14 +7011,14 @@
       ]
     },
     {
-      "slug": "gustave-dore-a-morte-de-sansao",
+      "slug": "gustave-dore-a-morte-de-sansao-1866",
       "title": "A Morte de Sansão",
       "subtitle": "The Death of Samson",
       "artistOrDirector": "Gustave Doré",
       "year": "1866",
       "category": "painting",
       "description": "Esta gravura dramática de **Gustave Doré** retrata o momento climático da morte de Sansão, quando o juiz cego derruba as colunas do templo filisteu. Doré utiliza **composição épica** característica de suas ilustrações bíblicas, com senso de escala monumental e drama intenso.\n\nA cena captura o colapso catastrófico do templo, com massas humanas caindo em caos enquanto as colunas cedem. Sansão é mostrado no centro, suas mãos empurrando as colunas com força sobre-humana restaurada por Deus. A técnica de gravura permite detalhes meticulosos no desmoronamento da arquitetura e no pânico da multidão.\n\nO estilo romântico de Doré enfatiza tanto a **justiça divina** (vingança contra os opressores de Israel) quanto a **tragédia pessoal** de Sansão — um homem de potencial extraordinário desperdiçado por fraqueza moral, redimindo-se apenas em morte sacrificial.",
-      "imageFile": "gustave-dore-a-morte-de-sansao.webp",
+      "imageFile": "gustave-dore-a-morte-de-sansao-1866.webp",
       "licenseType": "public-domain",
       "references": [
         {
@@ -9289,6 +9289,34 @@
       ]
     },
     {
+      "slug": "irma-martin-as-tres-mulheres-no-tumulo-de-cristo",
+      "title": "As Três Mulheres no Túmulo de Cristo",
+      "subtitle": "The Three Women on the Tomb of Christ",
+      "artistOrDirector": "Irma Martin",
+      "year": "1843",
+      "category": "painting",
+      "description": "**As Três Mulheres no Túmulo de Cristo** (*The Three Women on the Tomb of Christ*, 1843), de Irma Martin, é uma representação neoclássica e romântica do relato pascal. A cena retrata a chegada das piedosas mulheres — as **Miróforas**, tradicionalmente identificadas como Maria Madalena, Maria mãe de Tiago, e Salomé — ao túmulo de Jesus ao amanhecer. Uma delas carrega o vaso com unguentos aromáticos para ungir o corpo.\n\nÀ direita, um **anjo** de vestes brancas e resplendor dourado aponta para o sepulcro de pedra aberto e vazio, com a mortalha derramada sobre o chão, anunciando a ressurreição com um gesto sereno de acolhimento. Pela abertura da gruta, no canto superior esquerdo, vê-se a colina do **Gólgota** com as três cruzes vazias sob o céu do início da manhã — conectando diretamente o evento da Crucificação ao da Ressurreição.\n\nNo canto inferior direito, esculpido na base da pedra do sepulcro, é visível a assinatura da pintora: \"I. Martin, 1843\".",
+      "imageFile": "irma-martin-as-tres-mulheres-no-tumulo-de-cristo.webp",
+      "licenseType": "public-domain",
+      "references": [
+        {
+          "book": "Marcos",
+          "bookSlug": "mark",
+          "chapter": 16
+        },
+        {
+          "book": "Lucas",
+          "bookSlug": "luke",
+          "chapter": 24
+        },
+        {
+          "book": "Mateus",
+          "bookSlug": "matthew",
+          "chapter": 28
+        }
+      ]
+    },
+    {
       "slug": "isidore-alexandre-augustin-pils-sao-pedro-curando-o-paralitico-na-porta-do-templo",
       "title": "São Pedro curando o paralítico na porta do Templo",
       "subtitle": "St. Peter Healing a Lame Man at the Door of the Temple",
@@ -9436,6 +9464,34 @@
           "book": "Hebreus",
           "bookSlug": "hebrews",
           "chapter": 4
+        }
+      ]
+    },
+    {
+      "slug": "j-c-leyendecker-lune-de-miel",
+      "title": "Lune de Miel",
+      "subtitle": "Lua de Mel",
+      "artistOrDirector": "J. C. Leyendecker",
+      "year": "1908",
+      "category": "painting",
+      "description": "**Lune de Miel** (*Lua de Mel*, 1908), de **J. C. Leyendecker**, é uma ilustração que combina **Art Nouveau** com **Historicismo Neomedieval** e **Romantismo Tardo-Vitoriano**, típica da Era de Ouro da Ilustração Americana. O monograma característico **JCL** pode ser visto dentro do selo circular vermelho no canto inferior direito.\n\nA composição retrata um cavaleiro de armadura prateada e sua donzela montados no mesmo corcel, envoltos por guirlandas de rosas em cascata. A moldura gráfica circular, as linhas curvas sinuosas do Art Nouveau, a heráldica tradicional (brasões esquartelados com flor-de-lis e leões rampantes nas gualdrapas do cavalo e no escudo) e um querubim barroco lançando pétalas sobre o casal compõem uma cena que é ao mesmo tempo comercial e contemplativa — uma capa de revista que pede pausa.",
+      "imageFile": "j-c-leyendecker-lune-de-miel.webp",
+      "licenseType": "public-domain",
+      "references": [
+        {
+          "book": "Cânticos",
+          "bookSlug": "song-of-songs",
+          "chapter": 2
+        },
+        {
+          "book": "Efésios",
+          "bookSlug": "ephesians",
+          "chapter": 5
+        },
+        {
+          "book": "Gênesis",
+          "bookSlug": "genesis",
+          "chapter": 2
         }
       ]
     },
@@ -11295,6 +11351,39 @@
           "book": "João",
           "bookSlug": "john",
           "chapter": 11
+        }
+      ]
+    },
+    {
+      "slug": "joakim-skovgaard-cristo-no-reino-dos-mortos",
+      "title": "Cristo no Reino dos Mortos",
+      "subtitle": "Kristus i de dødes rige",
+      "artistOrDirector": "Joakim Skovgaard",
+      "year": "1894",
+      "category": "painting",
+      "description": "**Cristo no Reino dos Mortos** (*Kristus i de dødes rige*, 1891–1894) é uma das pinturas sacras mais monumentais da arte dinamarquesa. A tela mede 3,5 metros de altura por quase 5 metros de largura (347 × 490 cm) — o que explica a sensação de imersão luminosa que ela provoca: o observador não olha para a pintura, é absorvido por ela.\n\nA obra retrata o momento em que Cristo desce ao Seol — o reino dos mortos — e, com sua voz, liberta as almas do Antigo Testamento que aguardavam a redenção. No centro, **Eva** está ajoelhada com os braços erguidos e cabelos dourados, ladeada por **Adão**. Ambos lideram a multidão de profetas, patriarcas e almas justas no instante exato em que são alcançados pela luz redentora. A composição é vertical e ascendente: de baixo, a escuridão e a massa densa dos cativos; de cima, a figura de Cristo, de onde emana a luz que tudo devora.",
+      "imageFile": "joakim-skovgaard-cristo-no-reino-dos-mortos.webp",
+      "licenseType": "public-domain",
+      "references": [
+        {
+          "book": "1 Pedro",
+          "bookSlug": "1-peter",
+          "chapter": 3
+        },
+        {
+          "book": "Efésios",
+          "bookSlug": "ephesians",
+          "chapter": 4
+        },
+        {
+          "book": "Apocalipse",
+          "bookSlug": "revelation",
+          "chapter": 1
+        },
+        {
+          "book": "1 Coríntios",
+          "bookSlug": "1-corinthians",
+          "chapter": 15
         }
       ]
     },
@@ -14610,14 +14699,14 @@
       ]
     },
     {
-      "slug": "rembrandt-van-rijn-a-ceia-em-emaus",
+      "slug": "rembrandt-van-rijn-a-ceia-em-emaus-1648",
       "title": "A Ceia em Emaús",
       "subtitle": "De maaltijd te Emmaüs",
       "artistOrDirector": "Rembrandt van Rijn",
       "year": "1648",
       "category": "painting",
       "description": "Esta obra de 1648 representa a fase madura de **Rembrandt**, onde ele abandona o drama violento de sua juventude em favor de uma espiritualidade silenciosa e profunda. O quadro é um exemplo magistral do **Barroco Holandês**, utilizando o **tenebrismo** de forma sutil: a luz não parece vir de uma vela ou janela, mas emana suavemente do próprio Cristo, iluminando o pão e os rostos atônitos dos discípulos.\n\nA **Composição** é organizada em torno de um arco arquitetônico ao fundo, que funciona como um nicho sagrado, centralizando a figura de Jesus e conferindo à cena uma dignidade monumental, quase como um altar. Rembrandt utiliza a técnica do **sfumato** (suavização dos contornos) para criar uma atmosfera enevoada e mística, sugerindo que a presença de Cristo é, ao mesmo tempo, física e espiritual. A economia de gestos — o discípulo à esquerda com as mãos postas e o da direita em choque — foca a narrativa no momento exato da revelação interior.",
-      "imageFile": "rembrandt-van-rijn-a-ceia-em-emaus.webp",
+      "imageFile": "rembrandt-van-rijn-a-ceia-em-emaus-1648.webp",
       "licenseType": "public-domain",
       "references": [
         {
@@ -15743,6 +15832,25 @@
       ]
     },
     {
+      "slug": "sylwia-perczak-senhor-salva-me",
+      "title": "Senhor, salva-me!",
+      "subtitle": "Panie ratuj!",
+      "artistOrDirector": "Sylwia Perczak",
+      "year": "2019",
+      "category": "painting",
+      "description": "**\"Panie ratuj!\"** (\"Senhor, salva-me!\") é uma pintura de **Sylwia Perczak**, artista polonesa contemporânea, datada de **2019**. A obra retrata o episódio bíblico em que o apóstolo **Pedro**, caminhando sobre as águas em direção a Jesus, begins a afundar ao perder a fé diante da tempestade e clama por socorro. A pintura se inscreve na tradição da **iconografia bizantina** reelaborada com linguagem contemporânea — tons de azul dominam a composição, evocando tanto as águas turbulentas do Mar da Galileia quanto o caráter espiritual e contemplativo do ícone.\n\nPerczak descreveu a obra como inspirada nos **Salmos de Davi** e no clamor por libertação: \"O primeiro [quadro da exposição] fala sobre São Pedro, que tenta caminhar sobre as águas — é assim que eu o imagino. Ao pintar, recorri aos Salmos de Davi, ao clamor ao Senhor para que nos tire do abismo.\"\n\nA obra foi apresentada pela primeira vez na exposição individual **\"Oczekiwanie\"** (\"Expectativa\"), na Galeria Sztuki Nowy Świat, em Białystok, Polônia, em outubro de 2019.",
+      "imageFile": "sylwia-perczak-senhor-salva-me.webp",
+      "licenseType": "public-domain",
+      "references": [
+        {
+          "book": "Mateus",
+          "bookSlug": "matthew",
+          "chapter": 14,
+          "passageText": "\"Mas, vendo o vento forte, teve medo; e, começando a afundar, clamou, dizendo: Senhor, salva-me!\"\n— **Mateus 14:30**"
+        }
+      ]
+    },
+    {
       "slug": "sebastien-bourdon-cristo-recebendo-as-criancas",
       "title": "Cristo Recebendo as Crianças",
       "subtitle": "Christ Receiving the Children",
@@ -16163,14 +16271,14 @@
       ]
     },
     {
-      "slug": "ticiano-cristo-e-a-mulher-adultera",
+      "slug": "ticiano-cristo-e-a-mulher-adultera-1520",
       "title": "Cristo e a Mulher Adúltera",
       "subtitle": "Christ and the Woman Taken in Adultery",
       "artistOrDirector": "Ticiano",
       "year": "1520",
       "category": "painting",
       "description": "Esta pintura de **Ticiano** retrata Jesus e a mulher apanhada em adultério, quando os fariseus tentaram usar a situação para acusá-lo.",
-      "imageFile": "ticiano-cristo-e-a-mulher-adultera.webp",
+      "imageFile": "ticiano-cristo-e-a-mulher-adultera-1520.webp",
       "licenseType": "public-domain",
       "references": [
         {
@@ -16380,13 +16488,13 @@
       ]
     },
     {
-      "slug": "ticiano-salome-com-a-cabeca-de-joao-batista",
+      "slug": "ticiano-salome-com-a-cabeca-de-joao-batista-1515",
       "title": "Salomé com a cabeça de João Batista",
       "artistOrDirector": "Ticiano",
       "year": "1515",
       "category": "painting",
       "description": "**Ticiano** pinta Salomé — embora não a nomeie explicitamente no quadro, seguindo a tradição veneziana da época — segurando a cabeça decapitada de João Batista sobre uma bandeja, o olhar baixo e distante, sem expressão de triunfo ou horror. Uma jovem serva observa a cena ao lado, e um pequeno querubim aparece discretamente entre as nuvens no canto superior direito.\n\nA ausência de emoção dramática no rosto de Salomé é o que torna a pintura de Ticiano particularmente perturbadora: não há regozijo cruel nem remorso visível, apenas uma serenidade quase indiferente diante do resultado de uma promessa impensada feita por outra pessoa — sua mãe, Herodias, e o padrasto, Herodes.",
-      "imageFile": "ticiano-salome-com-a-cabeca-de-joao-batista.webp",
+      "imageFile": "ticiano-salome-com-a-cabeca-de-joao-batista-1515.webp",
       "licenseType": "public-domain",
       "references": [
         {
@@ -16910,6 +17018,34 @@
           "book": "João",
           "bookSlug": "john",
           "chapter": 20
+        }
+      ]
+    },
+    {
+      "slug": "william-blake-cristo-no-sepulcro-guardado-por-anjos",
+      "title": "Cristo no Sepulcro, Guardado por Anjos",
+      "subtitle": "Christ in the Sepulchre, Guarded by Angels",
+      "artistOrDirector": "William Blake",
+      "year": "1805",
+      "category": "painting",
+      "description": "**Cristo no Sepulcro, Guardado por Anjos** (*Christ in the Sepulchre, Guarded by Angels*, c. 1805), de William Blake, é uma aquarela com tinta e grafite sobre papel, parte do acervo do **Victoria and Albert Museum** (V&A), em Londres. A obra foi encomendada por **Thomas Butts**, grande mecenas de Blake, como parte de uma série de ilustrações bíblicas.\n\nDois anjos se curvam sobre o corpo deitado de Cristo no sepulcro. As pontas de suas asas tocam-se no alto em arco, formando uma ogiva quase gótica que canaliza o olhar para a luz dourada que emana suavemente entre os seus rostos em oração. As vestes dos anjos fluem verticalmente até tocarem a mortalha que envolve Cristo na base, criando um circuito fechado e contínuo de linhas que une o céu e a terra, a morte física e a vida espiritual.\n\nNo canto inferior esquerdo, sobre o chão do sepulcro, Blake assina com seu tradicional monograma entrelaçado: \"WB\".",
+      "imageFile": "william-blake-cristo-no-sepulcro-guardado-por-anjos.webp",
+      "licenseType": "public-domain",
+      "references": [
+        {
+          "book": "João",
+          "bookSlug": "john",
+          "chapter": 20
+        },
+        {
+          "book": "Êxodo",
+          "bookSlug": "exodus",
+          "chapter": 25
+        },
+        {
+          "book": "Hebreus",
+          "bookSlug": "hebrews",
+          "chapter": 9
         }
       ]
     },
@@ -17587,12 +17723,12 @@
       ]
     },
     {
-      "slug": "william-henry-margetson-o-bom-samaritano",
+      "slug": "william-henry-margetson-o-bom-samaritano-2",
       "title": "O bom samaritano",
       "artistOrDirector": "William Henry Margetson",
       "category": "painting",
       "description": "A pintura \"O Bom Samaritano\" de William Henry Margetson retrata a famosa parábola bíblica do Bom Samaritano. Na imagem, um homem ferido e seminu está montado em um burro, sendo amparado por outro homem que veste uma túnica longa e colorida. O cenário é uma paisagem árida e montanhosa, sugerindo uma jornada difícil. A pintura ilustra a compaixão e a ajuda altruísta oferecida pelo samaritano ao homem ferido, destacando temas de bondade, misericórdia e solidariedade.\n\n> [!info] The good Samaritan, from The Bible Picture Book published by Thomas Nelson, c.1950  \n> Buy The good Samaritan, from The Bible Picture Book published by Thomas Nelson, c.  \n> [https://www.meisterdrucke.uk/fine-art-prints/William-Henry-Margetson/380123/The-good-Samaritan%2C-from-The-Bible-Picture-Book-published-by-Thomas-Nelson%2C-c.1950.html](https://www.meisterdrucke.uk/fine-art-prints/William-Henry-Margetson/380123/The-good-Samaritan%2C-from-The-Bible-Picture-Book-published-by-Thomas-Nelson%2C-c.1950.html)",
-      "imageFile": "william-henry-margetson-o-bom-samaritano.webp",
+      "imageFile": "william-henry-margetson-o-bom-samaritano-2.webp",
       "licenseType": "public-domain",
       "references": [
         {
@@ -18032,6 +18168,34 @@
       ]
     },
     {
+      "slug": "william-preston-o-olho-da-providencia",
+      "title": "O olho da providência",
+      "subtitle": "The Eye Of Providence",
+      "artistOrDirector": "William Preston",
+      "year": "1792",
+      "category": "painting",
+      "description": "O **Olho da Providência** (*Eye of Providence*) é a representação do olho de Deus aberto dentro de um triângulo, cercado por raios de luz — o símbolo mais reconhecível da tradição maçônica e um dos emblemas mais persistentes da arte cristã ocidental. A pintura de William Preston, datada de meados do século XVIII, cristaliza a imagem que a Renascença popularizou e que a maçonaria elevou a símbolo institucional.\n\nO triângulo representa a Santíssima Trindade — três lados, três pessoas, um só Deus. Os raios de luz emanam dele como manifestação da graça que ilumina sem ser compelida. O olho, aberto e vigilante, não é o olhar de um vigilante paranoico, mas de um Pai que vê o que o filho faz quando ninguém está olhando — e que, mesmo assim, ama.",
+      "imageFile": "william-preston-o-olho-da-providencia.webp",
+      "licenseType": "public-domain",
+      "references": [
+        {
+          "book": "Gênesis",
+          "bookSlug": "genesis",
+          "chapter": 1
+        },
+        {
+          "book": "Provérbios",
+          "bookSlug": "proverbs",
+          "chapter": 15
+        },
+        {
+          "book": "Hebreus",
+          "bookSlug": "hebrews",
+          "chapter": 4
+        }
+      ]
+    },
+    {
       "slug": "winifred-knights-o-casamento-em-cana",
       "title": "O casamento em Caná",
       "subtitle": "The Marriage at Cana",
@@ -18125,7 +18289,19 @@
           "chapter": 53
         }
       ]
+    },
+    {
+      "slug": "emile-friant-os-namorados",
+      "title": "Os Namorados",
+      "subtitle": "Les Amoureux",
+      "artistOrDirector": "Émile Friant",
+      "year": "1888",
+      "category": "painting",
+      "description": "**Les Amoureux** (\"Os Namorados\"), também conhecida como *Idylle sur la passerelle* (\"Idílio na Passarela\") ou *Soir d'automne* (\"Tarde de Outono\"), é uma das telas mais aclamadas do pintor naturalista francês **Émile Friant** (1863–1932), concluída em 1888. A obra original (óleo sobre tela, 111 × 145 cm) integra a coleção permanente do Musée des Beaux-Arts de Nancy, na França.",
+      "imageFile": "emile-friant-os-namorados.webp",
+      "licenseType": "public-domain",
+      "references": []
     }
   ],
-  "exportedAt": "2026-08-16T20:49:27.097Z"
+  "exportedAt": "2026-08-23T00:45:23.285Z"
 }

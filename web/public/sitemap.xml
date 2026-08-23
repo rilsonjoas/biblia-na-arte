@@ -6451,7 +6451,7 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://biblianaarte.narniano.com/obra/alexandre-gabriel-decamps-o-bom-samaritano</loc>
+    <loc>https://biblianaarte.narniano.com/obra/alexandre-gabriel-decamps-o-bom-samaritano-1853</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -6646,7 +6646,7 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://biblianaarte.narniano.com/obra/autor-desconhecido-os-temperados-e-os-intemperados</loc>
+    <loc>https://biblianaarte.narniano.com/obra/mestre-do-livro-de-oracoes-de-dresden-os-temperados-e-os-intemperados</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -7266,7 +7266,7 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://biblianaarte.narniano.com/obra/eugene-burnand-o-filho-prodigo</loc>
+    <loc>https://biblianaarte.narniano.com/obra/eugene-burnand-o-filho-prodigo-2</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -7956,7 +7956,7 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://biblianaarte.narniano.com/obra/gustave-dore-a-morte-de-sansao</loc>
+    <loc>https://biblianaarte.narniano.com/obra/gustave-dore-a-morte-de-sansao-1866</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -8476,6 +8476,11 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://biblianaarte.narniano.com/obra/irma-martin-as-tres-mulheres-no-tumulo-de-cristo</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://biblianaarte.narniano.com/obra/isidore-alexandre-augustin-pils-sao-pedro-curando-o-paralitico-na-porta-do-templo</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -8502,6 +8507,11 @@
   </url>
   <url>
     <loc>https://biblianaarte.narniano.com/obra/ivan-kramskoi-cristo-no-deserto</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://biblianaarte.narniano.com/obra/j-c-leyendecker-lune-de-miel</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -8962,6 +8972,11 @@
   </url>
   <url>
     <loc>https://biblianaarte.narniano.com/obra/james-tissot-jesus-chorou</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://biblianaarte.narniano.com/obra/joakim-skovgaard-cristo-no-reino-dos-mortos</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -9751,7 +9766,7 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://biblianaarte.narniano.com/obra/rembrandt-van-rijn-a-ceia-em-emaus</loc>
+    <loc>https://biblianaarte.narniano.com/obra/rembrandt-van-rijn-a-ceia-em-emaus-1648</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -10016,6 +10031,16 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://biblianaarte.narniano.com/obra/sylwia-perczak-a-santa-trindade</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://biblianaarte.narniano.com/obra/sylwia-perczak-senhor-salva-me</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://biblianaarte.narniano.com/obra/sebastien-bourdon-cristo-recebendo-as-criancas</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -10101,7 +10126,7 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://biblianaarte.narniano.com/obra/ticiano-cristo-e-a-mulher-adultera</loc>
+    <loc>https://biblianaarte.narniano.com/obra/ticiano-cristo-e-a-mulher-adultera-1520</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -10156,7 +10181,7 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://biblianaarte.narniano.com/obra/ticiano-salome-com-a-cabeca-de-joao-batista</loc>
+    <loc>https://biblianaarte.narniano.com/obra/ticiano-salome-com-a-cabeca-de-joao-batista-1515</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -10221,22 +10246,7 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://biblianaarte.narniano.com/obra/vincent-van-gogh-a-amoreira</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://biblianaarte.narniano.com/obra/vincent-van-gogh-celebracao</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
     <loc>https://biblianaarte.narniano.com/obra/vincent-van-gogh-o-bom-samaritano-the-good-samaritan-after-delacroix</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://biblianaarte.narniano.com/obra/vincent-van-gogh-paisagem-com-casas</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -10297,6 +10307,11 @@
   </url>
   <url>
     <loc>https://biblianaarte.narniano.com/obra/william-blake-cristo-aparecendo-a-seus-discipulos-apos-a-ressurreicao</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://biblianaarte.narniano.com/obra/william-blake-cristo-no-sepulcro-guardado-por-anjos</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -10446,7 +10461,7 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://biblianaarte.narniano.com/obra/william-henry-margetson-o-bom-samaritano</loc>
+    <loc>https://biblianaarte.narniano.com/obra/william-henry-margetson-o-bom-samaritano-2</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -10556,6 +10571,11 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://biblianaarte.narniano.com/obra/william-preston-o-olho-da-providencia</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://biblianaarte.narniano.com/obra/winifred-knights-o-casamento-em-cana</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -10572,6 +10592,11 @@
   </url>
   <url>
     <loc>https://biblianaarte.narniano.com/obra/edouard-manet-o-rosto-de-cristo</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://biblianaarte.narniano.com/obra/emile-friant-os-namorados</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
