@@ -2938,14 +2938,17 @@
       "artistOrDirector": "Claude Lorrain",
       "year": "1676",
       "category": "painting",
-      "description": "Jacó com Labão e suas filhas, de Claude Lorrain.",
+      "description": "**Nota enriquecida em 2026-08-23** — entrada anterior era um esboço sem descrição nem citação. Óleo sobre tela de **Claude Lorrain** (nascido Claude Gellée, c. 1600–1682), pintado em **1676**, no fim da carreira do artista francês radicado em Roma, o maior nome da pintura de paisagem ideal do século XVII.\n\nComo é típico de Lorrain, a narrativa bíblica ocupa um espaço relativamente pequeno da composição — as figuras de Jacó, Raquel e o rebanho de ovelhas aparecem em primeiro plano à esquerda, diante de um poço, enquanto o restante da tela é dominado por uma paisagem pastoral idealizada: árvores em contraluz, um rio serpenteando ao fundo, e a luz dourada característica do artista, sempre banhando a cena num entardecer ou amanhecer atmosférico. Lorrain não busca o drama psicológico da cena bíblica — busca a harmonia entre a figura humana e um mundo natural ordenado e sereno, gênero que ele praticamente definiu para a pintura europeia dos séculos seguintes.",
       "imageFile": "claude-lorrain-jaco-com-labao-e-suas-filhas.webp",
       "licenseType": "public-domain",
+      "location": "Dulwich Picture Gallery, Londres, Reino Unido",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Claude_-_Jacob_with_Laban_and_his_Daughters_-_Google_Art_Project.jpg",
       "references": [
         {
           "book": "Gênesis",
           "bookSlug": "genesis",
-          "chapter": 29
+          "chapter": 29,
+          "verses": "9"
         }
       ]
     },
@@ -3995,6 +3998,27 @@
           "book": "João",
           "bookSlug": "john",
           "chapter": 2
+        }
+      ]
+    },
+    {
+      "slug": "el-greco-o-despojamento-de-cristo",
+      "title": "O Despojamento de Cristo",
+      "subtitle": "El Expolio",
+      "artistOrDirector": "El Greco",
+      "year": "1577",
+      "category": "painting",
+      "description": "Óleo sobre tela pintado por **Domenikos Theotokópoulos**, conhecido como **El Greco** (1541–1614), entre **1577 e 1579**, uma de suas primeiras grandes encomendas depois de se estabelecer em Toledo — permanece até hoje na sacristia da catedral para a qual foi pintado.\n\nCristo, vestido de vermelho vivo, ocupa o centro da composição, cercado por uma multidão compacta de soldados e figuras que o cercam quase sem deixar espaço de respiro — recurso típico do **maneirismo**, que rejeita o equilíbrio calmo do Alto Renascimento em favor de composições comprimidas e emocionalmente tensas. O vermelho da túnica de Cristo, que logo será disputada entre os soldados, domina visualmente a tela e cria um contraste dramático com os tons mais escuros ao redor.\n\nNo canto inferior, um homem prepara a cruz perfurando-a — detalhe que antecipa o que está por vir. As três Marias observam a cena à esquerda, testemunhas silenciosas num quadro dominado pelo movimento e pela proximidade sufocante da multidão.",
+      "imageFile": "el-greco-o-despojamento-de-cristo.webp",
+      "licenseType": "public-domain",
+      "location": "Sacristia da Catedral de Toledo, Espanha",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:El_Greco_(Domenikos_Theotokopoulos)_-_Disrobing_of_Christ_(Espolio)_-_BF90_-_Barnes_Foundation.jpg",
+      "references": [
+        {
+          "book": "Mateus",
+          "bookSlug": "matthew",
+          "chapter": 27,
+          "verses": "27"
         }
       ]
     },
@@ -8109,6 +8133,27 @@
       ]
     },
     {
+      "slug": "gustave-dore-o-diluvio",
+      "title": "O Dilúvio",
+      "subtitle": "The Deluge",
+      "artistOrDirector": "Gustave Doré",
+      "year": "1866",
+      "category": "painting",
+      "description": "Xilogravura de **Gustave Doré** (1832–1883), publicada em **1866** como uma das mais de 200 ilustrações da célebre *La Sainte Bible* — o projeto que consagrou Doré como o principal ilustrador bíblico do século XIX, reproduzido em incontáveis edições da Bíblia ao redor do mundo desde então.\n\nA composição amontoa dezenas de figuras humanas e animais numa massa rochosa cada vez mais estreita, enquanto as águas sobem inexoravelmente ao fundo. No topo do penhasco, uma mãe ergue o filho nos braços num último gesto de proteção impossível; abaixo, corpos e animais já sucumbidos se misturam às pedras molhadas. Ao fundo, quase imperceptível na escuridão da tempestade, a arca de Noé flutua — pequena, distante, alheia ao desespero em primeiro plano.\n\nO estilo de Doré, com seu contraste extremo entre luz e sombra e a escala monumental da multidão sofredora, transformou a forma como gerações inteiras visualizaram as narrativas bíblicas — muito do imaginário popular do Dilúvio, do Éden e do Juízo Final vem, direta ou indiretamente, das gravuras desta edição.",
+      "imageFile": "gustave-dore-o-diluvio.webp",
+      "licenseType": "public-domain",
+      "location": "Gravura original — La Sainte Bible (1866)",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Gustave_Dor%C3%A9_-_The_Holy_Bible_-_Plate_I,_The_Deluge.jpg",
+      "references": [
+        {
+          "book": "Gênesis",
+          "bookSlug": "genesis",
+          "chapter": 7,
+          "verses": "17"
+        }
+      ]
+    },
+    {
       "slug": "gustave-dore-o-rei-salomao-em-idade-avancada",
       "title": "O Rei Salomão em idade avançada",
       "artistOrDirector": "Gustave Doré",
@@ -10113,6 +10158,27 @@
           "bookSlug": "genesis",
           "chapter": 1,
           "verses": "20-21"
+        }
+      ]
+    },
+    {
+      "slug": "jacopo-tintoretto-a-ultima-ceia",
+      "title": "A Última Ceia",
+      "subtitle": "Ultima Cena",
+      "artistOrDirector": "Jacopo Tintoretto",
+      "year": "1592",
+      "category": "painting",
+      "description": "Óleo sobre tela, uma das últimas grandes obras de **Jacopo Tintoretto** (1518–1594), concluída entre **1592 e 1594**, pouco antes de sua morte, para o altar-mor da basílica veneziana de San Giorgio Maggiore.\n\nDiferente da simetria frontal da versão de Leonardo, Tintoretto organiza a mesa em **diagonal profunda**, puxando o olhar para o fundo da sala numa perspectiva dramática típica do maneirismo tardio. A cena é povoada não só pelos apóstolos, mas por criados servindo e — o toque mais característico de Tintoretto — uma multidão de **anjos translúcidos** pairando sobre a mesa, saindo da fumaça de um lampião pendurado no teto. A luz da cena vem de duas fontes conflitantes: a chama terrena do lampião e o brilho sobrenatural que emana da própria figura de Cristo, no centro da mesa, distinguindo o plano espiritual do plano material dentro do mesmo quadro.\n\nO contraste entre o realismo cotidiano (a mulher recolhendo pratos, o gato debaixo da mesa) e o elemento visionário dos anjos é a marca da abordagem madura de Tintoretto: o sagrado irrompendo dentro do ordinário, não separado dele.",
+      "imageFile": "jacopo-tintoretto-a-ultima-ceia.webp",
+      "licenseType": "public-domain",
+      "location": "Basílica de San Giorgio Maggiore, Veneza, Itália",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Tintoretto,_Jacopo_-_Ultima_cena_-_San_Giorgio_Maggiore.jpg",
+      "references": [
+        {
+          "book": "Lucas",
+          "bookSlug": "luke",
+          "chapter": 22,
+          "verses": "14-15"
         }
       ]
     },
@@ -12936,6 +13002,27 @@
       "references": []
     },
     {
+      "slug": "leonardo-da-vinci-a-anunciacao",
+      "title": "A Anunciação",
+      "subtitle": "Annunciazione",
+      "artistOrDirector": "Leonardo da Vinci",
+      "year": "1472",
+      "category": "painting",
+      "description": "Óleo e têmpera sobre painel de **Leonardo da Vinci** (1452–1519), pintada por volta de **1472-1475**, quando o artista ainda trabalhava na oficina de Verrocchio em Florença — uma das primeiras obras atribuídas a Leonardo sozinho, já com a marca de sua observação científica da natureza.\n\nO anjo Gabriel, ajoelhado num jardim murado, ergue a mão direita em saudação enquanto segura um lírio branco (símbolo da pureza de Maria) na esquerda. Maria, interrompida na leitura, responde com um gesto sereno e comedido. Entre os dois, um atril de mármore esculpido com precisão quase arquitetônica — Leonardo, ainda jovem, já demonstra o interesse que definiria sua carreira: a botânica das flores do gramado (estudada com rigor científico, não decorativo) e a perspectiva atmosférica da paisagem ao fundo, que se dissolve em azul-esverdeado à distância.\n\nAs asas de Gabriel, segundo estudiosos, foram pintadas com base em observação real de asas de aves — Leonardo dissecava e desenhava aves ao longo da vida, e essa atenção empírica já aparece aqui, décadas antes dos famosos estudos de voo.",
+      "imageFile": "leonardo-da-vinci-a-anunciacao.webp",
+      "licenseType": "public-domain",
+      "location": "Galleria degli Uffizi, Florença, Itália",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Leonardo_da_Vinci_-_Annunciazione_-_Google_Art_Project.jpg",
+      "references": [
+        {
+          "book": "Lucas",
+          "bookSlug": "luke",
+          "chapter": 1,
+          "verses": "28"
+        }
+      ]
+    },
+    {
       "slug": "lippo-memmi-o-massacre-dos-inocentes",
       "title": "O massacre dos inocentes",
       "subtitle": "The Massacre of the Innocents",
@@ -13974,6 +14061,27 @@
       ]
     },
     {
+      "slug": "nicolas-poussin-o-julgamento-de-salomao",
+      "title": "O Julgamento de Salomão",
+      "subtitle": "Le Jugement de Salomon",
+      "artistOrDirector": "Nicolas Poussin",
+      "year": "1649",
+      "category": "painting",
+      "description": "Óleo sobre tela de **Nicolas Poussin** (1594–1665), pintado em **1649**, considerada uma das obras-mestras do classicismo francês do século XVII — Poussin, radicado em Roma a maior parte da vida, é o principal representante de uma pintura racional e equilibrada, em reação deliberada ao dramatismo do Barroco italiano.\n\nA composição divide o quadro em dois polos emocionais claramente legíveis: à esquerda, a mãe verdadeira, em desespero físico total — braços estendidos, corpo em súplica —, implora que a criança seja poupada; à direita, a outra mulher observa com indiferença calculada, os braços cruzados. No centro, o soldado ergue a criança pela perna, espada em riste, aguardando a ordem final; Salomão, sentado no trono elevado ao fundo, aponta com gesto claro e deliberado — não há ambiguidade em sua decisão, apenas no momento suspenso antes dela ser cumprida.\n\nPoussin organiza a cena como um palco de teatro clássico: gestos legíveis, expressões claramente distinguíveis, arquitetura de fundo em perfeita simetria — tudo a serviço de comunicar a narrativa com a máxima clareza racional, ao invés do impacto emocional imediato que artistas barrocos como Rubens buscavam.",
+      "imageFile": "nicolas-poussin-o-julgamento-de-salomao.webp",
+      "licenseType": "public-domain",
+      "location": "Museu do Louvre, Paris, França",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Le_Jugement_de_Salomon_-_1649_-_Nicolas_Poussin_-_Louvre_-_INV_7277_;_MR_2316.jpg",
+      "references": [
+        {
+          "book": "1 Reis",
+          "bookSlug": "1-kings",
+          "chapter": 3,
+          "verses": "24"
+        }
+      ]
+    },
+    {
       "slug": "nikolai-bodarevsky-o-apostolo-paulo-explica-a-lei-diante-do-rei-agripa",
       "title": "O Apóstolo Paulo explica a lei diante do Rei Agripa",
       "artistOrDirector": "Nikolai Bodarevsky",
@@ -14310,6 +14418,27 @@
       ]
     },
     {
+      "slug": "peter-paul-rubens-a-descida-da-cruz",
+      "title": "A Descida da Cruz",
+      "subtitle": "The Descent from the Cross",
+      "artistOrDirector": "Peter Paul Rubens",
+      "year": "1612",
+      "category": "painting",
+      "description": "Painel central de tríptico, óleo sobre madeira, pintado por **Peter Paul Rubens** (1577–1640) entre **1612 e 1614** para a Catedral de Antuérpia, onde permanece até hoje. Encomendado pela Guilda dos Arcabuzeiros, é considerado um dos ápices do Barroco flamengo e marca a maturidade de Rubens após seu retorno da Itália, onde absorveu o dramatismo de Caravaggio e o movimento diagonal de Ticiano.\n\nA composição organiza-se em torno de uma **diagonal luminosa**: o corpo de Cristo, de um branco quase fosforescente contra o céu escuro, desce em curva suave amparado por São João, Nicodemos e José de Arimateia no alto, enquanto Maria Madalena o recebe embaixo. O sudário branco, esticado entre as mãos dos que descem o corpo, cria uma superfície de luz que unifica visualmente toda a cena — um recurso técnico que também carrega peso simbólico: a mortalha que logo envolverá o corpo já começa, na composição, a \"recebê-lo\".\n\nO gesto de Maria, mãe de Jesus, à esquerda — braços erguidos em direção ao filho — e a dor contida no rosto de cada figura fazem da obra um estudo de luto coletivo, sem o sensacionalismo teatral que Rubens explorou em outras encomendas.",
+      "imageFile": "peter-paul-rubens-a-descida-da-cruz.webp",
+      "licenseType": "public-domain",
+      "location": "Catedral de Nossa Senhora, Antuérpia, Bélgica",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Peter_Paul_Rubens_-_Descent_from_the_Cross_-_WGA20212.jpg",
+      "references": [
+        {
+          "book": "João",
+          "bookSlug": "john",
+          "chapter": 19,
+          "verses": "38"
+        }
+      ]
+    },
+    {
       "slug": "peter-paul-rubens-a-queda-dos-anjos-rebeldes",
       "title": "A Queda dos Anjos Rebeldes",
       "subtitle": "The Fall of the Damned",
@@ -14512,6 +14641,27 @@
           "book": "João",
           "bookSlug": "john",
           "chapter": 20
+        }
+      ]
+    },
+    {
+      "slug": "peter-paul-rubens-daniel-na-cova-dos-leoes",
+      "title": "Daniel na Cova dos Leões",
+      "subtitle": "Daniel in the Lions' Den",
+      "artistOrDirector": "Peter Paul Rubens",
+      "year": "1614",
+      "category": "painting",
+      "description": "Óleo sobre tela de grande formato (224 × 330 cm), pintado por **Peter Paul Rubens** (1577–1640) por volta de **1614-1616**, num momento em que o artista, já estabelecido em Antuérpia, explorava composições de grande escala com animais — parte de uma fase em que colaborou com especialistas em pintura de fauna.\n\nDaniel aparece sozinho no centro da cova, ajoelhado em oração, cercado por **nove leões** em poses variadas — alguns adormecidos, outros alertas, um deles rugindo diretamente para o espectador. Rubens estudou leões reais (possivelmente da coleção do Arquiduque Alberto em Bruxelas) para garantir anatomia precisa, evitando o simbolismo estilizado comum em representações medievais do tema. A luz vem de cima, iluminando Daniel e o crânio e ossos espalhados pelo chão — lembrete visual do destino usual de quem cai naquela cova.\n\nO contraste entre a serenidade do rosto de Daniel, olhos voltados para o alto, e a tensão muscular dos leões ao redor é o eixo dramático da composição: fé silenciosa no meio do perigo mais literal possível.",
+      "imageFile": "peter-paul-rubens-daniel-na-cova-dos-leoes.webp",
+      "licenseType": "public-domain",
+      "location": "National Gallery of Art, Washington D.C., Estados Unidos",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Sir_Peter_Paul_Rubens_-_Daniel_in_the_Lions%27_Den_-_Google_Art_Project.jpg",
+      "references": [
+        {
+          "book": "Daniel",
+          "bookSlug": "daniel",
+          "chapter": 6,
+          "verses": "16"
         }
       ]
     },
@@ -16405,6 +16555,27 @@
           "bookSlug": "luke",
           "chapter": 21,
           "verses": "20,"
+        }
+      ]
+    },
+    {
+      "slug": "sandro-botticelli-a-adoracao-dos-magos",
+      "title": "A Adoração dos Magos",
+      "subtitle": "Adoration of the Magi",
+      "artistOrDirector": "Sandro Botticelli",
+      "year": "1475",
+      "category": "painting",
+      "description": "Têmpera sobre painel de **Sandro Botticelli** (1445–1510), pintada por volta de **1475-1476** para a família Del Lama, para um altar na igreja de Santa Maria Novella, em Florença — hoje conhecida também como \"Altar Zanobi\".\n\nA obra é famosa por retratar os três Reis Magos e boa parte do séquito ao redor **com os rostos de membros da família Médici** (governantes de fato de Florença), incluindo Cosimo de' Médici (o mais velho, ajoelhado diante do menino) e seus filhos e netos. Botticelli incluiu também um **autorretrato**: a figura loura à extrema direita, vestida de amarelo-dourado, olhando diretamente para o espectador — uma assinatura visual comum no Quattrocento florentino.\n\nA composição organiza dezenas de figuras em torno das ruínas de um edifício clássico (referência simbólica à antiga ordem sendo substituída pela nova era cristã), com a Sagrada Família à esquerda, elevada sobre o grupo. O uso de retratos reais de patronos poderosos misturados a uma cena bíblica era prática comum na Florença renascentista — parte devoção, parte afirmação política de status.",
+      "imageFile": "sandro-botticelli-a-adoracao-dos-magos.webp",
+      "licenseType": "public-domain",
+      "location": "Galleria degli Uffizi, Florença, Itália",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Botticelli_-_Adoration_of_the_Magi_(Zanobi_Altar)_-_Uffizi.jpg",
+      "references": [
+        {
+          "book": "Mateus",
+          "bookSlug": "matthew",
+          "chapter": 2,
+          "verses": "9"
         }
       ]
     },
@@ -19191,5 +19362,5 @@
       "references": []
     }
   ],
-  "exportedAt": "2026-08-23T22:52:42.688Z"
+  "exportedAt": "2026-08-23T23:15:46.753Z"
 }
