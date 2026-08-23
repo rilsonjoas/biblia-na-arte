@@ -1830,12 +1830,31 @@
     {
       "slug": "briton-riviere-daniel-na-cova-dos-leoes",
       "title": "Daniel na cova dos leões",
+      "subtitle": "Daniel in the Lion's Den",
+      "artistOrDirector": "Briton Riviere",
+      "year": "1890",
+      "category": "painting",
+      "description": "Óleo sobre tela de **Briton Rivière** (1840–1920), pintor britânico conhecido por sua habilidade em retratar animais, datada de **1890**. Medindo 120.5 x 187.9 cm, a obra está exposta na **Manchester Art Gallery**. A pintura retrata a icônica história bíblica de Daniel na cova dos leões.\n\nA narrativa, do Livro de Daniel, conta como Daniel, um homem devoto, desafiou um decreto real que proibia a oração a qualquer deus que não fosse o Rei Dario. Sua fidelidade a Deus o levou à cova dos leões, mas, milagrosamente, ele emergiu ileso na manhã seguinte, explicando que um anjo fechou a boca dos leões.\n\nNa tela, Daniel se mantém firme à esquerda, iluminado pela luz do sol que entra pela janela da prisão. Sua calma contrasta com os sete leões à direita, que o observam à distância. O jogo de luz e sombra intensifica a tensão e sublinha a natureza milagrosa da sobrevivência de Daniel, demonstrando a maestria de Rivière tanto na narrativa quanto na técnica artística.",
+      "imageFile": "briton-riviere-daniel-na-cova-dos-leoes.webp",
+      "licenseType": "public-domain",
+      "references": [
+        {
+          "book": "Daniel",
+          "bookSlug": "daniel",
+          "chapter": 6,
+          "passageText": "\"Então o rei ordenou, e trouxeram a Daniel, e o lançaram na cova dos leões. E o rei disse a Daniel: O teu Deus, a quem tu continuamente serviras, te livrará.\"\n\n\"E uma pedra foi trazida, e posta sobre a entrada da cova; e o rei a selou com o seu anel e com o anel dos seus príncipes, para que se não fizesse nada contra Daniel.\"\n\n\"Então o rei se levantou de madrugada, e foi apressadamente à cova dos leões.\"\n\n\"E, chegando-se à cova, clamou a Daniel com voz dolente, e disse-lhe: Daniel, servo do Deus vivente, o teu Deus, a quem tu continuamente serviras, te livrou dos leões?\"\n\n\"E Daniel respondeu ao rei: Meu Deus mandou o seu anjo, e fechou a boca dos leões, para que não me fizessem mal; porque perante ele fui achado inocente; e perante ti também, ó rei, eu não fiz mal.\"\n\n\"Então o rei se alegrou muito por causa dele, e ordenou que tirassem a Daniel da cova; e Daniel foi tirado da cova, e nenhuma mácula se achou nele, porque tinha confiado no seu Deus.\""
+        }
+      ]
+    },
+    {
+      "slug": "briton-riviere-daniel-na-cova-dos-leoes-1872",
+      "title": "Daniel na cova dos leões",
       "subtitle": "Daniel in the Lion’s Den",
       "artistOrDirector": "Briton Riviere",
       "year": "1872",
       "category": "painting",
       "description": "Daniel na cova dos leões, de Briton Riviere.",
-      "imageFile": "briton-riviere-daniel-na-cova-dos-leoes.webp",
+      "imageFile": "briton-riviere-daniel-na-cova-dos-leoes-1872.webp",
       "licenseType": "public-domain",
       "references": [
         {
@@ -4079,12 +4098,13 @@
       ]
     },
     {
-      "slug": "eugene-burnand-o-filho-prodigo-2",
+      "slug": "eugene-burnand-o-filho-prodigo-1900",
       "title": "O filho pródigo",
       "artistOrDirector": "Eugène Burnand",
+      "year": "1900",
       "category": "painting",
       "description": "O filho pródigo, de Eugène Burnand.",
-      "imageFile": "eugene-burnand-o-filho-prodigo-2.webp",
+      "imageFile": "eugene-burnand-o-filho-prodigo-1900.webp",
       "licenseType": "public-domain",
       "references": [
         {
@@ -6162,6 +6182,35 @@
       ]
     },
     {
+      "slug": "giotto-di-bondone-jonas-sendo-engolido-pelo-grande-peixe",
+      "title": "Jonas Sendo Engolido Pelo Grande Peixe",
+      "subtitle": "Jonah Swallowed by the Whale",
+      "artistOrDirector": "Giotto di Bondone",
+      "year": "1305",
+      "category": "painting",
+      "description": "Este afresco de **Giotto di Bondone** (c. 1304-1306) faz parte do ciclo de afrescos da **Capela Scrovegni** (Capela da Arena), em Pádua — um dos marcos do pré-Renascimento italiano, no qual Giotto rompe com a rigidez bizantina em favor de figuras humanas, emoção e narrativa. A cena está emoldurada num medalhão em forma de quadrifólio, decoração característica da capela: dentro dele, apenas as pernas de Jonas desaparecem nas entranhas do grande peixe, em meio a ondas estilizadas e quase abstratas, com o azul intenso do mar contrastando com as vestes claras do profeta.\n\nO episódio narra o momento em que Jonas, após tentar fugir da ordem divina de pregar em Nínive, é lançado ao mar tempestuoso pelos marinheiros e engolido pelo grande peixe ([[Jonas 1]]). Mas o episódio é lido pela tradição cristã como muito mais que um relato de desobediência e resgate: o próprio Jesus o invoca como **tipo** de sua própria morte e ressurreição — \"assim como Jonas esteve três dias e três noites no ventre do grande peixe, assim o Filho do Homem estará três dias e três noites no coração da terra\" ([[Mateus 12]]:40). A simplicidade e o impacto visual de Giotto solidificam esse importante tipo cristológico. Ver [[Diferenças entre Analogia, Tipologia, Simbologia e Alegoria]].",
+      "imageFile": "giotto-di-bondone-jonas-sendo-engolido-pelo-grande-peixe.webp",
+      "licenseType": "public-domain",
+      "references": [
+        {
+          "book": "Jonas",
+          "bookSlug": "jonah",
+          "chapter": 1,
+          "passageText": "\"Preparou, pois, o Senhor um grande peixe, para que tragasse a Jonas; e esteve Jonas três dias e três noites nas entranhas do peixe.\"\n— **Jonas 1:17**\n\n\"Porque, como Jonas esteve três dias e três noites no ventre da baleia, assim estará o Filho do homem três dias e três noites no seio da terra.\"\n— **Mateus 12:40**"
+        },
+        {
+          "book": "Jonas",
+          "bookSlug": "jonah",
+          "chapter": 2
+        },
+        {
+          "book": "Mateus",
+          "bookSlug": "matthew",
+          "chapter": 12
+        }
+      ]
+    },
+    {
       "slug": "giotto-di-bondone-o-beijo-de-judas",
       "title": "O beijo de Judas",
       "subtitle": "Kiss of Judas",
@@ -7007,25 +7056,6 @@
           "bookSlug": "judges",
           "chapter": 16,
           "passageText": "\"Então clamou Sansão ao Senhor, e disse: Senhor Deus... fortalece-me agora só esta vez, ó Deus, para que de uma vez me vingue dos filisteus, pelos meus dois olhos.\"\n— **Juízes 16:28**\n\n\"E Sansão disse: Morra eu com os filisteus. E foram mais os mortos que matou na sua morte do que os que matara em sua vida.\"\n— **Juízes 16:30**"
-        }
-      ]
-    },
-    {
-      "slug": "gustave-dore-a-morte-de-sansao-1866",
-      "title": "A Morte de Sansão",
-      "subtitle": "The Death of Samson",
-      "artistOrDirector": "Gustave Doré",
-      "year": "1866",
-      "category": "painting",
-      "description": "Esta gravura dramática de **Gustave Doré** retrata o momento climático da morte de Sansão, quando o juiz cego derruba as colunas do templo filisteu. Doré utiliza **composição épica** característica de suas ilustrações bíblicas, com senso de escala monumental e drama intenso.\n\nA cena captura o colapso catastrófico do templo, com massas humanas caindo em caos enquanto as colunas cedem. Sansão é mostrado no centro, suas mãos empurrando as colunas com força sobre-humana restaurada por Deus. A técnica de gravura permite detalhes meticulosos no desmoronamento da arquitetura e no pânico da multidão.\n\nO estilo romântico de Doré enfatiza tanto a **justiça divina** (vingança contra os opressores de Israel) quanto a **tragédia pessoal** de Sansão — um homem de potencial extraordinário desperdiçado por fraqueza moral, redimindo-se apenas em morte sacrificial.",
-      "imageFile": "gustave-dore-a-morte-de-sansao-1866.webp",
-      "licenseType": "public-domain",
-      "references": [
-        {
-          "book": "Juízes",
-          "bookSlug": "judges",
-          "chapter": 16,
-          "passageText": "\"Então clamou Sansão ao Senhor, e disse: Senhor Deus, peço-te que te lembres de mim, e fortalece-me agora só esta vez, ó Deus, para que de uma vez me vingue dos filisteus, pelos meus dois olhos.\"\n— **Juízes 16:28**\n\n\"E Sansão disse: Morra eu com os filisteus. E inclinou-se com força, e a casa caiu sobre os príncipes e sobre todo o povo que nela havia; e foram mais os mortos que matou na sua morte do que os que matara em sua vida.\"\n— **Juízes 16:30**"
         }
       ]
     },
@@ -10018,6 +10048,25 @@
           "bookSlug": "genesis",
           "chapter": 18,
           "passageText": "\"Há porventura alguma coisa difícil ao SENHOR? Ao tempo determinado tornarei a ti segundo o tempo da vida, e Sara terá um filho.\"\n— **Gênesis 18:14**"
+        }
+      ]
+    },
+    {
+      "slug": "james-tissot-adao-e-eva-sao-expulsos-do-paraiso",
+      "title": "Adão e Eva São Expulsos do Paraíso",
+      "subtitle": "Adam and Eve Driven from Paradise",
+      "artistOrDirector": "James Tissot",
+      "year": "1896",
+      "category": "painting",
+      "description": "Esta pintura de **James Tissot** retrata o anjo expulsando Adão e Eva do jardim do Éden após a desobediência. A expulsão marca o início da história da redenção, onde Deus promete que a semente da mulher esmagará a cabeça da serpente.",
+      "imageFile": "james-tissot-adao-e-eva-sao-expulsos-do-paraiso.webp",
+      "licenseType": "public-domain",
+      "references": [
+        {
+          "book": "Gênesis",
+          "bookSlug": "genesis",
+          "chapter": 3,
+          "passageText": "\"O SENHOR Deus, pois, o lançou fora do jardim do Éden, para lavrar a terra de que fora tomado.\"\n— **Gênesis 3:23**"
         }
       ]
     },
@@ -17723,12 +17772,13 @@
       ]
     },
     {
-      "slug": "william-henry-margetson-o-bom-samaritano-2",
+      "slug": "william-henry-margetson-o-bom-samaritano-1950",
       "title": "O bom samaritano",
       "artistOrDirector": "William Henry Margetson",
+      "year": "1950",
       "category": "painting",
       "description": "A pintura \"O Bom Samaritano\" de William Henry Margetson retrata a famosa parábola bíblica do Bom Samaritano. Na imagem, um homem ferido e seminu está montado em um burro, sendo amparado por outro homem que veste uma túnica longa e colorida. O cenário é uma paisagem árida e montanhosa, sugerindo uma jornada difícil. A pintura ilustra a compaixão e a ajuda altruísta oferecida pelo samaritano ao homem ferido, destacando temas de bondade, misericórdia e solidariedade.\n\n> [!info] The good Samaritan, from The Bible Picture Book published by Thomas Nelson, c.1950  \n> Buy The good Samaritan, from The Bible Picture Book published by Thomas Nelson, c.  \n> [https://www.meisterdrucke.uk/fine-art-prints/William-Henry-Margetson/380123/The-good-Samaritan%2C-from-The-Bible-Picture-Book-published-by-Thomas-Nelson%2C-c.1950.html](https://www.meisterdrucke.uk/fine-art-prints/William-Henry-Margetson/380123/The-good-Samaritan%2C-from-The-Bible-Picture-Book-published-by-Thomas-Nelson%2C-c.1950.html)",
-      "imageFile": "william-henry-margetson-o-bom-samaritano-2.webp",
+      "imageFile": "william-henry-margetson-o-bom-samaritano-1950.webp",
       "licenseType": "public-domain",
       "references": [
         {
@@ -18303,5 +18353,5 @@
       "references": []
     }
   ],
-  "exportedAt": "2026-08-23T00:45:23.285Z"
+  "exportedAt": "2026-08-23T01:29:26.795Z"
 }

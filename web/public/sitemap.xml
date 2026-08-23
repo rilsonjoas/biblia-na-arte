@@ -6746,6 +6746,11 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://biblianaarte.narniano.com/obra/briton-riviere-daniel-na-cova-dos-leoes-1872</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://biblianaarte.narniano.com/obra/mestre-andre-capela-da-santa-trindade-castelo-de-lublin-polonia</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -7266,7 +7271,7 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://biblianaarte.narniano.com/obra/eugene-burnand-o-filho-prodigo-2</loc>
+    <loc>https://biblianaarte.narniano.com/obra/eugene-burnand-o-filho-prodigo-1900</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -7756,6 +7761,11 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://biblianaarte.narniano.com/obra/giotto-di-bondone-jonas-sendo-engolido-pelo-grande-peixe</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://biblianaarte.narniano.com/obra/giotto-di-bondone-o-beijo-de-judas</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -7952,11 +7962,6 @@
   </url>
   <url>
     <loc>https://biblianaarte.narniano.com/obra/gustave-dore-a-morte-de-sansao</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://biblianaarte.narniano.com/obra/gustave-dore-a-morte-de-sansao-1866</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -8627,6 +8632,11 @@
   </url>
   <url>
     <loc>https://biblianaarte.narniano.com/obra/james-tissot-abraao-e-os-tres-anjos</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://biblianaarte.narniano.com/obra/james-tissot-adao-e-eva-sao-expulsos-do-paraiso</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -10461,7 +10471,7 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://biblianaarte.narniano.com/obra/william-henry-margetson-o-bom-samaritano-2</loc>
+    <loc>https://biblianaarte.narniano.com/obra/william-henry-margetson-o-bom-samaritano-1950</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
