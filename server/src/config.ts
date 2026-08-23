@@ -12,9 +12,20 @@ const envSchema = z.object({
   // biblia_na_arte_db (v1 é somente leitura pública, sem admin exposto).
   DATABASE_URL: z.string().url(),
 
-  // Origem do frontend, pra restringir o CORS. Em produção deve ser o
-  // domínio público do site, não "*".
-  CORS_ORIGIN: z.string().default('http://localhost:8080'),
+  // Origem(s) do frontend, pra restringir o CORS. Em produção deve ser
+  // domínio(s) público(s) do site, não "*" — aceita lista separada por
+  // vírgula (ex.: "https://biblianaarte.narniano.com,https://lecionario.narniano.com")
+  // porque outros projetos da mesma "Biblioteca" (ver hetzner-infra)
+  // também consomem essa API direto do navegador, não só o site oficial.
+  CORS_ORIGIN: z
+    .string()
+    .default('http://localhost:8080')
+    .transform((val) =>
+      val
+        .split(',')
+        .map((origin) => origin.trim())
+        .filter(Boolean),
+    ),
 
   // Rate limit — requisições por IP por janela.
   RATE_LIMIT_MAX: z.coerce.number().int().positive().default(200),

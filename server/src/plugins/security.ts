@@ -9,8 +9,10 @@ export async function registerSecurity(app: FastifyInstance) {
   // serve HTML então a CSP default do helmet já cobre o que importa aqui.
   await app.register(helmet);
 
-  // Só o domínio do próprio site pode chamar a API do navegador. Sem
-  // credenciais (não tem cookie/sessão nessa API pública).
+  // Só os domínios em CORS_ORIGIN podem chamar a API do navegador (o
+  // próprio site + outros projetos da "Biblioteca" que também consomem
+  // essa API client-side, ex. lecionario.narniano.com). Sem credenciais
+  // (não tem cookie/sessão nessa API pública).
   await app.register(cors, {
     origin: env.CORS_ORIGIN,
     methods: ['GET'],
