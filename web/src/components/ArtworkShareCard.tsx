@@ -39,13 +39,20 @@ export const ArtworkShareCard = React.forwardRef<HTMLDivElement, ArtworkShareCar
         className="fixed left-[-9999px] top-0 flex h-[1920px] w-[1080px] flex-col items-center overflow-hidden font-sans"
         style={{ backgroundColor: '#fffefb' }}
       >
-        {/* Eyebrow da marca */}
-        <p
-          className="mt-16 text-[26px] font-bold uppercase tracking-[0.35em]"
-          style={{ color: '#b49a60' }}
-        >
-          Bíblia na Arte
-        </p>
+        {/* Eyebrow da marca — logo discreta à esquerda do nome (achado
+            2026-08-23, testando a imagem real: faltava identidade visual
+            no Story). Mesmo arquivo do header (logo-header-light.png,
+            já é um selo com fundo próprio, não precisa de fundo
+            transparente pra combinar com o card claro). */}
+        <div className="mt-16 flex items-center gap-3">
+          <img src="/logo-header-light.png" alt="" className="w-8 h-8 rounded-full" crossOrigin="anonymous" />
+          <p
+            className="text-[26px] font-bold uppercase tracking-[0.35em]"
+            style={{ color: '#b49a60' }}
+          >
+            Bíblia na Arte
+          </p>
+        </div>
 
         {/* Moldura dupla — mesma receita do ShareCard do Gerador */}
         <div

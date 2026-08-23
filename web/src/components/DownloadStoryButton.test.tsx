@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { DownloadStoryButton } from './DownloadStoryButton';
 import type { Artwork } from '@/types';
@@ -16,7 +16,8 @@ const artwork: Artwork = {
 };
 
 const toDataURLMock = vi.fn(() => 'data:image/png;base64,fake');
-const html2canvasMock = vi.fn(async () => ({ toDataURL: toDataURLMock }));
+const toBlobMock = vi.fn((cb: (b: Blob | null) => void) => cb(new Blob(['fake'], { type: 'image/png' })));
+const html2canvasMock = vi.fn(async () => ({ toDataURL: toDataURLMock, toBlob: toBlobMock }));
 
 vi.mock('html2canvas', () => ({ default: () => html2canvasMock() }));
 
@@ -24,15 +25,46 @@ describe('DownloadStoryButton', () => {
   beforeEach(() => {
     html2canvasMock.mockClear();
     toDataURLMock.mockClear();
+    toBlobMock.mockClear();
   });
 
-  it('gera e baixa a imagem ao clicar', async () => {
+  it('sem Web Share API (padrão do jsdom, como desktop) — cai no <a download>', async () => {
     render(<DownloadStoryButton artwork={artwork} />);
 
     fireEvent.click(screen.getByRole('button', { name: /baixar story/i }));
 
     await waitFor(() => expect(html2canvasMock).toHaveBeenCalled());
-    expect(toDataURLMock).toHaveBeenCalledWith('image/png');
+    await waitFor(() => expect(toDataURLMock).toHaveBeenCalledWith('image/png'));
+  });
+
+  it('com Web Share API disponível (mobile) — usa navigator.share em vez de download', async () => {
+    const shareMock = vi.fn().mockResolvedValue(undefined);
+    const canShareMock = vi.fn().mockReturnValue(true);
+    vi.stubGlobal('navigator', { ...navigator, share: shareMock, canShare: canShareMock });
+
+    render(<DownloadStoryButton artwork={artwork} />);
+    fireEvent.click(screen.getByRole('button', { name: /baixar story/i }));
+
+    await waitFor(() => expect(shareMock).toHaveBeenCalled());
+    expect(toDataURLMock).not.toHaveBeenCalled();
+
+    vi.unstubAllGlobals();
+  });
+
+  it('ignora AbortError (pessoa fechou a folha de compartilhamento sem escolher nada)', async () => {
+    const abortError = Object.assign(new Error('cancelado'), { name: 'AbortError' });
+    const shareMock = vi.fn().mockRejectedValue(abortError);
+    vi.stubGlobal('navigator', { ...navigator, share: shareMock, canShare: () => true });
+    const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
+
+    render(<DownloadStoryButton artwork={artwork} />);
+    fireEvent.click(screen.getByRole('button', { name: /baixar story/i }));
+
+    await waitFor(() => expect(shareMock).toHaveBeenCalled());
+    expect(warnSpy).not.toHaveBeenCalled();
+
+    warnSpy.mockRestore();
+    vi.unstubAllGlobals();
   });
 
   it('renderiza o card escondido fora da tela com os dados da obra', () => {
@@ -51,5 +83,9 @@ describe('DownloadStoryButton', () => {
 
     await waitFor(() => expect(warnSpy).toHaveBeenCalled());
     warnSpy.mockRestore();
+  });
+
+  afterEach(() => {
+    vi.unstubAllGlobals();
   });
 });

@@ -135,55 +135,63 @@ export default function Chapter() {
         <div className="relative mb-16">
           <div className="gradient-hero rounded-2xl p-1">
             <Card className="border-0 bg-background/95 backdrop-blur">
-              <CardContent className="p-12">
+              {/* p-12 fixo em qualquer largura de tela deixava só ~280px
+                  úteis num celular comum — achado real 2026-08-23,
+                  Rilson testando no mobile. Reduz progressivamente. */}
+              <CardContent className="p-5 sm:p-8 md:p-12">
                 <div className="text-center">
-                  <Badge variant="secondary" className="mb-6 shadow-golden">
+                  <Badge variant="secondary" className="mb-4 sm:mb-6 shadow-golden">
                     <Book className="w-4 h-4 mr-2" />
                     {book.testament === 'old' ? 'Antigo Testamento' : 'Novo Testamento'}
                   </Badge>
 
-                  <h1 className="text-display text-3xl sm:text-4xl md:text-6xl font-bold mb-6 gradient-text">
+                  <h1 className="text-display text-3xl sm:text-4xl md:text-6xl font-bold mb-4 sm:mb-6 gradient-text">
                     {book.name} {chapterNum}
                   </h1>
 
-                  <div className="flex items-center justify-center space-x-6 text-lg text-muted-foreground mb-8">
+                  <div className="flex items-center justify-center space-x-6 text-base sm:text-lg text-muted-foreground mb-6 sm:mb-8">
                     <div className="flex items-center space-x-2">
                       <Palette className="w-5 h-5" />
                       <span>{artworks.length} obras sobre este capítulo</span>
                     </div>
                   </div>
 
-                  {/* Chapter Navigation */}
-                  <div className="flex items-center justify-center gap-4">
+                  {/* Chapter Navigation — 2 botões + contador numa linha só
+                      sem wrap era o "vários elementos um em cima do outro"
+                      no mobile. flex-wrap + texto do botão reduzido a só o
+                      número (ícone já indica direção) até o breakpoint sm. */}
+                  <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-4">
                     {prevChapter ? (
-                      <Button asChild variant="outline" className="shadow-card">
-                        <Link to={`/biblia/${book.slug}/${prevChapter}`}>
-                          <ChevronLeft className="w-4 h-4 mr-2" />
-                          Capítulo {prevChapter}
+                      <Button asChild variant="outline" size="sm" className="shadow-card sm:h-10 sm:px-4 sm:text-sm">
+                        <Link to={`/biblia/${book.slug}/${prevChapter}`} aria-label={`Capítulo ${prevChapter}`}>
+                          <ChevronLeft className="w-4 h-4 sm:mr-2" />
+                          <span className="hidden sm:inline">Capítulo </span>
+                          {prevChapter}
                         </Link>
                       </Button>
                     ) : (
-                      <Button variant="outline" disabled>
-                        <ChevronLeft className="w-4 h-4 mr-2" />
-                        Capítulo Anterior
+                      <Button variant="outline" size="sm" disabled aria-label="Capítulo Anterior" className="sm:h-10 sm:px-4 sm:text-sm">
+                        <ChevronLeft className="w-4 h-4 sm:mr-2" />
+                        <span className="hidden sm:inline">Capítulo Anterior</span>
                       </Button>
                     )}
 
-                    <span className="text-muted-foreground">
+                    <span className="text-muted-foreground text-sm shrink-0 order-first sm:order-none basis-full sm:basis-auto">
                       {chapterNum} / {book.chapters}
                     </span>
 
                     {nextChapter ? (
-                      <Button asChild variant="outline" className="shadow-card">
-                        <Link to={`/biblia/${book.slug}/${nextChapter}`}>
-                          Capítulo {nextChapter}
-                          <ChevronRight className="w-4 h-4 ml-2" />
+                      <Button asChild variant="outline" size="sm" className="shadow-card sm:h-10 sm:px-4 sm:text-sm">
+                        <Link to={`/biblia/${book.slug}/${nextChapter}`} aria-label={`Capítulo ${nextChapter}`}>
+                          <span className="hidden sm:inline">Capítulo </span>
+                          {nextChapter}
+                          <ChevronRight className="w-4 h-4 sm:ml-2" />
                         </Link>
                       </Button>
                     ) : (
-                      <Button variant="outline" disabled>
-                        Capítulo Seguinte
-                        <ChevronRight className="w-4 h-4 ml-2" />
+                      <Button variant="outline" size="sm" disabled aria-label="Capítulo Seguinte" className="sm:h-10 sm:px-4 sm:text-sm">
+                        <span className="hidden sm:inline">Capítulo Seguinte</span>
+                        <ChevronRight className="w-4 h-4 sm:ml-2" />
                       </Button>
                     )}
                   </div>
@@ -229,7 +237,7 @@ export default function Chapter() {
                     </div>
                     <div className="space-y-4">
                       {passage.verses.map((verse) => (
-                        <p key={verse.verse} className="text-lg leading-relaxed text-foreground/90">
+                        <p key={verse.verse} className="text-base md:text-lg leading-relaxed text-foreground/90">
                           <span className="text-primary font-semibold mr-2">
                             {verse.verse}
                           </span>

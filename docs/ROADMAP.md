@@ -1149,6 +1149,25 @@ Google" não é viável em iOS de qualquer forma.
       curadoria contínua, mesma natureza do item de ~143 obras com
       fallback genérico, não fecha numa sessão.
 
+### 🔴 Achado real 2026-08-23 (Rilson testando no celular, produção) — precisão da referência bíblica
+
+- [ ] **185 de 825 obras (22%) — chapter definido, mas NENHUM verso
+      específico citado no corpo da nota**: varredura de código sobre o
+      acervo real (fora dos artistas excluídos por copyright), não
+      estimativa. É uma questão diferente do item de "conexões mais
+      evidentes" acima — não é "falta explicar por que conecta", é "a
+      obra diz que é sobre o capítulo X, mas não aponta o versículo
+      exato, e ninguém conferiu se bate mesmo". Rilson levantou a
+      pergunta certa: **quantas dessas 185 estão genuinamente corretas
+      vs. mal-atribuídas?** Trabalho de auditoria, não de escrita — pra
+      cada uma: (1) confirmar o capítulo bate com a cena retratada, (2)
+      identificar o versículo específico quando existir um óbvio, (3)
+      corrigir ou remover a referência quando não bater. Mesma régua do
+      checklist de qualidade de conteúdo já estabelecido (seção mais
+      abaixo). 15 exemplos já levantados pra começar (Andrea Solario
+      "Salomé", Antonio de Pereda "Jó", Carl Bloch "Betesda", Zurbarán
+      "Pentecostes", Henri Testelin "Pedro ressuscita Tabita"...).
+
 ### ❓ Questão em aberto — vozes dos clássicos nas descrições (2026-08-22)
 
 - [x] **"Vozes dos clássicos" — decisão tomada, feature construída, 1º
@@ -1287,5 +1306,75 @@ Google" não é viável em iOS de qualquer forma.
      quebra natural de conteúdo (depois das referências bíblicas, antes
      de "Obras Relacionadas") — nunca dentro do texto de
      descrição/citação, pra não brigar com a experiência contemplativa.
-     Verificado: tsc limpo, 28/28 testes passando, build ok.
+      Verificado: tsc limpo, 28/28 testes passando, build ok.
   5. Amazon Associates: cadastro separado, sem bloqueio técnico
+
+---
+
+## Recursos Estratégicos de Experiência e Produto (Aprovados 2026-08-23)
+
+> Iniciativas estratégicas para integrar o Bíblia na Arte ao ecossistema A Biblioteca e elevar a acessibilidade/profundidade do catálogo.
+
+- [ ] **Integração com o Cluster "A Biblioteca"**:
+  - Incluir o selo unificado `<ClusterHeader />` ("REDE A BIBLIOTECA") no topo.
+  - Pontes explícitas Bíblia na Arte → Scriptorium Divinum (cards ao final de obras retratando autores/teólogos clássicos: *"Leia obras de Santo Agostinho no Scriptorium Divinum"*).
+  - Pontes Bíblia na Arte → Lecionário (conexão de obras com as passagens do lecionário litúrgico do dia).
+- [ ] **Páginas de Artista Ricas (Alimentadas pelo Vault Obsidian)**:
+  - Enriquecer as páginas de artista (`/artist/:slug`) com biografias, contexto histórico e citações diretamente das notas do **Vault Obsidian** do Rilson.
+  - Retrato do pintor em moldura circular *tondo* dourada.
+  - Linha do tempo visual cronológica das obras bíblicas do artista no acervo (ex: a evolução da luz e do traço de Rembrandt ou Caravaggio ao longo das décadas).
+- [ ] **Acessibilidade de Arte (Audiodescrição & TTS Enriquecido)**:
+  - Audiodescrição simplificada da composição visual da pintura (análise de personagens, focos de luz e simbolismo).
+  - Atributos `alt` acessíveis e narração via Web Speech API (TTS) para deficientes visuais e contemplação em áudio.
+
+---
+
+## Achados 2026-08-23 (Rilson testando em produção, celular) — corrigidos
+
+Rodada de deploy real (Fase 5 completa deste roadmap foi ao ar) seguida
+de teste ao vivo no celular. 6 achados reais, todos corrigidos no mesmo
+dia:
+
+- [x] **CI quebrado no push — corrigido**: `pnpm typecheck` no CI usa
+      `tsconfig.app.json` (mais estrito, `noUncheckedIndexedAccess`), que
+      é diferente do `tsc --noEmit` solto que rodei antes de commitar —
+      2 erros passaram batido (`PassageTimeline.tsx` acesso a índice
+      possivelmente indefinido, mock com spread de `unknown[]` no teste
+      do Story). Corrigido e reverificado com os comandos exatos do CI
+      (`pnpm typecheck`, `pnpm lint`, `pnpm build:web`). Lição: sempre
+      usar os scripts do `package.json`, nunca invocar `tsc` direto.
+      **Deploy em si não quebrou** — "Deploy VPS" é workflow separado do
+      "CI", não espera ele passar; confirmado ao vivo que a API seguiu
+      no ar com as colunas novas (`location`, `classicCommentary`)
+      respondendo certo, migration 0003/0004 realmente aplicadas.
+- [x] **Story sem identidade visual** — faltava a logo do projeto.
+      Adicionada discreta, à esquerda do nome "Bíblia na Arte" (mesmo
+      arquivo do header, `logo-header-light.png`).
+- [x] **Story "baixa como arquivo, não como imagem"** — comportamento
+      real do `<a download>` num `data:` URL no mobile (vira arquivo em
+      Downloads/Arquivos, não vai pra galeria de fotos). Corrigido com
+      Web Share API (`navigator.share` com o PNG como `File`) quando o
+      navegador suporta — dá a folha de compartilhamento nativa com
+      "Salvar na Galeria" de verdade; desktop sem suporte cai no
+      `<a download>` de sempre, que já era certo lá. `AbortError`
+      (pessoa fecha a folha sem escolher nada) tratado como não-erro.
+- [x] **Página da obra, barra de ações cheia no mobile**: "Óleo sobre
+      tela" + 3 botões de ação num só `flex justify-between` em 12px
+      virava parede de texto. Empilha em coluna até `sm`; rótulos dos
+      botões (copiar imagem, baixar Story, inspecionar detalhes) viram
+      só ícone no mobile, texto completo a partir de `sm` — acessibilidade
+      mantida via `aria-label`/`title`.
+- [x] **Card de navegação de capítulo mal desenhado no mobile**: `p-12`
+      fixo em qualquer largura deixava só ~280px úteis num celular comum,
+      e os 2 botões ("Capítulo N") + contador numa linha sem `flex-wrap`
+      se espremiam/sobrepunham. Padding progressivo (`p-5 sm:p-8 md:p-12`),
+      `flex-wrap`, texto dos botões reduzido a só o número no mobile
+      (ícone já indica direção), `aria-label` nos 4 estados (com/sem
+      capítulo anterior/seguinte) pra não perder acessibilidade com o
+      texto escondido.
+- [x] **Fonte dos versículos grande na página de capítulo**: `text-lg`
+      (18px) fixo em qualquer tela → `text-base md:text-lg` (16px no
+      mobile, mantém a régua de "corpo nunca abaixo de 16px").
+
+Typecheck limpo (com os comandos certos do CI), 46 testes web, lint
+sem erro, build ok. Commitado e deployado.

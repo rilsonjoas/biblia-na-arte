@@ -25,13 +25,37 @@ export function DownloadStoryButton({ artwork, label = 'Baixar Story', className
     try {
       const { default: html2canvas } = await import('html2canvas');
       const canvas = await html2canvas(cardRef.current, { scale: 1, useCORS: true });
-      const link = document.createElement('a');
-      link.download = `biblia-na-arte-${artwork.id}.png`;
-      link.href = canvas.toDataURL('image/png');
-      link.click();
+      const filename = `biblia-na-arte-${artwork.id}.png`;
+
+      // Achado 2026-08-23 (Rilson testando no celular): <a download> num
+      // data: URL vira "arquivo" no Android/iOS — some pra Arquivos/
+      // Downloads, não pra galeria de fotos, porque tecnicamente é isso
+      // mesmo que é (download de arquivo). Web Share API com o PNG como
+      // File dá a folha de compartilhamento nativa, que inclui "Salvar
+      // na Galeria/Fotos" como opção real — usa quando o navegador
+      // suporta compartilhar arquivo (majoritariamente mobile); desktop
+      // sem suporte cai no <a download> de sempre, que já é o correto lá.
+      const blob = await new Promise<Blob | null>((resolve) => canvas.toBlob(resolve, 'image/png'));
+      const file = blob ? new File([blob], filename, { type: 'image/png' }) : null;
+
+      if (file && navigator.canShare?.({ files: [file] })) {
+        await navigator.share({
+          files: [file],
+          title: `${artwork.title} — Bíblia na Arte`,
+        });
+      } else {
+        const link = document.createElement('a');
+        link.download = filename;
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+      }
+
       setDone(true);
       setTimeout(() => setDone(false), 2000);
     } catch (error) {
+      // AbortError acontece quando a pessoa fecha a folha de
+      // compartilhamento sem escolher nada — não é falha de verdade.
+      if (error instanceof Error && error.name === 'AbortError') return;
       console.warn('[DownloadStory] falha ao gerar a imagem:', error);
     } finally {
       setDownloading(false);
@@ -43,15 +67,18 @@ export function DownloadStoryButton({ artwork, label = 'Baixar Story', className
       <button onClick={handleDownload} disabled={downloading} aria-label={label} className={className}>
         {done ? (
           <>
-            <Check className="w-3 h-3 text-green-600 dark:text-green-400" /> Baixado!
+            <Check className="w-3 h-3 text-green-600 dark:text-green-400" />
+            <span className="hidden sm:inline">Baixado!</span>
           </>
         ) : downloading ? (
           <>
-            <ImageDown className="w-3 h-3 animate-pulse" /> Gerando...
+            <ImageDown className="w-3 h-3 animate-pulse" />
+            <span className="hidden sm:inline">Gerando...</span>
           </>
         ) : (
           <>
-            <Download className="w-3 h-3" /> {label}
+            <Download className="w-3 h-3" />
+            <span className="hidden sm:inline">{label}</span>
           </>
         )}
       </button>

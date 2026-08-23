@@ -260,11 +260,16 @@ export default function ArtworkDetail() {
               </AspectRatio>
             </div>
 
-            {/* Quick action bar below image */}
-            <div className="flex items-center justify-between text-xs text-muted-foreground px-1">
+            {/* Quick action bar below image — achado 2026-08-23 (Rilson
+                testando no celular): 3 ações + o texto do meio num só
+                "flex justify-between" em 12px virava parede de texto no
+                mobile. Empilha (coluna) até sm, uma linha só a partir
+                daí; rótulos dos botões viram só ícone no mobile
+                (title=""/aria-label seguram a acessibilidade). */}
+            <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between text-xs text-muted-foreground px-1">
               <span className="italic">{artwork.mediumOrGenre || 'Óleo sobre tela'}</span>
               {!artwork.embedUrl && imageUrl && (
-                <div className="flex items-center gap-4">
+                <div className="flex items-center gap-4 flex-wrap">
                   <CopyImageButton
                     url={imageUrl}
                     className="hover:text-primary transition-colors flex items-center gap-1"
@@ -276,8 +281,11 @@ export default function ArtworkDetail() {
                   <button
                     onClick={() => setLightboxOpen(true)}
                     className="hover:text-primary transition-colors flex items-center gap-1 underline underline-offset-4"
+                    title="Inspecionar detalhes da pintura"
                   >
-                    Inspecionar detalhes da pintura
+                    <Maximize2 className="w-3 h-3 sm:hidden" />
+                    <span className="hidden sm:inline">Inspecionar detalhes da pintura</span>
+                    <span className="sm:hidden">Detalhes</span>
                   </button>
                 </div>
               )}

@@ -85,11 +85,13 @@ export function CopyImageButton({ url, label = 'Copiar imagem', className }: Cop
     >
       {copied ? (
         <>
-          <Check className="w-3 h-3 text-green-600 dark:text-green-400" /> Imagem copiada!
+          <Check className="w-3 h-3 text-green-600 dark:text-green-400" />
+          <span className="hidden sm:inline">Imagem copiada!</span>
         </>
       ) : (
         <>
-          <Copy className="w-3 h-3" /> {label}
+          <Copy className="w-3 h-3" />
+          <span className="hidden sm:inline">{label}</span>
         </>
       )}
     </button>
