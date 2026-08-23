@@ -1426,14 +1426,22 @@ e deployado nesta rodada:
       tree (não commitado ainda quando a pergunta chegou); commitado,
       testado e deployado agora. Confirmado ao vivo: zero menção a
       "música"/"filme" na home renderizada.
-- [x] **Cobertura de versículos destacados** — `extractVerseFromContext()`
-      já existia no working tree, commitado agora. Resultado real após
-      reseed: **30% das referências (430 de 1.432) têm faixa de
-      versículo** — melhorou, mas a maioria ainda só tem livro+capítulo.
-      Fechar esse gap de verdade é trabalho de curadoria (escrever a
-      faixa de versículo em cada nota do vault que ainda não tem — nem
-      toda obra retrata um versículo específico, então nem todo caso é
-      "gap", mas vale uma passada).
+- [x] **Cobertura de versículos destacados — fechado 2026-08-23**:
+      `extractVerseFromContext()` já existia e funcionava certo (testado
+      direto contra nota real), mas o `vault-export.json` commitado
+      estava **desatualizado** em relação ao código — nunca tinha sido
+      re-exportado depois do fix entrar. Rodado o export de verdade:
+      cobertura salta de **30% pra 54,7%** (784 de 1.432 referências),
+      mesmas 860 obras, sem perda de dado. Reseed aplicado em produção e
+      verificado ao vivo ("A Prisão de Jesus" → Mateus 26:47-48 e
+      João 18:12 corretos). Os 45,3% restantes foram checados
+      manualmente em 3 casos e são **padrão de conteúdo, não bug**: cada
+      nota cita a passagem principal com versículo e só marca os
+      relatos paralelos dos sinóticos (Marcos/Lucas/João da mesma cena)
+      como referência cruzada sem citação própria — não falta dado, é
+      assim que a curadoria documentou essas obras. Fechar mais exigiria
+      escrever versículo novo em cada nota manualmente, decisão de
+      curadoria caso a caso, não automatizável com segurança.
 - [x] **Pintura bate com a passagem?** — amostra aleatória de 12 das 860
       obras conferida uma a uma contra conhecimento bíblico/histórico
       real (não vault): **12/12 corretas** (ex.: "Davi matando Golias"
