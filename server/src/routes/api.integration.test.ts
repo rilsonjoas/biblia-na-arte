@@ -35,11 +35,12 @@ describe('API v1 — integração (Postgres real de teste)', () => {
         ('${BOOK_ISAIAH}', 'Isaías', 'isaiah', 66, 'old'),
         ('${BOOK_LUKE}', 'Lucas', 'luke', 24, 'new');
 
-      INSERT INTO artworks (id, title, artist_or_director, year, category, description, image_url, license_type) VALUES
+      INSERT INTO artworks (id, title, artist_or_director, year, category, description, image_url, license_type, location, classic_commentary_author, classic_commentary) VALUES
         ('${ARTWORK_SAMARITAN}', 'O bom samaritano', 'Aimé Morot', '1880', 'painting',
-         'Descrição **com markdown** da obra do samaritano.', '/images/samaritano.jpg', 'public-domain'),
+         'Descrição **com markdown** da obra do samaritano.', '/images/samaritano.jpg', 'public-domain',
+         'Musée d''Orsay, Paris, França', 'Schaeffer', 'Um comentário de teste.'),
         ('${ARTWORK_PRODIGAL}', 'O filho pródigo', 'Rembrandt', '1668', 'painting',
-         'Outra obra sobre o perdão.', NULL, 'public-domain');
+         'Outra obra sobre o perdão.', NULL, 'public-domain', NULL, NULL, NULL);
 
       INSERT INTO bible_references (id, artwork_id, book, book_slug, chapter, verses) VALUES
         ('20000000-0000-0000-0000-000000000001', '${ARTWORK_SAMARITAN}', 'Lucas', 'luke', 10, '34'),
@@ -174,6 +175,21 @@ describe('API v1 — integração (Postgres real de teste)', () => {
     expect(res.statusCode).toBe(200);
     const body = res.json();
     expect(body.some((a: { title: string }) => a.title === 'O bom samaritano')).toBe(true);
+  });
+
+  // Achado real 2026-08-23: a busca (função SQL search_artworks, lista de
+  // colunas escrita à mão) ficou pra trás quando `location` e
+  // `classicCommentary*` foram adicionados ao schema — funcionava certo em
+  // GET /artworks (select() do Drizzle pega tudo sozinho) mas sumia na
+  // busca. Regressão coberta aqui pra não voltar a acontecer sem que um
+  // teste quebre.
+  it('busca devolve location e vozes dos clássicos (não só GET /artworks)', async () => {
+    const res = await app.inject({ method: 'GET', url: '/api/v1/artworks/search?q=samaritano' });
+    const body = res.json();
+    const samaritan = body.find((a: { title: string }) => a.title === 'O bom samaritano');
+    expect(samaritan.location).toBe('Musée d\'Orsay, Paris, França');
+    expect(samaritan.classicCommentaryAuthor).toBe('Schaeffer');
+    expect(samaritan.classicCommentary).toBe('Um comentário de teste.');
   });
 
   // Achado real 2026-08-22: plainto_tsquery exigia a palavra completa

@@ -121,6 +121,9 @@ export async function searchArtworks({ q, limit }: SearchArtworksQuery) {
           dimensions_or_duration AS "dimensionsOrDuration",
           license_type AS "licenseType",
           attribution_text AS "attributionText",
+          location,
+          classic_commentary_author AS "classicCommentaryAuthor",
+          classic_commentary AS "classicCommentary",
           created_at AS "createdAt",
           updated_at AS "updatedAt"
         FROM search_artworks(${q})
