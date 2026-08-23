@@ -301,8 +301,13 @@ elevar a qualidade do catálogo.
       de slug no export-vault-data.ts** — 1ª ocorrência mantém o slug limpo
       (URLs/imagens indexadas ficam estáveis); duplicatas recebem ano da
       obra e, se ainda colidir, sufixo (-2, -3...), com warning no console
-      pra cada desempate. Server typecheck limpo, 46/46 testes. **Efeito em
-      produção só após re-export + reseed + deploy.** Curadoria por par
+      pra cada desempate. Server typecheck limpo, 46/46 testes.
+      **NO AR desde 2026-08-22 (noite): export + reseed + deploy feitos
+      via SSH na VPS (seed em container one-off na proxy-network,
+      `--env-file` do server/.env, NODE_ENV=development só pro tsx
+      instalar)** — 857 obras na API, busca "morte de sansão" retorna os
+      2 Doré com imagens distintas, webp novo servido com 200. Curadoria
+      por par
       (renomear no Obsidian / excluir duplicados) continua manual — renomear
       fora do Obsidian quebraria wikilinks silenciosamente.
 - [x] ~~`web/public/images/` rastreado no git~~ — checado 2026-08-16: já é
