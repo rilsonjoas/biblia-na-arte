@@ -72,6 +72,7 @@ const EXCLUDED_ARTISTS = new Set([
   'Kelly Latimore', // licenciamento não é prioridade agora
   'Josh Tiessen',
   'Danny Hahlbohm',
+  'Kim Ki-chang', // falecido em 2001 — obra protegida (KR até ~2072, US até ~2048); decisão do Rilson em 2026-08-22
   'Dan Hillier',
   'Pablo Sanaguano',
   'Soichi Watanabe',
