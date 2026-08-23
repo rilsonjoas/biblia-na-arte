@@ -380,7 +380,7 @@
       "artistOrDirector": "Albrecht Dürer",
       "year": "1511",
       "category": "painting",
-      "description": "Esta obra de **Albrecht Dürer** retrata a adoração da Santa Trindade pela Cidade de Deus, representando santos, anjos e fiéis em veneração ao Pai, Filho e Espírito Santo.",
+      "description": "Óleo sobre painel de tília, pintado por **Albrecht Dürer** (1471–1528) em **1511**, hoje no Kunsthistorisches Museum, em Viena. A obra reúne patriarcas, mártires e santos de todas as épocas em anéis concêntricos adorando a Trindade — a visão clássica de adoração celestial coletiva, não a descrição de uma cidade descendo apesar do título \"Cidade de Deus\" (que remete ao conceito agostiniano da comunhão eterna dos santos, da qual essa multidão é a imagem).\n\nDürer incluiu um autorretrato de corpo inteiro no canto inferior direito da tela — mas sozinho, numa faixa de terra vazia abaixo da multidão celestial, como única testemunha terrena da visão, a mão apoiada numa placa com a inscrição que assina e data a obra. Não é o pintor se juntando aos santos; é o pintor testemunhando, de fora, o que pintou.",
       "imageFile": "albrecht-durer-adoracao-da-trindade-pela-cidade-de-deus.webp",
       "licenseType": "public-domain",
       "location": "Kunsthistorisches Museum, Viena, Áustria",
@@ -518,10 +518,18 @@
       "artistOrDirector": "Albrecht Dürer",
       "year": "1526",
       "category": "painting",
-      "description": "No lado esquerdo do painel, os apóstolos João e Pedro. E no lado direito, Marcos e Paulo.",
+      "description": "Díptico em óleo pintado por **Albrecht Dürer** (1471–1528) em **1526**, dois anos antes de sua morte — não foi encomendado por ninguém: Dürer o pintou por conta própria e o doou ao conselho da cidade de Nuremberg, sua terra natal, como declaração pública de fé.\n\nNo painel esquerdo, São João Evangelista (jovem, segurando um livro aberto) e São Pedro (idoso, com a chave); no direito, São Marcos (ao fundo, quase na sombra) e São Paulo (à frente, empunhando espada e livro fechado). É importante notar a precisão do título: só João e Pedro são, tecnicamente, apóstolos no sentido estrito; Marcos é evangelista (não um dos Doze), Paulo é apóstolo por vocação posterior, não por ter caminhado com Jesus.\n\nO contexto é decisivo pra entender a obra: Dürer havia recentemente se convertido às ideias da Reforma Protestante, e Nuremberg era, em 1526, uma das primeiras cidades alemãs a adotar oficialmente a Reforma. Abaixo dos painéis, o artista mandou inscrever trechos bíblicos (em tradução alemã de Lutero) advertindo os governantes da cidade a não confundirem palavra humana com Palavra de Deus, nem se deixarem enganar por falsos profetas — mensagem claramente dirigida à disputa religiosa do momento.",
       "imageFile": "albrecht-durer-os-quatro-apostolos.webp",
       "licenseType": "public-domain",
-      "references": []
+      "location": "Alte Pinakothek, Munique, Alemanha",
+      "references": [
+        {
+          "book": "2 Pedro",
+          "bookSlug": "2-peter",
+          "chapter": 2,
+          "verses": "1"
+        }
+      ]
     },
     {
       "slug": "alexander-ivanov-o-anjo-gabriel-aparece-a-zacarias",
@@ -1187,14 +1195,15 @@
       "artistOrDirector": "Antoon Van Dyck",
       "year": "1619",
       "category": "painting",
-      "description": "Jesus curando o paralítico, de Antoon Van Dyck.",
+      "description": "Óleo sobre tela pintado por **Anthony van Dyck** (1599–1641) em **1619**, quando o artista, ainda muito jovem (com pouco mais de vinte anos), trabalhava na oficina de Rubens em Antuérpia — o vigor dramático da composição e o tratamento anatômico dos corpos mostram forte influência do mestre, ainda antes de Van Dyck desenvolver o estilo mais refinado e elegante que o tornaria famoso como retratista de cortes reais.\n\nA cena capta o instante do milagre: o homem antes paralítico, apoiado por quem o carregou, começa a se erguer diante de Jesus, que estende a mão em gesto de autoridade e compaixão simultâneas. Ao redor, a multidão reage com espanto — alguns se debruçam para ver melhor, outros recuam, atônitos.",
       "imageFile": "antoon-van-dyck-jesus-curando-o-paralitico.webp",
       "licenseType": "public-domain",
       "references": [
         {
           "book": "Marcos",
           "bookSlug": "mark",
-          "chapter": 2
+          "chapter": 2,
+          "verses": "3-4"
         }
       ]
     },
@@ -1205,14 +1214,16 @@
       "artistOrDirector": "Antoon Van Dyck",
       "year": "1635",
       "category": "painting",
-      "description": "Lamento pela morte de Cristo, de Antoon Van Dyck.",
+      "description": "Óleo sobre tela pintado por **Anthony van Dyck** (1599–1641) por volta de **1635-1637**, num momento maduro da carreira, já como pintor de corte na Inglaterra de Carlos I — período em que revisitou o tema da Lamentação mais de uma vez.\n\nO corpo de Cristo, deposto no colo de Maria numa composição em pirâmide clássica, domina o centro da tela; a palidez do cadáver contrasta com o vermelho intenso do manto que o envolve parcialmente. Anjos ao redor seguram os instrumentos da Paixão — a coroa de espinhos, os cravos — enquanto o rosto de Maria, voltado para baixo em silêncio, evita o gesto teatral de outras Lamentações do período: sua dor é contida, quase estática, no que os historiadores de arte chamam de \"pietà\" em sentido amplo, mesmo sem seguir estritamente a iconografia italiana da Pietà de Michelangelo.",
       "imageFile": "antoon-van-dyck-lamento-pela-morte-de-cristo.webp",
       "licenseType": "public-domain",
+      "location": "Museo del Prado, Madri, Espanha",
       "references": [
         {
           "book": "João",
           "bookSlug": "john",
-          "chapter": 19
+          "chapter": 19,
+          "verses": "38"
         }
       ]
     },
@@ -1504,10 +1515,24 @@
       "artistOrDirector": "Autor Desconhecido",
       "year": "1315",
       "category": "painting",
-      "description": "Presente em uma igreja de Istambul",
+      "description": "Mosaico do exonarthex (nártex externo) da **Igreja de Chora**, em Istambul (hoje Kariye Camii), datado de **c. 1315-1321**, parte do extraordinário ciclo de mosaicos e afrescos encomendado pelo estadista bizantino **Theodore Metochites**, considerado o ápice do chamado \"Renascimento Paleólogo\" — o último grande florescimento artístico do Império Bizantino antes da queda de Constantinopla.\n\nO painel combina dois momentos narrativos numa só composição, técnica comum na arte bizantina: à esquerda, José dormindo, visitado em sonho por um anjo; à direita, a jornada de José e Maria a caminho de Belém. O ciclo completo do exonarthex narra toda a infância de Cristo em cerca de dezesseis painéis — Anunciação, Natividade, chegada dos Magos e outros episódios evangélicos — sendo hoje uma das referências mais estudadas da iconografia bizantina tardia.",
       "imageFile": "autor-desconhecido-o-sonho-de-jose-e-a-jornada-ate-belem.webp",
       "licenseType": "public-domain",
-      "references": []
+      "location": "Igreja de Chora (Kariye Camii), Istambul, Turquia",
+      "references": [
+        {
+          "book": "Mateus",
+          "bookSlug": "matthew",
+          "chapter": 1,
+          "verses": "20"
+        },
+        {
+          "book": "Lucas",
+          "bookSlug": "luke",
+          "chapter": 2,
+          "verses": "1,4"
+        }
+      ]
     },
     {
       "slug": "mestre-do-livro-de-oracoes-de-dresden-os-temperados-e-os-intemperados",
@@ -2296,7 +2321,7 @@
       "artistOrDirector": "Caravaggio",
       "year": "1607",
       "category": "painting",
-      "description": "> Flagelação de Cristo, também conhecida por Cristo na Coluna, é uma pintura a óleo sobre tela do mestre italiano do período barroco Michelangelo Merisi da Caravaggio que está actualmente no Museu de Belas Artes de Ruão.  \n> [https://pt.wikipedia.org/wiki/Flagela%C3%A7%C3%A3o_de_Cristo_(Caravaggio,_Ru%C3%A3o)#/media/Ficheiro:Caravaggio_flagellation.jpg](https://pt.wikipedia.org/wiki/Flagela%C3%A7%C3%A3o_de_Cristo_(Caravaggio,_Ru%C3%A3o)#/media/Ficheiro:Caravaggio_flagellation.jpg)  \n\nA flagelação de Cristo (Mateus 27:26; Marcos 15:15; João 19:1) ocorre após Jesus ser julgado por Pôncio Pilatos. Pilatos, incapaz de encontrar culpa suficiente para condenar Jesus à morte, decide castigá-Lo, e manda que Ele seja flagelado, uma prática cruel e brutal. Os soldados romanos açoitam Jesus com um chicote composto por várias cordas ou tiras de couro, frequentemente com fragmentos de metal ou ossos nas extremidades, o que causava intenso sofrimento e ferimentos graves. Durante a flagelação, os soldados zombam de Jesus, colocando uma coroa de espinhos em Sua cabeça e uma capa de púrpura, fazendo troça de Sua alegada realeza. Eles O saudam dizendo: \"Salve, Rei dos Judeus!\" (Mateus 27:29). Este episódio é um dos momentos mais dolorosos da Paixão de Cristo, simbolizando o sofrimento físico e humilhação que Jesus suportou em nome da redenção da humanidade.",
+      "description": "> [!info] Flagelação de Cristo (Caravaggio, Ruão)  \n> Flagelação de Cristo, também conhecida por Cristo na Coluna, é uma pintura a óleo sobre tela do mestre italiano do período barroco Michelangelo Merisi da Caravaggio que está actualmente no Museu de Belas Artes de Ruão.  \n> [https://pt.wikipedia.org/wiki/Flagela%C3%A7%C3%A3o_de_Cristo_(Caravaggio,_Ru%C3%A3o)#/media/Ficheiro:Caravaggio_flagellation.jpg](https://pt.wikipedia.org/wiki/Flagela%C3%A7%C3%A3o_de_Cristo_(Caravaggio,_Ru%C3%A3o)#/media/Ficheiro:Caravaggio_flagellation.jpg)  \n\nA flagelação de Cristo (Mateus 27:26; Marcos 15:15; João 19:1) ocorre após Jesus ser julgado por Pôncio Pilatos. Pilatos, incapaz de encontrar culpa suficiente para condenar Jesus à morte, decide castigá-Lo, e manda que Ele seja flagelado, uma prática cruel e brutal. Os soldados romanos açoitam Jesus com um chicote composto por várias cordas ou tiras de couro, frequentemente com fragmentos de metal ou ossos nas extremidades, o que causava intenso sofrimento e ferimentos graves. Durante a flagelação, os soldados zombam de Jesus, colocando uma coroa de espinhos em Sua cabeça e uma capa de púrpura, fazendo troça de Sua alegada realeza. Eles O saudam dizendo: \"Salve, Rei dos Judeus!\" (Mateus 27:29). Este episódio é um dos momentos mais dolorosos da Paixão de Cristo, simbolizando o sofrimento físico e humilhação que Jesus suportou em nome da redenção da humanidade.",
       "imageFile": "caravaggio-flagelacao-de-cristo.webp",
       "licenseType": "public-domain",
       "references": [
@@ -2938,7 +2963,7 @@
       "artistOrDirector": "Claude Lorrain",
       "year": "1676",
       "category": "painting",
-      "description": "**Nota enriquecida em 2026-08-23** — entrada anterior era um esboço sem descrição nem citação. Óleo sobre tela de **Claude Lorrain** (nascido Claude Gellée, c. 1600–1682), pintado em **1676**, no fim da carreira do artista francês radicado em Roma, o maior nome da pintura de paisagem ideal do século XVII.\n\nComo é típico de Lorrain, a narrativa bíblica ocupa um espaço relativamente pequeno da composição — as figuras de Jacó, Raquel e o rebanho de ovelhas aparecem em primeiro plano à esquerda, diante de um poço, enquanto o restante da tela é dominado por uma paisagem pastoral idealizada: árvores em contraluz, um rio serpenteando ao fundo, e a luz dourada característica do artista, sempre banhando a cena num entardecer ou amanhecer atmosférico. Lorrain não busca o drama psicológico da cena bíblica — busca a harmonia entre a figura humana e um mundo natural ordenado e sereno, gênero que ele praticamente definiu para a pintura europeia dos séculos seguintes.",
+      "description": "Óleo sobre tela de **Claude Lorrain** (nascido Claude Gellée, c. 1600–1682), pintado em **1676**, no fim da carreira do artista francês radicado em Roma, o maior nome da pintura de paisagem ideal do século XVII.\n\nComo é típico de Lorrain, a narrativa bíblica ocupa um espaço relativamente pequeno da composição — as figuras de Jacó, Raquel e o rebanho de ovelhas aparecem em primeiro plano à esquerda, diante de um poço, enquanto o restante da tela é dominado por uma paisagem pastoral idealizada: árvores em contraluz, um rio serpenteando ao fundo, e a luz dourada característica do artista, sempre banhando a cena num entardecer ou amanhecer atmosférico. Lorrain não busca o drama psicológico da cena bíblica — busca a harmonia entre a figura humana e um mundo natural ordenado e sereno, gênero que ele praticamente definiu para a pintura europeia dos séculos seguintes.",
       "imageFile": "claude-lorrain-jaco-com-labao-e-suas-filhas.webp",
       "licenseType": "public-domain",
       "location": "Dulwich Picture Gallery, Londres, Reino Unido",
@@ -5728,10 +5753,18 @@
       "artistOrDirector": "Geertgen tot Sint Jans",
       "year": "1490",
       "category": "painting",
-      "description": "A natividade à noite, de Geertgen tot Sint Jans.",
+      "description": "Óleo sobre painel, obra de pequenas dimensões (34 × 25 cm) de **Geertgen tot Sint Jans** (\"Gerard dos Irmãos de São João\", c. 1465–c. 1495), pintor holandês de vida curtíssima cuja obra sobrevivente é rara — menos de vinte painéis lhe são atribuídos com segurança.\n\nA inovação da obra está na **fonte de luz**: diferente da maioria das Natividades da época, iluminadas por velas ou luz do dia, aqui a única fonte luminosa é o próprio **menino Jesus** — sua figura irradia claridade sobre o rosto de Maria debruçada sobre ele, sobre o boi e o jumento ao fundo, e sobre os anjos que se aproximam. É uma escolha pictórica com peso teológico direto: Cristo como \"luz que brilha nas trevas\" (João 1:5) tornado literal na composição. Ao fundo, à direita, um segundo foco de luz — a aparição aos pastores — reforça o mesmo tema em miniatura.",
       "imageFile": "geertgen-tot-sint-jans-a-natividade-a-noite.webp",
       "licenseType": "public-domain",
-      "references": []
+      "location": "National Gallery, Londres, Reino Unido",
+      "references": [
+        {
+          "book": "Lucas",
+          "bookSlug": "luke",
+          "chapter": 2,
+          "verses": "7"
+        }
+      ]
     },
     {
       "slug": "george-hitchcock-um-sonho-de-natal",
@@ -5740,7 +5773,7 @@
       "artistOrDirector": "George Hitchcock",
       "year": "?",
       "category": "painting",
-      "description": "Óleo de **George Hitchcock** (1850–1913), pintor americano radicado na Holanda, conhecido por cenas simbolistas ambientadas em paisagens holandesas e por retratos religiosos de tom contemplativo, mais do que narrativo. **\"Um Sonho de Natal\"** não ilustra um episódio bíblico específico — é uma cena simbólica: uma figura solitária, envolta num manto escuro com forro avermelhado, ajoelhada na neve entre troncos nus de inverno, rosto voltado para cima em oração. Junto ao chão, uma lanterna acesa é a única fonte de luz quente numa paisagem inteiramente fria e azulada.\n\nHitchcock não está ilustrando os pastores de Belém nem a Sagrada Família — está pintando a postura de quem espera e vigia, sozinho, no frio, com uma luz pequena que insiste em não se apagar. É uma imagem de Advento mais do que de Natal propriamente dito: o gesto de orar voltado pro alto, a lanterna como promessa contra a escuridão ao redor.\n\n**Nota de proveniência**: não foi possível confirmar a data exata de composição em fontes consultadas — Hitchcock foi ativo majoritariamente entre as décadas de 1880 e 1900.",
+      "description": "Óleo de **George Hitchcock** (1850–1913), pintor americano radicado na Holanda, conhecido por cenas simbolistas ambientadas em paisagens holandesas e por retratos religiosos de tom contemplativo, mais do que narrativo. **\"Um Sonho de Natal\"** não ilustra um episódio bíblico específico — é uma cena simbólica: uma figura solitária, envolta num manto escuro com forro avermelhado, ajoelhada na neve entre troncos nus de inverno, rosto voltado para cima em oração. Junto ao chão, uma lanterna acesa é a única fonte de luz quente numa paisagem inteiramente fria e azulada.\n\nHitchcock não está ilustrando os pastores de Belém nem a Sagrada Família — está pintando a postura de quem espera e vigia, sozinho, no frio, com uma luz pequena que insiste em não se apagar. É uma imagem de Advento mais do que de Natal propriamente dito: o gesto de orar voltado pro alto, a lanterna como promessa contra a escuridão ao redor.",
       "imageFile": "george-hitchcock-um-sonho-de-natal.webp",
       "licenseType": "public-domain",
       "references": [
@@ -6387,7 +6420,7 @@
       "title": "Isaque abençoando a Jacó",
       "artistOrDirector": "Gerrit Willemsz Horst",
       "category": "painting",
-      "description": "> Isaac blessing Jacob&nbsp;  \n> [https://commons.wikimedia.org/wiki/File:Horst,_Gerrit_Willemsz._-_Isaac_blessing_Jacob_-_Google_Art_Project.jpg](https://commons.wikimedia.org/wiki/File:Horst,_Gerrit_Willemsz._-_Isaac_blessing_Jacob_-_Google_Art_Project.jpg)",
+      "description": "> [!info] File:Horst, Gerrit Willemsz. - Isaac blessing Jacob - Google Art Project.jpg  \n> Isaac blessing Jacob&nbsp;  \n> [https://commons.wikimedia.org/wiki/File:Horst,_Gerrit_Willemsz._-_Isaac_blessing_Jacob_-_Google_Art_Project.jpg](https://commons.wikimedia.org/wiki/File:Horst,_Gerrit_Willemsz._-_Isaac_blessing_Jacob_-_Google_Art_Project.jpg)",
       "imageFile": "gerrit-willemsz-horst-isaque-abencoando-a-jaco.webp",
       "licenseType": "public-domain",
       "references": [
@@ -6821,10 +6854,17 @@
       "artistOrDirector": "Guercino",
       "year": "1641",
       "category": "painting",
-      "description": "Cristo e a mulher de Samaria no poço, de Guercino.",
+      "description": "Óleo sobre tela de **Giovanni Francesco Barbieri**, conhecido como **Guercino** (\"o vesgo\", 1591–1666), pintado em **1641**, quando o artista já havia deixado para trás o tenebrismo dramático da juventude por uma paleta mais luminosa e clássica, influenciada por sua temporada em Roma.\n\nA composição concentra-se no diálogo entre as duas figuras — Jesus sentado à beira do poço, a mulher de pé segurando o cântaro — captado num momento de troca íntima, quase doméstica, apesar da tensão social e religiosa que a cena carrega (judeus e samaritanos não se falavam). A luz suave de Guercino modela os rostos com atenção psicológica: o gesto da mulher, meio hesitante, meio curioso, sugere o momento exato em que ela começa a perceber que está diante de alguém fora do comum.",
       "imageFile": "guercino-cristo-e-a-mulher-de-samaria-no-poco.webp",
       "licenseType": "public-domain",
-      "references": []
+      "references": [
+        {
+          "book": "João",
+          "bookSlug": "john",
+          "chapter": 4,
+          "verses": "13-14"
+        }
+      ]
     },
     {
       "slug": "guercino-davi-com-a-cabeca-de-golias",
@@ -7862,7 +7902,7 @@
       "artistOrDirector": "Gustave Doré",
       "year": "1855",
       "category": "painting",
-      "description": "Óleo sobre tela de **Gustave Doré** (1832–1883), mestre da gravura e ilustrador francês do período do **Romantismo**, datada de **1855**. A obra retrata a cena bíblica descrita em Gênesis 32:22-32, onde Jacó luta com um anjo durante a noite.\n\nNa imagem, Jacó, vestido com uma túnica vermelha, está em combate corpo a corpo com um anjo de vestes brancas e asas. A luta ocorre em um terreno rochoso, com uma paisagem ao fundo que inclui um rio e vegetação. Esta cena é significativa porque simboliza a perseverança e a transformação espiritual de Jacó, que após a luta recebe o nome de Israel, marcando um momento crucial na história bíblica.\n\nDoré, com sua técnica magistral de composição e dramaticidade, captura a intensidade da luta espiritual — uma batalha que é ao mesmo tempo física e sobrenatural, terrena e divina.\n\n\n> 'The wrestle of Jacob' was created in 1855 by Gustave Dore in Romanticism style.\n> [https://www.wikiart.org/en/gustave-dore/the-wrestle-of-jacob-1855](https://www.wikiart.org/en/gustave-dore/the-wrestle-of-jacob-1855)",
+      "description": "Óleo sobre tela de **Gustave Doré** (1832–1883), mestre da gravura e ilustrador francês do período do **Romantismo**, datada de **1855**. A obra retrata a cena bíblica descrita em Gênesis 32:22-32, onde Jacó luta com um anjo durante a noite.\n\nNa imagem, Jacó, vestido com uma túnica vermelha, está em combate corpo a corpo com um anjo de vestes brancas e asas. A luta ocorre em um terreno rochoso, com uma paisagem ao fundo que inclui um rio e vegetação. Esta cena é significativa porque simboliza a perseverança e a transformação espiritual de Jacó, que após a luta recebe o nome de Israel, marcando um momento crucial na história bíblica.\n\nDoré, com sua técnica magistral de composição e dramaticidade, captura a intensidade da luta espiritual — uma batalha que é ao mesmo tempo física e sobrenatural, terrena e divina.\n\n> [!info] The wrestle of Jacob, 1855 - Gustave Dore - WikiArt.org\n> 'The wrestle of Jacob' was created in 1855 by Gustave Dore in Romanticism style.\n> [https://www.wikiart.org/en/gustave-dore/the-wrestle-of-jacob-1855](https://www.wikiart.org/en/gustave-dore/the-wrestle-of-jacob-1855)",
       "imageFile": "gustave-dore-jaco-lutando-com-o-anjo.webp",
       "licenseType": "public-domain",
       "references": [
@@ -10723,7 +10763,7 @@
       "artistOrDirector": "James Tissot",
       "year": "1902",
       "category": "painting",
-      "description": "Aquarela de **James Tissot** (1836–1902), artista francês conhecido por suas representações detalhadas e realistas de cenas bíblicas, datada de **c. 1902**. A obra retrata o patriarca bíblico Jacó consumido pela dor da suposta perda de seu filho amado, José. A cena é de partir o coração.\n\nTissot, conhecido por suas representações detalhadas e realistas de cenas bíblicas, captura a angústia de Jacó de forma visceral. Vemos o pai, curvado e com o rosto coberto, em um momento de profundo sofrimento. Os irmãos, ao redor, observam com expressões que misturam culpa, remorso e preocupação. A composição é íntima e comovente.\n\nA obra nos transporta para o âmago da dor de um pai que acredita ter perdido seu filho. Tissot, com sua técnica apurada, nos faz sentir a intensidade do luto de Jacó.\n\n\n> *While the Jewish Museum is pleased to be able to share this information with you, note that scholarship and research relating to this work is ongoing.\n> [https://artsandculture.google.com/asset/jacob-mourns-his-son-joseph-0000/fAEFICbl7IcWFw](https://artsandculture.google.com/asset/jacob-mourns-his-son-joseph-0000/fAEFICbl7IcWFw)",
+      "description": "Aquarela de **James Tissot** (1836–1902), artista francês conhecido por suas representações detalhadas e realistas de cenas bíblicas, datada de **c. 1902**. A obra retrata o patriarca bíblico Jacó consumido pela dor da suposta perda de seu filho amado, José. A cena é de partir o coração.\n\nTissot, conhecido por suas representações detalhadas e realistas de cenas bíblicas, captura a angústia de Jacó de forma visceral. Vemos o pai, curvado e com o rosto coberto, em um momento de profundo sofrimento. Os irmãos, ao redor, observam com expressões que misturam culpa, remorso e preocupação. A composição é íntima e comovente.\n\nA obra nos transporta para o âmago da dor de um pai que acredita ter perdido seu filho. Tissot, com sua técnica apurada, nos faz sentir a intensidade do luto de Jacó.",
       "imageFile": "james-tissot-jaco-em-luto-por-seu-filho-jose.webp",
       "licenseType": "public-domain",
       "references": [
@@ -10742,7 +10782,7 @@
       "artistOrDirector": "James Tissot",
       "year": "1896",
       "category": "painting",
-      "description": "> *While the Jewish Museum is pleased to be able to share this information with you, note that scholarship and research relating to this work is ongoing.  \n> [https://artsandculture.google.com/asset/jacob-deceives-isaac-0001/6QGJi-5LoH77-g](https://artsandculture.google.com/asset/jacob-deceives-isaac-0001/6QGJi-5LoH77-g)  \n\nO episódio em que Jacó engana Isaque (Gênesis 27:1-40) ocorre quando Isaque, já idoso e com a visão debilitada, decide abençoar seu filho Esaú, o primogênito, antes de morrer. Ele pede que Esaú vá caçar e prepare uma refeição saborosa para ele, como condição para receber a bênção. No entanto, Rebeca, esposa de Isaque e mãe de Jacó e Esaú, ouve a conversa e trama com Jacó para enganar Isaque. Ela instrui Jacó a se disfarçar como Esaú, cobrindo-se com peles de animais para imitar o aspecto peludo de seu irmão. Jacó segue o plano, levando a comida preparada por sua mãe, e engana Isaque, que, embora desconfiado, acaba abençoando Jacó, acreditando ser Esaú. Quando Esaú retorna e descobre a traição, fica furioso, e Jacó foge para evitar a ira de seu irmão. Esse episódio é um marco na história de Jacó, mostrando sua habilidade de enganar, mas também as consequências do engano, pois a divisão familiar e o conflito entre os irmãos são intensificados.",
+      "description": "O episódio em que Jacó engana Isaque (Gênesis 27:1-40) ocorre quando Isaque, já idoso e com a visão debilitada, decide abençoar seu filho Esaú, o primogênito, antes de morrer. Ele pede que Esaú vá caçar e prepare uma refeição saborosa para ele, como condição para receber a bênção. No entanto, Rebeca, esposa de Isaque e mãe de Jacó e Esaú, ouve a conversa e trama com Jacó para enganar Isaque. Ela instrui Jacó a se disfarçar como Esaú, cobrindo-se com peles de animais para imitar o aspecto peludo de seu irmão. Jacó segue o plano, levando a comida preparada por sua mãe, e engana Isaque, que, embora desconfiado, acaba abençoando Jacó, acreditando ser Esaú. Quando Esaú retorna e descobre a traição, fica furioso, e Jacó foge para evitar a ira de seu irmão. Esse episódio é um marco na história de Jacó, mostrando sua habilidade de enganar, mas também as consequências do engano, pois a divisão familiar e o conflito entre os irmãos são intensificados.",
       "imageFile": "james-tissot-jaco-engana-a-isaque.webp",
       "licenseType": "public-domain",
       "references": [
@@ -10758,7 +10798,7 @@
       "title": "Jacó vê Esaú vindo ao seu encontro",
       "artistOrDirector": "James Tissot",
       "category": "painting",
-      "description": "A pintura \"Jacó vê Esaú vindo ao seu encontro\" de James Tissot retrata a cena bíblica do encontro entre os irmãos Jacó e Esaú, conforme descrito em Gênesis 33:1-17. Na imagem, Jacó está em primeiro plano, de pé, com uma mão sobre os olhos para enxergar melhor e a outra segurando um cajado, enquanto observa a aproximação de Esaú e seu grupo ao longe. Ao redor de Jacó, seus familiares e servos estão sentados ou ajoelhados, alguns em atitude de oração ou preocupação. A paisagem ao fundo mostra colinas e um vale, sugerindo a vastidão do deserto. Esta pintura é interessante e relevante por capturar o momento de tensão e expectativa antes do reencontro dos irmãos, que haviam se separado em circunstâncias conflituosas anos antes.\n\n\n> *While the Jewish Museum is pleased to be able to share this information with you, note that scholarship and research relating to this work is ongoing.  \n> [https://artsandculture.google.com/asset/jacob-sees-esau-coming-to-meet-him-0001/pgGE5eTA2HL8Lw](https://artsandculture.google.com/asset/jacob-sees-esau-coming-to-meet-him-0001/pgGE5eTA2HL8Lw)",
+      "description": "A pintura \"Jacó vê Esaú vindo ao seu encontro\" de James Tissot retrata a cena bíblica do encontro entre os irmãos Jacó e Esaú, conforme descrito em Gênesis 33:1-17. Na imagem, Jacó está em primeiro plano, de pé, com uma mão sobre os olhos para enxergar melhor e a outra segurando um cajado, enquanto observa a aproximação de Esaú e seu grupo ao longe. Ao redor de Jacó, seus familiares e servos estão sentados ou ajoelhados, alguns em atitude de oração ou preocupação. A paisagem ao fundo mostra colinas e um vale, sugerindo a vastidão do deserto. Esta pintura é interessante e relevante por capturar o momento de tensão e expectativa antes do reencontro dos irmãos, que haviam se separado em circunstâncias conflituosas anos antes.",
       "imageFile": "james-tissot-jaco-ve-esau-vindo-ao-seu-encontro.webp",
       "licenseType": "public-domain",
       "references": [
@@ -10775,7 +10815,7 @@
       "artistOrDirector": "James Tissot",
       "year": "1896",
       "category": "painting",
-      "description": "> *While the Jewish Museum is pleased to be able to share this information with you, note that scholarship and research relating to this work is ongoing.  \n> [https://artsandculture.google.com/asset/jael-shows-to-barak-sisera-lying-dead-0001/aAHgt-hRsp8Zyw](https://artsandculture.google.com/asset/jael-shows-to-barak-sisera-lying-dead-0001/aAHgt-hRsp8Zyw)  \n\nNo episódio em que Jael mostra a Baraque o corpo de Sísera (Juízes 4:17-22), após a derrota dos cananeus, Sísera, o comandante do exército de Jabim, fugiu a pé e buscou refúgio na tenda de Jael, esposa de Héber, que era aliado de Jabim. Jael o recebeu com aparente hospitalidade, oferecendo-lhe leite e um lugar para descansar. Enquanto ele dormia, confiando na segurança do local, Jael usou uma estaca de tenda e a cravou em sua cabeça, matando-o. Quando Baraque chegou à procura de Sísera, Jael saiu ao seu encontro e disse: “Vem, e eu te mostrarei o homem que procuras” (Juízes 4:22). Dentro da tenda, Baraque viu o corpo de Sísera morto. O ato ousado de Jael foi celebrado no Cântico de Débora (Juízes 5:24-27), que a exalta como uma heroína usada por Deus para libertar Israel.",
+      "description": "No episódio em que Jael mostra a Baraque o corpo de Sísera (Juízes 4:17-22), após a derrota dos cananeus, Sísera, o comandante do exército de Jabim, fugiu a pé e buscou refúgio na tenda de Jael, esposa de Héber, que era aliado de Jabim. Jael o recebeu com aparente hospitalidade, oferecendo-lhe leite e um lugar para descansar. Enquanto ele dormia, confiando na segurança do local, Jael usou uma estaca de tenda e a cravou em sua cabeça, matando-o. Quando Baraque chegou à procura de Sísera, Jael saiu ao seu encontro e disse: “Vem, e eu te mostrarei o homem que procuras” (Juízes 4:22). Dentro da tenda, Baraque viu o corpo de Sísera morto. O ato ousado de Jael foi celebrado no Cântico de Débora (Juízes 5:24-27), que a exalta como uma heroína usada por Deus para libertar Israel.",
       "imageFile": "james-tissot-jael-mostra-a-baraque-o-corpo-de-sisera.webp",
       "licenseType": "public-domain",
       "references": [
@@ -10827,7 +10867,7 @@
       "artistOrDirector": "James Tissot",
       "year": "1896",
       "category": "painting",
-      "description": "> *While the Jewish Museum is pleased to be able to share this information with you, note that scholarship and research relating to this work is ongoing.  \n> [https://artsandculture.google.com/asset/joseph-interprets-pharaoh-s-dream-0001/YgG0Bp17Mt4NMw](https://artsandculture.google.com/asset/joseph-interprets-pharaoh-s-dream-0001/YgG0Bp17Mt4NMw)  \n\nO episódio em que José interpreta o sonho do faraó (Gênesis 41:1-37) acontece após José ser chamado da prisão para explicar os sonhos que ninguém no Egito conseguia decifrar. O faraó sonhou com sete vacas gordas sendo devoradas por sete vacas magras, e sete espigas cheias sendo consumidas por sete espigas mirradas. José, reconhecendo que a interpretação vinha de Deus, revelou que os sonhos significavam sete anos de grande fartura seguidos por sete anos de fome em toda a terra. Ele aconselhou o faraó a nomear um administrador sábio para armazenar alimentos durante os anos de abundância, garantindo sustento durante a fome. Impressionado pela sabedoria e discernimento de José, o faraó o nomeou governador do Egito, dando-lhe autoridade para implementar o plano (Gênesis 41:38-41). A interpretação e a estratégia de José salvaram o Egito e também sua família, mostrando o cumprimento dos propósitos de Deus.",
+      "description": "O episódio em que José interpreta o sonho do faraó (Gênesis 41:1-37) acontece após José ser chamado da prisão para explicar os sonhos que ninguém no Egito conseguia decifrar. O faraó sonhou com sete vacas gordas sendo devoradas por sete vacas magras, e sete espigas cheias sendo consumidas por sete espigas mirradas. José, reconhecendo que a interpretação vinha de Deus, revelou que os sonhos significavam sete anos de grande fartura seguidos por sete anos de fome em toda a terra. Ele aconselhou o faraó a nomear um administrador sábio para armazenar alimentos durante os anos de abundância, garantindo sustento durante a fome. Impressionado pela sabedoria e discernimento de José, o faraó o nomeou governador do Egito, dando-lhe autoridade para implementar o plano (Gênesis 41:38-41). A interpretação e a estratégia de José salvaram o Egito e também sua família, mostrando o cumprimento dos propósitos de Deus.",
       "imageFile": "james-tissot-jose-interpreta-o-sonho-do-farao.webp",
       "licenseType": "public-domain",
       "references": [
@@ -10844,7 +10884,7 @@
       "artistOrDirector": "James Tissot",
       "year": "1902",
       "category": "painting",
-      "description": "Aquarela de **James Tissot** (1836–1902), artista francês conhecido por suas representações detalhadas e realistas de cenas bíblicas, datada de **c. 1902**. A obra retrata o dom profético de José, aprisionado injustamente no Egito, interpretando os sonhos do copeiro e do padeiro do Faraó (Gênesis 40).\n\nTissot, com sua precisão característica, retrata José com trajes egípcios, em pé, transmitindo confiança e sabedoria. Os prisioneiros, sentados e deitados, exibem expressões de ansiedade e esperança. A cela simples e a luz suave reforçam a atmosfera de confinamento e expectativa.\n\nA obra é crucial para a saga de José. A interpretação dos sonhos, um dom divino, é a chave para sua libertação e ascensão. Tissot, com sua técnica apurada, nos faz sentir a importância desse momento, que mudará o destino de José e, futuramente, de todo o Egito.\n\n\n> *While the Jewish Museum is pleased to be able to share this information with you, note that scholarship and research relating to this work is ongoing.\n> [https://artsandculture.google.com/asset/joseph-interpreteth-the-dreams-while-in-prison-0000/HAHXbN5SLutDLw](https://artsandculture.google.com/asset/joseph-interpreteth-the-dreams-while-in-prison-0000/HAHXbN5SLutDLw)",
+      "description": "Aquarela de **James Tissot** (1836–1902), artista francês conhecido por suas representações detalhadas e realistas de cenas bíblicas, datada de **c. 1902**. A obra retrata o dom profético de José, aprisionado injustamente no Egito, interpretando os sonhos do copeiro e do padeiro do Faraó (Gênesis 40).\n\nTissot, com sua precisão característica, retrata José com trajes egípcios, em pé, transmitindo confiança e sabedoria. Os prisioneiros, sentados e deitados, exibem expressões de ansiedade e esperança. A cela simples e a luz suave reforçam a atmosfera de confinamento e expectativa.\n\nA obra é crucial para a saga de José. A interpretação dos sonhos, um dom divino, é a chave para sua libertação e ascensão. Tissot, com sua técnica apurada, nos faz sentir a importância desse momento, que mudará o destino de José e, futuramente, de todo o Egito.",
       "imageFile": "james-tissot-jose-interpreta-sonhos-na-prisao.webp",
       "licenseType": "public-domain",
       "references": [
@@ -10863,7 +10903,7 @@
       "artistOrDirector": "James Tissot",
       "year": "1902",
       "category": "painting",
-      "description": "Aquarela vibrante de **James Tissot** (1836–1902), artista francês conhecido por suas representações detalhadas e realistas de cenas bíblicas, datada de **c. 1902**. A obra retrata o momento exato em que José, filho de Jacó, compartilha seus sonhos proféticos com seus irmãos, conforme narrado em Gênesis 37:5-8. A cena é carregada de prenúncios.\n\nTissot, mestre em capturar detalhes e emoções, posiciona José em destaque, sentado em uma elevação, enquanto seus irmãos o rodeiam, com expressões que variam entre a curiosidade, a incredulidade e o desdém. O cenário rural, com uma fogueira e uma paisagem árida, reforça o contexto bíblico da história.\n\nA obra é crucial para entendermos a saga de José. Os sonhos, que revelam sua futura superioridade, despertam a inveja dos irmãos, desencadeando a série de eventos que o levarão ao Egito. Tissot, com sua técnica impecável, nos transporta para esse momento-chave, prenúncio de traição, sofrimento, mas também de ascensão.\n\n\n> *While the Jewish Museum is pleased to be able to share this information with you, note that scholarship and research relating to this work is ongoing.\n> [https://artsandculture.google.com/asset/joseph-reveals-his-dream-to-his-brethren-0000/mAGrGn_QqPWECw](https://artsandculture.google.com/asset/joseph-reveals-his-dream-to-his-brethren-0000/mAGrGn_QqPWECw)",
+      "description": "Aquarela vibrante de **James Tissot** (1836–1902), artista francês conhecido por suas representações detalhadas e realistas de cenas bíblicas, datada de **c. 1902**. A obra retrata o momento exato em que José, filho de Jacó, compartilha seus sonhos proféticos com seus irmãos, conforme narrado em Gênesis 37:5-8. A cena é carregada de prenúncios.\n\nTissot, mestre em capturar detalhes e emoções, posiciona José em destaque, sentado em uma elevação, enquanto seus irmãos o rodeiam, com expressões que variam entre a curiosidade, a incredulidade e o desdém. O cenário rural, com uma fogueira e uma paisagem árida, reforça o contexto bíblico da história.\n\nA obra é crucial para entendermos a saga de José. Os sonhos, que revelam sua futura superioridade, despertam a inveja dos irmãos, desencadeando a série de eventos que o levarão ao Egito. Tissot, com sua técnica impecável, nos transporta para esse momento-chave, prenúncio de traição, sofrimento, mas também de ascensão.",
       "imageFile": "james-tissot-jose-revela-seu-sonho-aos-seus-irmaos.webp",
       "licenseType": "public-domain",
       "references": [
@@ -10926,7 +10966,7 @@
       "artistOrDirector": "James Tissot",
       "year": "1896",
       "category": "painting",
-      "description": "> *While the Jewish Museum is pleased to be able to share this information with you, note that scholarship and research relating to this work is ongoing.  \n> [https://artsandculture.google.com/asset/moses-speaks-to-pharaoh-0001/egHXPQIU9VMstQ](https://artsandculture.google.com/asset/moses-speaks-to-pharaoh-0001/egHXPQIU9VMstQ)  \n\nO episódio em que Moisés fala com o faraó (Êxodo 5) ocorre logo após Moisés e Arão serem enviados por Deus para libertar os israelitas da escravidão no Egito. Ao se apresentarem diante do faraó, Moisés e Arão pedem que ele deixe os israelitas irem para o deserto para celebrar um festival em honra a Deus. No entanto, o faraó, desafiando a autoridade divina, responde que não conhece esse \"Deus\" e recusa a solicitação, aumentando ainda mais a carga de trabalho dos hebreus, ordenando que fossem obrigados a produzir a mesma quantidade de tijolos sem receber a palha necessária para a fabricação.",
+      "description": "O episódio em que Moisés fala com o faraó (Êxodo 5) ocorre logo após Moisés e Arão serem enviados por Deus para libertar os israelitas da escravidão no Egito. Ao se apresentarem diante do faraó, Moisés e Arão pedem que ele deixe os israelitas irem para o deserto para celebrar um festival em honra a Deus. No entanto, o faraó, desafiando a autoridade divina, responde que não conhece esse \"Deus\" e recusa a solicitação, aumentando ainda mais a carga de trabalho dos hebreus, ordenando que fossem obrigados a produzir a mesma quantidade de tijolos sem receber a palha necessária para a fabricação.",
       "imageFile": "james-tissot-moises-fala-com-o-farao.webp",
       "licenseType": "public-domain",
       "references": [
@@ -10976,7 +11016,7 @@
       "artistOrDirector": "James Tissot",
       "year": "1896",
       "category": "painting",
-      "description": "> *While the Jewish Museum is pleased to be able to share this information with you, note that scholarship and research relating to this work is ongoing.  \n> [https://artsandculture.google.com/asset/moses-sees-the-promised-land-from-afar-0001/MgHxE-0lCO0XLg?ms=%7B%22x%22%3A0.5%2C%22y%22%3A0.5%2C%22z%22%3A7.972339896401348%2C%22size%22%3A%7B%22width%22%3A4.801468074875193%2C%22height%22%3A1.2375%7D%7D](https://artsandculture.google.com/asset/moses-sees-the-promised-land-from-afar-0001/MgHxE-0lCO0XLg?ms=%7B%22x%22%3A0.5%2C%22y%22%3A0.5%2C%22z%22%3A7.972339896401348%2C%22size%22%3A%7B%22width%22%3A4.801468074875193%2C%22height%22%3A1.2375%7D%7D)  \n\nO episódio em que Moisés vê a Terra Prometida de longe (Deuteronômio 34:1-4) ocorre após a longa jornada do povo de Israel pelo deserto. Moisés, agora com 120 anos, subiu ao Monte Nebo, no território de Moabe, sob as instruções de Deus. Lá, o Senhor mostrou-lhe toda a terra que Ele havia prometido aos descendentes de Abraão, Isaque e Jacó, desde Gileade até Dã, e desde Naftali até o Negebe, incluindo a cidade de Jericó. No entanto, Deus disse a Moisés que ele não entraria na Terra Prometida, mas que a veria apenas de longe, como parte do cumprimento da Sua vontade.",
+      "description": "O episódio em que Moisés vê a Terra Prometida de longe (Deuteronômio 34:1-4) ocorre após a longa jornada do povo de Israel pelo deserto. Moisés, agora com 120 anos, subiu ao Monte Nebo, no território de Moabe, sob as instruções de Deus. Lá, o Senhor mostrou-lhe toda a terra que Ele havia prometido aos descendentes de Abraão, Isaque e Jacó, desde Gileade até Dã, e desde Naftali até o Negebe, incluindo a cidade de Jericó. No entanto, Deus disse a Moisés que ele não entraria na Terra Prometida, mas que a veria apenas de longe, como parte do cumprimento da Sua vontade.",
       "imageFile": "james-tissot-moises-ve-a-terra-prometida-de-longe.webp",
       "licenseType": "public-domain",
       "references": [
@@ -10993,7 +11033,7 @@
       "artistOrDirector": "James Tissot",
       "year": "1896",
       "category": "painting",
-      "description": "Aquarela de **James Tissot** (1836–1902), artista francês conhecido por suas representações detalhadas e realistas de cenas bíblicas, datada de **1896**. A obra retrata a construção da arca de Noé, um evento bíblico significativo.\n\nA imagem mostra três homens trabalhando arduamente na construção de uma grande estrutura de madeira. O homem no centro, em uma posição elevada, carrega uma grande tábua de madeira sobre os ombros, enquanto outros dois homens, um à esquerda e outro à direita, também manipulam tábuas e ferramentas. A complexidade da estrutura de madeira ao fundo destaca a magnitude do projeto.\n\nEsta obra ilustra um momento crucial da narrativa bíblica do dilúvio, onde Noé, seguindo as instruções divinas, constrói uma arca para salvar sua família e os animais do grande dilúvio. Tissot, com sua precisão característica, nos transporta para esse momento de obediência e preparação.\n\n\n> *While the Jewish Museum is pleased to be able to share this information with you, note that scholarship and research relating to this work is ongoing.\n> [https://artsandculture.google.com/asset/building-the-ark-0001/mQEVssPVMoonSA](https://artsandculture.google.com/asset/building-the-ark-0001/mQEVssPVMoonSA)",
+      "description": "Aquarela de **James Tissot** (1836–1902), artista francês conhecido por suas representações detalhadas e realistas de cenas bíblicas, datada de **1896**. A obra retrata a construção da arca de Noé, um evento bíblico significativo.\n\nA imagem mostra três homens trabalhando arduamente na construção de uma grande estrutura de madeira. O homem no centro, em uma posição elevada, carrega uma grande tábua de madeira sobre os ombros, enquanto outros dois homens, um à esquerda e outro à direita, também manipulam tábuas e ferramentas. A complexidade da estrutura de madeira ao fundo destaca a magnitude do projeto.\n\nEsta obra ilustra um momento crucial da narrativa bíblica do dilúvio, onde Noé, seguindo as instruções divinas, constrói uma arca para salvar sua família e os animais do grande dilúvio. Tissot, com sua precisão característica, nos transporta para esse momento de obediência e preparação.",
       "imageFile": "james-tissot-noe-construindo-a-arca.webp",
       "licenseType": "public-domain",
       "references": [
@@ -11012,7 +11052,7 @@
       "artistOrDirector": "James Tissot",
       "year": "1896",
       "category": "painting",
-      "description": "> *While the Jewish Museum is pleased to be able to share this information with you, note that scholarship and research relating to this work is ongoing.  \n> [https://artsandculture.google.com/asset/pharaoh-and-the-midwives-0001/2AETzqeoWd1Oqg](https://artsandculture.google.com/asset/pharaoh-and-the-midwives-0001/2AETzqeoWd1Oqg)  \n\nO episódio do faraó com as parteiras (Êxodo 1:15-21) ocorre durante o período de escravidão dos israelitas no Egito. Temendo o crescimento numérico do povo hebreu, o faraó ordenou às parteiras Sifrá e Puá que matassem todos os meninos hebreus ao nascer. Contudo, as parteiras, que temiam a Deus, desobedeceram à ordem do faraó e pouparam as crianças, justificando-se ao rei dizendo que as mulheres hebreias davam à luz antes que elas chegassem. Deus abençoou as parteiras por sua coragem e fidelidade, concedendo-lhes famílias como recompensa (Êxodo 1:20-21). Esse ato de resistência revelou a soberania de Deus, que protegeu o povo de Israel e continuou cumprindo Sua promessa de multiplicar sua descendência, preparando o cenário para o nascimento de Moisés.",
+      "description": "O episódio do faraó com as parteiras (Êxodo 1:15-21) ocorre durante o período de escravidão dos israelitas no Egito. Temendo o crescimento numérico do povo hebreu, o faraó ordenou às parteiras Sifrá e Puá que matassem todos os meninos hebreus ao nascer. Contudo, as parteiras, que temiam a Deus, desobedeceram à ordem do faraó e pouparam as crianças, justificando-se ao rei dizendo que as mulheres hebreias davam à luz antes que elas chegassem. Deus abençoou as parteiras por sua coragem e fidelidade, concedendo-lhes famílias como recompensa (Êxodo 1:20-21). Esse ato de resistência revelou a soberania de Deus, que protegeu o povo de Israel e continuou cumprindo Sua promessa de multiplicar sua descendência, preparando o cenário para o nascimento de Moisés.",
       "imageFile": "james-tissot-o-farao-e-as-parteiras.webp",
       "licenseType": "public-domain",
       "references": [
@@ -11028,7 +11068,7 @@
       "title": "O Faraó nota a importância do povo judeu",
       "artistOrDirector": "James Tissot",
       "category": "painting",
-      "description": "> *While the Jewish Museum is pleased to be able to share this information with you, note that scholarship and research relating to this work is ongoing.  \n> [https://artsandculture.google.com/asset/pharaoh-notes-the-importance-of-the-jewish-people-0001/PwFOjukSBVf92w](https://artsandculture.google.com/asset/pharaoh-notes-the-importance-of-the-jewish-people-0001/PwFOjukSBVf92w)  \n\nO episódio em que o faraó nota a importância do povo judeu (Êxodo 1:8-14) ocorre após a morte de José e a ascensão de um novo faraó no Egito, que não conhecia a história de José e seus feitos para o Egito. Este faraó observa o crescimento exponencial dos israelitas e, temendo que eles se tornassem uma ameaça em caso de guerra, decide subjugá-los à escravidão. Ele impõe um trabalho forçado pesado, exigindo que os hebreus construam cidades para o faraó e trabalhem nas suas obras. No entanto, apesar da opressão, o povo de Israel continua a crescer, o que provoca ainda mais o temor do faraó.",
+      "description": "O episódio em que o faraó nota a importância do povo judeu (Êxodo 1:8-14) ocorre após a morte de José e a ascensão de um novo faraó no Egito, que não conhecia a história de José e seus feitos para o Egito. Este faraó observa o crescimento exponencial dos israelitas e, temendo que eles se tornassem uma ameaça em caso de guerra, decide subjugá-los à escravidão. Ele impõe um trabalho forçado pesado, exigindo que os hebreus construam cidades para o faraó e trabalhem nas suas obras. No entanto, apesar da opressão, o povo de Israel continua a crescer, o que provoca ainda mais o temor do faraó.",
       "imageFile": "james-tissot-o-farao-nota-a-importancia-do-povo-judeu.webp",
       "licenseType": "public-domain",
       "references": [
@@ -11065,7 +11105,7 @@
       "artistOrDirector": "James Tissot",
       "year": "1896",
       "category": "painting",
-      "description": "> *While the Jewish Museum is pleased to be able to share this information with you, note that scholarship and research relating to this work is ongoing.  \n> [https://artsandculture.google.com/asset/abram-s-counsel-to-sarai-0001/ZwER0mtCiR3K0g](https://artsandculture.google.com/asset/abram-s-counsel-to-sarai-0001/ZwER0mtCiR3K0g)  \n\nO episódio em que Abrão dá um conselho a Sarai (Gênesis 16:1-6) ocorre quando Sarai, esposa de Abrão, percebe que não conseguia ter filhos, apesar da promessa de Deus de que Abrão seria o pai de uma grande nação. Diante da impossibilidade de gerar um filho, Sarai sugere que Abrão tenha um filho com sua serva egípcia, Agar, para que ela pudesse dar-lhe um descendente. Abrão concorda com o plano de Sarai e, assim, Agar concebe um filho. Porém, quando Agar se vê grávida, ela começa a desprezar Sarai, o que gera conflitos entre as duas. Sarai reclama com Abrão, e ele responde que Agar é sua serva, e ela deve fazer o que achar necessário.",
+      "description": "O episódio em que Abrão dá um conselho a Sarai (Gênesis 16:1-6) ocorre quando Sarai, esposa de Abrão, percebe que não conseguia ter filhos, apesar da promessa de Deus de que Abrão seria o pai de uma grande nação. Diante da impossibilidade de gerar um filho, Sarai sugere que Abrão tenha um filho com sua serva egípcia, Agar, para que ela pudesse dar-lhe um descendente. Abrão concorda com o plano de Sarai e, assim, Agar concebe um filho. Porém, quando Agar se vê grávida, ela começa a desprezar Sarai, o que gera conflitos entre as duas. Sarai reclama com Abrão, e ele responde que Agar é sua serva, e ela deve fazer o que achar necessário.",
       "imageFile": "james-tissot-o-conselho-de-abrao-a-sarai.webp",
       "licenseType": "public-domain",
       "references": [
@@ -11082,7 +11122,7 @@
       "artistOrDirector": "James Tissot",
       "year": "c. 1900",
       "category": "painting",
-      "description": "Aquarela de **James Tissot** (1836–1902), artista francês conhecido por suas representações detalhadas e realistas de cenas bíblicas, datada de **c. 1900**. A obra retrata o momento bíblico descrito em Gênesis 33, onde os irmãos Esaú e Jacó se reencontram após muitos anos de separação e conflito.\n\nNa imagem, os dois irmãos estão no centro, abraçando-se de forma afetuosa, simbolizando a reconciliação. Ao fundo, há um grupo de pessoas, provavelmente membros das famílias e servos de ambos, observando a cena. A paisagem montanhosa e as tendas ao fundo sugerem um ambiente nômade.\n\nEsta obra é interessante e relevante porque captura um momento crucial de perdão e reconciliação na narrativa bíblica, destacando temas de família, redenção e paz. Tissot, com sua precisão característica, nos transporta para esse momento de emoção e restauração.\n\n\n> *While the Jewish Museum is pleased to be able to share this information with you, note that scholarship and research relating to this work is ongoing.\n> [https://artsandculture.google.com/asset/the-meeting-of-esau-and-jacob-0000/4wHzjjP0rSm3sA](https://artsandculture.google.com/asset/the-meeting-of-esau-and-jacob-0000/4wHzjjP0rSm3sA)",
+      "description": "Aquarela de **James Tissot** (1836–1902), artista francês conhecido por suas representações detalhadas e realistas de cenas bíblicas, datada de **c. 1900**. A obra retrata o momento bíblico descrito em Gênesis 33, onde os irmãos Esaú e Jacó se reencontram após muitos anos de separação e conflito.\n\nNa imagem, os dois irmãos estão no centro, abraçando-se de forma afetuosa, simbolizando a reconciliação. Ao fundo, há um grupo de pessoas, provavelmente membros das famílias e servos de ambos, observando a cena. A paisagem montanhosa e as tendas ao fundo sugerem um ambiente nômade.\n\nEsta obra é interessante e relevante porque captura um momento crucial de perdão e reconciliação na narrativa bíblica, destacando temas de família, redenção e paz. Tissot, com sua precisão característica, nos transporta para esse momento de emoção e restauração.",
       "imageFile": "james-tissot-o-encontro-de-esau-e-jaco.webp",
       "licenseType": "public-domain",
       "references": [
@@ -11146,7 +11186,7 @@
       "artistOrDirector": "James Tissot",
       "year": "1886",
       "category": "painting",
-      "description": "> https://creativecommons.  \n> [https://commons.wikimedia.org/wiki/File:What_Our_Saviour_Saw_from_the_Cross.jpg](https://commons.wikimedia.org/wiki/File:What_Our_Saviour_Saw_from_the_Cross.jpg)  \n\nO episódio em que Jesus vê diante de si, na cruz (Mateus 27:45-54; Marcos 15:33-39; Lucas 23:44-49; João 19:28-30), ocorre durante os momentos finais de Sua crucificação. Por volta da nona hora, Jesus, depois de horas de agonia, clama em alta voz, \"Deus meu, Deus meu, por que me desamparaste?\", expressando Seu profundo sofrimento e a sensação de separação de Deus devido ao peso dos pecados da humanidade que Ele estava carregando. Nesse momento, a terra se escurece por três horas, como um sinal sobrenatural da gravidade da situação. Jesus, já exausto e sentindo o peso da condenação, realiza os últimos gestos de Seu ministério, como entregar Seu espírito a Deus, dizendo: \"Está consumado\". Através desses momentos de agonia, Ele se torna o sacrifício definitivo pelos pecados, cumprindo as Escrituras e oferecendo a salvação.",
+      "description": "> [!info] File:What Our Saviour Saw from the Cross.jpg  \n> https://creativecommons.  \n> [https://commons.wikimedia.org/wiki/File:What_Our_Saviour_Saw_from_the_Cross.jpg](https://commons.wikimedia.org/wiki/File:What_Our_Saviour_Saw_from_the_Cross.jpg)  \n\nO episódio em que Jesus vê diante de si, na cruz (Mateus 27:45-54; Marcos 15:33-39; Lucas 23:44-49; João 19:28-30), ocorre durante os momentos finais de Sua crucificação. Por volta da nona hora, Jesus, depois de horas de agonia, clama em alta voz, \"Deus meu, Deus meu, por que me desamparaste?\", expressando Seu profundo sofrimento e a sensação de separação de Deus devido ao peso dos pecados da humanidade que Ele estava carregando. Nesse momento, a terra se escurece por três horas, como um sinal sobrenatural da gravidade da situação. Jesus, já exausto e sentindo o peso da condenação, realiza os últimos gestos de Seu ministério, como entregar Seu espírito a Deus, dizendo: \"Está consumado\". Através desses momentos de agonia, Ele se torna o sacrifício definitivo pelos pecados, cumprindo as Escrituras e oferecendo a salvação.",
       "imageFile": "james-tissot-o-que-nosso-salvador-viu-da-cruz.webp",
       "licenseType": "public-domain",
       "references": [
@@ -11181,7 +11221,7 @@
       "artistOrDirector": "James Tissot",
       "year": "1902",
       "category": "painting",
-      "description": "Aquarela de **James Tissot** (1836–1902), artista francês conhecido por suas representações detalhadas e realistas de cenas bíblicas, datada de **c. 1902**. A obra retrata a cena bíblica de Gênesis 7:8-9, onde diversos animais entram na Arca de Noé antes do dilúvio.\n\nNa imagem, uma variedade de animais, incluindo elefantes, leões, bois e cervos, é mostrada subindo uma rampa para entrar na grande estrutura de madeira da arca. A cena é movimentada e detalhada, com muitos animais diferentes representados em um ambiente de construção, sugerindo a urgência e a magnitude da tarefa de salvar as espécies do iminente dilúvio.\n\nA pintura é interessante e relevante por sua representação vívida e detalhada de um momento crucial da narrativa bíblica, destacando a diversidade da criação e a intervenção divina para preservar a vida. Tissot, com sua precisão característica, nos transporta para esse momento de preparação e obediência.\n\n\n> *While the Jewish Museum is pleased to be able to share this information with you, note that scholarship and research relating to this work is ongoing.\n> [https://artsandculture.google.com/asset/the-animals-enter-the-ark-0001/YAFR2YmhfOgXnw](https://artsandculture.google.com/asset/the-animals-enter-the-ark-0001/YAFR2YmhfOgXnw)",
+      "description": "Aquarela de **James Tissot** (1836–1902), artista francês conhecido por suas representações detalhadas e realistas de cenas bíblicas, datada de **c. 1902**. A obra retrata a cena bíblica de Gênesis 7:8-9, onde diversos animais entram na Arca de Noé antes do dilúvio.\n\nNa imagem, uma variedade de animais, incluindo elefantes, leões, bois e cervos, é mostrada subindo uma rampa para entrar na grande estrutura de madeira da arca. A cena é movimentada e detalhada, com muitos animais diferentes representados em um ambiente de construção, sugerindo a urgência e a magnitude da tarefa de salvar as espécies do iminente dilúvio.\n\nA pintura é interessante e relevante por sua representação vívida e detalhada de um momento crucial da narrativa bíblica, destacando a diversidade da criação e a intervenção divina para preservar a vida. Tissot, com sua precisão característica, nos transporta para esse momento de preparação e obediência.",
       "imageFile": "james-tissot-os-animais-entram-na-arca.webp",
       "licenseType": "public-domain",
       "references": [
@@ -11225,7 +11265,7 @@
       "artistOrDirector": "James Tissot",
       "year": "1896",
       "category": "painting",
-      "description": "> *While the Jewish Museum is pleased to be able to share this information with you, note that scholarship and research relating to this work is ongoing.  \n> [https://artsandculture.google.com/asset/sarai-is-taken-to-pharaoh-s-palace-0001/AQHbsiWPwTSPEA](https://artsandculture.google.com/asset/sarai-is-taken-to-pharaoh-s-palace-0001/AQHbsiWPwTSPEA)  \n\nO episódio em que Sara é levada ao palácio do faraó (Gênesis 12:10-20) ocorre quando uma fome atinge a terra de Canaã, levando Abraão e Sara a descerem para o Egito em busca de alimento. Antes de entrarem no Egito, Abraão, temendo que os egípcios matassem para tomar Sara, que era muito bonita, diz a ela que se faça passar por sua irmã, e não sua esposa. Quando Sara é levada ao palácio do faraó, ele a toma para si, mas Deus intervém, enviando pragas sobre a casa do faraó, que descobre a verdadeira identidade de Sara. Ao saber da verdade, o faraó repreende Abraão por sua engano e devolve Sara a ele, com a ordem de que partam imediatamente do Egito. Esse episódio destaca a proteção divina sobre Sara e o cumprimento dos planos de Deus, apesar das falhas humanas.",
+      "description": "O episódio em que Sara é levada ao palácio do faraó (Gênesis 12:10-20) ocorre quando uma fome atinge a terra de Canaã, levando Abraão e Sara a descerem para o Egito em busca de alimento. Antes de entrarem no Egito, Abraão, temendo que os egípcios matassem para tomar Sara, que era muito bonita, diz a ela que se faça passar por sua irmã, e não sua esposa. Quando Sara é levada ao palácio do faraó, ele a toma para si, mas Deus intervém, enviando pragas sobre a casa do faraó, que descobre a verdadeira identidade de Sara. Ao saber da verdade, o faraó repreende Abraão por sua engano e devolve Sara a ele, com a ordem de que partam imediatamente do Egito. Esse episódio destaca a proteção divina sobre Sara e o cumprimento dos planos de Deus, apesar das falhas humanas.",
       "imageFile": "james-tissot-sara-e-levada-ao-palacio-do-farao.webp",
       "licenseType": "public-domain",
       "references": [
@@ -11242,7 +11282,7 @@
       "artistOrDirector": "James Tissot",
       "year": "1896",
       "category": "painting",
-      "description": "> *While the Jewish Museum is pleased to be able to share this information with you, note that scholarship and research relating to this work is ongoing.  \n> [https://artsandculture.google.com/asset/shem-ham-and-japheth-0001/0QEqvvKVZYVyFQ?ms=%7B%22x%22%3A0.5%2C%22y%22%3A0.5%2C%22z%22%3A8.372045703803373%2C%22size%22%3A%7B%22width%22%3A2.470795591085196%2C%22height%22%3A1.2375209632860062%7D%7D](https://artsandculture.google.com/asset/shem-ham-and-japheth-0001/0QEqvvKVZYVyFQ?ms=%7B%22x%22%3A0.5%2C%22y%22%3A0.5%2C%22z%22%3A8.372045703803373%2C%22size%22%3A%7B%22width%22%3A2.470795591085196%2C%22height%22%3A1.2375209632860062%7D%7D)  \n\nSem, Cam e Jafé, filhos de Noé, desempenham um papel crucial na história bíblica após o dilúvio, conforme narrado em Gênesis 9:18-27. Eles são os progenitores das nações que povoaram a terra após o julgamento divino. Sem é considerado o antepassado dos semitas, incluindo os israelitas, e recebe a bênção de Deus, com a promessa de que seus descendentes seriam os herdeiros das promessas feitas a Abraão. Cam, por outro lado, é associado com a maldição que recai sobre seu filho Canaã, o qual seria a nação dos cananeus, que mais tarde seriam inimigos de Israel. Jafé, o irmão mais velho de Cam, é visto como o progenitor de várias nações que habitariam as regiões ao norte e ao oeste de Israel.",
+      "description": "Sem, Cam e Jafé, filhos de Noé, desempenham um papel crucial na história bíblica após o dilúvio, conforme narrado em Gênesis 9:18-27. Eles são os progenitores das nações que povoaram a terra após o julgamento divino. Sem é considerado o antepassado dos semitas, incluindo os israelitas, e recebe a bênção de Deus, com a promessa de que seus descendentes seriam os herdeiros das promessas feitas a Abraão. Cam, por outro lado, é associado com a maldição que recai sobre seu filho Canaã, o qual seria a nação dos cananeus, que mais tarde seriam inimigos de Israel. Jafé, o irmão mais velho de Cam, é visto como o progenitor de várias nações que habitariam as regiões ao norte e ao oeste de Israel.",
       "imageFile": "james-tissot-sem-cam-e-jafe.webp",
       "licenseType": "public-domain",
       "references": [
@@ -11585,10 +11625,17 @@
       "artistOrDirector": "Jan Steen",
       "year": "1677",
       "category": "painting",
-      "description": "Lázaro e o homem rico, de Jan Steen.",
+      "description": "Óleo sobre tela de **Jan Steen** (1626–1679), pintado em **1677**, perto do fim da carreira do artista holandês mais conhecido por cenas de gênero cotidianas e caóticas — aqui aplicando seu olhar narrativo característico a uma parábola.\n\nSteen, como típico do Barroco holandês, ambienta a cena num interior contemporâneo aos seus espectadores, não num cenário bíblico \"exótico\": o rico banqueteia-se à mesa farta, indiferente ao mendigo Lázaro, coberto de chagas, à porta — os cães da casa, mais atentos que o dono, lambem suas feridas. O contraste visual entre fartura e miséria, luz e sombra, ocupa o centro da composição, deixando claro desde o primeiro olhar quem é quem na parábola.",
       "imageFile": "jan-steen-lazaro-e-o-homem-rico.webp",
       "licenseType": "public-domain",
-      "references": []
+      "references": [
+        {
+          "book": "Lucas",
+          "bookSlug": "luke",
+          "chapter": 16,
+          "verses": "19-20"
+        }
+      ]
     },
     {
       "slug": "jan-styka-pregacao-de-pedro",
@@ -11725,10 +11772,17 @@
       "artistOrDirector": "Jean Colombe",
       "year": "1480",
       "category": "painting",
-      "description": "Primeiro Dia da Criação, de Jean Colombe.",
+      "description": "Iluminura de **Jean Colombe** (c. 1430–c. 1493), um dos principais iluministas franceses do final do século XV, produzida como parte do *Livre d'Heures de Louis de Laval* — um livro de horas (devocional ilustrado de uso privado) encomendado por Louis de Laval, nobre e conselheiro dos reis Carlos VII e Luís XI da França.\n\nComo convém ao formato de manuscrito iluminado, a composição é pequena e densamente decorada, com molduras ornamentais típicas da iluminura tardo-medieval francesa. A representação do primeiro dia da Criação segue a iconografia convencional do período: Deus, geralmente representado como o Criador soberano, separa a luz das trevas — o ato inaugural que abre toda a narrativa de Gênesis 1.",
       "imageFile": "jean-colombe-primeiro-dia-da-criacao.webp",
       "licenseType": "public-domain",
-      "references": []
+      "references": [
+        {
+          "book": "Gênesis",
+          "bookSlug": "genesis",
+          "chapter": 1,
+          "verses": "1-2"
+        }
+      ]
     },
     {
       "slug": "jean-jouvenet-a-pesca-milagrosa-dos-peixes",
@@ -11899,7 +11953,7 @@
       "artistOrDirector": "James Tissot",
       "year": "1894",
       "category": "painting",
-      "description": "Aquarela de **James Tissot** (1836-1902) da série *La Vie de Notre Seigneur Jésus-Christ* (A Vida de Nosso Senhor Jesus Cristo), retratando o milagre de Jesus caminhando sobre as águas do Mar da Galileia. A obra, executada entre 1886 e 1894, faz parte do ambicioso projeto de Tissot de ilustrar a vida de Cristo com precisão histórica e arqueológica.\n\nA composição dramática retrata Jesus avançando sobre o mar agitado sob a luz da lua, enquanto os discípulos na barca o observam atônitos. Tissot utiliza um forte contraste entre a escuridão das águas e a figura luminosa de Cristo, criando uma atmosfera sobrenatural. O artista busca retratar o cenário palestino com base em suas próprias viagens à Terra Santa, conferindo autenticidade ao cenário.\n\n> **Nota:** Esta obra possui imagens correspondentes no vault: Yongsung Kim - Rei da Glória e Julius Sergius Von Klever - Cristo Andando Sobre as Águas (Christ Walking on Water).",
+      "description": "Aquarela de **James Tissot** (1836-1902) da série *La Vie de Notre Seigneur Jésus-Christ* (A Vida de Nosso Senhor Jesus Cristo), retratando o milagre de Jesus caminhando sobre as águas do Mar da Galileia. A obra, executada entre 1886 e 1894, faz parte do ambicioso projeto de Tissot de ilustrar a vida de Cristo com precisão histórica e arqueológica.\n\nA composição dramática retrata Jesus avançando sobre o mar agitado sob a luz da lua, enquanto os discípulos na barca o observam atônitos. Tissot utiliza um forte contraste entre a escuridão das águas e a figura luminosa de Cristo, criando uma atmosfera sobrenatural. O artista busca retratar o cenário palestino com base em suas próprias viagens à Terra Santa, conferindo autenticidade ao cenário.",
       "imageFile": "james-tissot-jesus-caminha-sobre-o-mar.webp",
       "licenseType": "public-domain",
       "references": [
@@ -11929,7 +11983,7 @@
       "artistOrDirector": "James Tissot",
       "year": "1894",
       "category": "painting",
-      "description": "Aquarela de **James Tissot** (1836-1902) da série *La Vie de Notre Seigneur Jésus-Christ* (A Vida de Nosso Senhor Jesus Cristo), retratando o momento em que Jesus chora. A obra, executada entre 1886 e 1894, é uma das representações mais emocionantes de Tissot sobre a humanidade de Cristo.\n\nA composição mostra Jesus em um momento de profunda emoção, com lágrimas em seu rosto. Tissot, conhecido por seu realismo arqueológico, busca retratar a cena com base em suas viagens à Terra Santa, conferindo autenticidade ao cenário e às vestimentas. A delicadeza da aquarela captura a vulnerabilidade e a compaixão de Cristo.\n\n> **Nota:** A tradição cristã identifica dois momentos bíblicos principais em que Jesus chora: as lágrimas sobre Jerusalém (Lucas 19:41-44) e as lágrimas no túmulo de Lázaro (João 11:35). O título original em francês (\"Le Seigneur pleura\") pode se referir a qualquer um desses episódios.",
+      "description": "Aquarela de **James Tissot** (1836-1902) da série *La Vie de Notre Seigneur Jésus-Christ* (A Vida de Nosso Senhor Jesus Cristo), retratando o momento em que Jesus chora. A obra, executada entre 1886 e 1894, é uma das representações mais emocionantes de Tissot sobre a humanidade de Cristo.\n\nA composição mostra Jesus em um momento de profunda emoção, com lágrimas em seu rosto. Tissot, conhecido por seu realismo arqueológico, busca retratar a cena com base em suas viagens à Terra Santa, conferindo autenticidade ao cenário e às vestimentas. A delicadeza da aquarela captura a vulnerabilidade e a compaixão de Cristo.\n\nO título original em francês (\"Le Seigneur pleura\") pode se referir a qualquer um desses episódios.",
       "imageFile": "james-tissot-jesus-chorou.webp",
       "licenseType": "public-domain",
       "references": [
@@ -12573,10 +12627,17 @@
       "title": "A apresentação do Senhor",
       "artistOrDirector": "Jozef Janssens",
       "category": "painting",
-      "description": "A apresentação do Senhor, de Jozef Janssens.",
+      "description": "Óleo de **Jozef Janssens**, pintor belga do final do século XIX/início do XX (datas de vida não confirmadas de forma segura — informação a checar antes de publicar como fato definitivo).\n\nA cena retrata o momento em que Maria e José levam o menino Jesus ao Templo, quarenta dias após o nascimento, para o rito judaico de apresentação e purificação. O ancião Simeão, ao centro, recebe a criança nos braços — seu rosto marcado pela idade contrasta com a serenidade luminosa do menino, num gesto que a tradição iconográfica cristã repetiu por séculos: o velho que finalmente pode \"partir em paz\" depois de ver com os próprios olhos o cumprimento da promessa que esperou a vida inteira.",
       "imageFile": "jozef-janssens-a-apresentacao-do-senhor.webp",
       "licenseType": "public-domain",
-      "references": []
+      "references": [
+        {
+          "book": "Lucas",
+          "bookSlug": "luke",
+          "chapter": 2,
+          "verses": "25"
+        }
+      ]
     },
     {
       "slug": "juan-de-flandres-as-bodas-de-cana",
@@ -12868,7 +12929,7 @@
       "artistOrDirector": "Konstantin Flavitsky",
       "year": "1854",
       "category": "painting",
-      "description": "Óleo sobre tela de **Konstantin Flavitsky** (1821–1866), pintor russo associado ao **Realismo Russo**, datada de **1854**. A obra retrata o famoso episódio bíblico narrado no Primeiro Livro dos Reis, capítulo 3, versículos 16-28.\n\nA cena se passa em um salão grandioso, com arquitetura clássica e colunas imponentes. O rei Salomão, jovem e vestido com túnicas reais, ocupa o centro da composição, em um trono elevado, com os braços estendidos em um gesto dramático. Diante dele, duas mulheres: uma, em desespero, ajoelhada no chão ao lado de um bebê morto; a outra, em pé, segurando um bebê vivo.\n\nA pintura captura o momento crucial em que Salomão, conhecido por sua sabedoria, propõe dividir a criança viva ao meio para resolver a disputa entre as duas mulheres, que clamam pela maternidade do bebê. A verdadeira mãe, em um ato de amor e sacrifício, implora para que a criança seja entregue à outra mulher, revelando assim sua identidade.\n\nA obra de Flavitsky, com seu estilo acadêmico e cores sóbrias, enfatiza a dramaticidade da cena e a tensão emocional dos personagens. A composição, com figuras em diversas posturas e expressões, ilustra a sabedoria divina de Salomão em desvendar a verdade e fazer justiça.\n\n\n> 'Judgment of Solomon' was created in 1854 by Konstantin Flavitsky in Romanticism style.\n> [https://www.wikiart.org/en/konstantin-dmitriyevich-flavitsky/judgment-of-solomon-1854](https://www.wikiart.org/en/konstantin-dmitriyevich-flavitsky/judgment-of-solomon-1854)",
+      "description": "Óleo sobre tela de **Konstantin Flavitsky** (1821–1866), pintor russo associado ao **Realismo Russo**, datada de **1854**. A obra retrata o famoso episódio bíblico narrado no Primeiro Livro dos Reis, capítulo 3, versículos 16-28.\n\nA cena se passa em um salão grandioso, com arquitetura clássica e colunas imponentes. O rei Salomão, jovem e vestido com túnicas reais, ocupa o centro da composição, em um trono elevado, com os braços estendidos em um gesto dramático. Diante dele, duas mulheres: uma, em desespero, ajoelhada no chão ao lado de um bebê morto; a outra, em pé, segurando um bebê vivo.\n\nA pintura captura o momento crucial em que Salomão, conhecido por sua sabedoria, propõe dividir a criança viva ao meio para resolver a disputa entre as duas mulheres, que clamam pela maternidade do bebê. A verdadeira mãe, em um ato de amor e sacrifício, implora para que a criança seja entregue à outra mulher, revelando assim sua identidade.\n\nA obra de Flavitsky, com seu estilo acadêmico e cores sóbrias, enfatiza a dramaticidade da cena e a tensão emocional dos personagens. A composição, com figuras em diversas posturas e expressões, ilustra a sabedoria divina de Salomão em desvendar a verdade e fazer justiça.\n\n> [!info] Judgment of Solomon, 1854 - Konstantin Flavitsky - WikiArt.org\n> 'Judgment of Solomon' was created in 1854 by Konstantin Flavitsky in Romanticism style.\n> [https://www.wikiart.org/en/konstantin-dmitriyevich-flavitsky/judgment-of-solomon-1854](https://www.wikiart.org/en/konstantin-dmitriyevich-flavitsky/judgment-of-solomon-1854)",
       "imageFile": "konstantin-flavitsky-o-julgamento-de-salomao.webp",
       "licenseType": "public-domain",
       "references": [
@@ -13360,7 +13421,7 @@
       "artistOrDirector": "Léon Cogniet",
       "year": "1824",
       "category": "painting",
-      "description": "Óleo sobre tela de **Léon Cogniet** (1794–1880), pintor francês expoente do **Romantismo**, datada de **1824**. A pintura retrata o episódio bíblico do massacre dos inocentes ordenado pelo rei Herodes (Mateus 2:16-18).\n\nEm **primeiro plano**, uma mãe desesperada, vestida com roupas escuras, está escondida em uma ruína, segurando seu bebê com força e tentando protegê-lo. Seus pés descalços e a expressão de angústia sugerem a gravidade da situação. Ao fundo, outras figuras — mulheres e crianças — estão em fuga, subindo uma escadaria em direção à luz, em contraste com a escuridão do abrigo da mulher.\n\nCogniet utiliza um **chiaroscuro poderoso** para focar a atenção no sofrimento íntimo da mãe em primeiro plano, criando um refúgio escuro e frágil em contraste com a violência iluminada, mas distante, da cena principal. A composição direciona o olhar para a vulnerabilidade e o desespero da figura central, enquanto o cenário mais amplo revela a escala da tragédia.\n\n\n> https://creativecommons.  \n> [https://pt.m.wikipedia.org/wiki/Ficheiro:Massacre_of_the_Innocents_(Cogniet).jpg](https://pt.m.wikipedia.org/wiki/Ficheiro:Massacre_of_the_Innocents_(Cogniet).jpg)\n\nVer também: Lippo Memmi - O massacre dos inocentes (The Massacre of the Innocents) (século XIV, perspectiva diferente do mesmo tema).",
+      "description": "Óleo sobre tela de **Léon Cogniet** (1794–1880), pintor francês expoente do **Romantismo**, datada de **1824**. A pintura retrata o episódio bíblico do massacre dos inocentes ordenado pelo rei Herodes (Mateus 2:16-18).\n\nEm **primeiro plano**, uma mãe desesperada, vestida com roupas escuras, está escondida em uma ruína, segurando seu bebê com força e tentando protegê-lo. Seus pés descalços e a expressão de angústia sugerem a gravidade da situação. Ao fundo, outras figuras — mulheres e crianças — estão em fuga, subindo uma escadaria em direção à luz, em contraste com a escuridão do abrigo da mulher.\n\nCogniet utiliza um **chiaroscuro poderoso** para focar a atenção no sofrimento íntimo da mãe em primeiro plano, criando um refúgio escuro e frágil em contraste com a violência iluminada, mas distante, da cena principal. A composição direciona o olhar para a vulnerabilidade e o desespero da figura central, enquanto o cenário mais amplo revela a escala da tragédia.\n\n> [!info] Ficheiro:Massacre of the Innocents (Cogniet).jpg  \n> https://creativecommons.  \n> [https://pt.m.wikipedia.org/wiki/Ficheiro:Massacre_of_the_Innocents_(Cogniet).jpg](https://pt.m.wikipedia.org/wiki/Ficheiro:Massacre_of_the_Innocents_(Cogniet).jpg)\n\nVer também: Lippo Memmi - O massacre dos inocentes (The Massacre of the Innocents) (século XIV, perspectiva diferente do mesmo tema).",
       "imageFile": "leon-cogniet-o-massacre-dos-inocentes.webp",
       "licenseType": "public-domain",
       "references": [
@@ -13649,10 +13710,17 @@
       "title": "Três reis santos",
       "artistOrDirector": "Maximilian Liebenwein",
       "category": "painting",
-      "description": "Três reis santos, de Maximilian Liebenwein.",
+      "description": "Obra de **Maximilian Liebenwein** (1869–1926), pintor e ilustrador alemão associado ao Simbolismo e à Art Nouveau (Jugendstil) do início do século XX, período em que produziu diversas ilustrações de temática religiosa para publicações e devocionais.\n\nA obra retrata os três reis magos — a tradição posterior aos evangelhos deu-lhes nomes (Baltasar, Melquior e Gaspar) e status real, embora o texto bíblico original os identifique apenas como \"magos do oriente\", sem número, nome ou título de realeza especificados. Liebenwein segue a iconografia consolidada de séculos: figuras ricamente vestidas, presentes preciosos em mãos, curvadas diante do menino — imagem que se tornou, na cultura popular ocidental, quase indistinguível do próprio relato bíblico original.",
       "imageFile": "maximilian-liebenwein-tres-reis-santos.webp",
       "licenseType": "public-domain",
-      "references": []
+      "references": [
+        {
+          "book": "Mateus",
+          "bookSlug": "matthew",
+          "chapter": 2,
+          "verses": "1-2"
+        }
+      ]
     },
     {
       "slug": "maximilien-luce-o-bom-samaritano",
@@ -14032,7 +14100,7 @@
       "artistOrDirector": "Nicolas Poussin",
       "year": "1635",
       "category": "painting",
-      "description": "> Page of St John the Baptist Baptizes the People by POUSSIN, Nicolas in the Web Gallery of Art, a searchable image collection and database of European painting, sculpture and architecture (200-1900)  \n> [https://www.wga.hu/html_m/p/poussin/2a/03baptis.html](https://www.wga.hu/html_m/p/poussin/2a/03baptis.html)",
+      "description": "> [!info] St John the Baptist Baptizes the People by POUSSIN, Nicolas  \n> Page of St John the Baptist Baptizes the People by POUSSIN, Nicolas in the Web Gallery of Art, a searchable image collection and database of European painting, sculpture and architecture (200-1900)  \n> [https://www.wga.hu/html_m/p/poussin/2a/03baptis.html](https://www.wga.hu/html_m/p/poussin/2a/03baptis.html)",
       "imageFile": "nicolas-poussin-joao-batizando-o-povo.webp",
       "licenseType": "public-domain",
       "references": [
@@ -14111,7 +14179,7 @@
       "artistOrDirector": "Nikolai Ge",
       "year": "1890",
       "category": "painting",
-      "description": "Óleo sobre tela de **Nikolai Ge** (1831–1894), pintor russo associado ao movimento dos *Peredvizhniki* (Perambulantes), datada de **1890**. Esta é uma das obras mais controversas e poderosas de Ge sobre a paixão de Cristo.\n\nA obra retrata o tenso diálogo durante o julgamento de Jesus, onde **Pôncio Pilatos**, o governador romano, após ouvir Cristo falar sobre Seu testemunho da verdade, lança a célebre pergunta: *\"O que é a verdade?\"* (João 18:38).\n\nGe posiciona **Pilatos banhado por uma luz forte**, representando o poder temporal e talvez a sua própria confusão ou ceticismo, enquanto **Cristo permanece em profunda sombra**, humilde, desgastado e acorrentado, mas possuindo uma dignidade silenciosa e uma realidade interior inacessível ao governador. O uso magistral do **chiaroscuro** não é apenas técnico, mas profundamente simbólico: a luz ofuscante sobre Pilatos contrasta com a escuridão que envolve Cristo, sugerindo a cegueira do poder terreno diante da verdade espiritual, ou a natureza incompreensível do divino para aqueles que não a buscam sinceramente. O **realismo psicológico** captura a tensão e o abismo existencial entre os dois mundos representados.\n\n\n> ‘What is Truth.  \n> [https://www.wikiart.org/en/nikolai-ge/what-is-truth-christ-and-pilate](https://www.wikiart.org/en/nikolai-ge/what-is-truth-christ-and-pilate)\n\nVer também: Jean-Léon Gérôme - Pilatos apresentando Jesus ao povo e Antonio Ciseri - Ecce Homo (outras representações do julgamento de Pilatos).",
+      "description": "Óleo sobre tela de **Nikolai Ge** (1831–1894), pintor russo associado ao movimento dos *Peredvizhniki* (Perambulantes), datada de **1890**. Esta é uma das obras mais controversas e poderosas de Ge sobre a paixão de Cristo.\n\nA obra retrata o tenso diálogo durante o julgamento de Jesus, onde **Pôncio Pilatos**, o governador romano, após ouvir Cristo falar sobre Seu testemunho da verdade, lança a célebre pergunta: *\"O que é a verdade?\"* (João 18:38).\n\nGe posiciona **Pilatos banhado por uma luz forte**, representando o poder temporal e talvez a sua própria confusão ou ceticismo, enquanto **Cristo permanece em profunda sombra**, humilde, desgastado e acorrentado, mas possuindo uma dignidade silenciosa e uma realidade interior inacessível ao governador. O uso magistral do **chiaroscuro** não é apenas técnico, mas profundamente simbólico: a luz ofuscante sobre Pilatos contrasta com a escuridão que envolve Cristo, sugerindo a cegueira do poder terreno diante da verdade espiritual, ou a natureza incompreensível do divino para aqueles que não a buscam sinceramente. O **realismo psicológico** captura a tensão e o abismo existencial entre os dois mundos representados.\n\n> [!info] What is Truth. Christ and Pilate, 1890 - Nikolai Ge - WikiArt.org  \n> ‘What is Truth.  \n> [https://www.wikiart.org/en/nikolai-ge/what-is-truth-christ-and-pilate](https://www.wikiart.org/en/nikolai-ge/what-is-truth-christ-and-pilate)\n\nVer também: Jean-Léon Gérôme - Pilatos apresentando Jesus ao povo e Antonio Ciseri - Ecce Homo (outras representações do julgamento de Pilatos).",
       "imageFile": "nikolai-ge-o-que-e-a-verdade-ou-cristo-e-pilatos.webp",
       "licenseType": "public-domain",
       "references": [
@@ -14360,10 +14428,17 @@
       "artistOrDirector": "Paul Hey",
       "year": "1910",
       "category": "painting",
-      "description": "A estrela de Belém, de Paul Hey.",
+      "description": "Obra de **Paul Hey** (1867–1952), ilustrador e pintor alemão conhecido sobretudo por sua vastíssima produção de arte devocional e infantil no início do século XX — seu estilo, de linhas claras e composições acessíveis, tornou-se referência visual popular para cenas bíblicas em livros e devocionais de língua alemã por gerações.\n\nA obra concentra-se no elemento central da narrativa da Epifania: a estrela que guiou os magos, aqui retratada em posição dominante no céu, iluminando o caminho até Belém. O estilo de Hey, mais próximo da ilustração devocional que da pintura de galeria, prioriza clareza narrativa — a estrela é inconfundível, o caminho é evidente, a mensagem chega sem ambiguidade ao espectador, adulto ou criança.",
       "imageFile": "paul-hey-a-estrela-de-belem.webp",
       "licenseType": "public-domain",
-      "references": []
+      "references": [
+        {
+          "book": "Mateus",
+          "bookSlug": "matthew",
+          "chapter": 2,
+          "verses": "2"
+        }
+      ]
     },
     {
       "slug": "pedro-bruno-a-patria",
@@ -15528,7 +15603,7 @@
       "artistOrDirector": "Rembrandt van Rijn",
       "year": "1628",
       "category": "painting",
-      "description": "**Correção de dado (2026-08-22)**: esta nota estava com `ano: 1648` e uma descrição que na verdade correspondia à obra madura do Louvre (a outra nota deste par, \"... 2\"). A imagem anexada aqui é uma pintura diferente: **c. 1628**, óleo sobre papel colado em painel (39×42 cm), hoje no Musée Jacquemart-André, Paris — Rembrandt pintou o tema de Emaús várias vezes ao longo da carreira, e esta é a versão mais antiga e mais radical das duas.\n\nA cena usa um forte efeito de **contraluz (contre-jour)**: a fonte de luz fica atrás de Cristo, reduzindo sua figura quase inteiramente a uma silhueta contra a parede iluminada — o oposto do tratamento do Louvre de 1648, onde o rosto de Cristo é visível e a luz emana suavemente dele. Aqui o mistério é sugerido pela ausência: não se vê o rosto, só a forma. Um discípulo, iluminado de perfil, reage em choque silencioso à mesa; ao fundo, à esquerda, uma segunda figura (provavelmente um criado) mal se distingue na penumbra.",
+      "description": "Óleo sobre papel colado em painel (39×42 cm), pintado por **Rembrandt van Rijn** por volta de **1628**, hoje no Musée Jacquemart-André, em Paris. Rembrandt pintou o tema de Emaús várias vezes ao longo da carreira — esta é a versão mais antiga e mais radical das duas que o projeto reúne (a outra, mais madura, está no Louvre e data de 1648).\n\nA cena usa um forte efeito de **contraluz (contre-jour)**: a fonte de luz fica atrás de Cristo, reduzindo sua figura quase inteiramente a uma silhueta contra a parede iluminada — o oposto do tratamento do Louvre de 1648, onde o rosto de Cristo é visível e a luz emana suavemente dele. Aqui o mistério é sugerido pela ausência: não se vê o rosto, só a forma. Um discípulo, iluminado de perfil, reage em choque silencioso à mesa; ao fundo, à esquerda, uma segunda figura (provavelmente um criado) mal se distingue na penumbra.",
       "imageFile": "rembrandt-van-rijn-a-ceia-em-emaus-1628.webp",
       "licenseType": "public-domain",
       "location": "Musée Jacquemart-André, Paris, França",
@@ -17488,7 +17563,7 @@
       "artistOrDirector": "Ulyana Tomkevych",
       "year": "2016",
       "category": "painting",
-      "description": "> LOOK: “The Birth of Christ” by Ulyana Tomkevych | LISTEN: “Balulalow,” performed by Sting  \n> [https://artandtheology.org/2024/01/03/christmas-day-10-balulalow/](https://artandtheology.org/2024/01/03/christmas-day-10-balulalow/)",
+      "description": "> [!info] Christmas, Day 10: Balulalow  \n> LOOK: “The Birth of Christ” by Ulyana Tomkevych | LISTEN: “Balulalow,” performed by Sting  \n> [https://artandtheology.org/2024/01/03/christmas-day-10-balulalow/](https://artandtheology.org/2024/01/03/christmas-day-10-balulalow/)",
       "imageFile": "ulyana-tomkevych-o-nascimento-de-cristo.webp",
       "licenseType": "public-domain",
       "references": [
@@ -18693,7 +18768,7 @@
       "title": "Noite em Emaús",
       "artistOrDirector": "William Henry Margetson",
       "category": "painting",
-      "description": "A pintura \"Noite em Emaús\" de William Henry Margetson retrata a cena bíblica do encontro de Jesus com dois discípulos na estrada para Emaús, após sua ressurreição. Na imagem, três figuras estão sentadas ao redor de uma mesa coberta por uma toalha branca, em um ambiente simples e acolhedor. A iluminação suave de um candelabro à direita cria uma atmosfera íntima e contemplativa, enquanto uma das figuras gesticula com a mão, sugerindo uma conversa significativa. A pintura capta o momento de reconhecimento dos discípulos, destacando a presença serena de Jesus e a surpresa e reverência dos acompanhantes, realçando a espiritualidade e a profundidade emocional do evento.\n\n\n> Buy Evening at Emmaus, from The Bible Picture Book published by Thomas Nelson, c.",
+      "description": "A pintura \"Noite em Emaús\" de William Henry Margetson retrata a cena bíblica do encontro de Jesus com dois discípulos na estrada para Emaús, após sua ressurreição. Na imagem, três figuras estão sentadas ao redor de uma mesa coberta por uma toalha branca, em um ambiente simples e acolhedor. A iluminação suave de um candelabro à direita cria uma atmosfera íntima e contemplativa, enquanto uma das figuras gesticula com a mão, sugerindo uma conversa significativa. A pintura capta o momento de reconhecimento dos discípulos, destacando a presença serena de Jesus e a surpresa e reverência dos acompanhantes, realçando a espiritualidade e a profundidade emocional do evento.",
       "imageFile": "william-henry-margetson-noite-em-emaus.webp",
       "licenseType": "public-domain",
       "references": [
@@ -18745,7 +18820,7 @@
       "title": "O bom samaritano",
       "artistOrDirector": "William Henry Margetson",
       "category": "painting",
-      "description": "> ★ Image resolution: 974×1340 px.  \n> [https://gallerix.org/storeroom/1252460235/N/1621882042/](https://gallerix.org/storeroom/1252460235/N/1621882042/)  \n\n  \nA pintura **\"O Bom Samaritano\"** de William Henry Margetson ilustra a parábola bíblica narrada por Jesus, destacando o momento em que o samaritano cuida do homem ferido à beira do caminho. No primeiro plano, o samaritano, com expressão de compaixão, inclina-se para oferecer água e socorrer o homem semi-nu e machucado, simbolizando sua misericórdia. Ao fundo, outros personagens passam indiferentes: um sacerdote e um levita, que ignoram o necessitado enquanto seguem seu caminho. A obra enfatiza a mensagem central da parábola — o verdadeiro amor ao próximo.",
+      "description": "A pintura **\"O Bom Samaritano\"** de William Henry Margetson ilustra a parábola bíblica narrada por Jesus, destacando o momento em que o samaritano cuida do homem ferido à beira do caminho. No primeiro plano, o samaritano, com expressão de compaixão, inclina-se para oferecer água e socorrer o homem semi-nu e machucado, simbolizando sua misericórdia. Ao fundo, outros personagens passam indiferentes: um sacerdote e um levita, que ignoram o necessitado enquanto seguem seu caminho. A obra enfatiza a mensagem central da parábola — o verdadeiro amor ao próximo.",
       "imageFile": "william-henry-margetson-o-bom-samaritano.webp",
       "licenseType": "public-domain",
       "references": [
@@ -18762,7 +18837,7 @@
       "artistOrDirector": "William Henry Margetson",
       "year": "1950",
       "category": "painting",
-      "description": "A pintura \"O Bom Samaritano\" de William Henry Margetson retrata a famosa parábola bíblica do Bom Samaritano. Na imagem, um homem ferido e seminu está montado em um burro, sendo amparado por outro homem que veste uma túnica longa e colorida. O cenário é uma paisagem árida e montanhosa, sugerindo uma jornada difícil. A pintura ilustra a compaixão e a ajuda altruísta oferecida pelo samaritano ao homem ferido, destacando temas de bondade, misericórdia e solidariedade.\n\n\n> Buy The good Samaritan, from The Bible Picture Book published by Thomas Nelson, c.",
+      "description": "A pintura \"O Bom Samaritano\" de William Henry Margetson retrata a famosa parábola bíblica do Bom Samaritano. Na imagem, um homem ferido e seminu está montado em um burro, sendo amparado por outro homem que veste uma túnica longa e colorida. O cenário é uma paisagem árida e montanhosa, sugerindo uma jornada difícil. A pintura ilustra a compaixão e a ajuda altruísta oferecida pelo samaritano ao homem ferido, destacando temas de bondade, misericórdia e solidariedade.",
       "imageFile": "william-henry-margetson-o-bom-samaritano-1950.webp",
       "licenseType": "public-domain",
       "references": [
@@ -18779,7 +18854,7 @@
       "artistOrDirector": "William Henry Margetson",
       "year": "c. 1950",
       "category": "painting",
-      "description": "Óleo sobre tela de **William Henry Margetson** (1861–1940), pintor britânico associado ao **Simbolismo** e à **Estética Vitoriana**, datada de **c. 1950**. A obra representa um grupo de anjos celestiais, cada um vestido com longas vestes brancas e dotado de asas, flutuando em um ambiente etéreo.\n\nOs anjos estão dispostos em formação circular, sugerindo um coro celestial envolto em luz suave e cores delicadas, criando uma atmosfera divina e pacífica. A obra captura a serenidade e a espiritualidade através de sua composição harmoniosa e representação idealizada de seres angelicais.\n\nA imagem evoca a liturgia celestial descrita nas Escrituras, onde os anjos cantam eternamente a glória de Deus.\n\n\n> Buy The angel choir, from The Bible Picture Book published by Thomas Nelson, c.",
+      "description": "Óleo sobre tela de **William Henry Margetson** (1861–1940), pintor britânico associado ao **Simbolismo** e à **Estética Vitoriana**, datada de **c. 1950**. A obra representa um grupo de anjos celestiais, cada um vestido com longas vestes brancas e dotado de asas, flutuando em um ambiente etéreo.\n\nOs anjos estão dispostos em formação circular, sugerindo um coro celestial envolto em luz suave e cores delicadas, criando uma atmosfera divina e pacífica. A obra captura a serenidade e a espiritualidade através de sua composição harmoniosa e representação idealizada de seres angelicais.\n\nA imagem evoca a liturgia celestial descrita nas Escrituras, onde os anjos cantam eternamente a glória de Deus.",
       "imageFile": "william-henry-margetson-o-coral-de-anjos.webp",
       "licenseType": "public-domain",
       "references": [
@@ -18809,7 +18884,7 @@
       "title": "O pedido de Neemias ao rei",
       "artistOrDirector": "William Henry Margetson",
       "category": "painting",
-      "description": "A pintura \"O Pedido de Neemias ao Rei\" de William Henry Margetson retrata a cena bíblica em que Neemias, um servo judeu, faz um pedido ao rei Artaxerxes da Pérsia. Neemias, vestido com roupas vermelhas e douradas, está curvado em reverência diante do rei, que está sentado em um trono ornamentado, usando um manto vermelho e um chapéu grande. Ao lado do rei, uma figura feminina está sentada, segurando uma taça. A cena se passa em um ambiente luxuoso, com colunas decorativas ao fundo e um tapete de pele de animal no chão. A pintura captura um momento de grande importância histórica e religiosa, destacando a humildade e a coragem de Neemias ao fazer seu pedido ao rei.\n\n\n> Nehemiah's petition to the king, from The Bible Picture Book published by Thomas Nelson, c.",
+      "description": "A pintura \"O Pedido de Neemias ao Rei\" de William Henry Margetson retrata a cena bíblica em que Neemias, um servo judeu, faz um pedido ao rei Artaxerxes da Pérsia. Neemias, vestido com roupas vermelhas e douradas, está curvado em reverência diante do rei, que está sentado em um trono ornamentado, usando um manto vermelho e um chapéu grande. Ao lado do rei, uma figura feminina está sentada, segurando uma taça. A cena se passa em um ambiente luxuoso, com colunas decorativas ao fundo e um tapete de pele de animal no chão. A pintura captura um momento de grande importância histórica e religiosa, destacando a humildade e a coragem de Neemias ao fazer seu pedido ao rei.",
       "imageFile": "william-henry-margetson-o-pedido-de-neemias-ao-rei.webp",
       "licenseType": "public-domain",
       "references": [
@@ -18861,7 +18936,7 @@
       "artistOrDirector": "William Henry Margetson",
       "year": "1950",
       "category": "painting",
-      "description": "> Paul and Silas in prison, from The Bible Picture Book published by Thomas Nelson, c.",
+      "description": "Paulo e Silas na prisão, de William Henry Margetson.",
       "imageFile": "william-henry-margetson-paulo-e-silas-na-prisao.webp",
       "licenseType": "public-domain",
       "references": [
@@ -19362,5 +19437,5 @@
       "references": []
     }
   ],
-  "exportedAt": "2026-08-23T23:15:46.753Z"
+  "exportedAt": "2026-08-23T23:48:49.713Z"
 }

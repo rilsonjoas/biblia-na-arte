@@ -84,25 +84,108 @@ function unwrapWikilinks(text: string): string {
   return text.replace(/\[\[([^\]|]+)(?:\|([^\]]+))?\]\]/g, (_, target, alias) => alias ?? target);
 }
 
-/** Sanitiza descrições removendo blocos promocionais como `> [!info]`,
- *  anúncios de "Buy ... as fine art print", links para meisterdrucke, etc. */
+// Frases que só aparecem em texto promocional/legenda de terceiros colado
+// sem querer numa nota (site de venda de reprodução, agregador de museu) —
+// nunca em prosa própria escrita pra este projeto.
+const BAD_LINE_MARKERS = [
+  'meisterdrucke',
+  'fine art print',
+  'gallerix.org',
+  'image resolution',
+  'artsandculture.google.com',
+  'google arts & culture',
+  'is pleased to',
+  'scholarship and research',
+];
+
+function isBadLine(line: string): boolean {
+  const l = line.toLowerCase();
+  if (BAD_LINE_MARKERS.some((marker) => l.includes(marker))) return true;
+  if (l.includes('buy ') && l.includes('as fine art')) return true;
+  return false;
+}
+
+/** Sanitiza descrições removendo blocos promocionais colados sem querer de
+ *  sites de terceiros (venda de reprodução, agregador de museu como Google
+ *  Arts & Culture) e comentários editoriais internos.
+ *
+ *  Achado real 2026-08-23: a versão anterior usava uma regex só pra achar
+ *  blocos `> [!info]` inteiros, mas ela só removia a PRIMEIRA linha do
+ *  callout quando ele tinha várias linhas de blockquote seguidas (`> ...`
+ *  em cada linha) — o resto ficava órfão e vazava pro site (achado pelo
+ *  Rilson: "O Faraó e as parteiras" mostrando o aviso do Google Arts &
+ *  Culture completo na página). Reescrito linha por linha: qualquer linha
+ *  dentro de um bloco `> [!tipo]` é removida até a primeira linha que não
+ *  começa com `>` (fim do blockquote) — funciona com qualquer número de
+ *  linhas, não só uma. */
 export function sanitizeDescription(text: string): string {
   if (!text) return '';
-  const cleaned = text
-    // Remove blocos Obsidian > [!info] inteiros (incluindo linhas seguintes do blockquote)
-    .replace(/^>\s*\[!info\][\s\S]*?(?=\n\n|\n[^\s>]|$)/gim, '')
-    // Remove qualquer linha restante com meisterdrucke ou fine art print
-    .split('\n')
-    .filter((line) => {
-      const l = line.toLowerCase();
-      if (l.includes('meisterdrucke')) return false;
-      if (l.includes('fine art print')) return false;
-      if (l.includes('buy ') && l.includes('as fine art')) return false;
-      return true;
-    })
+
+  const lines = text.split('\n');
+  const kept: string[] = [];
+  let i = 0;
+
+  // Frase de abertura marcada como aside editorial — achado real
+  // 2026-08-23: "**Nota enriquecida em...**", "**Correção de dado/
+  // referência (...)**", vazando pro site em várias notas (algumas
+  // escritas nesta sessão, outras de sessões anteriores). Essas etiquetas
+  // descrevem o HISTÓRICO DE EDIÇÃO da nota, não a obra — nunca devem
+  // chegar ao visitante do site. Remove só a frase da etiqueta (até o
+  // primeiro ". "), não o parágrafo inteiro: em vários casos reais a
+  // etiqueta abre o MESMO parágrafo que já tem conteúdo real da obra
+  // logo em seguida (ex.: "**Nota enriquecida...** — ...sem citação.
+  // Óleo sobre tela de Jan Steen..." — só a 1ª frase é lixo).
+  const META_ASIDE_RE = /^>?\s*\*\*(Nota|Correção|Achado|Atualização|Editorial)\b[^.]*\.\s*/i;
+
+  while (i < lines.length) {
+    const line = lines[i] ?? '';
+    const trimmed = line.trim();
+
+    if (META_ASIDE_RE.test(trimmed)) {
+      // Remove a etiqueta E o `>` de blockquote que porventura vier junto —
+      // o que sobrar não é mais "uma citação", é prosa normal que só
+      // compartilhava linha com a etiqueta.
+      const strippedLine = trimmed.replace(META_ASIDE_RE, '');
+      if (strippedLine.trim() !== '') kept.push(strippedLine);
+      i++;
+      continue;
+    }
+
+    if (/^>\s*\[!\w+\]/.test(trimmed)) {
+      // Bloco de callout Obsidian inteiro: a linha [!tipo] + todas as
+      // linhas seguintes que continuam com `>`. Junta o bloco INTEIRO
+      // antes de decidir se é lixo — checar só a 1ª linha deixava
+      // passar blocos onde o marcador só aparece numa linha de baixo
+      // (achado real 2026-08-23: "★ Image resolution..." e o link do
+      // gallerix.org vinham depois da linha de título do callout).
+      let j = i + 1;
+      while (j < lines.length && (lines[j] ?? '').trim().startsWith('>')) j++;
+      const block = lines.slice(i, j).join('\n');
+      if (!isBadLine(block)) kept.push(...lines.slice(i, j));
+      i = j;
+      continue;
+    }
+
+    if (isBadLine(trimmed)) {
+      i++;
+      continue;
+    }
+    // Comentário Obsidian %%...%% usado como anotação editorial interna —
+    // nunca deve aparecer no site público.
+    if (/^%%[\s\S]*%%$/.test(trimmed)) {
+      i++;
+      continue;
+    }
+
+    kept.push(line);
+    i++;
+  }
+
+  return kept
     .join('\n')
+    .replace(/<!--[\s\S]*?-->/g, '') // comentários HTML, mesma lógica
+    .replace(/\n{3,}/g, '\n\n')
     .trim();
-  return cleaned;
 }
 
 export function extractDescription(content: string): string {

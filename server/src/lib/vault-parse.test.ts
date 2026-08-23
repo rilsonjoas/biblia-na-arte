@@ -179,6 +179,106 @@ Ver [[Salmos]], [[Salmo 19]].
 `;
     expect(extractDescription(note)).toBe('');
   });
+
+  it('remove callout [!info] de VÁRIAS linhas por inteiro, não só a primeira (achado real 2026-08-23: "O Faraó e as parteiras" vazava o aviso completo do Google Arts & Culture pro site — a regex antiga só apagava a 1ª linha do blockquote)', () => {
+    const note = `---
+autor: "[[James Tissot]]"
+---
+### Descrição da Obra
+> [!info] Pharaoh and the Midwives - James Jacques Joseph Tissot - Google Arts & Culture
+> *While the Jewish Museum is pleased to be able to share this information with you, note that scholarship and research relating to this work is ongoing.
+> [https://artsandculture.google.com/asset/pharaoh-and-the-midwives-0001/2AETzqeoWd1Oqg](https://artsandculture.google.com/asset/pharaoh-and-the-midwives-0001/2AETzqeoWd1Oqg)
+
+O episódio do faraó com as parteiras ocorre durante o período de escravidão dos israelitas no Egito.
+`;
+    const desc = extractDescription(note);
+    expect(desc).toBe('O episódio do faraó com as parteiras ocorre durante o período de escravidão dos israelitas no Egito.');
+    expect(desc).not.toContain('Google Arts');
+    expect(desc).not.toContain('Jewish Museum');
+    expect(desc).not.toContain('artsandculture.google.com');
+  });
+
+  it('remove linha de resolução/URL de site de reprodução mesmo fora de callout (gallerix.org)', () => {
+    const note = `---
+autor: "[[X]]"
+---
+### Descrição da Obra
+> [!info] The Good Samaritan — William Henry Margetson
+> ★ Image resolution: 974×1340 px.
+> [https://gallerix.org/storeroom/foo](https://gallerix.org/storeroom/foo)
+
+A pintura retrata a parábola do bom samaritano.
+`;
+    const desc = extractDescription(note);
+    expect(desc).toBe('A pintura retrata a parábola do bom samaritano.');
+  });
+
+  it('não remove callout legítimo sem marcador de texto de terceiros', () => {
+    const note = `---
+autor: "[[X]]"
+---
+### Descrição da Obra
+> [!note] Uma pintura restaurada em 2020, cores mais vivas que o original.
+
+Descrição real da obra aqui.
+`;
+    const desc = extractDescription(note);
+    expect(desc).toContain('Uma pintura restaurada em 2020');
+    expect(desc).toContain('Descrição real da obra aqui.');
+  });
+
+  it('remove parágrafo de aside editorial ("Nota enriquecida", "Correção de dado") — achado real 2026-08-23: vazava pro site em notas escritas nesta mesma sessão', () => {
+    const note = `---
+autor: "[[X]]"
+---
+### Descrição da Obra
+**Nota enriquecida em 2026-08-23** — entrada anterior era um esboço sem descrição, citação ou referência bíblica definida. Óleo sobre tela de **Jan Steen**, pintado em 1677.
+
+Steen ambienta a cena num interior contemporâneo.
+`;
+    const desc = extractDescription(note);
+    expect(desc).toBe('Óleo sobre tela de **Jan Steen**, pintado em 1677.\n\nSteen ambienta a cena num interior contemporâneo.');
+    expect(desc).not.toContain('Nota enriquecida');
+  });
+
+  it('remove aside "**Correção..." com > de blockquote, mantendo conteúdo real que vier depois na mesma linha', () => {
+    const note = `---
+autor: "[[X]]"
+---
+### Descrição da Obra
+> **Correção de referência (2026-08-23)**: a referência certa é Apocalipse 7:9. Dürer retrata patriarcas e santos em anéis concêntricos.
+`;
+    const desc = extractDescription(note);
+    expect(desc).toBe('Dürer retrata patriarcas e santos em anéis concêntricos.');
+    expect(desc).not.toContain('Correção de referência');
+  });
+
+  it('remove aside que ocupa a linha inteira (sem conteúdo real depois), sem deixar ">" órfão', () => {
+    const note = `---
+autor: "[[X]]"
+---
+### Descrição da Obra
+> **Correção de referência (2026-08-23)**: a nota apontava só pra Apocalipse 21:2, mas o correto é Apocalipse 7:9.
+
+Dürer retrata patriarcas e santos em anéis concêntricos.
+`;
+    const desc = extractDescription(note);
+    expect(desc).toBe('Dürer retrata patriarcas e santos em anéis concêntricos.');
+    expect(desc).not.toContain('>');
+  });
+
+  it('remove comentário Obsidian %%...%% e HTML <!-- --> usados como anotação editorial interna', () => {
+    const note = `---
+autor: "[[X]]"
+---
+### Descrição da Obra
+%% nota interna de curadoria, não deve ir pro site %%
+Descrição real da obra.
+<!-- outra anotação interna -->
+`;
+    const desc = extractDescription(note);
+    expect(desc).toBe('Descrição real da obra.');
+  });
 });
 
 describe('parseChapterLink', () => {
