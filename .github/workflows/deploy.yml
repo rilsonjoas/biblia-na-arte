@@ -25,10 +25,24 @@ jobs:
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.DEPLOY_SSH_KEY }}
           script: |
+            # Guarda de disco (INCIDENTES.md no infra, 2026-08-23): aborta
+            # antes de piorar se a raiz estiver >=90%.
+            USO=$(df --output=pcent / | tail -1 | tr -dc '0-9')
+            if [ "$USO" -ge 90 ]; then
+              echo "❌ Abortado: disco em ${USO}% (limite 90%). Rode: docker builder prune -af"
+              exit 1
+            fi
             cd /opt/biblia-na-arte
             git pull --ff-only origin main
             cd ~/hetzner-infra
             make deploy service=biblia-na-arte
+            # Prune total pós-deploy (INCIDENTES.md 2026-08-23): sem filtro de
+            # tempo — filtros semanais não pegam rajadas; e o prune simples (-f)
+            # deixa registros compartilhados no disco (17,9GB invisíveis).
+            docker builder prune -af >/dev/null
+            docker image prune -f >/dev/null
+            USO=$(df --output=pcent / | tail -1 | tr -dc '0-9')
+            echo "✅ Deploy ok — disco em ${USO}%"
 
       - name: Smoke test
         run: |
