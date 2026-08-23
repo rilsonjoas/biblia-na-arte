@@ -169,15 +169,15 @@ export default function Search() {
 
         {/* Search Bar */}
         <Card className="gradient-card border-0 mb-8">
-          <CardContent className="p-6">
-            <div className="flex gap-4">
+          <CardContent className="p-4 sm:p-6">
+            <div className="flex flex-col sm:flex-row gap-3">
               <div className="relative flex-1">
-                <SearchIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-5 h-5" />
+                <SearchIcon className="absolute left-3.5 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
                 <Input
-                  placeholder="Digite o nome da obra, artista, livro bíblico ou tema..."
+                  placeholder="Buscar obra, artista, livro bíblico ou tema..."
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
-                  className="pl-12 h-12 text-lg"
+                  className="pl-10 h-11 text-base w-full"
                   onKeyDown={(e) => {
                     if (e.key === 'Enter') {
                       handleSearch();
@@ -185,28 +185,30 @@ export default function Search() {
                   }}
                 />
               </div>
-              <Button 
-                onClick={handleSearch} 
-                size="lg"
-                className="px-8 shadow-classical"
-                disabled={isLoading}
-              >
-                {isLoading ? (
-                  <RefreshCcw className="w-5 h-5 mr-2 animate-spin" />
-                ) : (
-                  <SearchIcon className="w-5 h-5 mr-2" />
-                )}
-                Buscar
-              </Button>
-              <Button 
-                onClick={() => setShowFilters(!showFilters)}
-                variant="outline"
-                size="lg"
-                className="px-6"
-              >
-                <Filter className="w-5 h-5 mr-2" />
-                Filtros
-              </Button>
+              <div className="flex gap-2 w-full sm:w-auto">
+                <Button 
+                  onClick={handleSearch} 
+                  size="lg"
+                  className="flex-1 sm:flex-none px-6 h-11 shadow-classical"
+                  disabled={isLoading}
+                >
+                  {isLoading ? (
+                    <RefreshCcw className="w-4 h-4 mr-2 animate-spin" />
+                  ) : (
+                    <SearchIcon className="w-4 h-4 mr-2" />
+                  )}
+                  Buscar
+                </Button>
+                <Button 
+                  onClick={() => setShowFilters(!showFilters)}
+                  variant="outline"
+                  size="lg"
+                  className="flex-1 sm:flex-none px-4 h-11"
+                >
+                  <Filter className="w-4 h-4 mr-2" />
+                  Filtros
+                </Button>
+              </div>
             </div>
           </CardContent>
         </Card>
@@ -234,7 +236,7 @@ export default function Search() {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 <div>
                   <label className="text-sm font-medium mb-2 block">Categoria</label>
                   <Select value={selectedCategory || 'all'} onValueChange={(v) => setSelectedCategory(v === 'all' ? '' : v)}>

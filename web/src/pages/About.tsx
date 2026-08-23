@@ -165,21 +165,37 @@ export default function About() {
             <div className="prose prose-lg mx-auto text-foreground/80 leading-relaxed">
               <p className="mb-4">
                 A Bíblia na Arte nasceu de uma paixão pessoal por arte bíblica — 
-                paixão que ganhou vocabulário na leitura de Hans Rookmaaker, 
-                historiador holandês que dedicou a vida a pensar a relação 
-                entre fé e criação artística. Foi lendo Rookmaaker que entendi: 
-                a arte inspirada nas Escrituras não é enfeite devocional nem 
-                propaganda religiosa — é teologia feita imagem, séculos de 
-                leitura da Palavra registrados em tela, madeira e afresco. Ele 
-                escreveu o que virou o lema deste projeto:
+                paixão alimentada pela reflexão de pensadores como Hans Rookmaaker 
+                e Alister McGrath, que exploraram com profundidade como a fé 
+                cristã expande e enriquece a imaginação artística, a leitura das Escrituras 
+                e a contemplação da beleza.
               </p>
 
-              <blockquote className="border-l-4 border-accent/60 pl-6 my-8 italic text-foreground">
+              <blockquote className="border-l-4 border-accent/60 pl-6 my-6 italic text-foreground">
                 "A arte não precisa de justificativa — nem por motivos 
                 religiosos ou propósitos evangelísticos, nem por fins 
                 econômicos ou políticos."
                 <footer className="text-sm not-italic text-muted-foreground mt-2">
                   — Hans Rookmaaker, <em>A Arte Não Precisa de Justificativa</em> (1978)
+                </footer>
+              </blockquote>
+
+              {/* Paráfrase, não citação direta — achado real 2026-08-23: a
+                  frase entre aspas atribuída a McGrath não foi confirmada
+                  textualmente contra a edição real do livro (princípio #3
+                  do Padrão de Qualidade de Conteúdo). Diferente do
+                  Rookmaaker acima (falecido, citação já verificada),
+                  McGrath está vivo — atribuir palavra por palavra sem
+                  checagem é o tipo de risco que o padrão existe pra
+                  evitar. Sem aspas: credita a ideia geral, não finge
+                  citação literal. */}
+              <blockquote className="border-l-4 border-accent/60 pl-6 my-6 italic text-foreground">
+                Alister McGrath argumenta, no mesmo espírito, que a fé cristã
+                amplia nossa percepção da realidade — abrindo os olhos para
+                uma beleza e uma glória que a arte, em sua melhor forma,
+                torna visível.
+                <footer className="text-sm not-italic text-muted-foreground mt-2">
+                  — conforme discutido em <em>Enriching Our Vision of Reality</em> (2016)
                 </footer>
               </blockquote>
 

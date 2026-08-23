@@ -8,7 +8,7 @@ import ArtworkCard, { ArtworkCardSkeleton } from '@/components/ArtworkCard';
 import { SEO } from '@/components/SEO';
 import { ErrorCard } from '@/components/ui/error-display';
 import { useFeaturedArtworks } from '@/hooks/use-artworks';
-import { Book, Palette, Music, Film, Sparkles, Instagram } from 'lucide-react';
+import { Book, Palette, Search, Sparkles, Instagram } from 'lucide-react';
 
 // Servido de web/public/ (não é uma pintura do catálogo, é asset de UI) —
 // path fixo em vez de import, sem precisar de hash de build pra um banner
@@ -105,8 +105,8 @@ export default function Index() {
               Como Explorar
             </h2>
             <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-              Navegue pelas Escrituras ou por categoria artística para descobrir 
-              as profundas conexões entre fé e expressão criativa.
+              Navegue pelas Escrituras, por movimentos artísticos ou pesquise obras 
+              específicas para descobrir as profundas conexões entre fé e arte.
             </p>
           </div>
 
@@ -137,7 +137,7 @@ export default function Index() {
                     <Palette className="w-8 h-8 text-white" />
                   </div>
                   <CardTitle className="text-display text-xl group-hover:text-primary transition-colors">
-                    Pinturas
+                    Galeria de Pinturas
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
@@ -150,38 +150,38 @@ export default function Index() {
             </Card>
 
             <Card className="group hover:shadow-classical transition-all duration-300 hover:-translate-y-2 gradient-card border-0">
-              <Link to="/arte/music">
+              <Link to="/busca">
                 <CardHeader className="text-center pb-4">
                   <div className="w-16 h-16 mx-auto gradient-hero rounded-full flex items-center justify-center mb-4 group-hover:shadow-golden transition-all duration-300">
-                    <Music className="w-8 h-8 text-white" />
+                    <Search className="w-8 h-8 text-white" />
                   </div>
                   <CardTitle className="text-display text-xl group-hover:text-primary transition-colors">
-                    Músicas
+                    Busca Avançada
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <CardDescription className="text-center">
-                    Dos hinos gregorianos aos oratórios clássicos, 
-                    ouça como a fé encontrou sua voz na música.
+                    Pesquise obras por artista, período histórico, 
+                    estilo ou referências bíblicas detalhadas.
                   </CardDescription>
                 </CardContent>
               </Link>
             </Card>
 
             <Card className="group hover:shadow-classical transition-all duration-300 hover:-translate-y-2 gradient-card border-0">
-              <Link to="/arte/film">
+              <Link to="/arte">
                 <CardHeader className="text-center pb-4">
                   <div className="w-16 h-16 mx-auto gradient-hero rounded-full flex items-center justify-center mb-4 group-hover:shadow-golden transition-all duration-300">
-                    <Film className="w-8 h-8 text-white" />
+                    <Sparkles className="w-8 h-8 text-white" />
                   </div>
                   <CardTitle className="text-display text-xl group-hover:text-primary transition-colors">
-                    Filmes
+                    Explorar Coleções
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <CardDescription className="text-center">
-                    Descubra como o cinema moderno trouxe as 
-                    narrativas bíblicas para as telas.
+                    Conheça as diferentes categorias e seleções curadas 
+                    da nossa biblioteca visual de arte sacra.
                   </CardDescription>
                 </CardContent>
               </Link>
@@ -246,9 +246,9 @@ export default function Index() {
                 parágrafo em duas páginas — achado real 2026-08-22 */}
             <p className="text-foreground/80 leading-relaxed mb-8">
               Este projeto nasceu da paixão por descobrir como a Palavra de Deus
-              inspirou os artistas ao longo dos séculos — paixão afiada pela
-              leitura de Hans Rookmaaker, para quem "a arte não precisa de
-              justificativa". Aqui, cada pintura não é apenas uma obra de arte,
+              inspirou os artistas ao longo dos séculos — paixão alimentada pelas
+              leituras de Hans Rookmaaker e Alister McGrath sobre fé, visão bíblica
+              e a beleza nas artes. Aqui, cada pintura não é apenas uma imagem,
               mas uma janela para compreender como diferentes culturas e épocas
               interpretaram as verdades eternas das Escrituras.
             </p>
