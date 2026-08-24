@@ -171,7 +171,9 @@ elevar a qualidade do catálogo.
         bíblica** (estimado a partir dos 153/55 do check anterior menos
         as 10 deste lote; confirmar via API real depois do reseed) —
         trabalho de curadoria contínua, próximos lotes quando fizer
-        sentido retomar.
+        sentido retomar. **Reforço do Rilson (2026-08-24): muitas das
+        descrições existentes continuam magras — ver Achados
+        2026-08-24 (Conteúdo).**
   - [x] **3 achados reais testando as 18 no ar (2026-08-16), corrigidos
         na raiz**:
         1. Blocos `[!info]` (sintaxe exclusiva do Obsidian) apareciam
@@ -660,6 +662,7 @@ pnpm --filter server db:seed        # importa o JSON no Postgres (VPS)
 | 5 — Produto | ⏳ pendente | — |
 
 
+
 ## Sessão de polish 2026-08-22 (menu, busca, títulos) — pausada a pedido do Rilson
 
 Rodada de 9 achados reportados com screenshot numa sessão só. 7 já
@@ -782,8 +785,8 @@ API/código real antes de escrever aqui — não é suposição.
       1ª obra de cada meio entrar, o badge volta a contar sozinho); estado
       vazio da página de categoria ganhou "Volte em breve."
 - [x] **Achado visual do Rilson (2026-08-22, screenshot): cards de
-      `/arte` feios — borda do badge de contagem esticada em largura**
-      — o `Badge outline` dentro do `CardHeader` (flex-column,
+      `/arte` feios — borda do badge de contagem esticada em largura** —
+      o `Badge outline` dentro do `CardHeader` (flex-column,
       `align-items: stretch`) vira uma barra com borda atravessando o
       card. Redesenhado sem caixa: rótulo tipográfico quieto sob o título,
       no padrão caps espaçadas do rodapé ("CONHEÇA TAMBÉM") — "828 OBRAS"
@@ -1115,6 +1118,10 @@ Google" não é viável em iOS de qualquer forma.
       fora dos tokens `--canela`/`--dourado`/`--vinho`, sem override
       `.dark` visível — mesma classe de bug já achada no `--gradient-card`
       em 16/08. Conferir contraste/paridade nos dois temas na próxima.
+      **Revisão de decisão (2026-08-24, Rilson): o badge de ANO não deveria
+      estar nesse grupo** — ano é metadado editorial da obra, não dado
+      técnico de ferramenta; monoespaçado nele destoa da tipografia do
+      projeto. Ver Achados 2026-08-24 (Coerência visual).
 
 ### 🟡 Melhoria — conteúdo (2026-08-22)
 
@@ -1248,6 +1255,11 @@ Google" não é viável em iOS de qualquer forma.
       na barra de ações sob a imagem, junto do "Copiar imagem". Sinergia
       direta com @artecristadiaria mantida. 3 testes novos (sucesso,
       conteúdo do card, falha silenciosa), typecheck limpo, build ok.
+      **Revisão 2026-08-24 (achado do Rilson): com só esse botão, quem
+      quer a OBRA recebe o render personalizado do Instagram — enganoso.
+      Separar "Baixar obra" (original) de "Compartilhar como Story";
+      alinhamento da logo no card também pendente. Ver Achados
+      2026-08-24.**
 
 ---
 
@@ -1322,6 +1334,12 @@ Google" não é viável em iOS de qualquer forma.
   - Pontes Bíblia na Arte → Lecionário (conexão de obras com as passagens do lecionário litúrgico do dia).
 - [ ] **Páginas de Artista Ricas (Alimentadas pelo Vault Obsidian)**:
   - Enriquecer as páginas de artista (`/artist/:slug`) com biografias, contexto histórico e citações diretamente das notas do **Vault Obsidian** do Rilson.
+  - **Correção de premissa (2026-08-24): a página base NÃO existe — o nome
+    do artista é texto morto no site, sem rota nem link. Ver achado crítico
+    em "Achados 2026-08-24".** O mínimo viável (rota `/artista/:slug` +
+    grade das obras do artista + links do nome do artista apontando pra
+    ela) vira PRÉ-REQUISITO deste item; biografia rica, retrato tondo e
+    timeline visual passam a ser camada 2, em cima da rota que funciona.
   - Retrato do pintor em moldura circular *tondo* dourada.
   - Linha do tempo visual cronológica das obras bíblicas do artista no acervo (ex: a evolução da luz e do traço de Rembrandt ou Caravaggio ao longo das décadas).
 - [ ] **Acessibilidade de Arte (Audiodescrição & TTS Enriquecido)**:
@@ -1646,3 +1664,99 @@ achado da Perczak mais acima, ainda não implementada).
 - [x] **Citação Teológica de Alister McGrath**:
   - Incorporada a citação de Alister McGrath (*Enriching our Vision of Reality*) ao lado de Hans Rookmaaker em `About.tsx` e `Index.tsx`.
 
+---
+
+## Achados 2026-08-24 (revisão geral do Rilson em produção) — registrados, pendentes
+
+Rodada de revisão geral do site. Itens reportados pelo Rilson numa
+conversa só, registrados aqui antes de qualquer código (mesmo padrão
+das rodadas anteriores). **Nenhum foi verificado contra o código ainda,
+exceto onde indicado** — checar cada um contra a realidade do repo
+antes de mexer. Ordem sugerida: deploy primeiro (sem pipeline saudável,
+nada abaixo vai ao ar), depois página de pintor (maior buraco de SEO
+restante), depois honestidade do download.
+
+### 🔴 Crítico
+
+- [ ] **Deu erro no último deploy** — primeira pendência da fila:
+      investigar logs do GitHub Actions e do VPS (`docker ps`,
+      `docker compose logs`, sintoma→causa na tabela do `RUNBOOK.md`)
+      antes de qualquer outro trabalho que precise de deploy. Registrar
+      causa/solução aqui quando identificado.
+- [ ] **Não existe página do pintor** — confirmado pelo Rilson testando
+      o site: o nome do artista aparece como texto morto, sem página
+      própria clicável. A premissa do item "Páginas de Artista Ricas"
+      (Recursos Estratégicos acima) estava errada — assumia que
+      `/artist/:slug` existia e só faltava enriquecer; não existe nem a
+      rota base. **É o maior buraco de SEO restante do site**: cada
+      página de artista é cauda longa pura ("pinturas bíblicas de
+      Rembrandt", "obras religiosas de Caravaggio") — exatamente o
+      padrão de busca mapeado na estratégia, e hoje esse tráfego não tem
+      pra onde aterrissar. Mínimo viável primeiro: rota `/artista/:slug`
+      com H1, grade das obras do artista (o filtro por artista usado nas
+      relacionadas da página de obra deve cobrir — confirmar endpoint;
+      `GET /api/v1/artists` já existe pra agregação/nome), breadcrumb,
+      links do nome do artista em card/página de obra/capítulo apontando
+      pra lá + entrada no sitemap. Biografia rica/retrato tondo/timeline
+      do item estratégico viram camada 2, em cima da rota que já
+      funciona — não bloquear o SEO esperando o desenho completo.
+
+### 🟠 Honestidade de produto / UX
+
+- [ ] **Botão de baixar entrega a imagem personalizada pro Instagram —
+      enganoso**: hoje o único download disponível é o render 1080×1920
+      do Story (moldura, logo, texto) — quem quer a obra limpa (aula,
+      sermão, impressão, papel de parede) recebe outra coisa. Separar em
+      2 ações explícitas na barra de ações: **"Baixar obra"** (arquivo
+      original da pintura, o mesmo WebP que o lightbox serve) e
+      **"Compartilhar como Story"** (render atual, mantido). Nenhum
+      rótulo pode entregar coisa diferente do que promete.
+- [ ] **Logomarca desalinhada com o texto no card do Story** (reportado
+      2x pelo Rilson na mesma conversa — prioridade dele explícita): no
+      `ArtworkShareCard`, a logo e "Bíblia na Arte" estão fora de
+      alinhamento vertical entre si desde que a logo entrou no card
+      (23/08). Corrigir no container flex (`items-center` + altura fixa
+      da imagem + `object-contain`) e validar no PNG final rasterizado
+      pelo html2canvas — não basta parecer certo no DOM, é a imagem
+      exportada que o usuário vê.
+
+### 🟡 Conteúdo
+
+- [ ] **Muitas obras com título em inglês no lugar do título verdadeiro
+      no idioma original**: a convenção de import (Wikimedia/WGA) deixou
+      o TÍTULO PRINCIPAL em inglês em várias notas — o site exibe "The
+      ..." como se fosse o nome da obra, quando o correto é o título no
+      idioma da própria obra (italiano, francês, holandês, alemão...) e
+      o inglês/original como subtítulo. Auditoria em lotes: para cada
+      título em inglês, buscar o título original via museu/Wikidata
+      (fonte primária, mesma régua do checklist de qualidade), trocar
+      principal↔subtítulo no frontmatter. Mesma natureza dos lotes de
+      descrição — curadoria contínua, não fecha numa sessão.
+- [ ] **Descrições ainda magras — reforço à lista aberta da Fase 1**
+      (~143 obras com fallback genérico, item `[~]` lá): além das stubs,
+      muitas descrições curtas EXISTENTES merecem prosa melhor
+      (composição, contexto histórico-artístico, simbolismo), não só
+      substituição de fallback. Mesmos lotes de curadoria contínua,
+      mesma régua do checklist de qualidade de conteúdo.
+
+### 🟡 Coerência visual
+
+- [ ] **Ano com fonte diferente do projeto**: o badge de ano usa
+      `font-mono` (JetBrains Mono, mapeado em 22/08) — o mapeamento em
+      si funcionou, mas a decisão de design é outra: ano é metadado
+      editorial da obra, não dado técnico de ferramenta; deve seguir a
+      tipografia do projeto (EB Garamond / padrão caps espaçadas do
+      Design Narniano), não monoespaçado. Revisar caso a caso os demais
+      usos de `font-mono` herdados do scaffold (atalho ⌘K e zoom % são
+      chrome de UI — decisão separada).
+- [ ] **Passada de coerência de espaçamento/padding/margem/font-size** —
+      relato do Rilson: muitos botões, elementos e componentes ainda têm
+      espaçamentos e tamanhos de fonte que não fazem sentido entre si
+      (herança legítima de várias sessões de ajuste pontual diferentes
+      registradas neste roadmap). Não é redesign — é auditoria de
+      consistência contra o Design Narniano, mesmo método da auditoria
+      de acessibilidade de 22/08: inventário componente por componente
+      primeiro, normalização depois — escala de espaçamento única,
+      alturas de botão padronizadas, raios de borda consistentes,
+      tamanhos de fonte só da escala tipográfica (mantendo a régua de
+      corpo ≥16px no mobile já adotada).
