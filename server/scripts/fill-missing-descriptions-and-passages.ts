@@ -79,7 +79,7 @@ async function globalEnrichment() {
       if (capsMatch?.[1]) {
         const link = capsMatch[1].trim();
         const m = link.match(/^(.+?)\s+(\d+)$/);
-        if (m) {
+        if (m && m[1] && m[2]) {
           targetBook = m[1].trim();
           targetChapter = Number(m[2]);
         }

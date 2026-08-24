@@ -9,24 +9,28 @@
  */
 import { readFileSync, writeFileSync, readdirSync } from 'node:fs';
 import path from 'node:path';
-import { fetchBiblePassage } from '../src/lib/bible-api.js';
+import { fetchBiblePassage, type BiblePassage } from '../src/lib/bible-api.js';
 import { resolveBibleBook } from '../src/db/seed-data/bible-books.js';
 
 const VAULT_DIR = '/home/narniano/Documentos/Rilson/10 - Arte e literatura/Pinturas';
 
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
-async function fetchPassageWithRetry(bookSlug: string, chapter: number, retries = 5): Promise<import('../src/lib/bible-api.js').BiblePassage> {
+async function fetchPassageWithRetry(bookSlug: string, chapter: number, retries = 5): Promise<BiblePassage> {
+  let lastError: unknown;
   for (let attempt = 1; attempt <= retries; attempt++) {
     try {
       await sleep(350);
       return await fetchBiblePassage(bookSlug, chapter);
     } catch (err) {
-      if (attempt === retries) throw err;
-      console.warn(`⏳ Rate limit em ${bookSlug} ${chapter}, aguardando tentativa ${attempt + 1}...`);
-      await sleep(1000 * attempt);
+      lastError = err;
+      if (attempt < retries) {
+        console.warn(`⏳ Rate limit em ${bookSlug} ${chapter}, aguardando tentativa ${attempt + 1}...`);
+        await sleep(1000 * attempt);
+      }
     }
   }
+  throw (lastError ?? new Error(`Falha ao obter ${bookSlug} ${chapter} após ${retries} tentativas.`));
 }
 
 async function processStubNotes() {
@@ -49,8 +53,9 @@ async function processStubNotes() {
     const targetChapters: { book: string; chapter: number }[] = [];
 
     for (const link of wikilinks) {
+      if (!link) continue;
       const match = link.match(/^(.+?)\s+(\d+)$/);
-      if (match) {
+      if (match && match[1] && match[2]) {
         const bookObj = resolveBibleBook(match[1].trim());
         if (bookObj) {
           targetChapters.push({ book: bookObj.name, chapter: Number(match[2]) });
