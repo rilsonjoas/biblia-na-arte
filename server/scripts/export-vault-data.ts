@@ -20,15 +20,14 @@
  *
  * Uso: pnpm --filter server exec tsx scripts/export-vault-data.ts
  */
-import { readFileSync, writeFileSync, mkdirSync, rmSync } from 'node:fs';
-import { readdirSync } from 'node:fs';
+import { readFileSync, writeFileSync, mkdirSync, rmSync, existsSync, readdirSync } from 'node:fs';
 import path from 'node:path';
 import sharp from 'sharp';
 import {
   extractClassicCommentary,
   extractDescription,
   extractFrontmatter,
-  extractPassageText,
+  extractPassageQuotes,
   extractVerseFromContext,
   extractWikilink,
   findImageFile,
@@ -214,8 +213,13 @@ interface ExportedArtwork {
 }
 
 async function main() {
-  rmSync(OUTPUT_IMAGES_DIR, { recursive: true, force: true });
-  mkdirSync(OUTPUT_IMAGES_DIR, { recursive: true });
+  if (existsSync(OUTPUT_IMAGES_DIR)) {
+    for (const f of readdirSync(OUTPUT_IMAGES_DIR)) {
+      try { rmSync(path.join(OUTPUT_IMAGES_DIR, f), { recursive: true, force: true }); } catch (err) { void err; }
+    }
+  } else {
+    mkdirSync(OUTPUT_IMAGES_DIR, { recursive: true });
+  }
 
   const files = readdirSync(VAULT_PINTURAS).filter((f) => f.endsWith('.md'));
 
@@ -304,9 +308,10 @@ async function main() {
       continue;
     }
 
-    const passageText = extractPassageText(content);
+    const passageQuotes = extractPassageQuotes(content);
     const references: ExportedReference[] = [];
     const capitulos = Array.isArray(frontmatter.capítulos) ? frontmatter.capítulos : [];
+
     for (let i = 0; i < capitulos.length; i++) {
       const raw = capitulos[i];
       const parsed = parseChapterLink(raw);
@@ -317,12 +322,21 @@ async function main() {
         continue;
       }
       const verses = parsed.verse || extractVerseFromContext(content, book.name, parsed.chapter) || extractVerseFromContext(content, parsed.book, parsed.chapter);
+
+      // Find matching quote for this specific reference
+      const matchedQuote = passageQuotes.find(
+        (q) => (q.chapter === parsed.chapter && (!q.bookName || resolveBibleBook(q.bookName)?.slug === book.slug)) ||
+               (capitulos.length === 1 && passageQuotes.length === 1)
+      );
+
+      const refPassageText = matchedQuote ? matchedQuote.text : (i === 0 && passageQuotes.length > 0 && !passageQuotes.some(q => q.chapter) ? passageQuotes.map(q => q.text).join('\n\n') : undefined);
+
       references.push({
         book: book.name,
         bookSlug: book.slug,
         chapter: parsed.chapter,
         verses: verses || undefined,
-        passageText: (i === 0 && passageText) ? passageText : undefined,
+        passageText: refPassageText || undefined,
       });
     }
 

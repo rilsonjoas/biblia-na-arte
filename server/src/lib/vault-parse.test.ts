@@ -124,9 +124,9 @@ Ver "[[Rembrandt van Rijn - A Descida da Cruz (De kruisafname)|A Descida da Cruz
     expect(desc).not.toContain('|');
   });
 
-  it('corta em 2000 caracteres', () => {
-    const long = `---\nautor: "[[X]]"\n---\n\n### Descrição da Obra\n\n${'a'.repeat(2500)}`;
-    expect(extractDescription(long).length).toBe(2000);
+  it('corta em 4000 caracteres', () => {
+    const long = `---\nautor: "[[X]]"\n---\n\n### Descrição da Obra\n\n${'a'.repeat(4500)}`;
+    expect(extractDescription(long).length).toBe(4000);
   });
 
   it('sem seção, usa o primeiro parágrafo depois da imagem', () => {

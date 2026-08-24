@@ -188,19 +188,94 @@ export function sanitizeDescription(text: string): string {
     .trim();
 }
 
+export function extractHistoricalContext(content: string): string | null {
+  const afterFrontmatter = content.replace(/^---\n[\s\S]*?\n---/, '').trim();
+  const histMatch = afterFrontmatter.match(/###\s*Contexto Histórico\s*\n+([\s\S]*?)(?=\n---|\n###|$)/i);
+  const captured = histMatch?.[1]?.trim();
+  if (captured && !isPlaceholderText(captured)) {
+    return sanitizeDescription(unwrapWikilinks(captured)).slice(0, 2000);
+  }
+  return null;
+}
+
 export function extractDescription(content: string): string {
   const afterFrontmatter = content.replace(/^---\n[\s\S]*?\n---/, '').trim();
   const descMatch = afterFrontmatter.match(/###\s*Descrição da Obra\s*\n+([\s\S]*?)(?=\n---|\n###|$)/);
-  const captured = descMatch?.[1]?.trim();
-  if (captured && !isPlaceholderText(captured)) return sanitizeDescription(unwrapWikilinks(captured)).slice(0, 2000);
-  // Fallback: primeiro parágrafo de texto real depois da imagem embutida
-  // (pula placeholders de navegação e linhas de heading, não só o primeiro
-  // trecho >20 caracteres que aparecer)
-  const withoutImage = afterFrontmatter.replace(/!\[\[[^\]]+\]\]/, '').trim();
-  const firstParagraph = withoutImage
-    .split(/\n{2,}/)
-    .find((p) => p.trim().length > 20 && !isPlaceholderText(p.trim()));
-  return sanitizeDescription(unwrapWikilinks((firstParagraph ?? '').trim())).slice(0, 2000);
+  let captured = descMatch?.[1]?.trim();
+
+  if (!captured || isPlaceholderText(captured)) {
+    const withoutImage = afterFrontmatter.replace(/!\[\[[^\]]+\]\]/, '').trim();
+    const firstParagraph = withoutImage
+      .split(/\n{2,}/)
+      .find((p) => p.trim().length > 20 && !isPlaceholderText(p.trim()));
+    captured = firstParagraph ?? '';
+  }
+
+  let fullDesc = sanitizeDescription(unwrapWikilinks(captured));
+  const hist = extractHistoricalContext(content);
+  if (hist && !fullDesc.includes(hist)) {
+    fullDesc = `${fullDesc}\n\n### Contexto Histórico\n\n${hist}`;
+  }
+
+  return fullDesc.slice(0, 4000);
+}
+
+export interface ExtractedQuote {
+  bookName?: string | undefined;
+  chapter?: number | undefined;
+  verse?: string | undefined;
+  text: string;
+}
+
+export function extractPassageQuotes(content: string): ExtractedQuote[] {
+  const match = content.match(/###\s*(?:📖\s*)?Contexto Bíblico\s*\n+([\s\S]*?)(?=\n---|\n###|$)/i);
+  if (!match?.[1]) return [];
+
+  const section = match[1].trim();
+  if (!section || section.startsWith('Ver [[')) return [];
+
+  const rawBlocks = section.split(/\n{2,}/);
+  const quotes: ExtractedQuote[] = [];
+
+  for (const block of rawBlocks) {
+    const lines = block.split('\n').map((l) => l.trim()).filter(Boolean);
+    const quoteLines: string[] = [];
+    let citeLine = '';
+
+    for (const l of lines) {
+      const clean = l.replace(/^>\s?/, '');
+      if (clean.startsWith('—') || clean.startsWith('- **') || clean.startsWith('**')) {
+        citeLine = clean;
+      } else if (l.startsWith('>')) {
+        quoteLines.push(clean);
+      }
+    }
+
+    const text = quoteLines.join('\n').trim();
+    if (text) {
+      let citeBook: string | undefined;
+      let citeChapter: number | undefined;
+      let citeVerse: string | undefined;
+
+      if (citeLine) {
+        const m = citeLine.match(/(?:—|-|\*\*)\s*(?:\[\[)?([123]?\s*[A-ZÀ-Úa-zà-ú\s]+?)\s+(\d+)(?:\]\])?:?\s*[:.]\s*([\d\-,]+)/);
+        if (m && m[1] && m[2]) {
+          citeBook = m[1].trim();
+          citeChapter = parseInt(m[2], 10);
+          citeVerse = m[3]?.trim();
+        }
+      }
+
+      quotes.push({
+        bookName: citeBook,
+        chapter: citeChapter,
+        verse: citeVerse,
+        text: unwrapWikilinks(text),
+      });
+    }
+  }
+
+  return quotes;
 }
 
 /** "Gênesis 18" -> {book: "Gênesis", chapter: 18}
