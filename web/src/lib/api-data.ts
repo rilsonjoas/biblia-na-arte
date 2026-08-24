@@ -55,6 +55,15 @@ export async function getRandomArtwork(): Promise<Artwork> {
   return apiClient.request<Artwork>('/artworks/random');
 }
 
+/** "Pintura do Dia" — mesma obra pra todo mundo que visitar no mesmo dia
+ *  UTC (sorteio determinístico no server, ver getDailyArtwork em
+ *  server/src/db/queries.ts). `date` opcional só existe pra permitir
+ *  testar um dia específico; o uso normal não passa nada e o server usa
+ *  a data UTC corrente. */
+export async function getDailyArtwork(date?: string): Promise<Artwork> {
+  return apiClient.request<Artwork>('/artworks/daily', { date });
+}
+
 export async function getArtworksByBibleReference(
   bookSlug: string,
   chapterNum?: number,

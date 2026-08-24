@@ -6,6 +6,7 @@ import {
   searchArtworksAdvanced,
   getArtists,
   getArtworksPaginated,
+  getDailyArtwork,
   type SearchFilters,
   type PaginatedArtworksParams,
 } from '@/lib/api-data'
@@ -100,6 +101,20 @@ export function useFeaturedArtworks() {
     },
     staleTime: 15 * 60 * 1000, // 15 minutes
     gcTime: 30 * 60 * 1000, // 30 minutes
+  })
+}
+
+// "Pintura do Dia" — a queryKey inclui a data de hoje de propósito: assim
+// a própria mudança de dia já invalida o cache sozinha (chave nova =
+// nunca serve o resultado de ontem depois da virada), sem precisar de
+// refetchInterval nem lógica de "meia-noite" no cliente.
+export function useDailyArtwork() {
+  const today = new Date().toISOString().slice(0, 10)
+  return useQuery({
+    queryKey: ['artworks', 'daily', today],
+    queryFn: () => getDailyArtwork(),
+    staleTime: 60 * 60 * 1000, // 1h — mesmo teto do Cache-Control do endpoint
+    gcTime: 24 * 60 * 60 * 1000,
   })
 }
 

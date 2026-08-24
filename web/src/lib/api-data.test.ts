@@ -8,6 +8,7 @@ import {
   parseYear,
   getBibleBooks,
   getBibleBookBySlug,
+  getDailyArtwork,
 } from './api-data';
 
 vi.mock('./api-client', () => ({
@@ -54,6 +55,20 @@ describe('getArtworkById', () => {
   it('propaga erros que não são 404', async () => {
     requestMock.mockRejectedValue(new ApiError(500, 'erro'));
     await expect(getArtworkById('abc')).rejects.toThrow('erro');
+  });
+});
+
+describe('getDailyArtwork', () => {
+  it('busca /artworks/daily sem data quando chamada sem argumento', async () => {
+    requestMock.mockResolvedValue({ id: 'daily-1' });
+    await expect(getDailyArtwork()).resolves.toEqual({ id: 'daily-1' });
+    expect(requestMock).toHaveBeenCalledWith('/artworks/daily', { date: undefined });
+  });
+
+  it('repassa a data quando fornecida (uso de teste/verificação)', async () => {
+    requestMock.mockResolvedValue({ id: 'daily-2' });
+    await getDailyArtwork('2026-08-23');
+    expect(requestMock).toHaveBeenCalledWith('/artworks/daily', { date: '2026-08-23' });
   });
 });
 

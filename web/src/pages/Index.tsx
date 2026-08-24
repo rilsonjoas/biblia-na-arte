@@ -5,6 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import ArtworkCard, { ArtworkCardSkeleton } from '@/components/ArtworkCard';
+import { PinturaDoDia } from '@/components/PinturaDoDia';
 import { SEO } from '@/components/SEO';
 import { ErrorCard } from '@/components/ui/error-display';
 import { useFeaturedArtworks } from '@/hooks/use-artworks';
@@ -96,6 +97,8 @@ export default function Index() {
           </div>
         </div>
       </section>
+
+      <PinturaDoDia />
 
       {/* Navigation Cards */}
       <section className="py-20 bg-background">
