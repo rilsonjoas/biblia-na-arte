@@ -1,9 +1,10 @@
 import type { FastifyInstance } from 'fastify';
 import { zodToJsonSchema } from 'zod-to-json-schema';
-import { listArtworks, getArtworkById, getRandomArtwork, searchArtworks } from '../db/queries.js';
+import { listArtworks, getArtworkById, getRandomArtwork, getDailyArtwork, searchArtworks } from '../db/queries.js';
 import {
   listArtworksQuerySchema,
   searchArtworksQuerySchema,
+  dailyArtworkQuerySchema,
 } from '../schemas/artwork.schema.js';
 import { idParamSchema } from '../schemas/common.schema.js';
 import {
@@ -25,6 +26,10 @@ const searchQueryJson = zodToJsonSchema(searchArtworksQuerySchema, {
   allowedAdditionalProperties: true,
 });
 const idParamJson = zodToJsonSchema(idParamSchema, {
+  $refStrategy: 'none',
+  allowedAdditionalProperties: true,
+});
+const dailyQueryJson = zodToJsonSchema(dailyArtworkQuerySchema, {
   $refStrategy: 'none',
   allowedAdditionalProperties: true,
 });
@@ -88,6 +93,31 @@ export async function artworkRoutes(app: FastifyInstance) {
     async () => {
       const artwork = await getRandomArtwork();
       if (!artwork) throw new NotFoundError('Obra');
+      return artwork;
+    },
+  );
+
+  app.get(
+    '/artworks/daily',
+    {
+      schema: {
+        tags: ['obras'],
+        summary: '"Pintura do Dia" — mesma obra pra todo mundo, muda à meia-noite UTC',
+        description:
+          'Sorteio determinístico (hash da data) sobre o acervo ativo inteiro — mesmo algoritmo de seleção diária usado no Lecionário e no Gerador C.S. Lewis, mas independente: não tenta mostrar a mesma obra que aparece nesses outros projetos no mesmo dia.',
+        querystring: dailyQueryJson,
+        response: { 200: artworkJson, 404: errorJson },
+      },
+    },
+    async (request, reply) => {
+      const { date } = dailyArtworkQuerySchema.parse(request.query);
+      const dateStr = date ?? new Date().toISOString().slice(0, 10);
+      const artwork = await getDailyArtwork(dateStr);
+      if (!artwork) throw new NotFoundError('Obra');
+      // Cache curto — o resultado só muda 1x por dia, mas 1h de folga
+      // evita recalcular a cada acesso sem arriscar servir o dia errado
+      // logo depois da virada.
+      reply.header('Cache-Control', 'public, max-age=3600, stale-while-revalidate=300');
       return artwork;
     },
   );

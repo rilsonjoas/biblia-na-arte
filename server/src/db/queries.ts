@@ -101,6 +101,55 @@ export async function getRandomArtwork(): Promise<ArtworkWithReferences | undefi
   return withRefs;
 }
 
+/** Mesmo algoritmo de hash de data usado no Lecionário e no Gerador C.S.
+ *  Lewis (getDateSeed em lecionario-web/src/lib/artwork-fetcher.ts e
+ *  citação do dia) — replicado aqui de propósito pra manter o mesmo
+ *  padrão de "seleção diária determinística" em todo o cluster Design
+ *  Narniano, não é código compartilhado (cada projeto já duplica essa
+ *  função por conta própria, ver comentário do artwork-fetcher.ts).
+ *  Decisão consciente 2026-08-23: NÃO tenta replicar a mesma obra que o
+ *  Lecionário mostra no mesmo dia (lá a escolha depende da leitura
+ *  litúrgica do dia, que a Bíblia na Arte não tem) — é um sorteio
+ *  independente sobre o acervo inteiro, mesmo algoritmo, resultado
+ *  diferente por design. */
+function getDateSeed(dateStr: string): number {
+  let hash = 0;
+  for (let i = 0; i < dateStr.length; i++) {
+    hash = (hash << 5) - hash + dateStr.charCodeAt(i);
+    hash |= 0;
+  }
+  return Math.abs(hash);
+}
+
+/** "Pintura do Dia" — mesma obra pra todo mundo que visitar no mesmo dia
+ *  (UTC), muda à meia-noite. Ordena por id (UUID) pra ter uma ordem
+ *  estável entre chamadas — sem isso, `seed % total` apontaria pra uma
+ *  obra diferente a cada vez mesmo com o mesmo seed, porque a ordem
+ *  "natural" das linhas no Postgres não é garantida entre queries. */
+export async function getDailyArtwork(dateStr: string): Promise<ArtworkWithReferences | undefined> {
+  const [countRow] = await db
+    .select({ count: sql<number>`count(*)::int` })
+    .from(artworks)
+    .where(eq(artworks.active, true));
+  const count = countRow?.count ?? 0;
+  if (!count) return undefined;
+
+  const seed = getDateSeed(dateStr);
+  const offset = seed % count;
+
+  const [row] = await db
+    .select()
+    .from(artworks)
+    .where(eq(artworks.active, true))
+    .orderBy(artworks.id)
+    .limit(1)
+    .offset(offset);
+  if (!row) return undefined;
+
+  const [withRefs] = await attachReferences([row]);
+  return withRefs;
+}
+
 /** Usa a função search_artworks() (full-text search em português, com
  *  ranking) definida em db/custom-sql/functions.sql — SQL puro, não dá
  *  pra expressar ts_rank no query builder do Drizzle de forma limpa.

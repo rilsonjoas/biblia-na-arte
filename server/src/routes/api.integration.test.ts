@@ -162,6 +162,29 @@ describe('API v1 — integração (Postgres real de teste)', () => {
     expect(Array.isArray(body.references)).toBe(true);
   });
 
+  it('"Pintura do Dia" — mesma data sempre devolve a mesma obra (determinístico)', async () => {
+    const res1 = await app.inject({ method: 'GET', url: '/api/v1/artworks/daily?date=2026-08-23' });
+    const res2 = await app.inject({ method: 'GET', url: '/api/v1/artworks/daily?date=2026-08-23' });
+    expect(res1.statusCode).toBe(200);
+    expect(res2.statusCode).toBe(200);
+    const body1 = res1.json();
+    const body2 = res2.json();
+    expect(body1.id).toBe(body2.id);
+    expect(['O bom samaritano', 'O filho pródigo']).toContain(body1.title);
+    expect(Array.isArray(body1.references)).toBe(true);
+  });
+
+  it('"Pintura do Dia" — sem ?date usa a data de hoje e responde 200', async () => {
+    const res = await app.inject({ method: 'GET', url: '/api/v1/artworks/daily' });
+    expect(res.statusCode).toBe(200);
+    expect(res.json().id).toBeDefined();
+  });
+
+  it('"Pintura do Dia" — 400 pra data em formato inválido', async () => {
+    const res = await app.inject({ method: 'GET', url: '/api/v1/artworks/daily?date=23-08-2026' });
+    expect(res.statusCode).toBe(400);
+  });
+
   it('filtra por livro + capítulo (base da futura página de capítulo)', async () => {
     const res = await app.inject({ method: 'GET', url: '/api/v1/artworks?bookSlug=luke&chapter=10' });
     expect(res.statusCode).toBe(200);

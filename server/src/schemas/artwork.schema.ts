@@ -20,5 +20,16 @@ export const searchArtworksQuerySchema = z.object({
   limit: z.coerce.number().int().min(1).max(50).default(20),
 });
 
+// `date` opcional só existe pra permitir testar/verificar a escolha de um
+// dia específico sem esperar a virada — o uso normal (sem query param)
+// usa a data UTC do servidor no momento da chamada.
+export const dailyArtworkQuerySchema = z.object({
+  date: z
+    .string()
+    .regex(/^\d{4}-\d{2}-\d{2}$/, 'use o formato YYYY-MM-DD')
+    .optional(),
+});
+
 export type ListArtworksQuery = z.infer<typeof listArtworksQuerySchema>;
 export type SearchArtworksQuery = z.infer<typeof searchArtworksQuerySchema>;
+export type DailyArtworkQuery = z.infer<typeof dailyArtworkQuerySchema>;
