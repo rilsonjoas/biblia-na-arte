@@ -96,6 +96,16 @@ const EXCLUDED_ARTISTS = new Set([
   'Nobleheart', // achado 2026-08-08, mesmo perfil dos outros contemporâneos
 ]);
 
+// Comparação normalizada (sem acento, sem caixa) — achado real 2026-08-23:
+// "Kim Ki-chang" (excluído, autor falecido/protegido) e "Kim Ki-Chang" (nota
+// diferente, "C" maiúsculo) são o MESMO artista pro humano, mas
+// EXCLUDED_ARTISTS.has() faz comparação exata de string — a variante com
+// capitalização diferente passava batido e ficava exposta em produção.
+// Mesma classe de bug já achada em data-fixes.sql (2ª obra da Sylwia
+// Perczak) — nome de artista digitado de forma levemente diferente entre
+// notas do vault não pode depender de bater caractere por caractere.
+const EXCLUDED_ARTISTS_NORMALIZED = new Set([...EXCLUDED_ARTISTS].map(normalizeForComparison));
+
 /** Nomes que, depois de resolvidos (frontmatter ou fallback pelo nome do
  * arquivo), indicam "sem autor identificado" — tratado como allowlist, não
  * blocklist: por padrão TODA pintura de autor desconhecido fica de fora,
@@ -219,7 +229,7 @@ async function main() {
       continue;
     }
 
-    if (EXCLUDED_ARTISTS.has(artist)) {
+    if (EXCLUDED_ARTISTS_NORMALIZED.has(normalizeForComparison(artist))) {
       skipped.push({ file, reason: `artista excluído: ${artist}` });
       continue;
     }

@@ -11052,14 +11052,16 @@
       "artistOrDirector": "James Tissot",
       "year": "1896",
       "category": "painting",
-      "description": "O episódio do faraó com as parteiras (Êxodo 1:15-21) ocorre durante o período de escravidão dos israelitas no Egito. Temendo o crescimento numérico do povo hebreu, o faraó ordenou às parteiras Sifrá e Puá que matassem todos os meninos hebreus ao nascer. Contudo, as parteiras, que temiam a Deus, desobedeceram à ordem do faraó e pouparam as crianças, justificando-se ao rei dizendo que as mulheres hebreias davam à luz antes que elas chegassem. Deus abençoou as parteiras por sua coragem e fidelidade, concedendo-lhes famílias como recompensa (Êxodo 1:20-21). Esse ato de resistência revelou a soberania de Deus, que protegeu o povo de Israel e continuou cumprindo Sua promessa de multiplicar sua descendência, preparando o cenário para o nascimento de Moisés.",
+      "description": "Aquarela de **James Tissot** (1836–1902), pertencente ao seu ciclo do Antigo Testamento, *La Sainte Bible* (produzido entre 1896 e a morte do artista em 1902), retratando o episódio das parteiras hebreias que desobedecem ao faraó. Como em toda a série — e também na anterior, dedicada à vida de Cristo —, Tissot buscou reconstituir o cenário com precisão arqueológica baseada em suas viagens ao Egito e à Terra Santa: trajes, arquitetura e composição corporal das figuras seguem referências que ele coletou pessoalmente, não convenção artística europeia genérica.\n\nO episódio ocorre durante o período de escravidão dos israelitas no Egito. Temendo o crescimento numérico do povo hebreu, o faraó ordenou às parteiras Sifrá e Puá que matassem todos os meninos hebreus ao nascer. As parteiras, que temiam a Deus, desobedeceram e pouparam as crianças, justificando-se ao rei dizendo que as mulheres hebreias davam à luz antes que elas chegassem.",
       "imageFile": "james-tissot-o-farao-e-as-parteiras.webp",
       "licenseType": "public-domain",
       "references": [
         {
           "book": "Êxodo",
           "bookSlug": "exodus",
-          "chapter": 1
+          "chapter": 1,
+          "verses": "15-16",
+          "passageText": "\"Falou o rei do Egito às parteiras das hebréias, das quais uma se chamava Sifrá e a outra Puá, dizendo: Quando ajudardes no parto as hebréias... se for filho, matá-lo-eis; mas se for filha, viverá.\"\n— **Êxodo 1:15-16**\n\n\"As parteiras, porém, temeram a Deus e não fizeram como o rei do Egito lhes ordenara, antes conservavam os meninos com vida.\"\n— **Êxodo 1:17**\n\n\"Portanto Deus fez bem às parteiras. E o povo se aumentou, e se fortaleceu muito.\"\n— **Êxodo 1:20**"
         }
       ]
     },
@@ -12846,16 +12848,6 @@
           "chapter": 14
         }
       ]
-    },
-    {
-      "slug": "kim-ki-chang-natal",
-      "title": "Natal",
-      "artistOrDirector": "Kim Ki-Chang",
-      "category": "painting",
-      "description": "Natal, de Kim Ki-Chang.",
-      "imageFile": "kim-ki-chang-natal.webp",
-      "licenseType": "public-domain",
-      "references": []
     },
     {
       "slug": "kiyoshi-yamashita-fogos-de-artificio",
@@ -19437,5 +19429,5 @@
       "references": []
     }
   ],
-  "exportedAt": "2026-08-23T23:48:49.713Z"
+  "exportedAt": "2026-08-24T00:13:39.759Z"
 }
