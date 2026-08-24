@@ -1041,7 +1041,14 @@
       "imageFile": "anna-lea-merritt-eva.webp",
       "licenseType": "public-domain",
       "location": "Acervo de Arte Sacra — Anna Lea Merritt",
-      "references": []
+      "references": [
+        {
+          "book": "Gênesis",
+          "bookSlug": "genesis",
+          "chapter": 3,
+          "verses": "1-6"
+        }
+      ]
     },
     {
       "slug": "annibale-carracci-compaixao-pieta",
@@ -2192,7 +2199,14 @@
       "imageFile": "caravaggio-a-morte-da-virgem.webp",
       "licenseType": "public-domain",
       "location": "Galleria Borghese, Roma, Itália",
-      "references": []
+      "references": [
+        {
+          "book": "Atos",
+          "bookSlug": "acts",
+          "chapter": 1,
+          "verses": "14"
+        }
+      ]
     },
     {
       "slug": "caravaggio-agonia-no-monte-das-oliveiras",
@@ -3113,7 +3127,13 @@
       "imageFile": "dante-gabriel-rossetti-lady-lilith.webp",
       "licenseType": "public-domain",
       "location": "Acervo de Arte Sacra — Dante Gabriel Rossetti",
-      "references": []
+      "references": [
+        {
+          "book": "Isaías",
+          "bookSlug": "isaiah",
+          "chapter": 34
+        }
+      ]
     },
     {
       "slug": "daphne-stephenson-eu-sou-o-caminho-a-verdade-e-a-vida",
@@ -3779,7 +3799,14 @@
       "imageFile": "edward-armitage-o-banquete-de-ester.webp",
       "licenseType": "public-domain",
       "location": "Acervo de Arte Sacra — Edward Armitage",
-      "references": []
+      "references": [
+        {
+          "book": "Ester",
+          "bookSlug": "esther",
+          "chapter": 7,
+          "verses": "1-6"
+        }
+      ]
     },
     {
       "slug": "edward-middleton-manigault-cristo-aparecendo-a-maria-madalena",
@@ -3951,7 +3978,14 @@
       "imageFile": "el-greco-pedro-e-paulo.webp",
       "licenseType": "public-domain",
       "location": "Museo del Prado, Madri, Espanha",
-      "references": []
+      "references": [
+        {
+          "book": "Gálatas",
+          "bookSlug": "galatians",
+          "chapter": 2,
+          "verses": "11-14"
+        }
+      ]
     },
     {
       "slug": "el-greco-pedro-em-lagrimas",
@@ -4134,7 +4168,14 @@
       "imageFile": "eugene-grasset-a-cozinha-dos-anjos.webp",
       "licenseType": "public-domain",
       "location": "Acervo de Arte Sacra — Eugene Grasset",
-      "references": []
+      "references": [
+        {
+          "book": "Salmos",
+          "bookSlug": "psalms",
+          "chapter": 91,
+          "verses": "11-12"
+        }
+      ]
     },
     {
       "slug": "eugene-buland-cristo-com-maria-e-marta",
@@ -4339,7 +4380,13 @@
       "imageFile": "eugene-siberdt-martinho-lutero-traduzindo-a-biblia.webp",
       "licenseType": "public-domain",
       "location": "Acervo de Arte Sacra — Eugène Siberdt",
-      "references": []
+      "references": [
+        {
+          "book": "Salmos",
+          "bookSlug": "psalms",
+          "chapter": 119
+        }
+      ]
     },
     {
       "slug": "eugene-siberdt-o-profeta-nata-confronta-o-rei-davi",
@@ -5227,7 +5274,14 @@
       "imageFile": "frederick-george-swaish-a-ceia-em-emaus.webp",
       "licenseType": "public-domain",
       "location": "National Gallery, Londres, Reino Unido",
-      "references": []
+      "references": [
+        {
+          "book": "Lucas",
+          "bookSlug": "luke",
+          "chapter": 24,
+          "verses": "28-32"
+        }
+      ]
     },
     {
       "slug": "frederik-van-valckenborch-cristo-andando-sobre-o-mar-da-galileia",
@@ -5381,7 +5435,14 @@
       "imageFile": "fritz-von-uhde-caminhando-para-emaus.webp",
       "licenseType": "public-domain",
       "location": "National Gallery, Londres, Reino Unido",
-      "references": []
+      "references": [
+        {
+          "book": "Lucas",
+          "bookSlug": "luke",
+          "chapter": 24,
+          "verses": "13-27"
+        }
+      ]
     },
     {
       "slug": "10-arte-e-literatura-autores-fritz-von-uhde-cristo-e-nicodemos",
@@ -5537,7 +5598,14 @@
       "imageFile": "gao-di-an-jesus-recitando-uma-licao.webp",
       "licenseType": "public-domain",
       "location": "Acervo de Arte Sacra — Gao Di'an",
-      "references": []
+      "references": [
+        {
+          "book": "Lucas",
+          "bookSlug": "luke",
+          "chapter": 2,
+          "verses": "46-47"
+        }
+      ]
     },
     {
       "slug": "gebhard-fugel-cristo-e-os-leprosos",
@@ -8552,7 +8620,15 @@
       "imageFile": "gustave-dore-paulo-pregando-aos-tessalonicenses.webp",
       "licenseType": "public-domain",
       "location": "Gravura original — La Sainte Bible (1866)",
-      "references": []
+      "references": [
+        {
+          "book": "Atos",
+          "bookSlug": "acts",
+          "chapter": 17,
+          "verses": "1-4",
+          "passageText": "\"E Paulo, como tinha por costume, foi ter com eles; e por três sábados disputou com eles sobre as Escrituras.\""
+        }
+      ]
     },
     {
       "slug": "gustave-dore-paulo-e-liberto-da-prisao",
@@ -9558,7 +9634,14 @@
       "imageFile": "hieronymus-bosch-o-jardim-das-delicias-terrenas.webp",
       "licenseType": "public-domain",
       "location": "Museo del Prado, Madri, Espanha",
-      "references": []
+      "references": [
+        {
+          "book": "Gênesis",
+          "bookSlug": "genesis",
+          "chapter": 1,
+          "verses": "26-31"
+        }
+      ]
     },
     {
       "slug": "hieronymus-bosch-os-7-pecados-mortais-e-as-4-ultimas-coisas",
@@ -9632,7 +9715,13 @@
       "imageFile": "ilya-glazunov-russia-eterna.webp",
       "licenseType": "public-domain",
       "location": "Acervo de Arte Sacra — Ilya Glazunov",
-      "references": []
+      "references": [
+        {
+          "book": "Hebreus",
+          "bookSlug": "hebrews",
+          "chapter": 12
+        }
+      ]
     },
     {
       "slug": "ilya-repin-a-ressurreicao-da-filha-de-jairo",
@@ -9700,7 +9789,14 @@
       "imageFile": "ilya-repin-jo-e-seus-amigos.webp",
       "licenseType": "public-domain",
       "location": "Acervo de Arte Sacra — Ilya Repin",
-      "references": []
+      "references": [
+        {
+          "book": "Jó",
+          "bookSlug": "job",
+          "chapter": 2,
+          "passageText": "\"Vieram três amigos de Jó... e ficaram sentados com ele na terra, sete dias e sete noites; e nenhum lhe dizia palavra alguma, porque viam que a dor era muito grande.\""
+        }
+      ]
     },
     {
       "slug": "irma-martin-as-tres-mulheres-no-tumulo-de-cristo",
@@ -9885,7 +9981,15 @@
       "imageFile": "j-c-leyendecker-lune-de-miel.webp",
       "licenseType": "public-domain",
       "location": "Acervo de Arte Sacra — J. C. Leyendecker",
-      "references": []
+      "references": [
+        {
+          "book": "Gênesis",
+          "bookSlug": "genesis",
+          "chapter": 2,
+          "verses": "24",
+          "passageText": "\"Põe-me como selo sobre o teu coração, como selo sobre o teu braço; porque o amor é forte como a morte, a paixão é implacável como o Sheol.\""
+        }
+      ]
     },
     {
       "slug": "jacob-jordaens-a-fuga-de-lo-e-sua-familia-de-sodoma",
@@ -11706,7 +11810,14 @@
       "imageFile": "jan-van-eyck-adoracao-do-cordeiro-mistico-detalhe-do-espirito-santo.webp",
       "licenseType": "public-domain",
       "location": "Acervo de Arte Sacra — Jan van Eyck",
-      "references": []
+      "references": [
+        {
+          "book": "Apocalipse",
+          "bookSlug": "revelation",
+          "chapter": 5,
+          "passageText": "\"E do trono procediam relâmpagos, e trovões, e vozes; e diante do trono ardiam sete lâmpadas de fogo, as quais são os sete espíritos de Deus.\""
+        }
+      ]
     },
     {
       "slug": "jan-van-eyck-o-julgamento-final",
@@ -11719,7 +11830,14 @@
       "imageFile": "jan-van-eyck-o-julgamento-final.webp",
       "licenseType": "public-domain",
       "location": "Metropolitan Museum of Art, Nova York, EUA",
-      "references": []
+      "references": [
+        {
+          "book": "Apocalipse",
+          "bookSlug": "revelation",
+          "chapter": 20,
+          "verses": "11-15"
+        }
+      ]
     },
     {
       "slug": "jean-colombe-primeiro-dia-da-criacao",
@@ -12714,7 +12832,14 @@
       "imageFile": "jusepe-de-ribera-sao-pedro-e-sao-paulo.webp",
       "licenseType": "public-domain",
       "location": "Acervo de Arte Sacra — Jusepe de Ribera",
-      "references": []
+      "references": [
+        {
+          "book": "Gálatas",
+          "bookSlug": "galatians",
+          "chapter": 2,
+          "verses": "11-14"
+        }
+      ]
     },
     {
       "slug": "karel-du-jardin-paulo-cura-o-aleijado-em-listra",
@@ -12747,7 +12872,14 @@
       "imageFile": "kiyoshi-yamashita-fogos-de-artificio.webp",
       "licenseType": "public-domain",
       "location": "Acervo de Arte Sacra — Kiyoshi Yamashita",
-      "references": []
+      "references": [
+        {
+          "book": "Salmos",
+          "bookSlug": "psalms",
+          "chapter": 19,
+          "verses": "1"
+        }
+      ]
     },
     {
       "slug": "konstantin-flavitsky-a-filha-do-farao-encontra-o-menino-moises",
@@ -12915,7 +13047,19 @@
       "imageFile": "leah-mitchell-uma-alegoria-de-eva-e-maria.webp",
       "licenseType": "public-domain",
       "location": "Acervo de Arte Sacra — Leah Mitchell",
-      "references": []
+      "references": [
+        {
+          "book": "Lucas",
+          "bookSlug": "luke",
+          "chapter": 1,
+          "verses": "35-38"
+        },
+        {
+          "book": "Gênesis",
+          "bookSlug": "genesis",
+          "chapter": 3
+        }
+      ]
     },
     {
       "slug": "leonardo-da-vinci-a-anunciacao",
@@ -13645,7 +13789,14 @@
       "imageFile": "mestre-andre-capela-da-santa-trindade.webp",
       "licenseType": "public-domain",
       "location": "Acervo de Arte Sacra — Mestre André",
-      "references": []
+      "references": [
+        {
+          "book": "Mateus",
+          "bookSlug": "matthew",
+          "chapter": 28,
+          "passageText": "\"Há um só corpo e um só Espírito, como também fostes chamados em uma só esperança da vossa vocação; um só Senhor, uma só fé, um só batismo.\""
+        }
+      ]
     },
     {
       "slug": "michael-rieser-a-noite-antes-do-nascimento-de-cristo",
@@ -14332,7 +14483,14 @@
       "imageFile": "peter-brown-natal.webp",
       "licenseType": "public-domain",
       "location": "Acervo de Arte Sacra — Peter Brown",
-      "references": []
+      "references": [
+        {
+          "book": "Lucas",
+          "bookSlug": "luke",
+          "chapter": 2,
+          "verses": "1-14"
+        }
+      ]
     },
     {
       "slug": "peter-paul-rubens-a-conversao-de-sao-paulo",
@@ -15219,7 +15377,15 @@
       "imageFile": "pieter-de-grebber-o-profeta-elias-rejeita-os-presentes-de-naama.webp",
       "licenseType": "public-domain",
       "location": "Acervo de Arte Sacra — Pieter de Grebber",
-      "references": []
+      "references": [
+        {
+          "book": "2 Reis",
+          "bookSlug": "2-kings",
+          "chapter": 5,
+          "verses": "15-16",
+          "passageText": "\"Mas ele disse: Vive o Senhor, em cuja presença estou, que o não aceitarei. E instou com ele, para que o aceitasse, mas ele recusou.\""
+        }
+      ]
     },
     {
       "slug": "pietro-di-giovanni-d-ambrogio-entrada-de-cristo-em-jerusalem",
@@ -16518,7 +16684,15 @@
       "imageFile": "sedrick-huckaby-as-maos-dela-sobre-a-palavra.webp",
       "licenseType": "public-domain",
       "location": "Acervo de Arte Sacra — Sedrick Huckaby",
-      "references": []
+      "references": [
+        {
+          "book": "Salmos",
+          "bookSlug": "psalms",
+          "chapter": 119,
+          "verses": "105",
+          "passageText": "\"Lâmpada para os meus pés é tua palavra, e luz para o meu caminho.\""
+        }
+      ]
     },
     {
       "slug": "sigmundt-bergk-a-entrada-em-jerusalem",
@@ -17697,7 +17871,13 @@
       "imageFile": "vincent-van-gogh-natureza-morta-com-a-biblia.webp",
       "licenseType": "public-domain",
       "location": "Acervo de Arte Sacra — Vincent Van Gogh",
-      "references": []
+      "references": [
+        {
+          "book": "Isaías",
+          "bookSlug": "isaiah",
+          "chapter": 53
+        }
+      ]
     },
     {
       "slug": "vladimir-borovikovsky-joao-o-evangelista",
@@ -18021,7 +18201,14 @@
       "imageFile": "william-blake-the-ancient-of-days.webp",
       "licenseType": "public-domain",
       "location": "British Museum, Londres, Reino Unido",
-      "references": []
+      "references": [
+        {
+          "book": "Daniel",
+          "bookSlug": "daniel",
+          "chapter": 7,
+          "verses": "9-10"
+        }
+      ]
     },
     {
       "slug": "william-dyce-homem-de-sofrimentos",
@@ -19222,5 +19409,5 @@
       ]
     }
   ],
-  "exportedAt": "2026-08-24T03:17:08.662Z"
+  "exportedAt": "2026-08-24T09:25:36.298Z"
 }

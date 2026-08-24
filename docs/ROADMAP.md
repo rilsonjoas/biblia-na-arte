@@ -47,6 +47,7 @@ engenharia, conteúdo e SEO.
       rotas Fastify via `app.inject()` com Postgres de teste (Docker).
 - [x] **Testes no web** (Vitest): `lib/utils`, mappers de `lib/api-data`,
       componentes críticos (ArtworkCard, referências).
+- [x] **Expansão de cobertura de testes (2026-08-24)**: 19 suítes (5 server / 14 web, 128 testes 100% passando) cobrindo rotas Fastify (artists.ts, bible-books.ts) e componentes Web (ArtworkLightbox, CommandPalette, ArtworkImage, SEO).
 - [x] **CI GitHub Actions**: `lint + typecheck + test` em todo PR;
       `pnpm audit --audit-level=high` (scan de dependências); build dos dois
       pacotes; Postgres service container pros testes de integração.
