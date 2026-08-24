@@ -302,12 +302,12 @@ export default function ArtworkDetail() {
                 </Badge>
 
                 {artwork.licenseType === 'public-domain' ? (
-                  <Badge variant="outline" className="text-xs text-muted-foreground border-border bg-muted/50 gap-1">
+                  <Badge variant="outline" className="gap-1.5 px-2.5 py-1 text-xs text-muted-foreground border-border bg-muted/50">
                     <ShieldCheck className="w-3.5 h-3.5" />
                     <span>Domínio Público</span>
                   </Badge>
                 ) : (
-                  <Badge variant="outline" className="text-xs text-muted-foreground border-border bg-muted/50 gap-1">
+                  <Badge variant="outline" className="gap-1.5 px-2.5 py-1 text-xs text-muted-foreground border-border bg-muted/50">
                     <Info className="w-3.5 h-3.5" />
                     <span>Licenciado</span>
                   </Badge>
