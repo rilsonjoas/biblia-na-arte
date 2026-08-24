@@ -150,6 +150,11 @@ const EXCLUDED_NON_BIBLICAL_FILENAMES = new Set([
   'Vincent Van Gogh - A Amoreira (The Mulberry Tree).md',
   'Vincent Van Gogh - Celebração.md',
   'Vincent Van Gogh - Paisagem com casas.md',
+  // Achado 2026-08-23, checagem do relatório de qualidade: "Os espíritos em
+  // Júpiter" não é bíblico — a própria nota diz "A divina comédia" na
+  // Descrição. É a ilustração de Doré pro Paradiso de Dante (Canto XVIII-XX,
+  // Céu de Júpiter/"Spiriti in Giove"), não uma cena das Escrituras.
+  'Gustave Doré - Os espíritos em Júpiter (Os espíritos em Júpiter).md',
 ]);
 
 /** Autor -> { licença, texto de atribuição } pra quem não é domínio

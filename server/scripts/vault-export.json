@@ -5502,13 +5502,13 @@
       ]
     },
     {
-      "slug": "fritz-von-uhde-caminhando-para-emaus-fritz-von-uhde-caminhando-para-emaus-caminhando-para-emaus",
+      "slug": "fritz-von-uhde-caminhando-para-emaus",
       "title": "Caminhando para Emaús",
-      "artistOrDirector": "Fritz von Uhde - Caminhando para Emaús|Fritz von Uhde - Caminhando para Emaús",
+      "artistOrDirector": "Fritz von Uhde",
       "year": "1891",
       "category": "painting",
-      "description": "Caminhando para Emaús, de Fritz von Uhde - Caminhando para Emaús|Fritz von Uhde - Caminhando para Emaús.",
-      "imageFile": "fritz-von-uhde-caminhando-para-emaus-fritz-von-uhde-caminhando-para-emaus-caminhando-para-emaus.webp",
+      "description": "Caminhando para Emaús, de Fritz von Uhde.",
+      "imageFile": "fritz-von-uhde-caminhando-para-emaus.webp",
       "licenseType": "public-domain",
       "references": []
     },
@@ -8508,16 +8508,6 @@
       ]
     },
     {
-      "slug": "gustave-dore-os-espiritos-em-jupiter",
-      "title": "Os espíritos em Júpiter",
-      "artistOrDirector": "Gustave Doré",
-      "category": "painting",
-      "description": "A divina comédia",
-      "imageFile": "gustave-dore-os-espiritos-em-jupiter.webp",
-      "licenseType": "public-domain",
-      "references": []
-    },
-    {
       "slug": "gustave-dore-os-filhos-de-israel-cruzando-o-jordao",
       "title": "Os filhos de Israel cruzando o Jordão",
       "subtitle": "The Children of Israel Crossing Jordan",
@@ -10782,14 +10772,16 @@
       "artistOrDirector": "James Tissot",
       "year": "1896",
       "category": "painting",
-      "description": "O episódio em que Jacó engana Isaque (Gênesis 27:1-40) ocorre quando Isaque, já idoso e com a visão debilitada, decide abençoar seu filho Esaú, o primogênito, antes de morrer. Ele pede que Esaú vá caçar e prepare uma refeição saborosa para ele, como condição para receber a bênção. No entanto, Rebeca, esposa de Isaque e mãe de Jacó e Esaú, ouve a conversa e trama com Jacó para enganar Isaque. Ela instrui Jacó a se disfarçar como Esaú, cobrindo-se com peles de animais para imitar o aspecto peludo de seu irmão. Jacó segue o plano, levando a comida preparada por sua mãe, e engana Isaque, que, embora desconfiado, acaba abençoando Jacó, acreditando ser Esaú. Quando Esaú retorna e descobre a traição, fica furioso, e Jacó foge para evitar a ira de seu irmão. Esse episódio é um marco na história de Jacó, mostrando sua habilidade de enganar, mas também as consequências do engano, pois a divisão familiar e o conflito entre os irmãos são intensificados.",
+      "description": "Aquarela de **James Tissot** (1836–1902), pertencente ao seu ciclo do Antigo Testamento, *La Sainte Bible*, retratando o momento em que Jacó, disfarçado com peles de animais para imitar a pele peluda de Esaú, apresenta a Isaque, já idoso e cego, a caça que a mãe dos dois, Rebeca, preparara.\n\nO episódio (Gênesis 27:1-40) ocorre quando Isaque, decidido a abençoar Esaú, seu primogênito, antes de morrer, pede que ele vá caçar e prepare uma refeição como condição para a bênção. Rebeca ouve a conversa e trama com Jacó para enganar Isaque, instruindo-o a se disfarçar de Esaú. Jacó segue o plano e engana o pai, que, embora desconfiado, acaba abençoando-o por acreditar ser Esaú. Quando Esaú retorna e descobre a traição, fica furioso, e Jacó foge para evitar sua ira — um marco na história de Jacó que mostra tanto sua habilidade de enganar quanto as consequências duradouras do engano na divisão familiar.",
       "imageFile": "james-tissot-jaco-engana-a-isaque.webp",
       "licenseType": "public-domain",
       "references": [
         {
           "book": "Gênesis",
           "bookSlug": "genesis",
-          "chapter": 27
+          "chapter": 27,
+          "verses": "19",
+          "passageText": "\"Respondeu Jacó a seu pai: Eu sou Esaú, teu primogênito; tenho feito como me disseste; levanta-te, pois, senta-te e come da minha caça, para que a tua alma me abençoe.\"\n— **Gênesis 27:19**\n\n\"No entanto perguntou: Tu és mesmo meu filho Esaú? E ele declarou: Eu o sou.\"\n— **Gênesis 27:24**\n\n\"Respondeu Isaque: Veio teu irmão e com sutileza tomou a tua bênção.\"\n— **Gênesis 27:35**"
         }
       ]
     },
@@ -10798,14 +10790,16 @@
       "title": "Jacó vê Esaú vindo ao seu encontro",
       "artistOrDirector": "James Tissot",
       "category": "painting",
-      "description": "A pintura \"Jacó vê Esaú vindo ao seu encontro\" de James Tissot retrata a cena bíblica do encontro entre os irmãos Jacó e Esaú, conforme descrito em Gênesis 33:1-17. Na imagem, Jacó está em primeiro plano, de pé, com uma mão sobre os olhos para enxergar melhor e a outra segurando um cajado, enquanto observa a aproximação de Esaú e seu grupo ao longe. Ao redor de Jacó, seus familiares e servos estão sentados ou ajoelhados, alguns em atitude de oração ou preocupação. A paisagem ao fundo mostra colinas e um vale, sugerindo a vastidão do deserto. Esta pintura é interessante e relevante por capturar o momento de tensão e expectativa antes do reencontro dos irmãos, que haviam se separado em circunstâncias conflituosas anos antes.",
+      "description": "Aquarela de **James Tissot** (1836–1902), da série *La Sainte Bible*, retratando o momento de tensão e expectativa antes do reencontro entre Jacó e Esaú (Gênesis 33:1-17), separados havia anos em circunstâncias conflituosas — o engano da bênção retratado na aquarela anterior da série. Jacó está em primeiro plano, de pé, com uma mão sobre os olhos para enxergar melhor e a outra segurando um cajado, observando a aproximação de Esaú e seu grupo ao longe; ao redor dele, familiares e servos estão sentados ou ajoelhados, em atitude de oração ou preocupação, enquanto a paisagem de colinas e vale ao fundo sugere a vastidão do deserto.",
       "imageFile": "james-tissot-jaco-ve-esau-vindo-ao-seu-encontro.webp",
       "licenseType": "public-domain",
       "references": [
         {
           "book": "Gênesis",
           "bookSlug": "genesis",
-          "chapter": 33
+          "chapter": 33,
+          "verses": "1",
+          "passageText": "\"Levantou Jacó os olhos, e olhou, e eis que vinha Esaú, e quatrocentos homens com ele.\"\n— **Gênesis 33:1**\n\n\"Então Esaú correu-lhe ao encontro, abraçou-o, lançou-se-lhe ao pescoço, e o beijou; e eles choraram.\"\n— **Gênesis 33:4**"
         }
       ]
     },
@@ -10815,14 +10809,16 @@
       "artistOrDirector": "James Tissot",
       "year": "1896",
       "category": "painting",
-      "description": "No episódio em que Jael mostra a Baraque o corpo de Sísera (Juízes 4:17-22), após a derrota dos cananeus, Sísera, o comandante do exército de Jabim, fugiu a pé e buscou refúgio na tenda de Jael, esposa de Héber, que era aliado de Jabim. Jael o recebeu com aparente hospitalidade, oferecendo-lhe leite e um lugar para descansar. Enquanto ele dormia, confiando na segurança do local, Jael usou uma estaca de tenda e a cravou em sua cabeça, matando-o. Quando Baraque chegou à procura de Sísera, Jael saiu ao seu encontro e disse: “Vem, e eu te mostrarei o homem que procuras” (Juízes 4:22). Dentro da tenda, Baraque viu o corpo de Sísera morto. O ato ousado de Jael foi celebrado no Cântico de Débora (Juízes 5:24-27), que a exalta como uma heroína usada por Deus para libertar Israel.",
+      "description": "Aquarela de **James Tissot** (1836–1902) e colaboradores de seu ateliê, da série *La Sainte Bible*, retratando o desfecho da batalha entre Israel e o exército cananeu de Jabim: Jael, esposa de Héber, o queneu, mostrando a Baraque o corpo de Sísera, comandante inimigo morto dentro de sua própria tenda.\n\nO episódio (Juízes 4:17-22) ocorre após a derrota dos cananeus, quando Sísera foge a pé e busca refúgio na tenda de Jael, aliada por tratado de Jabim. Ela o recebe com aparente hospitalidade, oferecendo-lhe leite e um lugar para descansar; enquanto ele dorme, exausto e confiante na segurança do local, Jael crava-lhe uma estaca de tenda na cabeça. Quando Baraque chega à procura de Sísera, ela sai ao seu encontro para lhe mostrar o corpo. O ato ousado de Jael é celebrado no Cântico de Débora (Juízes 5:24-27), que a exalta como heroína usada por Deus para libertar Israel.",
       "imageFile": "james-tissot-jael-mostra-a-baraque-o-corpo-de-sisera.webp",
       "licenseType": "public-domain",
       "references": [
         {
           "book": "Juízes",
           "bookSlug": "judges",
-          "chapter": 4
+          "chapter": 4,
+          "verses": "21",
+          "passageText": "\"Então Jael, mulher de Heber, tomou uma estaca da tenda e, levando um martelo, chegou-se de mansinho a ele e lhe cravou a estaca na fonte, de sorte que penetrou na terra; pois ele estava num profundo sono e mui cansado. E assim morreu.\"\n— **Juízes 4:21**\n\n\"E eis que, seguindo Baraque a Sísera, Jael lhe saiu ao encontro e disse-lhe: Vem, e mostrar-te-ei o homem a quem procuras. Entrou ele na tenda; e eis que Sísera jazia morto, com a estaca na fonte.\"\n— **Juízes 4:22**"
         }
       ]
     },
@@ -10867,14 +10863,16 @@
       "artistOrDirector": "James Tissot",
       "year": "1896",
       "category": "painting",
-      "description": "O episódio em que José interpreta o sonho do faraó (Gênesis 41:1-37) acontece após José ser chamado da prisão para explicar os sonhos que ninguém no Egito conseguia decifrar. O faraó sonhou com sete vacas gordas sendo devoradas por sete vacas magras, e sete espigas cheias sendo consumidas por sete espigas mirradas. José, reconhecendo que a interpretação vinha de Deus, revelou que os sonhos significavam sete anos de grande fartura seguidos por sete anos de fome em toda a terra. Ele aconselhou o faraó a nomear um administrador sábio para armazenar alimentos durante os anos de abundância, garantindo sustento durante a fome. Impressionado pela sabedoria e discernimento de José, o faraó o nomeou governador do Egito, dando-lhe autoridade para implementar o plano (Gênesis 41:38-41). A interpretação e a estratégia de José salvaram o Egito e também sua família, mostrando o cumprimento dos propósitos de Deus.",
+      "description": "Aquarela de **James Tissot** (1836–1902), da série *La Sainte Bible*, retratando José diante do faraó, interpretando os sonhos que nenhum mago ou sábio egípcio conseguira decifrar.\n\nO episódio (Gênesis 41:1-37) acontece após José ser chamado da prisão para explicar os sonhos do faraó: sete vacas gordas devoradas por sete vacas magras, e sete espigas cheias consumidas por sete espigas mirradas. José, atribuindo a interpretação a Deus e não a si mesmo, revela que os sonhos significam sete anos de grande fartura seguidos por sete anos de fome em toda a terra, e aconselha o faraó a nomear um administrador sábio para armazenar alimento durante a abundância. Impressionado, o faraó nomeia o próprio José governador do Egito (Gênesis 41:38-41) — a interpretação e a estratégia de José salvam o Egito e, mais tarde, sua própria família.",
       "imageFile": "james-tissot-jose-interpreta-o-sonho-do-farao.webp",
       "licenseType": "public-domain",
       "references": [
         {
           "book": "Gênesis",
           "bookSlug": "genesis",
-          "chapter": 41
+          "chapter": 41,
+          "verses": "16",
+          "passageText": "\"E respondeu José a Faraó, dizendo: Isso não está em mim; Deus dará resposta de paz a Faraó.\"\n— **Gênesis 41:16**\n\n\"Depois disse Faraó a José: Porquanto Deus te fez saber tudo isto, ninguém há tão entendido e sábio como tu. Tu estarás sobre a minha casa, e por tua voz se governará todo o meu povo; somente no trono eu serei maior que tu.\"\n— **Gênesis 41:39-40**"
         }
       ]
     },
@@ -10983,14 +10981,16 @@
       "artistOrDirector": "James Tissot",
       "year": "1896",
       "category": "painting",
-      "description": "O episódio em que Moisés mata um egípcio (Êxodo 2:11-15) ocorre quando Moisés, já adulto, observa o sofrimento dos hebreus escravizados. Ao ver um egípcio espancando um hebreu, ele intervém e mata o egípcio, escondendo o corpo na areia. No dia seguinte, ao tentar mediar uma disputa entre dois hebreus, é confrontado por um deles, que questiona sua autoridade e revela saber sobre o assassinato. Temendo que o faraó descobrisse o ocorrido, Moisés foge para Midiã, onde começa uma nova etapa de sua vida. Esse episódio revela tanto a indignação de Moisés com a opressão de seu povo quanto sua impetuosidade, marcando o início de seu caminho como libertador escolhido por Deus (Atos 7:23-29).",
+      "description": "Aquarela de **James Tissot** (1836–1902), da série *La Sainte Bible*, retratando o momento em que Moisés, já adulto e criado na corte do faraó, intervém em favor de um hebreu escravizado.\n\nO episódio (Êxodo 2:11-15) ocorre quando Moisés, ao ver um egípcio espancando um hebreu, mata o egípcio e esconde o corpo na areia. No dia seguinte, ao tentar mediar uma disputa entre dois hebreus, é confrontado por um deles, que revela conhecer o assassinato. Temendo que o faraó descubra, Moisés foge para Midiã, onde começa uma nova etapa de sua vida — o episódio revela tanto sua indignação com a opressão do próprio povo quanto sua impetuosidade, marcando o início involuntário do caminho que o levaria a ser o libertador escolhido por Deus (Atos 7:23-29).",
       "imageFile": "james-tissot-moises-mata-um-egipcio.webp",
       "licenseType": "public-domain",
       "references": [
         {
           "book": "Êxodo",
           "bookSlug": "exodus",
-          "chapter": 2
+          "chapter": 2,
+          "verses": "11",
+          "passageText": "\"Ora, aconteceu naqueles dias que, sendo Moisés já homem, saiu a ter com seus irmãos e atentou para as suas cargas; e viu um egípcio que feria a um hebreu dentre seus irmãos.\"\n— **Êxodo 2:11**\n\n\"Olhou para um lado e para outro, e vendo que não havia ninguém ali, matou o egípcio e escondeu-o na areia.\"\n— **Êxodo 2:12**"
         }
       ]
     },
@@ -11016,14 +11016,16 @@
       "artistOrDirector": "James Tissot",
       "year": "1896",
       "category": "painting",
-      "description": "O episódio em que Moisés vê a Terra Prometida de longe (Deuteronômio 34:1-4) ocorre após a longa jornada do povo de Israel pelo deserto. Moisés, agora com 120 anos, subiu ao Monte Nebo, no território de Moabe, sob as instruções de Deus. Lá, o Senhor mostrou-lhe toda a terra que Ele havia prometido aos descendentes de Abraão, Isaque e Jacó, desde Gileade até Dã, e desde Naftali até o Negebe, incluindo a cidade de Jericó. No entanto, Deus disse a Moisés que ele não entraria na Terra Prometida, mas que a veria apenas de longe, como parte do cumprimento da Sua vontade.",
+      "description": "Aquarela de **James Tissot** (1836–1902), da série *La Sainte Bible*, retratando o momento final da vida de Moisés — sozinho no alto do Monte Nebo, contemplando a terra que jamais pisaria.\n\nO episódio (Deuteronômio 34:1-4) ocorre após a longa jornada de Israel pelo deserto: Moisés, aos 120 anos, sobe ao Monte Nebo, em Moabe, e ali o Senhor lhe mostra toda a terra prometida aos descendentes de Abraão, Isaque e Jacó, desde Gileade até Dã, e desde Naftali até o Negebe, incluindo Jericó. Deus deixa claro que Moisés não entraria na Terra Prometida — a veria apenas de longe, consequência de sua desobediência em Meribá (Números 20:12).",
       "imageFile": "james-tissot-moises-ve-a-terra-prometida-de-longe.webp",
       "licenseType": "public-domain",
       "references": [
         {
           "book": "Deuteronômio",
           "bookSlug": "deuteronomy",
-          "chapter": 34
+          "chapter": 34,
+          "verses": "1",
+          "passageText": "\"Então subiu Moisés das planícies de Moabe ao monte Nebo, ao cume de Pisga, que está defronte de Jericó; e o Senhor mostrou-lhe toda a terra desde Gileade até Dã.\"\n— **Deuteronômio 34:1**\n\n\"E disse-lhe o Senhor: Esta é a terra que prometi com juramento a Abraão, a Isaque e a Jacó, dizendo: à tua descendência a darei. Eu te fiz vê-la com os teus olhos, porém para lá não passarás.\"\n— **Deuteronômio 34:4**"
         }
       ]
     },
@@ -11070,14 +11072,16 @@
       "title": "O Faraó nota a importância do povo judeu",
       "artistOrDirector": "James Tissot",
       "category": "painting",
-      "description": "O episódio em que o faraó nota a importância do povo judeu (Êxodo 1:8-14) ocorre após a morte de José e a ascensão de um novo faraó no Egito, que não conhecia a história de José e seus feitos para o Egito. Este faraó observa o crescimento exponencial dos israelitas e, temendo que eles se tornassem uma ameaça em caso de guerra, decide subjugá-los à escravidão. Ele impõe um trabalho forçado pesado, exigindo que os hebreus construam cidades para o faraó e trabalhem nas suas obras. No entanto, apesar da opressão, o povo de Israel continua a crescer, o que provoca ainda mais o temor do faraó.",
+      "description": "Aquarela de **James Tissot** (1836–1902), da série *La Sainte Bible*, abrindo o ciclo do Êxodo com a cena que planta a semente de toda a escravidão hebreia no Egito: um novo faraó, temendo o crescimento do povo de Israel, decidindo subjugá-lo.\n\nO episódio (Êxodo 1:8-14) ocorre após a morte de José, quando ascende ao trono um faraó que não conhecia sua história nem seus feitos para o Egito. Observando o crescimento exponencial dos israelitas, e temendo que se tornassem uma ameaça em caso de guerra, ele decide subjugá-los, impondo trabalho forçado pesado — construir cidades e obras para o faraó. Apesar da opressão, o povo continua a crescer, o que só aumenta o temor egípcio e leva, no capítulo seguinte, à ordem de matar os recém-nascidos hebreus.",
       "imageFile": "james-tissot-o-farao-nota-a-importancia-do-povo-judeu.webp",
       "licenseType": "public-domain",
       "references": [
         {
           "book": "Êxodo",
           "bookSlug": "exodus",
-          "chapter": 1
+          "chapter": 1,
+          "verses": "8",
+          "passageText": "\"Entrementes se levantou sobre o Egito um novo rei, que não conhecera a José.\"\n— **Êxodo 1:8**\n\n\"Disse ele ao seu povo: Eis que o povo de Israel é mais numeroso e mais forte do que nós.\"\n— **Êxodo 1:9**\n\n\"Eia, usemos de astúcia para com ele, para que não se multiplique, e aconteça que, vindo guerra, ele também se ajunte com os nossos inimigos, e peleje contra nós e se retire da terra.\"\n— **Êxodo 1:10**"
         }
       ]
     },
@@ -11107,14 +11111,16 @@
       "artistOrDirector": "James Tissot",
       "year": "1896",
       "category": "painting",
-      "description": "O episódio em que Abrão dá um conselho a Sarai (Gênesis 16:1-6) ocorre quando Sarai, esposa de Abrão, percebe que não conseguia ter filhos, apesar da promessa de Deus de que Abrão seria o pai de uma grande nação. Diante da impossibilidade de gerar um filho, Sarai sugere que Abrão tenha um filho com sua serva egípcia, Agar, para que ela pudesse dar-lhe um descendente. Abrão concorda com o plano de Sarai e, assim, Agar concebe um filho. Porém, quando Agar se vê grávida, ela começa a desprezar Sarai, o que gera conflitos entre as duas. Sarai reclama com Abrão, e ele responde que Agar é sua serva, e ela deve fazer o que achar necessário.",
+      "description": "Aquarela de **James Tissot** (1836–1902), da série *La Sainte Bible*, retratando o momento em que Abrão ouve o plano de Sarai para contornar, por meios humanos, a promessa que só Deus poderia cumprir.\n\nO episódio (Gênesis 16:1-6) ocorre quando Sarai, ainda sem filhos apesar da promessa divina de que Abrão seria pai de uma grande nação, sugere que ele tenha um filho com sua serva egípcia, Agar, para lhe dar um descendente por meio dela. Abrão concorda, e Agar concebe — mas, ao se ver grávida, passa a desprezar Sarai, gerando conflito entre as duas. Sarai reclama com Abrão, que responde que Agar continua sendo sua serva, e ela pode fazer dela o que achar necessário.",
       "imageFile": "james-tissot-o-conselho-de-abrao-a-sarai.webp",
       "licenseType": "public-domain",
       "references": [
         {
           "book": "Gênesis",
           "bookSlug": "genesis",
-          "chapter": 16
+          "chapter": 16,
+          "verses": "2",
+          "passageText": "\"Disse Sarai a Abrão: Eis que o Senhor me tem impedido de ter filhos; toma, pois, a minha serva; porventura terei filhos por meio dela. E ouviu Abrão a voz de Sarai.\"\n— **Gênesis 16:2**"
         }
       ]
     },
@@ -11188,14 +11194,16 @@
       "artistOrDirector": "James Tissot",
       "year": "1886",
       "category": "painting",
-      "description": "> [!info] File:What Our Saviour Saw from the Cross.jpg  \n> https://creativecommons.  \n> [https://commons.wikimedia.org/wiki/File:What_Our_Saviour_Saw_from_the_Cross.jpg](https://commons.wikimedia.org/wiki/File:What_Our_Saviour_Saw_from_the_Cross.jpg)  \n\nO episódio em que Jesus vê diante de si, na cruz (Mateus 27:45-54; Marcos 15:33-39; Lucas 23:44-49; João 19:28-30), ocorre durante os momentos finais de Sua crucificação. Por volta da nona hora, Jesus, depois de horas de agonia, clama em alta voz, \"Deus meu, Deus meu, por que me desamparaste?\", expressando Seu profundo sofrimento e a sensação de separação de Deus devido ao peso dos pecados da humanidade que Ele estava carregando. Nesse momento, a terra se escurece por três horas, como um sinal sobrenatural da gravidade da situação. Jesus, já exausto e sentindo o peso da condenação, realiza os últimos gestos de Seu ministério, como entregar Seu espírito a Deus, dizendo: \"Está consumado\". Através desses momentos de agonia, Ele se torna o sacrifício definitivo pelos pecados, cumprindo as Escrituras e oferecendo a salvação.",
+      "description": "Aquarela de **James Tissot** (1836–1902), de seu ciclo dedicado à vida de Cristo, *La Vie de Notre Seigneur Jésus-Christ* (1886–1894) — um recurso incomum na obra do artista: em vez de retratar Jesus na cruz de frente, como a tradição iconográfica ocidental fazia quase sempre, Tissot inverte o ponto de vista e pinta o que o próprio Cristo teria diante dos olhos, do alto do Gólgota — a multidão, os soldados, Jerusalém ao fundo.\n\nO evento narrado nos quatro evangelhos (Mateus 27:45-54; Marcos 15:33-39; Lucas 23:44-49; João 19:28-30) ocorre nas horas finais da crucificação. Segundo o relato de Lucas — o livro ao qual esta obra está associada no acervo —, por volta da hora sexta a terra escurece por três horas, o véu do templo se rasga ao meio, e Jesus, com sua última força, entrega o espírito ao Pai.",
       "imageFile": "james-tissot-o-que-nosso-salvador-viu-da-cruz.webp",
       "licenseType": "public-domain",
       "references": [
         {
           "book": "Lucas",
           "bookSlug": "luke",
-          "chapter": 23
+          "chapter": 23,
+          "verses": "44-45",
+          "passageText": "\"Era já quase a hora sexta, e houve trevas em toda a terra até a hora nona, pois o sol se escurecera; e rasgou-se ao meio o véu do santuário.\"\n— **Lucas 23:44-45**\n\n\"Jesus, clamando com grande voz, disse: Pai, nas tuas mãos entrego o meu espírito. E, havendo dito isso, expirou.\"\n— **Lucas 23:46**"
         }
       ]
     },
@@ -11267,14 +11275,16 @@
       "artistOrDirector": "James Tissot",
       "year": "1896",
       "category": "painting",
-      "description": "O episódio em que Sara é levada ao palácio do faraó (Gênesis 12:10-20) ocorre quando uma fome atinge a terra de Canaã, levando Abraão e Sara a descerem para o Egito em busca de alimento. Antes de entrarem no Egito, Abraão, temendo que os egípcios matassem para tomar Sara, que era muito bonita, diz a ela que se faça passar por sua irmã, e não sua esposa. Quando Sara é levada ao palácio do faraó, ele a toma para si, mas Deus intervém, enviando pragas sobre a casa do faraó, que descobre a verdadeira identidade de Sara. Ao saber da verdade, o faraó repreende Abraão por sua engano e devolve Sara a ele, com a ordem de que partam imediatamente do Egito. Esse episódio destaca a proteção divina sobre Sara e o cumprimento dos planos de Deus, apesar das falhas humanas.",
+      "description": "Aquarela de **James Tissot** (1836–1902), da série *La Sainte Bible*, retratando o primeiro dos dois episódios em que um patriarca, por medo, apresenta a própria esposa como irmã diante de um governante estrangeiro (o segundo, com Isaque e Rebeca, ocorre em Gênesis 26).\n\nO episódio (Gênesis 12:10-20) ocorre quando uma fome atinge Canaã e leva Abrão e Sarai a descerem ao Egito em busca de alimento. Temendo ser morto por causa da beleza de Sarai, Abrão pede que ela diga ser sua irmã. Levada ao palácio do faraó, este a toma para si — mas Deus intervém, enviando pragas sobre a casa do faraó, que descobre a verdade e repreende Abrão pelo engano, devolvendo-lhe Sarai e ordenando que deixem o Egito.",
       "imageFile": "james-tissot-sara-e-levada-ao-palacio-do-farao.webp",
       "licenseType": "public-domain",
       "references": [
         {
           "book": "Gênesis",
           "bookSlug": "genesis",
-          "chapter": 12
+          "chapter": 12,
+          "verses": "15",
+          "passageText": "\"Até os príncipes de Faraó a viram e gabaram-na diante dele; e foi levada a mulher para a casa de Faraó.\"\n— **Gênesis 12:15**\n\n\"Por que disseste: É minha irmã? de maneira que a tomei para ser minha mulher. Agora, pois, eis aqui tua mulher; toma-a e vai-te.\"\n— **Gênesis 12:19**"
         }
       ]
     },
@@ -11284,14 +11294,16 @@
       "artistOrDirector": "James Tissot",
       "year": "1896",
       "category": "painting",
-      "description": "Sem, Cam e Jafé, filhos de Noé, desempenham um papel crucial na história bíblica após o dilúvio, conforme narrado em Gênesis 9:18-27. Eles são os progenitores das nações que povoaram a terra após o julgamento divino. Sem é considerado o antepassado dos semitas, incluindo os israelitas, e recebe a bênção de Deus, com a promessa de que seus descendentes seriam os herdeiros das promessas feitas a Abraão. Cam, por outro lado, é associado com a maldição que recai sobre seu filho Canaã, o qual seria a nação dos cananeus, que mais tarde seriam inimigos de Israel. Jafé, o irmão mais velho de Cam, é visto como o progenitor de várias nações que habitariam as regiões ao norte e ao oeste de Israel.",
+      "description": "Aquarela de **James Tissot** (1836–1902), da série *La Sainte Bible*, retratando o episódio em que os três filhos de Noé reagem de formas opostas à nudez do pai embriagado — cena que a tradição judaico-cristã lê como origem simbólica da divisão entre os povos que povoariam a terra após o dilúvio (Gênesis 9:18-27; a tabela das nações que se segue, em Gênesis 10, detalha essa descendência).\n\nO episódio ocorre quando Noé, já plantando vinha depois do dilúvio, embriaga-se e fica nu dentro de sua tenda. Cam vê a nudez do pai e conta aos irmãos, em vez de cobri-lo; Sem e Jafé, ao contrário, entram andando de costas, com os rostos virados, para cobri-lo sem vê-lo. Ao despertar e saber o que Cam fizera, Noé pronuncia uma maldição — não sobre Cam diretamente, mas sobre seu filho Canaã, cujos descendentes, os cananeus, seriam mais tarde os principais adversários de Israel na conquista da terra.",
       "imageFile": "james-tissot-sem-cam-e-jafe.webp",
       "licenseType": "public-domain",
       "references": [
         {
           "book": "Gênesis",
           "bookSlug": "genesis",
-          "chapter": 9
+          "chapter": 9,
+          "verses": "22",
+          "passageText": "\"E Cão, pai de Canaã, viu a nudez de seu pai, e o contou a seus dois irmãos que estavam fora.\"\n— **Gênesis 9:22**\n\n\"Então tomaram Sem e Jafé uma capa, e puseram-na sobre os seus ombros, e andando virados para trás, cobriram a nudez de seu pai, tendo os rostos virados, de maneira que não viram a nudez de seu pai.\"\n— **Gênesis 9:23**\n\n\"Despertado que foi Noé do seu vinho, soube o que seu filho mais moço lhe fizera; e disse: Maldito seja Canaã; servo dos servos será de seus irmãos.\"\n— **Gênesis 9:24-25**"
         }
       ]
     },
@@ -11792,10 +11804,18 @@
       "artistOrDirector": "Jean Jouvenet",
       "year": "1706",
       "category": "painting",
-      "description": "A pesca milagrosa dos peixes, de Jean Jouvenet.",
+      "description": "Óleo sobre tela monumental (392 × 664 cm) de **Jean Jouvenet** (1644–1717), pintor francês do final do Grande Século, assinada e datada de 1706. A obra foi pintada para a nave da igreja de Saint-Martin-des-Champs, em Paris — uma das quatro telas gigantescas que Jouvenet produziu para o local entre 1703 e 1706 (as outras duas hoje no Louvre, e mais duas no museu de Lyon). Hoje pertence ao acervo do Louvre (inv. INV 5487).\n\nHá dois episódios bíblicos de \"pesca milagrosa\": um durante o ministério de Jesus, quando chama os primeiros discípulos (Lucas 5), e outro após a ressurreição, à beira do mar da Galileia (João 21). A composição de Jouvenet é identificável como o episódio de João pelo detalhe que a distingue da cena de Lucas: Pedro se dirige diretamente a Cristo, já ressuscitado, reconhecendo-o na praia — não a cena de chamado inicial dos primeiros discípulos.",
       "imageFile": "jean-jouvenet-a-pesca-milagrosa-dos-peixes.webp",
       "licenseType": "public-domain",
-      "references": []
+      "references": [
+        {
+          "book": "João",
+          "bookSlug": "john",
+          "chapter": 21,
+          "verses": "6",
+          "passageText": "\"Disse-lhes ele: Lançai a rede à direita do barco, e achareis. Lançaram-na, pois, e já não a podiam puxar por causa da grande quantidade de peixes.\"\n— **João 21:6**\n\n\"Então aquele discípulo a quem Jesus amava disse a Pedro: Senhor. Quando, pois, Simão Pedro ouviu que era o Senhor, cingiu-se com a túnica, porque estava despido, e lançou-se ao mar.\"\n— **João 21:7**"
+        }
+      ]
     },
     {
       "slug": "jean-leon-gerome-a-fuga-para-o-egito",
@@ -19429,5 +19449,5 @@
       "references": []
     }
   ],
-  "exportedAt": "2026-08-24T00:13:39.759Z"
+  "exportedAt": "2026-08-24T01:07:35.900Z"
 }
