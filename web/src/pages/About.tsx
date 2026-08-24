@@ -157,7 +157,7 @@ export default function About() {
 
         {/* Story Section */}
         <Card className="gradient-card border-0 mb-16">
-          <CardContent className="p-8">
+          <CardContent className="p-4 sm:p-8 md:p-12">
             <h2 className="text-display text-2xl font-bold mb-6 text-center">
               Como Tudo Começou
             </h2>

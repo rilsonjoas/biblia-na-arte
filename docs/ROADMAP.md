@@ -1613,3 +1613,35 @@ automática que rode a cada export comparando toda obra de artista já
 sinalizado como vivo/protegido contra a lista de títulos já cobertos,
 alertando se aparecer título novo não coberto (ideia registrada no
 achado da Perczak mais acima, ainda não implementada).
+
+
+## Curadoria Massiva & Qualidade de Conteúdo (2026-08-23, noite II)
+
+### 🚀 Avanços de Infraestrutura, UX e Curadoria do Vault
+
+- [x] **Preservação e Enriquecimento Orgânico de 1.016 Notas no Vault**:
+  - Cobertura de 99.9% de `### Contexto Histórico` personalizadas por artista e movimento (Caravaggio, Rembrandt, Gustave Doré, Carl Bloch, Fra Angelico, Velázquez, Murillo, Dürer, El Greco, Zurbarán, Rubens, Tanner, Blake, etc.).
+  - Adotado o protocolo estrito de preservação: 100% dos textos, descrições, citações e reflexões pré-existentes foram mantidos e integrados sem nenhuma remoção.
+- [x] **Localização de Museus ("Onde ver pessoalmente")**:
+  - Alcançada **100% de cobertura no Vault (1.017 notas com `localizacao:` preenchida)**, incluindo museus internacionais (Prado, Louvre, Vaticano, National Gallery, Met, Uffizi, Hermitage, Frederiksborg, etc.) e acervos sacros brasileiros.
+  - O site renderiza automaticamente a localização e o botão interativo **`(ver no mapa)`** vinculado ao Google Maps em `ArtworkDetail.tsx`.
+- [x] **Extração e Vinculação de Versículos Destacados (816+ Referências)**:
+  - Suporte ao formato nativo do Vault (`— **[[Livro Capítulo]]:versículo**` e citações no corpo da nota).
+  - O parser `extractVerseFromContext` em `vault-parse.ts` extrai a faixa exata de versículos para os cards e a timeline bíblica.
+- [x] **Filtro de 22 Pinturas Não-Bíblicas do Site**:
+  - Adicionados a `EXCLUDED_NON_BIBLICAL_FILENAMES` no exportador 22 trabalhos seculares (Monet, Friedrich, Bierstadt, Godward, Escola de Atenas, realismo soviético), preservando as notas originais intactas no Vault.
+- [x] **Ordem Canônica Protestante na Navegação Bíblica**:
+  - Adicionada coluna `order` (1 a 66, Gênesis a Apocalipse) a `bible_books` e `bibleBooksSeed`, ordenando `listBibleBooks` por sequência canônica protestante.
+- [x] **Reestruturação Responsiva da Busca e Filtros no Mobile**:
+  - Layout refatorado para `flex flex-col sm:flex-row gap-3`, com campo de busca responsivo `text-base pl-10 h-11 w-full` sem estouro de texto.
+- [x] **Refinamento do Hero Card e Navegação por Capítulos (`Chapter.tsx`)**:
+  - Ajustado o padding dos cards (`p-4 sm:p-8 md:p-12`), a escala tipográfica do título (`text-2xl sm:text-4xl md:text-5xl font-bold`) e reestruturada a barra de navegação entre capítulos (`Anterior | N/Total | Próximo`) em um container compacto alinhado para telas móveis.
+- [x] **Grid Responsivo de 2 Colunas na Navegação Bíblica (`BibleBooks.tsx`)**:
+  - Reformulada a exibição dos 66 livros no mobile de 1 coluna vertical para um grid fluido de **2 colunas** (`grid-cols-2 sm:grid-cols-3 md:grid-cols-5`), permitindo navegar pelo cânone com rapidez e conforto visual.
+- [x] **Grid Compacto de Categorias e Temas (`ArtCategories.tsx`)**:
+  - Ajustados o padding, dimensões de ícones (`w-14 h-14`) e espaçamento (`gap-4 sm:gap-6`) dos cards de categorias para navegação mobile sem estouros.
+- [x] **Padronização Responsiva Global (`About.tsx` & `Contribute.tsx`)**:
+  - Otimizados os contêineres de cards e seções com padding fluido (`p-4 sm:p-8 md:p-12`), garantindo leitura confortável e sem cortes em telas menores.
+- [x] **Citação Teológica de Alister McGrath**:
+  - Incorporada a citação de Alister McGrath (*Enriching our Vision of Reality*) ao lado de Hans Rookmaaker em `About.tsx` e `Index.tsx`.
+

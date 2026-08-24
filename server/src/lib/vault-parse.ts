@@ -220,17 +220,31 @@ export function parseChapterLink(raw: unknown): { book: string; chapter: number;
   return result;
 }
 
-/** Tenta extrair a faixa de versículos (ex: "16-28" ou "1-5") da seção "Contexto Bíblico"
- *  quando o frontmatter da nota especificou apenas o livro e capítulo. */
+/** Tenta extrair a faixa de versículos (ex: "16-28" ou "1-5") da nota
+ *  quando o frontmatter da nota especificou apenas o livro e capítulo.
+ *  Procura tanto na seção "Contexto Bíblico" quanto na "Descrição da Obra". */
 export function extractVerseFromContext(content: string, bookName: string, chapter: number): string | undefined {
-  const match = content.match(/###\s*(?:📖\s*)?Contexto Bíblico\s*\n+([\s\S]*?)(?=\n---|\n###|$)/i);
-  if (!match?.[1]) return undefined;
+  if (!content || !bookName || !chapter) return undefined;
 
-  const section = match[1];
+  const sectionMatch = content.match(/###\s*(?:📖\s*)?Contexto Bíblico\s*\n+([\s\S]*?)(?=\n---|\n###|$)/i);
+  const searchArea = sectionMatch?.[1] ? sectionMatch[1] : content;
+
   const escapedBook = bookName.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&');
-  const reg = new RegExp(`(?:\\*\\*|\\[\\[)?${escapedBook}\\s+${chapter}(?:\\]\\]|\\*\\*)?:\\s*([\\d\\-,]+)`, 'i');
-  const vm = section.match(reg);
-  return vm?.[1]?.trim();
+
+  const patterns = [
+    new RegExp(`(?:\\*\\*|\\[\\[)?${escapedBook}\\s+${chapter}(?:\\]\\]|\\*\\*)?:?\\s*[:.]\\s*([\\d\\-,]+)`, 'i'),
+    new RegExp(`(?:\\*\\*|\\[\\[)?${escapedBook}\\s+${chapter}\\s+v{1,2}\\.?\\s*([\\d\\-,]+)`, 'i'),
+    new RegExp(`(?:vv?\\.?\\s*|versícu?l?o?s?\\s*)([\\d\\-,]+)`, 'i'),
+  ];
+
+  for (const reg of patterns) {
+    const vm = searchArea.match(reg);
+    if (vm?.[1]?.trim()) {
+      return vm[1].trim();
+    }
+  }
+
+  return undefined;
 }
 
 /** Só confia no nome do arquivo como fallback de autor quando ele segue a

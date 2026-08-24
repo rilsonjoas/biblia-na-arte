@@ -150,11 +150,25 @@ const EXCLUDED_NON_BIBLICAL_FILENAMES = new Set([
   'Vincent Van Gogh - A Amoreira (The Mulberry Tree).md',
   'Vincent Van Gogh - Celebração.md',
   'Vincent Van Gogh - Paisagem com casas.md',
-  // Achado 2026-08-23, checagem do relatório de qualidade: "Os espíritos em
-  // Júpiter" não é bíblico — a própria nota diz "A divina comédia" na
-  // Descrição. É a ilustração de Doré pro Paradiso de Dante (Canto XVIII-XX,
-  // Céu de Júpiter/"Spiriti in Giove"), não uma cena das Escrituras.
   'Gustave Doré - Os espíritos em Júpiter (Os espíritos em Júpiter).md',
+  'Albert Bierstadt - Tempestade nas montanhas (Storm in the mountains).md',
+  'Albert Chevalier Taylor - Um feixe de luz solar.md',
+  'Caspar David Friedrich - Dois homens contemplando a Lua.md',
+  'Charles Edward Chambers - Casal se despedindo na varanda sob a neve (Couple Parting on Porch in Snow).md',
+  'Claude Monet - Impressão, Sol Nascente.md',
+  'Claude Monet - Um campo de tulipas na Holanda.md',
+  'Elizabeth Sonrel - O jardim das virgens (Le jardin des vierges).md',
+  'John William Godward - Dolce Far Niente.md',
+  'Jose Ferraz de Almeida Júnior - Saudade.md',
+  'L. A. Fomichev - Ciência Soviética (Soviet science).md',
+  'Luigi Loir - O café noturno (The night café).md',
+  'Oscar Pereira da Silva - Desembarque de Pedro Álvares Cabral em Porto Seguro em 1500.md',
+  'Pedro Bruno - A Pátria.md',
+  'Rafael - A escola de Atenas.md',
+  'Rob Gonsalves - O Sol Zarpa (The Sun Sets Sail).md',
+  'Viggo Johansen - Alegre Natal.md',
+  'Wenzel Hablik - Céu estrelado.md',
+  'Émile Friant - Os Namorados (Les Amoureux).md',
 ]);
 
 /** Autor -> { licença, texto de atribuição } pra quem não é domínio

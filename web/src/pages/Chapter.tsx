@@ -132,66 +132,56 @@ export default function Chapter() {
         </div>
 
         {/* Hero Section */}
-        <div className="relative mb-16">
-          <div className="gradient-hero rounded-2xl p-1">
+        <div className="relative mb-10 sm:mb-16">
+          <div className="gradient-hero rounded-2xl p-0.5 sm:p-1">
             <Card className="border-0 bg-background/95 backdrop-blur">
-              {/* p-12 fixo em qualquer largura de tela deixava só ~280px
-                  úteis num celular comum — achado real 2026-08-23,
-                  Rilson testando no mobile. Reduz progressivamente. */}
-              <CardContent className="p-5 sm:p-8 md:p-12">
+              <CardContent className="p-4 sm:p-8 md:p-12">
                 <div className="text-center">
-                  <Badge variant="secondary" className="mb-4 sm:mb-6 shadow-golden">
-                    <Book className="w-4 h-4 mr-2" />
+                  <Badge variant="secondary" className="mb-3 sm:mb-6 shadow-golden text-xs sm:text-sm">
+                    <Book className="w-3.5 h-3.5 sm:w-4 sm:h-4 mr-1.5 sm:mr-2" />
                     {book.testament === 'old' ? 'Antigo Testamento' : 'Novo Testamento'}
                   </Badge>
 
-                  <h1 className="text-display text-3xl sm:text-4xl md:text-6xl font-bold mb-4 sm:mb-6 gradient-text">
+                  <h1 className="text-display text-2xl sm:text-4xl md:text-5xl font-bold mb-3 sm:mb-5 tracking-tight gradient-text">
                     {book.name} {chapterNum}
                   </h1>
 
-                  <div className="flex items-center justify-center space-x-6 text-base sm:text-lg text-muted-foreground mb-6 sm:mb-8">
-                    <div className="flex items-center space-x-2">
-                      <Palette className="w-5 h-5" />
-                      <span>{artworks.length} obras sobre este capítulo</span>
-                    </div>
+                  <div className="flex items-center justify-center space-x-2 text-xs sm:text-base text-muted-foreground mb-5 sm:mb-8">
+                    <Palette className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
+                    <span>{artworks.length} {artworks.length === 1 ? 'obra de arte sobre este capítulo' : 'obras de arte sobre este capítulo'}</span>
                   </div>
 
-                  {/* Chapter Navigation — 2 botões + contador numa linha só
-                      sem wrap era o "vários elementos um em cima do outro"
-                      no mobile. flex-wrap + texto do botão reduzido a só o
-                      número (ícone já indica direção) até o breakpoint sm. */}
-                  <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-4">
+                  {/* Chapter Navigation Bar */}
+                  <div className="flex items-center justify-between max-w-xs sm:max-w-md mx-auto gap-2 bg-muted/40 p-1.5 rounded-xl border border-border/40">
                     {prevChapter ? (
-                      <Button asChild variant="outline" size="sm" className="shadow-card sm:h-10 sm:px-4 sm:text-sm">
+                      <Button asChild variant="ghost" size="sm" className="h-8 px-2 sm:px-3 text-xs sm:text-sm">
                         <Link to={`/biblia/${book.slug}/${prevChapter}`} aria-label={`Capítulo ${prevChapter}`}>
-                          <ChevronLeft className="w-4 h-4 sm:mr-2" />
-                          <span className="hidden sm:inline">Capítulo </span>
-                          {prevChapter}
+                          <ChevronLeft className="w-4 h-4 mr-1" />
+                          <span>Cap. {prevChapter}</span>
                         </Link>
                       </Button>
                     ) : (
-                      <Button variant="outline" size="sm" disabled aria-label="Capítulo Anterior" className="sm:h-10 sm:px-4 sm:text-sm">
-                        <ChevronLeft className="w-4 h-4 sm:mr-2" />
-                        <span className="hidden sm:inline">Capítulo Anterior</span>
+                      <Button variant="ghost" size="sm" disabled className="h-8 px-2 sm:px-3 text-xs sm:text-sm opacity-40">
+                        <ChevronLeft className="w-4 h-4 mr-1" />
+                        <span>Anterior</span>
                       </Button>
                     )}
 
-                    <span className="text-muted-foreground text-sm shrink-0 order-first sm:order-none basis-full sm:basis-auto">
+                    <span className="text-xs sm:text-sm font-semibold text-foreground px-2 whitespace-nowrap">
                       {chapterNum} / {book.chapters}
                     </span>
 
                     {nextChapter ? (
-                      <Button asChild variant="outline" size="sm" className="shadow-card sm:h-10 sm:px-4 sm:text-sm">
+                      <Button asChild variant="ghost" size="sm" className="h-8 px-2 sm:px-3 text-xs sm:text-sm">
                         <Link to={`/biblia/${book.slug}/${nextChapter}`} aria-label={`Capítulo ${nextChapter}`}>
-                          <span className="hidden sm:inline">Capítulo </span>
-                          {nextChapter}
-                          <ChevronRight className="w-4 h-4 sm:ml-2" />
+                          <span>Cap. {nextChapter}</span>
+                          <ChevronRight className="w-4 h-4 ml-1" />
                         </Link>
                       </Button>
                     ) : (
-                      <Button variant="outline" size="sm" disabled aria-label="Capítulo Seguinte" className="sm:h-10 sm:px-4 sm:text-sm">
-                        <span className="hidden sm:inline">Capítulo Seguinte</span>
-                        <ChevronRight className="w-4 h-4 sm:ml-2" />
+                      <Button variant="ghost" size="sm" disabled className="h-8 px-2 sm:px-3 text-xs sm:text-sm opacity-40">
+                        <span>Próximo</span>
+                        <ChevronRight className="w-4 h-4 ml-1" />
                       </Button>
                     )}
                   </div>
@@ -202,10 +192,10 @@ export default function Chapter() {
         </div>
 
         {/* Passage Text */}
-        <div className="mb-16">
-          <div className="gradient-hero rounded-2xl p-1">
+        <div className="mb-10 sm:mb-16">
+          <div className="gradient-hero rounded-2xl p-0.5 sm:p-1">
             <Card className="border-0 bg-background/95 backdrop-blur">
-              <CardContent className="p-8 md:p-12">
+              <CardContent className="p-4 sm:p-8 md:p-12">
                 {passageLoading && <Loading text="Carregando o texto bíblico..." />}
 
                 {passageError && !passageLoading && (
@@ -227,18 +217,18 @@ export default function Chapter() {
 
                 {passage && !passageLoading && (
                   <>
-                    <div className="flex items-center justify-between mb-8">
-                      <h2 className="text-display text-2xl md:text-3xl font-bold">
+                    <div className="flex items-center justify-between mb-6 pb-4 border-b border-border/40">
+                      <h2 className="text-display text-lg sm:text-2xl font-bold">
                         {passage.reference}
                       </h2>
                       <span className="text-xs text-muted-foreground">
                         {passage.translation} · domínio público
                       </span>
                     </div>
-                    <div className="space-y-4">
+                    <div className="space-y-3 sm:space-y-4">
                       {passage.verses.map((verse) => (
-                        <p key={verse.verse} className="text-base md:text-lg leading-relaxed text-foreground/90">
-                          <span className="text-primary font-semibold mr-2">
+                        <p key={verse.verse} className="text-sm sm:text-base leading-relaxed text-foreground/90">
+                          <span className="text-primary font-bold mr-2 text-xs sm:text-sm inline-block min-w-[1.25rem]">
                             {verse.verse}
                           </span>
                           {verse.text}

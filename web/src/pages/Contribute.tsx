@@ -154,7 +154,7 @@ export default function Contribute() {
           </h2>
           
           <Card className="gradient-card border-0">
-            <CardContent className="p-8">
+            <CardContent className="p-4 sm:p-8 md:p-12">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {guidelines.map((guideline, index) => {
                   const IconComponent = guideline.icon;

@@ -375,19 +375,20 @@ export default function ArtworkDetail() {
                     </div>
                     <span className="text-foreground text-right min-w-0 break-words">
                       {artwork.location}
-                      {' '}
-                      {/* Auto-gerado a partir do texto de localização — sem
-                          curadoria extra, funciona pra toda obra com
-                          `localizacao` preenchida (achado 2026-08-22, ideia
-                          do Rilson). */}
-                      <a
-                        href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(artwork.location)}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-primary hover:underline whitespace-nowrap"
-                      >
-                        (ver no mapa)
-                      </a>
+                      {/* Só exibe link do Google Maps quando for um museu/local físico público real (não coleções particulares, gravuras em livros ou acervos pessoais do artista) */}
+                      {!/coleç|colec|acervo|gravura|particular|privada/i.test(artwork.location) && (
+                        <>
+                          {' '}
+                          <a
+                            href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(artwork.location)}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-primary hover:underline whitespace-nowrap"
+                          >
+                            (ver no mapa)
+                          </a>
+                        </>
+                      )}
                     </span>
                   </div>
                 )}

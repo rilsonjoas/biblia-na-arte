@@ -110,25 +110,25 @@ export default function BibleBooks() {
           <>
             {/* Old Testament Section */}
             {(!testament || testament === 'old') && oldTestamentBooks.length > 0 && (
-              <div className="mb-16">
-                <h2 className="text-display text-2xl font-bold mb-6 text-center">
+              <div className="mb-12 sm:mb-16">
+                <h2 className="text-display text-xl sm:text-2xl font-bold mb-4 sm:mb-6 text-center">
                   Antigo Testamento
                 </h2>
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4">
                   {oldTestamentBooks.map((book) => (
                     <Card key={book.slug} className="group hover:shadow-classical transition-all duration-300 hover:-translate-y-1 gradient-card border-0">
                       <Link to={`/biblia/${book.slug}`}>
-                        <CardHeader className="text-center pb-2">
-                          <div className="w-12 h-12 mx-auto gradient-hero rounded-lg flex items-center justify-center mb-3 group-hover:shadow-golden transition-all duration-300">
-                            <Book className="w-6 h-6 text-white" />
+                        <CardHeader className="text-center p-3 sm:p-4 pb-2">
+                          <div className="w-10 h-10 sm:w-12 sm:h-12 mx-auto gradient-hero rounded-lg flex items-center justify-center mb-2 group-hover:shadow-golden transition-all duration-300">
+                            <Book className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
                           </div>
-                          <CardTitle className="text-display text-sm font-semibold group-hover:text-primary transition-colors leading-tight">
+                          <CardTitle className="text-display text-xs sm:text-sm font-semibold group-hover:text-primary transition-colors leading-tight">
                             {book.name}
                           </CardTitle>
                         </CardHeader>
-                        <CardContent className="pt-0 text-center">
-                          <p className="text-xs text-muted-foreground">
-                            {book.chapters} capítulos
+                        <CardContent className="p-3 pt-0 text-center">
+                          <p className="text-[10px] sm:text-xs text-muted-foreground">
+                            {book.chapters} {book.chapters === 1 ? 'capítulo' : 'capítulos'}
                           </p>
                         </CardContent>
                       </Link>
@@ -141,24 +141,24 @@ export default function BibleBooks() {
             {/* New Testament Section */}
             {(!testament || testament === 'new') && newTestamentBooks.length > 0 && (
               <div>
-                <h2 className="text-display text-2xl font-bold mb-6 text-center">
+                <h2 className="text-display text-xl sm:text-2xl font-bold mb-4 sm:mb-6 text-center">
                   Novo Testamento
                 </h2>
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4">
                   {newTestamentBooks.map((book) => (
                     <Card key={book.slug} className="group hover:shadow-classical transition-all duration-300 hover:-translate-y-1 gradient-card border-0">
                       <Link to={`/biblia/${book.slug}`}>
-                        <CardHeader className="text-center pb-2">
-                          <div className="w-12 h-12 mx-auto gradient-hero rounded-lg flex items-center justify-center mb-3 group-hover:shadow-golden transition-all duration-300">
-                            <Book className="w-6 h-6 text-white" />
+                        <CardHeader className="text-center p-3 sm:p-4 pb-2">
+                          <div className="w-10 h-10 sm:w-12 sm:h-12 mx-auto gradient-hero rounded-lg flex items-center justify-center mb-2 group-hover:shadow-golden transition-all duration-300">
+                            <Book className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
                           </div>
-                          <CardTitle className="text-display text-sm font-semibold group-hover:text-primary transition-colors leading-tight">
+                          <CardTitle className="text-display text-xs sm:text-sm font-semibold group-hover:text-primary transition-colors leading-tight">
                             {book.name}
                           </CardTitle>
                         </CardHeader>
-                        <CardContent className="pt-0 text-center">
-                          <p className="text-xs text-muted-foreground">
-                            {book.chapters} capítulos
+                        <CardContent className="p-3 pt-0 text-center">
+                          <p className="text-[10px] sm:text-xs text-muted-foreground">
+                            {book.chapters} {book.chapters === 1 ? 'capítulo' : 'capítulos'}
                           </p>
                         </CardContent>
                       </Link>

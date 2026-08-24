@@ -139,7 +139,7 @@ export default function BibleBook() {
         <div className="relative mb-16">
           <div className="gradient-hero rounded-2xl p-1">
             <Card className="border-0 bg-background/95 backdrop-blur">
-              <CardContent className="p-12">
+              <CardContent className="p-4 sm:p-8 md:p-12">
                 <div className="text-center">
                   <Badge variant="secondary" className="mb-6 shadow-golden">
                     <Book className="w-4 h-4 mr-2" />
