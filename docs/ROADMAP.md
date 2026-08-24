@@ -1578,3 +1578,38 @@ entra dentro de "### Descrição da Obra" ou "### Contexto Bíblico" —
 vai no corpo do commit do git (que já registra data/autor/motivo de
 sobra) ou, se precisar mesmo ficar visível no vault, fora dessas duas
 seções.
+
+
+## Achado CRÍTICO 2026-08-23 (2) — comparação de artista excluído era case-sensitive
+
+Achado montando o relatório de qualidade pro Rilson (não reportado por
+ele desta vez — achado numa varredura de rotina): **"Kim Ki-Chang -
+Natal" estava LIVE em produção**, `licenseType: public-domain`. O
+artista morreu em 2001, obra protegida até ~2072 no Brasil — já tinha
+sido excluído antes ("Kim Ki-chang - A Última Ceia"), mas com "c"
+minúsculo. `EXCLUDED_ARTISTS` é um `Set` com comparação exata de
+string; a variante "Kim Ki-Chang" (C maiúsculo) não batia.
+
+Mesma classe de bug já achada e corrigida em `data-fixes.sql` horas
+antes no mesmo dia (2ª obra da Sylwia Perczak). Padrão se repetindo:
+nome de artista digitado de forma levemente diferente entre notas do
+vault não pode depender de bater caractere por caractere — tanto o
+`EXCLUDED_ARTISTS` do `export-vault-data.ts` quanto os `WHERE ... ILIKE`
+do `data-fixes.sql` são vulneráveis a isso (o `ILIKE` do Postgres já é
+case-insensitive, mas ainda depende do TÍTULO bater exato — uma obra
+nova do mesmo artista sem entrada própria continua passando).
+
+**Fix**: `EXCLUDED_ARTISTS_NORMALIZED`, comparação via
+`normalizeForComparison()` (sem acento, sem caixa) em vez de `.has()`
+direto. Checado as 359 grafias de autor únicas no vault — só 2 pares
+tinham variação de escrita: Portinari (já tinha as 2 grafias
+cadastradas, não quebrava) e Kim Ki-chang/Kim Ki-Chang (o bug real).
+Exportado, reseedado, verificado ao vivo: 0 resultados pra "Kim Ki" na
+busca, total 844 (era 845).
+
+**Ainda não tem solução estrutural pro `data-fixes.sql`** (2 incidentes
+reais da mesma classe num único dia) — considerar um lint/checagem
+automática que rode a cada export comparando toda obra de artista já
+sinalizado como vivo/protegido contra a lista de títulos já cobertos,
+alertando se aparecer título novo não coberto (ideia registrada no
+achado da Perczak mais acima, ainda não implementada).
