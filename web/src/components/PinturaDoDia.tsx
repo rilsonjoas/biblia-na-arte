@@ -66,7 +66,12 @@ export function PinturaDoDia() {
               </div>
 
               <div>
-                <p className="font-mono text-xs uppercase tracking-wider text-muted-foreground mb-2">
+                {/* Sem font-mono aqui de propósito — mono é usado no resto
+                    do projeto só pra números curtos (ano, kbd, erro 404),
+                    numa data por extenso ficava destoando do resto da
+                    tipografia (achado real 2026-08-23). Mesmo estilo de
+                    "rótulo" usado em "Referências Bíblicas:" no ArtworkCard. */}
+                <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground/80 mb-2">
                   {new Date().toLocaleDateString('pt-BR', {
                     day: 'numeric',
                     month: 'long',
@@ -108,7 +113,7 @@ export function PinturaDoDia() {
                   className="px-0 mt-4 text-primary group-hover:gap-2 transition-all"
                 >
                   <span>
-                    Ver a obra completa
+                    Ver mais sobre a obra
                     <ArrowRight className="w-4 h-4 ml-1 inline-block" />
                   </span>
                 </Button>
