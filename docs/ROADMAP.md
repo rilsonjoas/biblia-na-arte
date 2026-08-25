@@ -62,6 +62,20 @@ engenharia, conteúdo e SEO.
       Override `esbuild: ^0.25.0` no root `package.json` (fixa o moderate do
       caminho dev do drizzle-kit).
 
+## Fase 1.5 — UX/UI, Acessibilidade e Polimento Fino de Uso
+
+> **Foco**: Experiência visual surpreendente, micro-interações e acessibilidade total (WCAG AA).
+
+- [ ] **Micro-interações de Interface**:
+  - [ ] Animações suaves no alternador de tema escuro/claro (`ThemeToggle.tsx`).
+  - [ ] Feedback visual com efeito toast e vibração hática ao copiar citação bíblica ou link da obra.
+- [ ] **Desempenho Visual & Loading States**:
+  - [ ] Skeleton loaders com efeito *shimmer* customizado durante o carregamento de imagens de alta resolução WebP em conexões lentas (`ArtworkImage.tsx`).
+  - [ ] Transição com efeito fade-in progressivo na abertura da Lightbox (`ArtworkLightbox.tsx`).
+- [ ] **Acessibilidade & Rigor de Design (WCAG AA)**:
+  - [ ] Auditoria de contraste nos badges de categorias e referências bíblicas (garantindo taxa de contraste >= 4.5:1 em tema escuro e claro).
+  - [ ] Suporte completo a navegação por leitor de tela nos modais e navegabilidade por teclado aprimorada no `CommandPalette`.
+
 ## Fase 1 — Conteúdo e navegação
 
 **Objetivo:** consertar o que quebra a experiência real do usuário e
