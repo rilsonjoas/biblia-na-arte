@@ -6381,6 +6381,11 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://biblianaarte.narniano.com/obra/albert-chevalier-taylor-um-feixe-de-luz-solar</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://biblianaarte.narniano.com/obra/albert-edelfelt-cristo-e-maria-madalena</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -6611,6 +6616,11 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://biblianaarte.narniano.com/obra/autor-a-desconhecido-a-cristo-mestre-ensinando-aos-apostolos</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://biblianaarte.narniano.com/obra/autor-desconhecido-entrada-de-jesus-em-jerusalem-1856</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -6631,6 +6641,11 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://biblianaarte.narniano.com/obra/autor-a-desconhecido-a-jesus-e-a-samaritana-no-poco-de-jaco</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://biblianaarte.narniano.com/obra/autor-desconhecido-judas-recebendo-30-moedas-de-prata</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -6641,7 +6656,7 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://biblianaarte.narniano.com/obra/autor-desconhecido-o-sonho-de-jose-e-a-jornada-ate-belem</loc>
+    <loc>https://biblianaarte.narniano.com/obra/autor-a-desconhecido-a-moeda-do-tributo-de-tiberio</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -6736,11 +6751,6 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://biblianaarte.narniano.com/obra/briton-riviere-daniel-na-cova-dos-leoes-1872</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
     <loc>https://biblianaarte.narniano.com/obra/caravaggio-a-adoracao-dos-pastores</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -6822,6 +6832,11 @@
   </url>
   <url>
     <loc>https://biblianaarte.narniano.com/obra/caravaggio-sepultamento-de-jesus</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://biblianaarte.narniano.com/obra/caravaggio-sao-jeronimo-escrevendo</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -6977,16 +6992,6 @@
   </url>
   <url>
     <loc>https://biblianaarte.narniano.com/obra/david-roberts-jerusalem-a-partir-do-monte-das-oliveiras</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://biblianaarte.narniano.com/obra/autor-desconhecido-a-adoracao-do-cordeiro</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://biblianaarte.narniano.com/obra/autor-desconhecido-a-incredulidade-de-tome</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -9061,6 +9066,11 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://biblianaarte.narniano.com/obra/jules-eugene-lenepveu-os-martires-nas-catacumbas</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://biblianaarte.narniano.com/obra/julia-mann-um-menino-nos-nasceu</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -9402,6 +9412,11 @@
   </url>
   <url>
     <loc>https://biblianaarte.narniano.com/obra/osmar-schindler-davi-e-golias</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://biblianaarte.narniano.com/obra/otto-bitschnau-santo-atanasio-e-perseguido</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -10172,6 +10187,11 @@
   </url>
   <url>
     <loc>https://biblianaarte.narniano.com/obra/vincent-van-gogh-natureza-morta-com-a-biblia</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://biblianaarte.narniano.com/obra/vincenzo-catena-sao-jeronimo-em-seu-estudo</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
