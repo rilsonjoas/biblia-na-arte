@@ -440,6 +440,28 @@ elevar a qualidade do catálogo.
       segredos do destino — melhor ainda, considerar excluir `.env` por
       padrão do fluxo de deploy documentado no `hetzner-infra/README.md`
       (hoje o exemplo de comando lá não tem esse exclude).
+- [x] **Incidente registrado e recuperado (2026-08-24): `export:vault`
+      derrubou o catálogo de 837 para 482 obras (-355), já commitado e
+      pushado** — achado indiretamente checando a pergunta do Rilson
+      sobre contagem de pinturas (a nota do vault estava saudável, +12
+      líquido; o problema era no repo de código). Commit
+      `d50c58f3` ("update catalog export with latest Obsidian vault
+      revisions") regenerou `vault-export.json` incompleto e deixou 194
+      imagens LFS órfãs no disco local (rastreadas no git, ausentes no
+      working tree) — produção não foi afetada (seguiu com 814 obras no
+      ar, reseed nunca rodou com o export quebrado). Causa raiz: fix de
+      `extractFrontmatter()` (`vault-parse.ts`) pra normalizar `\r\n`
+      antes de casar o bloco `---` estava escrito mas **não commitado**
+      quando o export anterior rodou — notas com final de linha CRLF
+      (provável origem Windows/editor externo) falhavam o parse do
+      frontmatter e caíam fora do export como se não tivessem dado
+      válido. Re-rodado `export:vault` com o fix já em vigor: **841
+      obras, 841 imagens, número bate** com o teto histórico (837 antes
+      da quebra, ~857 no pico documentado em 22/08). Lição prática:
+      commit do fix de parsing e commit do dado gerado por ele não podem
+      ficar dessincronizados — rodar `export:vault` só depois de
+      confirmar `git status` limpo em `src/lib/vault-parse.ts` (ou
+      qualquer arquivo que o pipeline de parse dependa).
 
 ## Identidade aplicada aqui (2026-08-15)
 
@@ -1717,22 +1739,31 @@ restante), depois honestidade do download.
 
 ### 🟠 Honestidade de produto / UX
 
-- [ ] **Botão de baixar entrega a imagem personalizada pro Instagram —
-      enganoso**: hoje o único download disponível é o render 1080×1920
-      do Story (moldura, logo, texto) — quem quer a obra limpa (aula,
-      sermão, impressão, papel de parede) recebe outra coisa. Separar em
-      2 ações explícitas na barra de ações: **"Baixar obra"** (arquivo
-      original da pintura, o mesmo WebP que o lightbox serve) e
-      **"Compartilhar como Story"** (render atual, mantido). Nenhum
-      rótulo pode entregar coisa diferente do que promete.
-- [ ] **Logomarca desalinhada com o texto no card do Story** (reportado
-      2x pelo Rilson na mesma conversa — prioridade dele explícita): no
-      `ArtworkShareCard`, a logo e "Bíblia na Arte" estão fora de
-      alinhamento vertical entre si desde que a logo entrou no card
-      (23/08). Corrigir no container flex (`items-center` + altura fixa
-      da imagem + `object-contain`) e validar no PNG final rasterizado
-      pelo html2canvas — não basta parecer certo no DOM, é a imagem
-      exportada que o usuário vê.
+- [x] **Botão de baixar entrega a imagem personalizada pro Instagram —
+      enganoso — concluído (2026-08-24)**: separado em 2 ações explícitas
+      na barra de ações da obra. `DownloadArtworkButton.tsx` (novo) baixa
+      o arquivo ORIGINAL (mesmo WebP que o lightbox serve, via blob —
+      `<a download>` puro não funciona cross-origin) com rótulo "Baixar
+      obra"; `DownloadStoryButton.tsx` teve o rótulo padrão trocado de
+      "Baixar Story" pra **"Compartilhar como Story"** (ícone `Share2` no
+      lugar de `Download`) — deixa explícito que entrega o render com
+      moldura/logo/texto, não a pintura limpa. Nenhum rótulo entrega mais
+      coisa diferente do que promete. 3 testes novos
+      (`DownloadArtworkButton.test.tsx`), testes existentes do
+      `DownloadStoryButton` atualizados pro novo rótulo. Verificado rodando
+      a stack local completa (Postgres de teste + server + web) antes do
+      deploy — botão aparece e baixa o arquivo certo.
+- [x] **Logomarca desalinhada com o texto no card do Story — concluído
+      (2026-08-24)**: causa raiz era o `html2canvas` calculando a caixa
+      do texto pelo `line-height` do navegador, não pela altura visual da
+      fonte — o texto "flutuava" alguns pixels do centro real da logo
+      mesmo com `items-center` no flex pai. Corrigido em
+      `ArtworkShareCard.tsx`: altura fixa e igual nos dois filhos (`h-8`),
+      `object-contain` na imagem, `leading-none` + `flex items-center`
+      no `<p>` (centra o texto dentro da própria caixa de altura fixa).
+      Validado tornando o card temporariamente visível (fora do
+      `left-[-9999px]`) e rasterizando via Chrome headless — logo e texto
+      alinhados no resultado renderizado, não só no DOM.
 
 ### 🟡 Conteúdo
 

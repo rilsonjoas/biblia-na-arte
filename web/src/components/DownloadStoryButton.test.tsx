@@ -31,7 +31,7 @@ describe('DownloadStoryButton', () => {
   it('sem Web Share API (padrão do jsdom, como desktop) — cai no <a download>', async () => {
     render(<DownloadStoryButton artwork={artwork} />);
 
-    fireEvent.click(screen.getByRole('button', { name: /baixar story/i }));
+    fireEvent.click(screen.getByRole('button', { name: /compartilhar como story/i }));
 
     await waitFor(() => expect(html2canvasMock).toHaveBeenCalled());
     await waitFor(() => expect(toDataURLMock).toHaveBeenCalledWith('image/png'));
@@ -43,7 +43,7 @@ describe('DownloadStoryButton', () => {
     vi.stubGlobal('navigator', { ...navigator, share: shareMock, canShare: canShareMock });
 
     render(<DownloadStoryButton artwork={artwork} />);
-    fireEvent.click(screen.getByRole('button', { name: /baixar story/i }));
+    fireEvent.click(screen.getByRole('button', { name: /compartilhar como story/i }));
 
     await waitFor(() => expect(shareMock).toHaveBeenCalled());
     expect(toDataURLMock).not.toHaveBeenCalled();
@@ -58,7 +58,7 @@ describe('DownloadStoryButton', () => {
     const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
 
     render(<DownloadStoryButton artwork={artwork} />);
-    fireEvent.click(screen.getByRole('button', { name: /baixar story/i }));
+    fireEvent.click(screen.getByRole('button', { name: /compartilhar como story/i }));
 
     await waitFor(() => expect(shareMock).toHaveBeenCalled());
     expect(warnSpy).not.toHaveBeenCalled();
@@ -79,7 +79,7 @@ describe('DownloadStoryButton', () => {
     const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
 
     render(<DownloadStoryButton artwork={artwork} />);
-    fireEvent.click(screen.getByRole('button', { name: /baixar story/i }));
+    fireEvent.click(screen.getByRole('button', { name: /compartilhar como story/i }));
 
     await waitFor(() => expect(warnSpy).toHaveBeenCalled());
     warnSpy.mockRestore();

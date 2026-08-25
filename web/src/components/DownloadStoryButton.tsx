@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react';
-import { Check, Download, ImageDown } from 'lucide-react';
+import { Check, Share2, ImageDown } from 'lucide-react';
 import { ArtworkShareCard } from '@/components/ArtworkShareCard';
 import type { Artwork } from '@/types';
 
@@ -13,8 +13,18 @@ interface DownloadStoryButtonProps {
  *  QuoteGenerator do Gerador C.S. Lewis: `html2canvas` sobre um card
  *  fora da tela, baixado como PNG. Self-contained (ref + handler +
  *  card escondido, tudo aqui dentro) pra não inchar `ArtworkDetail.tsx`
- *  com mais estado — mesmo espírito do `CopyImageButton`. */
-export function DownloadStoryButton({ artwork, label = 'Baixar Story', className }: DownloadStoryButtonProps) {
+ *  com mais estado — mesmo espírito do `CopyImageButton`.
+ *
+ *  Rótulo/ícone trocados 2026-08-24 (roadmap "Honestidade de produto/
+ *  UX"): "Baixar Story" soava como o download geral da obra — agora que
+ *  existe `DownloadArtworkButton` pro arquivo original, este aqui deixa
+ *  explícito que entrega o render personalizado (moldura+logo+texto),
+ *  não a pintura limpa. */
+export function DownloadStoryButton({
+  artwork,
+  label = 'Compartilhar como Story',
+  className,
+}: DownloadStoryButtonProps) {
   const cardRef = useRef<HTMLDivElement>(null);
   const [downloading, setDownloading] = useState(false);
   const [done, setDone] = useState(false);
@@ -77,7 +87,7 @@ export function DownloadStoryButton({ artwork, label = 'Baixar Story', className
           </>
         ) : (
           <>
-            <Download className="w-3 h-3" />
+            <Share2 className="w-3 h-3" />
             <span className="hidden sm:inline">{label}</span>
           </>
         )}

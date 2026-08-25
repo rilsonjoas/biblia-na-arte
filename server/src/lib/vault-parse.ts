@@ -35,7 +35,7 @@ export function slugify(input: string): string {
 }
 
 export function extractFrontmatter(content: string): RawFrontmatter | null {
-  const match = content.match(/^---\n([\s\S]*?)\n---/);
+  const match = content.replace(/\r\n/g, '\n').match(/^---\n([\s\S]*?)\n---/);
   if (!match?.[1]) return null;
   try {
     return parseYaml(match[1]) as RawFrontmatter;

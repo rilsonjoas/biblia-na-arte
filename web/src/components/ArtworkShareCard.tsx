@@ -43,11 +43,27 @@ export const ArtworkShareCard = React.forwardRef<HTMLDivElement, ArtworkShareCar
             2026-08-23, testando a imagem real: faltava identidade visual
             no Story). Mesmo arquivo do header (logo-header-light.png,
             já é um selo com fundo próprio, não precisa de fundo
-            transparente pra combinar com o card claro). */}
+            transparente pra combinar com o card claro).
+
+            Achado 2026-08-24 (reportado 2x pelo Rilson): logo e texto
+            saíam desalinhados no PNG rasterizado pelo html2canvas, mesmo
+            com `items-center` no flex — a lib calcula a caixa do texto
+            pelo `line-height` do navegador (não pela altura visual da
+            fonte), então o texto "flutuava" alguns pixels acima/abaixo
+            do centro real da logo. Fix: altura fixa e igual nos dois
+            filhos (`h-8`) + `object-contain` na imagem + `leading-none`
+            no texto (remove a folga de line-height que description
+            desalinhava) + `flex items-center` no próprio `<p>` (centra
+            o texto dentro da própria caixa de altura fixa). */}
         <div className="mt-16 flex items-center gap-3">
-          <img src="/logo-header-light.png" alt="" className="w-8 h-8 rounded-full" crossOrigin="anonymous" />
+          <img
+            src="/logo-header-light.png"
+            alt=""
+            className="h-8 w-8 shrink-0 rounded-full object-contain"
+            crossOrigin="anonymous"
+          />
           <p
-            className="text-[26px] font-bold uppercase tracking-[0.35em]"
+            className="flex h-8 items-center text-[26px] font-bold uppercase leading-none tracking-[0.35em]"
             style={{ color: '#b49a60' }}
           >
             Bíblia na Arte

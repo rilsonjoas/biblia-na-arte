@@ -15,6 +15,7 @@ import { ErrorCard, NotFoundError } from '@/components/ui/error-display';
 import { Markdown } from '@/components/ui/markdown';
 import { CopyButton, CopyImageButton } from '@/components/ui/copy-button';
 import { DownloadStoryButton } from '@/components/DownloadStoryButton';
+import { DownloadArtworkButton } from '@/components/DownloadArtworkButton';
 import { FavoriteButton } from '@/components/FavoriteButton';
 import { stripMarkdown } from '@/lib/utils';
 import { useArtwork, useArtworksByBibleReference, useArtworks } from '@/hooks/use-artworks';
@@ -272,6 +273,18 @@ export default function ArtworkDetail() {
                 <div className="flex items-center gap-4 flex-wrap">
                   <CopyImageButton
                     url={imageUrl}
+                    className="hover:text-primary transition-colors flex items-center gap-1"
+                  />
+                  {/* "Baixar obra" separado de "Compartilhar como Story"
+                      (achado 2026-08-24, roadmap "Honestidade de produto/
+                      UX"): antes só existia o download do render com
+                      moldura+logo pro Instagram — quem queria a pintura
+                      limpa (aula, sermão, impressão) recebia outra coisa
+                      sem pedir. Extensão herdada da própria imageUrl
+                      (sempre .webp no pipeline atual, mas não hardcoded). */}
+                  <DownloadArtworkButton
+                    url={imageUrl}
+                    filename={`biblia-na-arte-${artwork.id}.${imageUrl.split('.').pop() || 'webp'}`}
                     className="hover:text-primary transition-colors flex items-center gap-1"
                   />
                   <DownloadStoryButton
