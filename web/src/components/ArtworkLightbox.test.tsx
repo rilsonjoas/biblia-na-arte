@@ -13,6 +13,7 @@ const mockArtwork: Artwork = {
   imageUrl: '/images/emaus.webp',
   licenseType: 'public-domain',
   location: 'Musée du Louvre, Paris, França',
+  references: [],
 };
 
 describe('ArtworkLightbox', () => {
