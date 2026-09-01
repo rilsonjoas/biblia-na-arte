@@ -43,7 +43,7 @@ export function PassageTimeline({ artworks }: PassageTimelineProps) {
               to={`/obra/${artwork.id}`}
               className="group flex shrink-0 snap-start flex-col items-center gap-2 w-28"
             >
-              <span className="font-mono text-xs text-muted-foreground">{year}</span>
+              <span className="numeral-classico text-xs text-muted-foreground">{year}</span>
               <span className="relative z-10 h-2.5 w-2.5 rounded-full bg-primary ring-4 ring-background" />
               <div className="w-24 h-24 rounded-lg overflow-hidden border border-border/60 shadow-card bg-muted">
                 {artwork.imageUrl && (

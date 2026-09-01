@@ -361,27 +361,6 @@
       ]
     },
     {
-      "slug": "albert-chevalier-taylor-um-feixe-de-luz-solar",
-      "title": "Um feixe de luz solar",
-      "subtitle": "A sheaf of sunlight",
-      "artistOrDirector": "Albert Chevalier Taylor",
-      "year": "1899",
-      "category": "painting",
-      "description": "**Um feixe de luz solar** (*A Shaft of Sunlight*) é uma pintura sensível e intimista do artista britânico **Albert Chevallier Tayler**, expoente da Escola de Newlyn, concluída em 1899. A obra afasta-se das representações grandiosas ou dogmáticas e opta por capturar a espiritualidade no cotidiano, retratando o momento silencioso de leitura e devoção.\n\nA composição é dominada pelo naturalismo (*plein air* adaptado a interiores) característico de Tayler. O título da obra torna-se o protagonista visual: um feixe de luz solar penetra na penumbra do cômodo e ilumina diretamente as páginas de um texto, simbolizando a iluminação divina. O uso magistral do claro-escuro (*chiaroscuro* sutil) não apenas destaca a materialidade do momento, mas eleva-o a uma experiência de revelação pessoal. A luz física que rompe a escuridão da sala torna-se a metáfora visual perfeita para a verdade espiritual que ilumina a mente do crente.\n\n### Contexto Histórico\n\n**Albert Chevallier Tayler** (1862–1925) foi um membro proeminente da *Newlyn School*, uma colônia de artistas na Cornualha que valorizava o realismo social, as cenas de gênero e as técnicas de iluminação natural. Ao contrário dos pintores românticos ou acadêmicos de Londres, os artistas de Newlyn buscavam a beleza e a verdade nas pessoas comuns e na vida rústica.\n\nNo fim da era vitoriana britânica, a arte sacra experimentou uma forte transição em direção ao \"domesticado\". Pinturas como *Um feixe de luz solar* refletem a ênfase protestante e evangelical na leitura individual das Escrituras e na devoção doméstica. Em vez de santos aureolados ou milagres sobrenaturais, o milagre da fé era frequentemente ilustrado através da iluminação silenciosa da Palavra no seio do lar cristão, valorizando a piedade particular em contraste com o formalismo religioso.",
-      "imageFile": "albert-chevalier-taylor-um-feixe-de-luz-solar.webp",
-      "licenseType": "public-domain",
-      "location": "Coleção Particular",
-      "references": [
-        {
-          "book": "Salmos",
-          "bookSlug": "psalms",
-          "chapter": 119,
-          "verses": "105",
-          "passageText": "\"Lâmpada para os meus pés é tua palavra, e luz para o meu caminho.\""
-        }
-      ]
-    },
-    {
       "slug": "albert-edelfelt-cristo-e-maria-madalena",
       "title": "Cristo e Maria Madalena",
       "subtitle": "Christ and Mary Magdalene",
@@ -2384,6 +2363,27 @@
       ]
     },
     {
+      "slug": "caravaggio-a-incredulidade-de-sao-tome",
+      "title": "A Incredulidade de São Tomé",
+      "subtitle": "Incredulità di san Tommaso",
+      "artistOrDirector": "Caravaggio",
+      "year": "1602",
+      "category": "painting",
+      "description": "Esta é uma das obras mais icônicas, fascinantes e imitadas de **Caravaggio**. O pintor capta o momento ápice da narrativa pós-ressurreição, quando Jesus Cristo aparece aos discípulos para dissipar de forma definitiva as dúvidas do apóstolo Tomé a respeito da realidade física de Sua ressurreição.\n\nEm uma composição semicircular compacta e intimista, as quatro figuras preenchem quase todo o espaço da tela sobre um fundo escuro e neutro. Jesus, vestido com uma túnica branca que deixa descoberto o torso ferido, segura com surpreendente gentileza e firmeza a mão de Tomé, conduzindo o dedo indicador do discípulo para dentro da ferida na altura de Suas costelas. \n\nA reação de Tomé é de perplexidade absoluta: suas sobrancelhas arqueadas e a testa vincada de rugas revelam a transição entre o ceticismo racional e o deslumbramento da fé. Acima de Tomé, outros dois discípulos inclinam a cabeça com intensidade e olhar compenetrado, fitando a chaga como quem examina uma evidência irrefutável. A iluminação tenebrista e cortante vinda da esquerda ilumina o corpo alvo de Cristo e destaca os rostos rústicos e envelhecidos dos apóstolos, despindo a cena de qualquer pompa celestial para transformá-la num encontro humano palpável e comovente.\n\n### Contexto Histórico\n\nPintada por volta de 1601–1602 para o marquês Vincenzo Giustiniani, um dos mais importantes patronos e colecionadores de Caravaggio em Roma, a obra teve enorme repercussão na Itália e na Europa setentrional, sendo copiada por dezenas de mestres flamengos e holandeses (como Hendrick ter Brugghen e os Caravagistas de Utrecht).\n\nNo contexto da Contra-Reforma católica, a Igreja demandava obras de arte sacra que falassem com força sensorial e clareza direta ao coração e aos olhos dos fiéis. Caravaggio atendeu a esse chamado de maneira genial: transformou o dogma teológico da Ressurreição em um evento tangível, histórico e testemunhado a poucos centímetros de distância. A obra foi adquirida pela família real prussiana em 1815 e hoje integra o acervo da prestigiada **Bildergalerie do Palácio de Sanssouci**, em Potsdam (Alemanha).",
+      "imageFile": "caravaggio-a-incredulidade-de-sao-tome.webp",
+      "licenseType": "public-domain",
+      "location": "Bildergalerie, Palácio de Sanssouci, Potsdam, Alemanha",
+      "references": [
+        {
+          "book": "João",
+          "bookSlug": "john",
+          "chapter": 20,
+          "verses": "25",
+          "passageText": "\"Disseram-lhe, pois, os outros discípulos: Vimos o Senhor. Mas ele disse-lhes: Se eu não vir o sinal dos cravos em suas mãos, e não puser o meu dedo no lugar dos cravos, e não puser a minha mão no seu lado, de maneira nenhuma o crerei.\""
+        }
+      ]
+    },
+    {
       "slug": "caravaggio-a-negacao-de-pedro",
       "title": "A Negação de Pedro",
       "subtitle": "The Denial of Saint Peter",
@@ -3152,19 +3152,6 @@
       ]
     },
     {
-      "slug": "caspar-david-friedrich-dois-homens-contemplando-a-lua",
-      "title": "Dois homens contemplando a Lua",
-      "subtitle": "Zwei Männer in Betrachtung des Mondes",
-      "artistOrDirector": "Caspar David Friedrich",
-      "year": "c. 1819-1820",
-      "category": "painting",
-      "description": "**Dois Homens Contemplando a Lua** (*Zwei Männer in Betrachtung des Mondes*, c. 1819–1820) é uma das telas a óleo (35 × 44,5 cm) mais enigmáticas, poéticas e emblemáticas de **Caspar David Friedrich**, conservada na célebre **Galerie Neue Meister (Albertinum)** das Coleções Estatais de Arte de Dresden (*Staatliche Kunstsammlungen Dresden*, inventário Gal.-Nr. 241946).\n\nA composição estrutura-se em torno do recurso pictórico fundamental de Friedrich: a **Rückenfigur** (figura vista de costas). Duas figuras masculinas — identificadas tradicionalmente como o próprio pintor e seu jovem e talentoso discípulo August Heinrich — estão posicionadas em um caminho montanhoso e rochoso, de costas para o observador e voltadas em silêncio absoluto para o crescente lunar e a estrela vespertina no horizonte crepuscular.\n\nAo lado dos viajantes, ergue-se um carvalho secular, desenraizado e retorcido, cujos galhos desfolhados contrastam com a perenidade dos pinheiros verdejantes ao fundo. A suave luminosidade prateada da lua banha as pedras e o abismo, criando uma atmosfera melancólica e contemplativa que funde o homem finito à imensidão insondável da natureza.",
-      "imageFile": "caspar-david-friedrich-dois-homens-contemplando-a-lua.webp",
-      "licenseType": "public-domain",
-      "location": "Galerie Neue Meister (Albertinum), Staatliche Kunstsammlungen Dresden, Dresden, Alemanha",
-      "references": []
-    },
-    {
       "slug": "caspar-luyken-orfa-deixa-rute-e-noemi",
       "title": "Orfa deixa Rute e Noemi",
       "subtitle": "Orpa verlaat Ruth en Naomi",
@@ -3295,32 +3282,6 @@
           "passageText": "\"Enquanto Jacó ainda lhes falava, chegou Raquel com as ovelhas de seu pai; porquanto era ela quem as apascentava.\""
         }
       ]
-    },
-    {
-      "slug": "claude-monet-impressao-sol-nascente",
-      "title": "Impressão, Sol Nascente",
-      "subtitle": "Impression, soleil levant",
-      "artistOrDirector": "Claude Monet",
-      "year": "1872",
-      "category": "painting",
-      "description": "**Impression, soleil levant** (*Impressão, Sol Nascente*, 1872), pintura a óleo sobre tela (48 × 63 cm) de **Claude Monet**, é a obra seminal e batismal de todo o movimento impressionista, pertencente ao acervo permanente do **Musée Marmottan Monet** em Paris (inventário 4014, legado de Victorine e Eugène Donop de Monchy).\n\nA tela retrata a vista matinal a partir da janela de um quarto de hotel sobre o porto comercial e industrial de Le Havre, cidade onde Monet cresceu na Normandia. O artista captura a transitoriedade fugaz do romper da aurora sobre a bacia marítima: um disco solar incandescente e alaranjado ergue-se na névoa, lançando reflexos rítmicos e fragmentados em pinceladas horizontais de tinta pura sobre a água ondulante.\n\nAo fundo, silhuetas fantasmagóricas de mastros de veleiros, guindastes e chaminés de navios a vapor dissolvem-se na bruma matinal azul-ardósia e violeta. No primeiro plano, pequenos barcos a remo pontuam a composição em contraste de claro-escuro rápido. Monet renuncia deliberadamente ao desenho linear e ao acabamento acadêmico polido, focando na vibração luminosa, na relatividade óptica da cor e na impressão perceptual imediata do observador.",
-      "imageFile": "claude-monet-impressao-sol-nascente.webp",
-      "licenseType": "public-domain",
-      "location": "Musée Marmottan Monet, Paris, França",
-      "references": []
-    },
-    {
-      "slug": "claude-monet-um-campo-de-tulipas-na-holanda",
-      "title": "Um campo de tulipas na Holanda",
-      "subtitle": "Champs de tulipes en Hollande",
-      "artistOrDirector": "Claude Monet",
-      "year": "1886",
-      "category": "painting",
-      "description": "**Champs de tulipes en Hollande** (*Campos de tulipas na Holanda*), pintada em 1886 por **Claude Monet** (óleo sobre tela, 65,5 × 81,5 cm), é uma das obras paisagísticas mais luminosas e vibrantes do Impressionismo, conservada no acervo do **Musée d'Orsay** em Paris (inventário 21125).\n\nA tela retrata a vasta planície florida próxima a Rijnsburg e Leiden, nos Países Baixos, onde faixas paralelas e coloridas de tulipas em plena floração estendem-se até o horizonte. Ao fundo, eleva-se a silhueta escura e imponente de um moinho de vento holandês tradicional sob um céu límpido e dinâmico, pontilhado por nuvens esparsas em tons suaves de azul, violeta e rosa.\n\nMonet emprega pinceladas rápidas, espessas e justapostas (*taches* e *virgules*), saturando a composição com vermelhos incandescentes, amarelos brilhantes, púrpuras e verdes intensos. Em vez de delinear as flores individualmente, o artista captura a vibração óptica contínua e a sensação cintilante da luz solar incidindo sobre o mar ondulante de cor, fundindo a arquitetura tradicional holandesa na atmosfera moderna do *plein air*.",
-      "imageFile": "claude-monet-um-campo-de-tulipas-na-holanda.webp",
-      "licenseType": "public-domain",
-      "location": "Musée d'Orsay, Paris, França",
-      "references": []
     },
     {
       "slug": "claude-vignon-a-parabola-do-servo-implacavel",
@@ -9554,19 +9515,6 @@
       ]
     },
     {
-      "slug": "gustave-dore-os-espiritos-em-jupiter",
-      "title": "Os espíritos em Júpiter",
-      "subtitle": "Les Esprits en Jupiter",
-      "artistOrDirector": "Gustave Doré",
-      "year": "s/d",
-      "category": "painting",
-      "description": "Gravura de Gustave Doré que representa uma cena de natureza literária ou mitológica envolvendo espíritos no planeta Júpiter. A composição caracteriza-se pelo uso dramático do chiaroscuro e pela representação etérea de figuras espirituais em um ambiente cósmico, recursos visuais típicics do ilustrador romântico.\n\n### Contexto Histórico\n\n**Gustave Doré** (1832–1883) foi ilustrador e gravador francês, um dos mais prolíficos e influentes do século XIX. Foi responsável por ciclos de ilustrações para a *Bíblia*, *A Divina Comédia*, *Paraíso Perdido*, *Don Quixote* e *Os Contos de Canterbury*, entre outros.\n\nA gravura faz parte do acervo de ilustrações de *La Grande Bible de Doré* (1866), uma das mais célebres coleções de ilustrações bíblicas da história, embora esta peça em particular não represente uma cena das Escrituras.",
-      "imageFile": "gustave-dore-os-espiritos-em-jupiter.webp",
-      "licenseType": "public-domain",
-      "location": "Gravura original — La Grande Bible de Doré (1866)",
-      "references": []
-    },
-    {
       "slug": "gustave-dore-os-filhos-de-israel-cruzando-o-jordao",
       "title": "Os filhos de Israel cruzando o Jordão",
       "subtitle": "The Children of Israel Crossing Jordan",
@@ -11120,26 +11068,6 @@
           "chapter": 4,
           "verses": "15",
           "passageText": "\"Tendo, pois, Cristo passado por todas as tentações semelhantes às nossas, afim de poder socorrer os que são tentados.\""
-        }
-      ]
-    },
-    {
-      "slug": "j-c-leyendecker-lune-de-miel",
-      "title": "Lune de Miel",
-      "subtitle": "Lua de Mel",
-      "artistOrDirector": "J. C. Leyendecker",
-      "year": "1926",
-      "category": "painting",
-      "description": "**Lune de Miel** (*Lua de Mel*, 1908), de **J. C. Leyendecker**, é uma ilustração que combina **Art Nouveau** com **Historicismo Neomedieval** e **Romantismo Tardo-Vitoriano**, típica da Era de Ouro da Ilustração Americana. O monograma característico **JCL** pode ser visto dentro do selo circular vermelho no canto inferior direito.\n\nA composição retrata um cavaleiro de armadura prateada e sua donzela montados no mesmo corcel, envoltos por guirlandas de rosas em cascata. A moldura gráfica circular, as linhas curvas sinuosas do Art Nouveau, a heráldica tradicional (brasões esquartelados com flor-de-lis e leões rampantes nas gualdrapas do cavalo e no escudo) e um querubim barroco lançando pétalas sobre o casal compõem uma cena que é ao mesmo tempo comercial e contemplativa — uma capa de revista que pede pausa.\n\n### Contexto Histórico\n\nEsta obra é um valioso registro artístico que integra a rica tradição das representações visuais inspiradas nas Sagradas Escrituras. A composição reflete o rigor estético, a sensibilidade cultural de seu tempo e a devoção profunda à narrativa bíblica, funcionando não apenas como ilustração, mas como objeto de contemplação teológica.",
-      "imageFile": "j-c-leyendecker-lune-de-miel.webp",
-      "licenseType": "public-domain",
-      "references": [
-        {
-          "book": "Gênesis",
-          "bookSlug": "genesis",
-          "chapter": 2,
-          "verses": "24",
-          "passageText": "\"Põe-me como selo sobre o teu coração, como selo sobre o teu braço, porque o amor é forte como a morte, e duro como a sepultura o ciúme; as suas brasas são brasas de fogo, com veementes labaredas.\""
         }
       ]
     },
@@ -13873,19 +13801,6 @@
       ]
     },
     {
-      "slug": "john-william-godward-dolce-far-niente",
-      "title": "Dolce Far Niente",
-      "subtitle": "Dolce far Niente",
-      "artistOrDirector": "John William Godward",
-      "year": "1897",
-      "category": "painting",
-      "description": "**\"Dolce Far Niente\"** — John William Godward, 1897. Óleo sobre tela, 77,4 × 127 cm.\n\nA expressão italiana do título — \"a doçura de não fazer nada\" — descreve com precisão o tema: uma jovem mulher de beleza clássica idealizada reclinada sobre um banco de mármore branco polido coberto por uma pele de leopardo. Vestida com uma túnica diáfana em tons de azul e dourado minuciosamente plissada, a figura repousa a cabeça languidamente enquanto brinca com uma pena de pavão ou contempla o horizonte mediterrâneo.\n\nGodward exibe virtuosismo técnico na renderização de texturas: a frieza brilhante do mármore venado, a maciez do veludo e da pele animal, e a transparência vaporosa dos tecidos sedosos. A iluminação límpida e banhada pelo sol da Antiguidade transporta o espectador para um mundo atemporal de serenidade harmônica e perfeição formal.\n\n### Contexto Histórico\n\n**John William Godward** (1861–1922) dedicou toda a sua vida artística à reconstituição idealizada da Grécia e Roma clássicas. Conhecido como o \"último grande pintor do classicismo vitoriano\", permaneceu leal aos princípios estéticos da beleza ordenada mesmo quando as vanguardas modernistas já dominavam o cenário artístico. *Dolce Far Niente* (1897) data de seu período de maior produtividade, quando suas obras eram celebradas em exposições da Royal Academy e da New English Art Club. A ironia histórica é que Godward morreu praticamente esquecido em 1922, quando o público e a crítica já haviam abandonado o neoclassicismo em favor do expressionismo e da abstração.",
-      "imageFile": "john-william-godward-dolce-far-niente.webp",
-      "licenseType": "public-domain",
-      "location": "Coleção particular, Londres, Reino Unido",
-      "references": []
-    },
-    {
       "slug": "joost-van-geel-jesus-cura-a-sogra-de-pedro",
       "title": "Jesus cura a sogra de Pedro",
       "subtitle": "Christ healing Peter's mother-in-law",
@@ -13903,26 +13818,6 @@
           "chapter": 1,
           "verses": "29-31",
           "passageText": "\"E logo, saindo da sinagoga, foram à casa de Simão e de André com Tiago e João. E a sogra de Simão estava deitada com febre; e logo lhe falaram dela. Então, chegando-se a ela, tomou-a pela mão, e levantou-a; e imediatamente a febre a deixou, e servia-os.\""
-        }
-      ]
-    },
-    {
-      "slug": "almeida-junior-saudade",
-      "title": "Saudade",
-      "artistOrDirector": "Almeida Júnior",
-      "year": "1899",
-      "category": "painting",
-      "description": "**Saudade** é uma das obras mais célebres de **José Ferraz de Almeida Júnior** (1850–1899), pintor de Itu (SP) e o principal nome do realismo brasileiro do século XIX, conhecido por retratar o caipira paulista com dignidade e verdade, longe do exotismo e da idealização então comuns. Pintada em 1899, ano de sua morte, a obra está hoje no acervo da Pinacoteca de São Paulo.\n\nA composição é de uma simplicidade radical: uma mulher sentada sozinha junto a uma janela, o olhar perdido para fora, as mãos cruzadas sobre o colo. Não há narrativa, nem gesto dramático — apenas a suspensão do tempo de quem espera ou lembra algo que não está mais presente. Almeida Júnior usa luz difusa e uma paleta contida para construir essa atmosfera de recolhimento, típica do realismo que ele praticava: verdade sem artifício, o cotidiano elevado à condição de tema maior.\n\nA obra é hoje a imagem mais associada, na cultura visual brasileira, à própria palavra \"saudade\" — o sentimento notoriamente difícil de traduzir, que mistura ausência, memória e afeto.\n\n### Contexto Histórico\n\nJosé Ferraz de Almeida Júnior (1850–1899) é reconhecido como o mais autêntico pintor brasileiro do século XIX, pioneiro no naturalismo e na retratação realista do povo e da luz tropical. Suas pinturas de forte carga moral ou sacra destacam-se por trazer temas universais para perto da sensibilidade humana através de expressões genuínas, com uma técnica impecável e empática.",
-      "imageFile": "almeida-junior-saudade.webp",
-      "licenseType": "public-domain",
-      "location": "Pinacoteca do Estado de São Paulo, Brasil",
-      "references": [
-        {
-          "book": "Salmos",
-          "bookSlug": "psalms",
-          "chapter": 42,
-          "verses": "1",
-          "passageText": "\"Assim como o cervo brama pelas correntes das águas, assim suspira a minha alma por ti, ó Deus!\""
         }
       ]
     },
@@ -14422,18 +14317,6 @@
           "passageText": "\"E aconteceu que em Icônio entraram juntos na sinagoga dos judeus, e falaram de tal modo que creu uma grande multidão, não só de judeus mas de gregos. Mas os judeus incrédulos incitaram e irritaram, contra os irmãos, os ânimos dos gentios. Detiveram-se, pois, muito tempo, falando ousadamente acerca do Senhor, o qual dava testemunho à palavra da sua graça, permitindo que por suas mãos se fizessem sinais e prodígios. E dividiu-se a multidão da cidade; e uns eram pelos judeus, e outros pelos apóstolos. E havendo um motim, tanto dos judeus como dos gentios, com os seus principais, para os insultarem e apedrejarem, sabendo-o eles, fugiram para Listra e Derbe, cidades de Licaônia, e para a província circunvizinha; e ali pregavam o evangelho. E estava assentado em Listra certo homem leso dos pés, coxo desde o ventre de sua mãe, o qual nunca tinha andado. Este ouviu falar Paulo, que, fixando nele os olhos, e vendo que tinha fé para ser curado, disse em voz alta: Levanta-te direito sobre teus pés. E ele saltou e andou.\""
         }
       ]
-    },
-    {
-      "slug": "kiyoshi-yamashita-fogos-de-artificio-nagaoka-no-hanabi-fogos-de-nagaoka",
-      "title": "Fogos de artifício (長岡の花火 (Nagaoka no Hanabi - Fogos de Nagaoka))",
-      "artistOrDirector": "Kiyoshi Yamashita",
-      "year": "1950",
-      "category": "painting",
-      "description": "Representação dos famosos fogos de artifício do Festival de Nagaoka, no Japão, um dos espetáculos pirotécnicos mais célebres do país. A composição captura a explosão de cores no céu noturno e a contemplação silenciosa da multidão abaixo.\n\n### Contexto Histórico\n\n**Kiyoshi Yamashita** (1922–1971), conhecido como \"o Van Gogh japonês\", foi um artista autodidata célebre por suas composições vibrantes e seus colagens. A obra *Nagaoka no Hanabi* (Fogos de Nagaoka) retrata um dos festivais de fogos de artifício mais tradicionais do Japão, realizado anualmente na cidade de Nagaoka, prefectura de Niigata, desde 1946 como símbolo de reconstrução pós-guerra.",
-      "imageFile": "kiyoshi-yamashita-fogos-de-artificio-nagaoka-no-hanabi-fogos-de-nagaoka.webp",
-      "licenseType": "public-domain",
-      "location": "Coleção gerida pelo escritório de gestão das obras de Yamashita (山下清作品管理事務所), Japão",
-      "references": []
     },
     {
       "slug": "konstantin-flavitsky-a-filha-do-farao-encontra-o-menino-moises",
@@ -16020,18 +15903,6 @@
       ]
     },
     {
-      "slug": "oscar-pereira-da-silva-desembarque-de-pedro-alvares-cabral-em-porto-seguro-em-1500",
-      "title": "Desembarque de Pedro Álvares Cabral em Porto Seguro em 1500",
-      "artistOrDirector": "Oscar Pereira da Silva",
-      "year": "1900",
-      "category": "painting",
-      "description": "**\"Desembarque de Pedro Álvares Cabral em Porto Seguro em 1500\"** — Oscar Pereira da Silva, 1900. Óleo sobre tela, 190 × 330 cm. Museu Paulista (Museu do Ipiranga), São Paulo.\n\nA composição reconstitui o primeiro contato entre portugueses e indígenas na costa da Bahia, em abril de 1500. Ao centro, a comitiva de Cabral desembarca em terra firme junto a um religioso e um fidalgo em armadura. Os nativos, à esquerda, reagem com espanto e desconfiança à chegada das caravelas, ancoradas ao fundo com suas velas marcadas pela cruz de Cristo. A paleta é quente e terrosa, típica do academicismo histórico brasileiro.\n\nPintada quatro séculos após o evento, a obra é reconstrução idealizada — não registro documental. Pertence ao gênero da **pintura histórica acadêmica** produzida no contexto da Primeira República, quando o Brasil buscava construir uma iconografia fundacional para sua identidade nacional.\n\n### Contexto Histórico\n\n**Oscar Pereira da Silva** (1867–1939) foi pintor brasileiro do período acadêmico, professor na Escola Nacional de Belas Artes (ENBA) e retratou temas da história do Brasil colonial e imperial. O *Desembarque de Pedro Álvares Cabral* (1900) é sua obra mais conhecida, encomendada pelo Museu Paulista e adquirida em 1902. A obra consolidou-se como imagem icônica do \"descobrimento\" em livros didáticos por gerações, mas é lida hoje tanto como retrato do evento quanto como artefato do modo como o Brasil pós-monárquico quis narrar sua própria origem — uma leitura que inclui as invisibilizações e idealizações inerentes ao gênero da pintura histórica acadêmica.",
-      "imageFile": "oscar-pereira-da-silva-desembarque-de-pedro-alvares-cabral-em-porto-seguro-em-1500.webp",
-      "licenseType": "public-domain",
-      "location": "Museu Paulista (Museu do Ipiranga), São Paulo, Brasil",
-      "references": []
-    },
-    {
       "slug": "osmar-schindler-davi-e-golias",
       "title": "Davi e Golias",
       "subtitle": "David and Goliath",
@@ -16272,19 +16143,6 @@
           "passageText": "\"Dizendo: Onde está aquele que é nascido rei dos judeus? Porque vimos a sua estrela no oriente, e viemos a adorá-lo.\""
         }
       ]
-    },
-    {
-      "slug": "pedro-bruno-a-patria",
-      "title": "A Pátria",
-      "subtitle": "Pátria",
-      "artistOrDirector": "Pedro Bruno",
-      "year": "1919",
-      "category": "painting",
-      "description": "**A Pátria** (1919) é uma monumental pintura a óleo sobre tela (190 × 278 cm) de **Pedro Bruno**, conservada em exibição permanente no **Museu da República** (antigo Palácio do Catete), no Rio de Janeiro.\n\nA composição constrói uma cena alegórica de forte intimismo cívico e doméstico, ambientada em uma sala arejada que se abre para uma luminosa paisagem da Baía de Guanabara com o Pão de Açúcar ao fundo. No centro do espaço, um grupo intergeracional de mulheres e jovens vestidas em trajes brancos simples costura à mão o tecido verde, amarelo e azul da recém-proclamada bandeira republicana do Brasil (concebida por Raimundo Teixeira Mendes e desenhada por Décio Villares). Ao lado, uma menina segura a barra do pavilhão nacional com reverência, enquanto um berço à esquerda e um ramo de louro no chão reforçam o nascimento de uma nova era para a nação.\n\nA iluminação natural entra suavemente pelas janelas abertas, banhando a cena em tonalidades claras e serenas. Pedro Bruno transpõe o heroísmo cívico dos campos de batalha para a esfera dos lares e do afeto materno, sugerindo que a verdadeira pátria é tecida pacientemente pelo trabalho silencioso, pela educação moral e pelo compromisso das gerações vindouras.",
-      "imageFile": "pedro-bruno-a-patria.webp",
-      "licenseType": "public-domain",
-      "location": "Museu da República, Rio de Janeiro, Brasil",
-      "references": []
     },
     {
       "slug": "peter-brown-natal",
@@ -17389,19 +17247,6 @@
           "passageText": "\"Ninguém pode servir a dois senhores; porque ou há de odiar um e amar o outro, ou se dedicará a um e desprezará o outro. Não podeis servir a Deus e a Mamom.\""
         }
       ]
-    },
-    {
-      "slug": "rafael-sanzio-a-escola-de-atenas",
-      "title": "A escola de Atenas",
-      "subtitle": "Scuola di Atene",
-      "artistOrDirector": "Rafael Sanzio",
-      "year": "1509-1511",
-      "category": "painting",
-      "description": "**A Escola de Atenas** (*Scuola di Atene*) é um afresco de **Rafael Sanzio** (1483-1520), pintado entre 1509 e 1511 para decorar a Stanza della Segnatura no Vaticano — os aposentos que serviriam de biblioteca privada do Papa Júlio II. É a imagem mais famosa da história da filosofia ocidental: uma reunião imaginária de dezenas de filósofos gregos, de diferentes séculos, retratados juntos num mesmo espaço arquitetônico monumental, muitos deles com os traços de artistas contemporâneos de Rafael (Platão tem o rosto de Leonardo da Vinci; Heráclito, em primeiro plano, o de Michelangelo; o próprio Rafael se autorretrata num canto).\n\nNo centro exato da composição, sob os arcos, caminham lado a lado **Platão** e **Aristóteles**, em diálogo — o detalhe mais reproduzido e mais citado de toda a pintura. Platão, mais velho, segura o *Timeu* e aponta para cima, para o mundo das Ideias, a realidade transcendente que, para ele, fundamenta tudo o que existe. Aristóteles, mais jovem, segura a *Ética* com a palma da mão virada para baixo, apontando para o mundo sensível — a realidade concreta e observável que, para ele, é o ponto de partida do conhecimento. O gesto resume, num único quadro, toda a divergência entre os dois maiores nomes da filosofia grega: a primazia do inteligível vs. a primazia do sensível, a base filosófica de praticamente toda disputa metafísica que viria depois.\n\nAo redor dos dois mestres, Rafael dispõe outras figuras identificáveis: **Sócrates**, à esquerda, debate com um grupo de jovens; **Pitágoras**, sentado, escreve rodeado de discípulos, ilustrando a harmonia matemática do cosmos; **Diógenes**, o cínico, está recostado sozinho nos degraus centrais, indiferente à companhia; **Euclides** (com o rosto do arquiteto Bramante), curvado, demonstra um teorema de geometria a alunos; e, isolado à esquerda em primeiro plano, **Heráclito**, o \"filósofo obscuro\", medita sozinho e melancólico — uma adição tardia de Rafael, inspirada diretamente na figura de Michelangelo pintando o teto da Capela Sistina ao lado.\n\n### Contexto Histórico\n\nObra-prima de **Raffaello Sanzio** (1483–1520), mestre supremo da **Alta Renascença Italiana**. Rafael imortalizou a harmonia, a beleza idílica e a perfeição de proporções que definiram o ideal clássico da arte ocidental.",
-      "imageFile": "rafael-sanzio-a-escola-de-atenas.webp",
-      "licenseType": "public-domain",
-      "location": "Musei Vaticani — Stanza della Segnatura (Palácio Apostólico), Cidade do Vaticano",
-      "references": []
     },
     {
       "slug": "rafael-sanzio-transfiguracao",
@@ -19874,31 +19719,6 @@
       ]
     },
     {
-      "slug": "viggo-johansen-alegre-natal",
-      "title": "Alegre Natal",
-      "subtitle": "Glædelig Jul",
-      "artistOrDirector": "Viggo Johansen",
-      "year": "1891",
-      "category": "painting",
-      "description": "**Glade jul** (1891) é uma célebre e acolhedora pintura a óleo sobre tela (127,2 × 158,5 cm) do pintor dinamarquês **Viggo Johansen**, um dos mestres da colônia artística de Skagen, conservada na prestigiada **Coleção Hirschsprung** (*Den Hirschsprungske Samling*) em Copenhague.\n\nO título dinamarquês evoca o hino clássico de Natal (*Noite Feliz* / *Glade jul, dejlige jul*). A cena retrata a própria família de Johansen reunida na véspera de Natal em sua residência: sua esposa Martha, filhos e parentes dão as mãos e dançam em círculo ao redor de uma majestosa árvore de Natal iluminada por dezenas de velas acesas. O artista emprega um virtuoso jogo de iluminação intimista, no qual o calor dourado e suave das chamas das velas recai sobre os rostos radiantes das crianças e os detalhes da sala de estar, dissipando as sombras e criando um refúgio de paz, segurança e encantamento infantil.\n\nJohansen trabalhou durante meses nesta composição para capturar a luz viva do fogo, substituindo os ramos da árvore à medida que secavam para concluir a tela na primavera seguinte. A obra consagrou-se como a expressão visual máxima do *hygge* dinamarquês e da celebração natalina no lar.\n\n### Contexto Histórico\n\nApelidado carinhosamente pela crítica nórdica de *\"o pintor do lar\"* (*hjemmets maler*), **Viggo Johansen** (1851–1935) distinguiu-se entre os pintores de Skagen por seu foco nas sutilezas da luz interior e na crônica poética da vida doméstica e familiar, influenciado pela tradição dos mestres holandeses do século XVII como Vermeer e Rembrandt.",
-      "imageFile": "viggo-johansen-alegre-natal.webp",
-      "licenseType": "public-domain",
-      "location": "The Hirschsprung Collection, Copenhague, Dinamarca",
-      "references": [
-        {
-          "book": "Lucas",
-          "bookSlug": "luke",
-          "chapter": 2
-        },
-        {
-          "book": "João",
-          "bookSlug": "john",
-          "chapter": 1,
-          "verses": "5,"
-        }
-      ]
-    },
-    {
       "slug": "viktor-vasnetsov-arcanjo-no-julgamento-final",
       "title": "Arcanjo no Julgamento Final",
       "subtitle": "Archangel at the Last Judgment",
@@ -19926,18 +19746,6 @@
       ]
     },
     {
-      "slug": "vincent-van-gogh-celebracao-la-fete-du-14-juillet-a-paris-f-222",
-      "title": "Celebração (La Fête du 14 juillet à Paris (F 222))",
-      "artistOrDirector": "Vincent Van Gogh",
-      "year": "1886",
-      "category": "painting",
-      "description": "**La Fête du 14 juillet à Paris** (1886) é uma vibrante pintura a óleo sobre tela (44 × 39 cm) de **Vincent Van Gogh** (catálogo F 222 / JH 1108), executada durante seu primeiro verão em Paris enquanto residia com seu irmão Theo em Montmartre.\n\nA composição retrata uma movimentada rua parisiense decorada com bandeiras tricolores francesas em comemoração ao Dia da Bastilha (14 de julho). Van Gogh capta a energia festiva através de uma explosão de pinceladas dinâmicas, espessas e fragmentadas de vermelho vivo, branco e azul ultramarino que parecem dançar e vibrar no ar sobre a multidão de pedestres e vitrines iluminadas. A verticalidade dos lampiões e dos toldos enquadra o movimento febril dos cidadãos na calçada, transformando a celebração patriótica em uma experiência puramente cromática e cinética.\n\nA obra marca o momento decisivo de transição na carreira de Van Gogh: ao chegar a Paris, o pintor abandona a paleta escura e terrosa de sua fase holandesa anterior (como em *Os Comedores de Batata*) para absorver com entusiasmo a luminosidade, a pincelada livre e o uso emocional da cor pura introduzidos pelos impressionistas e neoimpressionistas.",
-      "imageFile": "vincent-van-gogh-celebracao-la-fete-du-14-juillet-a-paris-f-222.webp",
-      "licenseType": "public-domain",
-      "location": "Coleção privada / Villa Flora, Winterthur, Suíça",
-      "references": []
-    },
-    {
       "slug": "vincent-van-gogh-o-bom-samaritano-the-good-samaritan-after-delacroix",
       "title": "O bom samaritano (The Good Samaritan (after Delacroix))",
       "artistOrDirector": "Vincent Van Gogh",
@@ -19958,18 +19766,6 @@
       ]
     },
     {
-      "slug": "vincent-van-gogh-paisagem-com-casas-landschap-met-huizen-landscape-with-houses",
-      "title": "Paisagem com casas (Landschap met huizen (Landscape with Houses))",
-      "artistOrDirector": "Vincent Van Gogh",
-      "year": "1890",
-      "category": "painting",
-      "description": "**Landscape with Thatched Cottages** (maio de 1890) é um notável desenho a grafite, caneta e aquarela sobre papel (catálogo F 1640r / JH 1986) realizado por **Vincent Van Gogh** logo após sua chegada a Auvers-sur-Oise, pertencente ao acervo permanente do **Van Gogh Museum** em Amsterdã.\n\nA composição capta a aldeia rural francesa com seu característico conjunto de choupanas antigas de telhado de palha, aninhadas entre colinas e árvores que parecem ondular com a força do vento. Van Gogh utiliza uma gama monocromática dominante de azuis e lavagens de aguada sobre traços enérgicos e sinuosos a bico de pena. A linha rítmica e quase caligráfica confere uma vitalidade pulsante a cada elemento da paisagem: os campos arados em primeiro plano, a folhagem rodopiante dos arbustos e as nuvens revoltas no céu azulado fundem-se em um fluxo orgânico ininterrupto.\n\nO desenho reflete o entusiasmo inicial de Van Gogh por Auvers, onde encontrou na arquitetura rústica e nas formas ancestrais do campo uma profunda sensação de pureza e paz campestre durante as últimas semanas de sua vida.",
-      "imageFile": "vincent-van-gogh-paisagem-com-casas-landschap-met-huizen-landscape-with-houses.webp",
-      "licenseType": "public-domain",
-      "location": "Van Gogh Museum, Amsterdã, Países Baixos",
-      "references": []
-    },
-    {
       "slug": "vincent-van-gogh-pieta",
       "title": "Pietà",
       "subtitle": "Pietà, d'après Delacroix",
@@ -19987,34 +19783,6 @@
           "chapter": 19,
           "verses": "25-26",
           "passageText": "\"E, estando junto à cruz de Jesus, sua mãe... Quando Jesus, pois, viu ali sua mãe, e a quem ele amava, disse a sua mãe: Mulher, eis aí teu filho.\""
-        }
-      ]
-    },
-    {
-      "slug": "vincent-van-gogh-a-colheita",
-      "title": "A Colheita",
-      "subtitle": "La moisson",
-      "artistOrDirector": "Vincent Van Gogh",
-      "year": "1888",
-      "category": "painting",
-      "description": "Esta obra-prima de **Vincent van Gogh**, pintada em Arles, é um exemplo vibrante do **Pós-Impressionismo** (estilo que utiliza cores intensas e pinceladas livres para expressar emoções, indo além da simples imitação da realidade). Van Gogh utiliza o contraste de **Cores Complementares** — o amarelo dourado dos campos contra o azul profundo do céu e das montanhas — para criar uma sensação de luz solar intensa e energia vital.\n\nA técnica principal é o **impasto**, onde a tinta é aplicada de forma tão espessa que as marcas das cerdas do pincel ou da espátula criam uma textura tridimensional, dando \"corpo\" ao trigo e ao solo. Para Van Gogh, o trabalho no campo era uma metáfora da vida espiritual: a semeadura, o crescimento e a colheita representavam o ciclo da existência humana sob o cuidado divino. A vastidão da paisagem e o detalhismo dos trabalhadores ao fundo celebram a dignidade do trabalho braçal e a generosidade da criação.\n\n### Contexto Histórico\n\nObra representativa de **Vincent Van Gogh**, integrada ao acervo histórico do Bíblia na Arte. As representações visuais inspiradas nas Sagradas Escrituras produzidas por este mestre combinam rigor estético, sensibilidade cultural e devoção à narrativa bíblica.",
-      "imageFile": "vincent-van-gogh-a-colheita.webp",
-      "licenseType": "public-domain",
-      "location": "Van Gogh Museum, Amsterdã, Países Baixos",
-      "references": [
-        {
-          "book": "Mateus",
-          "bookSlug": "matthew",
-          "chapter": 9,
-          "verses": "37-38",
-          "passageText": "\"Então, disse aos seus discípulos: A ceifa é realmente grande, mas poucos os obreiros. Rogai, pois, ao Senhor da ceifa, que mande obreiros para a sua colheita.\""
-        },
-        {
-          "book": "João",
-          "bookSlug": "john",
-          "chapter": 4,
-          "verses": "35",
-          "passageText": "\"Levantai os vossos olhos, e vede as terras, que já estão brancas para a ceifa.\""
         }
       ]
     },
@@ -20102,31 +19870,6 @@
           "chapter": 1,
           "verses": "1,14",
           "passageText": "\"No princípio era o Verbo, e o Verbo estava com Deus, e o Verbo era Deus. [...] E o Verbo se fez carne, e habitou entre nós, e vimos a sua glória, como a glória do unigênito do Pai, cheio de graça e de verdade.\""
-        }
-      ]
-    },
-    {
-      "slug": "wenzel-hablik-ceu-estrelado-sternenhimmel-versuch",
-      "title": "Céu estrelado (Sternenhimmel (Versuch))",
-      "artistOrDirector": "Wenzel Hablik",
-      "year": "1909",
-      "category": "painting",
-      "description": "**Sternenhimmel (Versuch)** (1909) é uma tela a óleo monumental de formato quadrado (200 × 200 cm) do pintor, arquiteto e designer expressionista **Wenzel Hablik**, conservada no **Wenzel-Hablik-Museum** em Itzehoe, Alemanha.\n\nA composição é uma arrebatadora visão mística e cósmica do universo, concebida no limiar da abstração moderna. Uma profusão rodopiante de planetas luminosos, orbes celestes, cometas e galáxias espiralares converge em direção a um vórtice central de energia e luz incandescente sobre um fundo de azul-profundo e violeta. Hablik acrescentou a palavra *Versuch* (\"Tentativa\") ao título original em humilde reconhecimento da incapacidade humana de abarcar a imensidão sublime e transcendente da Criação no espaço finito de uma tela.\n\nA técnica expressiva combina o pontilhismo luminoso com o dinamismo rítmico do primeiro Expressionismo Alemão, traduzindo o fascínio do artista pela cristalografia, pela astronomia de vanguarda e pela arquitetura cósmica.\n\n### Contexto Histórico\n\nNascido na Boêmia e radicado na Alemanha, **Wenzel Hablik** (1881–1934) foi um dos nomes mais originais do Expressionismo e membro influente do movimento *Gläserne Kette* (A Corrente de Vidro) liderado por Bruno Taut. Hablik concebia a arte como uma ponte entre a pesquisa científica da natureza e a imaginação visionária utópica, buscando renovar a arquitetura e a vida espiritual através de formas cósmicas e cristalinas.",
-      "imageFile": "wenzel-hablik-ceu-estrelado-sternenhimmel-versuch.webp",
-      "licenseType": "public-domain",
-      "location": "Wenzel-Hablik-Museum, Itzehoe, Alemanha",
-      "references": [
-        {
-          "book": "Salmos",
-          "bookSlug": "psalms",
-          "chapter": 19,
-          "verses": "1-2"
-        },
-        {
-          "book": "Gênesis",
-          "bookSlug": "genesis",
-          "chapter": 1,
-          "verses": "14"
         }
       ]
     },
@@ -21855,5 +21598,5 @@
       ]
     }
   ],
-  "exportedAt": "2026-09-01T04:08:53.072Z"
+  "exportedAt": "2026-09-01T11:30:13.339Z"
 }

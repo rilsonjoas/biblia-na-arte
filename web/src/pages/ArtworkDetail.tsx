@@ -17,7 +17,7 @@ import { CopyButton, CopyImageButton } from '@/components/ui/copy-button';
 import { DownloadStoryButton } from '@/components/DownloadStoryButton';
 import { DownloadArtworkButton } from '@/components/DownloadArtworkButton';
 import { FavoriteButton } from '@/components/FavoriteButton';
-import { stripMarkdown } from '@/lib/utils';
+import { cn, stripMarkdown } from '@/lib/utils';
 import { useArtwork, useArtworksByBibleReference, useArtworks } from '@/hooks/use-artworks';
 import {
   Music,
@@ -327,10 +327,12 @@ export default function ArtworkDetail() {
                 )}
               </div>
 
-              <h1 className="text-display text-2xl md:text-4xl font-bold mb-2 leading-tight flex items-start gap-3">
-                <span>{artwork.title}</span>
-                <FavoriteButton artworkId={artwork.id} className="shrink-0 mt-1.5" />
-              </h1>
+              <div className="flex items-center gap-3 mb-2">
+                <h1 className="text-display text-2xl md:text-4xl font-bold leading-tight">
+                  {artwork.title}
+                </h1>
+                <FavoriteButton artworkId={artwork.id} className="shrink-0" />
+              </div>
 
               {artwork.subtitle && (
                 <p className="signature-italic text-lg md:text-xl mb-4">
@@ -362,7 +364,7 @@ export default function ArtworkDetail() {
                       <Calendar className="w-4 h-4 text-primary" />
                       <span>Ano / Datação:</span>
                     </div>
-                    <span className="font-mono text-foreground text-right min-w-0 break-words">
+                    <span className="numeral-classico text-foreground text-right min-w-0 break-words">
                       {artwork.year}
                     </span>
                   </div>
@@ -476,7 +478,13 @@ export default function ArtworkDetail() {
               </div>
             </CardHeader>
             <CardContent className="p-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {/* 1 referência não vira grid de 2 colunas com metade vazia
+                  (achado 2026-09-01) — a maioria das obras do acervo tem
+                  só 1 passagem, e o card sozinho colado à esquerda com
+                  espaço morto do lado direito lia como quebrado, não como
+                  "design intencional". Com 1 só, o card ocupa a largura
+                  toda; com 2+, mantém o grid de duas colunas de antes. */}
+              <div className={cn('grid gap-4', artwork.references.length === 1 ? 'grid-cols-1' : 'grid-cols-1 md:grid-cols-2')}>
                 {artwork.references.map((ref, index) => (
                   <Card key={index} className="border border-border/60 bg-background/80 flex flex-col justify-between hover:border-accent/50 transition-colors">
                     <CardContent className="p-4 space-y-3">

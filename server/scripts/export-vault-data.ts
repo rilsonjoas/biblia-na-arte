@@ -136,39 +136,63 @@ const ALLOWED_UNKNOWN_AUTHOR_FILENAMES = new Set([
   'Autor Desconhecido - Pentecoste (Pentecoste).md', // capela de Eugenio Cisterna, Lourdes, 1893-1907
 ]);
 
-/** Notas vazias (stub) que entraram na pasta Pinturas mas cujo tema NÃO é
- * bíblico — achado 2026-08-16 ao investigar por que ficaram sem referência
- * bíblica mesmo depois de 2 lotes de conteúdo: as 3 são paisagens/gêneros
- * de Van Gogh (nenhuma cena da Bíblia), com frontmatter e corpo vazios
- * (nunca chegaram a ter descrição nem livros/capítulos preenchidos). Em vez
- * de forçar uma "conexão bíblica" inventada, ficam de fora do catálogo —
- * mesmo princípio já usado para obras sem licença permissiva: se não
- * pertence de fato ao escopo, não entra. As notas continuam no vault
- * (não foram apagadas), só excluídas da exportação. */
-const EXCLUDED_NON_BIBLICAL_FILENAMES = new Set([
-  'Vincent Van Gogh - A Amoreira (The Mulberry Tree).md',
-  'Vincent Van Gogh - Celebração.md',
-  'Vincent Van Gogh - Paisagem com casas.md',
-  'Gustave Doré - Os espíritos em Júpiter (Os espíritos em Júpiter).md',
-  'Albert Bierstadt - Tempestade nas montanhas (Storm in the mountains).md',
-  'Albert Chevalier Taylor - Um feixe de luz solar.md',
-  'Caspar David Friedrich - Dois homens contemplando a Lua.md',
-  'Charles Edward Chambers - Casal se despedindo na varanda sob a neve (Couple Parting on Porch in Snow).md',
-  'Claude Monet - Impressão, Sol Nascente.md',
-  'Claude Monet - Um campo de tulipas na Holanda.md',
-  'Elizabeth Sonrel - O jardim das virgens (Le jardin des vierges).md',
-  'John William Godward - Dolce Far Niente.md',
-  'Jose Ferraz de Almeida Júnior - Saudade.md',
-  'L. A. Fomichev - Ciência Soviética (Soviet science).md',
-  'Luigi Loir - O café noturno (The night café).md',
-  'Oscar Pereira da Silva - Desembarque de Pedro Álvares Cabral em Porto Seguro em 1500.md',
-  'Pedro Bruno - A Pátria.md',
-  'Rafael - A escola de Atenas.md',
-  'Rob Gonsalves - O Sol Zarpa (The Sun Sets Sail).md',
-  'Viggo Johansen - Alegre Natal.md',
-  'Wenzel Hablik - Céu estrelado.md',
-  'Émile Friant - Os Namorados (Les Amoureux).md',
-]);
+/** Notas vazias (stub) ou de tema NÃO-bíblico que entraram na pasta
+ * Pinturas — achado original 2026-08-16 (3 paisagens/gêneros de Van Gogh,
+ * frontmatter e corpo vazios), expandido em 2026-09-01 (achado ao investigar
+ * "A Colheita" aparecendo no site: mais 3 casos de conexão bíblica forçada
+ * sobre paisagem/gênero — 2 deles o próprio texto da nota admite "não
+ * retrata uma cena bíblica específica"). Em vez de forçar uma "conexão
+ * bíblica" inventada, ficam de fora do catálogo — mesmo princípio já usado
+ * para obras sem licença permissiva: se não pertence de fato ao escopo, não
+ * entra. As notas continuam no vault (não foram apagadas), só excluídas da
+ * exportação.
+ *
+ * **Bug encontrado e corrigido em 2026-09-01**: esta lista comparava o nome
+ * de arquivo EXATO, mas o processo externo de renomeação do vault (que
+ * acrescenta o `titulo_original` como subtítulo entre parênteses) já tinha
+ * silenciosamente quebrado 14 das 22 entradas — essas 14 pinturas voltaram
+ * a aparecer no site sem ninguém perceber. Corrigido: agora compara pela
+ * chave estável (autor + título, antes do primeiro parêntese), que sobrevive
+ * ao processo de renomeação — ver `nonBiblicalKey()` abaixo. */
+function nonBiblicalKey(filename: string): string {
+  // Corta no primeiro " (" — o subtítulo (titulo_original) do processo de
+  // renomeação sempre vem depois disso, mesmo quando o próprio subtítulo
+  // tem parênteses aninhados (ex.: "Celebração (La Fête ... (F 222)).md").
+  // Nenhuma das entradas desta lista tem parêntese como parte do título
+  // real antes do subtítulo, então cortar no primeiro " (" é seguro aqui.
+  return filename.replace(/\.md$/, '').split(' (')[0]!.trim();
+}
+
+const EXCLUDED_NON_BIBLICAL_KEYS = new Set(
+  [
+    'Vincent Van Gogh - A Amoreira (The Mulberry Tree).md',
+    'Vincent Van Gogh - Celebração.md',
+    'Vincent Van Gogh - Paisagem com casas.md',
+    'Gustave Doré - Os espíritos em Júpiter (Os espíritos em Júpiter).md',
+    'Albert Bierstadt - Tempestade nas montanhas (Storm in the mountains).md',
+    'Albert Chevalier Taylor - Um feixe de luz solar.md',
+    'Caspar David Friedrich - Dois homens contemplando a Lua.md',
+    'Charles Edward Chambers - Casal se despedindo na varanda sob a neve (Couple Parting on Porch in Snow).md',
+    'Claude Monet - Impressão, Sol Nascente.md',
+    'Claude Monet - Um campo de tulipas na Holanda.md',
+    'Elizabeth Sonrel - O jardim das virgens (Le jardin des vierges).md',
+    'John William Godward - Dolce Far Niente.md',
+    'Jose Ferraz de Almeida Júnior - Saudade.md',
+    'L. A. Fomichev - Ciência Soviética (Soviet science).md',
+    'Luigi Loir - O café noturno (The night café).md',
+    'Oscar Pereira da Silva - Desembarque de Pedro Álvares Cabral em Porto Seguro em 1500.md',
+    'Pedro Bruno - A Pátria.md',
+    'Rafael - A escola de Atenas.md',
+    'Rob Gonsalves - O Sol Zarpa (The Sun Sets Sail).md',
+    'Viggo Johansen - Alegre Natal.md',
+    'Wenzel Hablik - Céu estrelado.md',
+    'Émile Friant - Os Namorados (Les Amoureux).md',
+    // Achados 2026-09-01 (mesmo padrão: paisagem/gênero com conexão bíblica forçada)
+    'Vincent van Gogh - A Colheita (La moisson).md',
+    'J. C. Leyendecker - Lune de Miel (Lua de Mel).md',
+    'Kiyoshi Yamashita - Fogos de artifício (長岡の花火 (Nagaoka no Hanabi - Fogos de Nagaoka)).md',
+  ].map(nonBiblicalKey),
+);
 
 /** Autor -> { licença, texto de atribuição } pra quem não é domínio
  * público simples mas está aprovado com licença explícita. */
@@ -234,7 +258,7 @@ async function main() {
     const content = readFileSync(fullPath, 'utf-8');
     const frontmatter = extractFrontmatter(content);
 
-    if (EXCLUDED_NON_BIBLICAL_FILENAMES.has(file)) {
+    if (EXCLUDED_NON_BIBLICAL_KEYS.has(nonBiblicalKey(file))) {
       skipped.push({ file, reason: 'stub sem tema bíblico (obra confirmada não-bíblica, achado 2026-08-16)' });
       continue;
     }

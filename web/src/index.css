@@ -311,6 +311,18 @@
     color: var(--dourado);
   }
 
+  /* Numerais de catálogo — data/ano em fichas de obra e na timeline
+     (achado 2026-09-01: usava .font-mono/JetBrains Mono, que lê como
+     terminal de código e destoa da identidade manuscrita do resto do
+     site). Troca pro registro de placa de museu: serifa do corpo com
+     algarismos históricos (onum — alturas variáveis, tipográficamente
+     "antigos") em vez de tabulares uniformes de código. */
+  .numeral-classico {
+    font-family: var(--font-serif);
+    font-variant-numeric: oldstyle-nums;
+    letter-spacing: 0.02em;
+  }
+
   /* Moldura de galeria — filete duplo dourado em passe-partout, aplicado
      via overlay sobre a imagem. Adaptação fluida do frame do Guia Técnico:
      o frame-arch literal (retrato 280×380) exigiria recortar pinturas

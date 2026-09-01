@@ -123,7 +123,7 @@ export default function ArtworkCard({ artwork, showReferences = true }: ArtworkC
 
           <div className="space-y-0.5 text-xs md:text-sm text-muted-foreground mb-2">
             <p className="font-medium text-foreground/90">{artwork.artistOrDirector}</p>
-            {artwork.year && <p className="font-mono text-xs">{artwork.year}</p>}
+            {artwork.year && <p className="numeral-classico text-xs">{artwork.year}</p>}
             {artwork.mediumOrGenre && <p className="italic text-xs">{artwork.mediumOrGenre}</p>}
           </div>
 
