@@ -53,7 +53,14 @@ export function extractFrontmatter(content: string): RawFrontmatter | null {
 export function extractWikilink(value: unknown): string {
   if (typeof value !== 'string' || !value) return '';
   const m = value.match(/\[\[([^\]]*)\]\]/);
-  return (m?.[1] ?? value).trim();
+  const target = (m?.[1] ?? value).trim();
+  // Obsidian aceita wikilink com caminho de pasta inteiro
+  // ("[[10 - Arte e literatura/Autores/Fritz von Uhde]]") e resolve certo
+  // dentro do app — mas o "nome de exibição" real é só o basename. Achado
+  // 2026-09-01: 4 notas tinham exatamente esse formato no campo `autor:`,
+  // e sem esse strip o "artista" virava o caminho inteiro no export.
+  const lastSlash = target.lastIndexOf('/');
+  return lastSlash === -1 ? target : target.slice(lastSlash + 1).trim();
 }
 
 /** Extrai a seção "### Descrição da Obra". Fallback: primeiro parágrafo de
@@ -247,6 +254,22 @@ export function extractDescription(content: string): string {
   }
 
   return fullDesc.slice(0, 4000);
+}
+
+/** Extrai a seção "### Biografia" de uma nota de `Autores/*.md` — feature
+ * "Páginas de Artista Ricas" (roadmap, aprovada 2026-08-23). Mesmo padrão
+ * de sanitização/wikilink de `extractDescription`, mas sem o fallback de
+ * "primeiro parágrafo" (nota de autor sem seção de biografia é nota
+ * incompleta, não stub aceitável — melhor vir vazio e a curadoria notar
+ * do que inventar um resumo genérico) nem o anexo de Contexto Histórico
+ * (não existe essa seção em nota de autor). */
+export function extractBiography(content: string): string {
+  const afterFrontmatter = content.replace(/^---\n[\s\S]*?\n---/, '').trim();
+  const bioMatch = afterFrontmatter.match(/###\s*Biografia\s*\n+([\s\S]*?)(?=\n---|\n###|$)/);
+  const captured = bioMatch?.[1]?.trim();
+  if (!captured || isPlaceholderText(captured)) return '';
+
+  return sanitizeDescription(unwrapWikilinks(captured)).slice(0, 4000);
 }
 
 export interface ExtractedQuote {

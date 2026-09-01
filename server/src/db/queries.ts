@@ -1,6 +1,6 @@
 import { and, desc, eq, ilike, inArray, sql } from 'drizzle-orm';
 import { db } from './client.js';
-import { artworks, bibleReferences } from './schema.js';
+import { artists, artworks, bibleReferences } from './schema.js';
 import type { ListArtworksQuery, SearchArtworksQuery } from '../schemas/artwork.schema.js';
 
 type ArtworkRow = typeof artworks.$inferSelect;
@@ -251,4 +251,35 @@ export async function listArtists(): Promise<ArtistAggregate[]> {
         ORDER BY count(*) DESC, artist_or_director ASC`
   );
   return rows as unknown as ArtistAggregate[];
+}
+
+export interface ArtistDetail {
+  id: string;
+  name: string;
+  slug: string;
+  bio: string | null;
+  artworks: ArtworkWithReferences[];
+}
+
+// "Páginas de Artista Ricas" (roadmap, aprovada 2026-08-23). Casa a
+// galeria de obras por NOME exato (`eq`, não `ilike` parcial como o
+// filtro de busca usa) — a página de um artista específico não deve
+// puxar obra de outro artista com nome parecido.
+export async function getArtistBySlug(slug: string): Promise<ArtistDetail | undefined> {
+  const [artist] = await db.select().from(artists).where(eq(artists.slug, slug)).limit(1);
+  if (!artist) return undefined;
+
+  const rows = await db
+    .select()
+    .from(artworks)
+    .where(and(eq(artworks.active, true), eq(artworks.artistOrDirector, artist.name)))
+    .orderBy(desc(artworks.createdAt));
+
+  return {
+    id: artist.id,
+    name: artist.name,
+    slug: artist.slug,
+    bio: artist.bio,
+    artworks: await attachReferences(rows),
+  };
 }

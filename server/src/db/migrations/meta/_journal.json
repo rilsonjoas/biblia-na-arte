@@ -43,6 +43,13 @@
       "when": 1787524124691,
       "tag": "0005_adiciona-ordem-livros-biblicos",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1788278066563,
+      "tag": "0006_romantic_ares",
+      "breakpoints": true
     }
   ]
 }

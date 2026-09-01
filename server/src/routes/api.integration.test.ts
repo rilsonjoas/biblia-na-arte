@@ -14,6 +14,7 @@ const BOOK_ISAIAH = '00000000-0000-0000-0000-000000000001';
 const BOOK_LUKE = '00000000-0000-0000-0000-000000000002';
 const ARTWORK_SAMARITAN = '10000000-0000-0000-0000-000000000001';
 const ARTWORK_PRODIGAL = '10000000-0000-0000-0000-000000000002';
+const ARTIST_REMBRANDT = '30000000-0000-0000-0000-000000000001';
 
 describe('API v1 — integração (Postgres real de teste)', () => {
   let app: Awaited<ReturnType<typeof buildApp>>;
@@ -29,7 +30,9 @@ describe('API v1 — integração (Postgres real de teste)', () => {
     await migrate(adminDb, { migrationsFolder: MIGRATIONS_DIR });
     await admin.unsafe(readFileSync(FUNCTIONS_SQL, 'utf-8'));
 
-    await admin.unsafe('TRUNCATE bible_references, artworks, bible_books RESTART IDENTITY CASCADE');
+    await admin.unsafe(
+      'TRUNCATE bible_references, artworks, bible_books, artists RESTART IDENTITY CASCADE',
+    );
     await admin.unsafe(`
       INSERT INTO bible_books (id, name, slug, chapters, testament) VALUES
         ('${BOOK_ISAIAH}', 'Isaías', 'isaiah', 66, 'old'),
@@ -45,6 +48,9 @@ describe('API v1 — integração (Postgres real de teste)', () => {
       INSERT INTO bible_references (id, artwork_id, book, book_slug, chapter, verses) VALUES
         ('20000000-0000-0000-0000-000000000001', '${ARTWORK_SAMARITAN}', 'Lucas', 'luke', 10, '34'),
         ('20000000-0000-0000-0000-000000000002', '${ARTWORK_PRODIGAL}', 'Lucas', 'luke', 15, NULL);
+
+      INSERT INTO artists (id, name, slug, bio) VALUES
+        ('${ARTIST_REMBRANDT}', 'Rembrandt', 'rembrandt', 'Pintor holandês do Século de Ouro, teste de integração.');
     `);
 
     app = await buildApp();
@@ -85,6 +91,25 @@ describe('API v1 — integração (Postgres real de teste)', () => {
         expect.objectContaining({ name: 'Rembrandt', artworkCount: 1 }),
       ]),
     );
+  });
+
+  // "Páginas de Artista Ricas" (roadmap, aprovada 2026-08-23). Cobertura
+  // aqui de propósito — a lição do achado 2026-09-01 (HTTP 500 real em
+  // /bible-books/:slug, rota nunca exercitada contra Postgres de verdade)
+  // é não deixar uma rota de detalhe nova sem teste de integração.
+  it('GET /api/v1/artists/:slug retorna artista com biografia e galeria', async () => {
+    const res = await app.inject({ method: 'GET', url: '/api/v1/artists/rembrandt' });
+    expect(res.statusCode).toBe(200);
+    const body = res.json();
+    expect(body.name).toBe('Rembrandt');
+    expect(body.bio).toBe('Pintor holandês do Século de Ouro, teste de integração.');
+    expect(body.artworks).toHaveLength(1);
+    expect(body.artworks[0].title).toBe('O filho pródigo');
+  });
+
+  it('GET /api/v1/artists/:slug retorna 404 pra slug inexistente', async () => {
+    const res = await app.inject({ method: 'GET', url: '/api/v1/artists/ninguem-com-esse-slug' });
+    expect(res.statusCode).toBe(404);
   });
 
   it('GET /docs expõe o OpenAPI com as rotas', async () => {

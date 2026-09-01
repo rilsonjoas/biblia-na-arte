@@ -49,3 +49,12 @@ export interface Artist {
   name: string;
   artworkCount: number;
 }
+
+// "Páginas de Artista Ricas" (roadmap, aprovada 2026-08-23).
+export interface ArtistDetail {
+  id: string;
+  name: string;
+  slug: string;
+  bio: string | null;
+  artworks: Artwork[];
+}

@@ -15,7 +15,7 @@ import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import { sql } from 'drizzle-orm';
 import { db, closeDb } from '../src/db/client.js';
-import { artworks, bibleBooks, bibleReferences } from '../src/db/schema.js';
+import { artists, artworks, bibleBooks, bibleReferences } from '../src/db/schema.js';
 import { bibleBooksSeed } from '../src/db/seed-data/bible-books.js';
 
 const EXPORT_JSON = path.resolve(import.meta.dirname, 'vault-export.json');
@@ -38,16 +38,31 @@ interface ExportedArtwork {
   references: { book: string; bookSlug: string; chapter: number; verses?: string; passageText?: string }[];
 }
 
+interface ExportedArtist {
+  name: string;
+  slug: string;
+  bio: string | null;
+}
+
 async function main() {
   const raw = readFileSync(EXPORT_JSON, 'utf-8');
-  const { artworks: exported } = JSON.parse(raw) as { artworks: ExportedArtwork[] };
+  const { artworks: exported, artists: exportedArtists = [] } = JSON.parse(raw) as {
+    artworks: ExportedArtwork[];
+    artists?: ExportedArtist[];
+  };
 
   console.log(`▶ ${exported.length} obras no export, importando...`);
 
   await db.transaction(async (tx) => {
-    // TRUNCATE ... RESTART IDENTITY CASCADE limpa as 3 tabelas de uma vez
+    // TRUNCATE ... RESTART IDENTITY CASCADE limpa as 4 tabelas de uma vez
     // (bible_references tem FK pra artworks; CASCADE cobre a ordem).
-    await tx.execute(sql`TRUNCATE TABLE ${bibleReferences}, ${artworks}, ${bibleBooks} RESTART IDENTITY CASCADE`);
+    // `artists` não tem FK com as outras (casamento por nome, não por id
+    // — ver comentário em schema.ts), mas entra no mesmo TRUNCATE pela
+    // mesma filosofia de idempotência: fonte da verdade é o vault, não o
+    // banco.
+    await tx.execute(
+      sql`TRUNCATE TABLE ${bibleReferences}, ${artworks}, ${bibleBooks}, ${artists} RESTART IDENTITY CASCADE`,
+    );
 
     console.log('▶ Semeando bible_books (66 livros)...');
     await tx.insert(bibleBooks).values(
@@ -94,9 +109,19 @@ async function main() {
         );
       }
     }
+    if (exportedArtists.length > 0) {
+      console.log(`▶ Semeando artists (${exportedArtists.length})...`);
+      await tx.insert(artists).values(
+        exportedArtists.map((a) => ({
+          name: a.name,
+          slug: a.slug,
+          bio: a.bio,
+        })),
+      );
+    }
   });
 
-  console.log(`✅ Importação concluída: ${exported.length} obras.`);
+  console.log(`✅ Importação concluída: ${exported.length} obras, ${exportedArtists.length} artistas.`);
   await closeDb();
 }
 

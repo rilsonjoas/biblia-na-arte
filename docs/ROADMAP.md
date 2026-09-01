@@ -1368,7 +1368,7 @@ Google" não é viável em iOS de qualquer forma.
   - Incluir o selo unificado `<ClusterHeader />` ("REDE A BIBLIOTECA") no topo.
   - Pontes explícitas Bíblia na Arte → Scriptorium Divinum (cards ao final de obras retratando autores/teólogos clássicos: *"Leia obras de Santo Agostinho no Scriptorium Divinum"*).
   - Pontes Bíblia na Arte → Lecionário (conexão de obras com as passagens do lecionário litúrgico do dia).
-- [ ] **Páginas de Artista Ricas (Alimentadas pelo Vault Obsidian)**:
+- [~] **Páginas de Artista Ricas (Alimentadas pelo Vault Obsidian)**:
   - Enriquecer as páginas de artista (`/artist/:slug`) com biografias, contexto histórico e citações diretamente das notas do **Vault Obsidian** do Rilson.
   - **Correção de premissa (2026-08-24): a página base NÃO existe — o nome
     do artista é texto morto no site, sem rota nem link. Ver achado crítico
@@ -1376,6 +1376,20 @@ Google" não é viável em iOS de qualquer forma.
     grade das obras do artista + links do nome do artista apontando pra
     ela) vira PRÉ-REQUISITO deste item; biografia rica, retrato tondo e
     timeline visual passam a ser camada 2, em cima da rota que funciona.
+  - **[x] Mínimo viável ENTREGUE (2026-09-01)**: tabela `artists` (nome, slug, bio) alimentada
+    no export a partir das notas `Autores/*.md` do vault (317 artistas, 222 com biografia
+    curada); rota `GET /api/v1/artists/:slug` com testes unitários + integração (Postgres real);
+    página `/artista/:slug` (`ArtistPage.tsx`) com hero, biografia em markdown quando existe
+    (fallback em itálico quando não existe), grade de obras reaproveitando `ArtworkCard`, SEO
+    com schema.org `Person`; nome do artista virou link clicável no card (`ArtworkCard.tsx`,
+    sem aninhar `<a>` dentro do `<Link>` do card — clique com `stopPropagation` + navegação
+    manual, testado) e na página da obra (`ArtworkDetail.tsx`). 3 bugs pegos no caminho:
+    colisão de slug entre variantes do mesmo nome com vírgula diferente (ex.: "Jan Bruegel o
+    Velho" vs "Jan Bruegel, o Velho" — corrigido agrupando por `slugify()` do nome, não por
+    `normalizeForComparison()`, que não pega vírgula), path de pasta vazando dentro de wikilink
+    de autor em 4 notas do Fritz von Uhde (`extractWikilink` agora corta prefixo de caminho), e
+    `frontmatter.fonte` vs `frontmatter.fonte_localizacao` (nome de campo errado herdado de
+    código antigo). Retrato tondo e timeline visual (camada 2) permanecem não implementados.
   - Retrato do pintor em moldura circular *tondo* dourada.
   - Linha do tempo visual cronológica das obras bíblicas do artista no acervo (ex: a evolução da luz e do traço de Rembrandt ou Caravaggio ao longo das décadas).
   - **Preparação de conteúdo em andamento (2026-08-30/31)**: biografias das notas `Autores/*.md` do

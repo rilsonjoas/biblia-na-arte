@@ -5,6 +5,7 @@ import {
   getArtworksByBibleReference,
   searchArtworksAdvanced,
   getArtists,
+  getArtistBySlug,
   getArtworksPaginated,
   getDailyArtwork,
   type SearchFilters,
@@ -124,6 +125,19 @@ export function useArtists() {
     queryKey: ['artists'],
     queryFn: getArtists,
     staleTime: 30 * 60 * 1000, // 30 minutes
+    gcTime: 60 * 60 * 1000,
+  })
+}
+
+// "Páginas de Artista Ricas" (roadmap, aprovada 2026-08-23) — biografia +
+// galeria de 1 artista. staleTime mais longo que useArtwork: biografia
+// muda raro (só quando a curadoria revisita a nota do autor no vault).
+export function useArtist(slug: string | undefined) {
+  return useQuery({
+    queryKey: ['artists', slug],
+    queryFn: () => getArtistBySlug(slug!),
+    enabled: !!slug,
+    staleTime: 30 * 60 * 1000,
     gcTime: 60 * 60 * 1000,
   })
 }

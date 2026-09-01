@@ -1,5 +1,5 @@
 import { apiClient, ApiError } from './api-client';
-import type { Artwork, BibleBook, Artist } from '@/types';
+import type { Artwork, BibleBook, Artist, ArtistDetail } from '@/types';
 
 const ALL_ARTWORKS_LIMIT = 1000;
 
@@ -32,6 +32,16 @@ export async function getArtworksPaginated(params: PaginatedArtworksParams = {})
 
 export async function getArtists(): Promise<Artist[]> {
   return apiClient.request<Artist[]>('/artists');
+}
+
+// "Páginas de Artista Ricas" (roadmap, aprovada 2026-08-23).
+export async function getArtistBySlug(slug: string): Promise<ArtistDetail | undefined> {
+  try {
+    return await apiClient.request<ArtistDetail>(`/artists/${slug}`);
+  } catch (error) {
+    if (error instanceof ApiError && error.status === 404) return undefined;
+    throw error;
+  }
 }
 
 export async function getArtworks(): Promise<Artwork[]> {

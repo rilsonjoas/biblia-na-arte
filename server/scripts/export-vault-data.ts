@@ -24,6 +24,7 @@ import { readFileSync, writeFileSync, mkdirSync, rmSync, existsSync, readdirSync
 import path from 'node:path';
 import sharp from 'sharp';
 import {
+  extractBiography,
   extractClassicCommentary,
   extractDescription,
   extractFrontmatter,
@@ -42,6 +43,7 @@ import { resolveBibleBook } from '../src/db/seed-data/bible-books.js';
 
 const VAULT_PINTURAS = '/home/narniano/Documentos/Rilson/10 - Arte e literatura/Pinturas';
 const VAULT_ANEXOS = '/home/narniano/Documentos/Rilson/0 - Anexos';
+const VAULT_AUTORES = '/home/narniano/Documentos/Rilson/10 - Arte e literatura/Autores';
 const OUTPUT_IMAGES_DIR = path.resolve(import.meta.dirname, '../../web/public/images');
 const OUTPUT_JSON = path.resolve(import.meta.dirname, 'vault-export.json');
 
@@ -236,6 +238,12 @@ interface ExportedArtwork {
   references: ExportedReference[];
 }
 
+interface ExportedArtist {
+  name: string;
+  slug: string;
+  bio: string | null;
+}
+
 async function main() {
   if (existsSync(OUTPUT_IMAGES_DIR)) {
     for (const f of readdirSync(OUTPUT_IMAGES_DIR)) {
@@ -398,9 +406,62 @@ async function main() {
     });
   }
 
-  writeFileSync(OUTPUT_JSON, JSON.stringify({ artworks, exportedAt: new Date().toISOString() }, null, 2));
+  // Achado ao testar o export com a tabela `artists` nova: o mesmo pintor
+  // aparece com grafias levemente diferentes em notas diferentes (ex.:
+  // "Jan Bruegel o Velho" vs "Jan Bruegel, o Velho" — vírgula some/aparece
+  // conforme quem escreveu a nota). `normalizeForComparison` (só
+  // acento/caixa) NÃO pega isso — vírgula sobrevive, os dois continuam
+  // "diferentes" — mas `slugify()` das duas dá o MESMO slug, quebrando a
+  // constraint UNIQUE de `artists.slug` de verdade. Agrupa pelo PRÓPRIO
+  // slug (a fonte real da colisão, não uma aproximação) e reescreve
+  // `artistOrDirector` de toda obra pra uma forma canônica única —
+  // preferindo a grafia que tem nota correspondente em `Autores/`, senão
+  // a mais frequente no acervo. Sem isso, a galeria da página de artista
+  // (que casa por NOME exato) também perderia as obras da grafia "errada".
+  const nameVariantsBySlug = new Map<string, Map<string, number>>();
+  for (const art of artworks) {
+    const s = slugify(art.artistOrDirector);
+    const variants = nameVariantsBySlug.get(s) ?? new Map<string, number>();
+    variants.set(art.artistOrDirector, (variants.get(art.artistOrDirector) ?? 0) + 1);
+    nameVariantsBySlug.set(s, variants);
+  }
+  const canonicalNameBySlug = new Map<string, string>();
+  for (const [s, variants] of nameVariantsBySlug) {
+    const withAuthorNote = [...variants.keys()].find((n) => existsSync(path.join(VAULT_AUTORES, `${n}.md`)));
+    const mostFrequent = [...variants.entries()].sort((a, b) => b[1] - a[1])[0]?.[0];
+    canonicalNameBySlug.set(s, withAuthorNote ?? mostFrequent ?? [...variants.keys()][0]!);
+  }
+  for (const art of artworks) {
+    art.artistOrDirector = canonicalNameBySlug.get(slugify(art.artistOrDirector))!;
+  }
+
+  // "Páginas de Artista Ricas" (roadmap, aprovada 2026-08-23) — 1 entrada
+  // por artista DISTINTO que sobrou em `artworks` (depois de toda exclusão
+  // de direitos autorais já aplicada acima e da canonicalização de nome
+  // acima), não por artista listado no vault — evita gerar página de
+  // artista pra alguém excluído do catálogo, o que seria uma página vazia
+  // sem obra nenhuma. Nota de `Autores/*.md` é opcional: casa pelo nome
+  // exato do arquivo (mesmo texto de `artistOrDirector`, já
+  // resolvido/normalizado acima); sem nota correspondente, a página ainda
+  // funciona só com a galeria, `bio` fica `null` em vez de inventar texto.
+  const distinctArtists = [...new Set(artworks.map((a) => a.artistOrDirector))].sort();
+  const artists: ExportedArtist[] = distinctArtists.map((name) => {
+    const authorPath = path.join(VAULT_AUTORES, `${name}.md`);
+    let bio: string | null = null;
+    if (existsSync(authorPath)) {
+      const authorContent = readFileSync(authorPath, 'utf-8');
+      bio = extractBiography(authorContent) || null;
+    }
+    return { name, slug: slugify(name), bio };
+  });
+
+  writeFileSync(
+    OUTPUT_JSON,
+    JSON.stringify({ artworks, artists, exportedAt: new Date().toISOString() }, null, 2),
+  );
 
   console.log(`✅ ${artworks.length} pinturas exportadas (imagens já em WebP)`);
+  console.log(`👤 ${artists.length} artistas (${artists.filter((a) => a.bio).length} com biografia do vault)`);
   console.log(`⏭️  ${skipped.length} puladas${optimizeFailures > 0 ? ` (${optimizeFailures} por falha de conversão WebP)` : ''}`);
   console.log(`📁 Imagens em: ${OUTPUT_IMAGES_DIR}`);
   console.log(`📄 JSON: ${OUTPUT_JSON}`);

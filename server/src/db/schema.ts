@@ -125,3 +125,24 @@ export const bibleReferences = pgTable(
   ],
 );
 
+// "Páginas de Artista Ricas" (roadmap, aprovada 2026-08-23) — biografia do
+// PINTOR, não da obra. Decisão deliberada: casa por `name` (string exata,
+// mesmo padrão já usado em EXCLUDED_ARTISTS/LICENSED_ARTISTS no export),
+// não por FK em `artworks.artist_or_director` — evita uma migração de
+// dado maior mexendo em toda `artworks` só pra isso, e o app já convive
+// bem com casamento por nome (mesmo princípio da auditoria de direitos
+// autorais). Fonte da verdade continua o vault (`Autores/*.md`), reimportado
+// via o mesmo `db:seed` das obras — nunca editado direto no painel/banco.
+export const artists = pgTable(
+  'artists',
+  {
+    id: uuid('id').defaultRandom().primaryKey(),
+    name: text('name').notNull().unique(),
+    slug: text('slug').notNull().unique(),
+    bio: text('bio'),
+    createdAt: timestamp('created_at', { withTimezone: true }).defaultNow(),
+    updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow(),
+  },
+  (table) => [index('idx_artists_slug').on(table.slug)],
+);
+

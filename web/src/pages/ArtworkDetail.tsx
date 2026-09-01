@@ -17,7 +17,7 @@ import { CopyButton, CopyImageButton } from '@/components/ui/copy-button';
 import { DownloadStoryButton } from '@/components/DownloadStoryButton';
 import { DownloadArtworkButton } from '@/components/DownloadArtworkButton';
 import { FavoriteButton } from '@/components/FavoriteButton';
-import { cn, stripMarkdown } from '@/lib/utils';
+import { cn, stripMarkdown, slugifyArtistName } from '@/lib/utils';
 import { useArtwork, useArtworksByBibleReference, useArtworks } from '@/hooks/use-artworks';
 import {
   Music,
@@ -353,9 +353,14 @@ export default function ArtworkDetail() {
                     <User className="w-4 h-4 text-primary" />
                     <span>Artista:</span>
                   </div>
-                  <span className="font-semibold text-foreground text-right min-w-0 break-words">
+                  {/* "Páginas de Artista Ricas" (roadmap, aprovada 2026-08-23) —
+                      aqui não há Link envolvendo o card, então basta um Link normal. */}
+                  <Link
+                    to={`/artista/${slugifyArtistName(artwork.artistOrDirector)}`}
+                    className="font-semibold text-foreground text-right min-w-0 break-words hover:text-primary hover:underline underline-offset-2 transition-colors"
+                  >
                     {artwork.artistOrDirector}
-                  </span>
+                  </Link>
                 </div>
 
                 {artwork.year && (

@@ -11,6 +11,7 @@ import BibleBook from "./pages/BibleBook";
 import Chapter from "./pages/Chapter";
 import ArtCategories from "./pages/ArtCategories";
 import ArtworkDetail from "./pages/ArtworkDetail";
+import ArtistPage from "./pages/ArtistPage";
 import About from "./pages/About";
 import Contribute from "./pages/Contribute";
 import Search from "./pages/Search";
@@ -46,6 +47,7 @@ const App = () => (
                 URL preservada de propósito (2.115 páginas indexadas). */}
             <Route path="/arte/:category" element={<Search />} />
             <Route path="/obra/:artworkId" element={<ArtworkDetail />} />
+            <Route path="/artista/:slug" element={<ArtistPage />} />
             <Route path="/sobre" element={<About />} />
             <Route path="/contribuir" element={<Contribute />} />
             <Route path="/busca" element={<Search />} />

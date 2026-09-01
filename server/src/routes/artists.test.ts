@@ -13,6 +13,7 @@ vi.mock('../config.js', () => ({
 
 vi.mock('../db/queries.js', () => ({
   listArtists: vi.fn(),
+  getArtistBySlug: vi.fn(),
   listBibleBooks: vi.fn(),
   getBibleBookBySlug: vi.fn(),
   getArtworkById: vi.fn(),
@@ -54,5 +55,49 @@ describe('GET /api/v1/artists', () => {
       { name: 'Rembrandt', artworkCount: 5 },
       { name: 'Ticiano', artworkCount: 3 },
     ]);
+  });
+});
+
+describe('GET /api/v1/artists/:slug', () => {
+  let app: Awaited<ReturnType<typeof buildApp>>;
+
+  beforeAll(async () => {
+    app = await buildApp();
+    await app.ready();
+  });
+
+  afterAll(async () => {
+    if (app) await app.close();
+  });
+
+  it('retorna artista com biografia e galeria de obras', async () => {
+    vi.mocked(queries.getArtistBySlug).mockResolvedValueOnce({
+      id: '11111111-1111-1111-1111-111111111111',
+      name: 'Rembrandt van Rijn',
+      slug: 'rembrandt-van-rijn',
+      bio: 'Pintor holandês do Século de Ouro.',
+      artworks: [],
+    });
+
+    const res = await app.inject({
+      method: 'GET',
+      url: '/api/v1/artists/rembrandt-van-rijn',
+    });
+
+    expect(res.statusCode).toBe(200);
+    const json = res.json();
+    expect(json.name).toBe('Rembrandt van Rijn');
+    expect(json.bio).toBe('Pintor holandês do Século de Ouro.');
+  });
+
+  it('retorna 404 pra slug inexistente', async () => {
+    vi.mocked(queries.getArtistBySlug).mockResolvedValueOnce(undefined);
+
+    const res = await app.inject({
+      method: 'GET',
+      url: '/api/v1/artists/artista-inexistente',
+    });
+
+    expect(res.statusCode).toBe(404);
   });
 });

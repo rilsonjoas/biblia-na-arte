@@ -1,12 +1,12 @@
 import { useState } from 'react';
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { AspectRatio } from '@/components/ui/aspect-ratio';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Artwork } from '@/types';
 import { Music, Film, Palette, ImageIcon } from 'lucide-react';
-import { stripMarkdown } from '@/lib/utils';
+import { stripMarkdown, slugifyArtistName } from '@/lib/utils';
 import { FavoriteButton } from '@/components/FavoriteButton';
 
 interface ArtworkCardProps {
@@ -43,6 +43,18 @@ export function ArtworkCardSkeleton({ showReferences = true }: { showReferences?
 export default function ArtworkCard({ artwork, showReferences = true }: ArtworkCardProps) {
   const [imageLoaded, setImageLoaded] = useState(false);
   const imageUrl = artwork.imageUrl;
+  const navigate = useNavigate();
+  const artistLinkTarget = `/artista/${slugifyArtistName(artwork.artistOrDirector)}`;
+
+  // O card inteiro é um <Link> pro /obra/:id — aninhar outro <a> só no
+  // nome do artista seria HTML inválido, então navegamos manualmente e
+  // paramos a propagação antes que o clique chegue no Link de fora
+  // (mesmo raciocínio do FavoriteButton acima, achado 2026-09-01).
+  const goToArtist = (e: React.MouseEvent | React.KeyboardEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    navigate(artistLinkTarget);
+  };
 
   const getCategoryIcon = () => {
     switch (artwork.category) {
@@ -122,7 +134,15 @@ export default function ArtworkCard({ artwork, showReferences = true }: ArtworkC
           </h3>
 
           <div className="space-y-0.5 text-xs md:text-sm text-muted-foreground mb-2">
-            <p className="font-medium text-foreground/90">{artwork.artistOrDirector}</p>
+            <span
+              role="link"
+              tabIndex={0}
+              onClick={goToArtist}
+              onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && goToArtist(e)}
+              className="font-medium text-foreground/90 hover:text-primary hover:underline underline-offset-2 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-sm inline-block"
+            >
+              {artwork.artistOrDirector}
+            </span>
             {artwork.year && <p className="numeral-classico text-xs">{artwork.year}</p>}
             {artwork.mediumOrGenre && <p className="italic text-xs">{artwork.mediumOrGenre}</p>}
           </div>

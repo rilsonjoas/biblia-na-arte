@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import { MemoryRouter } from 'react-router';
+import userEvent from '@testing-library/user-event';
+import { MemoryRouter, Routes, Route } from 'react-router';
 import ArtworkCard from './ArtworkCard';
 import type { Artwork } from '@/types';
 
@@ -37,6 +38,31 @@ describe('ArtworkCard', () => {
     renderCard();
     const link = screen.getByRole('link', { name: /O bom samaritano/ });
     expect(link).toHaveAttribute('href', '/obra/abc-123');
+  });
+
+  // "Páginas de Artista Ricas" (roadmap, aprovada 2026-08-23) — o nome do
+  // artista precisa navegar pra /artista/:slug SEM disparar a navegação
+  // do card inteiro pra /obra/:id (o card inteiro é um <Link>, então o
+  // nome não pode ser um <a> aninhado — ver comentário em ArtworkCard.tsx).
+  it('clique no nome do artista navega pra página do artista, não da obra', async () => {
+    const user = userEvent.setup();
+    render(
+      <MemoryRouter initialEntries={['/']}>
+        <Routes>
+          <Route
+            path="/"
+            element={<ArtworkCard artwork={artwork} showReferences />}
+          />
+          <Route path="/artista/:slug" element={<div>Página do artista</div>} />
+          <Route path="/obra/:id" element={<div>Página da obra</div>} />
+        </Routes>
+      </MemoryRouter>,
+    );
+
+    await user.click(screen.getByText('Aimé Morot'));
+
+    expect(screen.getByText('Página do artista')).toBeInTheDocument();
+    expect(screen.queryByText('Página da obra')).not.toBeInTheDocument();
   });
 
   it('exibe "Pintura" como categoria', () => {

@@ -60,6 +60,15 @@ export const artistResponseSchema = z.object({
   artworkCount: z.number().int().nonnegative(),
 });
 
+// "Páginas de Artista Ricas" (roadmap, aprovada 2026-08-23).
+export const artistDetailResponseSchema = z.object({
+  id: z.string().uuid(),
+  name: z.string(),
+  slug: z.string(),
+  bio: z.string().nullable(),
+  artworks: z.array(artworkResponseSchema),
+});
+
 export const errorResponseSchema = z.object({
   error: z.string(),
   message: z.string(),

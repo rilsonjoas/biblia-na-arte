@@ -7,6 +7,7 @@ import {
   extractFrontmatter,
   extractWikilink,
   extractDescription,
+  extractBiography,
   extractPassageText,
   extractClassicCommentary,
   parseChapterLink,
@@ -87,6 +88,10 @@ describe('extractWikilink', () => {
 
   it('retorna vazio para vazio', () => {
     expect(extractWikilink('')).toBe('');
+  });
+
+  it('extrai só o basename de wikilink com caminho de pasta (achado 2026-09-01: 4 notas de Fritz von Uhde tinham "[[10 - Arte e literatura/Autores/Fritz von Uhde]]" — o "artista" virava o caminho inteiro sem esse strip)', () => {
+    expect(extractWikilink('[[10 - Arte e literatura/Autores/Fritz von Uhde]]')).toBe('Fritz von Uhde');
   });
 });
 
@@ -293,6 +298,67 @@ Descrição real da obra.
 `;
     const desc = extractDescription(note);
     expect(desc).toBe('Descrição real da obra.');
+  });
+});
+
+describe('extractBiography', () => {
+  it('extrai a seção Biografia de uma nota de Autor', () => {
+    const note = `---
+created: 2026-02-21
+Pinturas relacionadas:
+  - "[[Rembrandt van Rijn - O bom samaritano]]"
+tags:
+  - arte-e-literatura/autor
+---
+
+### Biografia
+
+**Rembrandt Harmenszoon van Rijn** (1606-1669) foi um pintor holandês.
+
+### Galeria de Obras
+
+- **[[Rembrandt van Rijn - O bom samaritano]]**
+`;
+    expect(extractBiography(note)).toBe(
+      '**Rembrandt Harmenszoon van Rijn** (1606-1669) foi um pintor holandês.',
+    );
+  });
+
+  it('captura seções extras (##) entre Biografia e Galeria de Obras — algumas notas têm biografia expandida com subseções próprias', () => {
+    const note = `---
+tags:
+  - arte-e-literatura/autor
+---
+
+### Biografia
+
+Parágrafo inicial.
+
+## Estilo e Técnica
+
+Mais conteúdo sobre o estilo do artista.
+
+### Galeria de Obras
+
+- obra 1
+`;
+    const bio = extractBiography(note);
+    expect(bio).toContain('Parágrafo inicial.');
+    expect(bio).toContain('Mais conteúdo sobre o estilo');
+    expect(bio).not.toContain('Galeria de Obras');
+  });
+
+  it('nota sem seção Biografia retorna vazio, sem inventar resumo genérico', () => {
+    const note = `---
+tags:
+  - arte-e-literatura/autor
+---
+
+### Galeria de Obras
+
+- obra 1
+`;
+    expect(extractBiography(note)).toBe('');
   });
 });
 
