@@ -383,8 +383,14 @@ async function main() {
       location: typeof frontmatter.localizacao === 'string' && frontmatter.localizacao.trim()
         ? frontmatter.localizacao.trim()
         : undefined,
-      sourceUrl: typeof frontmatter.fonte === 'string' && frontmatter.fonte.trim()
-        ? frontmatter.fonte.trim()
+      // Achado 2026-09-01 (Rilson perguntou "os links de fonte oficial
+      // estão aparecendo pros usuários?" — a resposta era não, quase
+      // nunca): lia `frontmatter.fonte`, mas o campo real usado em toda
+      // nota do vault é `fonte_localizacao`. Só as 10 notas (de 904!) que
+      // por acaso usavam o nome errado é que já tinham sourceUrl
+      // preenchido — bug de longa data, não um achado de hoje.
+      sourceUrl: typeof frontmatter.fonte_localizacao === 'string' && frontmatter.fonte_localizacao.trim()
+        ? frontmatter.fonte_localizacao.trim()
         : undefined,
       classicCommentaryAuthor: classicCommentary?.author,
       classicCommentary: classicCommentary?.text,

@@ -1925,6 +1925,21 @@ exceto o único marcado como aberto no final.
       exercitada. Adicionados os 2 testes que faltavam — suite de
       integração foi de 24 pra 26 testes.
 
+**Bug de longa data achado ao responder a pergunta do Rilson** ("os links
+de fonte oficial estão aparecendo pros usuários finais?"):
+- [x] **`sourceUrl` nunca era populado pra 99% do acervo** —
+      `export-vault-data.ts` lia `frontmatter.fonte`, mas o campo real
+      usado em toda nota do vault sempre foi `fonte_localizacao`. Só as
+      10 notas (de 904!) que por acaso usavam o nome errado é que já
+      tinham o link de fonte oficial exposto. O comentário original da
+      interface `RawFrontmatter` já registrava a suspeita ("nunca era
+      populado pelo pipeline") sem nunca fechar o loop de descobrir por
+      quê. Corrigido: **869 de 904 obras (96%)** passaram a exportar
+      `sourceUrl` de verdade. Combinado com o item de produto acima (fonte
+      oficial ao lado de "Onde ver"), isso é uma mudança grande de
+      visibilidade pro visitante — a maior parte do acervo nunca tinha
+      exposto isso antes.
+
 **Verificação extra pedida pelo Rilson**: "esses testes têm chance de
 quebrar quando o número de pinturas aumentar?" — não. A suite de
 integração usa uma fixture isolada (2 obras fake, truncate+insert a cada

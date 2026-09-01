@@ -18,10 +18,16 @@ export interface RawFrontmatter {
   // "Onde ver pessoalmente" (roadmap Fase 5) — texto livre, ex.
   // "Cleveland Museum of Art, Cleveland, EUA". Opcional.
   localizacao?: string;
-  // Link da página oficial do museu/acervo pra obra — fonte primária de
-  // citação, não agregador. Alimenta o botão "Ver Fonte Original do
-  // Museu" que já existia na UI, mas nunca era populado pelo pipeline.
-  fonte?: string;
+  // Link da página oficial do museu/acervo/Wikidata pra obra — fonte
+  // primária de citação. Alimenta o link "fonte oficial" ao lado de
+  // "Onde ver" na UI. Achado 2026-09-01: o comentário original desta
+  // interface já suspeitava que isso "nunca era populado pelo pipeline"
+  // — a causa era o nome do campo: declarado aqui como `fonte`, mas o
+  // campo real usado em toda nota do vault sempre foi `fonte_localizacao`.
+  // Corrigido pra bater com a realidade — 869 de 904 obras passaram a
+  // exportar sourceUrl (eram só 10, as poucas notas que por acaso usavam
+  // o nome errado).
+  fonte_localizacao?: string;
 }
 
 export function slugify(input: string): string {
