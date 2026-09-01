@@ -404,7 +404,47 @@ export default function ArtworkDetail() {
                           </a>
                         </>
                       )}
+                      {/* Decisão de produto formalizada 2026-09-01: o link
+                          pra fonte oficial (museu/Wikidata que confirma
+                          essa localização) mora AO LADO de "Onde ver",
+                          não solto no fim da página — é a mesma
+                          informação, essa é a referência que sustenta
+                          aquela. Só aparece quando existe (fonte
+                          curatorial, não toda obra tem uma verificada). */}
+                      {artwork.sourceUrl && (
+                        <>
+                          {' '}
+                          <a
+                            href={artwork.sourceUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-primary hover:underline whitespace-nowrap"
+                          >
+                            (fonte oficial)
+                          </a>
+                        </>
+                      )}
                     </span>
+                  </div>
+                )}
+
+                {/* Fallback raro: fonte oficial existe mas não tem
+                    `location` pra ancorar do lado (obra sem localização
+                    física registrada) — não deixa a fonte desaparecer. */}
+                {!artwork.location && artwork.sourceUrl && (
+                  <div className="flex items-center justify-between gap-3 border-t border-border/40 pt-2">
+                    <div className="flex items-center gap-2 text-muted-foreground shrink-0">
+                      <ExternalLink className="w-4 h-4 text-primary" />
+                      <span>Fonte oficial:</span>
+                    </div>
+                    <a
+                      href={artwork.sourceUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-primary hover:underline text-right"
+                    >
+                      Ver na fonte
+                    </a>
                   </div>
                 )}
               </div>
@@ -455,14 +495,6 @@ export default function ArtworkDetail() {
               </div>
             )}
 
-            {artwork.sourceUrl && (
-              <Button asChild variant="outline" size="sm" className="w-full">
-                <a href={artwork.sourceUrl} target="_blank" rel="noopener noreferrer">
-                  <ExternalLink className="w-4 h-4 mr-2" />
-                  Ver Fonte Original do Museu
-                </a>
-              </Button>
-            )}
           </div>
         </div>
 
@@ -508,7 +540,11 @@ export default function ArtworkDetail() {
                       )}
 
                       <div className="pt-2">
-                        <Button asChild variant="ghost" size="sm" className="h-7 text-xs px-2 hover:text-primary">
+                        {/* Achado 2026-09-01: hover:text-primary sozinho
+                            some em cima do hover:bg-accent padrão do ghost
+                            no tema escuro (dourado sobre dourado) — mesmo
+                            fix do CopyButton. */}
+                        <Button asChild variant="ghost" size="sm" className="h-7 text-xs px-2 hover:bg-primary/10 hover:text-primary">
                           <Link to={`/biblia/${ref.bookSlug}/${ref.chapter}`}>
                             Ler capítulo completo e ver outras obras →
                           </Link>

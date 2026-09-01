@@ -28,7 +28,12 @@ export function CopyButton({ text, label = 'Copiar', className }: CopyButtonProp
       onClick={handleCopy}
       variant="ghost"
       size="sm"
-      className={`h-7 gap-1.5 px-2 text-xs text-muted-foreground hover:text-primary ${className ?? ''}`}
+      // Achado 2026-09-01 (Rilson, hover ilegível): no tema escuro
+      // --accent (fundo de hover do ghost) e --primary (nosso texto)
+      // são quase a mesma cor — dourado sobre dourado, ilegível.
+      // hover:bg-primary/10 sobrepõe o bg-accent padrão do ghost com algo
+      // que não compete com o texto dourado.
+      className={`h-7 gap-1.5 px-2 text-xs text-muted-foreground hover:bg-primary/10 hover:text-primary ${className ?? ''}`}
       aria-label={copied ? `${label} — copiado` : label}
     >
       {copied ? (

@@ -1793,15 +1793,14 @@ restante), depois honestidade do download.
 
 ### 🟡 Coerência visual
 
-- [ ] **Ano com fonte diferente do projeto**: o badge de ano usa
-      `font-mono` (JetBrains Mono, mapeado em 22/08) — o mapeamento em
-      si funcionou, mas a decisão de design é outra: ano é metadado
-      editorial da obra, não dado técnico de ferramenta; deve seguir a
-      tipografia do projeto (EB Garamond / padrão caps espaçadas do
-      Design Narniano), não monoespaçado. Revisar caso a caso os demais
-      usos de `font-mono` herdados do scaffold (atalho ⌘K e zoom % são
-      chrome de UI — decisão separada).
-- [ ] **Passada de coerência de espaçamento/padding/margem/font-size** —
+- [x] **Ano com fonte diferente do projeto — resolvido 2026-09-01**: badge
+      de ano trocado de `font-mono` (JetBrains Mono) pra `.numeral-classico`
+      (nova classe: serifa do corpo `--font-serif` + `font-variant-numeric:
+      oldstyle-nums`, algarismos históricos em vez de tabulares de código),
+      aplicado em ArtworkDetail, ArtworkCard e PassageTimeline. `font-mono`
+      mantido só onde é chrome de UI de verdade (atalho ⌘K, zoom %, erro
+      404) — não mexido, decisão à parte confirmada.
+- [~] **Passada de coerência de espaçamento/padding/margem/font-size** —
       relato do Rilson: muitos botões, elementos e componentes ainda têm
       espaçamentos e tamanhos de fonte que não fazem sentido entre si
       (herança legítima de várias sessões de ajuste pontual diferentes
@@ -1812,3 +1811,138 @@ restante), depois honestidade do download.
       alturas de botão padronizadas, raios de borda consistentes,
       tamanhos de fonte só da escala tipográfica (mantendo a régua de
       corpo ≥16px no mobile já adotada).
+      **Progresso parcial 2026-09-01** (ver seção "Achados 2026-09-01"
+      abaixo pra lista completa): auditoria real de h1/h2 feita (achou e
+      corrigiu 2 inconsistências de escala real); CopyButton e o link
+      "Ler capítulo completo →" corrigidos (hover ilegível, dourado sobre
+      dourado); "Obras Relacionadas" empilha no mobile. **Ainda não
+      cobre**: inventário sistemático de padding/altura/raio de borda
+      componente por componente — isso continua pendente de verdade, o
+      que rolou até aqui foram achados pontuais reportados ao vivo, não
+      a auditoria completa descrita no item original.
+
+## Achados 2026-09-01 (Rilson revisando o site ao vivo) — todos corrigidos e no ar
+
+Sessão longa de QA visual/funcional direto em produção. Todos os itens
+abaixo foram corrigidos, validados (typecheck+lint+test+build nos dois
+pacotes, integração completa quando mexeu em schema/query) e deployados —
+exceto o único marcado como aberto no final.
+
+**Curadoria/dados:**
+- [x] **Bug real: exclusão de não-bíblicas quebrada silenciosamente pelo
+      rename do vault** — `EXCLUDED_NON_BIBLICAL_FILENAMES` comparava nome
+      de arquivo EXATO; o processo de renomeação do vault (acrescenta
+      `titulo_original` como subtítulo) já tinha quebrado 14 das 22
+      entradas sem ninguém perceber — essas pinturas não-bíblicas
+      voltaram a aparecer no site. Corrigido pra comparar por chave
+      estável (autor+título antes do primeiro parêntese). +3 novas
+      exclusões achadas no processo (A Colheita/Van Gogh, Lune de
+      Miel/Leyendecker, Fogos de artifício/Yamashita).
+- [x] **"Caravaggio - A Incredulidade de São Tomé" sem imagem** — nota
+      tinha todo o conteúdo mas nunca teve `![[...]]` embutido; imagem já
+      existia em `0 - Anexos`, só não estava referenciada. Corrigido no
+      vault.
+- [x] **Linha "*Fonte: [Título](url)*" vazando pro meio da descrição** —
+      achado do Rilson: "o problema não é o link ser da Wikipédia, é ter
+      um link solto no meio de uma descrição". A linha de citação que toda
+      nota tem no fim de "Descrição da Obra" ia direto pro campo
+      `description` do site, sem nenhum destaque visual — informação
+      redundante com `sourceUrl`, que já tem tratamento próprio. Corrigido
+      em `vault-parse.ts` (`sanitizeDescription`): qualquer linha que
+      comece com "Fonte:" é removida da descrição exportada. 2 rounds de
+      regex (1º só pegava o formato de 1 link só sem texto depois; 14
+      obras com múltiplos links ou URL com parênteses internos —
+      `_(Rembrandt)`, `_(Titian)` — ainda vazavam); resolvido no 2º round
+      com um critério mais simples (prefixo da linha, não a estrutura
+      inteira). 0/904 obras com vazamento, confirmado.
+- [x] **James Tissot - A Moeda da Viúva com imagem errada** — corrigido
+      pelo próprio Rilson direto no vault; entrou neste mesmo re-export.
+
+**Produto/UX — fonte oficial:**
+- [x] **Decisão formalizada**: o link de fonte oficial (museu/Wikidata)
+      só aparece quando existe (`sourceUrl` é opcional de propósito — nem
+      toda obra tem uma confirmada) e agora mora **ao lado de "Onde ver"**
+      na ficha da obra, não mais como botão solto no fim da página — é a
+      referência que sustenta aquela informação de localização, faz
+      sentido andarem juntas. Fallback: se por algum motivo existir
+      `sourceUrl` sem `location` (raro), vira uma linha própria em vez de
+      desaparecer.
+
+**Tipografia/visual:**
+- [x] Ano/datação: `font-mono` → `.numeral-classico` (ver item marcado
+      acima nesta mesma seção do roadmap).
+- [x] Auditoria de tamanho de heading: h1 do ArtworkDetail pulava o
+      degrau `sm:` que as páginas irmãs têm; h2 de About/Contribute ficava
+      travado em 24px em qualquer tela.
+- [x] **Hover ilegível em 2 botões** (CopyButton + "Ler capítulo completo
+      →"): no tema escuro, `--accent` (fundo de hover do `variant="ghost"`)
+      e `--primary` (nossa cor de texto customizada) são quase idênticos —
+      dourado sobre dourado. Corrigido nos dois com `hover:bg-primary/10`
+      explícito em vez de deixar o `hover:bg-accent` padrão do ghost
+      competir com o texto. **Varredura feita**: são os 2 únicos lugares
+      do código com essa combinação exata (`variant="ghost"` + custom
+      `hover:text-primary`); nenhum outro botão do site tem o mesmo risco.
+- [x] Botão "Copiar descrição": única ocorrência no site, tinha
+      `variant="outline"` competindo visualmente com o heading "Sobre esta
+      Obra" ao lado — trocado por estilo discreto (ghost + texto pequeno
+      muted), mesmo registro do link "Ler capítulo completo →".
+- [x] Ícone de favoritos: a troca coração→fita marcadora (sessão anterior)
+      só tinha alcançado o botão por-obra — faltava a navbar (desktop +
+      mobile) e a página `/favoritos` inteira (texto "clique no coração",
+      estado vazio). Tudo consistente agora; coração mantido só onde é
+      decoração de "carinho pelo projeto" sem relação com favoritar
+      (Sobre, Contribuir, página do livro).
+- [x] Header "Obras Relacionadas": título+legenda espremidos contra o
+      botão no mobile — empilha em telas estreitas agora.
+- [x] ArtworkShareCard (imagem de Story): logo e wordmark insistiam em
+      sair desalinhados no html2canvas mesmo depois de 2 tentativas de fix
+      anteriores documentadas no código (`line-height` calculado diferente
+      do navegador real pela lib). Solução definitiva sugerida pelo
+      próprio Rilson: parar de tentar alinhar os dois na mesma linha —
+      logo isolada no canto superior esquerdo (posição absoluta), wordmark
+      centralizada por conta própria. Cor do título trocada do vinho
+      (roxo-vinho da marca) pra um dourado escuro — "amarelo com detalhes
+      marrons", como pedido.
+
+**Features novas:**
+- [x] `GET /api/v1/bible-books` (lista e detalhe) agora inclui
+      `artworkCount` por livro — card de livro na Galeria mostra "N caps.
+      · N obras" em vez de só capítulos.
+- [x] Página de capítulo: seção de Obras de Arte movida pra ANTES do
+      texto bíblico ("o foco do site é arte" — Rilson). Texto do capítulo
+      agora destaca (fundo sutil + ícone de paleta) os versículos que têm
+      pelo menos 1 obra associada.
+
+**Bug de produção causado por um dos itens acima, corrigido no mesmo dia:**
+- [x] **HTTP 500 real em `/bible-books/:slug`** (ex: `/bible-books/titus`)
+      — ao tornar `artworkCount` obrigatório no schema de resposta,
+      esqueci de atualizar `getBibleBookBySlug` (usada pela rota de
+      DETALHE) pra também calculá-lo — só `listBibleBooks` (rota de
+      LISTA) tinha sido atualizada. Fastify rejeitava toda resposta da
+      rota de detalhe com 500 (schema exige o campo, dado não tinha).
+      **Lacuna de teste real que deixou passar**: só a rota de lista tinha
+      teste de integração contra Postgres real; a de detalhe nunca foi
+      exercitada. Adicionados os 2 testes que faltavam — suite de
+      integração foi de 24 pra 26 testes.
+
+**Verificação extra pedida pelo Rilson**: "esses testes têm chance de
+quebrar quando o número de pinturas aumentar?" — não. A suite de
+integração usa uma fixture isolada (2 obras fake, truncate+insert a cada
+execução via Docker), nunca o catálogo real — confirmado rodando a suite
+completa contra Postgres de verdade antes e depois de cada mudança de
+schema/query desta sessão.
+
+### ⚠️ Item aberto (não resolvido, precisa de mais informação do Rilson)
+
+- [ ] **Espaço grande entre a imagem da obra e a legenda/ações abaixo**
+      (relatado com screenshots do "Édouard Manet - O rosto de Cristo") —
+      investigação: a imagem é 800×600 (4:3), exatamente o ratio do
+      container `<AspectRatio ratio={4/3}>`, então não deveria haver
+      letterboxing nenhum pra ESSA obra específica — teoria de
+      aspect-ratio mismatch descartada por evidência (dimensão real
+      checada direto no arquivo servido em produção). Estrutura do JSX
+      também não explica gap grande (legenda é irmã direta da imagem, só
+      `space-y-3` entre elas). Não consegui reproduzir a causa só lendo
+      código — precisa de um screenshot da página inteira sem corte (do
+      topo até depois da legenda) ou a largura de viewport/dispositivo
+      exata pra investigar de novo com mais grão.

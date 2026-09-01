@@ -124,6 +124,21 @@ Ver "[[Rembrandt van Rijn - A Descida da Cruz (De kruisafname)|A Descida da Cruz
     expect(desc).not.toContain('|');
   });
 
+  it('remove a linha "*Fonte: [Título](url)*" da descrição (achado 2026-09-01, Rilson em produção: link solto no meio do parágrafo — informação redundante, o site já tem sourceUrl/botão dedicado pra fonte)', () => {
+    const note = `---
+autor: "[[X]]"
+---
+### Descrição da Obra
+Primeiro parágrafo com o conteúdo real da obra.
+
+*Fonte: [Jesus Mocked by the Soldiers — Art Institute of Chicago](https://www.artic.edu/artworks/16499/jesus-mocked-by-the-soldiers)*
+`;
+    const desc = extractDescription(note);
+    expect(desc).toContain('conteúdo real da obra');
+    expect(desc).not.toContain('Fonte:');
+    expect(desc).not.toContain('artic.edu');
+  });
+
   it('corta em 4000 caracteres', () => {
     const long = `---\nautor: "[[X]]"\n---\n\n### Descrição da Obra\n\n${'a'.repeat(4500)}`;
     expect(extractDescription(long).length).toBe(4000);

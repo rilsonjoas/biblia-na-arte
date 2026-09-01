@@ -137,9 +137,32 @@ export function sanitizeDescription(text: string): string {
   // Óleo sobre tela de Jan Steen..." — só a 1ª frase é lixo).
   const META_ASIDE_RE = /^>?\s*\*\*(Nota|Correção|Achado|Atualização|Editorial)\b[^.]*\.\s*/i;
 
+  // Achado 2026-09-01 (Rilson, produção): a linha "*Fonte: [Título](url)*"
+  // que toda nota tem no fim de "Descrição da Obra" vazava direto pro
+  // campo `description` do site — virava um link solto no meio do texto
+  // corrido, sem nenhum destaque visual. É informação redundante: o site
+  // já tem `sourceUrl`/`fonte_localizacao` como campo próprio, com seu
+  // próprio botão dedicado ("Ver Fonte Original do Museu") — a linha
+  // dentro da prosa nunca deveria ter chegado ao visitante.
+  // Prefixo simples, não a estrutura inteira do link: URLs com parênteses
+  // internos (comum em desambiguação da Wikipedia, ex. "..._(Rembrandt)")
+  // quebravam um regex que tentava casar `[texto](url)` por completo, e
+  // citações com mais de 1 link ("Fonte: [A](url) / [B](url)") ou texto
+  // extra depois do link (", crédito Tate Collections") escapavam também
+  // (achado ao rodar o export de verdade: 14 obras ainda vazavam a linha
+  // depois do fix "completo" original). Qualquer linha que COMECE com
+  // "Fonte:" é sempre só a citação, nunca mais nada — corta a linha
+  // inteira sem tentar entender o que vem depois.
+  const FONTE_LINE_RE = /^\*?Fonte:/i;
+
   while (i < lines.length) {
     const line = lines[i] ?? '';
     const trimmed = line.trim();
+
+    if (FONTE_LINE_RE.test(trimmed)) {
+      i++;
+      continue;
+    }
 
     if (META_ASIDE_RE.test(trimmed)) {
       // Remove a etiqueta E o `>` de blockquote que porventura vier junto —
