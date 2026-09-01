@@ -50,6 +50,7 @@ export const bibleBookResponseSchema = z.object({
   name: z.string(),
   slug: z.string(),
   chapters: z.number().int().positive(),
+  artworkCount: z.number().int().nonnegative(),
   testament: z.enum(['old', 'new']),
   createdAt: timestamp.nullable().optional(),
 });

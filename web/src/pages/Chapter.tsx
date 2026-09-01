@@ -13,6 +13,30 @@ import { useBibleBookBySlug } from '@/hooks/use-bible-books';
 import { useBiblePassage } from '@/hooks/use-bible-passage';
 import { useArtworksByBibleReference } from '@/hooks/use-artworks';
 import { Book, Palette, ChevronLeft, ChevronRight, ArrowLeft, AlertTriangle } from 'lucide-react';
+import type { Artwork } from '@/types';
+
+/** Quais números de versículo deste capítulo têm pelo menos 1 obra —
+ *  pra destacar na leitura do texto (pedido do Rilson 2026-09-01).
+ *  `verses` na referência vem como "5", "27-30" ou "5,7" (múltiplos
+ *  trechos); sem `verses` = obra cobre o capítulo inteiro (não marca
+ *  versículo nenhum individualmente, seria destacar tudo). */
+function collectVersesWithArt(artworks: Artwork[], bookSlug: string, chapterNum: number): Set<number> {
+  const verses = new Set<number>();
+  for (const artwork of artworks) {
+    for (const ref of artwork.references) {
+      if (ref.bookSlug !== bookSlug || ref.chapter !== chapterNum || !ref.verses) continue;
+      for (const part of ref.verses.split(',')) {
+        const bounds = part.trim().split('-').map(Number);
+        const start = bounds[0];
+        const end = bounds[1];
+        if (start === undefined || !Number.isFinite(start)) continue;
+        const last = end !== undefined && Number.isFinite(end) ? end : start;
+        for (let v = start; v <= last; v++) verses.add(v);
+      }
+    }
+  }
+  return verses;
+}
 
 export default function Chapter() {
   const { bookSlug, chapter } = useParams<{ bookSlug: string; chapter: string }>();
@@ -80,6 +104,7 @@ export default function Chapter() {
 
   const prevChapter = chapterNum > 1 ? chapterNum - 1 : null;
   const nextChapter = chapterNum < book.chapters ? chapterNum + 1 : null;
+  const versesWithArt = collectVersesWithArt(artworks, bookSlug, chapterNum);
 
   const chapterSchema = {
     '@context': 'https://schema.org',
@@ -191,59 +216,11 @@ export default function Chapter() {
           </div>
         </div>
 
-        {/* Passage Text */}
+        {/* Artworks Section — antes do texto de propósito (pedido do
+            Rilson 2026-09-01): o foco do site é arte, faz mais sentido
+            mostrar as obras logo depois do título do que enterrá-las
+            depois do texto corrido do capítulo. */}
         <div className="mb-10 sm:mb-16">
-          <div className="gradient-hero rounded-2xl p-0.5 sm:p-1">
-            <Card className="border-0 bg-background/95 backdrop-blur">
-              <CardContent className="p-4 sm:p-8 md:p-12">
-                {passageLoading && <Loading text="Carregando o texto bíblico..." />}
-
-                {passageError && !passageLoading && (
-                  <div className="flex items-start space-x-3 text-sm text-muted-foreground">
-                    <AlertTriangle className="w-5 h-5 text-amber-500 flex-shrink-0 mt-0.5" />
-                    <div className="space-y-2">
-                      <p>
-                        Não foi possível carregar o texto do capítulo agora. Tente novamente em instantes.
-                      </p>
-                      <button
-                        onClick={() => refetchPassage()}
-                        className="text-primary hover:underline"
-                      >
-                        Tentar novamente
-                      </button>
-                    </div>
-                  </div>
-                )}
-
-                {passage && !passageLoading && (
-                  <>
-                    <div className="flex items-center justify-between mb-6 pb-4 border-b border-border/40">
-                      <h2 className="text-display text-lg sm:text-2xl font-bold">
-                        {passage.reference}
-                      </h2>
-                      <span className="text-xs text-muted-foreground">
-                        {passage.translation} · domínio público
-                      </span>
-                    </div>
-                    <div className="space-y-3 sm:space-y-4">
-                      {passage.verses.map((verse) => (
-                        <p key={verse.verse} className="text-sm sm:text-base leading-relaxed text-foreground/90">
-                          <span className="text-primary font-bold mr-2 text-xs sm:text-sm inline-block min-w-[1.25rem]">
-                            {verse.verse}
-                          </span>
-                          {verse.text}
-                        </p>
-                      ))}
-                    </div>
-                  </>
-                )}
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-
-        {/* Artworks Section */}
-        <div className="mb-16">
           <div className="text-center mb-12">
             <Badge variant="secondary" className="mb-4 shadow-golden">
               <Palette className="w-4 h-4 mr-2" />
@@ -313,6 +290,72 @@ export default function Chapter() {
               )}
             </>
           )}
+        </div>
+
+        {/* Passage Text */}
+        <div className="mb-16">
+          <div className="gradient-hero rounded-2xl p-0.5 sm:p-1">
+            <Card className="border-0 bg-background/95 backdrop-blur">
+              <CardContent className="p-4 sm:p-8 md:p-12">
+                {passageLoading && <Loading text="Carregando o texto bíblico..." />}
+
+                {passageError && !passageLoading && (
+                  <div className="flex items-start space-x-3 text-sm text-muted-foreground">
+                    <AlertTriangle className="w-5 h-5 text-amber-500 flex-shrink-0 mt-0.5" />
+                    <div className="space-y-2">
+                      <p>
+                        Não foi possível carregar o texto do capítulo agora. Tente novamente em instantes.
+                      </p>
+                      <button
+                        onClick={() => refetchPassage()}
+                        className="text-primary hover:underline"
+                      >
+                        Tentar novamente
+                      </button>
+                    </div>
+                  </div>
+                )}
+
+                {passage && !passageLoading && (
+                  <>
+                    <div className="flex items-center justify-between mb-6 pb-4 border-b border-border/40">
+                      <h2 className="text-display text-lg sm:text-2xl font-bold">
+                        {passage.reference}
+                      </h2>
+                      <span className="text-xs text-muted-foreground">
+                        {passage.translation} · domínio público
+                      </span>
+                    </div>
+                    {versesWithArt.size > 0 && (
+                      <p className="flex items-center gap-1.5 text-xs text-muted-foreground mb-4">
+                        <Palette className="w-3.5 h-3.5 text-primary" />
+                        Versículos com <Palette className="w-3 h-3 inline text-primary" /> têm obra de arte associada
+                      </p>
+                    )}
+                    <div className="space-y-3 sm:space-y-4">
+                      {passage.verses.map((verse) => {
+                        const hasArt = versesWithArt.has(verse.verse);
+                        return (
+                          <p
+                            key={verse.verse}
+                            className={`text-sm sm:text-base leading-relaxed text-foreground/90 ${hasArt ? 'bg-primary/5 -mx-2 px-2 py-1 rounded-lg' : ''}`}
+                          >
+                            <span className="text-primary font-bold mr-2 text-xs sm:text-sm inline-block min-w-[1.25rem]">
+                              {verse.verse}
+                            </span>
+                            {verse.text}
+                            {hasArt && (
+                              <Palette className="w-3.5 h-3.5 text-primary inline ml-2 mb-0.5" aria-label="Há obra de arte sobre este versículo" />
+                            )}
+                          </p>
+                        );
+                      })}
+                    </div>
+                  </>
+                )}
+              </CardContent>
+            </Card>
+          </div>
         </div>
       </div>
 

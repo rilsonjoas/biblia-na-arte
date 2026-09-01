@@ -17,21 +17,27 @@ export function CopyButton({ text, label = 'Copiar', className }: CopyButtonProp
     setTimeout(() => setCopied(false), 2000);
   };
 
+  // Achado 2026-09-01: só tem 1 uso no site (ao lado de "Sobre esta Obra"),
+  // e o `variant="outline"` (retângulo com borda) competia visualmente com
+  // o heading de display ao lado — lia como botão de ação genérico de UI,
+  // não como o gesto discreto de "utilidade" que é copiar a descrição.
+  // Trocado por `ghost` + tipografia pequena/muted, mesmo registro já usado
+  // no link "Ler capítulo completo →" dos cards de referência bíblica.
   return (
     <Button
       onClick={handleCopy}
-      variant="outline"
+      variant="ghost"
       size="sm"
-      className={className}
+      className={`h-7 gap-1.5 px-2 text-xs text-muted-foreground hover:text-primary ${className ?? ''}`}
       aria-label={copied ? `${label} — copiado` : label}
     >
       {copied ? (
         <>
-          <Check className="w-4 h-4" /> Copiado!
+          <Check className="w-3.5 h-3.5" /> Copiado!
         </>
       ) : (
         <>
-          <Copy className="w-4 h-4" /> {label}
+          <Copy className="w-3.5 h-3.5" /> {label}
         </>
       )}
     </Button>

@@ -39,8 +39,8 @@ describe('GET /api/v1/bible-books', () => {
 
   it('retorna a lista de livros bíblicos', async () => {
     vi.mocked(queries.listBibleBooks).mockResolvedValueOnce([
-      { id: '1', name: 'Gênesis', slug: 'genesis', chapters: 50, testament: 'old', order: 1, createdAt: null },
-      { id: '2', name: 'Mateus', slug: 'matthew', chapters: 28, testament: 'new', order: 40, createdAt: null },
+      { id: '1', name: 'Gênesis', slug: 'genesis', chapters: 50, artworkCount: 112, testament: 'old', order: 1, createdAt: null },
+      { id: '2', name: 'Mateus', slug: 'matthew', chapters: 28, artworkCount: 337, testament: 'new', order: 40, createdAt: null },
     ]);
 
     const res = await app.inject({

@@ -36,39 +36,33 @@ export const ArtworkShareCard = React.forwardRef<HTMLDivElement, ArtworkShareCar
       <div
         ref={ref}
         aria-hidden="true"
-        className="fixed left-[-9999px] top-0 flex h-[1920px] w-[1080px] flex-col items-center overflow-hidden font-sans"
+        className="fixed left-[-9999px] top-0 flex h-[1920px] w-[1080px] flex-col items-center overflow-hidden font-sans relative"
         style={{ backgroundColor: '#fffefb' }}
       >
-        {/* Eyebrow da marca — logo discreta à esquerda do nome (achado
-            2026-08-23, testando a imagem real: faltava identidade visual
-            no Story). Mesmo arquivo do header (logo-header-light.png,
-            já é um selo com fundo próprio, não precisa de fundo
-            transparente pra combinar com o card claro).
+        {/* Achado 2026-08-24 (reportado 3x pelo Rilson): logo e texto
+            insistiam em sair desalinhados no PNG rasterizado pelo
+            html2canvas — a lib calcula a caixa do texto pelo `line-height`
+            do navegador (não pela altura visual da fonte), então nenhum
+            ajuste de flex/altura fixa segurava o alinhamento de forma
+            confiável entre builds/fontes. Solução definitiva (2026-09-01,
+            sugestão do próprio Rilson): parar de tentar alinhar os dois na
+            mesma linha — logo isolada no canto superior esquerdo (posição
+            absoluta, sem depender de caixa de texto nenhuma), wordmark
+            centralizada por conta própria abaixo. Menos frágil, zero
+            dependência de como o html2canvas mede line-height. */}
+        <img
+          src="/logo-header-light.png"
+          alt=""
+          className="absolute left-14 top-14 h-16 w-16 rounded-full object-contain shadow-md"
+          crossOrigin="anonymous"
+        />
 
-            Achado 2026-08-24 (reportado 2x pelo Rilson): logo e texto
-            saíam desalinhados no PNG rasterizado pelo html2canvas, mesmo
-            com `items-center` no flex — a lib calcula a caixa do texto
-            pelo `line-height` do navegador (não pela altura visual da
-            fonte), então o texto "flutuava" alguns pixels acima/abaixo
-            do centro real da logo. Fix: altura fixa e igual nos dois
-            filhos (`h-8`) + `object-contain` na imagem + `leading-none`
-            no texto (remove a folga de line-height que description
-            desalinhava) + `flex items-center` no próprio `<p>` (centra
-            o texto dentro da própria caixa de altura fixa). */}
-        <div className="mt-16 flex items-center gap-3">
-          <img
-            src="/logo-header-light.png"
-            alt=""
-            className="h-8 w-8 shrink-0 rounded-full object-contain"
-            crossOrigin="anonymous"
-          />
-          <p
-            className="flex h-8 items-center text-[26px] font-bold uppercase leading-none tracking-[0.35em]"
-            style={{ color: '#b49a60' }}
-          >
-            Bíblia na Arte
-          </p>
-        </div>
+        <p
+          className="mt-16 text-[26px] font-bold uppercase leading-none tracking-[0.35em]"
+          style={{ color: '#b49a60' }}
+        >
+          Bíblia na Arte
+        </p>
 
         {/* Moldura dupla — mesma receita do ShareCard do Gerador */}
         <div
@@ -99,9 +93,13 @@ export const ArtworkShareCard = React.forwardRef<HTMLDivElement, ArtworkShareCar
         </div>
 
         <div className="mt-12 flex w-full max-w-[880px] flex-col items-center px-8 text-center">
+          {/* Título em dourado escuro em vez do vinho da marca (pedido do
+              Rilson 2026-09-01: "amarelo com detalhes marrons" — vinho é
+              roxo-vinho, não lê como parte dessa dupla). Escurecido o
+              suficiente pra manter contraste legível sobre o fundo claro. */}
           <h1
             className="font-display text-[54px] font-bold leading-[1.15]"
-            style={{ color: '#4b2e39' }}
+            style={{ color: '#8a6d1f' }}
           >
             {artwork.title}
           </h1>

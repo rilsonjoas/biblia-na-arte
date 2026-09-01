@@ -127,8 +127,14 @@ export default function BibleBooks() {
                           </CardTitle>
                         </CardHeader>
                         <CardContent className="p-3 pt-0 text-center">
+                          {/* Pedido do Rilson 2026-09-01: cardzinho só mostrava
+                              capítulos, sem noção de cobertura do acervo —
+                              agora mostra as duas contagens juntas, curto o
+                              bastante pro card compacto. */}
                           <p className="text-[10px] sm:text-xs text-muted-foreground">
-                            {book.chapters} {book.chapters === 1 ? 'capítulo' : 'capítulos'}
+                            {book.chapters} {book.chapters === 1 ? 'cap.' : 'caps.'}
+                            {' · '}
+                            {book.artworkCount} {book.artworkCount === 1 ? 'obra' : 'obras'}
                           </p>
                         </CardContent>
                       </Link>
@@ -157,8 +163,14 @@ export default function BibleBooks() {
                           </CardTitle>
                         </CardHeader>
                         <CardContent className="p-3 pt-0 text-center">
+                          {/* Pedido do Rilson 2026-09-01: cardzinho só mostrava
+                              capítulos, sem noção de cobertura do acervo —
+                              agora mostra as duas contagens juntas, curto o
+                              bastante pro card compacto. */}
                           <p className="text-[10px] sm:text-xs text-muted-foreground">
-                            {book.chapters} {book.chapters === 1 ? 'capítulo' : 'capítulos'}
+                            {book.chapters} {book.chapters === 1 ? 'cap.' : 'caps.'}
+                            {' · '}
+                            {book.artworkCount} {book.artworkCount === 1 ? 'obra' : 'obras'}
                           </p>
                         </CardContent>
                       </Link>

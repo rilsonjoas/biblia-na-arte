@@ -532,7 +532,11 @@ export default function ArtworkDetail() {
         {/* Related Artworks Section */}
         {relatedArtworks.length > 0 && (
           <section className="mb-12">
-            <div className="flex items-center justify-between mb-6">
+            {/* Empilha no mobile em vez de espremer título+legenda contra o
+                botão (achado 2026-09-01: "Obras Relacionadas" quebrava em
+                2 linhas e a legenda em 3, tudo apertado num terço da tela
+                pra caber o botão do lado). */}
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between mb-6">
               <div>
                 <h2 className="text-display text-2xl font-bold">Obras Relacionadas</h2>
                 <p className="text-xs md:text-sm text-muted-foreground">
@@ -540,7 +544,7 @@ export default function ArtworkDetail() {
                 </p>
               </div>
               {firstRef && (
-                <Button asChild variant="outline" size="sm">
+                <Button asChild variant="outline" size="sm" className="w-full sm:w-auto">
                   <Link to={`/biblia/${firstRef.bookSlug}/${firstRef.chapter}`}>
                     Ver todas do capítulo
                   </Link>

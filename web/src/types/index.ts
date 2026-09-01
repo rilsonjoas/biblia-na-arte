@@ -41,6 +41,7 @@ export interface BibleBook {
   name: string;
   slug: string;
   chapters: number;
+  artworkCount: number;
   testament: 'old' | 'new';
 }
 

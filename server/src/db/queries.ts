@@ -183,12 +183,35 @@ export async function searchArtworks({ q, limit }: SearchArtworksQuery) {
   return attachReferences(rows as unknown as ArtworkRow[]);
 }
 
-export async function listBibleBooks(testament?: 'old' | 'new') {
-  return db
-    .select()
-    .from(bibleBooks)
-    .where(testament ? eq(bibleBooks.testament, testament) : undefined)
-    .orderBy(bibleBooks.order);
+export interface BibleBookWithCount {
+  id: string;
+  name: string;
+  slug: string;
+  chapters: number;
+  testament: 'old' | 'new';
+  order: number;
+  createdAt: string | null;
+  artworkCount: number;
+}
+
+// Achado 2026-09-01 (pedido do Rilson): o card de livro na Galeria só
+// mostrava "N capítulos" — sem noção de quanto do acervo cobre aquele
+// livro. LEFT JOIN em vez de INNER pra livro sem nenhuma pintura ainda
+// aparecer com 0, não sumir da lista; `a.active` filtra as excluídas pela
+// auditoria de direitos autorais (mesma regra do resto da API).
+export async function listBibleBooks(testament?: 'old' | 'new'): Promise<BibleBookWithCount[]> {
+  const rows = await db.execute<Record<string, unknown>>(
+    sql`SELECT
+          bb.id, bb.name, bb.slug, bb.chapters, bb.testament, bb."order", bb.created_at AS "createdAt",
+          count(DISTINCT br.artwork_id) FILTER (WHERE a.active)::int AS "artworkCount"
+        FROM bible_books bb
+        LEFT JOIN bible_references br ON br.book_slug = bb.slug
+        LEFT JOIN artworks a ON a.id = br.artwork_id
+        WHERE ${testament ? sql`bb.testament = ${testament}` : sql`true`}
+        GROUP BY bb.id
+        ORDER BY bb."order"`,
+  );
+  return rows as unknown as BibleBookWithCount[];
 }
 
 export async function getBibleBookBySlug(slug: string) {
