@@ -1,6 +1,6 @@
 import { and, desc, eq, ilike, inArray, sql } from 'drizzle-orm';
 import { db } from './client.js';
-import { artworks, bibleReferences, bibleBooks } from './schema.js';
+import { artworks, bibleReferences } from './schema.js';
 import type { ListArtworksQuery, SearchArtworksQuery } from '../schemas/artwork.schema.js';
 
 type ArtworkRow = typeof artworks.$inferSelect;
@@ -214,9 +214,25 @@ export async function listBibleBooks(testament?: 'old' | 'new'): Promise<BibleBo
   return rows as unknown as BibleBookWithCount[];
 }
 
-export async function getBibleBookBySlug(slug: string) {
-  const [row] = await db.select().from(bibleBooks).where(eq(bibleBooks.slug, slug)).limit(1);
-  return row;
+// Achado 2026-09-01 (produção, HTTP 500 real em /bible-books/titus): ao
+// adicionar `artworkCount` obrigatório no bibleBookResponseSchema, esqueci
+// que ESSA função (usada pela rota de detalhe de 1 livro) também precisa
+// dele — ela ainda fazia um select simples sem o campo, então a validação
+// de resposta do Fastify rejeitava tudo com 500 (schema exige o campo,
+// dado não tinha). Mesma lógica de contagem de `listBibleBooks`, só que
+// filtrando por slug em vez de listar todos.
+export async function getBibleBookBySlug(slug: string): Promise<BibleBookWithCount | undefined> {
+  const rows = await db.execute<Record<string, unknown>>(
+    sql`SELECT
+          bb.id, bb.name, bb.slug, bb.chapters, bb.testament, bb."order", bb.created_at AS "createdAt",
+          count(DISTINCT br.artwork_id) FILTER (WHERE a.active)::int AS "artworkCount"
+        FROM bible_books bb
+        LEFT JOIN bible_references br ON br.book_slug = bb.slug
+        LEFT JOIN artworks a ON a.id = br.artwork_id
+        WHERE bb.slug = ${slug}
+        GROUP BY bb.id`,
+  );
+  return (rows as unknown as BibleBookWithCount[])[0];
 }
 
 export interface ArtistAggregate {

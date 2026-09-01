@@ -256,6 +256,25 @@ describe('API v1 — integração (Postgres real de teste)', () => {
     expect(res.json()).toEqual([expect.objectContaining({ name: 'Lucas' })]);
   });
 
+  // Lacuna real encontrada em produção (2026-09-01, HTTP 500 ao vivo em
+  // /bible-books/titus): só a rota de LISTA tinha teste de integração, a
+  // de DETALHE (1 livro por slug) nunca foi exercitada contra Postgres de
+  // verdade — por isso um `artworkCount` obrigatório no schema de resposta
+  // sem o campo correspondente em `getBibleBookBySlug` passou despercebido
+  // até ir pro ar. Cobrindo os dois casos agora.
+  it('GET /api/v1/bible-books/:slug retorna o livro com contagem de obras', async () => {
+    const res = await app.inject({ method: 'GET', url: '/api/v1/bible-books/luke' });
+    expect(res.statusCode).toBe(200);
+    const body = res.json();
+    expect(body.name).toBe('Lucas');
+    expect(body.artworkCount).toBe(2);
+  });
+
+  it('GET /api/v1/bible-books/:slug retorna 404 pra livro inexistente', async () => {
+    const res = await app.inject({ method: 'GET', url: '/api/v1/bible-books/titus' });
+    expect(res.statusCode).toBe(404);
+  });
+
   it('404 para obra inexistente', async () => {
     const res = await app.inject({
       method: 'GET',
