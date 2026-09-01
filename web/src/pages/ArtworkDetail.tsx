@@ -328,7 +328,7 @@ export default function ArtworkDetail() {
               </div>
 
               <div className="flex items-center gap-3 mb-2">
-                <h1 className="text-display text-2xl md:text-4xl font-bold leading-tight">
+                <h1 className="text-display text-2xl sm:text-3xl md:text-4xl font-bold leading-tight">
                   {artwork.title}
                 </h1>
                 <FavoriteButton artworkId={artwork.id} className="shrink-0" />

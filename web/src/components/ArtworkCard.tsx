@@ -74,7 +74,7 @@ export default function ArtworkCard({ artwork, showReferences = true }: ArtworkC
 
   return (
       <Card className="group relative overflow-hidden hover:shadow-classical transition-all duration-300 [transition-timing-function:var(--ease-liturgico)] hover:-translate-y-1 bg-card border border-border/60 hover:border-accent/40 rounded-xl">
-      {/* Fora do <Link> de propósito — clique no coração não deve navegar
+      {/* Fora do <Link> de propósito — clique na fita não deve navegar
           (achado 2026-08-23, feature de favoritos locais) */}
       <FavoriteButton
         artworkId={artwork.id}

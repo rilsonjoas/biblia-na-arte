@@ -109,7 +109,7 @@ export default function Contribute() {
 
         {/* Ways to Contribute */}
         <div className="mb-16">
-          <h2 className="text-display text-2xl font-bold text-center mb-8">
+          <h2 className="text-display text-2xl sm:text-3xl font-bold text-center mb-8">
             Formas de Contribuir
           </h2>
           
@@ -149,7 +149,7 @@ export default function Contribute() {
 
         {/* Guidelines */}
         <div className="mb-16">
-          <h2 className="text-display text-2xl font-bold text-center mb-8">
+          <h2 className="text-display text-2xl sm:text-3xl font-bold text-center mb-8">
             Diretrizes para Contribuições
           </h2>
           
@@ -177,7 +177,7 @@ export default function Contribute() {
 
         {/* Process Section */}
         <div className="mb-16">
-          <h2 className="text-display text-2xl font-bold text-center mb-8">
+          <h2 className="text-display text-2xl sm:text-3xl font-bold text-center mb-8">
             Como Funciona o Processo
           </h2>
           
@@ -234,7 +234,7 @@ export default function Contribute() {
         {/* Community Section */}
         <Card className="gradient-card border-0 mb-16">
           <CardContent className="p-8 text-center">
-            <h2 className="text-display text-2xl font-bold mb-4">
+            <h2 className="text-display text-2xl sm:text-3xl font-bold mb-4">
               Fale Com o Projeto
             </h2>
             <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
@@ -262,7 +262,7 @@ export default function Contribute() {
 
         {/* Pix Donation Section */}
         <div className="mb-16">
-          <h2 className="text-display text-2xl font-bold text-center mb-4 flex items-center justify-center">
+          <h2 className="text-display text-2xl sm:text-3xl font-bold text-center mb-4 flex items-center justify-center">
             <Heart className="w-6 h-6 mr-3 text-accent" />
             Apoie o Projeto
           </h2>
@@ -281,7 +281,7 @@ export default function Contribute() {
 
         {/* Recognition Section */}
         <div className="text-center">
-          <h2 className="text-display text-2xl font-bold mb-4 flex items-center justify-center">
+          <h2 className="text-display text-2xl sm:text-3xl font-bold mb-4 flex items-center justify-center">
             <Heart className="w-6 h-6 mr-3 text-accent" />
             Reconhecimento dos Colaboradores
           </h2>

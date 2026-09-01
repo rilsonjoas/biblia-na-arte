@@ -8,7 +8,7 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from '@/components/ui/navigation-menu';
-import { Book, Palette, Search, Menu, Sparkles, ScrollText, Cross, HeartHandshake, Shuffle, RefreshCcw, Heart } from 'lucide-react';
+import { Book, Palette, Search, Menu, Sparkles, ScrollText, Cross, HeartHandshake, Shuffle, RefreshCcw, Bookmark } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { ThemeToggle } from '@/components/ThemeToggle';
@@ -235,7 +235,7 @@ export default function Header() {
                 className="hidden sm:inline-flex h-11 w-11 rounded-full"
               >
                 <Link to="/favoritos" aria-label="Meus favoritos">
-                  <Heart className="w-4 h-4" />
+                  <Bookmark className="w-4 h-4" />
                 </Link>
               </Button>
 
@@ -306,7 +306,7 @@ export default function Header() {
                       onClick={() => setMobileMenuOpen(false)}
                       className="flex items-center gap-2.5 px-3 py-2 text-sm font-medium rounded-lg hover:bg-accent hover:text-accent-foreground transition-colors"
                     >
-                      <Heart className="w-4 h-4 text-amber-500" />
+                      <Bookmark className="w-4 h-4 text-amber-500" />
                       <span>Meus Favoritos</span>
                     </Link>
 

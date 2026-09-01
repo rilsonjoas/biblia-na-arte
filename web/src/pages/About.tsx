@@ -42,7 +42,7 @@ export default function About() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
           <div className="space-y-6">
             <div>
-              <h2 className="text-display text-2xl font-bold mb-4 flex items-center">
+              <h2 className="text-display text-2xl sm:text-3xl font-bold mb-4 flex items-center">
                 <Heart className="w-6 h-6 mr-3 text-accent" />
                 Nossa Missão
               </h2>
@@ -103,7 +103,7 @@ export default function About() {
 
         {/* Values Section */}
         <div className="mb-16">
-          <h2 className="text-display text-2xl font-bold text-center mb-8">
+          <h2 className="text-display text-2xl sm:text-3xl font-bold text-center mb-8">
             Nossos Valores
           </h2>
           
@@ -158,7 +158,7 @@ export default function About() {
         {/* Story Section */}
         <Card className="gradient-card border-0 mb-16">
           <CardContent className="p-4 sm:p-8 md:p-12">
-            <h2 className="text-display text-2xl font-bold mb-6 text-center">
+            <h2 className="text-display text-2xl sm:text-3xl font-bold mb-6 text-center">
               Como Tudo Começou
             </h2>
             
@@ -237,7 +237,7 @@ export default function About() {
         <Card className="gradient-card border-0 mb-16">
           <CardContent className="p-8 text-center">
             <Library className="w-8 h-8 mx-auto mb-4 text-accent" />
-            <h2 className="text-display text-2xl font-bold mb-4">
+            <h2 className="text-display text-2xl sm:text-3xl font-bold mb-4">
               Parte de Uma Biblioteca Maior
             </h2>
             <p className="text-foreground/80 leading-relaxed max-w-2xl mx-auto mb-6">
@@ -274,7 +274,7 @@ export default function About() {
 
         {/* Call to Action */}
         <div className="text-center">
-          <h2 className="text-display text-2xl font-bold mb-4">
+          <h2 className="text-display text-2xl sm:text-3xl font-bold mb-4">
             Faça Parte Desta Jornada
           </h2>
           <p className="text-muted-foreground mb-8 max-w-2xl mx-auto">
