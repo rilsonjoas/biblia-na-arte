@@ -1963,22 +1963,35 @@ schema/query desta sessão.
 
 ### Achados seguintes (mesmo dia, screenshot completo + painel do AdSense)
 
-- [x] **Causa real do "espaço grande" — resolvida, era Google Auto ads**:
-      com o screenshot da página inteira sem corte, ficou claro que o
-      gap gigante não é entre imagem e legenda (essas duas continuam
-      coladas, `space-y-3`) — é ENTRE elementos da própria coluna, com
-      "Óleo sobre tela" e "Inspecionar detalhes" aparecendo isolados,
-      centenas de pixels um do outro. Não existe nada no JSX que explique
-      isso — teoria confirmada pelo próprio Rilson checando o painel:
-      **Auto ads estava ATIVADO pra `narniano.com`** (visível em Anúncios
-      → Por site), e como `biblianaarte.narniano.com` compartilha a mesma
-      conta/client-id do AdSense sem estar listado como site separado, o
-      algoritmo do Google inseria anúncios automáticos ali também —
-      reservando espaço grande independente do JSX, exatamente o tipo de
-      coisa invisível numa leitura de código. Resolvido: Rilson adicionou
+- [x] **Causa real do "espaço grande" — era Google Auto ads (achado
+      inicial 2026-08-31)**: com o screenshot da página inteira sem
+      corte, ficou claro que o gap gigante não é entre imagem e legenda
+      (essas duas continuam coladas, `space-y-3`) — é ENTRE elementos da
+      própria coluna, com "Óleo sobre tela" e "Inspecionar detalhes"
+      aparecendo isolados, centenas de pixels um do outro. Não existe
+      nada no JSX que explique isso — teoria confirmada pelo próprio
+      Rilson checando o painel: **Auto ads estava ATIVADO pra
+      `narniano.com`** (visível em Anúncios → Por site), e como
+      `biblianaarte.narniano.com` compartilha a mesma conta/client-id do
+      AdSense sem estar listado como site separado, o algoritmo do
+      Google inseria anúncios automáticos ali também — reservando espaço
+      grande independente do JSX, exatamente o tipo de coisa invisível
+      numa leitura de código. Tentativa 1 (2026-08-31): Rilson adicionou
       exclusão de página em Auto ads → Exclusões de páginas, URL
-      `biblianaarte.narniano.com/`, modo "Todas as páginas desta seção"
-      (exclui o subdomínio inteiro, não só uma URL exata).
+      `biblianaarte.narniano.com/`, modo "Todas as páginas desta seção".
+      **RECORRÊNCIA (2026-09-01)**: mesmo gap voltou a aparecer — exclusão
+      via painel do AdSense é assíncrona (a própria documentação do
+      Google fala em até ~24h pra propagar) e, na prática, não é
+      confiável o bastante sozinha. Fix definitivo, direto no código:
+      `web/index.html` agora tem um segundo `<script>` logo após o loader
+      do `adsbygoogle.js`, fazendo
+      `push({ google_ad_client: "...", enable_page_level_ads: false })`
+      — o opt-out oficial de Auto ads via código, avaliado no cliente
+      assim que o script carrega, sem depender do estado do painel.
+      Confirmado que não interfere nos slots manuais (`<AdUnit>`, que
+      fazem `push({})` próprio com `data-ad-slot`) — page-level ads e
+      slot manual são mecanismos independentes dentro do
+      `adsbygoogle.js`.
 - [x] **Slot de anúncio errado**: o único `<AdUnit>` do código
       (ArtworkDetail) usava `slot="4884773751"`, que não batia com
       NENHUMA das 3 unidades manuais reais cadastradas no AdSense

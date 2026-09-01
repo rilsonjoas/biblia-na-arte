@@ -33,6 +33,23 @@
       src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5482566824255473"
       crossorigin="anonymous"
     ></script>
+    <!-- Achado 2026-09-01: a exclusão de páginas configurada no painel do
+         AdSense (conta compartilhada com narniano.com, que tem Anúncios
+         Automáticos ativado) não bloqueou o espaço reservado que seguia
+         aparecendo entre elementos do layout (ex.: gap enorme abaixo da
+         imagem da obra) — exclusão por painel é assíncrona (documentada
+         em até ~24h pra propagar) e, na prática, não é confiável. Este
+         push com `enable_page_level_ads: false` é o opt-out oficial via
+         código, avaliado no cliente assim que o script carrega, sem
+         depender do painel. NÃO afeta os slots manuais (<AdUnit>, que
+         fazem seu próprio push({}) com data-ad-slot) — page-level e
+         slot manual são mecanismos independentes no adsbygoogle.js. -->
+    <script>
+      (window.adsbygoogle = window.adsbygoogle || []).push({
+        google_ad_client: "ca-pub-5482566824255473",
+        enable_page_level_ads: false,
+      });
+    </script>
 
     <meta property="og:title" content="Bíblia na Arte - A Bíblia através da Arte e Cultura" />
     <meta property="og:description" content="Explore as profundas conexões entre a Bíblia e as artes visuais. Descubra pinturas históricas e arte sacra inspiradas nas Sagradas Escrituras." />
