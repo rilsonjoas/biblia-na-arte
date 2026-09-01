@@ -1992,6 +1992,35 @@ schema/query desta sessão.
       fazem `push({})` próprio com `data-ad-slot`) — page-level ads e
       slot manual são mecanismos independentes dentro do
       `adsbygoogle.js`.
+- [x] **CORREÇÃO — a causa nunca foi Auto ads (2026-09-01, gap voltou
+      mesmo depois do fix de page-level ads acima)**: Rilson confirmou
+      com ctrl+shift+r que o gap gigante continuava — sinal de que a
+      teoria do Auto ads estava errada desde o início (coincidência:
+      as duas coisas foram investigadas no mesmo dia). Reproduzido ao
+      vivo com Playwright (`--channel chrome`, viewport mobile) contra
+      `biblianaarte.narniano.com/obra/...` e inspecionado via
+      `getBoundingClientRect`/`innerHTML` do próprio DOM renderizado:
+      o `<div>` da barra de ações rápidas (`flex flex-col ...`) media
+      **2004px de altura** só por causa de um filho escondido — o
+      template offscreen do `ArtworkShareCard.tsx` (1080×1920, usado
+      pelo `html2canvas` no botão "Compartilhar como Story"). Esse
+      template tinha `className="fixed left-[-9999px] top-0 ... relative"`
+      — **`fixed` E `relative` na mesma classe** desde o fix de
+      alinhamento do logo (2026-09-01, mais cedo nesta mesma sessão):
+      como as duas são utilities de `position` com a mesma
+      especificidade CSS, quem vem depois na folha de estilo compilada
+      do Tailwind (`relative`) vence sobre `fixed`, e o elemento parou
+      de sair do fluxo do documento — passou a ocupar 1920px reais
+      dentro da página de verdade, empurrando tudo abaixo. Exatamente o
+      tipo de conflito de especificidade que o guia de design deste
+      projeto avisa pra vigiar (classes baseadas em elemento/utility que
+      se cancelam). Fix: removido o `relative` — `fixed` sozinho já
+      define contexto de posicionamento pro logo `absolute` filho, não
+      precisava dos dois. Testes unitários (jsdom) não pegam esse tipo
+      de bug — não rodam cascata CSS real —, por isso só apareceu
+      navegando de verdade; validado com screenshot Playwright antes e
+      depois do fix contra o build local E confirmado ao vivo em
+      produção depois do deploy.
 - [x] **Slot de anúncio errado**: o único `<AdUnit>` do código
       (ArtworkDetail) usava `slot="4884773751"`, que não batia com
       NENHUMA das 3 unidades manuais reais cadastradas no AdSense

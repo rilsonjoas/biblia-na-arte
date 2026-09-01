@@ -36,7 +36,7 @@ export const ArtworkShareCard = React.forwardRef<HTMLDivElement, ArtworkShareCar
       <div
         ref={ref}
         aria-hidden="true"
-        className="fixed left-[-9999px] top-0 flex h-[1920px] w-[1080px] flex-col items-center overflow-hidden font-sans relative"
+        className="fixed left-[-9999px] top-0 flex h-[1920px] w-[1080px] flex-col items-center overflow-hidden font-sans"
         style={{ backgroundColor: '#fffefb' }}
       >
         {/* Achado 2026-08-24 (reportado 3x pelo Rilson): logo e texto
