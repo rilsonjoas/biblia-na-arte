@@ -6391,11 +6391,6 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://biblianaarte.narniano.com/obra/albert-chevalier-taylor-um-feixe-de-luz-solar</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
     <loc>https://biblianaarte.narniano.com/obra/albert-edelfelt-cristo-e-maria-madalena</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -6811,6 +6806,11 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://biblianaarte.narniano.com/obra/caravaggio-a-incredulidade-de-sao-tome</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://biblianaarte.narniano.com/obra/caravaggio-a-negacao-de-pedro</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -6956,11 +6956,6 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://biblianaarte.narniano.com/obra/caspar-david-friedrich-dois-homens-contemplando-a-lua</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
     <loc>https://biblianaarte.narniano.com/obra/caspar-luyken-orfa-deixa-rute-e-noemi</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -6987,16 +6982,6 @@
   </url>
   <url>
     <loc>https://biblianaarte.narniano.com/obra/claude-lorrain-jaco-com-labao-e-suas-filhas</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://biblianaarte.narniano.com/obra/claude-monet-impressao-sol-nascente</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://biblianaarte.narniano.com/obra/claude-monet-um-campo-de-tulipas-na-holanda</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -8301,11 +8286,6 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://biblianaarte.narniano.com/obra/gustave-dore-os-espiritos-em-jupiter</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
     <loc>https://biblianaarte.narniano.com/obra/gustave-dore-os-filhos-de-israel-cruzando-o-jordao</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -8627,11 +8607,6 @@
   </url>
   <url>
     <loc>https://biblianaarte.narniano.com/obra/ivan-kramskoi-cristo-no-deserto</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://biblianaarte.narniano.com/obra/j-c-leyendecker-lune-de-miel</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -9236,17 +9211,7 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://biblianaarte.narniano.com/obra/john-william-godward-dolce-far-niente</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
     <loc>https://biblianaarte.narniano.com/obra/joost-van-geel-jesus-cura-a-sogra-de-pedro</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://biblianaarte.narniano.com/obra/almeida-junior-saudade</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -9357,11 +9322,6 @@
   </url>
   <url>
     <loc>https://biblianaarte.narniano.com/obra/karel-du-jardin-paulo-cura-o-aleijado-em-listra</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://biblianaarte.narniano.com/obra/kiyoshi-yamashita-fogos-de-artificio-nagaoka-no-hanabi-fogos-de-nagaoka</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -9691,11 +9651,6 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://biblianaarte.narniano.com/obra/oscar-pereira-da-silva-desembarque-de-pedro-alvares-cabral-em-porto-seguro-em-1500</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
     <loc>https://biblianaarte.narniano.com/obra/osmar-schindler-davi-e-golias</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -9742,11 +9697,6 @@
   </url>
   <url>
     <loc>https://biblianaarte.narniano.com/obra/paul-hey-a-estrela-de-belem</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://biblianaarte.narniano.com/obra/pedro-bruno-a-patria</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -9977,11 +9927,6 @@
   </url>
   <url>
     <loc>https://biblianaarte.narniano.com/obra/quentin-matsys-o-cambista-e-a-esposa</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://biblianaarte.narniano.com/obra/rafael-sanzio-a-escola-de-atenas</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -10501,17 +10446,7 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://biblianaarte.narniano.com/obra/viggo-johansen-alegre-natal</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
     <loc>https://biblianaarte.narniano.com/obra/viktor-vasnetsov-arcanjo-no-julgamento-final</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://biblianaarte.narniano.com/obra/vincent-van-gogh-celebracao-la-fete-du-14-juillet-a-paris-f-222</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -10521,17 +10456,7 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://biblianaarte.narniano.com/obra/vincent-van-gogh-paisagem-com-casas-landschap-met-huizen-landscape-with-houses</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
     <loc>https://biblianaarte.narniano.com/obra/vincent-van-gogh-pieta</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://biblianaarte.narniano.com/obra/vincent-van-gogh-a-colheita</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -10552,11 +10477,6 @@
   </url>
   <url>
     <loc>https://biblianaarte.narniano.com/obra/vladimir-borovikovsky-joao-o-evangelista-st-john-the-evangelist</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://biblianaarte.narniano.com/obra/wenzel-hablik-ceu-estrelado-sternenhimmel-versuch</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
