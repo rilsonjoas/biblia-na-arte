@@ -404,13 +404,18 @@ export default function ArtworkDetail() {
                           </a>
                         </>
                       )}
-                      {/* Decisão de produto formalizada 2026-09-01: o link
-                          pra fonte oficial (museu/Wikidata que confirma
-                          essa localização) mora AO LADO de "Onde ver",
-                          não solto no fim da página — é a mesma
-                          informação, essa é a referência que sustenta
-                          aquela. Só aparece quando existe (fonte
-                          curatorial, não toda obra tem uma verificada). */}
+                      {/* Decisão de produto formalizada 2026-09-01: o
+                          link pra fonte oficial (museu/Wikidata que
+                          confirma essa localização) mora AO LADO de
+                          "Onde ver", não solto no fim da página — é a
+                          mesma informação, essa é a referência que
+                          sustenta aquela. Só aparece quando existe (fonte
+                          curatorial, não toda obra tem uma verificada).
+                          Virou badge clicável em vez de "(fonte oficial)"
+                          em parênteses dentro do texto (achado 2026-09-01,
+                          Rilson: parênteses coladas na prosa não
+                          pareciam a melhor forma) — pedido aprovado pelo
+                          Rilson: "Saiba mais" + ícone, em badge. */}
                       {artwork.sourceUrl && (
                         <>
                           {' '}
@@ -418,9 +423,15 @@ export default function ArtworkDetail() {
                             href={artwork.sourceUrl}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-primary hover:underline whitespace-nowrap"
+                            className="inline-block align-middle"
                           >
-                            (fonte oficial)
+                            <Badge
+                              variant="outline"
+                              className="gap-1 px-2 py-0.5 text-[10px] text-muted-foreground border-border hover:border-primary hover:text-primary transition-colors"
+                            >
+                              <ExternalLink className="w-2.5 h-2.5" />
+                              Saiba mais
+                            </Badge>
                           </a>
                         </>
                       )}
@@ -437,13 +448,14 @@ export default function ArtworkDetail() {
                       <ExternalLink className="w-4 h-4 text-primary" />
                       <span>Fonte oficial:</span>
                     </div>
-                    <a
-                      href={artwork.sourceUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-primary hover:underline text-right"
-                    >
-                      Ver na fonte
+                    <a href={artwork.sourceUrl} target="_blank" rel="noopener noreferrer">
+                      <Badge
+                        variant="outline"
+                        className="gap-1 px-2 py-0.5 text-[10px] text-muted-foreground border-border hover:border-primary hover:text-primary transition-colors"
+                      >
+                        <ExternalLink className="w-2.5 h-2.5" />
+                        Saiba mais
+                      </Badge>
                     </a>
                   </div>
                 )}
@@ -560,9 +572,18 @@ export default function ArtworkDetail() {
 
         {/* Anúncio — único slot da página, numa quebra natural de conteúdo
             (depois das referências, antes das obras relacionadas), nunca
-            dentro do texto de descrição/citação */}
+            dentro do texto de descrição/citação.
+            Achado 2026-09-01: o slot antigo (4884773751) não batia com
+            NENHUMA das 3 unidades manuais cadastradas no AdSense
+            (SD-Ficha/SD-Catálogo/SD-Home) — provavelmente sobra de uma
+            unidade já apagada. Trocado pro slot real de "SD-Ficha"
+            (5170899723), nome que corresponde exatamente a esta página
+            ("ficha da obra" é como o resto do código já chama essa tela).
+            SD-Catálogo e SD-Home existem no AdSense mas ainda não têm
+            nenhum <AdUnit> no código — ficam disponíveis pra Search/
+            ArtCategories e Index quando fizer sentido adicionar. */}
         <div className="mb-12">
-          <AdUnit slot="4884773751" />
+          <AdUnit slot="5170899723" />
         </div>
 
         {/* Related Artworks Section */}

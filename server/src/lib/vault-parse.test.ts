@@ -387,6 +387,13 @@ describe('parseTitleParts', () => {
     });
   });
 
+  it('separa subtítulo com parêntese aninhado (achado 2026-09-01: "Jó (Job on the Dunghill (Job in His Misery))" ficava inteiro no h1, sem separar)', () => {
+    expect(parseTitleParts('Jó (Job on the Dunghill (Job in His Misery))')).toEqual({
+      title: 'Jó',
+      subtitle: 'Job on the Dunghill (Job in His Misery)',
+    });
+  });
+
   it('não remove número de 3 dígitos como título de salmo', () => {
     expect(parseTitleParts('Salmo 148')).toEqual({ title: 'Salmo 148', subtitle: undefined });
   });

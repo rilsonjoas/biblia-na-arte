@@ -1947,17 +1947,45 @@ execução via Docker), nunca o catálogo real — confirmado rodando a suite
 completa contra Postgres de verdade antes e depois de cada mudança de
 schema/query desta sessão.
 
-### ⚠️ Item aberto (não resolvido, precisa de mais informação do Rilson)
+### Achados seguintes (mesmo dia, screenshot completo + painel do AdSense)
 
-- [ ] **Espaço grande entre a imagem da obra e a legenda/ações abaixo**
-      (relatado com screenshots do "Édouard Manet - O rosto de Cristo") —
-      investigação: a imagem é 800×600 (4:3), exatamente o ratio do
-      container `<AspectRatio ratio={4/3}>`, então não deveria haver
-      letterboxing nenhum pra ESSA obra específica — teoria de
-      aspect-ratio mismatch descartada por evidência (dimensão real
-      checada direto no arquivo servido em produção). Estrutura do JSX
-      também não explica gap grande (legenda é irmã direta da imagem, só
-      `space-y-3` entre elas). Não consegui reproduzir a causa só lendo
-      código — precisa de um screenshot da página inteira sem corte (do
-      topo até depois da legenda) ou a largura de viewport/dispositivo
-      exata pra investigar de novo com mais grão.
+- [x] **Causa real do "espaço grande" — resolvida, era Google Auto ads**:
+      com o screenshot da página inteira sem corte, ficou claro que o
+      gap gigante não é entre imagem e legenda (essas duas continuam
+      coladas, `space-y-3`) — é ENTRE elementos da própria coluna, com
+      "Óleo sobre tela" e "Inspecionar detalhes" aparecendo isolados,
+      centenas de pixels um do outro. Não existe nada no JSX que explique
+      isso — teoria confirmada pelo próprio Rilson checando o painel:
+      **Auto ads estava ATIVADO pra `narniano.com`** (visível em Anúncios
+      → Por site), e como `biblianaarte.narniano.com` compartilha a mesma
+      conta/client-id do AdSense sem estar listado como site separado, o
+      algoritmo do Google inseria anúncios automáticos ali também —
+      reservando espaço grande independente do JSX, exatamente o tipo de
+      coisa invisível numa leitura de código. Resolvido: Rilson adicionou
+      exclusão de página em Auto ads → Exclusões de páginas, URL
+      `biblianaarte.narniano.com/`, modo "Todas as páginas desta seção"
+      (exclui o subdomínio inteiro, não só uma URL exata).
+- [x] **Slot de anúncio errado**: o único `<AdUnit>` do código
+      (ArtworkDetail) usava `slot="4884773751"`, que não batia com
+      NENHUMA das 3 unidades manuais reais cadastradas no AdSense
+      (SD-Ficha 5170899723 / SD-Catálogo 7957729643 / SD-Home 2896974659)
+      — provavelmente sobra de uma unidade já apagada. Corrigido pro slot
+      real de "SD-Ficha" (nome que já bate com o vocabulário do próprio
+      código — "ficha da obra"). **SD-Catálogo e SD-Home existem no
+      AdSense mas não têm nenhum `<AdUnit>` no código ainda** — ficam
+      disponíveis pra Search/ArtCategories e Index se fizer sentido no
+      futuro (não implementado agora, ninguém pediu).
+- [x] **"(fonte oficial)" reformulado**: era texto entre parênteses
+      colado na prosa da localização — Rilson achou que podia ficar
+      melhor. Virou badge clicável pequeno ("Saiba mais" + ícone de link
+      externo), mesmo padrão visual dos badges "Pintura"/"Domínio
+      Público" já usados na página.
+- [x] **Título original dentro do `<h1>`** — causa raiz real, não só
+      questão de onde exibir: `parseTitleParts()` (extrai título vs.
+      subtítulo do nome do arquivo) não lidava com parêntese aninhado —
+      "Jó (Job on the Dunghill (Job in His Misery))" tem o subtítulo em
+      inglês com parêntese DENTRO dele, a regex antiga (`[^()]*`, sem
+      aninhamento) falhava e a string inteira virava `title`, sem separar
+      nada. Corrigida a regex pra aceitar 1 nível de aninhamento — Rilson
+      confirmou manter o padrão existente (subtítulo em itálico abaixo do
+      título), só precisava separar os dois de verdade.

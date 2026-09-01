@@ -400,7 +400,14 @@ function stripTrailingNumber(value: string): string {
  */
 export function parseTitleParts(rawTitle: string): { title: string; subtitle?: string } {
   const trimmed = rawTitle.trim();
-  const parenMatch = trimmed.match(/^(.*?)\s*\(([^()]*)\)\s*(\d{1,2})?$/);
+  // Achado 2026-09-01 (Rilson, "Jó (Job on the Dunghill (Job in His
+  // Misery))" aparecendo inteiro no h1): o subtítulo original em inglês
+  // às vezes tem parêntese dentro do parêntese ("Job in His Misery" é
+  // parte do título completo da obra) — `[^()]*` não casava com o
+  // parêntese aninhado, a regex inteira falhava e a string toda (com
+  // parênteses e tudo) virava `title`, sem separar `subtitle` nenhum.
+  // Grupo do meio agora aceita 1 nível de aninhamento.
+  const parenMatch = trimmed.match(/^(.*?)\s*\(((?:[^()]|\([^()]*\))*)\)\s*(\d{1,2})?$/);
   if (parenMatch?.[1] && parenMatch[2] !== undefined) {
     const title = stripTrailingNumber(parenMatch[1]) || trimmed;
     const subtitle = stripTrailingNumber(parenMatch[2]);
