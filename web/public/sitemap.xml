@@ -6346,12 +6346,22 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://biblianaarte.narniano.com/obra/aert-de-gelder-eliseu-e-a-viuva-derramando-os-vasos-de-azeite</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://biblianaarte.narniano.com/obra/aert-de-gelder-ester-e-mardoqueu</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://biblianaarte.narniano.com/obra/aert-de-gelder-ester-e-mardoqueu-escrevendo-a-primeira-carta-do-purim</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://biblianaarte.narniano.com/obra/aert-de-gelder-ester-e-mardoqueu-escrevendo-a-segunda-carta-do-purim</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -6437,6 +6447,11 @@
   </url>
   <url>
     <loc>https://biblianaarte.narniano.com/obra/alexander-ivanov-transfiguracao</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://biblianaarte.narniano.com/obra/alexandre-cabanel-a-morte-de-moises</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -6601,6 +6616,26 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://biblianaarte.narniano.com/obra/augustin-hirschvogel-a-vara-de-arao-floresce</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://biblianaarte.narniano.com/obra/augustin-hirschvogel-absalao-e-morto-por-joabe</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://biblianaarte.narniano.com/obra/augustin-hirschvogel-eliseu-ressuscita-o-filho-da-sunamita</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://biblianaarte.narniano.com/obra/rembrandt-van-rijn-a-parabola-do-tesouro-escondido</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://biblianaarte.narniano.com/obra/autor-desconhecido-a-transfiguracao</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -6646,17 +6681,12 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://biblianaarte.narniano.com/obra/autor-desconhecido-judas-recebendo-30-moedas-de-prata</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
     <loc>https://biblianaarte.narniano.com/obra/autor-desconhecido-maria-unge-os-pes-de-jesus</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://biblianaarte.narniano.com/obra/autor-a-desconhecido-a-moeda-do-tributo-de-tiberio</loc>
+    <loc>https://biblianaarte.narniano.com/obra/autor-a-desconhecido-a-moeda-do-tributo-de-tiberio-aureus-ti-caesar-divi-avg-f-avgvstvs-pontif-maxim</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -6671,17 +6701,7 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://biblianaarte.narniano.com/obra/autor-desconhecido-pentecoste</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
     <loc>https://biblianaarte.narniano.com/obra/autor-desconhecido-transfiguracao-de-cristo</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://biblianaarte.narniano.com/obra/autor-desconhecido-a-natividade</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -6711,12 +6731,22 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://biblianaarte.narniano.com/obra/bartolome-esteban-murillo-adoracao-dos-reis-magos</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://biblianaarte.narniano.com/obra/bartolome-esteban-murillo-cristo-curando-o-paralitico-no-tanque-de-betesda</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://biblianaarte.narniano.com/obra/bartolome-esteban-murillo-o-filho-prodigo-alimentando-porcos</loc>
+    <loc>https://biblianaarte.narniano.com/obra/bartolome-esteban-murillo-o-filho-prodigo-alimentando-porcos-the-prodigal-son-feeding-swine-es-conve</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://biblianaarte.narniano.com/obra/bartolome-esteban-murillo-o-milagre-dos-paes-e-peixes-the-miracle-of-the-loaves-and-the-fishes-es-la</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -6816,6 +6846,16 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://biblianaarte.narniano.com/obra/caravaggio-joao-batista-no-deserto</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://biblianaarte.narniano.com/obra/caravaggio-marta-e-maria-madalena</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://biblianaarte.narniano.com/obra/caravaggio-o-chamado-de-mateus</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -6866,6 +6906,11 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://biblianaarte.narniano.com/obra/carl-bloch-cristo-curando-o-cego</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://biblianaarte.narniano.com/obra/carl-bloch-getsemani</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -6881,7 +6926,17 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://biblianaarte.narniano.com/obra/carl-bloch-jesus-expulsando-satanas</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://biblianaarte.narniano.com/obra/carl-bloch-o-sepultamento-de-jesus</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://biblianaarte.narniano.com/obra/carl-bloch-o-sermao-do-monte</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -6901,6 +6956,11 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://biblianaarte.narniano.com/obra/caspar-david-friedrich-dois-homens-contemplando-a-lua</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://biblianaarte.narniano.com/obra/caspar-luyken-orfa-deixa-rute-e-noemi</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -6911,7 +6971,7 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://biblianaarte.narniano.com/obra/charles-jalabert-uma-noite-no-mar-da-galileia</loc>
+    <loc>https://biblianaarte.narniano.com/obra/charles-jalabert-uma-noite-no-mar-da-galileia-une-nuit-sur-la-mer-de-galilee-a-night-on-the-sea-of-g</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -6927,6 +6987,16 @@
   </url>
   <url>
     <loc>https://biblianaarte.narniano.com/obra/claude-lorrain-jaco-com-labao-e-suas-filhas</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://biblianaarte.narniano.com/obra/claude-monet-impressao-sol-nascente</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://biblianaarte.narniano.com/obra/claude-monet-um-campo-de-tulipas-na-holanda</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -6962,6 +7032,11 @@
   </url>
   <url>
     <loc>https://biblianaarte.narniano.com/obra/peter-von-cornelius-cristo</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://biblianaarte.narniano.com/obra/correggio-aparicao-de-cristo-a-maria-madalena</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -7016,22 +7091,32 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://biblianaarte.narniano.com/obra/dieric-bouts-a-ressurreicao</loc>
+    <loc>https://biblianaarte.narniano.com/obra/dirck-bouts-a-ressurreicao</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://biblianaarte.narniano.com/obra/dieric-bouts-a-ultima-ceia</loc>
+    <loc>https://biblianaarte.narniano.com/obra/dirck-bouts-a-ultima-ceia</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://biblianaarte.narniano.com/obra/dirck-bouts-cristo-coroado-com-espinhos</loc>
+    <loc>https://biblianaarte.narniano.com/obra/dieric-bouts-cristo-coroado-com-espinhos</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://biblianaarte.narniano.com/obra/dirck-bouts-cristo-na-casa-do-fariseu-simao</loc>
+    <loc>https://biblianaarte.narniano.com/obra/dieric-bouts-cristo-na-casa-do-fariseu-simao</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://biblianaarte.narniano.com/obra/dirck-bouts-o-encontro-de-abraao-e-melquisedeque</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://biblianaarte.narniano.com/obra/domenichino-sao-joao-evangelista</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -7151,6 +7236,11 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://biblianaarte.narniano.com/obra/el-greco-judas-tadeu</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://biblianaarte.narniano.com/obra/el-greco-o-despojamento-de-cristo</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -7167,6 +7257,16 @@
   </url>
   <url>
     <loc>https://biblianaarte.narniano.com/obra/el-greco-pieta</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://biblianaarte.narniano.com/obra/el-greco-sao-paulo</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://biblianaarte.narniano.com/obra/el-greco-tiago-o-menor</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -7267,6 +7367,16 @@
   </url>
   <url>
     <loc>https://biblianaarte.narniano.com/obra/fiodor-bronnikov-lazaro-no-portao-do-homem-rico</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://biblianaarte.narniano.com/obra/ford-madox-brown-jesus-lavando-os-pes-de-pedro</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://biblianaarte.narniano.com/obra/fra-angelico-a-anunciacao</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -7437,11 +7547,6 @@
   </url>
   <url>
     <loc>https://biblianaarte.narniano.com/obra/frans-floris-jesus-cristo-filho-de-deus-reunindo-e-protegendo-a-humanidade-por-seu-sacrificio-na-cru</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://biblianaarte.narniano.com/obra/frederic-leighton-davi-quem-dera-eu-tivesse-asas</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -7671,6 +7776,11 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://biblianaarte.narniano.com/obra/gerbrand-van-den-eeckhout-eliseu-e-a-sunamita-no-monte-carmelo</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://biblianaarte.narniano.com/obra/gerbrand-van-den-eeckhout-jose-e-os-seus-irmaos</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -7801,6 +7911,11 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://biblianaarte.narniano.com/obra/guercino-elias-alimentado-pelos-corvos</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://biblianaarte.narniano.com/obra/guercino-ester-diante-de-assuero</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -7841,7 +7956,7 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://biblianaarte.narniano.com/obra/gustave-brion-jesus-e-pedro-sobre-a-agua</loc>
+    <loc>https://biblianaarte.narniano.com/obra/gustave-brion-jesus-e-pedro-sobre-a-agua-jesus-et-pierre-sur-les-eaux-jesus-and-peter-on-the-water</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -7901,6 +8016,11 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://biblianaarte.narniano.com/obra/gustave-dore-a-morte-de-atalia</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://biblianaarte.narniano.com/obra/gustave-dore-a-morte-de-estevao</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -7912,6 +8032,16 @@
   </url>
   <url>
     <loc>https://biblianaarte.narniano.com/obra/gustave-dore-a-pesca-milagrosa</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://biblianaarte.narniano.com/obra/gustave-dore-a-peste-em-jerusalem</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://biblianaarte.narniano.com/obra/gustave-dore-a-reconstrucao-do-templo-e-iniciada</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -7942,6 +8072,11 @@
   </url>
   <url>
     <loc>https://biblianaarte.narniano.com/obra/gustave-dore-abraao-e-os-tres-anjos</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://biblianaarte.narniano.com/obra/gustave-dore-aca-e-apedrejado-ate-a-morte</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -8001,6 +8136,11 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://biblianaarte.narniano.com/obra/gustave-dore-elias-e-levado-ao-ceu-num-carro-de-fogo</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://biblianaarte.narniano.com/obra/gustave-dore-jaco-lutando-com-o-anjo</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -8036,6 +8176,11 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://biblianaarte.narniano.com/obra/gustave-dore-jesus-orando-no-jardim</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://biblianaarte.narniano.com/obra/gustave-dore-jesus-pregando-no-monte</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -8051,7 +8196,17 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://biblianaarte.narniano.com/obra/gustave-dore-miqueias-exorta-os-israelitas-ao-arrependimento</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://biblianaarte.narniano.com/obra/gustave-dore-moises-quebrando-as-tabuas-da-lei</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://biblianaarte.narniano.com/obra/gustave-dore-neemias-contempla-as-ruinas-dos-muros-de-jerusalem</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -8091,6 +8246,11 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://biblianaarte.narniano.com/obra/gustave-dore-o-erguimento-da-cruz</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://biblianaarte.narniano.com/obra/gustave-dore-o-fariseu-e-o-publicano</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -8101,7 +8261,17 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://biblianaarte.narniano.com/obra/gustave-dore-o-profeta-amos</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://biblianaarte.narniano.com/obra/gustave-dore-o-profeta-esdras-ajoelhado-em-oracao</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://biblianaarte.narniano.com/obra/gustave-dore-o-sermao-da-montanha-le-sermon-sur-la-montagne-the-sermon-on-the-mount</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -8131,7 +8301,17 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://biblianaarte.narniano.com/obra/gustave-dore-os-espiritos-em-jupiter</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://biblianaarte.narniano.com/obra/gustave-dore-os-filhos-de-israel-cruzando-o-jordao</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://biblianaarte.narniano.com/obra/gustave-dore-os-homens-de-jabes-gileade-recuperam-os-corpos-de-saul-e-seus-filhos</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -8201,6 +8381,11 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://biblianaarte.narniano.com/obra/gustave-moreau-o-cantico-dos-canticos</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://biblianaarte.narniano.com/obra/gyula-benczur-cristo-no-monte-das-oliveiras</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -8221,7 +8406,7 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://biblianaarte.narniano.com/obra/heinrich-hofmann-jesus-e-o-jovem-rico</loc>
+    <loc>https://biblianaarte.narniano.com/obra/heinrich-hofmann-jesus-e-o-jovem-rico-christus-und-der-reiche-jungling-christ-and-the-rich-young-rul</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -8256,7 +8441,7 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://biblianaarte.narniano.com/obra/henri-testelin-pedro-ressuscita-tabita</loc>
+    <loc>https://biblianaarte.narniano.com/obra/louis-testelin-pedro-ressuscita-tabita</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -8371,7 +8556,7 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://biblianaarte.narniano.com/obra/hieronymus-bosch-joao-na-ilha-de-patmos</loc>
+    <loc>https://biblianaarte.narniano.com/obra/hieronymus-bosch-joao-na-ilha-de-patmos-st-john-on-patmos-johannes-op-patmos</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -8381,7 +8566,7 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://biblianaarte.narniano.com/obra/hieronymus-bosch-os-7-pecados-mortais-e-as-4-ultimas-coisas</loc>
+    <loc>https://biblianaarte.narniano.com/obra/hieronymus-bosch-os-7-pecados-mortais-e-as-4-ultimas-coisas-de-zeven-hoofdzonden-en-de-vier-uiterste</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -8391,7 +8576,7 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://biblianaarte.narniano.com/obra/ilya-glazunov-russia-eterna</loc>
+    <loc>https://biblianaarte.narniano.com/obra/ilya-glazunov-russia-eterna-vechnaya-rossiya</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -8451,12 +8636,12 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://biblianaarte.narniano.com/obra/jacob-jordaens-a-fuga-de-lo-e-sua-familia-de-sodoma</loc>
+    <loc>https://biblianaarte.narniano.com/obra/j-m-w-turner-sadraque-mesaque-e-abede-nego-na-fornalha-ardente</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://biblianaarte.narniano.com/obra/jacob-jordaens-o-dinheiro-de-impostos-ou-pedro-achando-a-moeda-na-boca-do-peixe</loc>
+    <loc>https://biblianaarte.narniano.com/obra/jacob-jordaens-a-fuga-de-lo-e-sua-familia-de-sodoma</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -8472,6 +8657,11 @@
   </url>
   <url>
     <loc>https://biblianaarte.narniano.com/obra/jacopo-bassano-a-pesca-milagrosa</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://biblianaarte.narniano.com/obra/jacopo-bassano-a-zombaria-de-cristo</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -8681,6 +8871,11 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://biblianaarte.narniano.com/obra/james-tissot-nadabe-e-abiu-sao-destruidos</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://biblianaarte.narniano.com/obra/james-tissot-noe-construindo-a-arca</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -8692,6 +8887,36 @@
   </url>
   <url>
     <loc>https://biblianaarte.narniano.com/obra/james-tissot-o-farao-nota-a-importancia-do-povo-judeu</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://biblianaarte.narniano.com/obra/james-tissot-o-profeta-ageu</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://biblianaarte.narniano.com/obra/james-tissot-o-profeta-habacuque</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://biblianaarte.narniano.com/obra/james-tissot-o-profeta-malaquias</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://biblianaarte.narniano.com/obra/james-tissot-o-profeta-naum</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://biblianaarte.narniano.com/obra/james-tissot-o-profeta-obadias</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://biblianaarte.narniano.com/obra/james-tissot-o-profeta-oseias</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -8806,7 +9031,7 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://biblianaarte.narniano.com/obra/jan-lievens-jo</loc>
+    <loc>https://biblianaarte.narniano.com/obra/jan-lievens-jo-job-on-the-dunghill-job-in-his-misery</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -8816,7 +9041,12 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://biblianaarte.narniano.com/obra/jan-micker-o-caminho-estreito-da-virtude-e-o-caminho-largo-do-pecado</loc>
+    <loc>https://biblianaarte.narniano.com/obra/jan-lievens-paulo-escrevendo-aos-tessalonicenses</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://biblianaarte.narniano.com/obra/jan-micker-o-caminho-estreito-da-virtude-e-o-caminho-largo-do-pecado-narrow-road-of-virtue-and-wide-</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -8826,17 +9056,22 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://biblianaarte.narniano.com/obra/jan-steen-joao-batista-pregando</loc>
+    <loc>https://biblianaarte.narniano.com/obra/jan-steen-joao-batista-pregando-johannes-de-doper-predikt-in-de-woestijn-john-the-baptist-preaching-</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://biblianaarte.narniano.com/obra/jan-steen-lazaro-e-o-homem-rico</loc>
+    <loc>https://biblianaarte.narniano.com/obra/jan-steen-lazaro-e-o-homem-rico-in-weelde-siet-toe-lazarus-and-the-rich-man</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://biblianaarte.narniano.com/obra/jan-styka-pregacao-de-pedro</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://biblianaarte.narniano.com/obra/jan-victors-boaz-convida-rute-para-a-refeicao</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -8851,7 +9086,7 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://biblianaarte.narniano.com/obra/jan-van-bronchorst-jetro-aconselhando-a-moises</loc>
+    <loc>https://biblianaarte.narniano.com/obra/jan-van-bronchorst-jetro-aconselhando-a-moises-jethro-advising-moses-moses-and-jethro</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -8871,7 +9106,7 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://biblianaarte.narniano.com/obra/jean-colombe-primeiro-dia-da-criacao</loc>
+    <loc>https://biblianaarte.narniano.com/obra/jean-colombe-primeiro-dia-da-criacao-heures-de-louis-de-laval-bnf-ms-latin-920-miniatura-da-creation</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -8936,7 +9171,7 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://biblianaarte.narniano.com/obra/john-everett-millais-a-oficina-do-carpinteiro-cristo-na-casa-de-seus-pais</loc>
+    <loc>https://biblianaarte.narniano.com/obra/john-everett-millais-a-oficina-do-carpinteiro-cristo-na-casa-de-seus-pais-christ-in-the-house-of-his</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -8946,7 +9181,7 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://biblianaarte.narniano.com/obra/john-everett-millais-o-rico-e-lazaro</loc>
+    <loc>https://biblianaarte.narniano.com/obra/john-everett-millais-o-rico-e-lazaro-the-rich-man-and-lazarus-from-illustrations-to-the-parables-of-</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -9001,7 +9236,17 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://biblianaarte.narniano.com/obra/john-william-godward-dolce-far-niente</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://biblianaarte.narniano.com/obra/joost-van-geel-jesus-cura-a-sogra-de-pedro</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://biblianaarte.narniano.com/obra/almeida-junior-saudade</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -9011,7 +9256,7 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://biblianaarte.narniano.com/obra/josefa-de-obidos-o-cordeiro-pascal</loc>
+    <loc>https://biblianaarte.narniano.com/obra/josefa-de-obidos-o-cordeiro-pascal-cordeiro-pascal-agnus-dei</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -9056,6 +9301,11 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://biblianaarte.narniano.com/obra/juan-de-valdes-leal-elias-e-os-profetas-de-baal</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://biblianaarte.narniano.com/obra/jules-de-keghel-as-mulheres-aos-pes-da-cruz</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -9086,12 +9336,17 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://biblianaarte.narniano.com/obra/julius-schnorr-von-carolsfeld-rute-no-campo-de-boaz</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://biblianaarte.narniano.com/obra/julius-sergius-von-klever-cristo-andando-sobre-as-aguas</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://biblianaarte.narniano.com/obra/jusepe-leonardo-saul-persegue-davi</loc>
+    <loc>https://biblianaarte.narniano.com/obra/jusepe-leonardo-saul-persegue-davi-david-before-saul-saul-amenazando-a-david</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -9106,7 +9361,7 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://biblianaarte.narniano.com/obra/kiyoshi-yamashita-fogos-de-artificio</loc>
+    <loc>https://biblianaarte.narniano.com/obra/kiyoshi-yamashita-fogos-de-artificio-nagaoka-no-hanabi-fogos-de-nagaoka</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -9132,6 +9387,11 @@
   </url>
   <url>
     <loc>https://biblianaarte.narniano.com/obra/konstantin-korobov-agnus-dei</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://biblianaarte.narniano.com/obra/lambert-sustris-o-batismo-do-eunuco-etiope</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -9246,12 +9506,12 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://biblianaarte.narniano.com/obra/maestro-jacopo-a-zombaria-de-cristo</loc>
+    <loc>https://biblianaarte.narniano.com/obra/maarten-van-heemskerck-gideao-e-o-milagre-do-velo</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://biblianaarte.narniano.com/obra/marten-van-valckenborch-a-parabola-dos-lirios-do-campo</loc>
+    <loc>https://biblianaarte.narniano.com/obra/marten-van-valckenborch-a-parabola-dos-lirios-do-campo-parable-of-the-lily-of-the-field-may</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -9301,7 +9561,7 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://biblianaarte.narniano.com/obra/mestre-andre-capela-da-santa-trindade</loc>
+    <loc>https://biblianaarte.narniano.com/obra/mestre-andre-lublin-capela-da-santa-trindade</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -9331,6 +9591,16 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://biblianaarte.narniano.com/obra/michelangelo-o-castigo-de-hama</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://biblianaarte.narniano.com/obra/michelangelo-o-profeta-joel</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://biblianaarte.narniano.com/obra/michelangelo-pieta</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -9356,7 +9626,7 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://biblianaarte.narniano.com/obra/nicolaes-berchem-anunciacao-aos-pastores</loc>
+    <loc>https://biblianaarte.narniano.com/obra/nicolaes-berchem-anunciacao-aos-pastores-the-annunciation-to-the-shepherds-1649</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -9366,7 +9636,7 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://biblianaarte.narniano.com/obra/nicolaes-berchem-rute-e-boaz</loc>
+    <loc>https://biblianaarte.narniano.com/obra/nicolaes-berchem-rute-e-boaz-ruth-en-boas-ruth-and-boaz-1640-1650</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -9376,12 +9646,12 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://biblianaarte.narniano.com/obra/nicolas-poussin-joao-batizando-o-povo</loc>
+    <loc>https://biblianaarte.narniano.com/obra/nicolas-poussin-joao-batizando-o-povo-saint-jean-baptisant-le-peuple-c-1635-1637</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://biblianaarte.narniano.com/obra/nicolas-poussin-moises-e-encontrado-nas-aguas</loc>
+    <loc>https://biblianaarte.narniano.com/obra/nicolas-poussin-moises-e-encontrado-nas-aguas-moise-sauve-des-eaux-1647</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -9391,12 +9661,22 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://biblianaarte.narniano.com/obra/nikolai-bodarevsky-o-apostolo-paulo-explica-a-lei-diante-do-rei-agripa</loc>
+    <loc>https://biblianaarte.narniano.com/obra/nicolas-poussin-o-verao-rute-e-boaz</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://biblianaarte.narniano.com/obra/nikolai-ge-o-que-e-a-verdade-ou-cristo-e-pilatos</loc>
+    <loc>https://biblianaarte.narniano.com/obra/nicolas-de-plattemontagne-a-conversao-do-carcereiro-de-filipos</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://biblianaarte.narniano.com/obra/nikolai-bodarevsky-o-apostolo-paulo-explica-a-lei-diante-do-rei-agripa-1875</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://biblianaarte.narniano.com/obra/nikolai-ge-o-que-e-a-verdade-ou-cristo-e-pilatos-1890</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -9407,6 +9687,11 @@
   </url>
   <url>
     <loc>https://biblianaarte.narniano.com/obra/orazio-gentileschi-moises-salvo-das-aguas</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://biblianaarte.narniano.com/obra/oscar-pereira-da-silva-desembarque-de-pedro-alvares-cabral-em-porto-seguro-em-1500</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -9431,7 +9716,17 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://biblianaarte.narniano.com/obra/paolo-veronese-cristo-e-o-centuriao</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://biblianaarte.narniano.com/obra/paolo-veronese-jesus-e-a-mulher-do-fluxo-de-sangue</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://biblianaarte.narniano.com/obra/paolo-veronese-o-triunfo-de-mardoqueu</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -9447,6 +9742,11 @@
   </url>
   <url>
     <loc>https://biblianaarte.narniano.com/obra/paul-hey-a-estrela-de-belem</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://biblianaarte.narniano.com/obra/pedro-bruno-a-patria</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -9481,17 +9781,22 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://biblianaarte.narniano.com/obra/peter-paul-rubens-a-serpente-de-bronze</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://biblianaarte.narniano.com/obra/peter-paul-rubens-a-ultima-ceia</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://biblianaarte.narniano.com/obra/peter-paul-rubens-adoracao-dos-magos-1617</loc>
+    <loc>https://biblianaarte.narniano.com/obra/peter-paul-rubens-adoracao-dos-magos</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://biblianaarte.narniano.com/obra/peter-paul-rubens-adoracao-dos-magos-1624</loc>
+    <loc>https://biblianaarte.narniano.com/obra/peter-paul-rubens-adoracao-dos-magos-1617</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -9502,6 +9807,11 @@
   </url>
   <url>
     <loc>https://biblianaarte.narniano.com/obra/peter-paul-rubens-as-mulheres-no-tumulo-vazio-de-cristo</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://biblianaarte.narniano.com/obra/peter-paul-rubens-cristo-na-cruz</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -9556,17 +9866,12 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://biblianaarte.narniano.com/obra/petrus-christus-joao-batista</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
     <loc>https://biblianaarte.narniano.com/obra/petrus-christus-lamentacao</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://biblianaarte.narniano.com/obra/philippe-de-champaigne-cristo-na-casa-de-simao-o-fariseu</loc>
+    <loc>https://biblianaarte.narniano.com/obra/philippe-de-champaigne-cristo-na-casa-de-simao-o-fariseu-le-repas-chez-simon-christ-in-the-house-of-</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -9587,6 +9892,11 @@
   </url>
   <url>
     <loc>https://biblianaarte.narniano.com/obra/philippe-de-champaigne-santo-agostinho</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://biblianaarte.narniano.com/obra/pier-francesco-sacchi-sao-paulo-escrevendo</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -9671,6 +9981,11 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://biblianaarte.narniano.com/obra/rafael-sanzio-a-escola-de-atenas</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://biblianaarte.narniano.com/obra/rafael-sanzio-transfiguracao</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -9686,12 +10001,12 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://biblianaarte.narniano.com/obra/rembrandt-van-rijn-a-ceia-em-emaus</loc>
+    <loc>https://biblianaarte.narniano.com/obra/rembrandt-van-rijn-a-ceia-em-emaus-de-maaltijd-te-emmaus</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://biblianaarte.narniano.com/obra/rembrandt-van-rijn-a-ceia-em-emaus-1648</loc>
+    <loc>https://biblianaarte.narniano.com/obra/rembrandt-van-rijn-a-ceia-em-emaus</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -9726,7 +10041,7 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://biblianaarte.narniano.com/obra/rembrandt-van-rijn-a-parabola-do-tesouro-escondido</loc>
+    <loc>https://biblianaarte.narniano.com/obra/rembrandt-van-rijn-a-parabola-do-tesouro-escondido-1630</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -9821,7 +10136,7 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://biblianaarte.narniano.com/obra/rembrandt-van-rijn-moises-com-os-dez-mandamentos</loc>
+    <loc>https://biblianaarte.narniano.com/obra/rembrandt-van-rijn-moises-com-os-dez-mandamentos-moses-smashing-the-tablets-of-the-law-moses-with-th</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -9856,7 +10171,7 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://biblianaarte.narniano.com/obra/rembrandt-van-rijn-o-sacrificio-de-isaque</loc>
+    <loc>https://biblianaarte.narniano.com/obra/rembrandt-van-rijn-o-sacrificio-de-isaque-the-sacrifice-of-abraham-abraham-s-sacrifice</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -9871,7 +10186,12 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://biblianaarte.narniano.com/obra/rembrandt-van-rijn-pedro-na-prisao</loc>
+    <loc>https://biblianaarte.narniano.com/obra/rembrandt-van-rijn-paulo-na-prisao</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://biblianaarte.narniano.com/obra/rembrandt-van-rijn-pedro-na-prisao-st-peter-in-prison-the-apostle-peter-kneeling</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -9911,7 +10231,12 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://biblianaarte.narniano.com/obra/rogier-van-der-weyden-o-nascimento-de-joao-batista</loc>
+    <loc>https://biblianaarte.narniano.com/obra/rogier-van-der-weyden-o-nascimento-de-joao-batista-saint-john-altarpiece-left-panel-the-birth-and-na</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://biblianaarte.narniano.com/obra/salomon-koninck-daniel-diante-de-nabucodonosor</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -9927,6 +10252,11 @@
   </url>
   <url>
     <loc>https://biblianaarte.narniano.com/obra/sandro-botticelli-as-tres-tentacoes-de-cristo</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://biblianaarte.narniano.com/obra/sandro-botticelli-o-castigo-de-core</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -9951,7 +10281,7 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://biblianaarte.narniano.com/obra/simon-de-vlieger-acalmando-a-tempestade</loc>
+    <loc>https://biblianaarte.narniano.com/obra/simon-de-vlieger-cristo-acalmando-a-tempestade</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -10041,7 +10371,7 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://biblianaarte.narniano.com/obra/ticiano-cristo-com-o-globo</loc>
+    <loc>https://biblianaarte.narniano.com/obra/ticiano-cristo-com-globo</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -10111,7 +10441,7 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://biblianaarte.narniano.com/obra/ticiano-salome-com-a-cabeca-de-joao-batista-1515</loc>
+    <loc>https://biblianaarte.narniano.com/obra/ticiano-salome-com-a-cabeca-de-joao-batista-1550</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -10131,6 +10461,11 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://biblianaarte.narniano.com/obra/valentin-de-boulogne-paulo-escrevendo-suas-epistolas</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://biblianaarte.narniano.com/obra/vasily-alexandrovich-kotarbinski-o-sermao-em-cafarnaum</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -10146,7 +10481,7 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://biblianaarte.narniano.com/obra/vasily-polenov-cristo-e-a-mulher-pega-em-adulterio</loc>
+    <loc>https://biblianaarte.narniano.com/obra/vasily-polenov-cristo-e-a-mulher-pega-em-adulterio-christ-and-the-woman-taken-in-adultery</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -10166,12 +10501,27 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://biblianaarte.narniano.com/obra/viggo-johansen-alegre-natal</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://biblianaarte.narniano.com/obra/viktor-vasnetsov-arcanjo-no-julgamento-final</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://biblianaarte.narniano.com/obra/vincent-van-gogh-celebracao-la-fete-du-14-juillet-a-paris-f-222</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://biblianaarte.narniano.com/obra/vincent-van-gogh-o-bom-samaritano-the-good-samaritan-after-delacroix</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://biblianaarte.narniano.com/obra/vincent-van-gogh-paisagem-com-casas-landschap-met-huizen-landscape-with-houses</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -10196,7 +10546,17 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://biblianaarte.narniano.com/obra/vladimir-borovikovsky-joao-o-evangelista</loc>
+    <loc>https://biblianaarte.narniano.com/obra/vittore-carpaccio-meditacao-sobre-a-paixao</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://biblianaarte.narniano.com/obra/vladimir-borovikovsky-joao-o-evangelista-st-john-the-evangelist</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://biblianaarte.narniano.com/obra/wenzel-hablik-ceu-estrelado-sternenhimmel-versuch</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -10241,12 +10601,37 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://biblianaarte.narniano.com/obra/william-blake-jo-e-suas-filhas</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://biblianaarte.narniano.com/obra/william-blake-nabucodonosor</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://biblianaarte.narniano.com/obra/william-blake-noemi-suplica-a-rute-e-orfa-que-voltem-a-terra-de-moabe</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://biblianaarte.narniano.com/obra/william-blake-o-anjo-aparecendo-a-zacarias</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://biblianaarte.narniano.com/obra/william-blake-o-anjo-do-apocalipse</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://biblianaarte.narniano.com/obra/william-blake-o-blasfemador</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://biblianaarte.narniano.com/obra/william-blake-o-senhor-responde-a-jo-do-meio-do-turbilhao</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -10257,6 +10642,11 @@
   </url>
   <url>
     <loc>https://biblianaarte.narniano.com/obra/william-blake-o-fantasma-de-samuel-aparecendo-a-saul</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://biblianaarte.narniano.com/obra/william-blake-quando-as-estrelas-da-alva-juntas-cantavam</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -10441,6 +10831,11 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://biblianaarte.narniano.com/obra/william-holman-hunt-o-bode-expiatorio</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://biblianaarte.narniano.com/obra/william-holman-hunt-o-encontro-do-salvador-no-templo</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -10516,7 +10911,7 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://biblianaarte.narniano.com/obra/edouard-manet-o-rosto-de-cristo</loc>
+    <loc>https://biblianaarte.narniano.com/obra/edouard-manet-o-rosto-de-cristo-jesus-insulte-par-les-soldats-detalhe</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
