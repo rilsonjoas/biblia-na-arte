@@ -1378,6 +1378,13 @@ Google" não é viável em iOS de qualquer forma.
     timeline visual passam a ser camada 2, em cima da rota que funciona.
   - Retrato do pintor em moldura circular *tondo* dourada.
   - Linha do tempo visual cronológica das obras bíblicas do artista no acervo (ex: a evolução da luz e do traço de Rembrandt ou Caravaggio ao longo das décadas).
+  - **Preparação de conteúdo em andamento (2026-08-30/31)**: biografias das notas `Autores/*.md` do
+    vault estão sendo reescritas com pesquisa real (não mais parágrafo raso de ~40-90 palavras) —
+    26 pintores cobertos até agora, priorizados por tamanho da galeria no vault (Doré, Tissot,
+    Rembrandt, Ticiano, Margetson, Rubens, Zurbarán, Caravaggio, Blake, Dürer, etc.). Isso é a
+    camada de conteúdo que este item vai consumir quando a rota `/artista/:slug` existir — export
+    script ainda precisa ganhar o passo de ler `Autores/*.md` (hoje só lê `Pinturas/*.md`). Ver
+    `ENRIQUECIMENTO-PINTURAS-PROGRESSO.md` na raiz do vault pro histórico completo.
 - [ ] **Acessibilidade de Arte (Audiodescrição & TTS Enriquecido)**:
   - Audiodescrição simplificada da composição visual da pintura (análise de personagens, focos de luz e simbolismo).
   - Atributos `alt` acessíveis e narração via Web Speech API (TTS) para deficientes visuais e contemplação em áudio.
