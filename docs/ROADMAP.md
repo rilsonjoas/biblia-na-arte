@@ -2707,3 +2707,29 @@ específico (ex.: `collections.louvre.fr/.../ark:.../clNNNNNNNN`,
       (badge de debug, `ui/chart.tsx` nunca importado).
 - [x] Verificado: `pnpm typecheck`/`lint`/`test`/`test:integration`/
       `build:web`/`build:server` verdes (85 testes server, 84 web).
+
+## CI quebrou na "Auditoria de dependências" (2026-09-02, corrigido)
+
+> Push do lote acima passou no deploy (workflow separado, não depende da
+> CI) mas a CI falhou em `pnpm audit --audit-level=high`: 8 CVEs "high"
+> em `fast-uri` (confusão de host / SSRF via normalização malformada),
+> puxado por dois caminhos transitivos — `fastify>fast-json-stringify` e
+> `@fastify/swagger>json-schema-resolver`. Não era regressão desta
+> sessão: `pnpm-lock.yaml` não tinha mudado no commit, as CVEs foram
+> publicadas depois do último CI verde.
+
+- [x] `fastify` `^5.1.0` → `^5.12.1` (`pnpm update`) resolveu metade
+      (o caminho via `fast-json-stringify`).
+- [x] `@fastify/swagger` já estava na última versão publicada (9.8.1) e
+      seu `json-schema-resolver` não tem versão que puxe `fast-uri`
+      corrigido sozinho — override `pnpm.overrides` no `package.json` raiz
+      (`"fast-uri": ">=4.1.3"`) força a versão patched em toda a árvore.
+      `fast-uri` só resolve URI/`$ref` de JSON Schema, sem API pública
+      usada em código nosso — risco de quebra baixo, confirmado pela
+      suíte inteira verde depois.
+- [x] `pnpm audit --audit-level=high` → 0 vulnerabilidades "high" (sobrou
+      1 "moderate", `esbuild` via `drizzle-kit` — só afeta o dev server
+      local dessa ferramenta de migração, não entra no build de produção,
+      abaixo do threshold que a CI checa).
+- [x] Verificado: `pnpm typecheck`/`lint`/`test`/`test:integration`/
+      `build:web`/`build:server` verdes depois do bump de dependência.
