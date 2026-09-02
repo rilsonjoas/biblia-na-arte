@@ -24,21 +24,30 @@ import {
   ChevronRight,
   X
 } from 'lucide-react';
-import { useArtworkSearchAdvanced, useArtists, useThemes } from '@/hooks/use-artworks';
+import { useArtworkSearchAdvanced, useArtists, useThemes, usePeriods } from '@/hooks/use-artworks';
+import { useBibleBooks } from '@/hooks/use-bible-books';
 import type { SearchFilters } from '@/lib/api-data';
 import { CATEGORIES, getCategoryMeta } from '@/lib/categories';
+import { toRomanNumeral, toRomanBookName } from '@/lib/utils';
 
 const PAGE_SIZE = 24;
 
 // "Século XVII" = anos 1600-1699 (intuição de busca por década inicial,
-// não a convenção estrita 1601-1700 usada por historiadores).
-const CENTURY_RANGES: Record<string, { from: number; to: number }> = {
-  '9th': { from: 800, to: 899 },
-  '15th': { from: 1400, to: 1499 },
-  '16th': { from: 1500, to: 1599 },
-  '17th': { from: 1600, to: 1699 },
-  '18th': { from: 1700, to: 1799 }
-};
+// não a convenção estrita 1601-1700 usada por historiadores) — mesma
+// convenção usada em `listPeriods()` no backend (server/src/db/queries.ts),
+// então o número de século que vem de `/periods` mapeia direto pra um
+// intervalo aqui, sem precisar de tabela: século N = anos [(N-1)*100,
+// (N-1)*100+99].
+//
+// Achado 2026-09-02 (Rilson): a lista de séculos aqui era hardcoded (só
+// IX/XV/XVI/XVII/XVIII) e tinha ficado obsoleta — faltavam IV, XII-XIV,
+// XIX (quase metade do acervo, todo o Doré), XX e XXI, e "século IX" não
+// tinha nenhuma obra. Agora a lista de opções vem de `usePeriods()`
+// (calculada ao vivo no backend), só o cálculo do intervalo fica aqui.
+function centuryToRange(century: number): { from: number; to: number } {
+  const from = (century - 1) * 100;
+  return { from, to: from + 99 };
+}
 
 export default function Search() {
   // `category` só vem preenchido quando a rota é `/arte/:category` — em
@@ -52,7 +61,10 @@ export default function Search() {
 
   // Filtros avançados
   const [selectedCategory, setSelectedCategory] = useState<string>(categoryParam || '');
-  const [selectedTestament, setSelectedTestament] = useState<string>('');
+  // Multiselect de livro (achado 2026-09-02, Rilson: substitui o antigo
+  // Select de Testamento — livro já informa o testamento, e é bem mais
+  // útil pra filtrar). Mesma semântica "ou" de Artista/Tema.
+  const [selectedBooks, setSelectedBooks] = useState<string[]>([]);
   const [selectedCentury, setSelectedCentury] = useState<string>('');
   // Multiselect (roadmap 2026-09-01, pedido do Rilson) — "ou" entre os
   // artistas escolhidos, "e" com os outros filtros. Ver MultiSelect em
@@ -64,12 +76,14 @@ export default function Search() {
   // Hooks para dados
   const { data: artists = [] } = useArtists();
   const { data: themes = [] } = useThemes();
+  const { data: periods = [] } = usePeriods();
+  const { data: bibleBooks = [] } = useBibleBooks();
 
   // Build search filters
-  const centuryRange = selectedCentury ? CENTURY_RANGES[selectedCentury] : undefined;
+  const centuryRange = selectedCentury ? centuryToRange(Number(selectedCentury)) : undefined;
   const searchFilters: SearchFilters = {
     ...(selectedCategory && { category: selectedCategory }),
-    ...(selectedTestament && { testament: selectedTestament as 'old' | 'new' }),
+    ...(selectedBooks.length > 0 && { books: selectedBooks }),
     ...(selectedArtists.length > 0 && { artists: selectedArtists }),
     ...(selectedThemes.length > 0 && { themes: selectedThemes }),
     ...(centuryRange && { yearFrom: centuryRange.from, yearTo: centuryRange.to }),
@@ -86,18 +100,21 @@ export default function Search() {
 
   const currentCategory = getCategoryMeta(categoryParam);
 
-  const testaments = [
-    { value: 'old', label: 'Antigo Testamento' },
-    { value: 'new', label: 'Novo Testamento' }
-  ];
+  // Lista de séculos vem de /periods (ao vivo, ver `usePeriods` acima) —
+  // já chega ordenada cronologicamente do backend; só falta o rótulo em
+  // algarismo romano.
+  const centuries = periods.map((period) => ({
+    value: String(period.century),
+    label: `Século ${toRomanNumeral(period.century)}`,
+  }));
 
-  const centuries = [
-    { value: '9th', label: 'Século IX' },
-    { value: '15th', label: 'Século XV' },
-    { value: '16th', label: 'Século XVI' },
-    { value: '17th', label: 'Século XVII' },
-    { value: '18th', label: 'Século XVIII' }
-  ];
+  // Livro (achado 2026-09-02: substitui Testamento) — só livros com obra
+  // de verdade aparecem aqui, mesmo princípio de honestidade já aplicado
+  // em Categoria (`hasContent`, ver categories.ts): um filtro que lista
+  // opção sem nenhum resultado possível é promessa vazia.
+  const bookOptions = bibleBooks
+    .filter((book) => book.artworkCount > 0)
+    .map((book) => ({ value: book.slug, label: toRomanBookName(book.name) }));
 
   // Obter lista única de artistas do endpoint agregado (não baixa o
   // catálogo inteiro só pra extrair nomes)
@@ -123,7 +140,7 @@ export default function Search() {
   // paginação antiga cai fora do alcance do resultado novo (grade vazia)
   useEffect(() => {
     setPage(1);
-  }, [query, selectedCategory, selectedTestament, selectedCentury, selectedArtists, selectedThemes]);
+  }, [query, selectedCategory, selectedBooks, selectedCentury, selectedArtists, selectedThemes]);
 
   const handleSearch = () => {
     if (query.trim()) {
@@ -135,14 +152,14 @@ export default function Search() {
 
   const clearFilters = () => {
     setSelectedCategory('');
-    setSelectedTestament('');
+    setSelectedBooks([]);
     setSelectedCentury('');
     setSelectedArtists([]);
     setSelectedThemes([]);
   };
 
   const hasActiveFilters =
-    selectedCategory || selectedTestament || selectedCentury || selectedArtists.length > 0 || selectedThemes.length > 0;
+    selectedCategory || selectedBooks.length > 0 || selectedCentury || selectedArtists.length > 0 || selectedThemes.length > 0;
 
   return (
     <div className="min-h-screen bg-background">
@@ -250,7 +267,7 @@ export default function Search() {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              {/* xl:grid-cols-5 pra caber Categoria/Testamento/Período/
+              {/* xl:grid-cols-5 pra caber Categoria/Livro/Período/
                   Artista/Tema numa linha só em telas grandes — em telas
                   médias (lg) 3 colunas evita cada caixa ficar apertada
                   demais só pra forçar as 5 numa linha (achado 2026-09-02,
@@ -264,7 +281,14 @@ export default function Search() {
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="all">Todas as categorias</SelectItem>
-                      {CATEGORIES.map(category => (
+                      {/* Achado 2026-09-02 (Rilson): "Músicas"/"Filmes" não
+                          tinham nenhuma obra ainda — oferecer como opção
+                          igual às outras, sem indicar isso, lia como
+                          promessa vazia. `/arte` continua mostrando as 3
+                          com "✦ Em breve" honesto; aqui só entra categoria
+                          com conteúdo de verdade (ver `hasContent` em
+                          categories.ts). */}
+                      {CATEGORIES.filter((category) => category.hasContent).map(category => (
                         <SelectItem key={category.slug} value={category.slug}>
                           {category.name}
                         </SelectItem>
@@ -274,20 +298,15 @@ export default function Search() {
                 </div>
 
                 <div>
-                  <label className="text-sm font-medium mb-2 block">Testamento</label>
-                  <Select value={selectedTestament || 'all'} onValueChange={(v) => setSelectedTestament(v === 'all' ? '' : v)}>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Todos os testamentos" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="all">Todos os testamentos</SelectItem>
-                      {testaments.map(testament => (
-                        <SelectItem key={testament.value} value={testament.value}>
-                          {testament.label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                  <label className="text-sm font-medium mb-2 block">Livro</label>
+                  <MultiSelect
+                    options={bookOptions}
+                    selected={selectedBooks}
+                    onChange={setSelectedBooks}
+                    placeholder="Todos os livros"
+                    searchPlaceholder="Buscar livro..."
+                    emptyText="Nenhum livro encontrado."
+                  />
                 </div>
 
                 <div>
@@ -367,12 +386,25 @@ export default function Search() {
                       </Badge>
                     );
                   })()}
-                  {selectedTestament && (
-                    <Badge variant="outline">
-                      <BookOpen className="w-3 h-3 mr-1" />
-                      {testaments.find(t => t.value === selectedTestament)?.label}
-                    </Badge>
-                  )}
+                  {/* 1 badge removível por livro selecionado — mesmo padrão
+                      de Artista/Tema abaixo. */}
+                  {selectedBooks.map((slug) => {
+                    const label = bookOptions.find((b) => b.value === slug)?.label ?? slug;
+                    return (
+                      <Badge key={slug} variant="outline" className="gap-1 pr-1">
+                        <BookOpen className="w-3 h-3" />
+                        {label}
+                        <button
+                          type="button"
+                          onClick={() => setSelectedBooks((prev) => prev.filter((s) => s !== slug))}
+                          aria-label={`Remover filtro de livro: ${label}`}
+                          className="ml-0.5 rounded-full p-0.5 hover:bg-muted-foreground/20 transition-colors"
+                        >
+                          <X className="w-3 h-3" />
+                        </button>
+                      </Badge>
+                    );
+                  })}
                   {selectedCentury && (
                     <Badge variant="outline">
                       <Calendar className="w-3 h-3 mr-1" />

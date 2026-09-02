@@ -12,6 +12,7 @@ import Chapter from "./pages/Chapter";
 import ArtCategories from "./pages/ArtCategories";
 import ArtworkDetail from "./pages/ArtworkDetail";
 import ArtistPage from "./pages/ArtistPage";
+import Explore from "./pages/Explore";
 import About from "./pages/About";
 import Contribute from "./pages/Contribute";
 import Search from "./pages/Search";
@@ -48,6 +49,9 @@ const App = () => (
             <Route path="/arte/:category" element={<Search />} />
             <Route path="/obra/:artworkId" element={<ArtworkDetail />} />
             <Route path="/artista/:slug" element={<ArtistPage />} />
+            {/* "Mapa de obras ↔ referências bíblicas" (roadmap 2026-09-02):
+                rotas novas fora do /biblia pra não tocar nas URLs indexadas. */}
+            <Route path="/explorar/:bookSlug/:chapter" element={<Explore />} />
             <Route path="/sobre" element={<About />} />
             <Route path="/contribuir" element={<Contribute />} />
             <Route path="/busca" element={<Search />} />

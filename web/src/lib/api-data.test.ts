@@ -10,6 +10,7 @@ import {
   getBibleBookBySlug,
   getDailyArtwork,
   getThemes,
+  getPeriods,
 } from './api-data';
 
 vi.mock('./api-client', () => ({
@@ -98,16 +99,17 @@ describe('searchArtworksAdvanced', () => {
     await expect(searchArtworksAdvanced('')).resolves.toEqual([]);
   });
 
-  it('filtra por testamento no cliente', async () => {
-    const artwork = {
-      id: '1',
-      references: [{ bookSlug: 'isaiah' }],
-    };
-    requestMock
-      .mockResolvedValueOnce({ items: [artwork], total: 1 })
-      .mockResolvedValueOnce([{ slug: 'isaiah' }]); // getOldTestamentBooks
-    const results = await searchArtworksAdvanced('', { testament: 'old' });
-    expect(results).toEqual([artwork]);
+  // Achado 2026-09-02 (Rilson): filtro de testamento substituído por
+  // filtro de livro (múltiplo, "ou" entre os escolhidos) — mesma mecânica
+  // de intersecção com `artwork.references`, sem precisar buscar a lista
+  // de livros do testamento inteiro.
+  it('filtra por livro no cliente (ou entre os livros escolhidos)', async () => {
+    const comIsaias = { id: '1', references: [{ bookSlug: 'isaiah' }] };
+    const comLucas = { id: '2', references: [{ bookSlug: 'luke' }] };
+    const semNenhum = { id: '3', references: [{ bookSlug: 'genesis' }] };
+    requestMock.mockResolvedValueOnce({ items: [comIsaias, comLucas, semNenhum], total: 3 });
+    const results = await searchArtworksAdvanced('', { books: ['isaiah', 'luke'] });
+    expect(results).toEqual([comIsaias, comLucas]);
   });
 
   it('aplica filtro de ano (yearFrom/yearTo) no cliente', async () => {
@@ -154,6 +156,17 @@ describe('getThemes', () => {
     requestMock.mockResolvedValue(themes);
     await expect(getThemes()).resolves.toEqual(themes);
     expect(requestMock).toHaveBeenCalledWith('/themes');
+  });
+});
+
+// Achado 2026-09-02 (Rilson): filtro "Período" — lista de séculos vem de
+// /periods (ao vivo) em vez de hardcoded no componente.
+describe('getPeriods', () => {
+  it('busca /periods e devolve a lista', async () => {
+    const periods = [{ century: 19, artworkCount: 436 }];
+    requestMock.mockResolvedValue(periods);
+    await expect(getPeriods()).resolves.toEqual(periods);
+    expect(requestMock).toHaveBeenCalledWith('/periods');
   });
 });
 

@@ -1,12 +1,36 @@
 import { and, desc, eq, inArray, sql } from 'drizzle-orm';
 import { db } from './client.js';
-import { artists, artworks, artworkThemes, bibleReferences } from './schema.js';
+import { artists, artworks, artworkThemes, bibleBooks, bibleReferences, themes } from './schema.js';
 import type { ListArtworksQuery, SearchArtworksQuery } from '../schemas/artwork.schema.js';
 
 type ArtworkRow = typeof artworks.$inferSelect;
 type ReferenceRow = typeof bibleReferences.$inferSelect;
 
 export type ArtworkWithReferences = ArtworkRow & { references: ReferenceRow[] };
+
+export interface ExploreArtwork {
+  id: string;
+  title: string;
+  subtitle: string | null;
+  artistOrDirector: string;
+  year: string | null;
+  category: (typeof artworks.$inferSelect)['category'];
+  imageUrl: string | null;
+  themes: { slug: string; name: string }[];
+  references: ReferenceRow[];
+}
+
+export interface ExploreChapterRow {
+  chapter: number;
+  chapterCount: number;
+  coverImageUrl: string | null;
+}
+
+export interface ExploreThemeRow {
+  slug: string;
+  name: string;
+  artworkCount: number;
+}
 
 /** Busca as referências bíblicas de um conjunto de obras e agrupa por artwork_id.
  *  Mesmo padrão em duas queries que o supabase-data.ts original usava —
@@ -316,6 +340,34 @@ export async function listThemes(): Promise<ThemeAggregate[]> {
   return rows as unknown as ThemeAggregate[];
 }
 
+export interface PeriodAggregate {
+  century: number;
+  artworkCount: number;
+}
+
+// Filtro "Período" da busca avançada (achado 2026-09-02, Rilson: a lista de
+// séculos no front era hardcoded e ficou obsoleta — faltavam IV, XII-XIV,
+// XIX (quase metade do acervo, todo o Doré), XX e XXI, e "século IX" não
+// tem nenhuma obra). Mesmo padrão de `listArtists()`/`listThemes()`:
+// calculado ao vivo a partir do `year` (texto livre, ex. "c.1635"),
+// nunca hardcoded de novo. Extrai o primeiro número de 3-4 dígitos e
+// converte pra século usando a convenção "início da década" já documentada
+// em `CENTURY_RANGES` no frontend (ex. "século XVII" = 1600-1699), não a
+// convenção estrita de historiador (1601-1700) — os dois cálculos
+// concordam pra qualquer ano exceto múltiplos exatos de 100.
+export async function listPeriods(): Promise<PeriodAggregate[]> {
+  const rows = await db.execute<{ century: number; artworkCount: number }>(
+    sql`SELECT
+          (substring(year FROM '\\d{3,4}')::int / 100) + 1 AS century,
+          count(*)::int AS "artworkCount"
+        FROM artworks
+        WHERE active AND year IS NOT NULL AND year ~ '\\d{3,4}'
+        GROUP BY century
+        ORDER BY century ASC`,
+  );
+  return rows as unknown as PeriodAggregate[];
+}
+
 export interface ArtistDetail {
   id: string;
   name: string;
@@ -344,5 +396,130 @@ export async function getArtistBySlug(slug: string): Promise<ArtistDetail | unde
     slug: artist.slug,
     bio: artist.bio,
     artworks: await attachReferences(rows),
+  };
+}
+
+// "Mapa de obras ↔ referências bíblicas" (/explorar, aprovada 2026-09-02).
+// Expressa o grafo da passagem como dados prontos pra uma página navegável:
+// as obras daquele capítulo (com temas e referências) + uma visão agregada
+// de por onde dá pra continuar navegando (outros capítulos do livro com
+// arte; temas presentes no grupo). Nada novo de schema — só conectividade
+// derivada das tabelas existentes. `chapters` vem de bible_books pra página
+// validar capítulo fora do intervalo; se o livro não existir, retorna
+// undefined (rota responde 404).
+export async function getExploreByChapter(
+  bookSlug: string,
+  chapter: number,
+): Promise<
+  | {
+      bookName: string;
+      testament: 'old' | 'new';
+      chapters: number;
+      artworks: ExploreArtwork[];
+      relatedChapters: ExploreChapterRow[];
+      themes: ExploreThemeRow[];
+    }
+  | undefined
+> {
+  const [book] = await db
+    .select({ name: bibleBooks.name, testament: bibleBooks.testament, chapters: bibleBooks.chapters })
+    .from(bibleBooks)
+    .where(eq(bibleBooks.slug, bookSlug))
+    .limit(1);
+  if (!book) return undefined;
+
+  const [activeRows, relatedRows, themeRows] = await Promise.all([
+    // Obras ativas do capítulo.
+    db
+      .select()
+      .from(artworks)
+      .where(
+        and(
+          eq(artworks.active, true),
+          inArray(
+            artworks.id,
+            sql`(SELECT art_id FROM (
+              SELECT br.artwork_id AS art_id
+              FROM bible_references br
+              JOIN artworks a ON a.id = br.artwork_id
+              WHERE br.book_slug = ${bookSlug} AND br.chapter = ${chapter} AND a.active
+            ) sub)`,
+          ),
+        ),
+      )
+      .orderBy(desc(artworks.createdAt)),
+    // Outros capítulos do mesmo livro com pelo menos 1 obra ativa, com
+    // contagem e uma obra-exemplo com imagem pra miniatura (mesma política
+    // de "capa" do BibleBook: a mais antiga com imagem).
+    db.execute<Record<string, unknown>>(sql`
+      SELECT br.chapter AS "chapter",
+             count(DISTINCT br.artwork_id)::int AS "chapterCount",
+             (
+               SELECT a2.image_url
+               FROM bible_references br2
+               JOIN artworks a2 ON a2.id = br2.artwork_id
+               WHERE br2.book_slug = ${bookSlug} AND br2.chapter = br.chapter
+                 AND a2.active AND a2.image_url IS NOT NULL
+               ORDER BY a2.created_at ASC
+               LIMIT 1
+             ) AS "coverImageUrl"
+      FROM bible_references br
+      JOIN artworks a ON a.id = br.artwork_id
+      WHERE br.book_slug = ${bookSlug}
+        AND br.chapter <> ${chapter}
+        AND a.active
+      GROUP BY br.chapter
+      ORDER BY br.chapter ASC`),
+    // Temas presentes nas obras deste capítulo, com contagem ao vivo
+    // (mesmo princípio de artists/themes: nunca guardar contagem).
+    db.execute<Record<string, unknown>>(sql`
+      SELECT t.slug, t.name,
+             count(DISTINCT at.artwork_id)::int AS "artworkCount"
+      FROM themes t
+      JOIN artwork_themes at ON at.theme_slug = t.slug
+      JOIN artworks a ON a.id = at.artwork_id
+      JOIN bible_references br ON br.artwork_id = a.id
+      WHERE br.book_slug = ${bookSlug} AND br.chapter = ${chapter} AND a.active
+      GROUP BY t.slug, t.name
+      ORDER BY "artworkCount" DESC, t.name ASC`),
+  ]);
+
+  // Anexa temas + referências a cada obra do capítulo.
+  const artworksWithRefs = await attachReferences(activeRows);
+  const themeIds = [...new Set(activeRows.map((r) => r.id))];
+  const themeLinks = themeIds.length
+    ? await db
+        .select({ artworkId: artworkThemes.artworkId, slug: themes.slug, name: themes.name })
+        .from(artworkThemes)
+        .innerJoin(themes, eq(themes.slug, artworkThemes.themeSlug))
+        .where(inArray(artworkThemes.artworkId, themeIds))
+    : [];
+
+  const themesByArtwork = new Map<string, { slug: string; name: string }[]>();
+  for (const link of themeLinks) {
+    const list = themesByArtwork.get(link.artworkId) ?? [];
+    list.push({ slug: link.slug, name: link.name });
+    themesByArtwork.set(link.artworkId, list);
+  }
+
+  const artworksOut: ExploreArtwork[] = artworksWithRefs.map((art) => ({
+    id: art.id,
+    title: art.title,
+    subtitle: art.subtitle,
+    artistOrDirector: art.artistOrDirector,
+    year: art.year,
+    category: art.category,
+    imageUrl: art.imageUrl,
+    themes: themesByArtwork.get(art.id) ?? [],
+    references: art.references,
+  }));
+
+  return {
+    bookName: book.name,
+    testament: book.testament,
+    chapters: book.chapters,
+    artworks: artworksOut,
+    relatedChapters: relatedRows as unknown as ExploreChapterRow[],
+    themes: themeRows as unknown as ExploreThemeRow[],
   };
 }

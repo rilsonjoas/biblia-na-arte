@@ -5,6 +5,15 @@ export interface CategoryMeta {
   name: string;
   description: string;
   icon: LucideIcon;
+  // Achado 2026-09-02 (Rilson viu "Músicas"/"Filmes" como opção comum no
+  // dropdown de Categoria em Filtros Avançados, sem nenhum indício de que
+  // estão vazias — "isso não devia ficar como promessa?"). `/arte` já é
+  // honesto (mostra "✦ Em breve" com contagem real), mas o dropdown de
+  // busca não tinha esse contexto. `hasContent` é a fonte única de
+  // verdade pra decidir onde cada categoria pode aparecer como opção
+  // selecionável de verdade — vira `true` no dia em que a 1ª música ou
+  // filme entrar no catálogo.
+  hasContent: boolean;
 }
 
 /** Metadados de categoria — únicos, compartilhados entre `ArtCategories.tsx`
@@ -19,6 +28,7 @@ export const CATEGORIES: CategoryMeta[] = [
     description:
       'Desde as obras renascentistas até os mestres barrocos, contemple como a arte visual interpretou as Sagradas Escrituras ao longo dos séculos.',
     icon: Palette,
+    hasContent: true,
   },
   {
     slug: 'music',
@@ -26,6 +36,7 @@ export const CATEGORIES: CategoryMeta[] = [
     description:
       'Em breve, você poderá ouvir aqui como a fé cristã encontrou sua voz mais sublime — dos hinos gregorianos aos grandes oratórios clássicos da música sacra.',
     icon: Music,
+    hasContent: false,
   },
   {
     slug: 'film',
@@ -33,6 +44,7 @@ export const CATEGORIES: CategoryMeta[] = [
     description:
       'Em breve, vamos explorar como o cinema moderno e clássico trouxe as narrativas bíblicas para as telas, criando experiências visuais impactantes.',
     icon: Film,
+    hasContent: false,
   },
 ];
 

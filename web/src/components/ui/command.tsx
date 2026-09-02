@@ -127,7 +127,16 @@ const CommandItem = React.forwardRef<
   <CommandPrimitive.Item
     ref={ref}
     className={cn(
-      "relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none data-[disabled=true]:pointer-events-none data-[selected='true']:bg-accent data-[selected=true]:text-accent-foreground data-[disabled=true]:opacity-50",
+      // `group` — achado 2026-09-02 (Rilson): ícones com cor própria
+      // (text-primary, text-amber-*) ficavam ilegíveis quando a linha era
+      // selecionada, porque --accent (fundo de seleção) e --primary têm o
+      // mesmo matiz dourado no tema escuro — dourado sobre dourado, mesma
+      // classe de bug já corrigida em CopyButton/"Ler capítulo completo"
+      // (ver docs/ROADMAP.md). `group` aqui permite que qualquer ícone
+      // filho vire `text-accent-foreground` na seleção via
+      // `group-data-[selected=true]:text-accent-foreground`, sem precisar
+      // trocar a cor de base do ícone (que continua certa fora da seleção).
+      "group relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none data-[disabled=true]:pointer-events-none data-[selected='true']:bg-accent data-[selected=true]:text-accent-foreground data-[disabled=true]:opacity-50",
       className
     )}
     {...props}

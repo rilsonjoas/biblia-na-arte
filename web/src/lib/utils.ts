@@ -54,6 +54,29 @@ export function toRomanBookName(name: string): string {
   return `${ARABIC_TO_ROMAN_BOOK_PREFIX[digit]} ${rest}`;
 }
 
+// Numeral romano genérico (achado 2026-09-02: filtro "Período" precisava
+// rotular séculos — o acervo vai do IV ao XXI, faixa pequena o bastante
+// pra um algoritmo simples em vez de biblioteca). Sem suporte a números
+// >3999 nem <=0 (não são casos reais pra século).
+const ROMAN_NUMERALS: [number, string][] = [
+  [1000, 'M'], [900, 'CM'], [500, 'D'], [400, 'CD'],
+  [100, 'C'], [90, 'XC'], [50, 'L'], [40, 'XL'],
+  [10, 'X'], [9, 'IX'], [5, 'V'], [4, 'IV'], [1, 'I'],
+];
+
+export function toRomanNumeral(value: number): string {
+  if (!Number.isInteger(value) || value <= 0) return String(value);
+  let remaining = value;
+  let result = '';
+  for (const [amount, numeral] of ROMAN_NUMERALS) {
+    while (remaining >= amount) {
+      result += numeral;
+      remaining -= amount;
+    }
+  }
+  return result;
+}
+
 // Tira marcação markdown pra sobrar texto puro — usado em resumos curtos
 // (card, line-clamp) onde renderizar markdown de verdade (react-markdown,
 // ver components/ui/markdown.tsx) não faz sentido: um <p> com clamp corta

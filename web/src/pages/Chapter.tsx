@@ -12,7 +12,7 @@ import { ErrorCard, NotFoundError } from '@/components/ui/error-display';
 import { useBibleBookBySlug } from '@/hooks/use-bible-books';
 import { useBiblePassage } from '@/hooks/use-bible-passage';
 import { useArtworksByBibleReference } from '@/hooks/use-artworks';
-import { Book, Palette, ChevronLeft, ChevronRight, ArrowLeft, AlertTriangle } from 'lucide-react';
+import { Book, Palette, ChevronLeft, ChevronRight, ArrowLeft, AlertTriangle, Network } from 'lucide-react';
 import type { Artwork } from '@/types';
 
 /** Quais números de versículo deste capítulo têm pelo menos 1 obra —
@@ -234,6 +234,18 @@ export default function Chapter() {
             <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
               Obras que retratam os eventos e ensinamentos deste capítulo.
             </p>
+
+            {/* Link de descoberta pro "mapa" /explorar (roadmap 2026-09-02).
+                Rótulo "Explorar conexões" (decisão 2026-09-02) — a página é um
+                hub de conexões da passagem, não um mapa geográfico. */}
+            <div className="mt-6">
+              <Button asChild variant="outline" className="shadow-card">
+                <Link to={`/explorar/${book.slug}/${chapterNum}`}>
+                  <Network className="w-4 h-4 mr-2" />
+                  Explorar conexões desta passagem
+                </Link>
+              </Button>
+            </div>
           </div>
 
           {artworksLoading && (

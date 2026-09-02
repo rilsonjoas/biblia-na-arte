@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { cn, toRomanBookName, normalizeForSearch } from './utils';
+import { cn, toRomanBookName, normalizeForSearch, toRomanNumeral } from './utils';
 
 describe('cn', () => {
   it('junta classes e resolve conflitos de tailwind-merge', () => {
@@ -25,6 +25,23 @@ describe('toRomanBookName', () => {
   it('não mexe em nomes sem prefixo numérico', () => {
     expect(toRomanBookName('Gênesis')).toBe('Gênesis');
     expect(toRomanBookName('Apocalipse')).toBe('Apocalipse');
+  });
+});
+
+describe('toRomanNumeral', () => {
+  it('converte séculos reais do acervo (achado 2026-09-02, filtro Período)', () => {
+    expect(toRomanNumeral(4)).toBe('IV');
+    expect(toRomanNumeral(9)).toBe('IX');
+    expect(toRomanNumeral(15)).toBe('XV');
+    expect(toRomanNumeral(19)).toBe('XIX');
+    expect(toRomanNumeral(20)).toBe('XX');
+    expect(toRomanNumeral(21)).toBe('XXI');
+  });
+
+  it('devolve o número como string pra entrada inválida', () => {
+    expect(toRomanNumeral(0)).toBe('0');
+    expect(toRomanNumeral(-5)).toBe('-5');
+    expect(toRomanNumeral(1.5)).toBe('1.5');
   });
 });
 

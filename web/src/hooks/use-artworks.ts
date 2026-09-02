@@ -7,8 +7,10 @@ import {
   getArtists,
   getArtistBySlug,
   getThemes,
+  getPeriods,
   getArtworksPaginated,
   getDailyArtwork,
+  getExplore,
   type SearchFilters,
   type PaginatedArtworksParams,
 } from '@/lib/api-data'
@@ -142,6 +144,18 @@ export function useThemes() {
   })
 }
 
+// Filtro "Período" (achado 2026-09-02: lista de séculos hardcoded no
+// front tinha ficado obsoleta) — mesmo staleTime de useThemes/useArtists:
+// muda só quando a curadoria adiciona obra de um século novo ao acervo.
+export function usePeriods() {
+  return useQuery({
+    queryKey: ['periods'],
+    queryFn: getPeriods,
+    staleTime: 30 * 60 * 1000,
+    gcTime: 60 * 60 * 1000,
+  })
+}
+
 // "Páginas de Artista Ricas" (roadmap, aprovada 2026-08-23) — biografia +
 // galeria de 1 artista. staleTime mais longo que useArtwork: biografia
 // muda raro (só quando a curadoria revisita a nota do autor no vault).
@@ -161,6 +175,19 @@ export function useArtworksPaginated(params: PaginatedArtworksParams) {
     queryKey: ['artworks', 'paginated', params],
     queryFn: () => getArtworksPaginated(params),
     staleTime: 5 * 60 * 1000,
+    gcTime: 15 * 60 * 1000,
+  })
+}
+
+// "Mapa de obras ↔ referências bíblicas" (/explorar, aprovada 2026-09-02) —
+// hub de conectividade de uma passagem. staleTime longo como capítulo:
+// conteúdo curado, muda só com re-export do vault.
+export function useExplore(bookSlug: string | undefined, chapter: number | undefined) {
+  return useQuery({
+    queryKey: ['explore', bookSlug, chapter],
+    queryFn: () => getExplore(bookSlug!, chapter!),
+    enabled: !!bookSlug && !!chapter,
+    staleTime: 10 * 60 * 1000,
     gcTime: 15 * 60 * 1000,
   })
 }

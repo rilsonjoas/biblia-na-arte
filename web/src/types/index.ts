@@ -59,6 +59,15 @@ export interface Theme {
   artworkCount: number;
 }
 
+// Filtro "Período" (achado 2026-09-02: lista de séculos hardcoded no
+// front tinha ficado obsoleta). `century` é o número do século (19 =
+// "século XIX") — o rótulo em algarismo romano é montado no frontend
+// via `toRomanNumeral()`.
+export interface Period {
+  century: number;
+  artworkCount: number;
+}
+
 // "Páginas de Artista Ricas" (roadmap, aprovada 2026-08-23).
 export interface ArtistDetail {
   id: string;
@@ -66,4 +75,41 @@ export interface ArtistDetail {
   slug: string;
   bio: string | null;
   artworks: Artwork[];
+}
+
+// "Mapa de obras ↔ referências bíblicas" (/explorar, aprovada 2026-09-02).
+export interface ExploreTheme {
+  slug: string;
+  name: string;
+  artworkCount: number;
+}
+
+export interface ExploreArtwork {
+  id: string;
+  title: string;
+  subtitle?: string;
+  artistOrDirector: string;
+  year?: number | string;
+  category: ArtworkCategory;
+  imageUrl?: string;
+  themes: { slug: string; name: string }[];
+  references: BibleReference[];
+}
+
+export interface ExploreRelatedChapter {
+  chapter: number;
+  chapterCount: number;
+  coverImageUrl: string | null;
+}
+
+export interface ExploreData {
+  book: {
+    name: string;
+    slug: string;
+    testament: 'old' | 'new';
+  };
+  chapter: number;
+  artworks: ExploreArtwork[];
+  relatedChapters: ExploreRelatedChapter[];
+  themes: ExploreTheme[];
 }

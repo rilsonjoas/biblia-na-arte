@@ -15,4 +15,13 @@ describe('categories', () => {
     expect(getCategoryMeta('sculpture')).toBeUndefined();
     expect(getCategoryMeta(undefined)).toBeUndefined();
   });
+
+  // Achado 2026-09-02: "Músicas"/"Filmes" sem nenhuma obra no acervo
+  // ainda não devem aparecer como opção selecionável igual às outras em
+  // Filtros Avançados (leria como promessa vazia) — só em /arte, que já
+  // rotula "✦ Em breve" com contagem real. `hasContent` é o sinal único
+  // que os dois lugares consultam.
+  it('só pintura tem conteúdo real por enquanto', () => {
+    expect(CATEGORIES.filter((c) => c.hasContent).map((c) => c.slug)).toEqual(['painting']);
+  });
 });

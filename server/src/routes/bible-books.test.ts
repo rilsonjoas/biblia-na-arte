@@ -20,6 +20,8 @@ vi.mock('../db/queries.js', () => ({
   getRandomArtwork: vi.fn(),
   getArtworksByBibleReference: vi.fn(),
   countArtworksByBibleReference: vi.fn(),
+  getExploreByChapter: vi.fn(),
+  listPeriods: vi.fn(),
 }));
 
 import { buildApp } from '../app.js';

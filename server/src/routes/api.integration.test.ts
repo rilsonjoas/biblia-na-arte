@@ -298,6 +298,22 @@ describe('API v1 — integração (Postgres real de teste)', () => {
     expect(res.json().total).toBe(0);
   });
 
+  // Filtro de período (achado 2026-09-02, Rilson: lista de séculos hardcoded
+  // no front tinha ficado obsoleta) — calculado ao vivo a partir do `year`
+  // de cada obra, testado contra dados reais: samaritano 1880 (século 19),
+  // pródigo 1668 (século 17).
+  it('GET /api/v1/periods lista séculos agregados com contagem', async () => {
+    const res = await app.inject({ method: 'GET', url: '/api/v1/periods' });
+    expect(res.statusCode).toBe(200);
+    const body = res.json();
+    expect(body).toEqual(
+      expect.arrayContaining([
+        { century: 17, artworkCount: 1 },
+        { century: 19, artworkCount: 1 },
+      ]),
+    );
+  });
+
   it('busca por full-text em português', async () => {
     const res = await app.inject({ method: 'GET', url: '/api/v1/artworks/search?q=samaritano' });
     expect(res.statusCode).toBe(200);
@@ -413,5 +429,45 @@ describe('API v1 — integração (Postgres real de teste)', () => {
   it('db client singleton conecta no banco de teste (não no de produção)', async () => {
     const rows = await db.execute('SELECT current_database() AS db');
     expect(rows[0]?.db).toBe('biblia_na_arte_test');
+  });
+
+  // "Mapa de obras ↔ referências bíblicas" (/explorar, aprovada 2026-09-02).
+  // Lição do achado 2026-09-01 (rota nova sem teste de integração = HTTP 500
+  // silencioso em produção): a rota de conectividade é exercitada contra o
+  // Postgres real do fixture, não só mock. O Samaritano está em Lucas 10 (a
+  // única obra do capítulo); o Filho Pródigo em Lucas 15 (o "related chapter"
+  // com 1 obra); nenhum livro fora do fixture fica exposto como related.
+  it('GET /api/v1/explore/:bookSlug/:chapter monta o hub da passagem', async () => {
+    const res = await app.inject({ method: 'GET', url: '/api/v1/explore/luke/10' });
+    expect(res.statusCode).toBe(200);
+    const body = res.json();
+    expect(body.book).toEqual({ name: 'Lucas', slug: 'luke', testament: 'new' });
+    expect(body.chapter).toBe(10);
+    expect(body.artworks).toHaveLength(1);
+    expect(body.artworks[0].title).toBe('O bom samaritano');
+    expect(body.artworks[0].themes).toEqual(
+      expect.arrayContaining([{ slug: 'bom-samaritano', name: 'Bom Samaritano' }]),
+    );
+    expect(body.relatedChapters).toEqual(
+      expect.arrayContaining([{ chapter: 15, chapterCount: 1, coverImageUrl: null }]),
+    );
+    expect(body.themes).toEqual(
+      expect.arrayContaining([{ slug: 'bom-samaritano', name: 'Bom Samaritano', artworkCount: 1 }]),
+    );
+  });
+
+  it('GET /api/v1/explore/:bookSlug/:chapter 404 pra livro inexistente', async () => {
+    const res = await app.inject({ method: 'GET', url: '/api/v1/explore/livro-que-nao-existe/1' });
+    expect(res.statusCode).toBe(404);
+  });
+
+  it('GET /api/v1/explore/:bookSlug/:chapter 404 pra capítulo fora do intervalo', async () => {
+    const res = await app.inject({ method: 'GET', url: '/api/v1/explore/luke/99' });
+    expect(res.statusCode).toBe(404);
+  });
+
+  it('GET /api/v1/explore/:bookSlug/:chapter 400 pra capítulo inválido', async () => {
+    const res = await app.inject({ method: 'GET', url: '/api/v1/explore/luke/abc' });
+    expect(res.statusCode).toBe(400);
   });
 });

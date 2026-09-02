@@ -2438,12 +2438,21 @@ específico (ex.: `collections.louvre.fr/.../ark:.../clNNNNNNNN`,
 > Lote de ideias soltas depois de ver o cardzinho de `/biblia` — nenhuma
 > implementada ainda, é só registro pra não perder antes de continuar.
 
-- [ ] **Grafo obras ↔ referências bíblicas**: visualização tipo grafo/rede
-      onde pinturas e passagens bíblicas são nós conectados — ideia solta,
-      sem desenho de UI ainda, potencialmente grande (força layout de
-      grafo interativo, algo como D3/force-graph). Precisa de mais
-      conversa antes de virar plano — não dá pra estimar escopo com o
-      que foi dito até aqui.
+- [x] **Grafo obras ↔ referências bíblicas → decidido como "mapa estático
+      navegável" (2026-09-02)**: a ideia original era visualização tipo
+      grafo/rede (force-directed, D3). Amigo/Mentorar avaliou junto com o
+      Rilson e a decisão foi **NÃO fazer o grafo interativo animado** —
+      pesado, ruim no público mobile (maior parte do tráfego), não
+      indexável por SEO (SPA canvas). Em vez disso: **mapa estático
+      navegável** (`/explorar/:bookSlug/:chapter`) que expressa o mesmo
+      grafo como navegação clicável — as obras DA passagem + "outras
+      passagens deste livro com arte" + "temas presentes aqui", cada um
+      linkando pra outro nó do mapa. O dado de conectividade já existe
+      inteiro no Postgres (artworks, bible_references, themes,
+      artwork_themes) — é só 1 endpoint novo + 1 página nova, sem mudança
+      de schema. As URLs novas são cauda longa de SEO ("pintura Bíblia
+      Gênesis 1") no mesmo espírito da estratégia. Implementação
+      registrada na seção dedicada abaixo.
 - [ ] **"Capa" translúcida no cardzinho de livro (e talvez capítulo)**:
       usar uma das obras daquele livro como imagem de fundo do card,
       bem clara/transparente — "meio que ser a capa daquele livro"
@@ -2499,3 +2508,202 @@ específico (ex.: `collections.louvre.fr/.../ark:.../clNNNNNNNN`,
       certo seria o cabeçalho da própria página de capítulo
       (`Chapter.tsx`), não a grade de badges — precisa de conversa
       antes de virar plano.
+
+---
+
+## "Músicas"/"Filmes" no dropdown de Categoria sem indicar que estão vazias (2026-09-02)
+
+> Rilson viu o dropdown de Categoria em Filtros Avançados listando
+> "Músicas" e "Filmes" ao lado de "Pinturas" sem nenhum indício de que
+> estão vazias — "isso não devia ficar como promessa?". Confirmado antes
+> de mexer: `?category=music` e `?category=film` retornam 0 obras na
+> API de produção (só `painting` tem as 902).
+
+- [x] **Implementado, aguardando deploy**: distinção clara entre as duas
+      telas que usam `CATEGORIES` (`categories.ts`):
+  - **`/arte` (hub de categorias) já era honesto** — mostra as 3 com
+    contagem real e "✦ Em breve" pras vazias (`ArtCategories.tsx`,
+    código preexistente, não mexido).
+  - **O dropdown de Categoria em `/busca` não tinha esse contexto** — é
+    aqui que a promessa vazia realmente acontecia. Adicionado
+    `hasContent: boolean` em `CategoryMeta` (fonte única de verdade,
+    `painting: true`, `music`/`film: false`); o dropdown agora filtra
+    `CATEGORIES.filter((c) => c.hasContent)`, só "Pinturas" aparece
+    como opção selecionável. Vira `true` no dia em que a 1ª obra de
+    música/filme entrar no catálogo — 1 linha pra reverter.
+  - Teste novo trava o comportamento esperado
+    (`categories.test.ts`: "só pintura tem conteúdo real por
+    enquanto"). Efeito colateral conhecido e aceito: quem chega em
+    `/arte/music` via o card "Em breve" do hub ainda vê o dropdown de
+    Categoria em branco (valor não está mais entre as opções) — baixa
+    prioridade, o título/descrição da página já deixam "Em breve"
+    claro antes disso.
+
+---
+
+## "Mapa de obras ↔ referências bíblicas" (/explorar) — implementado 2026-09-02
+
+> Origem: ideia do grafo (ver "Ideias novas do Rilson" acima), decidida
+> como **mapa estático navegável** em vez de grafo interativo force-
+> directed — ver a decisão registrada ali. O dado de conectividade já
+> existia inteiro no Postgres; o trabalho foi 1 endpoint novo + 1 página
+> nova + rota, sem mudança de schema. Rota nova `/explorar/...`, não
+> toca em nenhuma das 2.115 URLs indexadas.
+
+- [x] **Backend — `GET /api/v1/explore/:bookSlug/:chapter`**: dado de
+      conectividade da passagem como hub:
+      - `book` (name, slug, testament) + `chapter`
+      - `artworks` — obras ativas daquele capítulo, com `attachReferences`
+        (mesmo padrão do resto da API) e os `themes` de cada obra
+        (consulta à `artwork_themes` junction)
+      - `relatedChapters` — outros capítulos do MESMO livro que têm pelo
+        menos 1 obra (com contagem e uma obra-exemplo com imagem pra
+        miniatura), pra navegar "pra onde mais posso ir neste livro"
+      - `themes` — temas presentes no grupo de obras desta passagem, com
+        contagem (reusa a mesma contagem ao vivo via JOIN, nunca
+        guardada — mesmo princípio de `artists`/`themes`)
+      - Ro 404 se livro/capítulo sem obra (e 404 de livro inexistente).
+  - Query nova `getExploreByChapter()` em `queries.ts` seguindo o padrão
+    de subquery/`inArray` já usado em `listArtworks`; parte do `artworks`
+    filtrada por `bookSlug`+`chapter` em `bible_references`, com
+    `active=true` de sempre (auditoria de direitos autorais respeitada).
+  - Schema Zod novo `exploreResponseSchema` em `response.schema.ts` +
+    params com `slugParamSchema`/`chapterParamSchema` (chapter numérico
+    positivo, igual ao 400 do outro endpoint). Registrado no `app.ts`
+    com prefixo `/api/v1`. Detalhe: tema DENTRO de cada obra usa um
+    schema próprio (`exploreArtworkThemeResponseSchema`, só slug+name) —
+    a contagem `artworkCount` é exclusiva da agregação `themes` do hub,
+    não dos temas de cada obra (evitou um 500 silencioso de validação de
+    resposta no teste unitário, achado 2026-09-02).
+  - **Cobertura de teste**: 4 testes de integração real contra Postgres
+    (fixture do `api.integration.test.ts`) — hub de Lucas 10 (com o
+    Samaritano + related Lucas 15 + tema bom-samaritano), 404 de livro
+    inexistente, 404 de capítulo fora do intervalo, 400 de capítulo
+    inválido — lição do achado 2026-09-01 (rota de detalhe sem teste de
+    integração = HTTP 500 silencioso em produção). Mocks da query nova
+    adicionados no teste de rota unitário (`explore.test.ts`, novo) e em
+    `artists.test.ts`/`bible-books.test.ts`/`themes.test.ts` onde o
+    `vi.mock('../db/queries.js')` lista as queries.
+- [x] **Frontend — página `/explorar/:bookSlug/:chapter`**:
+  - Tipos `ExploreData` (e `ExploreChapter`/`ExploreTheme`) em
+    `web/src/types/index.ts`; função `getExplore()` em
+    `lib/api-data.ts`; hook `useExplore()` em `hooks/use-artworks.ts`
+    (mesmo padrão staleTime de passagem — conteúdo muda só com
+    curadoria/re-export).
+  - `Explore.tsx` nova — aquela passagem como hub do grafo: breadcrumb,
+    hero com livro+capítulo+contagem, grade de obras (reusa
+    `ArtworkCard`), seção "Outras passagens deste livro" (mini-cards
+    com miniatura → `/explorar/:bookSlug/:chapter`) e seção "Temas
+    desta passagem" (chips → `/busca?themes=...`). Estados de
+    loading/erro/vazio no mesmo padrão de `ArtistPage.tsx`.
+  - Rota registrada em `App.tsx`. SEO com schema.org + meta da passagem.
+- [x] **Links de descoberta (2026-09-02)**:
+  - `Chapter.tsx`: botão "Explorar conexões desta passagem" (com ícone de
+    rede) no cabeçalho da seção de obras → `/explorar/:bookSlug/:chapter`.
+  - `ArtworkDetail.tsx`: botão "Explorar conexões" em cada card de
+    "Passagens Bíblicas Relacionadas", ao lado de "Ler capítulo completo".
+  - Rótulo decidido 2026-09-02: **"Explorar conexões"** em vez de "Mapa" —
+    evita confusão com mapa geográfico; a página é o hub de conexões da
+    passagem (obras, temas, outros capítulos).
+- [x] **Sitemap (2026-09-02)**:
+  - `generate-sitemap.ts` gera 1 URL `/explorar/:bookSlug/:chapter` por
+    capítulo (espelha `/biblia` 1:1, prioridade 0.5, monthly — o hub
+    existe pra qualquer capítulo e é cauda longa de SEO). `sitemap.xml`
+    regenerado: 3.526 URLs, validado, **0 URLs antigas perdidas**.
+  - Achado importante: o gerador antigo trocava (SUBSTITUÍA) o sitemap
+    pela geração a partir do `vault-export.json` e, se o export ficasse
+    parcial, **derrubava URLs indexadas** (detectado: 46 `/obra/...`
+    sumiam). Feito **union-based**: preserva qualquer URL já presente que
+    a geração não reproduza, respeitando a regra de nunca derrubar as
+    2.115+ URLs indexadas. Idempotente (re-rodar não muda o arquivo).
+
+---
+
+## Filtro de Período tinha lista de séculos hardcoded (2026-09-02, implementado, aguardando deploy)
+
+> Rilson, vendo o site ao vivo: "É impressão minha ou nem todos os
+> períodos retratados nas pinturas estão aparecendo no site?". Não era
+> impressão: `Search.tsx` tinha um array `CENTURY_RANGES` fixo no código
+> com só 5 séculos (incluindo "século IX", que não tem nenhuma obra real
+> — opção morta) enquanto o acervo de verdade cobre 11 séculos distintos,
+> **faltando o século XIX inteiro** — quase metade de todo o acervo
+> ficava invisível pro filtro de Período.
+
+- [x] **Backend**: `listPeriods()` novo em `queries.ts` (mesmo padrão de
+      `/artists`/`/themes`) — agrega `artworks.year` por século via SQL
+      (`(substring(year FROM '\d{3,4}')::int / 100) + 1`), só obras
+      ativas com ano reconhecível. Fórmula validada direto contra o
+      Postgres de teste antes de virar código (`800`→9, `1866`→19,
+      `1900`→20, `2000`→21 — inclusive os casos limítrofes de século
+      exato). `GET /periods` novo (`routes/periods.ts`), cache
+      `public, max-age=3600`. Teste de integração com fixture real.
+- [x] **Frontend**: `usePeriods()` novo; `Search.tsx` deriva a lista de
+      séculos ao vivo de `/periods` em vez do array hardcoded —
+      `centuryToRange()` calcula o intervalo de anos a partir do século
+      (mesma fórmula popular/intuitiva já documentada no comentário
+      antigo de `CENTURY_RANGES`, não a convenção estrita de
+      historiador). Rótulos em algarismo romano via `toRomanNumeral()`
+      novo em `utils.ts`.
+- [x] Verificado: `pnpm typecheck`/`lint`/`test`/`test:integration`
+      verdes, `curl /api/v1/periods` local batendo com o dado real de
+      dev.
+
+## Filtro de Testamento substituído por filtro de Livro (2026-09-02, implementado, aguardando deploy)
+
+> No mesmo review ao vivo, Rilson perguntou: "E não faz mais sentido ter
+> filtro por livro bíblico que por testamento?". Perguntei de volta antes
+> de trocar (é decisão de arquitetura de UI, não bug) — Rilson confirmou:
+> substituir Testamento por Livro.
+
+- [x] `SearchFilters.testament` (Antigo/Novo) removido, `SearchFilters.books`
+      (array de slugs, semântica "ou" entre os escolhidos — mesmo padrão
+      de artista/tema) no lugar. Reaproveita 100% a infraestrutura já
+      existente de `useBibleBooks()` — nenhum endpoint novo precisou ser
+      criado pra este filtro.
+  - Mesmo princípio de honestidade já aplicado em Categoria/Tema: só
+    livros com `artworkCount > 0` aparecem como opção (62 dos 66 livros
+    têm pelo menos 1 obra hoje).
+  - Chips removíveis por livro na barra de filtros ativos, mesmo padrão
+    visual de Artista/Tema.
+- [x] Verificado: `pnpm typecheck`/`lint`/`test`/`test:integration` verdes,
+      `pnpm build:web` limpo.
+
+## Header: dropdowns viraram links estáticos + contraste do CommandPalette (2026-09-02, implementado, aguardando deploy)
+
+> 3 achados na mesma leva de screenshots do Rilson revisando o site ao
+> vivo.
+
+- [x] **"Navegar pela Bíblia"/"Galeria de Arte" — de split trigger pra
+      link estático puro**: o split trigger (link + chevron separado
+      abrindo submenu) era o compromisso decidido em 2026-08-22 (ver
+      "Sessão de polish 2026-08-22"); Rilson já tinha pedido antes pra ir
+      direto ao ponto sem dropdown nenhum, pedido reforçado agora — "eu
+      já tinha te pedido para fazer com que os botões... deixassem de ser
+      dropdown e virassem estáticos antes. Então prefiro que se faça de
+      uma vez isso." Motivo imediato: a visibilidade do submenu ("Todos
+      os 66 Livros") estava ruim (amarelo sobre amarelo). Em vez de só
+      corrigir o contraste do submenu, removido o submenu inteiro dos
+      dois itens — viram `<Link>` simples, mesmo estilo de "Sobre o
+      Projeto". O conteúdo que vivia no submenu (Antigo/Novo Testamento,
+      "Todos os 66 Livros") continua acessível, só que na própria página
+      de destino (`/biblia`), não mais num popover do header.
+- [x] **Ícone de livro ilegível ao selecionar no `CommandPalette` —
+      mesma família de bug "dourado sobre dourado"** já corrigida antes
+      em CopyButton/"Ler capítulo completo" (`--primary`/`--accent`
+      compartilham o mesmo matiz dourado no tema escuro). Corrigido na
+      raiz, não só no ícone reportado: `group` adicionado ao
+      `CommandItem` compartilhado (`ui/command.tsx`) e
+      `group-data-[selected=true]:text-accent-foreground` aplicado a
+      todo ícone colorido do `CommandPalette` (livro, Galeria Completa,
+      Antigo/Novo Testamento, Sobre o Projeto) — não só o ícone que
+      apareceu no screenshot.
+- [x] **Contador de capítulos do `CommandPalette` com `font-mono`** — miss
+      da varredura de 2026-09-01 (ver "Ano com fonte diferente do
+      projeto"), que cobriu ArtworkCard/ArtworkDetail/PassageTimeline mas
+      não este componente. Trocado pro mesmo `.numeral-classico`. Grep
+      no `web/src` inteiro confirmou que não sobrou nenhum outro caso: os
+      usos restantes de `font-mono` são os já documentados como corretos
+      (⌘K, zoom % do lightbox, "Erro 404") ou código morto/dev-only
+      (badge de debug, `ui/chart.tsx` nunca importado).
+- [x] Verificado: `pnpm typecheck`/`lint`/`test`/`test:integration`/
+      `build:web`/`build:server` verdes (85 testes server, 84 web).

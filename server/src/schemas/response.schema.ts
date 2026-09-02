@@ -69,6 +69,14 @@ export const themeResponseSchema = z.object({
   artworkCount: z.number().int().nonnegative(),
 });
 
+// Filtro "Período" (achado 2026-09-02, Rilson: lista de séculos hardcoded
+// no front tinha ficado obsoleta). `century` é o número do século (ex. 19
+// pra "século XIX") — o rótulo em algarismo romano é montado no frontend.
+export const periodResponseSchema = z.object({
+  century: z.number().int().positive(),
+  artworkCount: z.number().int().nonnegative(),
+});
+
 // "Páginas de Artista Ricas" (roadmap, aprovada 2026-08-23).
 export const artistDetailResponseSchema = z.object({
   id: z.string().uuid(),
@@ -82,4 +90,52 @@ export const errorResponseSchema = z.object({
   error: z.string(),
   message: z.string(),
   details: z.record(z.unknown()).optional(),
+});
+
+// "Mapa de obras ↔ referências bíblicas" (/explorar, aprovada 2026-09-02).
+// A passagem como hub do grafo: as obras dela + para onde é possível
+// navegar a partir dela (outros capítulos do mesmo livro com arte e os
+// temas presentes). Dado todo derivado de tabelas existentes — nada novo
+// de schema, só agregação de conectividade.
+export const exploreChapterResponseSchema = z.object({
+  chapter: z.number().int().positive(),
+  chapterCount: z.number().int().nonnegative(),
+  coverImageUrl: z.string().nullable(),
+});
+
+export const exploreThemeResponseSchema = z.object({
+  slug: z.string(),
+  name: z.string(),
+  artworkCount: z.number().int().nonnegative(),
+});
+
+// Tema dentro de CADA obra — não precisa de contagem (isso é da agregação
+// `themes` do próprio hub), só identificação pra exibir chips na página.
+export const exploreArtworkThemeResponseSchema = z.object({
+  slug: z.string(),
+  name: z.string(),
+});
+
+export const exploreArtworkResponseSchema = z.object({
+  id: z.string().uuid(),
+  title: z.string(),
+  subtitle: z.string().nullable().optional(),
+  artistOrDirector: z.string(),
+  year: z.string().nullable().optional(),
+  category: artworkCategorySchema,
+  imageUrl: z.string().nullable().optional(),
+  themes: z.array(exploreArtworkThemeResponseSchema),
+  references: z.array(bibleReferenceResponseSchema),
+});
+
+export const exploreResponseSchema = z.object({
+  book: z.object({
+    name: z.string(),
+    slug: z.string(),
+    testament: z.enum(['old', 'new']),
+  }),
+  chapter: z.number().int().positive(),
+  artworks: z.array(exploreArtworkResponseSchema),
+  relatedChapters: z.array(exploreChapterResponseSchema),
+  themes: z.array(exploreThemeResponseSchema),
 });

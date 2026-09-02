@@ -34,6 +34,7 @@ import {
   ChevronRight,
   MapPin,
   Quote,
+  Network,
 } from 'lucide-react';
 
 export default function ArtworkDetail() {
@@ -556,7 +557,7 @@ export default function ArtworkDetail() {
                         </div>
                       )}
 
-                      <div className="pt-2">
+                      <div className="pt-2 flex flex-col sm:flex-row sm:items-center gap-1">
                         {/* Achado 2026-09-01: hover:text-primary sozinho
                             some em cima do hover:bg-accent padrão do ghost
                             no tema escuro (dourado sobre dourado) — mesmo
@@ -564,6 +565,16 @@ export default function ArtworkDetail() {
                         <Button asChild variant="ghost" size="sm" className="h-7 text-xs px-2 hover:bg-primary/10 hover:text-primary">
                           <Link to={`/biblia/${ref.bookSlug}/${ref.chapter}`}>
                             Ler capítulo completo e ver outras obras →
+                          </Link>
+                        </Button>
+                        {/* Link de descoberta pro hub /explorar (roadmap
+                            2026-09-02). Rótulo "Explorar conexões" (decisão
+                            2026-09-02) — hub de conexões da passagem, não
+                            mapa geográfico. */}
+                        <Button asChild variant="ghost" size="sm" className="h-7 text-xs px-2 hover:bg-primary/10 hover:text-primary">
+                          <Link to={`/explorar/${ref.bookSlug}/${ref.chapter}`}>
+                            <Network className="w-3 h-3 mr-1.5" />
+                            Explorar conexões
                           </Link>
                         </Button>
                       </div>

@@ -2,13 +2,10 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router';
 import {
   NavigationMenu,
-  NavigationMenuContent,
   NavigationMenuItem,
-  NavigationMenuLink,
   NavigationMenuList,
-  NavigationMenuTrigger,
 } from '@/components/ui/navigation-menu';
-import { Book, Palette, Search, Menu, Sparkles, ScrollText, Cross, HeartHandshake, Shuffle, RefreshCcw, Bookmark } from 'lucide-react';
+import { Book, Palette, Search, Menu, Sparkles, HeartHandshake, Shuffle, RefreshCcw, Bookmark } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { ThemeToggle } from '@/components/ThemeToggle';
@@ -72,117 +69,47 @@ export default function Header() {
               <NavigationMenu>
                 <NavigationMenuList>
                   <NavigationMenuItem>
-                    {/* Split trigger — achado real 2026-08-22: "clicar em
-                        Navegar pela Bíblia deveria levar direto a todos os
-                        livros". Rótulo é <Link> de verdade (navega direto
-                        pra /biblia); o chevron é o NavigationMenuTrigger
-                        (só ele abre o submenu). hover/focus/data-[state=open]
-                        repassam text-foreground nos dois — a base do Radix
-                        usa hover:text-accent-foreground, cor pensada pra
-                        cair sobre bg-accent, não sobre o bg-muted/60 daqui;
-                        sem isso o texto ficava ilegível no hover em modo
-                        escuro (achado real 2026-08-22). */}
-                    <div className="flex items-center rounded-md overflow-hidden">
-                      <Link
-                        to="/biblia"
-                        className="inline-flex h-10 items-center rounded-l-md bg-transparent pl-4 pr-1 text-display text-sm font-medium hover:bg-muted/60 hover:text-foreground focus:bg-muted/60 focus:text-foreground focus:outline-none transition-colors"
-                      >
-                        <Book className="w-4 h-4 mr-2 text-primary" />
-                        Navegar pela Bíblia
-                      </Link>
-                      <NavigationMenuTrigger className="h-10 rounded-l-none rounded-r-md bg-transparent pl-1 pr-3 hover:bg-muted/60 hover:text-foreground focus:text-foreground data-[state=open]:bg-muted/80 data-[state=open]:text-foreground" />
-                    </div>
-                    <NavigationMenuContent>
-                      <div className="w-[380px] p-3">
-                        <div className="grid gap-2">
-                          <NavigationMenuLink asChild>
-                            <Link
-                              to="/biblia"
-                              className="block select-none space-y-1 rounded-lg p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
-                            >
-                              <div className="text-sm font-semibold text-foreground">Todos os 66 Livros</div>
-                              <p className="text-xs leading-relaxed text-muted-foreground mt-1">
-                                Explore os livros do cânon bíblico e suas ricas conexões na história da arte
-                              </p>
-                            </Link>
-                          </NavigationMenuLink>
-                          <div className="grid grid-cols-2 gap-2 pt-1 border-t border-border/40">
-                            <NavigationMenuLink asChild>
-                              <Link
-                                to="/biblia?testament=old"
-                                className="block rounded-md p-2 hover:bg-accent hover:text-accent-foreground text-xs font-medium"
-                              >
-                                <ScrollText className="w-3.5 h-3.5 inline mr-1.5 text-primary" />
-                                Antigo Testamento
-                              </Link>
-                            </NavigationMenuLink>
-                            <NavigationMenuLink asChild>
-                              <Link
-                                to="/biblia?testament=new"
-                                className="block rounded-md p-2 hover:bg-accent hover:text-accent-foreground text-xs font-medium"
-                              >
-                                <Cross className="w-3.5 h-3.5 inline mr-1.5 text-primary" />
-                                Novo Testamento
-                              </Link>
-                            </NavigationMenuLink>
-                          </div>
-                        </div>
-                      </div>
-                    </NavigationMenuContent>
+                    {/* Estático de propósito — achado 2026-09-02 (Rilson):
+                        o split trigger (link + chevron abrindo submenu)
+                        tinha sido a solução do achado anterior (2026-08-22,
+                        "clicar deveria levar direto pra /biblia"), mas o
+                        Rilson preferiu ir direto ao ponto: sem chevron, sem
+                        submenu, só o link. "Todos os 66 Livros" e os atalhos
+                        de Antigo/Novo Testamento que viviam no submenu não
+                        somem — já estão na própria página /biblia. Mesmo
+                        estilo do link "Sobre o Projeto" logo abaixo. */}
+                    <Link
+                      to="/biblia"
+                      className="inline-flex items-center justify-center rounded-md px-3 py-2 text-display text-sm font-medium hover:bg-muted/60 transition-colors"
+                    >
+                      <Book className="w-4 h-4 mr-1.5 text-primary" />
+                      Navegar pela Bíblia
+                    </Link>
                   </NavigationMenuItem>
 
                   <NavigationMenuItem>
-                    {/* Mesmo split trigger de cima — clicar em "Galeria de
-                        Arte" leva direto pra /arte/painting, chevron abre
-                        o submenu. */}
-                    <div className="flex items-center rounded-md overflow-hidden">
-                      <Link
-                        to="/arte/painting"
-                        className="inline-flex h-10 items-center rounded-l-md bg-transparent pl-4 pr-1 text-display text-sm font-medium hover:bg-muted/60 hover:text-foreground focus:bg-muted/60 focus:text-foreground focus:outline-none transition-colors"
-                      >
-                        <Palette className="w-4 h-4 mr-2 text-amber-600 dark:text-amber-400" />
-                        Galeria de Arte
-                      </Link>
-                      <NavigationMenuTrigger className="h-10 rounded-l-none rounded-r-md bg-transparent pl-1 pr-3 hover:bg-muted/60 hover:text-foreground focus:text-foreground data-[state=open]:bg-muted/80 data-[state=open]:text-foreground" />
-                    </div>
-                    <NavigationMenuContent>
-                      <div className="w-[300px] p-3">
-                        <div className="grid gap-2">
-                          <NavigationMenuLink asChild>
-                            <Link
-                              to="/arte/painting"
-                              className="block select-none space-y-1 rounded-lg p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
-                            >
-                              <div className="text-sm font-semibold text-foreground">Pinturas & Obras Visuais</div>
-                              <p className="text-xs leading-relaxed text-muted-foreground mt-1">
-                                Obras de mestres clássicos, renascentistas e barrocos
-                              </p>
-                            </Link>
-                          </NavigationMenuLink>
-                          <NavigationMenuLink asChild>
-                            <Link
-                              to="/busca"
-                              className="block rounded-md p-2.5 hover:bg-accent hover:text-accent-foreground text-xs font-medium text-muted-foreground"
-                            >
-                              <Search className="w-3.5 h-3.5 inline mr-1.5" />
-                              Busca detalhada por artista ou período
-                            </Link>
-                          </NavigationMenuLink>
-                        </div>
-                      </div>
-                    </NavigationMenuContent>
+                    {/* Mesmo achado acima — estático, sem submenu. */}
+                    <Link
+                      to="/arte/painting"
+                      className="inline-flex items-center justify-center rounded-md px-3 py-2 text-display text-sm font-medium hover:bg-muted/60 transition-colors"
+                    >
+                      <Palette className="w-4 h-4 mr-1.5 text-amber-600 dark:text-amber-400" />
+                      Galeria de Arte
+                    </Link>
                   </NavigationMenuItem>
 
                   <NavigationMenuItem>
-                    {/* text-display: os dois itens irmãos (NavigationMenuTrigger
-                        acima) já usam a fonte serifada da marca — este link
-                        simples tinha ficado sem, caindo no sans padrão e
-                        destoando visualmente dos outros dois — achado real
-                        2026-08-22. Sem text-muted-foreground: os triggers
-                        irmãos não setam cor própria (herdam foreground, o
-                        tom "cheio"); com muted-foreground este link ficava
-                        num tom mais apagado que os outros dois — segundo
-                        achado real do mesmo screenshot 2026-08-22. */}
+                    {/* text-display: os dois itens irmãos acima já usam a
+                        fonte serifada da marca — este link simples tinha
+                        ficado sem, caindo no sans padrão e destoando
+                        visualmente dos outros dois — achado real 2026-08-22.
+                        Sem text-muted-foreground: os irmãos não setam cor
+                        própria (herdam foreground, o tom "cheio"); com
+                        muted-foreground este link ficava num tom mais
+                        apagado que os outros dois — segundo achado real do
+                        mesmo screenshot 2026-08-22. (Os irmãos eram split
+                        triggers com submenu até 2026-09-02, quando viraram
+                        links estáticos iguais a este — ver achado acima.) */}
                     <Link
                       to="/sobre"
                       className="inline-flex items-center justify-center rounded-md px-3 py-2 text-display text-sm font-medium hover:bg-muted/60 transition-colors"

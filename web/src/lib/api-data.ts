@@ -1,5 +1,5 @@
 import { apiClient, ApiError } from './api-client';
-import type { Artwork, BibleBook, Artist, ArtistDetail, Theme } from '@/types';
+import type { Artwork, BibleBook, Artist, ArtistDetail, Theme, Period, ExploreData } from '@/types';
 
 const ALL_ARTWORKS_LIMIT = 1000;
 
@@ -41,6 +41,13 @@ export async function getArtists(): Promise<Artist[]> {
 // "Filtros Avançados" (roadmap, Passo 2, 2026-09-02).
 export async function getThemes(): Promise<Theme[]> {
   return apiClient.request<Theme[]>('/themes');
+}
+
+// Filtro "Período" (achado 2026-09-02: lista de séculos hardcoded no
+// front tinha ficado obsoleta — faltavam IV, XII-XIV, XIX, XX e XXI, e
+// "século IX" não tinha nenhuma obra). Mesmo padrão de getThemes/getArtists.
+export async function getPeriods(): Promise<Period[]> {
+  return apiClient.request<Period[]>('/periods');
 }
 
 // "Páginas de Artista Ricas" (roadmap, aprovada 2026-08-23).
@@ -104,7 +111,11 @@ export async function searchArtworks(query: string): Promise<Artwork[]> {
 
 export interface SearchFilters {
   category?: string;
-  testament?: 'old' | 'new';
+  /** Multiselect de livro (achado 2026-09-02, Rilson: "Testamento" sozinho
+   *  era raso demais — livro já informa o testamento) — "ou" entre os
+   *  livros escolhidos, slugs vindos de `/bible-books`. Substitui o antigo
+   *  filtro `testament`. */
+  books?: string[];
   /** Multiselect (roadmap 2026-09-01) — "ou" entre os artistas escolhidos. */
   artists?: string[];
   /** Multiselect de tema (roadmap, Passo 3, 2026-09-02) — "ou" entre os temas. */
@@ -182,10 +193,12 @@ export async function searchArtworksAdvanced(query: string, filters: SearchFilte
     });
   }
 
-  if (filters.testament) {
-    const testamentBooks = await (filters.testament === 'old' ? getOldTestamentBooks() : getNewTestamentBooks());
-    const testamentSlugs = new Set(testamentBooks.map((book) => book.slug));
-    results = results.filter((artwork) => artwork.references.some((ref) => testamentSlugs.has(ref.bookSlug)));
+  if (filters.books?.length) {
+    // Mesma mecânica do antigo filtro de testamento (intersecção com
+    // `artwork.references`), só que com os livros escolhidos direto —
+    // sem precisar buscar a lista de livros do testamento inteiro.
+    const bookSlugs = new Set(filters.books);
+    results = results.filter((artwork) => artwork.references.some((ref) => bookSlugs.has(ref.bookSlug)));
   }
 
   return results;
@@ -210,4 +223,18 @@ export async function getOldTestamentBooks(): Promise<BibleBook[]> {
 
 export async function getNewTestamentBooks(): Promise<BibleBook[]> {
   return apiClient.request<BibleBook[]>('/bible-books', { testament: 'new' });
+}
+
+// "Mapa de obras ↔ referências bíblicas" (/explorar, aprovada 2026-09-02).
+// A passagem como hub do grafo. Livro/capítulo inexistente ou capítulo fora
+// do intervalo vira 404 na API — mapper devolve undefined no mesmo padrão de
+// getBibleBookBySlug/getArtistBySlug, pra página renderizar o estado de
+// "não encontrado" em vez de assumir erro de servidor.
+export async function getExplore(bookSlug: string, chapter: number): Promise<ExploreData | undefined> {
+  try {
+    return await apiClient.request<ExploreData>(`/explore/${bookSlug}/${chapter}`);
+  } catch (error) {
+    if (error instanceof ApiError && error.status === 404) return undefined;
+    throw error;
+  }
 }

@@ -95,23 +95,28 @@ export function CommandPalette({ open: controlledOpen, onOpenChange }: CommandPa
     matches(`${book.name} ${book.slug} ${book.testament === 'old' ? 'antigo testamento at' : 'novo testamento nt'}`)
   );
 
+  // Ícones com `group-data-[selected=true]:text-accent-foreground` —
+  // achado 2026-09-02 (Rilson): sem isso, ícone dourado (text-primary/
+  // text-amber-*) some contra a linha selecionada (bg-accent), porque os
+  // dois tokens têm o mesmo matiz dourado no tema escuro. `group` mora no
+  // CommandItem (ver ui/command.tsx) — cada ícone só precisa da variante.
   const quickNavItems = [
     {
       value: 'galeria pinturas obras arte catalogo',
       onSelect: () => handleSelect(() => navigate('/arte/painting')),
-      icon: <Layers className="w-4 h-4 mr-2 text-amber-600 dark:text-amber-400" />,
+      icon: <Layers className="w-4 h-4 mr-2 text-amber-600 dark:text-amber-400 group-data-[selected=true]:text-accent-foreground" />,
       label: 'Galeria Completa de Pinturas',
     },
     {
       value: 'antigo testamento genesis salmos isaias',
       onSelect: () => handleSelect(() => navigate('/biblia?testament=old')),
-      icon: <BookOpen className="w-4 h-4 mr-2 text-primary" />,
+      icon: <BookOpen className="w-4 h-4 mr-2 text-primary group-data-[selected=true]:text-accent-foreground" />,
       label: 'Antigo Testamento',
     },
     {
       value: 'novo testamento evangelhos mateus marcos lucas joao',
       onSelect: () => handleSelect(() => navigate('/biblia?testament=new')),
-      icon: <BookOpen className="w-4 h-4 mr-2 text-primary" />,
+      icon: <BookOpen className="w-4 h-4 mr-2 text-primary group-data-[selected=true]:text-accent-foreground" />,
       label: 'Novo Testamento',
     },
     {
@@ -123,7 +128,7 @@ export function CommandPalette({ open: controlledOpen, onOpenChange }: CommandPa
     {
       value: 'sobre o projeto biblia na arte missao',
       onSelect: () => handleSelect(() => navigate('/sobre')),
-      icon: <Sparkles className="w-4 h-4 mr-2 text-amber-500" />,
+      icon: <Sparkles className="w-4 h-4 mr-2 text-amber-500 group-data-[selected=true]:text-accent-foreground" />,
       label: 'Sobre o Projeto Bíblia na Arte',
     },
   ].filter((item) => matches(`${item.value} ${item.label}`));
@@ -197,10 +202,16 @@ export function CommandPalette({ open: controlledOpen, onOpenChange }: CommandPa
                 className="flex items-center justify-between cursor-pointer"
               >
                 <div className="flex items-center gap-2">
-                  <Book className="w-4 h-4 text-primary/80" />
+                  <Book className="w-4 h-4 text-primary/80 group-data-[selected=true]:text-accent-foreground" />
                   <span>{book.name}</span>
                 </div>
-                <span className="text-xs text-muted-foreground font-mono">
+                {/* numeral-classico, não font-mono — achado 2026-09-02
+                    (Rilson): mono lê como terminal de código e destoa da
+                    identidade manuscrita do site (mesmo achado já corrigido
+                    em ArtworkCard/ArtworkDetail/PassageTimeline pro badge
+                    de ano, ver docs/ROADMAP.md — esta ocorrência tinha
+                    ficado de fora daquela varredura). */}
+                <span className="numeral-classico text-xs text-muted-foreground">
                   {book.chapters} cap. ({book.testament === 'old' ? 'AT' : 'NT'})
                 </span>
               </CommandItem>
