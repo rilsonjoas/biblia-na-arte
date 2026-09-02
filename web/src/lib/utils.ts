@@ -22,6 +22,38 @@ export function slugifyArtistName(input: string): string {
     .slice(0, 100)
 }
 
+// Pedido do Rilson 2026-09-01 (feedback de amigos vendo o site): "1 Pedro",
+// "2 Samuel" etc. têm contraste visual ruim entre o algarismo arábico e a
+// letra maiúscula colada nele (ex.: "1 Pedro" — o "1" quase lê como um "l"
+// minúsculo ao lado do "P"). Numeral romano resolve só na exibição, sem
+// tocar no nome canônico usado como chave de matching de referências do
+// vault (`resolveBibleBook()` em server/src/db/seed-data/bible-books.ts) —
+// é puramente cosmético, aplicado no frontend em cima do dado que já vem
+// da API.
+const ARABIC_TO_ROMAN_BOOK_PREFIX: Record<string, string> = { '1': 'I', '2': 'II', '3': 'III' };
+
+// Comparação de texto ignorando acento/caixa — usada pelo filtro por nome
+// de /biblia (pedido do Rilson 2026-09-01: "acessível pra quem tem
+// dificuldade" — ninguém deveria precisar digitar "ê" certo pra achar
+// "Êxodo"). Mesma receita de normalização usada em resolveBibleBook() no
+// backend (server/src/db/seed-data/bible-books.ts), reimplementada aqui
+// porque é frontend puro, sem acesso a esse módulo do server.
+export function normalizeForSearch(s: string): string {
+  return s
+    .normalize('NFD')
+    .replace(/[̀-ͯ]/g, '')
+    .toLowerCase()
+    .trim();
+}
+
+export function toRomanBookName(name: string): string {
+  const match = /^([123]) (.+)$/.exec(name);
+  if (!match) return name;
+  const [, digit, rest] = match;
+  if (!digit || !rest) return name;
+  return `${ARABIC_TO_ROMAN_BOOK_PREFIX[digit]} ${rest}`;
+}
+
 // Tira marcação markdown pra sobrar texto puro — usado em resumos curtos
 // (card, line-clamp) onde renderizar markdown de verdade (react-markdown,
 // ver components/ui/markdown.tsx) não faz sentido: um <p> com clamp corta

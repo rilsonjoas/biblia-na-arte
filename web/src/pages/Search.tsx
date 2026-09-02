@@ -5,6 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { MultiSelect } from '@/components/ui/multi-select';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import ArtworkCard, { ArtworkCardSkeleton } from '@/components/ArtworkCard';
@@ -20,9 +21,10 @@ import {
   Tag,
   RefreshCcw,
   ChevronLeft,
-  ChevronRight
+  ChevronRight,
+  X
 } from 'lucide-react';
-import { useArtworkSearchAdvanced, useArtists } from '@/hooks/use-artworks';
+import { useArtworkSearchAdvanced, useArtists, useThemes } from '@/hooks/use-artworks';
 import type { SearchFilters } from '@/lib/api-data';
 import { CATEGORIES, getCategoryMeta } from '@/lib/categories';
 
@@ -52,17 +54,24 @@ export default function Search() {
   const [selectedCategory, setSelectedCategory] = useState<string>(categoryParam || '');
   const [selectedTestament, setSelectedTestament] = useState<string>('');
   const [selectedCentury, setSelectedCentury] = useState<string>('');
-  const [selectedArtist, setSelectedArtist] = useState<string>('');
+  // Multiselect (roadmap 2026-09-01, pedido do Rilson) — "ou" entre os
+  // artistas escolhidos, "e" com os outros filtros. Ver MultiSelect em
+  // components/ui/multi-select.tsx.
+  const [selectedArtists, setSelectedArtists] = useState<string[]>([]);
+  // Multiselect de tema (roadmap, Passo 3, 2026-09-02) — mesma semântica.
+  const [selectedThemes, setSelectedThemes] = useState<string[]>([]);
 
   // Hooks para dados
   const { data: artists = [] } = useArtists();
+  const { data: themes = [] } = useThemes();
 
   // Build search filters
   const centuryRange = selectedCentury ? CENTURY_RANGES[selectedCentury] : undefined;
   const searchFilters: SearchFilters = {
     ...(selectedCategory && { category: selectedCategory }),
     ...(selectedTestament && { testament: selectedTestament as 'old' | 'new' }),
-    ...(selectedArtist && { artist: selectedArtist }),
+    ...(selectedArtists.length > 0 && { artists: selectedArtists }),
+    ...(selectedThemes.length > 0 && { themes: selectedThemes }),
     ...(centuryRange && { yearFrom: centuryRange.from, yearTo: centuryRange.to }),
   };
 
@@ -93,6 +102,9 @@ export default function Search() {
   // Obter lista única de artistas do endpoint agregado (não baixa o
   // catálogo inteiro só pra extrair nomes)
   const artistNames = artists.map(artist => artist.name);
+  // Temas já vêm ordenados por frequência do /themes (mesma lógica do
+  // roadmap: os mais citados aparecem primeiro na busca do combobox).
+  const themeOptions = themes.map((theme) => ({ value: theme.slug, label: theme.name }));
 
   useEffect(() => {
     const searchQuery = searchParams.get('q');
@@ -111,7 +123,7 @@ export default function Search() {
   // paginação antiga cai fora do alcance do resultado novo (grade vazia)
   useEffect(() => {
     setPage(1);
-  }, [query, selectedCategory, selectedTestament, selectedCentury, selectedArtist]);
+  }, [query, selectedCategory, selectedTestament, selectedCentury, selectedArtists, selectedThemes]);
 
   const handleSearch = () => {
     if (query.trim()) {
@@ -125,10 +137,12 @@ export default function Search() {
     setSelectedCategory('');
     setSelectedTestament('');
     setSelectedCentury('');
-    setSelectedArtist('');
+    setSelectedArtists([]);
+    setSelectedThemes([]);
   };
 
-  const hasActiveFilters = selectedCategory || selectedTestament || selectedCentury || selectedArtist;
+  const hasActiveFilters =
+    selectedCategory || selectedTestament || selectedCentury || selectedArtists.length > 0 || selectedThemes.length > 0;
 
   return (
     <div className="min-h-screen bg-background">
@@ -236,7 +250,12 @@ export default function Search() {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              {/* xl:grid-cols-5 pra caber Categoria/Testamento/Período/
+                  Artista/Tema numa linha só em telas grandes — em telas
+                  médias (lg) 3 colunas evita cada caixa ficar apertada
+                  demais só pra forçar as 5 numa linha (achado 2026-09-02,
+                  ao adicionar o filtro de tema). */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <div>
                   <label className="text-sm font-medium mb-2 block">Categoria</label>
                   <Select value={selectedCategory || 'all'} onValueChange={(v) => setSelectedCategory(v === 'all' ? '' : v)}>
@@ -290,19 +309,26 @@ export default function Search() {
 
                 <div>
                   <label className="text-sm font-medium mb-2 block">Artista</label>
-                  <Select value={selectedArtist || 'all'} onValueChange={(v) => setSelectedArtist(v === 'all' ? '' : v)}>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Todos os artistas" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="all">Todos os artistas</SelectItem>
-                      {artistNames.map(artist => (
-                        <SelectItem key={artist} value={artist}>
-                          {artist}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                  <MultiSelect
+                    options={artistNames.map((artist) => ({ value: artist, label: artist }))}
+                    selected={selectedArtists}
+                    onChange={setSelectedArtists}
+                    placeholder="Todos os artistas"
+                    searchPlaceholder="Buscar artista..."
+                    emptyText="Nenhum artista encontrado."
+                  />
+                </div>
+
+                <div>
+                  <label className="text-sm font-medium mb-2 block">Tema</label>
+                  <MultiSelect
+                    options={themeOptions}
+                    selected={selectedThemes}
+                    onChange={setSelectedThemes}
+                    placeholder="Todos os temas"
+                    searchPlaceholder="Buscar tema..."
+                    emptyText="Nenhum tema encontrado."
+                  />
                 </div>
               </div>
             </CardContent>
@@ -353,12 +379,40 @@ export default function Search() {
                       {centuries.find(c => c.value === selectedCentury)?.label}
                     </Badge>
                   )}
-                  {selectedArtist && (
-                    <Badge variant="outline">
-                      <User className="w-3 h-3 mr-1" />
-                      {selectedArtist}
+                  {/* 1 badge removível por artista selecionado — melhor que
+                      um badge só "N artistas" pra quem quer tirar 1 sem
+                      reabrir o combobox e desmarcar na mão. */}
+                  {selectedArtists.map((artist) => (
+                    <Badge key={artist} variant="outline" className="gap-1 pr-1">
+                      <User className="w-3 h-3" />
+                      {artist}
+                      <button
+                        type="button"
+                        onClick={() => setSelectedArtists((prev) => prev.filter((a) => a !== artist))}
+                        aria-label={`Remover filtro de artista: ${artist}`}
+                        className="ml-0.5 rounded-full p-0.5 hover:bg-muted-foreground/20 transition-colors"
+                      >
+                        <X className="w-3 h-3" />
+                      </button>
                     </Badge>
-                  )}
+                  ))}
+                  {selectedThemes.map((slug) => {
+                    const label = themeOptions.find((t) => t.value === slug)?.label ?? slug;
+                    return (
+                      <Badge key={slug} variant="outline" className="gap-1 pr-1">
+                        <Tag className="w-3 h-3" />
+                        {label}
+                        <button
+                          type="button"
+                          onClick={() => setSelectedThemes((prev) => prev.filter((s) => s !== slug))}
+                          aria-label={`Remover filtro de tema: ${label}`}
+                          className="ml-0.5 rounded-full p-0.5 hover:bg-muted-foreground/20 transition-colors"
+                        >
+                          <X className="w-3 h-3" />
+                        </button>
+                      </Badge>
+                    );
+                  })}
                 </div>
               )}
             </div>

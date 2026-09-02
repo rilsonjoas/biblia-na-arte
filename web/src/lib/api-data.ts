@@ -1,5 +1,5 @@
 import { apiClient, ApiError } from './api-client';
-import type { Artwork, BibleBook, Artist, ArtistDetail } from '@/types';
+import type { Artwork, BibleBook, Artist, ArtistDetail, Theme } from '@/types';
 
 const ALL_ARTWORKS_LIMIT = 1000;
 
@@ -12,7 +12,10 @@ export interface PaginatedArtworksParams {
   page?: number;
   limit?: number;
   category?: string;
-  artist?: string;
+  /** Multiselect (roadmap 2026-09-01) — nomes exatos, vindos de `/artists`. */
+  artists?: string[];
+  /** Multiselect de tema (roadmap, Passo 2, 2026-09-02) — slugs de `/themes`. */
+  themes?: string[];
   bookSlug?: string;
   chapter?: number;
   verses?: string;
@@ -23,7 +26,8 @@ export async function getArtworksPaginated(params: PaginatedArtworksParams = {})
     page: params.page ?? 1,
     limit: params.limit ?? 24,
     category: params.category,
-    artist: params.artist,
+    artists: params.artists,
+    themes: params.themes,
     bookSlug: params.bookSlug,
     chapter: params.chapter,
     verses: params.verses,
@@ -32,6 +36,11 @@ export async function getArtworksPaginated(params: PaginatedArtworksParams = {})
 
 export async function getArtists(): Promise<Artist[]> {
   return apiClient.request<Artist[]>('/artists');
+}
+
+// "Filtros Avançados" (roadmap, Passo 2, 2026-09-02).
+export async function getThemes(): Promise<Theme[]> {
+  return apiClient.request<Theme[]>('/themes');
 }
 
 // "Páginas de Artista Ricas" (roadmap, aprovada 2026-08-23).
@@ -96,7 +105,10 @@ export async function searchArtworks(query: string): Promise<Artwork[]> {
 export interface SearchFilters {
   category?: string;
   testament?: 'old' | 'new';
-  artist?: string;
+  /** Multiselect (roadmap 2026-09-01) — "ou" entre os artistas escolhidos. */
+  artists?: string[];
+  /** Multiselect de tema (roadmap, Passo 3, 2026-09-02) — "ou" entre os temas. */
+  themes?: string[];
   yearFrom?: number;
   yearTo?: number;
 }
@@ -130,14 +142,31 @@ export async function searchArtworksAdvanced(query: string, filters: SearchFilte
   if (query.trim()) {
     results = await searchArtworks(query);
     if (filters.category) results = results.filter((a) => a.category === filters.category);
-    if (filters.artist) {
-      const needle = filters.artist.toLowerCase();
-      results = results.filter((a) => a.artistOrDirector.toLowerCase().includes(needle));
+    if (filters.artists?.length) {
+      // Nomes vêm exatos de `/artists` — comparação de conjunto, não
+      // substring (evita, por exemplo, "Rembrandt" casar com um artista
+      // hipotético "Rembrandt Bugatti").
+      const needles = new Set(filters.artists.map((a) => a.toLowerCase()));
+      results = results.filter((a) => needles.has(a.artistOrDirector.toLowerCase()));
+    }
+    if (filters.themes?.length) {
+      // /artworks/search (full-text) não tem filtro de tema embutido — a
+      // obra não carrega os próprios temas na resposta (decisão de escopo:
+      // não valia expor isso em toda obra só pra cobrir esse cruzamento
+      // raro texto+tema). Busca o conjunto de IDs que batem no tema via
+      // /artworks?themes=... (já teste server-side) e intersecta por ID.
+      const { items: themeMatches } = await apiClient.request<ArtworksResponse>('/artworks', {
+        themes: filters.themes,
+        limit: ALL_ARTWORKS_LIMIT,
+      });
+      const matchingIds = new Set(themeMatches.map((a) => a.id));
+      results = results.filter((a) => matchingIds.has(a.id));
     }
   } else {
     const { items } = await apiClient.request<ArtworksResponse>('/artworks', {
       category: filters.category,
-      artist: filters.artist,
+      artists: filters.artists,
+      themes: filters.themes,
       limit: ALL_ARTWORKS_LIMIT,
     });
     results = items;

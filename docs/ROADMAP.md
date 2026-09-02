@@ -2045,3 +2045,457 @@ schema/query desta sessão.
       nada. Corrigida a regex pra aceitar 1 nível de aninhamento — Rilson
       confirmou manter o padrão existente (subtítulo em itálico abaixo do
       título), só precisava separar os dois de verdade.
+
+---
+
+## Achados 2026-09-01 (2) — feedback de amigos vendo o site pela 1ª vez
+
+> Rilson compartilhou o link com amigos e foi recebendo feedback aos poucos.
+> Pedido explícito: implementar item por item **sem fazer deploy** até ele
+> pedir, e manter este roadmap atualizado a cada pedido novo pra não perder
+> o controle da fila. Todos os itens abaixo estão implementados e validados
+> localmente (typecheck + lint + build + testes unitários, e verificação
+> visual real com Playwright headless contra um build apontando pra API de
+> produção) — **nada deployado ainda**.
+
+- [x] **Cardzinho de `/biblia` — padding, fonte, contraste (implementado,
+      aguardando deploy)**: 3 pedidos juntos no mesmo screenshot mobile —
+      (1) diminuir um pouco o padding do card, (2) aumentar a fonte do
+      nome do livro (já estava em negrito, só faltava tamanho — `text-xs
+      sm:text-sm` → `text-sm sm:text-base`), (3) contraste do card contra
+      o fundo — causa real: `.gradient-card` no tema claro vai de
+      `hsl(35 20% 99%)` a `hsl(40 30% 95%)` sobre um `--background` de
+      `hsl(35 20% 97%)`, ou seja, o gradiente do card literalmente
+      atravessa a luminosidade do fundo da página — com `border-0`, não
+      sobra nenhuma borda pra segurar a definição visual. Não mexi no
+      token `--gradient-card` global (usado em ~14 arquivos, risco alto
+      de efeito colateral em outras páginas) — em vez disso, dei ao card
+      o mesmo tratamento de borda que `ArtworkCard.tsx` já usa
+      (`border border-border/60 hover:border-accent/40`), abordagem já
+      comprovada no projeto.
+- [x] **Numeral romano nos livros com prefixo numérico (implementado,
+      aguardando deploy)**: "1 Pedro", "2 Samuel" etc. têm contraste
+      visual ruim entre o algarismo arábico e a maiúscula colada nele —
+      "1" ao lado de "P" quase lê como "l Pedro". Vira "I Pedro",
+      "II Samuel" só na exibição, via `toRomanBookName()` novo em
+      `web/src/lib/utils.ts` — **não mexe no nome canônico** armazenado
+      em `bible_books.name`/usado por `resolveBibleBook()`
+      (server/src/db/seed-data/bible-books.ts) pra casar referências
+      extraídas do vault, então zero risco de quebrar o matching. Aplicado
+      por enquanto só nos cards de `/biblia` (onde o problema foi
+      reportado) — breadcrumbs/títulos de `/biblia/:slug` e
+      `/biblia/:slug/:cap` continuam em arábico; falar com o Rilson se
+      ele quiser consistência total antes de generalizar (mudança
+      trivial de replicar, só não quis presumir escopo maior do que o
+      pedido).
+- [x] **Filtro por nome em `/biblia` (implementado, aguardando deploy)**:
+      Rilson perguntou se cabia ordem alfabética ou filtro por nome,
+      pedindo "o mais profissional e acessível possível pra usuários com
+      dificuldade". Optei por filtro por nome (não reordenação
+      alfabética) — a ordem canônica atual ajuda quem já sabe a sequência
+      bíblica de cor, reordenar A-Z quebraria essa referência sem
+      necessidade; um filtro serve os dois públicos (quem lembra o nome
+      exato e quem lembra só um pedaço) sem exigir acento certo
+      (`normalizeForSearch()`, mesma receita de normalização do
+      `resolveBibleBook()` do backend, reimplementada no frontend).
+      Acessibilidade: `<label>` visível associado por `htmlFor` (não só
+      placeholder, que some ao digitar e não substitui rótulo pra leitor
+      de tela), região `role="status" aria-live="polite"` anunciando
+      quantos livros bateram a cada tecla, botão de limpar alcançável por
+      teclado com `aria-label`, e um estado vazio explícito (card com
+      "Nenhum livro encontrado pra '...'" + botão "Limpar filtro") pra
+      quando a busca não bate em nada — antes disso a página ficaria em
+      branco sem explicar por quê. Verificado ao vivo com Playwright
+      (`--disable-web-security` pra contornar CORS local): "pedro" →
+      2 resultados ("I Pedro", "II Pedro"), termo sem match → estado
+      vazio correto, botão de limpar nativo do `type="search"` duplicava
+      com o customizado (2 ícones de X) — trocado pra `type="text"` puro,
+      mesmo padrão do input de busca em `Search.tsx`.
+
+---
+
+## Filtros Avançados — multiselect de artista + filtro de tema (plano aprovado 2026-09-02)
+
+> Rilson pediu multiselect de artista e um select de tema em "Filtros
+> Avançados" (`/busca`). Investiguei antes de propor: **não existe dado de
+> tema em lugar nenhum do pipeline hoje** (nem export, nem banco, nem API)
+> — só existe no vault, como tag `arte-e-literatura/pintura/tema/...`
+> (366 temas distintos, ~1.100 aplicações). Multiselect de artista é bem
+> mais contido (só precisa de UI nova + backend aceitar array). Plano
+> aprovado por ele, nesta ordem: (1) multiselect de artista sozinho,
+> (2) pipeline de tema (vault → export → migração → API), (3) multiselect
+> de tema reaproveitando o componente do passo 1. Semântica confirmada:
+> "ou" dentro do mesmo filtro (qualquer um dos artistas/temas
+> selecionados), "e" entre filtros diferentes (categoria E testamento E
+> artista-do-grupo E tema-do-grupo).
+
+- [x] **Passo 1 — multiselect de artista em `/busca` (implementado,
+      aguardando deploy)**:
+  - **Backend**: `listArtworksQuerySchema.artists` novo (string separada
+    por vírgula na querystring, ex. `?artists=Rembrandt,Caravaggio`,
+    transformada em `string[]` pelo Zod) substituindo o antigo `artist`
+    (só 1 valor, só 1 call site usava). `listArtworks()` filtra com
+    `inArray(artworks.artistOrDirector, filters.artists)` — match EXATO,
+    não `ilike`/substring, porque os valores vêm sempre de nomes
+    canônicos do endpoint `/artists` (não texto livre digitado). 3 testes
+    de integração novos (1 artista, 2 artistas com "ou", artista
+    inexistente → vazio), todos rodando contra Postgres real via Docker.
+  - **Frontend**: componente novo `components/ui/multi-select.tsx` —
+    Popover + Command (cmdk) + caixinha de check só visual (NÃO usa
+    `<Checkbox>` real dentro do `<CommandItem>`: um checkbox de verdade
+    ali dispara dois toggles no mesmo clique, um do checkbox e um do
+    `onSelect` do item — achado durante a implementação, resolvido antes
+    de virar bug em produção). Busca embutida, sem dependência nova (usa
+    as mesmas primitivas do `CommandPalette`). `apiClient.request()`
+    ganhou suporte a parâmetro `string[]` (serializa como 1 string
+    separada por vírgula). Badges removíveis por artista (clicar o X tira
+    só aquele, sem reabrir o combobox).
+  - **Achado de teste**: cmdk chama `scrollIntoView` ao destacar item,
+    que o jsdom não implementa — quebrava qualquer teste que
+    selecionasse um item de `<Command>` com "e.scrollIntoView is not a
+    function", sem bug nenhum no componente. Mock adicionado em
+    `src/test/setup.ts` (mesma receita do mock de `ResizeObserver` que já
+    existia lá), beneficia qualquer componente futuro baseado em cmdk.
+  - **Verificação real, não só testes automatizados**: subi Postgres de
+    teste + servidor local com o código novo (não a API de produção, que
+    ainda não tem o deploy) e semeei com o `vault-export.json` de
+    verdade (904 obras, 317 artistas) — Playwright headless confirmou:
+    Rembrandt sozinho → 44 obras, Rembrandt+Caravaggio → 65 (44+21, bate
+    com "ou" entre os dois), remover 1 badge → volta pra 21 (só
+    Caravaggio). Confirma que o filtro é 100% server-side (contagem e
+    paginação corretas), não um recorte no cliente.
+- [x] **Passo 2 — pipeline de tema (implementado, aguardando deploy)**:
+  - Plano original mudou de ideia própria antes de virar código: coluna
+    `text[]` em `artworks` foi trocada por catálogo relacional de verdade
+    (`themes` + junção `artwork_themes`), porque a tag do Obsidian já vem
+    sem acento ("ressurreicao") — precisava de um lugar pra guardar o
+    `name` bonito ("Ressurreição"), e um `text[]` sozinho não resolvia
+    isso. Mirrors o padrão de `artists`: contagem sempre calculada ao
+    vivo via JOIN, nunca guardada.
+  - `extractThemes()` novo em `vault-parse.ts` (extrai o segmento depois
+    de `tema/` das tags, sem duplicata). `theme-labels.ts` novo: 119
+    temas (de 366 distintos no vault, os com 3+ usos — cobrem a grande
+    maioria do uso real) curados à mão com acento certo; o resto cai num
+    fallback de deslugificação genérica (sem acento, mas legível).
+    Migração `0007_worried_toad.sql` gerada via `drizzle-kit generate`.
+  - `GET /themes` (mesmo padrão de `/artists`) + `?themes=a,b` em
+    `GET /artworks` (mesma semântica "ou" do artista, mesmo padrão de
+    subquery-depois-inArray que o filtro de `bookSlug` já usava). 4
+    testes de integração novos contra Postgres real.
+  - Export re-rodado com o código novo: **295 temas distintos** exportados
+    (de 366 no vault — o resto pertence só a obras já excluídas da
+    auditoria de direitos autorais), **597 de 901 obras têm pelo menos 1
+    tema**, 0 slug duplicado, 0 nome vazio (conferido com script direto
+    no `vault-export.json`, mesma disciplina de sempre).
+- [x] **Passo 3 — multiselect de tema (implementado, aguardando deploy)**:
+  reaproveita `components/ui/multi-select.tsx` do Passo 1 tal e qual,
+  alimentado pelo `/themes` do Passo 2 — sem componente novo. Some ao
+  lado de Categoria/Testamento/Período/Artista em "Filtros Avançados"
+  (pedido original do Rilson: "pode ficar junto dos outros"); grid virou
+  `xl:grid-cols-5` (era `lg:grid-cols-4`) — em telas médias fica 3
+  colunas em vez de espremer 5 caixas estreitas demais numa tela não tão
+  larga. Badge removível por tema selecionado, mesmo padrão do artista.
+  - **Detalhe de arquitetura que não virou trabalho extra**: o endpoint
+    de busca full-text (`/artworks/search`) não devolve os temas de cada
+    obra (decisão deliberada — não valia expor tema em toda obra só pra
+    cobrir o cruzamento raro "digitou texto E escolheu tema"). Quando os
+    dois filtros coexistem, o cliente busca o conjunto de IDs que batem
+    no tema via `/artworks?themes=...` (endpoint já existente) e
+    intersecta por ID com o resultado da busca de texto — mesmo
+    resultado correto, sem mudar o schema de resposta de obra em lugar
+    nenhum.
+  - Verificado ao vivo do mesmo jeito que o Passo 1: Postgres de teste +
+    servidor local + `vault-export.json` de verdade — filtrar por
+    "Ressurreição" no combobox devolveu exatamente 37 obras (batendo com
+    a contagem do `/themes`), badge removível funcionando, grid do
+    "Filtros Avançados" com a caixa de Tema no lugar certo.
+
+---
+
+## Auditoria de pinturas duplicadas no vault (2026-09-02)
+
+> Rilson notou 2 pinturas idênticas lado a lado na Linha do Tempo de uma
+> obra ("Cristo/Jesus na Casa de Marta e Maria", Henryk Siemiradzki, os
+> dois 1886) e pediu unificação — e revisão manual documentada de
+> qualquer outra coisa achada no caminho. Vault é git (`/home/narniano/
+> Documentos/Rilson`), então cada exclusão abaixo é 100% reversível via
+> `git diff`/`git checkout` até o próximo commit do vault.
+
+**Método**: 1º passo, script python agrupando notas de `10 - Arte e
+literatura/Pinturas/*.md` por `(autor, titulo_original)` — achou 10
+grupos candidatos. 2º passo (mais confiável, achado DEPOIS): comparar
+`(artistOrDirector, title, year)` no `vault-export.json` já exportado —
+pegou 1 caso que o 1º método tinha perdido, porque as duas notas tinham
+`titulo_original` diferente ("Parable of the Hidden Treasure" vs. "Man
+hiding treasure") pro mesmo quadro. **Lição prática**: nem toda dupe tem
+o mesmo título em inglês — vale rodar os dois métodos numa auditoria
+futura, não só um.
+
+**Achado crítico de método**: a primeira suspeita de "mesmo Wikidata ID
+= mesma obra" (usada pra Hofmann e Aivazovsky) se provou **inválida** —
+fetch direto em `wikidata.org/wiki/Special:EntityData/<Q>.json` mostrou
+que o Q-ID citado nessas duas notas é a página do **artista**, não de
+uma obra específica (mistura comum quando a curadoria não acha o Q-ID
+exato da obra e usa o do artista como fallback). Evidência confiável de
+"mesma obra física" só vale quando o identificador é claramente
+per-objeto — Wikidata Q-ID **de uma obra** (confirmado, não assumido),
+ou URL de página de coleção de museu com número de inventário
+específico (ex.: `collections.louvre.fr/.../ark:.../clNNNNNNNN`,
+`mfab.hu/artworks/<id>`).
+
+### Corrigidas (3, alta confiança — identificador per-objeto confirmado)
+
+- [x] **Henryk Siemiradzki — "Cristo/Jesus na Casa de Marta e Maria"**
+      (a que o Rilson viu). Mesma localização (Museu Nacional de
+      Varsóvia), mesmo ano (1886), mesmo `titulo_original` exato — e
+      busca externa (WikiArt, Art Renewal Center, Wikipedia) confirma
+      uma só pintura de 1886, nenhuma menção a segunda versão. Mantida
+      "Cristo na Casa..." (descrição própria, 5 versículos individuais);
+      apagada "Jesus na Casa..." + sua imagem. Tags únicas dela
+      (`escola/polonesa`, `periodo/seculo-xix`, `religiosa`) migradas
+      pra nota mantida. Removida também a frase "da qual pintou mais de
+      uma versão" da bio do autor — não sustentada por nenhuma fonte
+      externa encontrada, provavelmente um artefato do próprio vault já
+      ter as duas notas quando essa frase foi escrita.
+- [x] **Rembrandt — "A Ceia em Emaús"**. Confirmado via fetch direto na
+      página do Louvre: a URL citada nas duas notas é o registro de UM
+      objeto específico (INV 1739; MR 944 — "Les Pèlerins d'Emmaüs",
+      1648, 68×65cm, Sala 844 Richelieu). Mantida a versão "2" (mais
+      completa: glossário de termos técnicos, 1 versículo a mais, tag
+      `técnica/tenebrismo`); apagada a versão sem sufixo + imagem. Um
+      comentário comparativo com Caravaggio que só existia na versão
+      apagada **não foi preservado** — fica registrado aqui caso valha
+      reincorporar à mão.
+- [x] **Rembrandt — "A Parábola do Tesouro Escondido"** (achado só no
+      2º método, não no 1º). Duas notas com `titulo_original` totalmente
+      diferentes ("Parable of the Hidden Treasure" vs. "Man hiding
+      treasure") pro mesmo quadro — confirmado via URL idêntica do
+      Museum of Fine Arts de Budapeste (`mfab.hu/artworks/10272`), mesmo
+      ano (1630). Uma delas estava arquivada com nome de arquivo "Autor
+      Desconhecido..." apesar do campo `autor:` já dizer corretamente
+      Rembrandt (nome do arquivo nunca foi atualizado). As duas eram
+      boas — uma focava em técnica/teologia (chiaroscuro, tenebrismo),
+      a outra em proveniência (debate de autoria com Gerrit Dou, Coleção
+      Esterházy, aquisição de 1871 pelo museu). Mantida a nota com nome
+      de arquivo correto e mais backlinks (`Autores/Rembrandt van
+      Rijn.md`, `Autores/John Everett Millais.md`, `Mateus.md`,
+      `Mateus 13.md`); mesclado o parágrafo de proveniência da outra
+      antes de apagá-la — o único dos 3 casos que levou fusão de prosa,
+      não só escolha de qual manter.
+  - Efeito líquido no export: **904 → 901 pinturas** (2 do Siemiradzki/
+    Rembrandt-Emaús numa 1ª passada, +1 do Tesouro Escondido numa 2ª).
+    Verificado rodando `pnpm export:vault` de novo depois de cada fix e
+    conferindo a contagem — nenhuma colisão de slug nova, nenhum link
+    quebrado (`grep` de backlink zero antes de cada `rm`).
+  - Bônus achado nas próprias listas de pintura dos capítulos bíblicos
+    (não é duplicação de NOTA, é item repetido dentro da MESMA lista):
+    "Lucas 10.md" tinha Aimé Morot e Maximilien Luce listados 2x cada;
+    "Mateus 13.md" tinha John Everett Millais 2x. Corrigido de graça
+    enquanto editava essas notas por outro motivo.
+
+### Revisadas e mantidas como estão (não são duplicatas)
+
+- **Alexandre Gabriel Decamps — "O bom samaritano"** (1842, Cleveland vs.
+  1853, Met): anos/museus/URLs diferentes — 2 quadros reais.
+- **Ticiano — "Cristo e a Mulher Adúltera"**: 2 Wikidata Q-IDs
+  diferentes, anos diferentes (1510/1520), museus diferentes (Glasgow/
+  Viena) — 2 quadros reais, bem documentados como tal.
+- **Andrei Bodko — série "Sempre por perto" / "Всегда рядом"**: o vault
+  tem 5+ instalações numeradas dessa série devocional do artista
+  (1/"Always Near", 2, 4, 5...) — numeração de série real, não re-
+  importação acidental.
+- **William Henry Margetson — "O bom samaritano" 2 e 3**: mesma URL de
+  fonte (a página do Meisterdrucke lista mais de uma ilustração do
+  mesmo livro), MAS cada nota descreve uma cena diferente da parábola
+  (uma é o samaritano ajoelhado tratando o ferido; a outra é o ferido
+  já montado no jumento sendo levado) — as próprias notas se cross-
+  linkam como "outra versão do mesmo tema". Essa foi a que quase virou
+  fusão errada se eu não tivesse lido o conteúdo completo antes de agir
+  só pela URL batendo.
+
+### Resolvida após revisão manual do Rilson (2026-09-02)
+
+- [x] **Heinrich Hofmann — "Cristo no Getsêmane" / "Jesus no Getsêmani"**:
+  Rilson confirmou visualmente que É duplicata (a evidência de
+  identificador tinha ficado fraca demais — "mesmo Wikidata Q" era só a
+  página do artista — mas o olho humano resolveu). Mantida "Jesus no
+  Getsêmani" (mais completa: Mateus 26 E Lucas 22, 2 versículos citados,
+  vs. só Mateus 26 e 1 versículo na outra); apagada "Cristo no
+  Getsêmane" + imagem. Tags já eram idênticas entre as duas, sem merge
+  necessário. Backlinks corrigidos: `Autores/Heinrich Hofmann.md`
+  (frontmatter + galeria) e as 3 notas de capítulo que já listavam as
+  duas versões lado a lado (Mateus 26, Marcos 14, Lucas 22) — só
+  precisou remover a linha da apagada, a sobrevivente já estava
+  listada em todas. Export reconfirma: 903 → 902 obras, Hofmann agora
+  com exatamente 4 obras distintas (Tentação de Jesus, Jesus e o jovem
+  rico, Jesus no Getsêmani, Jesus no Templo).
+
+### Sinalizadas — Rilson confirmou que são obras diferentes (não mexer)
+
+- **Ivan Aivazovsky — "Andando Sobre as Águas" / "Jesus Caminha Sobre as
+  Águas"**: mesmo problema de Wikidata-do-artista, E a bio do próprio
+  Aivazovsky no vault afirma que ele pintou essa cena **duas vezes**
+  ("1888 e 1890") — real chance de serem 2 quadros genuinamente
+  diferentes. Uma das notas usa uma imagem com nome de arquivo suspeito
+  (`Snapinst.app_...jpg`, ferramenta de download do Instagram) que vale
+  investigar a origem/qualidade separadamente do problema de duplicata.
+- **Kirk Richards — "O bom pastor"** (2020 vs. 2022, URLs de fonte
+  diferentes): artista contemporâneo vivo, plausível ter pintado o tema
+  2x — baixa prioridade, só sinalizando.
+- **"Autor desconhecido — A natividade" / "A natividade 2"**: sem
+  Wikidata/museu pra comparar, nenhum sinal forte em nenhuma direção —
+  só uma checagem visual manual resolve.
+
+---
+
+## 2 pinturas novas adicionadas ao vault (2026-09-02, sugestão do Rilson)
+
+- [x] **Artemisia Gentileschi — "Jael e Sísera" (1620)**: sugestão vinda
+      por e-mail. Pesquisado e verificado (Wikipedia PT, Wikimedia
+      Commons, busca cruzada) antes de escrever — Szépművészeti Múzeum
+      de Budapeste, assinada "Artemisia Lomi" (sobrenome do marido,
+      período florentino), mesmo `fonte_localizacao` (`mfab.hu/artworks/
+      9542`) que já valida como identificador confiável nesta vault (ver
+      auditoria de duplicatas acima). Nota de autor nova também
+      (`Autores/Artemisia Gentileschi.md`, não existia). Imagem baixada
+      do Wikimedia Commons em resolução boa (1516×1100). Referências
+      Juízes 4:21 + Juízes 5:24 (Cântico de Débora) — corretas, ao
+      contrário da nota já existente de Amigoni pro mesmo tema (achado
+      lateral: aquela nota cita Hebreus 11:31 como sendo sobre Jael, mas
+      esse versículo é sobre **Rahab** — sinalizado ao Rilson, não
+      corrigido ainda por não ter sido pedido).
+- [x] **Moritz Retzsch — "Xeque-mate" / "Die Schachspieler" (1831)**:
+      Rilson mandou 2 posts de blog com a lenda de Paul Morphy. Pesquisa
+      cruzada (os 2 blogs + WebSearch + Wikidata + metadados do
+      Wikimedia Commons) achou discrepância real: **nenhuma das fontes
+      menciona Sotheby's** (afirmação do próprio Rilson, aparentemente
+      de memória) — a venda documentada foi na Christie's, 1999, e a
+      obra está hoje em coleção particular não identificada (não no
+      Louvre, como alguns textos de divulgação afirmam sem fonte).
+      Achado de método: o Wikidata Q27058602 desta obra É um identificador
+      específico de artwork de verdade (confirmado via fetch), diferente
+      dos Q-IDs de Hofmann/Aivazovsky que eram só página do artista — nem
+      todo Q-ID citado numa nota do vault é confiável, tem que checar
+      caso a caso.
+      **Decisão de categorização** (perguntei, Rilson escolheu): a obra
+      retrata uma cena de *Fausto*, não um evento bíblico literal — sem
+      um capítulo óbvio pra `livros:`/`capítulos:`. Optou por vincular a
+      versículo temático (Romanos 8:37 "mais que vencedores" + 1 Pedro
+      5:8 "o diabo, vosso adversário"), não por deixar fora do pipeline.
+      Registrado explicitamente na própria nota (callout no topo +
+      frase de fechamento na seção de Contexto Bíblico) que é leitura
+      alegórica, não descrição literal — pra não confundir revisão
+      manual futura.
+      **Achado de parsing durante a verificação**: o cabeçalho
+      `### Contexto Bíblico (leitura temática)` que eu tinha escrito
+      quebrou a extração de citação (`extractPassageQuotes()`/
+      `extractVerseFromContext()` em `vault-parse.ts` exigem o
+      cabeçalho exato "### Contexto Bíblico", sem texto extra depois) —
+      os versículos ainda apareciam como referência (vêm do
+      frontmatter), só sem o texto do versículo junto. Corrigido
+      removendo o parêntese do cabeçalho (a ressalva já está no callout
+      e na frase de fechamento, não precisava repetir no título);
+      confirmado que `passageText` populou certo depois do reexport.
+  - Ambas as notas + as duas de Autores novas verificadas ponta a ponta
+    no `vault-export.json` local: 903 obras, 319 artistas, 295 temas, 0
+    colisão de slug, nenhum nome de artista com `/`. Cross-linkado nas
+    notas de capítulo relevantes (Juízes 4, Juízes 5, Romanos 8,
+    1 Pedro 5).
+- [x] **Bônus corrigido — Hebreus 11:31 nunca foi sobre Jael**: a nota já
+      existente do Amigoni ("Jael e Sisera") citava Hebreus 11:31 como
+      sendo sobre Jael — esse versículo é sobre **Rahab**, Jael não
+      aparece em Hebreus 11 em lugar nenhum (citação provavelmente
+      fabricada num enriquecimento anterior). Removida a citação, o
+      `livros:`/`capítulos:` (`Hebreus`/`Hebreus 11` trocado por
+      `Juízes 5`, que é onde Jael é de fato celebrada — Cântico de
+      Débora), e 2 backlinks igualmente errados que eu só achei
+      procurando: `Hebreus 11.md` e `Habacuque 3.md` (este último sem
+      nenhuma relação temática nenhuma com Jael/Sísera) também listavam
+      essa pintura na própria `⚜️ Pinturas:` — removidos.
+  - **Lição de processo (acionada pelo próprio Rilson)**: minhas duas
+    primeiras tentativas de corrigir isso deixaram "resquício" na nota —
+    frases explicando o que eu tinha corrigido e por quê (ex.: "não em
+    Hebreus 11... mas sem menção a Jael" na nota do Amigoni;
+    "Não há registro de conexão da obra com a Sotheby's... mas não
+    encontrei fonte primária" e "ao contrário do que alguns textos de
+    divulgação afirmam..." na nota nova do Retzsch, sobre o palpite do
+    Rilson de uma suposta origem Sotheby's que não se confirmou em
+    nenhuma fonte). Isso é errado: nota de obra é conteúdo pro site,
+    não um changelog da minha edição — quem lê não precisa saber que eu
+    corrigi algo, só precisa do fato certo. Removidas todas as 3
+    ocorrências, texto ficou só com o fato verificado, sem menção ao
+    processo de correção. Varredura feita em todas as notas tocadas hoje
+    (`grep` por frases desse tipo) pra confirmar que não sobrou mais
+    nenhuma — só apareceram 2 ocorrências de "não há registro" em notas
+    de Autores que já existiam antes desta sessão (Bosch, C.S. Lewis),
+    ali é uso legítimo e direto do fato histórico, não resquício de
+    correção — não mexidas.
+
+---
+
+## Ideias novas do Rilson (2026-09-02, registradas antes de qualquer implementação)
+
+> Lote de ideias soltas depois de ver o cardzinho de `/biblia` — nenhuma
+> implementada ainda, é só registro pra não perder antes de continuar.
+
+- [ ] **Grafo obras ↔ referências bíblicas**: visualização tipo grafo/rede
+      onde pinturas e passagens bíblicas são nós conectados — ideia solta,
+      sem desenho de UI ainda, potencialmente grande (força layout de
+      grafo interativo, algo como D3/force-graph). Precisa de mais
+      conversa antes de virar plano — não dá pra estimar escopo com o
+      que foi dito até aqui.
+- [ ] **"Capa" translúcida no cardzinho de livro (e talvez capítulo)**:
+      usar uma das obras daquele livro como imagem de fundo do card,
+      bem clara/transparente — "meio que ser a capa daquele livro"
+      (palavras do próprio Rilson). Pensar em contraste de texto por
+      cima da imagem de fundo (o card já tem texto centralizado); a
+      pergunta de acessibilidade de contraste WCAG que já apareceu antes
+      nesta sessão (BibleBook/ArtworkDetail) vai voltar aqui.
+- [ ] **Filtro/ordenação por "livro com mais obras"**: já existe a
+      contagem por livro no cardzinho (`{caps} · {artworkCount} obras`,
+      achado 2026-09-01), mas não um jeito de **ordenar** a grade por
+      essa contagem (hoje é sempre ordem canônica bíblica). Rilson: "faz
+      sentido" — ainda sem prioridade definida.
+- [ ] **Destaque maior pra sugestão de imagem por visitantes**: já existe
+      `/contribuir` (`Contribute.tsx`), mas o próprio Rilson reconhece que
+      "está meio escondida" — ele vai avaliar se cabe dar mais destaque
+      (ex.: link mais visível no header/footer, CTA na página da obra).
+      Ação dele, não pedido de implementação ainda.
+- [ ] **Gustave Doré — cobertura muito abaixo do potencial real**: Doré
+      tem ~600 ilustrações bíblicas historicamente conhecidas; o acervo
+      atual do site tem só uma fração disso. Decisão consciente do
+      Rilson na curadoria original (priorizou diversidade de artistas
+      antes de aprofundar um só) — agora vira prioridade futura
+      explícita, porque Doré cobre capítulos que hoje não têm nenhuma
+      obra no site. **Pedido específico: manter a curadoria "internacional"**
+      (não se prender a uma edição/gravura específica de um só país)
+      ao expandir. Nada iniciado ainda — quando entrar em pauta, é
+      trabalho de curadoria no vault (mesmo pipeline de sempre:
+      pesquisar, verificar fonte, criar nota, rodar export), não mudança
+      de código.
+
+---
+
+## "Capa" translúcida no cardzinho de livro (2026-09-02, implementado, aguardando deploy)
+
+- [x] **Backend**: `listBibleBooks()`/`getBibleBookBySlug()` ganharam
+      `coverImageUrl` via subquery correlacionada (a obra ativa mais
+      antiga com imagem daquele livro — política simples de propósito,
+      documentada no código pra trocar fácil depois se não ficar boa
+      visualmente). `bibleBookResponseSchema` atualizado. 2 testes de
+      integração novos (com imagem e sem nenhuma) + mock de unitário
+      atualizado.
+- [x] **Frontend**: `BibleBooks.tsx` — imagem posicionada `absolute
+      inset-0` atrás do conteúdo do card (`opacity-[0.14]` claro,
+      `opacity-[0.10]` escuro), decorativa (`aria-hidden`, `alt=""`),
+      `loading="lazy"`. Verificado visualmente em claro E escuro com
+      Postgres de teste + dado real (screenshot Playwright) — textura
+      sutil, texto continua 100% legível nos dois temas, boa variedade
+      visual entre os cards.
+- [ ] **Não estendido pros capítulos** (o "talvez" do pedido original):
+      investigado — a grade de capítulos em `BibleBook.tsx` são badges
+      pequenos (~40px, só o número), sem espaço físico pra uma imagem de
+      fundo funcionar. Se ainda fizer sentido pro Rilson, o candidato
+      certo seria o cabeçalho da própria página de capítulo
+      (`Chapter.tsx`), não a grade de badges — precisa de conversa
+      antes de virar plano.

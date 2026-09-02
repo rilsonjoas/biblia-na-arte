@@ -1,6 +1,6 @@
-import { and, desc, eq, ilike, inArray, sql } from 'drizzle-orm';
+import { and, desc, eq, inArray, sql } from 'drizzle-orm';
 import { db } from './client.js';
-import { artists, artworks, bibleReferences } from './schema.js';
+import { artists, artworks, artworkThemes, bibleReferences } from './schema.js';
 import type { ListArtworksQuery, SearchArtworksQuery } from '../schemas/artwork.schema.js';
 
 type ArtworkRow = typeof artworks.$inferSelect;
@@ -35,7 +35,7 @@ export async function listArtworks(filters: ListArtworksQuery) {
   const conditions = [eq(artworks.active, true)];
 
   if (filters.category) conditions.push(eq(artworks.category, filters.category));
-  if (filters.artist) conditions.push(ilike(artworks.artistOrDirector, `%${filters.artist}%`));
+  if (filters.artists?.length) conditions.push(inArray(artworks.artistOrDirector, filters.artists));
 
   // Filtro por referência bíblica exige olhar bible_references primeiro,
   // depois restringir artworks pelos IDs encontrados.
@@ -50,6 +50,21 @@ export async function listArtworks(filters: ListArtworksQuery) {
       .where(and(...refConditions));
 
     const artworkIds = [...new Set(matchingRefs.map((r) => r.artworkId))];
+    if (artworkIds.length === 0) return { items: [], total: 0 };
+
+    conditions.push(inArray(artworks.id, artworkIds));
+  }
+
+  // "Filtros Avançados" (roadmap, Passo 2, 2026-09-02) — "ou" entre os
+  // temas escolhidos (mesma semântica do multiselect de artista), mesmo
+  // padrão de subquery-depois-inArray do filtro de bookSlug acima.
+  if (filters.themes?.length) {
+    const matchingThemes = await db
+      .select({ artworkId: artworkThemes.artworkId })
+      .from(artworkThemes)
+      .where(inArray(artworkThemes.themeSlug, filters.themes));
+
+    const artworkIds = [...new Set(matchingThemes.map((r) => r.artworkId))];
     if (artworkIds.length === 0) return { items: [], total: 0 };
 
     conditions.push(inArray(artworks.id, artworkIds));
@@ -192,6 +207,14 @@ export interface BibleBookWithCount {
   order: number;
   createdAt: string | null;
   artworkCount: number;
+  // "Capa" translúcida no cardzinho de livro (roadmap, pedido do Rilson
+  // 2026-09-02) — 1 imagem representativa por livro. Política de escolha
+  // deliberadamente simples pro MVP: a obra ativa mais antiga cadastrada
+  // pra esse livro que tenha imagem (ORDER BY created_at ASC), não a
+  // "mais bonita" nem sorteio — sem esse tipo de sinal curado ainda. Fácil
+  // de trocar depois (ex.: aleatório com seed estável, ou campo manual de
+  // curadoria no vault) sem mudar o formato da resposta.
+  coverImageUrl: string | null;
 }
 
 // Achado 2026-09-01 (pedido do Rilson): o card de livro na Galeria só
@@ -203,7 +226,15 @@ export async function listBibleBooks(testament?: 'old' | 'new'): Promise<BibleBo
   const rows = await db.execute<Record<string, unknown>>(
     sql`SELECT
           bb.id, bb.name, bb.slug, bb.chapters, bb.testament, bb."order", bb.created_at AS "createdAt",
-          count(DISTINCT br.artwork_id) FILTER (WHERE a.active)::int AS "artworkCount"
+          count(DISTINCT br.artwork_id) FILTER (WHERE a.active)::int AS "artworkCount",
+          (
+            SELECT a2.image_url
+            FROM bible_references br2
+            JOIN artworks a2 ON a2.id = br2.artwork_id
+            WHERE br2.book_slug = bb.slug AND a2.active AND a2.image_url IS NOT NULL
+            ORDER BY a2.created_at ASC
+            LIMIT 1
+          ) AS "coverImageUrl"
         FROM bible_books bb
         LEFT JOIN bible_references br ON br.book_slug = bb.slug
         LEFT JOIN artworks a ON a.id = br.artwork_id
@@ -225,7 +256,15 @@ export async function getBibleBookBySlug(slug: string): Promise<BibleBookWithCou
   const rows = await db.execute<Record<string, unknown>>(
     sql`SELECT
           bb.id, bb.name, bb.slug, bb.chapters, bb.testament, bb."order", bb.created_at AS "createdAt",
-          count(DISTINCT br.artwork_id) FILTER (WHERE a.active)::int AS "artworkCount"
+          count(DISTINCT br.artwork_id) FILTER (WHERE a.active)::int AS "artworkCount",
+          (
+            SELECT a2.image_url
+            FROM bible_references br2
+            JOIN artworks a2 ON a2.id = br2.artwork_id
+            WHERE br2.book_slug = bb.slug AND a2.active AND a2.image_url IS NOT NULL
+            ORDER BY a2.created_at ASC
+            LIMIT 1
+          ) AS "coverImageUrl"
         FROM bible_books bb
         LEFT JOIN bible_references br ON br.book_slug = bb.slug
         LEFT JOIN artworks a ON a.id = br.artwork_id
@@ -251,6 +290,30 @@ export async function listArtists(): Promise<ArtistAggregate[]> {
         ORDER BY count(*) DESC, artist_or_director ASC`
   );
   return rows as unknown as ArtistAggregate[];
+}
+
+export interface ThemeAggregate {
+  slug: string;
+  name: string;
+  artworkCount: number;
+}
+
+// "Filtros Avançados" (roadmap, Passo 2, 2026-09-02) — mesmo padrão de
+// `listArtists()`: contagem sempre calculada ao vivo via JOIN, nunca
+// guardada. LEFT JOIN (não INNER) pra um tema sem obra ativa ainda
+// aparecer com artworkCount=0 em vez de sumir da lista.
+export async function listThemes(): Promise<ThemeAggregate[]> {
+  const rows = await db.execute<{ slug: string; name: string; artworkCount: number }>(
+    sql`SELECT
+          t.slug, t.name,
+          count(DISTINCT at.artwork_id) FILTER (WHERE a.active)::int AS "artworkCount"
+        FROM themes t
+        LEFT JOIN artwork_themes at ON at.theme_slug = t.slug
+        LEFT JOIN artworks a ON a.id = at.artwork_id
+        GROUP BY t.slug, t.name
+        ORDER BY "artworkCount" DESC, t.name ASC`,
+  );
+  return rows as unknown as ThemeAggregate[];
 }
 
 export interface ArtistDetail {

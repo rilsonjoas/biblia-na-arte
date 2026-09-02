@@ -43,9 +43,18 @@ export interface BibleBook {
   chapters: number;
   artworkCount: number;
   testament: 'old' | 'new';
+  // "Capa" translúcida no cardzinho de livro (roadmap, 2026-09-02).
+  coverImageUrl: string | null;
 }
 
 export interface Artist {
+  name: string;
+  artworkCount: number;
+}
+
+// "Filtros Avançados" (roadmap, Passo 2, 2026-09-02).
+export interface Theme {
+  slug: string;
   name: string;
   artworkCount: number;
 }

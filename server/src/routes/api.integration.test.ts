@@ -31,7 +31,7 @@ describe('API v1 — integração (Postgres real de teste)', () => {
     await admin.unsafe(readFileSync(FUNCTIONS_SQL, 'utf-8'));
 
     await admin.unsafe(
-      'TRUNCATE bible_references, artworks, bible_books, artists RESTART IDENTITY CASCADE',
+      'TRUNCATE bible_references, artwork_themes, artworks, bible_books, artists, themes RESTART IDENTITY CASCADE',
     );
     await admin.unsafe(`
       INSERT INTO bible_books (id, name, slug, chapters, testament) VALUES
@@ -51,6 +51,14 @@ describe('API v1 — integração (Postgres real de teste)', () => {
 
       INSERT INTO artists (id, name, slug, bio) VALUES
         ('${ARTIST_REMBRANDT}', 'Rembrandt', 'rembrandt', 'Pintor holandês do Século de Ouro, teste de integração.');
+
+      INSERT INTO themes (slug, name) VALUES
+        ('bom-samaritano', 'Bom Samaritano'),
+        ('perdao', 'Perdão');
+
+      INSERT INTO artwork_themes (artwork_id, theme_slug) VALUES
+        ('${ARTWORK_SAMARITAN}', 'bom-samaritano'),
+        ('${ARTWORK_PRODIGAL}', 'perdao');
     `);
 
     app = await buildApp();
@@ -218,6 +226,78 @@ describe('API v1 — integração (Postgres real de teste)', () => {
     expect(body.items[0].title).toBe('O bom samaritano');
   });
 
+  // Multiselect de artista (roadmap, pedido do Rilson 2026-09-01) — filtro
+  // vem como string separada por vírgula (?artists=A,B), match exato via
+  // inArray no SQL, não substring — testa tanto 1 quanto vários de uma vez
+  // pra garantir que o "OU entre valores do mesmo filtro" funciona server-side
+  // (contagem/paginação corretas, não é filtro pós-fetch no cliente).
+  it('filtra por 1 artista (?artists=)', async () => {
+    const res = await app.inject({ method: 'GET', url: '/api/v1/artworks?artists=Rembrandt' });
+    expect(res.statusCode).toBe(200);
+    const body = res.json();
+    expect(body.total).toBe(1);
+    expect(body.items[0].title).toBe('O filho pródigo');
+  });
+
+  it('filtra por múltiplos artistas de uma vez (?artists=A,B — OU entre eles)', async () => {
+    const res = await app.inject({
+      method: 'GET',
+      url: `/api/v1/artworks?${new URLSearchParams({ artists: 'Rembrandt,Aimé Morot' }).toString()}`,
+    });
+    expect(res.statusCode).toBe(200);
+    const body = res.json();
+    expect(body.total).toBe(2);
+    expect(body.items.map((a: { title: string }) => a.title).sort()).toEqual([
+      'O bom samaritano',
+      'O filho pródigo',
+    ]);
+  });
+
+  it('artista que não bate com nenhum nome do fixture devolve lista vazia', async () => {
+    const res = await app.inject({ method: 'GET', url: '/api/v1/artworks?artists=Ninguém Assim' });
+    expect(res.statusCode).toBe(200);
+    expect(res.json().total).toBe(0);
+  });
+
+  // Filtro de tema (roadmap, Filtros Avançados Passo 2, 2026-09-02) —
+  // mesma semântica "ou" do filtro de artista, testada contra a junção
+  // real artwork_themes, não um mock.
+  it('GET /api/v1/themes lista temas agregados com contagem', async () => {
+    const res = await app.inject({ method: 'GET', url: '/api/v1/themes' });
+    expect(res.statusCode).toBe(200);
+    const body = res.json();
+    expect(body).toEqual(
+      expect.arrayContaining([
+        { slug: 'bom-samaritano', name: 'Bom Samaritano', artworkCount: 1 },
+        { slug: 'perdao', name: 'Perdão', artworkCount: 1 },
+      ]),
+    );
+  });
+
+  it('filtra obras por 1 tema (?themes=)', async () => {
+    const res = await app.inject({ method: 'GET', url: '/api/v1/artworks?themes=bom-samaritano' });
+    expect(res.statusCode).toBe(200);
+    const body = res.json();
+    expect(body.total).toBe(1);
+    expect(body.items[0].title).toBe('O bom samaritano');
+  });
+
+  it('filtra obras por múltiplos temas de uma vez (?themes=a,b — OU entre eles)', async () => {
+    const res = await app.inject({
+      method: 'GET',
+      url: '/api/v1/artworks?themes=bom-samaritano,perdao',
+    });
+    expect(res.statusCode).toBe(200);
+    const body = res.json();
+    expect(body.total).toBe(2);
+  });
+
+  it('tema que não existe devolve lista vazia', async () => {
+    const res = await app.inject({ method: 'GET', url: '/api/v1/artworks?themes=tema-que-nao-existe' });
+    expect(res.statusCode).toBe(200);
+    expect(res.json().total).toBe(0);
+  });
+
   it('busca por full-text em português', async () => {
     const res = await app.inject({ method: 'GET', url: '/api/v1/artworks/search?q=samaritano' });
     expect(res.statusCode).toBe(200);
@@ -293,6 +373,23 @@ describe('API v1 — integração (Postgres real de teste)', () => {
     const body = res.json();
     expect(body.name).toBe('Lucas');
     expect(body.artworkCount).toBe(2);
+  });
+
+  // "Capa" translúcida no cardzinho de livro (roadmap, 2026-09-02) — Lucas
+  // tem 2 obras referenciadas no fixture, mas só o Samaritano tem
+  // image_url (o Filho Pródigo é NULL de propósito, ver fixture acima);
+  // Isaías não tem nenhuma referência, então coverImageUrl tem que ser
+  // null em vez de quebrar a query com 0 obras.
+  it('GET /api/v1/bible-books/:slug traz coverImageUrl da obra com imagem', async () => {
+    const res = await app.inject({ method: 'GET', url: '/api/v1/bible-books/luke' });
+    expect(res.statusCode).toBe(200);
+    expect(res.json().coverImageUrl).toBe('/images/samaritano.jpg');
+  });
+
+  it('GET /api/v1/bible-books/:slug traz coverImageUrl null pra livro sem obra com imagem', async () => {
+    const res = await app.inject({ method: 'GET', url: '/api/v1/bible-books/isaiah' });
+    expect(res.statusCode).toBe(200);
+    expect(res.json().coverImageUrl).toBeNull();
   });
 
   it('GET /api/v1/bible-books/:slug retorna 404 pra livro inexistente', async () => {

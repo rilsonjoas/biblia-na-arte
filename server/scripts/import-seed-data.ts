@@ -15,7 +15,7 @@ import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import { sql } from 'drizzle-orm';
 import { db, closeDb } from '../src/db/client.js';
-import { artists, artworks, bibleBooks, bibleReferences } from '../src/db/schema.js';
+import { artists, artworks, artworkThemes, bibleBooks, bibleReferences, themes } from '../src/db/schema.js';
 import { bibleBooksSeed } from '../src/db/seed-data/bible-books.js';
 
 const EXPORT_JSON = path.resolve(import.meta.dirname, 'vault-export.json');
@@ -36,6 +36,7 @@ interface ExportedArtwork {
   classicCommentaryAuthor?: string;
   classicCommentary?: string;
   references: { book: string; bookSlug: string; chapter: number; verses?: string; passageText?: string }[];
+  themes?: string[];
 }
 
 interface ExportedArtist {
@@ -44,24 +45,34 @@ interface ExportedArtist {
   bio: string | null;
 }
 
+interface ExportedTheme {
+  slug: string;
+  name: string;
+}
+
 async function main() {
   const raw = readFileSync(EXPORT_JSON, 'utf-8');
-  const { artworks: exported, artists: exportedArtists = [] } = JSON.parse(raw) as {
+  const {
+    artworks: exported,
+    artists: exportedArtists = [],
+    themes: exportedThemes = [],
+  } = JSON.parse(raw) as {
     artworks: ExportedArtwork[];
     artists?: ExportedArtist[];
+    themes?: ExportedTheme[];
   };
 
   console.log(`▶ ${exported.length} obras no export, importando...`);
 
   await db.transaction(async (tx) => {
-    // TRUNCATE ... RESTART IDENTITY CASCADE limpa as 4 tabelas de uma vez
-    // (bible_references tem FK pra artworks; CASCADE cobre a ordem).
-    // `artists` não tem FK com as outras (casamento por nome, não por id
-    // — ver comentário em schema.ts), mas entra no mesmo TRUNCATE pela
-    // mesma filosofia de idempotência: fonte da verdade é o vault, não o
-    // banco.
+    // TRUNCATE ... RESTART IDENTITY CASCADE limpa as tabelas de uma vez
+    // (bible_references e artwork_themes têm FK pra artworks; CASCADE
+    // cobre a ordem). `artists`/`themes` não têm FK com artworks (artists
+    // casa por nome; themes é referenciado por slug em artwork_themes, não
+    // o contrário), mas entram no mesmo TRUNCATE pela mesma filosofia de
+    // idempotência: fonte da verdade é o vault, não o banco.
     await tx.execute(
-      sql`TRUNCATE TABLE ${bibleReferences}, ${artworks}, ${bibleBooks}, ${artists} RESTART IDENTITY CASCADE`,
+      sql`TRUNCATE TABLE ${bibleReferences}, ${artworkThemes}, ${artworks}, ${bibleBooks}, ${artists}, ${themes} RESTART IDENTITY CASCADE`,
     );
 
     console.log('▶ Semeando bible_books (66 livros)...');
@@ -74,6 +85,14 @@ async function main() {
         order: b.order,
       })),
     );
+
+    if (exportedThemes.length > 0) {
+      console.log(`▶ Semeando themes (${exportedThemes.length})...`);
+      // Precisa vir ANTES do loop de obras — artwork_themes referencia
+      // themes.slug por FK, e o loop abaixo já insere artwork_themes junto
+      // com cada obra.
+      await tx.insert(themes).values(exportedThemes.map((t) => ({ slug: t.slug, name: t.name })));
+    }
 
     console.log('▶ Inserindo obras + referências...');
     for (const item of exported) {
@@ -108,6 +127,12 @@ async function main() {
           })),
         );
       }
+
+      if (item.themes && item.themes.length > 0 && inserted) {
+        await tx.insert(artworkThemes).values(
+          item.themes.map((slug) => ({ artworkId: inserted.id, themeSlug: slug })),
+        );
+      }
     }
     if (exportedArtists.length > 0) {
       console.log(`▶ Semeando artists (${exportedArtists.length})...`);
@@ -121,7 +146,9 @@ async function main() {
     }
   });
 
-  console.log(`✅ Importação concluída: ${exported.length} obras, ${exportedArtists.length} artistas.`);
+  console.log(
+    `✅ Importação concluída: ${exported.length} obras, ${exportedArtists.length} artistas, ${exportedThemes.length} temas.`,
+  );
   await closeDb();
 }
 

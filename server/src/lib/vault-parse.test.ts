@@ -10,6 +10,7 @@ import {
   extractBiography,
   extractPassageText,
   extractClassicCommentary,
+  extractThemes,
   parseChapterLink,
   deriveArtistFromFilename,
   normalizeForComparison,
@@ -57,6 +58,26 @@ describe('slugify', () => {
   it('limita a 100 caracteres', () => {
     const long = slugify(`${'palavra-'.repeat(20)}fim`);
     expect(long.length).toBeLessThanOrEqual(100);
+  });
+});
+
+describe('extractThemes', () => {
+  it('extrai só o segmento depois de tema/, sem duplicatas', () => {
+    expect(
+      extractThemes([
+        'arte-e-literatura',
+        'arte-e-literatura/pintura/tema/ressurreicao',
+        'arte-e-literatura/pintura/tema/parabola',
+        'arte-e-literatura/pintura/tema/ressurreicao',
+        'arte-e-literatura/pintura/estilo/barroco',
+      ]),
+    ).toEqual(['ressurreicao', 'parabola']);
+  });
+
+  it('devolve array vazio sem tags ou sem tag de tema', () => {
+    expect(extractThemes(undefined)).toEqual([]);
+    expect(extractThemes([])).toEqual([]);
+    expect(extractThemes(['arte-e-literatura/pintura/religiosa'])).toEqual([]);
   });
 });
 

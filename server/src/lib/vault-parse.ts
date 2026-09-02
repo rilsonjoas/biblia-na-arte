@@ -40,6 +40,23 @@ export function slugify(input: string): string {
     .slice(0, 100);
 }
 
+// "Filtros Avançados" (roadmap, Passo 2, 2026-09-02) — o vault já cataloga
+// tema por obra, só que como tag do Obsidian
+// (`arte-e-literatura/pintura/tema/<slug>`), nunca lido pelo pipeline até
+// agora. Extrai só o segmento depois de `tema/`, sem duplicatas — o nome
+// bonito de exibição (acentuado) é responsabilidade de outra camada
+// (`theme-labels.ts`), não desta função, que só lida com a tag crua.
+const THEME_TAG_PREFIX = 'arte-e-literatura/pintura/tema/';
+
+export function extractThemes(tags: string[] | undefined): string[] {
+  if (!tags?.length) return [];
+  const slugs = tags
+    .filter((t) => typeof t === 'string' && t.startsWith(THEME_TAG_PREFIX))
+    .map((t) => t.slice(THEME_TAG_PREFIX.length).trim())
+    .filter(Boolean);
+  return [...new Set(slugs)];
+}
+
 export function extractFrontmatter(content: string): RawFrontmatter | null {
   const match = content.replace(/\r\n/g, '\n').match(/^---\n([\s\S]*?)\n---/);
   if (!match?.[1]) return null;

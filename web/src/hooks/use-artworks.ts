@@ -6,6 +6,7 @@ import {
   searchArtworksAdvanced,
   getArtists,
   getArtistBySlug,
+  getThemes,
   getArtworksPaginated,
   getDailyArtwork,
   type SearchFilters,
@@ -125,6 +126,18 @@ export function useArtists() {
     queryKey: ['artists'],
     queryFn: getArtists,
     staleTime: 30 * 60 * 1000, // 30 minutes
+    gcTime: 60 * 60 * 1000,
+  })
+}
+
+// "Filtros Avançados" (roadmap, Passo 3, 2026-09-02) — mesmo staleTime de
+// useArtists: vocabulário curado, muda raro (só quando a curadoria mexe
+// nas tags do vault e reexporta).
+export function useThemes() {
+  return useQuery({
+    queryKey: ['themes'],
+    queryFn: getThemes,
+    staleTime: 30 * 60 * 1000,
     gcTime: 60 * 60 * 1000,
   })
 }

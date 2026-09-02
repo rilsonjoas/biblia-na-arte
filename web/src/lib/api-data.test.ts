@@ -9,6 +9,7 @@ import {
   getBibleBooks,
   getBibleBookBySlug,
   getDailyArtwork,
+  getThemes,
 } from './api-data';
 
 vi.mock('./api-client', () => ({
@@ -122,6 +123,37 @@ describe('searchArtworksAdvanced', () => {
     requestMock.mockResolvedValue({ items: [semAno], total: 1 });
     const results = await searchArtworksAdvanced('', { yearFrom: 1500, yearTo: 1599 });
     expect(results).toEqual([]);
+  });
+
+  // "Filtros Avançados" Passo 3 (roadmap, 2026-09-02).
+  it('sem texto, passa themes direto pro /artworks (filtro server-side)', async () => {
+    requestMock.mockResolvedValue({ items: [{ id: '1' }], total: 1 });
+    await searchArtworksAdvanced('', { themes: ['ressurreicao', 'parabola'] });
+    expect(requestMock).toHaveBeenCalledWith('/artworks', {
+      category: undefined,
+      artists: undefined,
+      themes: ['ressurreicao', 'parabola'],
+      limit: 1000,
+    });
+  });
+
+  it('com texto, intersecta a busca full-text com os IDs de /artworks?themes=', async () => {
+    const bate = { id: '1', references: [] };
+    const naoBate = { id: '2', references: [] };
+    requestMock
+      .mockResolvedValueOnce([bate, naoBate]) // searchArtworks (full-text)
+      .mockResolvedValueOnce({ items: [bate], total: 1 }); // /artworks?themes=
+    const results = await searchArtworksAdvanced('emaús', { themes: ['ressurreicao'] });
+    expect(results).toEqual([bate]);
+  });
+});
+
+describe('getThemes', () => {
+  it('busca /themes e devolve a lista', async () => {
+    const themes = [{ slug: 'ressurreicao', name: 'Ressurreição', artworkCount: 40 }];
+    requestMock.mockResolvedValue(themes);
+    await expect(getThemes()).resolves.toEqual(themes);
+    expect(requestMock).toHaveBeenCalledWith('/themes');
   });
 });
 

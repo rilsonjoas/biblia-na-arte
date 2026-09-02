@@ -39,8 +39,8 @@ describe('GET /api/v1/bible-books', () => {
 
   it('retorna a lista de livros bíblicos', async () => {
     vi.mocked(queries.listBibleBooks).mockResolvedValueOnce([
-      { id: '1', name: 'Gênesis', slug: 'genesis', chapters: 50, artworkCount: 112, testament: 'old', order: 1, createdAt: null },
-      { id: '2', name: 'Mateus', slug: 'matthew', chapters: 28, artworkCount: 337, testament: 'new', order: 40, createdAt: null },
+      { id: '1', name: 'Gênesis', slug: 'genesis', chapters: 50, artworkCount: 112, testament: 'old', order: 1, createdAt: null, coverImageUrl: '/images/genesis-cover.webp' },
+      { id: '2', name: 'Mateus', slug: 'matthew', chapters: 28, artworkCount: 337, testament: 'new', order: 40, createdAt: null, coverImageUrl: null },
     ]);
 
     const res = await app.inject({
@@ -52,6 +52,10 @@ describe('GET /api/v1/bible-books', () => {
     const json = res.json();
     expect(json).toHaveLength(2);
     expect(json[0].slug).toBe('genesis');
+    // "Capa" translúcida (roadmap, 2026-09-02) — precisa vir na resposta,
+    // null quando o livro não tem nenhuma obra com imagem ainda.
+    expect(json[0].coverImageUrl).toBe('/images/genesis-cover.webp');
+    expect(json[1].coverImageUrl).toBeNull();
   });
 
   it('retorna 404 para livro não encontrado', async () => {

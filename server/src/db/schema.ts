@@ -8,6 +8,7 @@ import {
   boolean,
   timestamp,
   index,
+  primaryKey,
 } from 'drizzle-orm/pg-core';
 
 // Espelha supabase/schema.sql original, sem as partes específicas do
@@ -144,5 +145,39 @@ export const artists = pgTable(
     updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow(),
   },
   (table) => [index('idx_artists_slug').on(table.slug)],
+);
+
+// "Filtros Avançados" (roadmap, Passo 2, 2026-09-02) — vocabulário aberto
+// vindo das tags `arte-e-literatura/pintura/tema/<slug>` do vault. Catálogo
+// próprio (não `text[]` em `artworks`) pelo mesmo motivo de `artists`: dá
+// lugar pro `name` bonito (a tag do Obsidian já vem sem acento — "ressurreicao"
+// não diz sozinho se é "ressurreição", precisa de um nome curado em algum
+// lugar) e deixa a contagem por tema sempre calculada ao vivo via JOIN, nunca
+// armazenada (mesmo princípio de `artists`/`bible_books`: nunca guardar
+// contagem que pode ficar desatualizada). `slug` como chave primária — é
+// natural e estável pro vocabulário (curadoria manual, não gerado por
+// usuário), sem necessidade de um `id` uuid a mais.
+export const themes = pgTable('themes', {
+  slug: text('slug').primaryKey(),
+  name: text('name').notNull(),
+});
+
+// Junção pura obra↔tema (N:N) — sem colunas extras (diferente de
+// `bible_references`, que precisa de capítulo/versículo por referência).
+// PK composta evita duplicar o mesmo par obra+tema no reimport.
+export const artworkThemes = pgTable(
+  'artwork_themes',
+  {
+    artworkId: uuid('artwork_id')
+      .notNull()
+      .references(() => artworks.id, { onDelete: 'cascade' }),
+    themeSlug: text('theme_slug')
+      .notNull()
+      .references(() => themes.slug, { onDelete: 'cascade' }),
+  },
+  (table) => [
+    primaryKey({ columns: [table.artworkId, table.themeSlug] }),
+    index('idx_artwork_themes_theme_slug').on(table.themeSlug),
+  ],
 );
 

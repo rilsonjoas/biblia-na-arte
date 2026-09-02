@@ -53,9 +53,18 @@ export const bibleBookResponseSchema = z.object({
   artworkCount: z.number().int().nonnegative(),
   testament: z.enum(['old', 'new']),
   createdAt: timestamp.nullable().optional(),
+  // "Capa" translúcida no cardzinho de livro (roadmap, 2026-09-02).
+  coverImageUrl: z.string().nullable(),
 });
 
 export const artistResponseSchema = z.object({
+  name: z.string(),
+  artworkCount: z.number().int().nonnegative(),
+});
+
+// "Filtros Avançados" (roadmap, Passo 2, 2026-09-02).
+export const themeResponseSchema = z.object({
+  slug: z.string(),
   name: z.string(),
   artworkCount: z.number().int().nonnegative(),
 });

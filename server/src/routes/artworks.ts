@@ -49,7 +49,7 @@ export async function artworkRoutes(app: FastifyInstance) {
         tags: ['obras'],
         summary: 'Lista obras com filtros e paginação',
         description:
-          'Filtros opcionais por categoria, artista e referência bíblica (livro/capítulo/versículos).',
+          'Filtros opcionais por categoria, artistas (múltiplos, separados por vírgula) e referência bíblica (livro/capítulo/versículos).',
         querystring: listQueryJson,
         response: { 200: artworkListJson, 400: errorJson },
       },

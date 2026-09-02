@@ -29,6 +29,7 @@ import {
   extractDescription,
   extractFrontmatter,
   extractPassageQuotes,
+  extractThemes,
   extractVerseFromContext,
   extractWikilink,
   findImageFile,
@@ -40,6 +41,7 @@ import {
   titleFromFilename,
 } from '../src/lib/vault-parse.js';
 import { resolveBibleBook } from '../src/db/seed-data/bible-books.js';
+import { themeLabel } from '../src/lib/theme-labels.js';
 
 const VAULT_PINTURAS = '/home/narniano/Documentos/Rilson/10 - Arte e literatura/Pinturas';
 const VAULT_ANEXOS = '/home/narniano/Documentos/Rilson/0 - Anexos';
@@ -236,12 +238,20 @@ interface ExportedArtwork {
   classicCommentaryAuthor?: string | undefined;
   classicCommentary?: string | undefined;
   references: ExportedReference[];
+  // "Filtros Avançados" (roadmap, Passo 2, 2026-09-02) — slugs de tema
+  // extraídos das tags `arte-e-literatura/pintura/tema/<slug>` do vault.
+  themes: string[];
 }
 
 interface ExportedArtist {
   name: string;
   slug: string;
   bio: string | null;
+}
+
+interface ExportedTheme {
+  slug: string;
+  name: string;
 }
 
 async function main() {
@@ -403,6 +413,7 @@ async function main() {
       classicCommentaryAuthor: classicCommentary?.author,
       classicCommentary: classicCommentary?.text,
       references,
+      themes: extractThemes(frontmatter.tags),
     });
   }
 
@@ -455,13 +466,23 @@ async function main() {
     return { name, slug: slugify(name), bio };
   });
 
+  // "Filtros Avançados" (roadmap, Passo 2, 2026-09-02) — catálogo de temas
+  // DISTINTOS que sobraram em `artworks` (mesmo raciocínio de `artists`
+  // acima: só tema que ainda tem obra no acervo depois de toda exclusão).
+  const distinctThemeSlugs = [...new Set(artworks.flatMap((a) => a.themes))].sort();
+  const themes: ExportedTheme[] = distinctThemeSlugs.map((slug) => ({
+    slug,
+    name: themeLabel(slug),
+  }));
+
   writeFileSync(
     OUTPUT_JSON,
-    JSON.stringify({ artworks, artists, exportedAt: new Date().toISOString() }, null, 2),
+    JSON.stringify({ artworks, artists, themes, exportedAt: new Date().toISOString() }, null, 2),
   );
 
   console.log(`✅ ${artworks.length} pinturas exportadas (imagens já em WebP)`);
   console.log(`👤 ${artists.length} artistas (${artists.filter((a) => a.bio).length} com biografia do vault)`);
+  console.log(`🏷️  ${themes.length} temas distintos`);
   console.log(`⏭️  ${skipped.length} puladas${optimizeFailures > 0 ? ` (${optimizeFailures} por falha de conversão WebP)` : ''}`);
   console.log(`📁 Imagens em: ${OUTPUT_IMAGES_DIR}`);
   console.log(`📄 JSON: ${OUTPUT_JSON}`);
