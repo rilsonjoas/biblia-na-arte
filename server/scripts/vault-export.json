@@ -5439,8 +5439,8 @@
       "description": "O episódio da negação de Pedro (Mateus 26:69-75; Marcos 14:66-72; Lucas 22:54-62; João 18:15-27) ocorre após a prisão de Jesus, quando Ele é levado para o tribunal de Caifás. Pedro, que havia prometido nunca negar Jesus, segue de longe, até o pátio da casa do sumo sacerdote. Lá, uma criada o reconhece e o acusa de ser um dos seguidores de Jesus, mas Pedro nega, dizendo: \"Não sei o que você está falando\" (Mateus 26:70). Mais tarde, outros também o reconhecem, e ele nega novamente, jurando que não conhece Jesus. Finalmente, após a terceira negação, um galo canta, cumprindo a profecia de Jesus de que Pedro O negaria três vezes antes que o galo cantasse. Imediatamente, Pedro se lembra das palavras de Jesus e sai, chorando amargamente.\n\n### Contexto Histórico\n\nObra de Doménikos Theotokópoulos, dito **El Greco** (1541–1614), mestre do **Maneirismo em Toledo**. El Greco caracteriza-se por figuras alongadas, cores incandescentes e um fervor espiritual único na arte sacra ocidental.",
       "imageFile": "el-greco-pedro-em-lagrimas.webp",
       "licenseType": "public-domain",
-      "location": "Museo del Prado, Madri, Espanha",
-      "sourceUrl": "https://www.wikidata.org/wiki/Q33018",
+      "location": "Museu de Arte de San Diego, San Diego, EUA",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:The_Penitent_Saint_Peter_by_El_Greco,_San_Diego_Museum_of_Art.JPG",
       "references": [
         {
           "book": "Mateus",
@@ -6973,15 +6973,15 @@
     {
       "slug": "francisco-de-zurbaran-pentecostes",
       "title": "Pentecostes",
-      "subtitle": "Pentecost  La Pentecostés",
+      "subtitle": "Pentecostés",
       "artistOrDirector": "Francisco de Zurbarán",
-      "year": "1639",
+      "year": "c. 1635",
       "category": "painting",
-      "description": "Representação da descida do Espírito Santo sobre os apóstolos e Maria reunidos no Cenáculo, cinquenta dias após a ressurreição de Cristo. \"E de repente veio do céu um som, como de um vento veemente e impetuoso, e encheu toda a casa em que estavam assentados. E foram vistas por eles línguas repartidas, como que de fogo, as quais pousaram sobre cada um deles\" (Atos 2:2-3). O nascimento da Igreja.\n\n### Contexto Histórico\n\n**Francisco de Zurbarán** (1598–1664), apelidado de \"o Caravaggio espanhol\", foi um dos maiores expoentes da Era de Ouro da pintura espanhola. Sua obra caracteriza-se pela austeridade mística, pelo manuseio magistral das dobras de tecidos e pela solenidade monumental na representação dos patriarcas e santos.\n\n*Pentecostes* foi pintado em 1639, no auge da produção religiosa de Zurbarán. A obra encontra-se no Museo de Bellas Artes de Sevilla, um dos mais importantes acervos de pintura barroca espanhola.",
+      "description": "Representação da descida do Espírito Santo sobre os apóstolos e Maria reunidos no Cenáculo, cinquenta dias após a ressurreição de Cristo. \"E de repente veio do céu um som, como de um vento veemente e impetuoso, e encheu toda a casa em que estavam assentados. E foram vistas por eles línguas repartidas, como que de fogo, as quais pousaram sobre cada um deles\" (Atos 2:2-3). O nascimento da Igreja.\n\n### Contexto Histórico\n\n**Francisco de Zurbarán** (1598–1664), apelidado de \"o Caravaggio espanhol\", foi um dos maiores expoentes da Era de Ouro da pintura espanhola. Sua obra caracteriza-se pela austeridade mística, pelo manuseio magistral das dobras de tecidos e pela solenidade monumental na representação dos patriarcas e santos.\n\n*Pentecostes* foi pintado por volta de 1635, no auge da produção religiosa de Zurbarán. A obra encontra-se no Museo de Cádiz desde 1856.",
       "imageFile": "francisco-de-zurbaran-pentecostes.webp",
       "licenseType": "public-domain",
-      "location": "Museo de Bellas Artes de Sevilla, Sevilha, Espanha",
-      "sourceUrl": "https://www.wikidata.org/wiki/Q209615",
+      "location": "Museo de Cádiz, Cádiz, Espanha",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Zurbar%C3%A1n_-_Delenda,_88.png",
       "references": [
         {
           "book": "Atos",
@@ -6994,7 +6994,7 @@
       "themes": [
         "atos-dos-apostolos"
       ],
-      "createdAt": "2026-08-27T12:32:41.579Z"
+      "createdAt": "2026-09-03T13:17:40.844Z"
     },
     {
       "slug": "francisco-de-zurbaran-rubem",
@@ -7201,8 +7201,8 @@
       "description": "Esta pintura de **Friedrich Overbeck**, intitulada *Moisés é encontrado no rio*, retrata uma cena das Sagradas Escrituras traduzida com sensibilidade artística e solenidade espiritual.\n\nA composição destaca a atmosfera devocional da narrativa bíblica, combinando harmonia formal, iluminação expressiva e atenção aos detalhes das figuras para convidar o espectador à contemplação da Palavra de Deus.\n\n### Contexto Histórico\n\nEsta obra é um valioso registro artístico que integra a rica tradição das representações visuais inspiradas nas Sagradas Escrituras. A composição reflete o rigor estético, a sensibilidade cultural de seu tempo e a devoção profunda à narrativa bíblica, funcionando não apenas como ilustração, mas como objeto de contemplação teológica.",
       "imageFile": "friedrich-overbeck-moises-e-encontrado-no-rio.webp",
       "licenseType": "public-domain",
-      "location": "Alte Nationalgalerie, Berlim, Alemanha",
-      "sourceUrl": "https://search.smb.museum/object/obj-1036421",
+      "location": "Kunsthalle Bremen, Bremen, Alemanha",
+      "sourceUrl": "https://bremen.museum-digital.de/object/117?navlang=en",
       "references": [
         {
           "book": "Êxodo",
@@ -8270,7 +8270,7 @@
       "artistOrDirector": "Gerard van Honthorst",
       "year": "1623",
       "category": "painting",
-      "description": "Esta pintura de **Gerard van Honthorst**, intitulada *O filho pródigo*, retrata uma cena das Sagradas Escrituras traduzida com sensibilidade artística e solenidade espiritual.\n\nA composição destaca a atmosfera devocional da narrativa bíblica, combinando harmonia formal, iluminação expressiva e atenção aos detalhes das figuras para convidar o espectador à contemplação da Palavra de Deus.\n\n### Contexto Histórico\n\nEsta obra é um valioso registro artístico que integra a rica tradição das representações visuais inspiradas nas Sagradas Escrituras. A composição reflete o rigor estético, a sensibilidade cultural de seu tempo e a devoção profunda à narrativa bíblica, funcionando não apenas como ilustração, mas como objeto de contemplação teológica.",
+      "description": "Esta pintura de **Gerard van Honthorst**, intitulada *O filho pródigo*, retrata uma cena das Sagradas Escrituras traduzida com sensibilidade artística e solenidade espiritual.\n\nA composição destaca a atmosfera devocional da narrativa bíblica, combinando harmonia formal, iluminação expressiva e atenção aos detalhes das figuras para convidar o espectador à contemplação da Palavra de Deus.\n\nNão é, em sentido estrito, uma ilustração da parábola do filho pródigo (Lucas 15) — é uma cena de gênero holandesa, retratando cavaleiros e cortesãs bebendo e fazendo música. A associação com o filho pródigo é iconográfica, não narrativa: pinturas de \"companhia alegre\" no séc. XVII frequentemente evocavam, de forma moralizante, o tema da vaidade e da dissipação (\"vida licenciosa\") associado ao filho pródigo antes de seu arrependimento (Lucas 15:13, \"vivendo dissolutamente\").\n\n### Contexto Histórico\n\nEsta obra é um valioso registro artístico que integra a rica tradição das representações visuais inspiradas nas Sagradas Escrituras. A composição reflete o rigor estético, a sensibilidade cultural de seu tempo e a devoção profunda à narrativa bíblica, funcionando não apenas como ilustração, mas como objeto de contemplação teológica.",
       "imageFile": "gerard-van-honthorst-o-filho-prodigo.webp",
       "licenseType": "public-domain",
       "location": "Alte Pinakothek, Munique, Alemanha",
@@ -8280,7 +8280,7 @@
           "book": "Lucas",
           "bookSlug": "luke",
           "chapter": 15,
-          "verses": "13,",
+          "verses": "1-10",
           "passageText": "\"Ora, chegavam-se a ele todos os publicanos e pecadores para o ouvir. E os fariseus e os escribas murmuravam, dizendo: Este recebe pecadores, e come com eles. Então ele lhes propôs esta parábola: Qual de vós é o homem que, possuindo cem ovelhas, e perdendo uma delas, não deixa as noventa e nove no deserto, e não vai após a perdida até que a encontre? E achando-a, põe-na sobre os ombros, cheio de júbilo; e chegando a casa, reúne os amigos e vizinhos e lhes diz: Alegrai-vos comigo, porque achei a minha ovelha que se havia perdido. Digo-vos que assim haverá maior alegria no céu por um pecador que se arrepende, do que por noventa e nove justos que não necessitam de arrependimento. Ou qual é a mulher que, tendo dez dracmas e perdendo uma dracma, não acende a candeia, e não varre a casa, buscando com diligência até encontrá-la? E achando-a, reúne as amigas e vizinhas, dizendo: Alegrai-vos comigo, porque achei a dracma que eu havia perdido. Assim, digo-vos, há alegria na presença dos anjos de Deus por um só pecador que se arrepende.\""
         }
       ],
@@ -13568,30 +13568,6 @@
       "createdAt": "2026-08-25T01:49:23.979Z"
     },
     {
-      "slug": "gustave-dore-o-chamado-de-mateus",
-      "title": "O chamado de Mateus",
-      "subtitle": "The Calling of Matthew",
-      "artistOrDirector": "Gustave Doré",
-      "year": "1866",
-      "category": "painting",
-      "description": "O chamado de Mateus (Mateus 9:9-13; Marcos 2:13-17; Lucas 5:27-32) acontece quando Jesus passa por um posto de coleta de impostos, onde encontra Mateus, um cobrador de impostos, sentado. Jesus o chama com um simples \"Segue-me\", e Mateus, imediatamente, deixa tudo para trás, incluindo sua profissão, e o segue. Esse episódio é significativo porque Mateus era considerado um pecador pela sociedade judaica, visto como traidor por trabalhar para os romanos, e sua escolha por Jesus destaca o convite de Cristo a todos, independentemente de seu passado. Após o chamado, Mateus recebe Jesus em sua casa, onde muitos outros cobradores de impostos e pecadores se juntam à refeição. Quando os fariseus criticam Jesus por se associar com tais pessoas, Ele responde: \"Não são os que têm saúde que precisam de médico, mas os doentes. Eu não vim chamar os justos, mas os pecadores ao arrependimento\" (Mateus 9:12-13).\n\n### Contexto Histórico\n\nGravura integrante de *La Grande Bible de Doré* (1866). **Gustave Doré** (1832–1883) emprega a técnica da xilografia sobre madeira com mestre domínio do claro-escuro (*chiaroscuro*), traduzindo o dinamismo e a solenidade das Escrituras no auge do Romantismo francês.",
-      "imageFile": "gustave-dore-o-chamado-de-mateus.webp",
-      "licenseType": "public-domain",
-      "location": "Ilustração de livro (xilogravura) — La Grande Bible de Tours, 1866 (não é pintura de acervo único)",
-      "sourceUrl": "https://en.wikipedia.org/wiki/Gustave_Dor%C3%A9%27s_illustrations_for_La_Grande_Bible_de_Tours",
-      "references": [
-        {
-          "book": "Mateus",
-          "bookSlug": "matthew",
-          "chapter": 9,
-          "verses": "9-13",
-          "passageText": "\"E Jesus, passando adiante dali, viu assentado na recebedoria um homem, chamado Mateus, e disse-lhe: Segue-me. E ele, levantando-se, o seguiu. E aconteceu que, estando ele em casa sentado à mesa, chegaram muitos publicanos e pecadores, e sentaram-se juntamente com Jesus e seus discípulos. E os fariseus, vendo isto, disseram aos seus discípulos: Por que come o vosso Mestre com os publicanos e pecadores? Jesus, porém, ouvindo, disse-lhes: Não necessitam de médico os sãos, mas, sim, os doentes. Ide, porém, e aprendei o que significa: Misericórdia quero, e não sacrifício. Porque eu não vim a chamar os justos, mas os pecadores, ao arrependimento.\""
-        }
-      ],
-      "themes": [],
-      "createdAt": "2026-08-27T19:40:51.579Z"
-    },
-    {
       "slug": "gustave-dore-o-descer-do-espirito",
       "title": "O descer do Espírito",
       "subtitle": "The Descent of the Spirit",
@@ -14132,22 +14108,22 @@
       "artistOrDirector": "Gustave Doré",
       "year": "1866",
       "category": "painting",
-      "description": "Esta pintura de **Gustave Doré**, intitulada *Os apóstolos saem a pregar*, retrata uma cena das Sagradas Escrituras traduzida com sensibilidade artística e solenidade espiritual.\n\nA composição destaca a atmosfera devocional da narrativa bíblica, combinando harmonia formal, iluminação expressiva e atenção aos detalhes das figuras para convidar o espectador à contemplação da Palavra de Deus.\n\n### Contexto Histórico\n\nGravura integrante de *La Grande Bible de Doré* (1866). **Gustave Doré** (1832–1883) emprega a técnica da xilografia sobre madeira com mestre domínio do claro-escuro (*chiaroscuro*), traduzindo o dinamismo e a solenidade das Escrituras no auge do Romantismo francês.",
+      "description": "Esta pintura de **Gustave Doré**, intitulada *Os apóstolos saem a pregar*, retrata uma cena das Sagradas Escrituras traduzida com sensibilidade artística e solenidade espiritual.\n\nA composição destaca a atmosfera devocional da narrativa bíblica, combinando harmonia formal, iluminação expressiva e atenção aos detalhes das figuras para convidar o espectador à contemplação da Palavra de Deus.\n\n### Contexto Histórico\n\nGravura integrante de *La Grande Bible de Doré* (1866). **Gustave Doré** (1832–1883) emprega a técnica da xilografia sobre madeira com mestre domínio do claro-escuro (*chiaroscuro*), traduzindo o dinamismo e a solenidade das Escrituras no auge do Romantismo francês.\n\n**Referência corrigida (2026-09-03)**: a nota classificava esta gravura em Marcos 6:7-13 (o envio dos doze, dois a dois), mas a composição — um único orador de pé sobre uma elevação, dirigindo-se a uma multidão sentada ao redor — não corresponde a essa cena. O próprio título original em francês, *Les apôtres prêchant l'Évangile* (\"os apóstolos pregando o Evangelho\"), e catálogos independentes da obra de Doré (WikiArt, MutualArt) identificam esta prancha como \"The Apostles Preaching the Gospel\", ligada a Atos 2 — o discurso de Pedro em Pentecostes.",
       "imageFile": "gustave-dore-os-apostolos-saem-a-pregar.webp",
       "licenseType": "public-domain",
       "location": "Gravura original — La Sainte Bible selon la Vulgate (Mame/Tours e Paris, 1866)",
       "sourceUrl": "https://archive.org/details/bnf-bpt6k10443187",
       "references": [
         {
-          "book": "Marcos",
-          "bookSlug": "mark",
-          "chapter": 6,
-          "verses": "7-13",
-          "passageText": "\"Chamou a si os doze, e começou a enviá-los a dois e dois, e deu-lhes poder sobre os espíritos imundos; E ordenou-lhes que nada tomassem para o caminho, senão somente um cajado; nem alforje, nem pão, nem dinheiro no cinto; Mas que calçassem sandálias, e que não vestissem duas túnicas. E dizia-lhes: Na casa em que entrardes, ficai nela até partirdes dali. E tantos quantos vos não receberem, nem vos ouvirem, saindo dali, sacudi o pó que estiver debaixo dos vossos pés, em testemunho contra eles. Em verdade vos digo que haverá mais tolerância no dia de juízo para Sodoma e Gomorra, do que para aquela cidade. E, saindo eles, pregavam que se arrependessem. E expulsavam muitos demônios, e ungiam muitos enfermos com óleo, e os curavam.\""
+          "book": "Atos",
+          "bookSlug": "acts",
+          "chapter": 2,
+          "verses": "14,",
+          "passageText": "\"Então Pedro, pondo-se em pé com os onze, levantou a voz, e disse-lhes: Varões judeus, e todos os que habitais em Jerusalém, seja-vos isto notório, e escutai as minhas palavras. [...] A este Jesus resuscitou Deus, do que todos nós somos testemunhas. De sorte que, exaltado pela dextra de Deus, e tendo recebido do Pai a promessa do Espírito Santo, derramou isto que agora vedes e ouvis.\""
         }
       ],
       "themes": [],
-      "createdAt": "2026-08-27T19:40:51.580Z"
+      "createdAt": "2026-09-03T13:19:28.035Z"
     },
     {
       "slug": "gustave-dore-os-discipulos-colhem-o-milho-no-sabado",
@@ -14257,32 +14233,6 @@
       "createdAt": "2026-08-25T01:49:23.981Z"
     },
     {
-      "slug": "gustave-dore-paulo-discursa-apos-sair-da-prisao",
-      "title": "Paulo discursa após sair da prisão",
-      "subtitle": "Paul preaching at Athens",
-      "artistOrDirector": "Gustave Doré",
-      "year": "1866",
-      "category": "painting",
-      "description": "Gravura de Gustave Doré que retrata o apóstolo Paulo discursando após ser liberto da prisão. O episódio refere-se provavelmente à libertação milagrosa de Paulo e Silas em Filipos (Atos 16:25-34), seguida de um discurso ao povo.\n\n### Contexto Histórico\n\n**Gustave Doré** (1832–1883) foi ilustrador e gravador francês, um dos mais prolíficos do século XIX. *La Grande Bible de Doré* (1866) é uma das mais célebres coleções de ilustrações bíblicas.\n\n*Paulo discursa após sair da prisão* retrata um episódio da vida do apóstolo Paulo, possivelmente a libertação milagrosa de Filipos (Atos 16:25-34) ou outro momento de pregação após libertação divina.",
-      "imageFile": "gustave-dore-paulo-discursa-apos-sair-da-prisao.webp",
-      "licenseType": "public-domain",
-      "location": "Ilustração de livro (xilogravura) — La Grande Bible de Tours, 1866",
-      "sourceUrl": "https://en.wikipedia.org/wiki/Gustave_Dor%C3%A9%27s_illustrations_for_La_Grande_Bible_de_Tours",
-      "references": [
-        {
-          "book": "Atos",
-          "bookSlug": "acts",
-          "chapter": 16,
-          "verses": "25-28",
-          "passageText": "\"Por volta da meia-noite, Paulo e Silas oravam e cantavam hinos a Deus; e os presos os ouviam. De repente, houve um grande terremoto, de modo que se abalaram os alicerces da prisão; e, logo, se abriram todas as portas, e se soltaram os grilhões de todos. O carcereiro, acordando e vendo abertas as portas da prisão, desembainhou a espada, e ia matar-se, porque pensava que os presos tivessem fugido. Paulo, porém, clamou em alta voz, dizendo: Não te faças mal algum, porque estamos todos aqui.\""
-        }
-      ],
-      "themes": [
-        "atos-dos-apostolos"
-      ],
-      "createdAt": "2026-08-27T12:32:41.594Z"
-    },
-    {
       "slug": "gustave-dore-paulo-pregando-aos-efesios",
       "title": "Paulo pregando aos Efésios",
       "subtitle": "Saint Paul à Éphèse",
@@ -14353,32 +14303,6 @@
       ],
       "themes": [],
       "createdAt": "2026-09-02T12:25:37.933Z"
-    },
-    {
-      "slug": "gustave-dore-paulo-e-liberto-da-prisao",
-      "title": "Paulo é liberto da prisão",
-      "subtitle": "Paul delivered from prison",
-      "artistOrDirector": "Gustave Doré",
-      "year": "1866",
-      "category": "painting",
-      "description": "Gravura de Gustave Doré que retrata a libertação milagrosa do apóstolo Paulo da prisão em Filipos. Após um terremoto que abriu todas as portas da cadeia, Paulo e Silas foram livres, mas decidiram permanecer, convertendo o carcereiro e sua família.\n\n### Contexto Histórico\n\n**Gustave Doré** (1832–1883) foi ilustrador e gravador francês, um dos mais prolíficos do século XIX. *La Grande Bible de Doré* (1866) é uma das mais célebres coleções de ilustrações bíblicas.\n\n*Paulo é liberto da prisão* retrata o episódio de Atos 16:25-34, em que Paulo e Silas são libertados milagrosamente da prisão em Filipos e convertem o carcereiro e sua família.",
-      "imageFile": "gustave-dore-paulo-e-liberto-da-prisao.webp",
-      "licenseType": "public-domain",
-      "location": "Ilustração de livro (xilogravura) — La Grande Bible de Tours, 1866",
-      "sourceUrl": "https://en.wikipedia.org/wiki/Gustave_Dor%C3%A9%27s_illustrations_for_La_Grande_Bible_de_Tours",
-      "references": [
-        {
-          "book": "Atos",
-          "bookSlug": "acts",
-          "chapter": 16,
-          "verses": "27-31",
-          "passageText": "\"E, fazendo-se de repente um grande terremoto, abalaram-se os alicerces da prisão; e logo se abriram todas as portas, e se soltaram os grilhões de todos. O carcereiro, acordando e vendo abertas as portas da prisão, desembainhou a espada, e ia matar-se, porque pensava que os presos tivessem fugido. Paulo, porém, clamou em alta voz, dizendo: Não te faças mal algum, porque estamos todos aqui. E, pedindo luz, entrou, e, tremendo, prostrou-se diante de Paulo e Silas; e, trazendo-os para fora, disse: Senhores, que me é mister fazer para ser salvo?\""
-        }
-      ],
-      "themes": [
-        "atos-dos-apostolos"
-      ],
-      "createdAt": "2026-08-27T12:32:41.594Z"
     },
     {
       "slug": "gustave-dore-pedro-e-joao-curam-o-paralitico-na-entrada-do-templo",
@@ -22455,10 +22379,10 @@
       "artistOrDirector": "Peter Paul Rubens",
       "year": "1617",
       "category": "painting",
-      "description": "Esta obra de **Peter Paul Rubens** representa a Santíssima Trindade com a grandiosidade e energia características do Barroco Flamengo. Rubens utiliza **composição vertical** ascendente, organizando as três Pessoas divinas em hierarquia visual que comunica unidade e distinção simultâneas.\n\nDeus Pai frequentemente aparece no topo, Cristo no centro (ou crucificado), e o Espírito Santo como pomba. A paleta rica — azuis celestiais, vermelhos majestosos, dourados luminosos — comunica glória divina. Anjos e nuvens criam atmosfera de majestade celestial.\n\n### Contexto Histórico\n\nObra-prima de **Peter Paul Rubens** (1577–1640), mestre supremo do **Barroco Flamou**. Rubens notabilizou-se pelo dinamismo monumental, pelas composições diagonais emotivas e pela glorificação das verdades da fé na Contra-Reforma.",
+      "description": "Esta obra de **Peter Paul Rubens** representa a Santíssima Trindade com a grandiosidade e energia características do Barroco Flamengo. Rubens utiliza **composição vertical** ascendente, organizando as três Pessoas divinas em hierarquia visual que comunica unidade e distinção simultâneas.\n\nDeus Pai frequentemente aparece no topo, Cristo no centro (ou crucificado), e o Espírito Santo como pomba. A paleta rica — azuis celestiais, vermelhos majestosos, dourados luminosos — comunica glória divina. Anjos e nuvens criam atmosfera de majestade celestial.\n\n### Contexto Histórico\n\nObra-prima de **Peter Paul Rubens** (1577–1640), mestre supremo do **Barroco Flamengo**. Rubens notabilizou-se pelo dinamismo monumental, pelas composições diagonais emotivas e pela glorificação das verdades da fé na Contra-Reforma.\n\nA obra pertenceu à Igreja dos Agostinianos de Munique até a secularização de 1803; hoje está exposta na Staatsgalerie Neuburg, não na Alte Pinakothek (a nota anterior citava o museu errado).",
       "imageFile": "peter-paul-rubens-a-santa-trindade.webp",
       "licenseType": "public-domain",
-      "location": "Alte Pinakothek (Bayerische Staatsgemäldesammlungen), Munique, Alemanha",
+      "location": "Staatsgalerie Neuburg (Bayerische Staatsgemäldesammlungen), Neuburg an der Donau, Alemanha",
       "sourceUrl": "https://www.sammlung.pinakothek.de/en/artwork/9pL3Ea54eb/peter-paul-rubens-1577/die-heilige-dreifaltigkeit-337",
       "references": [
         {
@@ -22479,7 +22403,7 @@
       "themes": [
         "trindade"
       ],
-      "createdAt": "2026-08-27T12:32:41.646Z"
+      "createdAt": "2026-09-03T13:29:59.525Z"
     },
     {
       "slug": "peter-paul-rubens-a-serpente-de-bronze",
@@ -23501,7 +23425,7 @@
       "themes": [
         "joao-batista"
       ],
-      "createdAt": "2026-08-30T14:27:42.999Z"
+      "createdAt": "2026-09-03T13:30:23.598Z"
     },
     {
       "slug": "pieter-de-grebber-o-profeta-elias-rejeita-os-presentes-de-naama",
@@ -23716,14 +23640,14 @@
       "createdAt": "2026-08-30T14:33:24.819Z"
     },
     {
-      "slug": "rembrandt-van-rijn-a-ceia-em-emaus-de-maaltijd-te-emmaus",
-      "title": "A Ceia em Emaús (De maaltijd te Emmaüs)",
+      "slug": "rembrandt-van-rijn-a-ceia-em-emaus",
+      "title": "A Ceia em Emaús",
       "subtitle": "Les Pèlerins d'Emmaüs",
       "artistOrDirector": "Rembrandt van Rijn",
       "year": "1648",
       "category": "painting",
       "description": "Esta obra de **Rembrandt** é uma das mais respeitadas representações da Ceia em Emaús. Ao contrário da dramaticidade teatral de Caravaggio, Rembrandt opta por um **Realismo Psicológico**, focando na reação interior e espiritual dos discípulos. O artista utiliza o **tenebrismo** de forma mística: a luz não parece ter uma fonte física (como uma lâmpada), mas emana da própria presença de Cristo, simbolizando que Ele é a \"Luz do Mundo\".\n\nA composição utiliza uma **Simetria Arquitetônica** ao fundo, com um grande arco que emoldura Jesus, transformando a mesa comum em algo que lembra um altar. Rembrandt aplica a técnica do **esfumado** para tornar os contornos de Cristo menos nítidos do que os dos discípulos, sugerindo sua natureza glorificada e sobrenatural. A expressividade nos rostos — um discípulo com as mãos postas em oração e o outro em choque silencioso — captura o momento em que a explicação das Escrituras se torna visão real.\n\n### Contexto Histórico\n\nObra-prima de **Rembrandt van Rijn** (1606–1669), expoente máximo do **Barroco Holandês**. Rembrandt utiliza uma luz quente e dourada para evocar a intimidade espiritual, focando na riqueza emocional e na profundidade exegética das narrativas bíblicas.",
-      "imageFile": "rembrandt-van-rijn-a-ceia-em-emaus-de-maaltijd-te-emmaus.webp",
+      "imageFile": "rembrandt-van-rijn-a-ceia-em-emaus.webp",
       "licenseType": "public-domain",
       "location": "Musée du Louvre, Paris, França",
       "sourceUrl": "https://collections.louvre.fr/en/ark:/53355/cl010062023",
@@ -24260,25 +24184,17 @@
       "artistOrDirector": "Rembrandt van Rijn",
       "year": "1633",
       "category": "painting",
-      "description": "Nesta marcante representação visual intitulada *Daniel e Ciro Diante do Ídolo Bel*, o artista **Rembrandt van Rijn** traduz com sensibilidade e solenidade um dos momentos mais significativos registrados nas Daniel. A composição convida o leitor a imergir na atmosfera devocional e histórica da narrativa sagrada.\n\nA obra caracteriza-se pelo equilíbrio composicional e pelo uso expressivo da luz para destacar os protagonistas da cena. Os detalhes dos trajes, a gestualidade dos personagens e a ambientação espacial colaboram para criar uma sensação de realismo dramático e contemplação reverente diante do texto bíblico.\n\nSob a perspectiva teológica, a imagem evidencia a atuação graciosa e soberana de Deus na história da salvação. O episódio retratado reafirma a fidelidade das promessas divinas e serve como um convite constante à fé, à reflexão devocional e ao conhecimento mais profundo da Palavra.\n\n### Contexto Histórico\n\nObra-prima de **Rembrandt van Rijn** (1606–1669), expoente máximo do **Barroco Holandês**. Rembrandt utiliza uma luz quente e dourada para evocar a intimidade espiritual, focando na riqueza emocional e na profundidade exegética das narrativas bíblicas.",
+      "description": "Nesta marcante representação visual intitulada *Daniel e Ciro Diante do Ídolo Bel*, o artista **Rembrandt van Rijn** retrata o episódio em que o profeta Daniel demonstra ao rei Ciro que o ídolo Bel — que a corte acreditava consumir as oferendas de comida e bebida deixadas todas as noites — não passa de uma estátua oca de bronze e barro, sem vida: os sacerdotes de Bel é que entravam secretamente pelo templo à noite para comer as oferendas. Daniel expõe o embuste ao rei, provando que o ídolo \"nunca comeu nem bebeu\".\n\nPor isso a obra é catalogada aqui sem referência bíblica vinculável no site: o episódio é mantido apenas nesta descrição, como contexto artístico e histórico, sem apontar para um capítulo/versículo específico do livro canônico de Daniel.\n\nA obra caracteriza-se pelo equilíbrio composicional e pelo uso expressivo da luz para destacar os protagonistas da cena. Os detalhes dos trajes, a gestualidade dos personagens e a ambientação espacial colaboram para criar uma sensação de realismo dramático e contemplação reverente diante da narrativa.\n\n### Contexto Histórico\n\nObra-prima de **Rembrandt van Rijn** (1606–1669), expoente máximo do **Barroco Holandês**. Rembrandt utiliza uma luz quente e dourada para evocar a intimidade espiritual, focando na riqueza emocional e na profundidade exegética das narrativas bíblicas.",
       "imageFile": "rembrandt-van-rijn-daniel-e-ciro-diante-do-idolo-bel.webp",
       "licenseType": "public-domain",
       "location": "J. Paul Getty Museum, Los Angeles, EUA",
       "sourceUrl": "https://www.getty.edu/art/collection/object/103RK5",
-      "references": [
-        {
-          "book": "Daniel",
-          "bookSlug": "daniel",
-          "chapter": 14,
-          "verses": "7",
-          "passageText": "\"Disse-lhe Daniel: Não te enganes, ó rei; porque este por dentro é de barro, e por fora de bronze, e nunca comeu nem bebeu.\""
-        }
-      ],
+      "references": [],
       "themes": [
         "daniel",
         "idolatria"
       ],
-      "createdAt": "2026-08-27T12:32:41.661Z"
+      "createdAt": "2026-09-03T13:24:31.798Z"
     },
     {
       "slug": "rembrandt-van-rijn-davi-e-jonatas",
@@ -26806,7 +26722,7 @@
       "description": "A pintura intitulada \"Le Saintes Femmes au Tombeau\" (1890) de **William Adolphe Bouguereau**, um pintor acadêmico clássico francês, retrata uma comovente cena bíblica. A obra mostra as três Marias - Maria, mãe de Tiago, Maria Madalena e Maria de Cleofas - no túmulo da ressurreição.\n\nO espectador, colocado em uma posição baixa e prostrada, primeiro vê a expressão de perplexidade e tristeza da Maria central antes que seu olhar seja atraído pelas mulheres pelo túmulo iluminado. Lá dentro, o espectador vislumbra o \"anjo da ressurreição\" com o braço levantado, criando uma composição dinâmica. Essa perspectiva faz com que o espectador se sinta parte da cena, testemunhando o evento ao lado das Marias.\n\nO uso de perspectiva e encurtamento de Bouguereau é notável, particularmente no ângulo severo da entrada do túmulo. A pintura, que apareceu pela primeira vez no Salão de Paris de 1890, agora faz parte da coleção do Musée Royal des Beaux-Arts em Antuérpia, Bélgica.\n\n### Contexto Histórico\n\nObra representativa de **William Adolphe Bouguereau**, integrada ao acervo histórico do Bíblia na Arte. As representações visuais inspiradas nas Sagradas Escrituras produzidas por este mestre combinam rigor estético, sensibilidade cultural e devoção à narrativa bíblica.",
       "imageFile": "william-adolphe-bouguereau-as-mulheres-no-tumulo.webp",
       "licenseType": "public-domain",
-      "location": "Coleção particular",
+      "location": "Musée Royal des Beaux-Arts d'Anvers, Antuérpia, Bélgica",
       "sourceUrl": "https://commons.wikimedia.org/wiki/File:William-Adolphe_Bouguereau_(1825-1905)_-_Le_saintes_femmes_au_tombeau_(1890).jpg",
       "references": [
         {
@@ -26821,7 +26737,7 @@
         "ressurreicao",
         "tumulo-vazio"
       ],
-      "createdAt": "2026-08-27T12:32:41.686Z"
+      "createdAt": "2026-09-03T13:30:07.278Z"
     },
     {
       "slug": "william-blake-a-tentacao-de-adao-e-eva",
@@ -31589,5 +31505,5 @@
       "name": "Zombaria"
     }
   ],
-  "exportedAt": "2026-09-03T12:53:11.677Z"
+  "exportedAt": "2026-09-03T13:47:50.807Z"
 }
