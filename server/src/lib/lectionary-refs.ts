@@ -1,23 +1,62 @@
 import dailyReadingsRefs from '../data/daily-readings-refs.json' with { type: 'json' };
 
-/** Tabela `{data ISO: referências do dia}` gerada a partir do Lecionário
+/** Tabela `{data ISO: {season, refs[]}}` gerada a partir do Lecionário
  *  (`lecionario-web/src/lib/liturgical-calendar.ts` + `rcl-fetcher.ts`,
- *  script `scripts/gen-daily-refs.ts` naquele repo) — não é derivada
+ *  script `scripts/export-daily-refs.ts` naquele repo) — não é derivada
  *  aqui porque calcular o calendário litúrgico de verdade (Páscoa móvel,
  *  ciclo A/B/C por ano) é lógica não-trivial que já existe testada do
  *  outro lado; copiar o RESULTADO evita duplicar essa conta. Cobre
  *  domingos/festas até 2030-11-24 e dias de semana até 2028-11-29 (ver
  *  ROADMAP "Pintura do Dia sumindo..." 2026-09-02) — fora desse período,
- *  `getReferencesForDate` devolve `undefined` e quem chama cai pro
- *  sorteio aleatório de sempre. Ressincronizar copiando o arquivo de novo
- *  se o Lecionário estender as tabelas (não há pipeline automático — o
+ *  `getLectionaryEntry` devolve `undefined` e quem chama cai pro sorteio
+ *  aleatório de sempre. Ressincronizar copiando o arquivo de novo se o
+ *  Lecionário estender as tabelas (não há pipeline automático — o
  *  calendário litúrgico é fixo, não muda com frequência que justifique
  *  isso). */
-const READINGS_BY_DATE: Record<string, string[]> = dailyReadingsRefs;
+export interface LectionaryEntry {
+  season: string;
+  refs: string[];
+}
 
-export function getReferencesForDate(dateStr: string): string[] | undefined {
+const READINGS_BY_DATE: Record<string, LectionaryEntry> = dailyReadingsRefs;
+
+export function getLectionaryEntry(dateStr: string): LectionaryEntry | undefined {
   return READINGS_BY_DATE[dateStr];
 }
+
+/** Todas as referências já usadas em QUALQUER dia da mesma estação
+ *  (na tabela inteira, não só no dia de hoje) — usado pra alargar o pool
+ *  quando o dia específico tem pouquíssima obra catalogada (ex.:
+ *  Advento, ver ROADMAP "Afinidade litúrgica da Pintura do Dia"
+ *  2026-09-03). Ainda é a MESMA estação, só troca "leitura exata de
+ *  hoje" por "qualquer leitura que já apareceu nessa estação", pra
+ *  ganhar variedade sem perder a pertinência. */
+export function getReferencesForSeason(season: string): string[] {
+  const refs = new Set<string>();
+  for (const entry of Object.values(READINGS_BY_DATE)) {
+    if (entry.season === season) {
+      for (const ref of entry.refs) refs.add(ref);
+    }
+  }
+  return [...refs];
+}
+
+/** Estação litúrgica → slugs de tema já cadastrados no catálogo (checado
+ *  contra a API de produção antes de mapear, ver ROADMAP). Usado só como
+ *  refinamento OPCIONAL: interssecciona o pool da referência com esses
+ *  temas quando o resultado não ficar vazio — nunca obriga, porque nem
+ *  toda obra do capítulo certo está taggeada com o tema certo ainda.
+ *  Advento e Quaresma ficam de fora de propósito: não existe tag que
+ *  cubra a estação INTEIRA sem forçar (Quaresma não é só "Paixão" — isso
+ *  é só a Semana Santa; Advento não tem tag própria ainda) — forçar
+ *  aqui trocaria "sem refinamento" por "refinamento errado", pior que
+ *  não refinar. */
+export const SEASON_THEME_SLUGS: Record<string, string[]> = {
+  christmas: ['natal', 'natividade'],
+  epiphany: ['epifania'],
+  easter: ['ressurreicao', 'pascoa'],
+  pentecost: ['pentecoste'],
+};
 
 /** Espelha `lecionario-web/src/lib/bible-books.ts` (`BOOK_MAP`) — os
  *  slugs já batem exatamente com `bible_books.slug` daqui (confirmado

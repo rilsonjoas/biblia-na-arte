@@ -1,8 +1,14 @@
-import { and, desc, eq, inArray, isNotNull, sql } from 'drizzle-orm';
+import { and, desc, eq, inArray, isNotNull, or, sql } from 'drizzle-orm';
 import { db } from './client.js';
 import { artists, artworks, artworkThemes, bibleBooks, bibleReferences, themes } from './schema.js';
 import type { ListArtworksQuery, SearchArtworksQuery } from '../schemas/artwork.schema.js';
-import { getReferencesForDate, parseLectionaryRef } from '../lib/lectionary-refs.js';
+import {
+  getLectionaryEntry,
+  getReferencesForSeason,
+  parseLectionaryRef,
+  SEASON_THEME_SLUGS,
+  type ParsedLectionaryRef,
+} from '../lib/lectionary-refs.js';
 
 type ArtworkRow = typeof artworks.$inferSelect;
 type ReferenceRow = typeof bibleReferences.$inferSelect;
@@ -205,6 +211,63 @@ async function getBestPoolForReferences(refs: string[]): Promise<ArtworkRow[]> {
   return bestPool;
 }
 
+/** UNIÃO de obras entre TODAS as referências passadas (não só a maior) —
+ *  diferente de `getBestPoolForReferences`: aqui o objetivo não é achar
+ *  a leitura mais catalogada de um dia específico, é juntar tudo que já
+ *  apareceu numa estação inteira pra ter variedade (ver
+ *  `getReferencesForSeason`). 2 queries no total, não 1 por referência —
+ *  o `or(...)` de pares livro+capítulo evita round-trip por referência
+ *  mesmo com dezenas delas (uma estação inteira tem muitas). */
+async function getUnionPoolForReferences(refs: string[]): Promise<ArtworkRow[]> {
+  const pairs = new Map<string, ParsedLectionaryRef>();
+  for (const ref of refs) {
+    const parsed = parseLectionaryRef(ref);
+    if (parsed) pairs.set(`${parsed.bookSlug}|${parsed.chapter}`, parsed);
+  }
+  if (pairs.size === 0) return [];
+
+  const refConditions = [...pairs.values()].map((p) =>
+    and(eq(bibleReferences.bookSlug, p.bookSlug), eq(bibleReferences.chapter, p.chapter)),
+  );
+  const matchingRefs = await db
+    .select({ artworkId: bibleReferences.artworkId })
+    .from(bibleReferences)
+    .where(or(...refConditions));
+
+  const artworkIds = [...new Set(matchingRefs.map((r) => r.artworkId))];
+  if (artworkIds.length === 0) return [];
+
+  return db
+    .select()
+    .from(artworks)
+    .where(and(eq(artworks.active, true), isNotNull(artworks.imageUrl), inArray(artworks.id, artworkIds)))
+    .orderBy(artworks.id);
+}
+
+/** Refinamento OPCIONAL: interssecciona um pool já calculado com os temas
+ *  da estação (`SEASON_THEME_SLUGS`) — ex.: pool inteiro de João 1 (14
+ *  obras, mistura Natividade com Paixão/Batismo) vira só "A Sagrada
+ *  Família" no Natal (ROADMAP "Afinidade litúrgica da Pintura do Dia",
+ *  2026-09-03, confirmado contra a API de produção antes de implementar).
+ *  NUNCA devolve pool vazio quando o original não era — se a interseção
+ *  zerar (nenhuma obra do capítulo tem a tag ainda), fica com o pool
+ *  original sem tema. Refinamento é estritamente aditivo, nunca perde
+ *  candidato. */
+async function filterPoolByThemes(pool: ArtworkRow[], themeSlugs: string[]): Promise<ArtworkRow[]> {
+  if (themeSlugs.length === 0 || pool.length === 0) return pool;
+
+  const ids = pool.map((row) => row.id);
+  const matches = await db
+    .select({ artworkId: artworkThemes.artworkId })
+    .from(artworkThemes)
+    .where(and(inArray(artworkThemes.artworkId, ids), inArray(artworkThemes.themeSlug, themeSlugs)));
+
+  const matchedIds = new Set(matches.map((m) => m.artworkId));
+  if (matchedIds.size === 0) return pool;
+
+  return pool.filter((row) => matchedIds.has(row.id));
+}
+
 /** "Pintura do Dia" — mesma obra pra todo mundo que visitar no mesmo dia
  *  (UTC), muda à meia-noite. Primeiro tenta ligar a escolha à leitura
  *  litúrgica do dia (tabela copiada do Lecionário, ver
@@ -212,19 +275,36 @@ async function getBestPoolForReferences(refs: string[]): Promise<ArtworkRow[]> {
  *  2026-09-02) — reverte a decisão de 2026-08-23 de sortear
  *  independente; agora as duas pontas mostram a MESMA obra, porque só
  *  esta função calcula a escolha (o Lecionário passa a só consumir este
- *  endpoint). Se a data não tiver leitura mapeada (fora da tabela
- *  copiada) ou nenhuma leitura do dia tiver obra catalogada, cai pro
- *  sorteio aleatório sobre o acervo inteiro de sempre — nunca quebra.
- *  Ordena por id (UUID) pra ter uma ordem estável entre chamadas — sem
- *  isso, `seed % total` apontaria pra uma obra diferente a cada vez
- *  mesmo com o mesmo seed, porque a ordem "natural" das linhas no
- *  Postgres não é garantida entre queries. */
+ *  endpoint). Dois refinamentos por cima da referência exata do dia (ver
+ *  ROADMAP "Afinidade litúrgica da Pintura do Dia", 2026-09-03):
+ *  interseccionar com o tema da estação quando existir, e alargar pro
+ *  pool da estação INTEIRA quando o pool do dia for pequeno demais (ex.:
+ *  Advento, que tem pouquíssima obra catalogada por referência exata).
+ *  Se nada disso achar nada, cai pro sorteio aleatório sobre o acervo
+ *  inteiro de sempre — nunca quebra. Ordena por id (UUID) pra ter uma
+ *  ordem estável entre chamadas — sem isso, `seed % total` apontaria
+ *  pra uma obra diferente a cada vez mesmo com o mesmo seed, porque a
+ *  ordem "natural" das linhas no Postgres não é garantida entre
+ *  queries. */
+const MIN_POOL_BEFORE_BROADENING = 3;
+
 export async function getDailyArtwork(dateStr: string): Promise<ArtworkWithReferences | undefined> {
   const seed = getDateSeed(dateStr);
 
-  const refs = getReferencesForDate(dateStr);
-  if (refs && refs.length > 0) {
-    const pool = await getBestPoolForReferences(refs);
+  const entry = getLectionaryEntry(dateStr);
+  if (entry && entry.refs.length > 0) {
+    const themeSlugs = SEASON_THEME_SLUGS[entry.season] ?? [];
+
+    let pool = await getBestPoolForReferences(entry.refs);
+    pool = await filterPoolByThemes(pool, themeSlugs);
+
+    if (pool.length < MIN_POOL_BEFORE_BROADENING) {
+      const seasonRefs = getReferencesForSeason(entry.season);
+      let seasonPool = await getUnionPoolForReferences(seasonRefs);
+      seasonPool = await filterPoolByThemes(seasonPool, themeSlugs);
+      if (seasonPool.length > pool.length) pool = seasonPool;
+    }
+
     if (pool.length > 0) {
       const row = pool[seed % pool.length];
       if (row) {

@@ -2825,3 +2825,112 @@ específico (ex.: `collections.louvre.fr/.../ark:.../clNNNNNNNN`,
 - [x] Lecionário (web + mobile) simplificado do outro lado: chama só
       este endpoint agora, removeu `reference-parser.ts`/
       `bible-books.ts` dos dois apps — ver ROADMAP dele.
+
+## Afinidade litúrgica da Pintura do Dia (2026-09-03)
+
+> Pergunta do Rilson depois do item acima: "como você garante que
+> realmente estamos seguindo o calendário litúrgico?". Verificado com
+> fonte externa antes de responder (não só reafirmado): algoritmo de
+> Páscoa bate 100% com datas publicadas (2024-2028), ciclo A/B/C bate
+> com Vanderbilt/ECS Publishing pra Advento 2023→B e 2024→C, e o
+> conteúdo da leitura de 01/12/2024 bate palavra por palavra com o RCL
+> publicado. Isso confirmou que a MECÂNICA está certa — mas expôs um
+> problema diferente, testado contra o catálogo real: casamento por
+> **capítulo inteiro** mistura pericopes sem relação (João 1 no Natal
+> trazia "Cenas da Paixão de Cristo" e "O martírio de André" junto com
+> "A Sagrada Família", porque o capítulo também cobre o batismo e a
+> vocação dos discípulos).
+
+- [x] **Interseção com tema da estação, quando existir** —
+      `SEASON_THEME_SLUGS` em `lectionary-refs.ts` mapeia
+      `christmas→[natal,natividade]`, `epiphany→[epifania]`,
+      `easter→[ressurreicao,pascoa]`, `pentecost→[pentecoste]`, usando
+      tags que **já existiam** no catálogo (custo de curadoria zero).
+      `filterPoolByThemes` em `queries.ts` interssecciona o pool da
+      referência com esses temas, mas nunca esvazia o pool se a
+      interseção não achar nada — refinamento é estritamente aditivo.
+      Verificado contra a API de produção antes de implementar: João 1
+      inteiro = 14 obras misturadas; João 1 + tema Natividade = 1 obra
+      ("A Sagrada Família", exatamente a certa). João 20 + Ressurreição
+      = 13 obras, todas coerentes.
+- [x] **Alargamento pra estação inteira quando o pool do dia for
+      pequeno** (`MIN_POOL_BEFORE_BROADENING = 3`) — `getUnionPoolForReferences`
+      junta (2 queries, `OR` de pares livro+capítulo, não 1 por
+      referência) todas as obras já ligadas a QUALQUER leitura da MESMA
+      estação (`getReferencesForSeason`), não só a leitura exata de
+      hoje. Resolve o caso do Advento, que tem pool de 1 obra só por
+      referência exata (ver seção anterior) sem trocar de estação.
+- [x] **Advento e Quaresma ficam sem tema mapeado, de propósito** — não
+      existe tag "Advento" cadastrada ainda, e "Quaresma" não é
+      sinônimo de "Paixão" (isso é só a Semana Santa, o resto da
+      Quaresma é arrependimento/deserto) — forçar um tema errado seria
+      pior que não refinar. Débito de curadoria registrado, não de
+      código: se um dia existir tag "Advento"/"Parúsia" cobrindo
+      Profeta/João Batista/vigilância, é só adicionar a entrada em
+      `SEASON_THEME_SLUGS`.
+- [x] Testes: `getLectionaryEntry` (agora devolve `{season, refs}`, não
+      só `refs`) + `getReferencesForSeason` cobertos em
+      `lectionary-refs.test.ts` (10 testes). `filterPoolByThemes`/
+      `getUnionPoolForReferences` não têm teste de integração dedicado
+      — o fixture de teste (2 obras, sem tag de estação real) não dá
+      pra exercitar o caminho de tema sem distorcer dados de outros
+      testes; validado manualmente contra produção como descrito acima.
+      Suíte inteira (95 unit + 43 integration) verde depois da mudança,
+      confirmando que nada quebrou (o próprio teste de integração já
+      existente do "Bom Samaritano" exercita sem querer o caminho de
+      alargamento por estação, porque o pool exato daquela data é só 1).
+- [ ] Dado curatorial pendente, não bloqueante: tag "Advento" nas obras
+      que já se encaixam (Profeta, João Batista, vigilância/segunda
+      vinda).
+
+## Publicação automática — Arte Cristã Diária (Instagram/Facebook)
+
+> Pedido do Rilson (2026-09-03): reativar a página
+> [@artecristadiaria](https://www.instagram.com/artecristadiaria/) e
+> publicar automaticamente a mesma Pintura do Dia que Bíblia na Arte e
+> Lecionário mostram — motivo real por trás de querer a afinidade
+> litúrgica bem feita (seção acima). **Não implementado ainda** —
+> pesquisado e desenhado, aguardando a parte que só o Rilson pode fazer
+> (login na conta Meta).
+
+**Viabilidade confirmada por pesquisa (não suposição):**
+
+- Grátis e sem App Review, DESDE QUE só publique na própria conta —
+  basta registrar a conta como "Instagram Tester" no app em modo
+  desenvolvimento. App Review só é exigido se terceiros forem usar o
+  app.
+- Exige conta Instagram Business/Creator linkada a uma Página do
+  Facebook (conferir se "Arte Cristã Diária" já está assim).
+- Fluxo: `POST /{ig-user-id}/media` (cria container passando a URL
+  pública da imagem — `biblianaarte.narniano.com/images/...` já serve
+  isso, a Meta busca a URL do lado dela, não precisa upload binário) →
+  `POST /{ig-user-id}/media_publish`. Facebook é uma chamada separada e
+  mais simples: `POST /{page-id}/photos`.
+- **Gotcha real**: token de acesso expira em 60 dias, precisa renovar
+  (endpoint próprio de refresh, token precisa ter pelo menos 24h de
+  vida pra poder renovar). Dá pra automatizar com um segundo workflow
+  rodando a cada ~45 dias, ou deixar como lembrete manual — decisão de
+  produto, não travou nada tecnicamente.
+- Sem endpoint de agendamento nativo da API (não tem `scheduled_publish_time`
+  pro Instagram) — não é problema aqui, porque quem "agenda" é o nosso
+  próprio cron/GitHub Actions rodando 1x/dia, publicando na hora.
+- Limite de 25 posts/24h por conta — irrelevante pra 1 post/dia.
+
+**Arquitetura proposta:**
+
+- [ ] GitHub Actions com `schedule: cron`, 1x/dia, sem precisar de VPS
+      nem cron novo lá (menos superfície de manutenção, sem risco de
+      log crescendo — acervo de execução já vive no histórico do
+      Actions).
+- [ ] Script chama `GET /artworks/daily` (já público, sem auth), monta
+      legenda (título + artista + referência + link `/obra/:id`),
+      publica nos dois (IG + FB).
+- [ ] Token/IDs como secrets do GitHub (mesmo padrão de
+      `secrets.VPS_HOST`/`DEPLOY_SSH_KEY` do `deploy.yml`) — nunca no
+      código nem no repo.
+- [ ] Passo que só o Rilson pode fazer (login Meta): criar app em
+      developers.facebook.com, linkar a conta Instagram à Página do
+      Facebook, registrar a própria conta como Tester, gerar o token
+      de longa duração inicial.
+- [ ] Decidir: renovação de token automática (2º workflow) ou lembrete
+      manual a cada ~50 dias.
