@@ -84,13 +84,25 @@ function formatReference(ref) {
   return ref.verses ? `${ref.book} ${ref.chapter}:${ref.verses}` : `${ref.book} ${ref.chapter}`;
 }
 
+/** Alguns trechos de `passageText` são o MEIO de uma frase maior (ex.:
+ *  "eis que a mão do Senhor...", de um versículo que na tradução ACF
+ *  completa começa com "Eis") e vêm em minúscula na fonte. Como citação
+ *  isolada na legenda, isso lê como erro de digitação — capitaliza a
+ *  primeira letra visível (ignora aspas/parênteses na frente). */
+function capitalizeFirstLetter(text) {
+  const match = text.match(/[a-zà-ÿ]/i);
+  if (!match) return text;
+  const index = match.index;
+  return text.slice(0, index) + text[index].toUpperCase() + text.slice(index + 1);
+}
+
 function buildCaption(artwork) {
   const ref = pickReference(artwork.references ?? []);
   const intro = extractDescriptionIntro(artwork.description);
   const lines = [];
 
-  lines.push(`🎨 ${artwork.title}${artwork.year ? ` (${artwork.year})` : ''}`);
-  lines.push(`✍️ ${artwork.artistOrDirector}`);
+  lines.push(`${artwork.title}${artwork.year ? ` (${artwork.year})` : ''}`);
+  lines.push(artwork.artistOrDirector);
 
   if (intro) {
     lines.push('');
@@ -99,7 +111,7 @@ function buildCaption(artwork) {
 
   if (ref?.passageText) {
     // passageText já vem com aspas próprias na origem — não duplicar.
-    const bare = ref.passageText.trim().replace(/^["“]|["”]$/g, '');
+    const bare = capitalizeFirstLetter(ref.passageText.trim().replace(/^["“]|["”]$/g, ''));
     lines.push('');
     lines.push(`"${truncateAtSentence(bare, MAX_QUOTE_CHARS)}"`);
     lines.push(`— ${formatReference(ref)}`);
@@ -107,7 +119,7 @@ function buildCaption(artwork) {
 
   if (artwork.location) {
     lines.push('');
-    lines.push(`📍 ${artwork.location}`);
+    lines.push(artwork.location);
   }
 
   lines.push('');
