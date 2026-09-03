@@ -38,9 +38,12 @@ jobs:
         with:
           lfs: true
 
+      # Sem `version:` de propósito (achado 2026-09-03): agora que
+      # package.json tem `packageManager` fixando a versão exata do pnpm,
+      # essa action recusa rodar se as duas fontes coexistirem
+      # ("Multiple versions of pnpm specified") — packageManager já é
+      # suficiente, e é a mesma fonte que o Dockerfile/reseed usam.
       - uses: pnpm/action-setup@v4
-        with:
-          version: 10
 
       - uses: actions/setup-node@v4
         with:
