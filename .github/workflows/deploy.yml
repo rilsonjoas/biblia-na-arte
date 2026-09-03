@@ -25,6 +25,13 @@ jobs:
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.DEPLOY_SSH_KEY }}
           script: |
+            # Achado 2026-09-03: sem isso, um passo falhando no meio (ex.:
+            # `git pull --ff-only` bloqueado por mudança local não commitada)
+            # não parava o script nem derrubava o job — "Deploy VPS" reportava
+            # sucesso mesmo com o código antigo ainda no ar, porque os comandos
+            # seguintes rodavam e terminavam bem por conta própria.
+            set -euo pipefail
+
             # Guarda de disco (INCIDENTES.md no infra, 2026-08-23): aborta
             # antes de piorar se a raiz estiver >=90%.
             USO=$(df --output=pcent / | tail -1 | tr -dc '0-9')
