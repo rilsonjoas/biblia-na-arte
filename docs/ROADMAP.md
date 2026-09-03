@@ -2934,3 +2934,22 @@ específico (ex.: `collections.louvre.fr/.../ark:.../clNNNNNNNN`,
       de longa duração inicial.
 - [ ] Decidir: renovação de token automática (2º workflow) ou lembrete
       manual a cada ~50 dias.
+
+## Botões "Explorar pela Bíblia" / "Descobrir Arte" com tamanho diferente (2026-09-03)
+
+Achado do Rilson batendo o olho na home: os dois botões do hero pareciam
+ter tamanhos ligeiramente diferentes. Confirmado no código, não só na
+tela — ambos usam `size="lg"` e as mesmas classes extras
+(`px-8 py-6`), mas a variante `hero` (usada só em "Descobrir Arte") tem
+`border border-white/20` e a variante `default` (usada em "Explorar
+pela Bíblia") não tem nenhuma borda — 1px de borda real soma ~2px de
+largura/altura ao botão, sem nada compensando do outro lado.
+
+- [x] `default` ganhou `border border-transparent` em
+      `web/src/components/ui/button.tsx` — box model igual ao de
+      `hero`/`outline` (que já tinham borda real), invisível em
+      qualquer tema porque é transparente. Corrigido na variante, não
+      só nesse par de botões — qualquer `default` futuro ao lado de
+      `hero`/`outline` já nasce do tamanho certo.
+- [x] Verificado: `lint`/`typecheck`/`test` (84 testes web, nenhum
+      snapshot de dimensão de botão) /`build:web` verdes depois.

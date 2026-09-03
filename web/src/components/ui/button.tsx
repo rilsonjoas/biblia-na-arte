@@ -9,7 +9,13 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground hover:bg-primary/90",
+        // border-transparent (não "sem borda"): variantes como "hero" e
+        // "outline" têm borda de 1px real, que soma ~2px de largura/altura
+        // ao botão. Sem essa borda invisível aqui, um botão "default" ao
+        // lado de um "hero"/"outline" (mesmo size, mesmo padding) fica
+        // visivelmente menor — achado do Rilson comparando "Explorar pela
+        // Bíblia" (default) com "Descobrir Arte" (hero) na home, 2026-09-03.
+        default: "border border-transparent bg-primary text-primary-foreground hover:bg-primary/90",
         destructive:
           "bg-destructive text-destructive-foreground hover:bg-destructive/90",
         outline:
