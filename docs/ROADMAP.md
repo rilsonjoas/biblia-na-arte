@@ -3025,3 +3025,57 @@ largura/altura ao botão, sem nada compensando do outro lado.
       (web) precisou mockar `todaySaoPaulo` também — achado ao rodar a
       suíte depois da mudança, não deixado passar batido. 95 unit + 43
       integration (server), 86 unit (web) verdes.
+
+## ID de obra muda a cada reseed — quebra link e desestabiliza a Pintura do Dia (2026-09-03)
+
+> Pergunta do Rilson pensando na curadoria contínua: "com eu adicionando
+> novas obras, há chance de algum id mudar e alguma obra se repetir por
+> causa disso?" — resposta curta: não é chance, é garantido. Investigado
+> e corrigido na hora.
+
+- **Causa raiz**: `artworks.id` é `uuid('id').defaultRandom()` — sem
+  nenhum ID vindo do export. `import-seed-data.ts` faz TRUNCATE +
+  reimport do zero a cada `db:seed` (comportamento correto pra um
+  catálogo curado — a fonte da verdade é o vault, não o banco), mas
+  sem um ID estável isso significa que **todas as obras** — não só as
+  novas — recebem um UUID novo sorteado a cada reseed.
+- **Duas consequências reais**: (1) link `/obra/:id` — inclusive o que
+  vai em cada post do Instagram planejado ("Ver obra completa ↗") —
+  quebra a cada curadoria+reseed; (2) `getDailyArtwork` ordena o pool
+  por `artworks.id` pra ter posição estável entre chamadas, mas como o
+  ID reembaralha, a MESMA obra pode sair diferente pro MESMO pool antes
+  e depois de um reseed, mesmo sem a leitura do dia mudar.
+- **Achado no caminho**: `bible_books`/`artists`/`themes` já têm coluna
+  `slug` estável; `artworks` não tem NENHUM identificador estável — o
+  `slug` que `export-vault-data.ts` já calcula (e usa nos nomes de
+  arquivo de imagem, com dedupe de colisão) nunca chegava a ser salvo
+  nem usado pra nada na tabela `artworks`.
+- [x] **Fix**: `server/src/lib/deterministic-uuid.ts` — UUID v5 (RFC
+      4122) implementado à mão (SHA-1 + bits de versão/variante, sem
+      adicionar o pacote `uuid` só pra isso), verificado contra o vetor
+      de teste oficial do RFC antes de usar em produção. `artworkIdFromSlug(slug)`
+      deriva o ID da obra a partir do `slug` do export — mesmo slug
+      sempre gera o mesmo UUID, mesmo depois de truncar e reimportar.
+      Só muda se o PRÓPRIO slug mudar (renomear artista/título na
+      curadoria) — aceitável, mesmo trade-off de qualquer sistema
+      baseado em slug.
+- [x] `import-seed-data.ts` passa a especificar `id:
+      artworkIdFromSlug(item.slug)` no insert, em vez de deixar o
+      Postgres sortear. Slugs já são garantidamente únicos no export
+      (dedupe com sufixo de ano/número, `export-vault-data.ts`), então
+      não há risco de colisão na constraint de PK.
+- [x] Escopo: só `artworks` precisava do fix — `artists`/`themes` já
+      são referenciados por `slug` nas rotas (`/artista/:slug`), nunca
+      pelo UUID interno, então a instabilidade do ID deles não vaza
+      pra fora.
+- [x] Testes: `deterministic-uuid.test.ts` (mesmo slug → mesmo UUID;
+      slugs diferentes → UUIDs diferentes; formato v5 válido; bate com
+      o vetor de teste do RFC 4122). 99 unit + 43 integration verdes,
+      typecheck/lint/build:server ok.
+- [ ] **Importante — não retroativo sozinho**: o fix só entra em vigor
+      no PRÓXIMO `db:seed` que rodar (passo manual, ver RUNBOOK). Os
+      IDs já em produção agora (deste reseed) ainda vão trocar mais
+      UMA vez quando isso acontecer — depois disso, estabilizam de vez
+      (mesmo slug, mesmo ID, pra sempre). Vale saber antes de compartilhar
+      qualquer link `/obra/:id` publicamente (Instagram incluso) até
+      depois do próximo reseed.

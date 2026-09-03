@@ -17,6 +17,7 @@ import { sql } from 'drizzle-orm';
 import { db, closeDb } from '../src/db/client.js';
 import { artists, artworks, artworkThemes, bibleBooks, bibleReferences, themes } from '../src/db/schema.js';
 import { bibleBooksSeed } from '../src/db/seed-data/bible-books.js';
+import { artworkIdFromSlug } from '../src/lib/deterministic-uuid.js';
 
 const EXPORT_JSON = path.resolve(import.meta.dirname, 'vault-export.json');
 
@@ -99,6 +100,7 @@ async function main() {
       const [inserted] = await tx
         .insert(artworks)
         .values({
+          id: artworkIdFromSlug(item.slug),
           title: item.title,
           subtitle: item.subtitle,
           artistOrDirector: item.artistOrDirector,
