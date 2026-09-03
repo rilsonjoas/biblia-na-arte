@@ -2889,51 +2889,122 @@ específico (ex.: `collections.louvre.fr/.../ark:.../clNNNNNNNN`,
 > [@artecristadiaria](https://www.instagram.com/artecristadiaria/) e
 > publicar automaticamente a mesma Pintura do Dia que Bíblia na Arte e
 > Lecionário mostram — motivo real por trás de querer a afinidade
-> litúrgica bem feita (seção acima). **Não implementado ainda** —
-> pesquisado e desenhado, aguardando a parte que só o Rilson pode fazer
-> (login na conta Meta).
+> litúrgica bem feita (seção acima). **Implementado** —
+> `.github/workflows/post-daily-instagram.yml` +
+> `scripts/post-daily-instagram.mjs`, rodando 1x/dia às 08:00 (São
+> Paulo).
 
-**Viabilidade confirmada por pesquisa (não suposição):**
+**O plano original (abaixo, riscado) previa Facebook Login + Página do
+Facebook. Na configuração real, a Meta ofereceu um fluxo mais novo e
+mais simples — só Instagram, sem Página — e foi esse que usamos.**
 
-- Grátis e sem App Review, DESDE QUE só publique na própria conta —
-  basta registrar a conta como "Instagram Tester" no app em modo
-  desenvolvimento. App Review só é exigido se terceiros forem usar o
-  app.
-- Exige conta Instagram Business/Creator linkada a uma Página do
-  Facebook (conferir se "Arte Cristã Diária" já está assim).
+~~Exige conta Instagram Business/Creator linkada a uma Página do
+Facebook~~ — **não usamos esse fluxo.** O que a Meta chama de
+"Instagram API with Instagram Login" (produto "Instagram API" no
+painel do app, não "Facebook Login") não pede Página do Facebook
+nenhuma: a conta profissional do Instagram é suficiente, mesmo sem
+vínculo com uma Página. Escopos usados:
+`instagram_business_basic` + `instagram_business_content_publish`
+(nomes novos — os antigos `business_basic`/`instagram_content_publish`
+foram descontinuados em 27/01/2025). "Standard Access" é automático na
+criação do app pra qualquer conta com papel explícito nele
+(desenvolvedor/testador/admin) — sem App Review, sem Verificação de
+Empresa, porque ninguém além do Rilson vai usar essa conta pelo app.
+
+**Consequência real dessa escolha**: só publicamos no **Instagram** por
+enquanto. Cross-post pro Facebook (Página) ficou de fora — precisaria
+de uma configuração separada (Facebook Login for Business + token de
+Página), que não foi feita nessa rodada. Registrado como próximo passo
+em aberto, não como algo que "devia" ter saído já.
+
+**Passo a passo real de configuração (2026-09-03), pra repetir se
+precisar recriar):**
+
+1. Criar app em developers.facebook.com, tipo "Business" (ou similar),
+   sem conectar a um Portfólio Empresarial — "Ainda não quero me
+   conectar a um portfólio empresarial" é suficiente pra uso próprio
+   (um Portfólio Empresarial "impedido de anunciar" só bloqueia se for
+   o MESMO portfólio tentando reivindicar o app — não precisa ser).
+2. Adicionar o produto "Instagram API" (não "Instagram Graph API" nem
+   "Facebook Login") ao app.
+3. Dentro do produto, usar o assistente "Personalizar caso de uso" —
+   ele tem passos próprios numerados que substituem o fluxo manual do
+   "Explorador da Graph API": (1) permissões — `instagram_business_basic`
+   + `instagram_business_content_publish`; (2) "Gerar tokens de
+   acesso" — esse passo pede pra registrar a conta como "Instagram
+   Tester" (aceitar o convite dentro do próprio Instagram, em
+   Configurações → Apps e sites → Convites de testador) e, na
+   sequência, já gera um token de usuário longo diretamente utilizável
+   — **mostrado uma única vez na tela**, copiar na hora; (3) webhooks —
+   pulado, não precisamos; (4) "Configurar login da empresa" — pulado;
+   (5) "Concluir a análise do app" — pulado (não precisa pra uso
+   próprio).
+4. **Achado real**: o ID de conta mostrado na tela de "Token gerado" do
+   assistente (`17841463956330521`) **não bateu** com o `id` que uma
+   chamada real à API (`GET /{id}?fields=username`, usando o token
+   recém-gerado) devolveu (`28673697788910100`) — para o mesmo
+   `username`. Guardamos o segundo (confirmado contra a própria API),
+   não o número exibido na tela do wizard. Se for reconfigurar do
+   zero, **sempre confirme o ID fazendo uma chamada de verdade**, não
+   confie só no que a tela mostra.
+5. Secrets no GitHub (`gh secret set`, nunca commitado):
+   `INSTAGRAM_ACCESS_TOKEN` (o token de longa duração, ~60 dias) e
+   `INSTAGRAM_ACCOUNT_ID` (o ID confirmado no passo 4).
+
+**Nota de segurança — dois incidentes reais nessa configuração:** no
+meio do processo, um Token de Aplicativo completo e, depois, o App
+Secret em texto puro (mais um token de curta duração e uma resposta
+HTTP completa com headers de debug) foram colados diretamente nesta
+conversa por engano, tentando montar um `curl` manual. Em ambos os
+casos o Secret do app foi resetado no painel da Meta logo em seguida
+(invalida qualquer token derivado dele). Prática adotada daí pra
+frente: nenhum comando com segredo real preenchido, nem resposta HTTP
+completa, é colado na conversa — só "deu certo"/"deu erro" ou a
+mensagem de erro, sem valores sensíveis. Verificação de que um secret
+funciona é feita rodando um workflow do GitHub Actions que usa
+`secrets.*` (o valor nunca sai do cofre do GitHub, e qualquer log que
+bata com o valor exato do secret é automaticamente mascarado) — nunca
+um `curl` local cuja saída precisaria ser colada de volta aqui.
+
+**Legenda — dado real, não suposição:** antes de desenhar o formato,
+medimos os campos de verdade contra a API de produção (1000 obras):
+`classicCommentary` está preenchido em **apenas 1 obra (0,1%)** —
+inviável como diferencial. `passageText` (a citação bíblica) cobre
+98,5% das obras, mediana de 189 caracteres. A `description` (o texto
+que já existe no site, com a "Descrição da Obra" e o "Contexto
+Histórico" em markdown) cobre 99,9%, com a parte introdutória (antes
+do cabeçalho de contexto histórico) tendo mediana de ~880 caracteres.
+A legenda final usa: título + artista + ano, um recorte da descrição
+real da obra (até a última frase completa dentro de ~700 caracteres,
+sem sintaxe markdown), a citação bíblica (até ~250 caracteres),
+localização (quando existe) e o link pra obra completa no site.
+Testado contra as 1000 obras reais: mediana de 1051 caracteres, máximo
+de 1307 — **0% ultrapassa o limite de 2200 caracteres** do Instagram.
+
+**Viabilidade técnica confirmada (pesquisa original, ainda válida):**
+
 - Fluxo: `POST /{ig-user-id}/media` (cria container passando a URL
   pública da imagem — `biblianaarte.narniano.com/images/...` já serve
   isso, a Meta busca a URL do lado dela, não precisa upload binário) →
-  `POST /{ig-user-id}/media_publish`. Facebook é uma chamada separada e
-  mais simples: `POST /{page-id}/photos`.
-- **Gotcha real**: token de acesso expira em 60 dias, precisa renovar
-  (endpoint próprio de refresh, token precisa ter pelo menos 24h de
-  vida pra poder renovar). Dá pra automatizar com um segundo workflow
-  rodando a cada ~45 dias, ou deixar como lembrete manual — decisão de
-  produto, não travou nada tecnicamente.
-- Sem endpoint de agendamento nativo da API (não tem `scheduled_publish_time`
-  pro Instagram) — não é problema aqui, porque quem "agenda" é o nosso
-  próprio cron/GitHub Actions rodando 1x/dia, publicando na hora.
+  `POST /{ig-user-id}/media_publish`.
+- Sem endpoint de agendamento nativo da API (não tem
+  `scheduled_publish_time` pro Instagram) — não é problema aqui, porque
+  quem "agenda" é o nosso próprio `schedule: cron` do GitHub Actions,
+  publicando na hora certa.
 - Limite de 25 posts/24h por conta — irrelevante pra 1 post/dia.
 
-**Arquitetura proposta:**
+**Pendente (não travando nada, só em aberto):**
 
-- [ ] GitHub Actions com `schedule: cron`, 1x/dia, sem precisar de VPS
-      nem cron novo lá (menos superfície de manutenção, sem risco de
-      log crescendo — acervo de execução já vive no histórico do
-      Actions).
-- [ ] Script chama `GET /artworks/daily` (já público, sem auth), monta
-      legenda (título + artista + referência + link `/obra/:id`),
-      publica nos dois (IG + FB).
-- [ ] Token/IDs como secrets do GitHub (mesmo padrão de
-      `secrets.VPS_HOST`/`DEPLOY_SSH_KEY` do `deploy.yml`) — nunca no
-      código nem no repo.
-- [ ] Passo que só o Rilson pode fazer (login Meta): criar app em
-      developers.facebook.com, linkar a conta Instagram à Página do
-      Facebook, registrar a própria conta como Tester, gerar o token
-      de longa duração inicial.
-- [ ] Decidir: renovação de token automática (2º workflow) ou lembrete
-      manual a cada ~50 dias.
+- [ ] Renovação do token de 60 dias — decisão de produto ainda não
+      tomada: 2º workflow automatizado (troca o token ~15 dias antes de
+      expirar, via endpoint próprio de refresh) vs. lembrete manual a
+      cada ~50 dias. Enquanto não decidir, marcar um lembrete manual é
+      o mínimo pra não descobrir o token morto só quando o post falhar.
+- [ ] Cross-post pro Facebook (Página) — precisa de configuração
+      separada (Facebook Login for Business + token de Página), não
+      feita nessa rodada.
+- [x] `.github/workflows/test-instagram-token.yml` (workflow temporário
+      só de verificação) — removido, substituído pelo workflow real.
 
 ## Botões "Explorar pela Bíblia" / "Descobrir Arte" com tamanho diferente (2026-09-03)
 

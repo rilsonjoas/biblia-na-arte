@@ -1,0 +1,41 @@
+name: Publicar Pintura do Dia no Instagram
+
+# Publica automaticamente a Pintura do Dia (GET /artworks/daily) na
+# conta @artecristadiaria, todo dia. Ver docs/ROADMAP.md — "Publicação
+# automática — Arte Cristã Diária" — pra todo o histórico da
+# configuração (fluxo "Instagram API with Instagram Login", sem Página
+# do Facebook envolvida) e decisões tomadas.
+#
+# Roda em GitHub Actions (não no VPS) de propósito: sem cron novo pra
+# manter, sem log crescendo em disco — o histórico de execuções já vive
+# no próprio Actions. Script é standalone (scripts/post-daily-instagram.mjs),
+# sem instalar dependências.
+
+on:
+  schedule:
+    # 11:00 UTC = 08:00 em São Paulo (Brasil não observa horário de
+    # verão desde 2019, então UTC-3 é fixo o ano todo). Horário de
+    # manhã, depois que o dia já virou pra Pintura do Dia (que usa fuso
+    # de São Paulo — ver "Bug 1" no ROADMAP) e antes do horário de pico
+    # de engajamento do Instagram.
+    - cron: '0 11 * * *'
+  workflow_dispatch: {} # permite disparar manualmente pra testar
+
+permissions:
+  contents: read
+
+concurrency:
+  group: post-daily-instagram
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Publica a Pintura do Dia no Instagram
+        env:
+          INSTAGRAM_ACCESS_TOKEN: ${{ secrets.INSTAGRAM_ACCESS_TOKEN }}
+          INSTAGRAM_ACCOUNT_ID: ${{ secrets.INSTAGRAM_ACCOUNT_ID }}
+        run: node scripts/post-daily-instagram.mjs
