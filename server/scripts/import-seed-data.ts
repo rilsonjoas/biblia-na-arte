@@ -5,15 +5,23 @@
  * de um container na proxy-network, já que o Postgres não expõe porta
  * (ver hetzner-infra/MIGRATION.md, Fase 4.3).
  *
- * Idempotente por reset: trunca as 3 tabelas e reimporta do zero — é o
- * comportamento certo pra um catálogo curado (a fonte da verdade é o
- * vault + export, não o banco), não um sistema com dado gerado em runtime.
+ * Idempotente por reset — MAS não é mais TRUNCATE cego em tudo (ver
+ * ROADMAP "ID de obra muda a cada reseed" e "Débito de arquitetura
+ * relacionado", 2026-09-03): `bible_books`/`artists`/`themes` continuam
+ * truncados e reimportados do zero (sem identidade externa que valha
+ * preservar), mas `artworks` agora faz UPSERT por ID determinístico
+ * (`artworkIdFromSlug`) + DELETE explícito só de quem saiu do vault.
+ * Preserva `createdAt` real (vem do export, baseado no `birthtime` da
+ * nota) e nunca mais quebra link `/obra/:id` a cada curadoria nova.
+ * `bible_references`/`artwork_themes` (sem identidade própria) seguem
+ * limpos e recriados por obra — mesma simplicidade de antes, só que
+ * escopados, não um TRUNCATE cego na tabela inteira.
  *
  * Uso: pnpm --filter server db:seed
  */
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
-import { sql } from 'drizzle-orm';
+import { inArray, notInArray, sql } from 'drizzle-orm';
 import { db, closeDb } from '../src/db/client.js';
 import { artists, artworks, artworkThemes, bibleBooks, bibleReferences, themes } from '../src/db/schema.js';
 import { bibleBooksSeed } from '../src/db/seed-data/bible-books.js';
@@ -38,6 +46,7 @@ interface ExportedArtwork {
   classicCommentary?: string;
   references: { book: string; bookSlug: string; chapter: number; verses?: string; passageText?: string }[];
   themes?: string[];
+  createdAt: string;
 }
 
 interface ExportedArtist {
@@ -66,15 +75,15 @@ async function main() {
   console.log(`▶ ${exported.length} obras no export, importando...`);
 
   await db.transaction(async (tx) => {
-    // TRUNCATE ... RESTART IDENTITY CASCADE limpa as tabelas de uma vez
-    // (bible_references e artwork_themes têm FK pra artworks; CASCADE
-    // cobre a ordem). `artists`/`themes` não têm FK com artworks (artists
-    // casa por nome; themes é referenciado por slug em artwork_themes, não
-    // o contrário), mas entram no mesmo TRUNCATE pela mesma filosofia de
-    // idempotência: fonte da verdade é o vault, não o banco.
-    await tx.execute(
-      sql`TRUNCATE TABLE ${bibleReferences}, ${artworkThemes}, ${artworks}, ${bibleBooks}, ${artists}, ${themes} RESTART IDENTITY CASCADE`,
-    );
+    // bible_books/artists/themes não têm identidade externa que valha
+    // preservar (nenhuma tem link público nem timestamp que importe) —
+    // seguem truncados e recriados do zero, mesma simplicidade de
+    // sempre. TRUNCATE themes CASCADE esvazia artwork_themes junto (FK
+    // themes.slug) — de propósito, essa tabela também não tem
+    // identidade própria, recriar do zero por obra é seguro.
+    await tx.execute(sql`TRUNCATE TABLE ${bibleBooks} RESTART IDENTITY CASCADE`);
+    await tx.execute(sql`TRUNCATE TABLE ${artists} RESTART IDENTITY CASCADE`);
+    await tx.execute(sql`TRUNCATE TABLE ${themes} CASCADE`);
 
     console.log('▶ Semeando bible_books (66 livros)...');
     await tx.insert(bibleBooks).values(
@@ -89,38 +98,53 @@ async function main() {
 
     if (exportedThemes.length > 0) {
       console.log(`▶ Semeando themes (${exportedThemes.length})...`);
-      // Precisa vir ANTES do loop de obras — artwork_themes referencia
-      // themes.slug por FK, e o loop abaixo já insere artwork_themes junto
-      // com cada obra.
       await tx.insert(themes).values(exportedThemes.map((t) => ({ slug: t.slug, name: t.name })));
     }
 
-    console.log('▶ Inserindo obras + referências...');
-    for (const item of exported) {
-      const [inserted] = await tx
-        .insert(artworks)
-        .values({
-          id: artworkIdFromSlug(item.slug),
-          title: item.title,
-          subtitle: item.subtitle,
-          artistOrDirector: item.artistOrDirector,
-          year: item.year,
-          category: item.category,
-          description: item.description,
-          imageUrl: `/images/${item.imageFile}`,
-          licenseType: item.licenseType,
-          attributionText: item.attributionText,
-          location: item.location,
-          sourceUrl: item.sourceUrl,
-          classicCommentaryAuthor: item.classicCommentaryAuthor,
-          classicCommentary: item.classicCommentary,
-        })
-        .returning({ id: artworks.id });
+    // artworks: upsert por ID determinístico, não truncate — preserva
+    // createdAt e qualquer link/tabela futura que dependa do ID
+    // continuar o mesmo entre reseeds (ver ROADMAP).
+    const validIds = exported.map((item) => artworkIdFromSlug(item.slug));
 
-      if (item.references.length > 0 && inserted) {
+    console.log('▶ Removendo obras que saíram do vault...');
+    await tx.delete(artworks).where(notInArray(artworks.id, validIds));
+
+    // bible_references não tem identidade própria (nada externo linka
+    // pra uma referência individual) — mais simples limpar tudo dos
+    // sobreviventes e reinserir fresco por obra do que tentar diff.
+    if (validIds.length > 0) {
+      await tx.delete(bibleReferences).where(inArray(bibleReferences.artworkId, validIds));
+    }
+
+    console.log('▶ Upsert de obras + referências...');
+    for (const item of exported) {
+      const id = artworkIdFromSlug(item.slug);
+      const values = {
+        title: item.title,
+        subtitle: item.subtitle,
+        artistOrDirector: item.artistOrDirector,
+        year: item.year,
+        category: item.category,
+        description: item.description,
+        imageUrl: `/images/${item.imageFile}`,
+        licenseType: item.licenseType,
+        attributionText: item.attributionText,
+        location: item.location,
+        sourceUrl: item.sourceUrl,
+        classicCommentaryAuthor: item.classicCommentaryAuthor,
+        classicCommentary: item.classicCommentary,
+        createdAt: new Date(item.createdAt),
+      };
+
+      await tx
+        .insert(artworks)
+        .values({ id, ...values })
+        .onConflictDoUpdate({ target: artworks.id, set: values });
+
+      if (item.references.length > 0) {
         await tx.insert(bibleReferences).values(
           item.references.map((ref) => ({
-            artworkId: inserted.id,
+            artworkId: id,
             book: ref.book,
             bookSlug: ref.bookSlug,
             chapter: ref.chapter,
@@ -130,12 +154,11 @@ async function main() {
         );
       }
 
-      if (item.themes && item.themes.length > 0 && inserted) {
-        await tx.insert(artworkThemes).values(
-          item.themes.map((slug) => ({ artworkId: inserted.id, themeSlug: slug })),
-        );
+      if (item.themes && item.themes.length > 0) {
+        await tx.insert(artworkThemes).values(item.themes.map((slug) => ({ artworkId: id, themeSlug: slug })));
       }
     }
+
     if (exportedArtists.length > 0) {
       console.log(`▶ Semeando artists (${exportedArtists.length})...`);
       await tx.insert(artists).values(

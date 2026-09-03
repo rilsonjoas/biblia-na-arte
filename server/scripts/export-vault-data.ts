@@ -20,7 +20,7 @@
  *
  * Uso: pnpm --filter server exec tsx scripts/export-vault-data.ts
  */
-import { readFileSync, writeFileSync, mkdirSync, rmSync, existsSync, readdirSync } from 'node:fs';
+import { readFileSync, writeFileSync, mkdirSync, rmSync, existsSync, readdirSync, statSync } from 'node:fs';
 import path from 'node:path';
 import sharp from 'sharp';
 import {
@@ -241,6 +241,13 @@ interface ExportedArtwork {
   // "Filtros Avançados" (roadmap, Passo 2, 2026-09-02) — slugs de tema
   // extraídos das tags `arte-e-literatura/pintura/tema/<slug>` do vault.
   themes: string[];
+  // ROADMAP "ID de obra muda a cada reseed" (2026-09-03) — data de
+  // criação REAL da nota (`birthtime` do arquivo, sobrevive a edição de
+  // conteúdo/metadado, só muda se o arquivo for apagado e recriado do
+  // zero), não o momento em que o `db:seed` rodou. Sem isso, `createdAt`
+  // na tabela `artworks` significava "quando rodou o último reseed" pra
+  // TODAS as obras, quebrando qualquer ordenação por "mais recente".
+  createdAt: string;
 }
 
 interface ExportedArtist {
@@ -414,6 +421,7 @@ async function main() {
       classicCommentary: classicCommentary?.text,
       references,
       themes: extractThemes(frontmatter.tags),
+      createdAt: statSync(fullPath).birthtime.toISOString(),
     });
   }
 

@@ -3080,7 +3080,7 @@ largura/altura ao botão, sem nada compensando do outro lado.
       qualquer link `/obra/:id` publicamente (Instagram incluso) até
       depois do próximo reseed.
 
-### Débito de arquitetura relacionado, não corrigido ainda (registrado, não esquecido)
+### Débito de arquitetura relacionado — IMPLEMENTADO (2026-09-03, mesma madrugada)
 
 Pergunta do Rilson pensando em 10-20 anos de projeto: `TRUNCATE ...
 CASCADE` em `artworks` a cada `db:seed` é a escolha certa pras tabelas
@@ -3106,18 +3106,38 @@ hipotéticos:
   cara de descobrir depois (só quando alguém perder dado de verdade,
   sem entender por quê).
 
-**Fix proposto (não implementado — decisão de arquitetura, não bug
-pontual, feita com calma):**
+**Decidido implementar na mesma madrugada** (o Rilson voltou depois da
+reflexão sobre "praga" e pediu pra seguir), com calma e validado contra
+Postgres real antes de confiar, não no calor do achado original:
 
-- [ ] `createdAt` real vem da nota do vault (frontmatter ou data de
-      criação do arquivo), exportado por `export-vault-data.ts`, não
-      do relógio do momento do seed.
-- [ ] Trocar `TRUNCATE` por upsert só em `artworks` (seguro agora que o
-      ID é determinístico): `INSERT ... ON CONFLICT (id) DO UPDATE`
-      pra quem já existe (preserva `createdAt`), mais um `DELETE FROM
-      artworks WHERE id NOT IN (...)` explícito só pra quem realmente
-      saiu do vault. Tabelas de junção continuam podendo ser truncadas
-      do jeito simples de sempre — não têm o mesmo problema.
-- Mais código e mais superfície de bug que o fix de hoje (precisa
-  acertar "o que conta como removido"), por isso registrado pra
-  retomar com calma, não implementado no calor do achado.
+- [x] `createdAt` real vem do `birthtime` do arquivo da nota
+      (`statSync(fullPath).birthtime`), exportado por
+      `export-vault-data.ts` — sobrevive a edição de conteúdo/metadado
+      (chmod testado, `birthtime` não muda; `ctime` muda), só muda se o
+      arquivo for apagado e recriado do zero. Confirmado que este
+      filesystem reporta `birthtime` de verdade (não cai pra `ctime`
+      como fallback) antes de confiar na abordagem.
+- [x] `import-seed-data.ts` reescrito: `bible_books`/`artists` seguem
+      truncados (sem identidade externa); `themes` trunca com CASCADE
+      (esvazia `artwork_themes` também — tabela de junção, sem
+      identidade própria, recriar por obra é seguro); `artworks` agora
+      é **upsert** (`INSERT ... ON CONFLICT (id) DO UPDATE`) + `DELETE
+      FROM artworks WHERE id NOT IN (validIds)` explícito só pra quem
+      saiu do vault — cascade cuida de limpar `bible_references`
+      daquelas especificamente. `bible_references` dos sobreviventes é
+      limpo em bloco (`DELETE ... WHERE artwork_id = ANY(validIds)`)
+      antes do loop reinserir fresco — sem identidade própria, mesma
+      simplicidade de sempre, só que escopada.
+- [x] **Validado contra Postgres real (não só teoria)**: fixture de 2
+      obras, 1ª rodada gera IDs X/Y; 2ª rodada com obra X editada, obra
+      Y removida, obra Z nova — confirmado obra X manteve o MESMO ID e
+      `createdAt`, só campos editados mudaram; obra Y sumiu de
+      `artworks` E de `bible_references` (cascade, sem órfão); obra Z
+      entrou com ID/createdAt próprios. Depois, catálogo completo
+      (1028 obras) rodado 2x seguidas contra o banco de teste local —
+      IDs idênticos entre as rodadas (idempotência confirmada), ~5-9s
+      cada rodada (performance irrelevante nessa escala).
+- [x] Verificado: `typecheck`/`lint`/`test` (99 unit)/`test:integration`
+      (43)/`build:server` verdes depois. `vault-export.json` re-exportado
+      com o campo `createdAt` novo (diff limpo, só o campo adicionado,
+      nenhuma obra/tema/artista mudou de contagem).
