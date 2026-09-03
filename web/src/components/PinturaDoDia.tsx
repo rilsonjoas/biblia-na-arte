@@ -7,13 +7,15 @@ import { useDailyArtwork } from '@/hooks/use-artworks';
 import { stripMarkdown } from '@/lib/utils';
 
 /** "Pintura do Dia" (roadmap, pedido do Rilson 2026-08-23) — mesma obra
- *  pra todo mundo que visitar no mesmo dia UTC, sorteio determinístico
- *  no server (GET /artworks/daily). Mesma ideia do "Pintura do Dia" do
- *  Lecionário, mas com seleção independente sobre o acervo inteiro (a
- *  Bíblia na Arte não tem "leitura do dia" pra ancorar a escolha) —
- *  então esse componente é próprio, não uma cópia do ArtSection.tsx de
- *  lá: usa os tokens de design daqui (text-display, gallery-frame,
- *  shadow-classical/golden) em vez dos do Lecionário.
+ *  pra todo mundo que visitar no mesmo dia (fuso de São Paulo, ver
+ *  `todaySaoPaulo` em `lib/api-data.ts`), escolhida no server (GET
+ *  /artworks/daily). Desde 2026-09-03 (ROADMAP "Pintura do Dia ligada à
+ *  leitura litúrgica") a escolha é ancorada na leitura do dia do
+ *  Lecionário quando a data está coberta — a MESMA obra que aparece lá,
+ *  não mais um sorteio independente. Este componente continua próprio,
+ *  não uma cópia do ArtSection.tsx de lá: usa os tokens de design daqui
+ *  (text-display, gallery-frame, shadow-classical/golden) em vez dos do
+ *  Lecionário.
  *
  *  Falha silenciosa (retorna null) se a busca der erro — é uma vitrine
  *  na home, não algo que deva quebrar a página ou mostrar um card de

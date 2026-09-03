@@ -11,6 +11,7 @@ import {
   getDailyArtwork,
   getThemes,
   getPeriods,
+  todaySaoPaulo,
 } from './api-data';
 
 vi.mock('./api-client', () => ({
@@ -71,6 +72,19 @@ describe('getDailyArtwork', () => {
     requestMock.mockResolvedValue({ id: 'daily-2' });
     await getDailyArtwork('2026-08-23');
     expect(requestMock).toHaveBeenCalledWith('/artworks/daily', { date: '2026-08-23' });
+  });
+});
+
+describe('todaySaoPaulo', () => {
+  it('devolve data no formato YYYY-MM-DD', () => {
+    expect(todaySaoPaulo()).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+  });
+
+  it('nunca fica à frente da data UTC (achado real 03/09/2026 — ver ROADMAP)', () => {
+    // São Paulo é sempre UTC-3, então a data local nunca pode ser DEPOIS
+    // da data UTC no mesmo instante — só igual ou anterior.
+    const utcToday = new Date().toISOString().slice(0, 10);
+    expect(todaySaoPaulo() <= utcToday).toBe(true);
   });
 });
 

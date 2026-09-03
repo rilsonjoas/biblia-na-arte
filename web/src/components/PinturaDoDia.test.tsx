@@ -7,6 +7,9 @@ import { getDailyArtwork } from '@/lib/api-data';
 
 vi.mock('@/lib/api-data', () => ({
   getDailyArtwork: vi.fn(),
+  // useDailyArtwork (use-artworks.ts) chama isso pra montar a query key —
+  // sem mockar, quebra com "todaySaoPaulo is not a function".
+  todaySaoPaulo: () => '2026-01-01',
 }));
 
 function renderWithProviders() {

@@ -1,9 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import {
-  getLectionaryEntry,
-  getReferencesForSeason,
-  parseLectionaryRef,
-} from './lectionary-refs.js';
+import { getLectionaryEntry, parseLectionaryRef, todaySaoPaulo } from './lectionary-refs.js';
 
 describe('parseLectionaryRef', () => {
   it('extrai livro (slug) + capítulo de uma referência simples', () => {
@@ -56,14 +52,16 @@ describe('getLectionaryEntry', () => {
   });
 });
 
-describe('getReferencesForSeason', () => {
-  it('junta referências de várias datas da mesma estação, sem duplicar', () => {
-    const refs = getReferencesForSeason('easter');
-    expect(refs.length).toBeGreaterThan(10);
-    expect(refs).toEqual([...new Set(refs)]);
+describe('todaySaoPaulo', () => {
+  it('devolve data no formato YYYY-MM-DD', () => {
+    expect(todaySaoPaulo()).toMatch(/^\d{4}-\d{2}-\d{2}$/);
   });
 
-  it('devolve vazio pra estação que não existe na tabela', () => {
-    expect(getReferencesForSeason('nao-existe')).toEqual([]);
+  it('não é a data UTC quando os dois divergem (achado real 03/09/2026)', () => {
+    // Não fixa um horário específico (mockar timers foge do escopo aqui),
+    // só documenta a diferença de fuso: São Paulo é sempre UTC-3, então
+    // a data local nunca pode ser DEPOIS da data UTC no mesmo instante.
+    const utcToday = new Date().toISOString().slice(0, 10);
+    expect(todaySaoPaulo() <= utcToday).toBe(true);
   });
 });

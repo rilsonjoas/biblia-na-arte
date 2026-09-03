@@ -11,6 +11,7 @@ import {
   getArtworksPaginated,
   getDailyArtwork,
   getExplore,
+  todaySaoPaulo,
   type SearchFilters,
   type PaginatedArtworksParams,
 } from '@/lib/api-data'
@@ -113,7 +114,10 @@ export function useFeaturedArtworks() {
 // nunca serve o resultado de ontem depois da virada), sem precisar de
 // refetchInterval nem lógica de "meia-noite" no cliente.
 export function useDailyArtwork() {
-  const today = new Date().toISOString().slice(0, 10)
+  // São Paulo, não UTC/navegador — precisa virar no MESMO instante que o
+  // server (ver `todaySaoPaulo`), senão a query key fica horas
+  // desatualizada em relação ao dia que o server já está servindo.
+  const today = todaySaoPaulo()
   return useQuery({
     queryKey: ['artworks', 'daily', today],
     queryFn: () => getDailyArtwork(),

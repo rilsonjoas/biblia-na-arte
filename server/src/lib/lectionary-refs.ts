@@ -24,21 +24,18 @@ export function getLectionaryEntry(dateStr: string): LectionaryEntry | undefined
   return READINGS_BY_DATE[dateStr];
 }
 
-/** Todas as referências já usadas em QUALQUER dia da mesma estação
- *  (na tabela inteira, não só no dia de hoje) — usado pra alargar o pool
- *  quando o dia específico tem pouquíssima obra catalogada (ex.:
- *  Advento, ver ROADMAP "Afinidade litúrgica da Pintura do Dia"
- *  2026-09-03). Ainda é a MESMA estação, só troca "leitura exata de
- *  hoje" por "qualquer leitura que já apareceu nessa estação", pra
- *  ganhar variedade sem perder a pertinência. */
-export function getReferencesForSeason(season: string): string[] {
-  const refs = new Set<string>();
-  for (const entry of Object.values(READINGS_BY_DATE)) {
-    if (entry.season === season) {
-      for (const ref of entry.refs) refs.add(ref);
-    }
-  }
-  return [...refs];
+/** "Hoje" no fuso de São Paulo, não UTC — achado real em produção
+ *  (03/09/2026): usar UTC fazia o Bíblia na Arte "virar o dia" 3h antes
+ *  do Lecionário (que usa hora local do dispositivo, tipicamente já São
+ *  Paulo pro público-alvo), então por boa parte da noite brasileira as
+ *  duas pontas buscavam referências bíblicas de DIAS DIFERENTES —
+ *  obras sem relação nenhuma entre si, mesmo com a sincronização certa
+ *  no código. Espelha `web/src/lib/api-data.ts` (`todaySaoPaulo`), sem
+ *  pacote compartilhado, mesmo padrão de duplicação do resto do
+ *  projeto. `Intl.DateTimeFormat('en-CA', ...)` formata como
+ *  YYYY-MM-DD nativamente, sem precisar de date-fns-tz. */
+export function todaySaoPaulo(): string {
+  return new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Sao_Paulo' }).format(new Date());
 }
 
 /** Estação litúrgica → slugs de tema já cadastrados no catálogo (checado

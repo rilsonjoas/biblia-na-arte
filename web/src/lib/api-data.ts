@@ -81,11 +81,23 @@ export async function getRandomArtwork(): Promise<Artwork> {
   return apiClient.request<Artwork>('/artworks/random');
 }
 
+/** "Hoje" no fuso de São Paulo, não do navegador nem UTC — achado real
+ *  em produção (03/09/2026, ROADMAP "Pintura do Dia sumindo..."):
+ *  usar UTC fazia o Bíblia na Arte "virar o dia" 3h antes do Lecionário
+ *  (que usa hora local do dispositivo, tipicamente já São Paulo pro
+ *  público-alvo), mostrando obras de referências bíblicas diferentes
+ *  por boa parte da noite brasileira. `Intl.DateTimeFormat('en-CA', ...)`
+ *  formata como YYYY-MM-DD nativamente, sem precisar de date-fns-tz. */
+export function todaySaoPaulo(): string {
+  return new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Sao_Paulo' }).format(new Date());
+}
+
 /** "Pintura do Dia" — mesma obra pra todo mundo que visitar no mesmo dia
- *  UTC (sorteio determinístico no server, ver getDailyArtwork em
- *  server/src/db/queries.ts). `date` opcional só existe pra permitir
- *  testar um dia específico; o uso normal não passa nada e o server usa
- *  a data UTC corrente. */
+ *  (fuso de São Paulo, ver `todaySaoPaulo`; sorteio/escolha determinística
+ *  no server, ver getDailyArtwork em server/src/db/queries.ts). `date`
+ *  opcional só existe pra permitir testar um dia específico; o uso
+ *  normal não passa nada e o server usa a data corrente dele mesmo
+ *  (também em São Paulo, ver routes/artworks.ts). */
 export async function getDailyArtwork(date?: string): Promise<Artwork> {
   return apiClient.request<Artwork>('/artworks/daily', { date });
 }

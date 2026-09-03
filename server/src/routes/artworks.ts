@@ -1,6 +1,7 @@
 import type { FastifyInstance } from 'fastify';
 import { zodToJsonSchema } from 'zod-to-json-schema';
 import { listArtworks, getArtworkById, getRandomArtwork, getDailyArtwork, searchArtworks } from '../db/queries.js';
+import { todaySaoPaulo } from '../lib/lectionary-refs.js';
 import {
   listArtworksQuerySchema,
   searchArtworksQuerySchema,
@@ -102,16 +103,16 @@ export async function artworkRoutes(app: FastifyInstance) {
     {
       schema: {
         tags: ['obras'],
-        summary: '"Pintura do Dia" — mesma obra pra todo mundo, muda à meia-noite UTC',
+        summary: '"Pintura do Dia" — mesma obra pra todo mundo, muda à meia-noite em São Paulo',
         description:
-          'Prioriza a leitura litúrgica do dia (tabela copiada do Lecionário — cobre domingos/festas até 2030-11-24 e dias de semana até 2028-11-29): escolhe entre as obras catalogadas na referência bíblica do dia, com hash determinístico da data. Fora desse período, ou se nenhuma leitura do dia tiver obra catalogada, cai pro sorteio determinístico sobre o acervo ativo inteiro. O Lecionário consome este mesmo endpoint — as duas pontas mostram a mesma obra no mesmo dia.',
+          'Prioriza a leitura litúrgica do dia (tabela copiada do Lecionário — cobre domingos/festas até 2030-11-24 e dias de semana até 2028-11-29): escolhe entre as obras catalogadas na referência bíblica do dia, com hash determinístico da data. Fora desse período, ou se nenhuma leitura do dia tiver obra catalogada, cai pro sorteio determinístico sobre o acervo ativo inteiro. O Lecionário consome este mesmo endpoint — as duas pontas mostram a mesma obra no mesmo dia. "Hoje" (quando `date` não é passado) é calculado no fuso de São Paulo, não UTC — achado real em produção (03/09/2026): UTC fazia virar o dia 3h antes do Lecionário, que usa hora local do dispositivo.',
         querystring: dailyQueryJson,
         response: { 200: artworkJson, 404: errorJson },
       },
     },
     async (request, reply) => {
       const { date } = dailyArtworkQuerySchema.parse(request.query);
-      const dateStr = date ?? new Date().toISOString().slice(0, 10);
+      const dateStr = date ?? todaySaoPaulo();
       const artwork = await getDailyArtwork(dateStr);
       if (!artwork) throw new NotFoundError('Obra');
       // Cache curto — o resultado só muda 1x por dia, mas 1h de folga

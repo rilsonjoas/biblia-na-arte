@@ -2953,3 +2953,75 @@ largura/altura ao botão, sem nada compensando do outro lado.
       `hero`/`outline` já nasce do tamanho certo.
 - [x] Verificado: `lint`/`typecheck`/`test` (84 testes web, nenhum
       snapshot de dimensão de botão) /`build:web` verdes depois.
+
+## Pintura do Dia mostrando obras sem relação nenhuma entre os dois projetos (2026-09-03)
+
+> Achado do Rilson em produção, algumas horas depois da "Afinidade
+> litúrgica" acima: Bíblia na Arte mostrava "A Quinta Praga: a Peste do
+> Gado" enquanto o Lecionário mostrava "Jonas Sendo Engolido Pelo
+> Grande Peixe" — nada a ver um com o outro, apesar de tudo supostamente
+> sincronizado. Investigado na hora, achados **dois bugs reais**, não
+> um — a sincronização de código estava certa, mas duas premissas
+> silenciosas quebravam ela na prática.
+
+**Bug 1 — fuso horário divergente (o principal, explica a maior parte do dia):**
+
+- A rota `/artworks/daily` calculava "hoje" (quando `?date=` não vem)
+  com `new Date().toISOString().slice(0, 10)` — **UTC**. O hook
+  `useDailyArtwork` no web fazia o mesmo pra chave de cache. O
+  Lecionário usa a hora LOCAL do dispositivo pra decidir "hoje" (padrão
+  são-paulense pro público-alvo).
+- São Paulo é UTC-3. Isso significa que, **toda noite entre ~21h e
+  meia-noite (horário de Brasília)**, o Bíblia na Arte já considerava
+  "amanhã" (UTC virou o dia) enquanto o Lecionário ainda mostrava
+  "hoje" — os dois pediam leituras de DATAS DIFERENTES ao servidor,
+  logo obras completamente sem relação. Confirmado ao vivo: `date -u`
+  batia 03/09 02:53 enquanto `date` local batia 02/09 23:53 — a mesma
+  janela exata do achado do Rilson.
+- [x] `todaySaoPaulo()` (novo, `Intl.DateTimeFormat('en-CA', {timeZone:
+      'America/Sao_Paulo'})`, sem precisar de date-fns-tz) substitui o
+      `toISOString()` UTC em **três lugares**: rota `/artworks/daily`
+      (`server/src/lib/lectionary-refs.ts`), hook `useDailyArtwork`
+      (`web/src/lib/api-data.ts`, mesma função duplicada — sem pacote
+      compartilhado entre server e web também). Duplicar aqui é
+      deliberado: são só 2 linhas, e um pacote compartilhado só pra
+      isso seria mais complexidade que a duplicação.
+
+**Bug 2 — alargamento pra estação inteira, testado e revertido no MESMO dia:**
+
+- A seção "Afinidade litúrgica" (acima) introduziu alargar o pool pra
+  "qualquer obra da estação inteira" quando o pool exato do dia era
+  pequeno (<3). Motivação real (Advento, pool de 1). Só que pra
+  `ordinary` (Tempo Comum — **metade do ano**, sem coerência temática
+  nenhuma), "alargar" na prática vira "quase aleatório de novo".
+- Confirmado com o caso real de hoje: leitura de 03/09/2026 é Êxodo
+  9:1-7 (5ª praga do Egito) — pool exato = **2 obras corretas** ("A
+  Quinta Praga: a Peste do Gado", "A Sétima Praga do Egito"). 2 < 3
+  disparava o alargamento, que juntava TODAS as leituras já usadas em
+  QUALQUER dia `ordinary` da tabela inteira (centenas) — nessa união
+  entrava, por coincidência, João 20 (Domingo de Tomé, cataloga-se como
+  `ordinary` numa leitura de segunda-feira pós-Pentecostes) com 21
+  obras, um pool grande o bastante pra "vencer" e ser escolhido pelo
+  seed — devolvendo uma obra de Páscoa numa leitura sobre pragas do
+  Egito.
+- [x] **Alargamento por estação REMOVIDO** (`getUnionPoolForReferences`,
+      `getReferencesForSeason`, `MIN_POOL_BEFORE_BROADENING` deletados
+      de `queries.ts`/`lectionary-refs.ts`) — pool pequeno mas CERTO é
+      preferível a pool grande e aleatório. Se a leitura exata do dia
+      só tiver 1-2 obras, mostra essas mesmo, sem mais variedade que
+      isso. Interseção por tema (Natividade/Ressurreição/etc.)
+      continua — esse refinamento nunca teve esse problema, porque só
+      refina DENTRO do pool exato do dia, nunca troca de estação.
+      Possível retomar no futuro só pra estações curtas e coerentes
+      (Advento/Natal/Páscoa/Pentecostes, nunca `ordinary`), com mais
+      validação — não faz parte deste fix.
+- [x] Verificado: com o fix, `getDailyArtwork('2026-09-03')` volta a
+      escolher entre as 2 obras corretas de Êxodo 9 (confirmado contra
+      a API de produção antes de implementar — mesmas 2 obras que
+      apareciam antes de qualquer sincronização, valida que o
+      comportamento "correto" é justamente esse).
+- [x] Testes: `todaySaoPaulo` (server e web) com teste dedicado
+      (formato + nunca fica "à frente" da data UTC). `PinturaDoDia.test.tsx`
+      (web) precisou mockar `todaySaoPaulo` também — achado ao rodar a
+      suíte depois da mudança, não deixado passar batido. 95 unit + 43
+      integration (server), 86 unit (web) verdes.
