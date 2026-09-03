@@ -3079,3 +3079,45 @@ largura/altura ao botão, sem nada compensando do outro lado.
       (mesmo slug, mesmo ID, pra sempre). Vale saber antes de compartilhar
       qualquer link `/obra/:id` publicamente (Instagram incluso) até
       depois do próximo reseed.
+
+### Débito de arquitetura relacionado, não corrigido ainda (registrado, não esquecido)
+
+Pergunta do Rilson pensando em 10-20 anos de projeto: `TRUNCATE ...
+CASCADE` em `artworks` a cada `db:seed` é a escolha certa pras tabelas
+de junção (`bible_references`/`artwork_themes` não têm identidade
+própria, recriar do zero é simples e correto) — mas é a escolha ERRADA
+especificamente pra `artworks`, por dois motivos concretos, não
+hipotéticos:
+
+- **`createdAt` reseta pra "agora" em TODAS as 1028 obras a cada
+  reseed** (`defaultNow()`, nenhum valor vem do export). `listArtworks`
+  e outras 2 queries em `queries.ts` usam `orderBy(desc(artworks.createdAt))`
+  como ordenação padrão — hoje isso não é "mais recente primeiro", é
+  "ordem de inserção do loop do export", porque todo mundo tem o mesmo
+  timestamp de "agora do último reseed". Não há feature de "novidades"
+  na UI hoje (dano zero, verificado), mas a coluna está mentindo sobre
+  o que promete.
+- **`TRUNCATE CASCADE` não é seletivo** — não é "apaga e recria a MESMA
+  linha", é "esvazia a tabela inteira, e qualquer tabela futura com FK
+  pra `artworks.id` (favoritos, contador de visualização, anotação de
+  usuário — nada disso existe hoje) esvazia JUNTO, mesmo a obra
+  voltando com o mesmo ID um instante depois". Isso é o tipo de decisão
+  que é barata de ignorar agora (nenhuma tabela dependente existe) e
+  cara de descobrir depois (só quando alguém perder dado de verdade,
+  sem entender por quê).
+
+**Fix proposto (não implementado — decisão de arquitetura, não bug
+pontual, feita com calma):**
+
+- [ ] `createdAt` real vem da nota do vault (frontmatter ou data de
+      criação do arquivo), exportado por `export-vault-data.ts`, não
+      do relógio do momento do seed.
+- [ ] Trocar `TRUNCATE` por upsert só em `artworks` (seguro agora que o
+      ID é determinístico): `INSERT ... ON CONFLICT (id) DO UPDATE`
+      pra quem já existe (preserva `createdAt`), mais um `DELETE FROM
+      artworks WHERE id NOT IN (...)` explícito só pra quem realmente
+      saiu do vault. Tabelas de junção continuam podendo ser truncadas
+      do jeito simples de sempre — não têm o mesmo problema.
+- Mais código e mais superfície de bug que o fix de hoje (precisa
+  acertar "o que conta como removido"), por isso registrado pra
+  retomar com calma, não implementado no calor do achado.
