@@ -37,14 +37,29 @@ docker run --rm --network proxy-network \
   --env-file server/.env \
   -e NODE_ENV=development -e CI=true \
   -v $(pwd):/app -w /app \
-  node:22-alpine sh -c "corepack enable && pnpm install --frozen-lockfile --filter server --config.dangerously-allow-all-builds=true && pnpm --filter server db:seed"
+  node:22-alpine sh -c "corepack enable && pnpm install --frozen-lockfile --filter server && pnpm --filter server db:seed"
 # NODE_ENV=development é necessário só pra tsx instalar certo — não afeta
 # o app rodando (containers biblianaarte-api/web seguem com NODE_ENV real).
-# --config.dangerously-allow-all-builds=true (achado 2026-08-23): sem
-# isso, pnpm 11.x recusa instalar com ERR_PNPM_IGNORED_BUILDS (esbuild/
-# @swc/core do web pedem aprovação interativa de build script, que não
-# existe num container efêmero não-interativo) — flag pula a aprovação
-# só nesse install pontual, não afeta o resto do repo.
+#
+# NÃO adicionar de volta "--config.dangerously-allow-all-builds=true"
+# (achado 2026-08-23, REVERTIDO 2026-09-03) — aquela flag resolvia
+# ERR_PNPM_IGNORED_BUILDS especificamente no pnpm 11.x, versão que o
+# comando pegava sem querer por não fixar nenhuma (corepack sempre baixava
+# "latest"). Agora que `package.json` tem `packageManager: "pnpm@10.30.1"`
+# fixando a versão de verdade, essa flag CONFLITA com o
+# `onlyBuiltDependencies` do `pnpm-workspace.yaml`
+# (ERR_PNPM_CONFIG_CONFLICT_BUILT_DEPENDENCIES: "Cannot have both
+# neverBuiltDependencies and onlyBuiltDependencies") — o
+# `onlyBuiltDependencies` já existente (esbuild/sharp/@swc/core) resolve
+# sozinho com a versão fixada, sem precisar de flag nenhuma.
+#
+# ⚠️ Esse comando escreve DIRETO no checkout do VPS (`-v $(pwd):/app`
+# monta o diretório de verdade, não uma cópia) — se der erro no meio do
+# `pnpm install`, pode deixar `pnpm-workspace.yaml`/`node_modules`
+# modificados localmente ali, o que trava o PRÓXIMO `git pull --ff-only`
+# (do humano ou do "Deploy VPS" automático) até alguém rodar
+# `git checkout -- pnpm-workspace.yaml` manualmente. Se o reseed falhar,
+# conferir `git status` em `/opt/biblia-na-arte` antes de tentar de novo.
 
 # 6. Sitemap (se mudou quantidade de páginas indexáveis)
 pnpm --filter server sitemap:generate

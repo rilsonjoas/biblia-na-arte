@@ -3141,3 +3141,75 @@ Postgres real antes de confiar, não no calor do achado original:
       (43)/`build:server` verdes depois. `vault-export.json` re-exportado
       com o campo `createdAt` novo (diff limpo, só o campo adicionado,
       nenhuma obra/tema/artista mudou de contagem).
+
+## Incidente do reseed — 4 problemas em cadeia, todos reais (2026-09-03)
+
+> Tentar rodar o reseed em produção pra validar as correções de
+> curadoria de hoje expôs uma cadeia de 4 problemas reais, cada um
+> escondendo o próximo — só apareceram um de cada vez porque cada fix
+> destravava o próximo passo. Registrado com detalhe pra não repetir
+> nenhum deles, nem aqui nem em outro projeto.
+
+**1. `pnpm.overrides` no lugar errado.** O fix de CVE de mais cedo hoje
+(`fast-uri`) foi colocado em `package.json` → `pnpm.overrides` — exatamente
+o campo que um comentário JÁ EXISTENTE em `pnpm-workspace.yaml`, de
+16/08, avisava estar obsoleto ("pnpm 10+ não lê mais... movido pra
+cá"). Funcionou local (pnpm 10.30.1 aqui ainda lia por algum motivo),
+mas o comando de reseed no VPS não fixava versão nenhuma de pnpm —
+corepack baixou o "latest" do momento (pnpm 11.25.0, lançado bem
+recentemente), que de fato IGNORA esse campo, dando
+`ERR_PNPM_LOCKFILE_CONFIG_MISMATCH`. **Lição: antes de adicionar
+config nova, `grep` por convenção já existente no próprio repo — o
+aviso já estava escrito, só não foi consultado.**
+
+**2. Sem versão de pnpm fixada em lugar nenhum.** Causa raiz do
+problema 1: nada no projeto fixava QUAL pnpm rodar num comando ad-hoc
+(o Dockerfile fixa pnpm@10 pra build de produção, mas o comando manual
+de reseed não usa o Dockerfile). Corrigido com
+`"packageManager": "pnpm@10.30.1"` em `package.json` — corepack passa a
+resolver essa versão exata em qualquer lugar que rode `corepack
+enable` sem pin próprio.
+
+**3. `pnpm/action-setup@v4` do CI não aceita duas fontes de versão.**
+O CI já tinha `version: 10` explícito na config da action — com o
+`packageManager` novo, a action passou a recusar rodar ("Multiple
+versions of pnpm specified"). Removido o `version: 10` duplicado —
+`packageManager` sozinho já é suficiente e é a mesma fonte que
+Dockerfile/reseed usam.
+
+**4. O comando de reseed escreve DIRETO no checkout do VPS.** A
+primeira tentativa falhada (`ERR_PNPM_LOCKFILE_CONFIG_MISMATCH`)
+deixou `pnpm-workspace.yaml` modificado localmente em
+`/opt/biblia-na-arte` — porque `-v $(pwd):/app` monta o diretório de
+verdade, não uma cópia efêmera; qualquer escrita de um `pnpm install`
+que falha no meio persiste ali. Isso bloqueou `git pull --ff-only` nos
+2 deploys seguintes — e **"Deploy VPS" reportou sucesso nos dois
+mesmo assim**, porque o script SSH não tinha `set -e`: o `git pull`
+falhou silenciosamente, e os comandos seguintes (`make deploy`,
+`docker prune`) rodaram e terminaram bem por conta própria, sem
+propagar o erro. VPS ficou 3 commits atrasado sem nenhum sinal visível
+de que algo estava errado. Corrigido: `set -euo pipefail` adicionado
+no início do script de deploy (`.github/workflows/deploy.yml`) — de
+propósito só documentado aqui, não num checklist de padrão ainda (ver
+próxima seção).
+
+**5. Ainda depois de tudo isso, mais um conflito**: com a versão
+fixada em 10.30.1, a flag `--config.dangerously-allow-all-builds=true`
+(que resolvia um problema específico do pnpm 11.x em 23/08) passou a
+CONFLITAR com `onlyBuiltDependencies` já existente em
+`pnpm-workspace.yaml` (`ERR_PNPM_CONFIG_CONFLICT_BUILT_DEPENDENCIES`).
+Removida do comando — `onlyBuiltDependencies` sozinho já basta com a
+versão fixada. RUNBOOK atualizado com o comando corrigido e o porquê,
+pra ninguém copiar a versão antiga de algum lugar e reintroduzir o
+mesmo problema.
+
+- [x] Reseed final confirmado: **1025 obras, 319 artistas, 295 temas**
+      — batendo exato com o export. Verificado direto contra a API de
+      produção (Zurbarán → Museo de Cádiz, Rubens → Staatsgalerie
+      Neuburg, "chamado de Mateus" do Doré ausente, só sobrou o do
+      Caravaggio) antes de considerar concluído.
+- [x] `set -euo pipefail` no `deploy.yml` — hardening que não existia
+      antes, achado só porque este incidente expôs a lacuna. Ver
+      também `hetzner-infra/PADRAO-DE-ENGENHARIA.md` (novo item de
+      checklist, mesma seção dos achados de fuso horário/identidade
+      estável de hoje).
