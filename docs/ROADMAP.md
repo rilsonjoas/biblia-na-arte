@@ -585,8 +585,53 @@ elevar a qualidade do catálogo.
       atrás dos pontos. Aparece automaticamente acima da grade em
       `Chapter.tsx` quando qualifica — os 2 Rembrandt de Emaús (1628/1648,
       corrigidos hoje) e os 2 Ticiano da Adúltera (1510/1520) já
-      qualificam agora. 3 testes novos (nada com <2 anos, nada com anos
-      iguais, ordem cronológica certa), typecheck limpo, build ok.
+qualificam agora. 3 testes novos (nada com <2 anos, nada com anos
+       iguais, ordem cronológica certa), typecheck limpo, build ok.
+
+
+### Artistas cristãos independentes no acervo (2026-09-03)
+
+> Ideia do Rilson: contatar artistas cristãos independentes para que a
+> obra deles entre no site, com um formato de apresentação parecido com o
+> das obras clássicas já curadas.
+
+**Pergunta aberta que fundamenta a ideia:** o acervo hoje é 100% arte de
+domínio público (curadoria clássica, ver `AUDITORIA-COPYRIGHT.md` — artista
+moderno é bloqueado por copyright, ex. Lê Phổ, Kim Ki-chang #21). Trazer
+artistas **vivos/independentes** muda essa premissa: o copyright é deles,
+logo a inclusão depende de **autorização/cessão por parte do artista**, não
+só de curadoria interna. Isso não impede a ideia — só exige um caminho de
+consentimento formal de cara, em vez de decidir depois.
+
+**Modelo de apresentação proposto (espelha a ficha das obras clássicas):**
+cada obra independente entra com os mesmos campos do vault — título,
+artista, ano, técnica, referência bíblica confirmada, descrição com
+*significado explicado* — **mais**:
+- [ ] **Formulário** de submissão/contato pra qualquer artista trazer a
+      obra (canônico hoje: contato via Pix/sobre; ver seção "Fale Com o
+      Contato", ~2026-08-22)
+- [ ] **Obras selecionadas** (curadoria editorial: nem tudo que chegar
+      entra — mesmo critério de comentário da Fase 1)
+- [ ] **Significado explicado** (descrição curada de um autor do projeto,
+      não texto do artista, mantendo o padrão de voz e citação)
+- [ ] **Link para o perfil do artista** (site/Instagram), com divulgação
+      recíproca — o artista indica a obra, o site dá o crédito e o link
+
+**Primeiros artistas indicados pelo Rilson (2026-09-03):**
+- [ ] **Alveart** — perfil: `https://www.instagram.com/alveart_`
+- [ ] **Cecília Rosa**
+
+**Pesos/decidir junto:**
+- Obras independentes entram como um "galeria de artistas cristãos" à
+  parte, ou se misturam à grade principal? (decisão de identidade do
+  site — o restante é clássico/de domínio público)
+- Modelo de licença/autorização a usar no formulário (cessão simples via
+  termos no envio, tipo "autorizo a exibição" + atribuição)
+- Quem faz a curadoria editorial (mesmo padrão das demais notas: começa
+  manual no vault, antes de virar feature)
+- **Não construir feature antes de validar com 1-2 artistas reais** —
+  mesmo princípio do "onde ver pessoalmente": primeiro o lote mínimo, a
+  infra depois.
 
 
 ### Integração com o Lecionário — "Pintura do Dia" (2026-08-16)
@@ -2733,3 +2778,50 @@ específico (ex.: `collections.louvre.fr/.../ark:.../clNNNNNNNN`,
       abaixo do threshold que a CI checa).
 - [x] Verificado: `pnpm typecheck`/`lint`/`test`/`test:integration`/
       `build:web`/`build:server` verdes depois do bump de dependência.
+
+## Pintura do Dia ligada à leitura litúrgica (2026-09-02)
+
+> Lado recíproco de `lecionario/ROADMAP.md`, seção "Pintura do Dia
+> sumindo em alguns dias + sincronizar com Bíblia na Arte". Achado do
+> Rilson usando o Lecionário: a imagem sumia em alguns dias mesmo com
+> título/artista aparecendo — investigado a fundo (830 referências
+> únicas testadas contra a API, zero `imageUrl` nulo, zero arquivo
+> 404) e a causa real era resiliência de cliente (sem `onError`, uma
+> falha transitória de carregamento da imagem ficava permanente),
+> corrigido do lado do Lecionário. No caminho, decidiu-se reverter a
+> decisão de 2026-08-23 documentada abaixo: as duas pontas agora
+> mostram a MESMA obra no mesmo dia.
+
+- [x] `getDailyArtwork(dateStr)` (`server/src/db/queries.ts`) agora
+      tenta primeiro achar obra ligada à leitura litúrgica do dia antes
+      de cair pro sorteio aleatório de sempre — reverte a decisão
+      anterior ("sorteio independente... resultado diferente por
+      design"). Nova tabela `server/src/data/daily-readings-refs.json`
+      (`{date: refs[]}`, copiada do Lecionário via
+      `lecionario-web/scripts/export-daily-refs.ts` — a conta de
+      calendário litúrgico/Páscoa móvel roda lá, que já tem essa lógica
+      testada, não foi reimplementada aqui) + `src/lib/lectionary-refs.ts`
+      (parser livro→slug, mesmos slugs de `bible_books.slug`,
+      confirmado igual antes de copiar — não cobre deuterocanônicos, o
+      catálogo é cânon protestante de 66 livros, não teriam pool de
+      qualquer forma).
+- [x] Pool por referência (`getArtworkPoolForReference`) filtra
+      `imageUrl IS NOT NULL` — nunca escolhe uma obra sem imagem pra
+      mostrar como "obra do dia".
+- [x] Cobertura da tabela copiada: domingos/festas até 2030-11-24, dias
+      de semana até 2028-11-29. Fora disso (ou se nenhuma leitura do
+      dia tiver obra catalogada), cai pro sorteio de sempre — nunca
+      quebra. Resync é manual (rodar o script do Lecionário de novo +
+      copiar o JSON), documentado lá — calendário litúrgico é fixo, não
+      justifica pipeline automático entre os dois repos.
+- [x] Doc do endpoint (`GET /artworks/daily`, `routes/artworks.ts`)
+      atualizada — não fala mais em "sorteio independente".
+- [x] Testes novos: `lectionary-refs.test.ts` (parser + lookup de data)
+      e integration test end-to-end (`2025-07-13` → Lucas 10:25-37 →
+      "O bom samaritano", prova que o caminho por referência está de
+      fato escolhendo contra o Postgres real, não só em unit test
+      isolado). `pnpm typecheck`/`lint`/`test`/`test:integration`
+      verdes depois (92 unit + 43 integration).
+- [x] Lecionário (web + mobile) simplificado do outro lado: chama só
+      este endpoint agora, removeu `reference-parser.ts`/
+      `bible-books.ts` dos dois apps — ver ROADMAP dele.

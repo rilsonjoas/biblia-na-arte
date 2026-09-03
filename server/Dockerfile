@@ -34,6 +34,12 @@ COPY --from=pruned --chown=app:app /prod/server ./
 # copia .sql sozinho.
 COPY --from=build --chown=app:app /repo/server/src/db/migrations ./dist/db/migrations
 COPY --from=build --chown=app:app /repo/server/src/db/custom-sql ./dist/db/custom-sql
+# Tabela de leituras do Lecionário (Pintura do Dia ligada à leitura
+# litúrgica, ROADMAP 2026-09-02) — mesma razão do .sql acima: import
+# JSON com `resolveJsonModule` funciona no `tsc --noEmit`/typecheck, mas
+# não é o `tsc build` real que garante a cópia pro dist; explícito aqui
+# evita depender desse detalhe de versão do tsc.
+COPY --from=build --chown=app:app /repo/server/src/data ./dist/data
 USER app
 ENV NODE_ENV=production
 EXPOSE 3000

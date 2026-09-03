@@ -207,6 +207,18 @@ describe('API v1 — integração (Postgres real de teste)', () => {
     expect(Array.isArray(body1.references)).toBe(true);
   });
 
+  it('"Pintura do Dia" — usa a leitura litúrgica do dia quando a data está na tabela do Lecionário', async () => {
+    // 13/07/2025: Evangelho do dia é Lucas 10:25-37 (Bom Samaritano) —
+    // ver ROADMAP "Pintura do Dia sumindo..." 2026-09-02. Só "O bom
+    // samaritano" (Lucas 10) bate; "O filho pródigo" é Lucas 15 e não
+    // entraria no pool dessa data — prova que o caminho por referência
+    // está de fato escolhendo, não caindo pro sorteio aleatório de
+    // sempre (que poderia devolver qualquer um dos dois).
+    const res = await app.inject({ method: 'GET', url: '/api/v1/artworks/daily?date=2025-07-13' });
+    expect(res.statusCode).toBe(200);
+    expect(res.json().title).toBe('O bom samaritano');
+  });
+
   it('"Pintura do Dia" — sem ?date usa a data de hoje e responde 200', async () => {
     const res = await app.inject({ method: 'GET', url: '/api/v1/artworks/daily' });
     expect(res.statusCode).toBe(200);

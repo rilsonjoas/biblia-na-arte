@@ -104,7 +104,7 @@ export async function artworkRoutes(app: FastifyInstance) {
         tags: ['obras'],
         summary: '"Pintura do Dia" — mesma obra pra todo mundo, muda à meia-noite UTC',
         description:
-          'Sorteio determinístico (hash da data) sobre o acervo ativo inteiro — mesmo algoritmo de seleção diária usado no Lecionário e no Gerador C.S. Lewis, mas independente: não tenta mostrar a mesma obra que aparece nesses outros projetos no mesmo dia.',
+          'Prioriza a leitura litúrgica do dia (tabela copiada do Lecionário — cobre domingos/festas até 2030-11-24 e dias de semana até 2028-11-29): escolhe entre as obras catalogadas na referência bíblica do dia, com hash determinístico da data. Fora desse período, ou se nenhuma leitura do dia tiver obra catalogada, cai pro sorteio determinístico sobre o acervo ativo inteiro. O Lecionário consome este mesmo endpoint — as duas pontas mostram a mesma obra no mesmo dia.',
         querystring: dailyQueryJson,
         response: { 200: artworkJson, 404: errorJson },
       },

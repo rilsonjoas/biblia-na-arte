@@ -1,7 +1,8 @@
-import { and, desc, eq, inArray, sql } from 'drizzle-orm';
+import { and, desc, eq, inArray, isNotNull, sql } from 'drizzle-orm';
 import { db } from './client.js';
 import { artists, artworks, artworkThemes, bibleBooks, bibleReferences, themes } from './schema.js';
 import type { ListArtworksQuery, SearchArtworksQuery } from '../schemas/artwork.schema.js';
+import { getReferencesForDate, parseLectionaryRef } from '../lib/lectionary-refs.js';
 
 type ArtworkRow = typeof artworks.$inferSelect;
 type ReferenceRow = typeof bibleReferences.$inferSelect;
@@ -145,12 +146,7 @@ export async function getRandomArtwork(): Promise<ArtworkWithReferences | undefi
  *  citação do dia) — replicado aqui de propósito pra manter o mesmo
  *  padrão de "seleção diária determinística" em todo o cluster Design
  *  Narniano, não é código compartilhado (cada projeto já duplica essa
- *  função por conta própria, ver comentário do artwork-fetcher.ts).
- *  Decisão consciente 2026-08-23: NÃO tenta replicar a mesma obra que o
- *  Lecionário mostra no mesmo dia (lá a escolha depende da leitura
- *  litúrgica do dia, que a Bíblia na Arte não tem) — é um sorteio
- *  independente sobre o acervo inteiro, mesmo algoritmo, resultado
- *  diferente por design. */
+ *  função por conta própria, ver comentário do artwork-fetcher.ts). */
 function getDateSeed(dateStr: string): number {
   let hash = 0;
   for (let i = 0; i < dateStr.length; i++) {
@@ -160,12 +156,84 @@ function getDateSeed(dateStr: string): number {
   return Math.abs(hash);
 }
 
+/** Pool de obras catalogadas num livro+capítulo, só as com imagem
+ *  publicável — mesmo espírito do filtro de `listArtworks`, mas sem
+ *  paginação/contagem (não precisa aqui) e com o `imageUrl IS NOT NULL`
+ *  que lá não existe (aqui importa: nunca queremos escolher "a obra do
+ *  dia" e ela não ter imagem pra mostrar). `orderBy(artworks.id)` pela
+ *  mesma razão do `getDailyArtwork` — ordem estável pro `seed % length`
+ *  ser reprodutível entre chamadas. */
+async function getArtworkPoolForReference(bookSlug: string, chapter: number): Promise<ArtworkRow[]> {
+  const matchingRefs = await db
+    .select({ artworkId: bibleReferences.artworkId })
+    .from(bibleReferences)
+    .where(and(eq(bibleReferences.bookSlug, bookSlug), eq(bibleReferences.chapter, chapter)));
+
+  const artworkIds = [...new Set(matchingRefs.map((r) => r.artworkId))];
+  if (artworkIds.length === 0) return [];
+
+  return db
+    .select()
+    .from(artworks)
+    .where(and(eq(artworks.active, true), isNotNull(artworks.imageUrl), inArray(artworks.id, artworkIds)))
+    .orderBy(artworks.id);
+}
+
+/** Entre as referências do dia (leituras do Lecionário pra essa data),
+ *  fica com o MAIOR pool de obras — mesmo critério do
+ *  `fetchArtworkForReferences` do Lecionário (ver ROADMAP dele,
+ *  "Pintura do Dia repetindo"): se a 1ª leitura tiver 1 obra e o
+ *  Evangelho tiver 13, usar o Evangelho é o que garante variar dia após
+ *  dia. `break` cedo com pool >= 3 evita rodar as 4 queries sempre. */
+async function getBestPoolForReferences(refs: string[]): Promise<ArtworkRow[]> {
+  const seen = new Set<string>();
+  let bestPool: ArtworkRow[] = [];
+
+  for (const ref of refs) {
+    const parsed = parseLectionaryRef(ref);
+    if (!parsed) continue;
+
+    const key = `${parsed.bookSlug}|${parsed.chapter}`;
+    if (seen.has(key)) continue;
+    seen.add(key);
+
+    const pool = await getArtworkPoolForReference(parsed.bookSlug, parsed.chapter);
+    if (pool.length > bestPool.length) bestPool = pool;
+    if (bestPool.length >= 3) break;
+  }
+
+  return bestPool;
+}
+
 /** "Pintura do Dia" — mesma obra pra todo mundo que visitar no mesmo dia
- *  (UTC), muda à meia-noite. Ordena por id (UUID) pra ter uma ordem
- *  estável entre chamadas — sem isso, `seed % total` apontaria pra uma
- *  obra diferente a cada vez mesmo com o mesmo seed, porque a ordem
- *  "natural" das linhas no Postgres não é garantida entre queries. */
+ *  (UTC), muda à meia-noite. Primeiro tenta ligar a escolha à leitura
+ *  litúrgica do dia (tabela copiada do Lecionário, ver
+ *  `lectionary-refs.ts` e ROADMAP "Pintura do Dia sumindo..."
+ *  2026-09-02) — reverte a decisão de 2026-08-23 de sortear
+ *  independente; agora as duas pontas mostram a MESMA obra, porque só
+ *  esta função calcula a escolha (o Lecionário passa a só consumir este
+ *  endpoint). Se a data não tiver leitura mapeada (fora da tabela
+ *  copiada) ou nenhuma leitura do dia tiver obra catalogada, cai pro
+ *  sorteio aleatório sobre o acervo inteiro de sempre — nunca quebra.
+ *  Ordena por id (UUID) pra ter uma ordem estável entre chamadas — sem
+ *  isso, `seed % total` apontaria pra uma obra diferente a cada vez
+ *  mesmo com o mesmo seed, porque a ordem "natural" das linhas no
+ *  Postgres não é garantida entre queries. */
 export async function getDailyArtwork(dateStr: string): Promise<ArtworkWithReferences | undefined> {
+  const seed = getDateSeed(dateStr);
+
+  const refs = getReferencesForDate(dateStr);
+  if (refs && refs.length > 0) {
+    const pool = await getBestPoolForReferences(refs);
+    if (pool.length > 0) {
+      const row = pool[seed % pool.length];
+      if (row) {
+        const [withRefs] = await attachReferences([row]);
+        return withRefs;
+      }
+    }
+  }
+
   const [countRow] = await db
     .select({ count: sql<number>`count(*)::int` })
     .from(artworks)
@@ -173,7 +241,6 @@ export async function getDailyArtwork(dateStr: string): Promise<ArtworkWithRefer
   const count = countRow?.count ?? 0;
   if (!count) return undefined;
 
-  const seed = getDateSeed(dateStr);
   const offset = seed % count;
 
   const [row] = await db
