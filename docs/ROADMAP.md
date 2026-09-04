@@ -3000,6 +3000,9 @@ de 1307 — **0% ultrapassa o limite de 2200 caracteres** do Instagram.
       expirar, via endpoint próprio de refresh) vs. lembrete manual a
       cada ~50 dias. Enquanto não decidir, marcar um lembrete manual é
       o mínimo pra não descobrir o token morto só quando o post falhar.
+      **Token atual gerado em 2026-09-03, expira ~2026-11-02 — renovar
+      por volta de 2026-10-18** (`gh secret set INSTAGRAM_ACCESS_TOKEN
+      --repo rilsonjoas/biblia-na-arte`).
 - [ ] Cross-post pro Facebook (Página) — precisa de configuração
       separada (Facebook Login for Business + token de Página), não
       feita nessa rodada.
