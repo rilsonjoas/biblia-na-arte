@@ -72,7 +72,34 @@ jobs:
         run: pnpm build:server
 
       - name: Auditoria de dependências
-        run: pnpm audit --audit-level=high
+        # pnpm audit consulta registry.npmjs.org e volta e meia falha por
+        # timeout de rede (ERR_SOCKET_TIMEOUT/FetchError) sem nenhuma
+        # vulnerabilidade real envolvida — o retry interno do próprio pnpm
+        # (3 tentativas) às vezes não é suficiente (2026-09-03). Distingue
+        # falha de rede (tenta de novo) de vulnerabilidade real encontrada
+        # (falha na hora, não adianta insistir).
+        run: |
+          set -uo pipefail
+          max_attempts=4
+          for attempt in $(seq 1 "$max_attempts"); do
+            output=$(pnpm audit --audit-level=high 2>&1)
+            status=$?
+            echo "$output"
+            if [ "$status" -eq 0 ]; then
+              exit 0
+            fi
+            if echo "$output" | grep -qE 'ERR_SOCKET_TIMEOUT|FetchError|ETIMEDOUT|ECONNRESET'; then
+              if [ "$attempt" -lt "$max_attempts" ]; then
+                echo "▶ Falha de rede ao consultar o registry (tentativa $attempt/$max_attempts) — tentando de novo em 30s..."
+                sleep 30
+                continue
+              fi
+              echo "❌ Falha de rede persistente depois de $max_attempts tentativas — não deu pra confirmar se há vulnerabilidade real, então o CI falha por segurança."
+              exit 1
+            fi
+            echo "❌ pnpm audit encontrou vulnerabilidade(s) de severidade alta — não é falha de rede, não adianta tentar de novo."
+            exit 1
+          done
 
   docker-api:
     name: Build & Push API
