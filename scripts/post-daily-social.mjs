@@ -2,9 +2,10 @@
 /**
  * Publica a "Pintura do Dia" (GET /artworks/daily, já sincronizada com o
  * Lecionário — ver ROADMAP "Pintura do Dia ligada à leitura litúrgica")
- * no Instagram (@artecristadiaria) e na Página do Facebook "Arte Cristã
- * Diária". Ver ROADMAP "Publicação automática — Arte Cristã Diária"
- * pra todo o histórico da configuração de cada plataforma.
+ * no Instagram (@artecristadiaria), na Página do Facebook "Arte Cristã
+ * Diária" e no Threads. Ver ROADMAP "Publicação automática — Arte
+ * Cristã Diária" pra todo o histórico da configuração de cada
+ * plataforma.
  *
  * Script standalone, sem dependência de pacote (só `fetch` nativo do
  * Node 20+) — não faz parte do workspace pnpm de propósito, roda
@@ -14,38 +15,53 @@
  *   INSTAGRAM_ACCESS_TOKEN     — token de usuário de longa duração (60
  *                                dias, precisa renovar — ver ROADMAP)
  *   INSTAGRAM_ACCOUNT_ID       — ID da conta Instagram Business
- *                                (confirmado contra a própria API, não
- *                                o número mostrado na tela do wizard)
- *   FACEBOOK_PAGE_ACCESS_TOKEN — token de Página (derivado de um token
- *                                de usuário de longa duração — não tem
- *                                prazo de expiração como o do Instagram)
+ *   FACEBOOK_PAGE_ACCESS_TOKEN — token de Página (não expira como o do
+ *                                Instagram, derivado de um token de
+ *                                usuário de longa duração)
  *   FACEBOOK_PAGE_ID           — ID da Página do Facebook
+ *   THREADS_ACCESS_TOKEN       — token de usuário de longa duração
+ *   THREADS_USER_ID            — ID da conta Threads (confirmado contra
+ *                                a própria API, não só a tela do painel
+ *                                — mesma lição do Instagram)
  *
- * As duas plataformas publicam de forma independente — falha numa não
- * bloqueia a outra, mas o script termina com erro (exit 1) se QUALQUER
- * uma falhar, pra nunca mascarar uma falha real.
+ * PLATFORMS (opcional, não-secret): lista separada por vírgula de quais
+ * plataformas publicar nessa execução — "instagram,facebook,threads"
+ * (padrão, todas) ou um subconjunto, ex. "threads" sozinho pra testar
+ * uma plataforma nova sem duplicar post nas outras que já publicaram
+ * a obra do dia.
+ *
+ * Cada plataforma publica de forma independente — falha numa não
+ * bloqueia as outras, mas o script termina com erro (exit 1) se
+ * QUALQUER uma selecionada falhar, pra nunca mascarar falha real.
  *
  * Uso: node scripts/post-daily-social.mjs
+ *      PLATFORMS=threads node scripts/post-daily-social.mjs
  */
 
 const API_BASE = 'https://api-biblianaarte.narniano.com/api/v1';
 const WEB_BASE = 'https://biblianaarte.narniano.com';
 const IG_GRAPH_BASE = 'https://graph.instagram.com/v21.0';
 const FB_GRAPH_BASE = 'https://graph.facebook.com/v21.0';
+const THREADS_GRAPH_BASE = 'https://graph.threads.net/v1.0';
 
-// Instagram corta a legenda em 2200 caracteres (Facebook é bem mais
-// generoso, mas usamos o mesmo teto pras duas — mesma voz, mesma
-// legenda, sem motivo real pra divergir). Reservamos um teto pra
-// descrição (a parte mais valiosa e mais variável em tamanho — mediana
-// de ~880 caracteres, mas vai até 3600+) e um teto menor pra citação
-// bíblica, deixando folga pra título/autor/local/link/hashtags.
+// Instagram e Facebook cortam em 2200 caracteres — usamos o mesmo teto
+// pras duas (mesma voz, mesma legenda, sem motivo real pra divergir).
+// Threads é bem mais curto (500 caracteres, link incluso, sem
+// encurtamento automático de URL) — legenda própria, mais enxuta.
 const MAX_DESCRIPTION_CHARS = 700;
 const MAX_QUOTE_CHARS = 250;
+const THREADS_MAX_CHARS = 500;
 
-const IG_TOKEN = requireEnv('INSTAGRAM_ACCESS_TOKEN');
-const IG_ACCOUNT_ID = requireEnv('INSTAGRAM_ACCOUNT_ID');
-const FB_PAGE_TOKEN = requireEnv('FACEBOOK_PAGE_ACCESS_TOKEN');
-const FB_PAGE_ID = requireEnv('FACEBOOK_PAGE_ID');
+const PLATFORMS = new Set(
+  (process.env.PLATFORMS ?? 'instagram,facebook,threads').split(',').map((p) => p.trim()),
+);
+
+const IG_TOKEN = PLATFORMS.has('instagram') ? requireEnv('INSTAGRAM_ACCESS_TOKEN') : null;
+const IG_ACCOUNT_ID = PLATFORMS.has('instagram') ? requireEnv('INSTAGRAM_ACCOUNT_ID') : null;
+const FB_PAGE_TOKEN = PLATFORMS.has('facebook') ? requireEnv('FACEBOOK_PAGE_ACCESS_TOKEN') : null;
+const FB_PAGE_ID = PLATFORMS.has('facebook') ? requireEnv('FACEBOOK_PAGE_ID') : null;
+const THREADS_TOKEN = PLATFORMS.has('threads') ? requireEnv('THREADS_ACCESS_TOKEN') : null;
+const THREADS_USER_ID = PLATFORMS.has('threads') ? requireEnv('THREADS_USER_ID') : null;
 
 function requireEnv(name) {
   const value = process.env[name];
@@ -72,7 +88,7 @@ function truncateAtSentence(text, maxChars) {
  *  "### Contexto Histórico" mais pra frente) — pra legenda queremos só
  *  o parágrafo introdutório (a descrição real da obra em si, sem o
  *  aprofundamento histórico) e sem sintaxe de markdown, que nenhuma das
- *  duas redes renderiza. */
+ *  redes renderiza. */
 function extractDescriptionIntro(description) {
   if (!description) return null;
   const headerIndex = description.search(/\n#{2,3} /);
@@ -107,6 +123,10 @@ function capitalizeFirstLetter(text) {
   return text.slice(0, index) + text[index].toUpperCase() + text.slice(index + 1);
 }
 
+function bareQuote(ref) {
+  return capitalizeFirstLetter(ref.passageText.trim().replace(/^["“]|["”]$/g, ''));
+}
+
 function buildCaption(artwork) {
   const ref = pickReference(artwork.references ?? []);
   const intro = extractDescriptionIntro(artwork.description);
@@ -121,10 +141,8 @@ function buildCaption(artwork) {
   }
 
   if (ref?.passageText) {
-    // passageText já vem com aspas próprias na origem — não duplicar.
-    const bare = capitalizeFirstLetter(ref.passageText.trim().replace(/^["“]|["”]$/g, ''));
     lines.push('');
-    lines.push(`"${truncateAtSentence(bare, MAX_QUOTE_CHARS)}"`);
+    lines.push(`"${truncateAtSentence(bareQuote(ref), MAX_QUOTE_CHARS)}"`);
     lines.push(`— ${formatReference(ref)}`);
   }
 
@@ -141,6 +159,31 @@ function buildCaption(artwork) {
   return lines.join('\n');
 }
 
+/** Threads corta em 500 caracteres (link incluso, sem encurtar URL) —
+ *  pedido do Rilson (2026-09-04): pra Threads especificamente, ir no
+ *  essencial — título, autor, só a CITAÇÃO da referência (livro/
+ *  capítulo/verso, não o texto do versículo) e o link. Sem a descrição
+ *  longa, sem o texto da passagem, sem os múltiplos hashtags do
+ *  Instagram — o risco de estourar 500 caracteres em algum título maior
+ *  fica muito menor assim. */
+function buildThreadsCaption(artwork) {
+  const ref = pickReference(artwork.references ?? []);
+  const lines = [];
+
+  lines.push(`${artwork.title}${artwork.year ? ` (${artwork.year})` : ''} — ${artwork.artistOrDirector}`);
+  if (ref) {
+    lines.push(formatReference(ref));
+  }
+
+  lines.push('');
+  lines.push(`${WEB_BASE}/obra/${artwork.id}`);
+
+  const caption = lines.join('\n');
+  // Rede de segurança: se mesmo assim passar de 500 (título muito
+  // longo, por exemplo), corta o texto inteiro no limite.
+  return caption.length <= THREADS_MAX_CHARS ? caption : truncateAtSentence(caption, THREADS_MAX_CHARS);
+}
+
 async function graphPost(base, path, params) {
   const url = new URL(`${base}${path}`);
   for (const [key, value] of Object.entries(params)) {
@@ -155,18 +198,22 @@ async function graphPost(base, path, params) {
 }
 
 /** Container de mídia (imagem) não costuma demorar pra ficar pronto,
- *  mas checar `status_code` antes de publicar evita o erro esporádico
- *  de "mídia ainda não pronta" — poll curto, não bloqueia por muito
- *  tempo se algo estiver genuinamente errado. */
-async function waitForContainerReady(creationId, { attempts = 5, delayMs = 2000 } = {}) {
+ *  mas checar `status`/`status_code` antes de publicar evita o erro
+ *  esporádico de "mídia ainda não pronta" — poll curto, não bloqueia
+ *  por muito tempo se algo estiver genuinamente errado. Instagram e
+ *  Threads usam nomes de campo ligeiramente diferentes pro status. */
+async function waitForContainerReady(base, creationId, token, statusField) {
+  const attempts = 5;
+  const delayMs = 2000;
   for (let i = 0; i < attempts; i++) {
-    const url = new URL(`${IG_GRAPH_BASE}/${creationId}`);
-    url.searchParams.set('fields', 'status_code');
-    url.searchParams.set('access_token', IG_TOKEN);
+    const url = new URL(`${base}/${creationId}`);
+    url.searchParams.set('fields', statusField);
+    url.searchParams.set('access_token', token);
     const res = await fetch(url);
     const body = await res.json();
-    if (body.status_code === 'FINISHED') return;
-    if (body.status_code === 'ERROR') {
+    const status = body[statusField];
+    if (status === 'FINISHED') return;
+    if (status === 'ERROR') {
       throw new Error(`Container de mídia falhou: ${JSON.stringify(body)}`);
     }
     await new Promise((resolve) => setTimeout(resolve, delayMs));
@@ -185,7 +232,7 @@ async function publishToInstagram(imageUrl, caption) {
   });
 
   console.log('▶ [Instagram] Aguardando processamento...');
-  await waitForContainerReady(container.id);
+  await waitForContainerReady(IG_GRAPH_BASE, container.id, IG_TOKEN, 'status_code');
 
   console.log('▶ [Instagram] Publicando...');
   const published = await graphPost(IG_GRAPH_BASE, `/${IG_ACCOUNT_ID}/media_publish`, {
@@ -207,7 +254,29 @@ async function publishToFacebook(imageUrl, caption) {
   return published.post_id ?? published.id;
 }
 
+async function publishToThreads(imageUrl, caption) {
+  console.log('▶ [Threads] Criando container de mídia...');
+  const container = await graphPost(THREADS_GRAPH_BASE, `/${THREADS_USER_ID}/threads`, {
+    media_type: 'IMAGE',
+    image_url: imageUrl,
+    text: caption,
+    access_token: THREADS_TOKEN,
+  });
+
+  console.log('▶ [Threads] Aguardando processamento...');
+  await waitForContainerReady(THREADS_GRAPH_BASE, container.id, THREADS_TOKEN, 'status');
+
+  console.log('▶ [Threads] Publicando...');
+  const published = await graphPost(THREADS_GRAPH_BASE, `/${THREADS_USER_ID}/threads_publish`, {
+    creation_id: container.id,
+    access_token: THREADS_TOKEN,
+  });
+
+  return published.id;
+}
+
 async function main() {
+  console.log(`▶ Plataformas selecionadas: ${[...PLATFORMS].join(', ')}`);
   console.log('▶ Buscando a Pintura do Dia...');
   const res = await fetch(`${API_BASE}/artworks/daily`);
   if (!res.ok) {
@@ -222,32 +291,36 @@ async function main() {
 
   const imageUrl = `${WEB_BASE}${artwork.imageUrl}`;
   const caption = buildCaption(artwork);
-  console.log('▶ Legenda montada:\n' + caption);
+  console.log('▶ Legenda (Instagram/Facebook) montada:\n' + caption);
 
-  // Publica nas duas plataformas de forma independente — uma falhar não
-  // impede a outra de sair. Erros de cada uma ficam registrados no
-  // resultado, e o script só decide se falha como um todo no final.
-  const results = await Promise.allSettled([
-    publishToInstagram(imageUrl, caption),
-    publishToFacebook(imageUrl, caption),
-  ]);
+  const jobs = [];
+  if (PLATFORMS.has('instagram')) jobs.push(['Instagram', publishToInstagram(imageUrl, caption)]);
+  if (PLATFORMS.has('facebook')) jobs.push(['Facebook', publishToFacebook(imageUrl, caption)]);
+  if (PLATFORMS.has('threads')) {
+    const threadsCaption = buildThreadsCaption(artwork);
+    console.log('▶ Legenda (Threads) montada:\n' + threadsCaption);
+    jobs.push(['Threads', publishToThreads(imageUrl, threadsCaption)]);
+  }
 
-  const [instagram, facebook] = results;
+  if (jobs.length === 0) {
+    throw new Error(`PLATFORMS="${[...PLATFORMS].join(',')}" não bateu com nenhuma plataforma conhecida.`);
+  }
+
+  // Publica em todas de forma independente — uma falhar não impede as
+  // outras de sair. Erros de cada uma ficam registrados no resultado, e
+  // o script só decide se falha como um todo no final.
+  const results = await Promise.allSettled(jobs.map(([, promise]) => promise));
+
   let hadFailure = false;
-
-  if (instagram.status === 'fulfilled') {
-    console.log(`✅ Instagram publicado! ID do post: ${instagram.value}`);
-  } else {
-    console.error('❌ Instagram falhou:', instagram.reason.message);
-    hadFailure = true;
-  }
-
-  if (facebook.status === 'fulfilled') {
-    console.log(`✅ Facebook publicado! ID do post: ${facebook.value}`);
-  } else {
-    console.error('❌ Facebook falhou:', facebook.reason.message);
-    hadFailure = true;
-  }
+  results.forEach((result, i) => {
+    const [name] = jobs[i];
+    if (result.status === 'fulfilled') {
+      console.log(`✅ ${name} publicado! ID do post: ${result.value}`);
+    } else {
+      console.error(`❌ ${name} falhou:`, result.reason.message);
+      hadFailure = true;
+    }
+  });
 
   if (hadFailure) {
     process.exit(1);
