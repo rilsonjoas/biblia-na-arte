@@ -2883,20 +2883,33 @@ específico (ex.: `collections.louvre.fr/.../ark:.../clNNNNNNNN`,
       que já se encaixam (Profeta, João Batista, vigilância/segunda
       vinda).
 
-## Publicação automática — Arte Cristã Diária (Instagram/Facebook)
+## Publicação automática — Arte Cristã Diária (Instagram + Facebook + Threads)
 
 > Pedido do Rilson (2026-09-03): reativar a página
 > [@artecristadiaria](https://www.instagram.com/artecristadiaria/) e
 > publicar automaticamente a mesma Pintura do Dia que Bíblia na Arte e
 > Lecionário mostram — motivo real por trás de querer a afinidade
-> litúrgica bem feita (seção acima). **Implementado** —
-> `.github/workflows/post-daily-instagram.yml` +
-> `scripts/post-daily-instagram.mjs`, rodando 1x/dia às 08:00 (São
-> Paulo).
+> litúrgica bem feita (seção acima). **Implementado nas três
+> plataformas gratuitas** (Instagram, Facebook e Threads) —
+> `.github/workflows/post-daily-social.yml` +
+> `scripts/post-daily-social.mjs`, rodando 1x/dia às 08:13 (São Paulo).
+> Pinterest e X (Twitter) foram pesquisados e descartados por ora — ver
+> "Pendente" no final desta seção.
+
+**Onde isso roda**: inteiramente no GitHub Actions (runner hospedado
+pelo próprio GitHub), não no VPS nem em nenhum computador do Rilson. O
+`schedule: cron` do workflow dispara sozinho todo dia, independente de
+qualquer máquina pessoal estar ligada ou conectada — decisão
+deliberada desde o início (menos superfície de manutenção, sem log
+crescendo em disco em lugar nenhum). Disparos manuais feitos durante a
+configuração (`gh workflow run`) só *pedem* pro GitHub rodar — a
+execução em si sempre acontece do lado deles.
 
 **O plano original (abaixo, riscado) previa Facebook Login + Página do
-Facebook. Na configuração real, a Meta ofereceu um fluxo mais novo e
-mais simples — só Instagram, sem Página — e foi esse que usamos.**
+Facebook desde o início, pro Instagram. Na configuração real, a Meta
+ofereceu um fluxo mais novo e mais simples pro Instagram — sem
+Página — e foi esse que usamos lá. Facebook e Threads entraram depois,
+cada um com sua própria configuração (narrativas abaixo).**
 
 ~~Exige conta Instagram Business/Creator linkada a uma Página do
 Facebook~~ — **não usamos esse fluxo.** O que a Meta chama de
@@ -2911,14 +2924,8 @@ criação do app pra qualquer conta com papel explícito nele
 (desenvolvedor/testador/admin) — sem App Review, sem Verificação de
 Empresa, porque ninguém além do Rilson vai usar essa conta pelo app.
 
-**Consequência real dessa escolha**: só publicamos no **Instagram** por
-enquanto. Cross-post pro Facebook (Página) ficou de fora — precisaria
-de uma configuração separada (Facebook Login for Business + token de
-Página), que não foi feita nessa rodada. Registrado como próximo passo
-em aberto, não como algo que "devia" ter saído já.
-
-**Passo a passo real de configuração (2026-09-03), pra repetir se
-precisar recriar):**
+**Passo a passo real de configuração do Instagram (2026-09-03), pra
+repetir se precisar recriar):**
 
 1. Criar app em developers.facebook.com, tipo "Business" (ou similar),
    sem conectar a um Portfólio Empresarial — "Ainda não quero me
@@ -2951,20 +2958,112 @@ precisar recriar):**
    `INSTAGRAM_ACCESS_TOKEN` (o token de longa duração, ~60 dias) e
    `INSTAGRAM_ACCOUNT_ID` (o ID confirmado no passo 4).
 
-**Nota de segurança — dois incidentes reais nessa configuração:** no
-meio do processo, um Token de Aplicativo completo e, depois, o App
-Secret em texto puro (mais um token de curta duração e uma resposta
-HTTP completa com headers de debug) foram colados diretamente nesta
-conversa por engano, tentando montar um `curl` manual. Em ambos os
-casos o Secret do app foi resetado no painel da Meta logo em seguida
-(invalida qualquer token derivado dele). Prática adotada daí pra
-frente: nenhum comando com segredo real preenchido, nem resposta HTTP
+**Passo a passo real de configuração do Facebook — Página "Arte Cristã
+Diária" (2026-09-04), no MESMO app do Instagram:**
+
+Bem mais acidentado que o Instagram — quatro obstáculos reais, cada um
+com causa raiz diferente, na ordem em que apareceram:
+
+1. **Pré-requisito**: uma Página do Facebook de verdade (não a conta
+   pessoal) — já existia.
+2. No **Explorador da Graph API** (developers.facebook.com/tools/explorer),
+   o painel inteiro (botão de gerar token, abas de permissões e
+   configurações) aparece **travado até você escolher algo no dropdown
+   "Usuário ou Página"** (que começa no placeholder "Obter token") —
+   não é bug, é ordem de operação da própria ferramenta.
+3. Ao tentar adicionar as permissões `pages_show_list` e
+   `pages_manage_posts`/`manage_pages`, a Meta devolveu **"Invalid
+   Scopes"** — causa real: o app só tinha o produto "Instagram API"
+   adicionado, faltava o produto **"Facebook Login"**. Depois de
+   adicionar, `pages_show_list` passou a funcionar, mas
+   `pages_manage_posts` e `pages_read_engagement` continuaram
+   **ausentes da lista** (mesmo digitando o nome exato no filtro de
+   busca do seletor).
+4. Hipótese testada (e que ajudou, mas não sozinha): conectar o app a
+   um **Portfólio Empresarial**. O Rilson já tinha um
+   ("Narniano Existencialista") com a Página listada como ativo, mas o
+   **app em si nunca tinha sido conectado a ele** — o campo pra isso
+   não fica em developers.facebook.com (não existe "Portfólio
+   Empresarial" nas Configurações Básicas do app), fica do lado de
+   **business.facebook.com → Configurações do Portfólio de Negócios →
+   Contas → Apps → Adicionar → "Reivindicar um ID de aplicativo"**,
+   colando o App ID (aprovação automática, por já ser admin). Mesmo
+   depois disso, as duas permissões continuaram fora do seletor do
+   Explorador.
+5. **Causa raiz real**: igual ao Instagram, essas permissões só
+   aparecem depois de passar pelo assistente dedicado — em
+   **"Casos de uso" → "Personalizar caso de uso"** do produto Facebook
+   Login, clicando **"+ Adicionar"** ao lado de cada permissão na
+   lista (`pages_manage_posts`, `pages_read_engagement`). Só depois
+   disso elas passaram a aparecer (e já vinham marcadas) no seletor do
+   Explorador da Graph API.
+6. Com as permissões certas, gerado o **Token de Usuário** no
+   Explorador (dropdown "Usuário ou Página" → "Token de Usuário" →
+   "Generate Access Token" → autorizar a Página "Arte Cristã Diária"
+   quando pedido).
+7. Trocado por token de longa duração:
+   `GET /oauth/access_token?grant_type=fb_exchange_token&client_id=...&client_secret=...&fb_exchange_token=...`
+8. Com o token de longa duração, `GET /me/accounts` devolve a lista de
+   Páginas administradas, cada uma com seu **próprio token de
+   Página** — diferente do Instagram, esse token **não expira em 60
+   dias** (segue valendo enquanto o token de usuário que o gerou for
+   válido e o app não for revogado).
+9. Secrets: `FACEBOOK_PAGE_ACCESS_TOKEN` e `FACEBOOK_PAGE_ID`.
+
+**Passo a passo real de configuração do Threads (2026-09-04), no MESMO
+app — bem mais simples que o Facebook:**
+
+1. O app **já tinha** um App ID e Secret específicos do Threads
+   provisionados automaticamente (visíveis nas Configurações Básicas,
+   sem nenhuma ação prévia) — o produto Threads já vem meio pronto
+   junto com o Instagram API nesse tipo de app.
+2. Em **"Casos de uso" → "Acessar a API do Threads" → Personalizar →
+   Permissões e recursos**: `threads_basic` já vinha "Pronto para
+   teste"; `threads_content_publish` precisou do mesmo
+   **"+ Adicionar"** que o Facebook.
+3. O gerador de token pro Threads **não fica na aba de permissões**,
+   fica em **"Configurações" → "Gerador de token do usuário"** — gera
+   um token de longa duração direto, contanto que a conta esteja
+   registrada como testadora do Threads pro app (mesmo padrão do
+   "Instagram Tester" — Funções do app → Funções, se a lista de nomes
+   vier vazia).
+4. **Aplicada a lição do Instagram**: antes de guardar o ID, confirmado
+   contra a própria API (`GET /me?fields=id,username` em
+   `graph.threads.net/v1.0`) que o `username` batia com
+   `artecristadiaria` — dessa vez bateu, sem divergência.
+5. Secrets: `THREADS_ACCESS_TOKEN` e `THREADS_USER_ID`.
+
+**Nota de segurança — cinco incidentes reais ao longo de toda essa
+configuração (Instagram + Facebook + Threads), mesma resposta toda
+vez:** um Token de Aplicativo completo; depois o App Secret em texto
+puro com um token curto e uma resposta HTTP completa; depois, na
+configuração do Facebook, o App Secret de novo (reset outra vez) e,
+por fim, um token de usuário de longa duração **junto com os tokens de
+DUAS Páginas** (Arte Cristã Diária e outra Página do Rilson, Narniano)
+colados de uma vez na resposta de `/me/accounts`. Nos quatro primeiros
+casos o App Secret foi resetado no painel da Meta logo em seguida. No
+quinto, o Rilson optou explicitamente por **não revogar** ("Deixa isso
+pra lá, cara") — decisão dele, registrada aqui como decisão consciente
+de risco aceito, não como algo ignorado. Prática mantida do início ao
+fim: nenhum comando com segredo real preenchido, nem resposta HTTP
 completa, é colado na conversa — só "deu certo"/"deu erro" ou a
-mensagem de erro, sem valores sensíveis. Verificação de que um secret
-funciona é feita rodando um workflow do GitHub Actions que usa
-`secrets.*` (o valor nunca sai do cofre do GitHub, e qualquer log que
-bata com o valor exato do secret é automaticamente mascarado) — nunca
-um `curl` local cuja saída precisaria ser colada de volta aqui.
+mensagem de erro. Verificação de secret é sempre via workflow do
+GitHub Actions usando `secrets.*` (mascarado automaticamente em log),
+nunca `curl` local com saída colada de volta.
+
+**Bug de produto real, sem relação com a Meta**: ao colar blocos de
+código bash (com `$(comando)` e `$VARIAVEL`) copiados desta conversa
+pro terminal, os cifrões (`$`) somem no processo de copiar/colar,
+quebrando a sintaxe (`zsh: parse error near '|'`) — suspeita é
+renderização de markdown interpretando `$...$` como delimitador de
+LaTeX. Um caso relacionado também produziu `dquote>` (aspa não
+fechada), provavelmente por uma quebra de linha visual do bloco de
+código virando quebra de linha real no meio de uma string entre aspas
+ao colar. Contornado escrevendo os comandos sem variáveis (valores
+literais direto na URL, editados um por um em `nano` antes de rodar,
+conferindo visualmente que cada comando ficou numa linha só). Reportado
+como feedback de produto; se voltar a acontecer, o mesmo contorno
+resolve.
 
 **Legenda — dado real, não suposição:** antes de desenhar o formato,
 medimos os campos de verdade contra a API de produção (1000 obras):
@@ -2974,24 +3073,48 @@ inviável como diferencial. `passageText` (a citação bíblica) cobre
 que já existe no site, com a "Descrição da Obra" e o "Contexto
 Histórico" em markdown) cobre 99,9%, com a parte introdutória (antes
 do cabeçalho de contexto histórico) tendo mediana de ~880 caracteres.
-A legenda final usa: título + artista + ano, um recorte da descrição
-real da obra (até a última frase completa dentro de ~700 caracteres,
-sem sintaxe markdown), a citação bíblica (até ~250 caracteres),
-localização (quando existe) e o link pra obra completa no site.
-Testado contra as 1000 obras reais: mediana de 1051 caracteres, máximo
-de 1307 — **0% ultrapassa o limite de 2200 caracteres** do Instagram.
+A legenda do Instagram/Facebook (`buildCaption`, idêntica pras duas —
+Facebook aceita texto bem mais longo, mas não tem motivo pra mudar de
+voz entre as duas) usa: título + artista + ano, um recorte da
+descrição real da obra (até a última frase completa dentro de ~700
+caracteres, sem sintaxe markdown), a citação bíblica (até ~250
+caracteres), localização (quando existe) e o link pra obra completa no
+site. Testado contra as 1000 obras reais: mediana de 1051 caracteres,
+máximo de 1307 — **0% ultrapassa o limite de 2200 caracteres** do
+Instagram.
 
-**Viabilidade técnica confirmada (pesquisa original, ainda válida):**
+**Threads tem legenda própria, bem mais enxuta** (`buildThreadsCaption`):
+o limite lá é **500 caracteres**, não 2200 — e, diferente do Instagram/
+Facebook, o Threads **não encurta URL automaticamente**, então o link
+inteiro conta pro limite. Pedido do Rilson (2026-09-04) depois de saber
+do limite: ir só no essencial — título/ano/autor, a citação da
+referência (livro/capítulo/verso, **sem** o texto do versículo) e o
+link. Testado contra a obra real do dia: 134 caracteres, bem longe do
+limite mesmo em títulos maiores.
 
-- Fluxo: `POST /{ig-user-id}/media` (cria container passando a URL
+**Viabilidade técnica confirmada:**
+
+- Instagram: `POST /{ig-user-id}/media` (cria container passando a URL
   pública da imagem — `biblianaarte.narniano.com/images/...` já serve
   isso, a Meta busca a URL do lado dela, não precisa upload binário) →
   `POST /{ig-user-id}/media_publish`.
-- Sem endpoint de agendamento nativo da API (não tem
-  `scheduled_publish_time` pro Instagram) — não é problema aqui, porque
-  quem "agenda" é o nosso próprio `schedule: cron` do GitHub Actions,
-  publicando na hora certa.
-- Limite de 25 posts/24h por conta — irrelevante pra 1 post/dia.
+- Facebook: uma chamada só, `POST /{page-id}/photos` (`url` + `caption`).
+- Threads: mesmo padrão container→publish do Instagram, só que em
+  `graph.threads.net/v1.0`: `POST /{threads-user-id}/threads`
+  (`media_type=IMAGE`, `image_url`, `text`) → `POST
+  /{threads-user-id}/threads_publish`.
+- Sem endpoint de agendamento nativo em nenhuma das três (não tem
+  `scheduled_publish_time`) — não é problema aqui, porque quem "agenda"
+  é o nosso próprio `schedule: cron` do GitHub Actions, publicando na
+  hora certa.
+- Limite de 25 posts/24h por conta no Instagram — irrelevante pra 1
+  post/dia. Facebook e Threads não têm limite prático nesse volume.
+- As três publicam de forma **independente** dentro do script (falha
+  numa não impede as outras) via `Promise.allSettled`, mas o script sai
+  com erro se qualquer uma selecionada falhar — nunca mascara falha
+  real. A variável `PLATFORMS` (não-secret, `instagram,facebook,threads`
+  por padrão) permite rodar só um subconjunto — usado na prática pra
+  testar o Threads sozinho sem duplicar o post do dia nas outras duas.
 
 **Bug real — cron no topo da hora, execução descartada sem rastro (2026-09-04):**
 
@@ -3019,11 +3142,27 @@ vale pra qualquer workflow futuro, não só esse.
       **Token atual gerado em 2026-09-03, expira ~2026-11-02 — renovar
       por volta de 2026-10-18** (`gh secret set INSTAGRAM_ACCESS_TOKEN
       --repo rilsonjoas/biblia-na-arte`).
-- [ ] Cross-post pro Facebook (Página) — precisa de configuração
-      separada (Facebook Login for Business + token de Página), não
-      feita nessa rodada.
+- [x] Cross-post pro Facebook (Página) — feito em 2026-09-04, narrativa
+      completa acima.
+- [x] Threads — feito em 2026-09-04, narrativa completa acima.
 - [x] `.github/workflows/test-instagram-token.yml` (workflow temporário
       só de verificação) — removido, substituído pelo workflow real.
+- [ ] **Pinterest** — pesquisado em 2026-09-03, decisão consciente de
+      adiar (Rilson: "vou só dos gratuitos"). Não é gratuito de fato:
+      acesso "Trial" (automático, sem review) só cria pins **privados**
+      (visíveis só pro criador, tipo sandbox) — pra aparecer
+      publicamente precisa de "Standard access", que exige review com
+      **vídeo gravado** do fluxo OAuth funcionando, mesmo sendo o único
+      usuário. Não é caro nem impossível, só não é imediato como as
+      três que já fizemos.
+- [ ] **X (Twitter)** — pesquisado em 2026-09-03, mesma decisão de
+      adiar. Não tem mais tier gratuito pra developer novo desde
+      fevereiro/2026 — é pay-per-use, $0,015/post, ou **$0,20 se o post
+      tiver link** (o nosso sempre tem). Pra 1 post/dia isso dá uns
+      $6/mês — barato em termos absolutos, mas é a única das cinco
+      plataformas avaliadas que custa dinheiro de verdade, e pode
+      exigir compra mínima de crédito adiantado (a confirmar se/quando
+      formos configurar).
 
 ## Botões "Explorar pela Bíblia" / "Descobrir Arte" com tamanho diferente (2026-09-03)
 
