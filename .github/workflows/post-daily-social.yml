@@ -1,0 +1,51 @@
+name: Publicar Pintura do Dia (Instagram + Facebook)
+
+# Publica automaticamente a Pintura do Dia (GET /artworks/daily) na
+# conta @artecristadiaria (Instagram) e na Página "Arte Cristã Diária"
+# (Facebook), todo dia. Ver docs/ROADMAP.md — "Publicação automática —
+# Arte Cristã Diária" — pra todo o histórico da configuração de cada
+# plataforma e decisões tomadas.
+#
+# Roda em GitHub Actions (não no VPS) de propósito: sem cron novo pra
+# manter, sem log crescendo em disco — o histórico de execuções já vive
+# no próprio Actions. Script é standalone (scripts/post-daily-social.mjs),
+# sem instalar dependências.
+
+on:
+  schedule:
+    # ~11:00 UTC = ~08:00 em São Paulo (Brasil não observa horário de
+    # verão desde 2019, então UTC-3 é fixo o ano todo). Horário de
+    # manhã, depois que o dia já virou pra Pintura do Dia (que usa fuso
+    # de São Paulo — ver "Bug 1" no ROADMAP) e antes do horário de pico
+    # de engajamento das redes.
+    #
+    # Minuto 13, não 0: o topo da hora é o horário de maior fila no
+    # agendador do próprio GitHub Actions — em picos de carga, uma
+    # execução agendada bem em ":00" pode ser DESCARTADA por inteiro,
+    # sem erro nem log nenhum (confirmado na prática em 2026-09-04: o
+    # cron original, `0 11 * * *`, simplesmente não rodou, sem deixar
+    # rastro no histórico de execuções). Um minuto "aleatório" evita o
+    # pico. Ver docs.github.com/en/actions/how-tos/troubleshoot-workflows.
+    - cron: '13 11 * * *'
+  workflow_dispatch: {} # permite disparar manualmente pra testar
+
+permissions:
+  contents: read
+
+concurrency:
+  group: post-daily-social
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Publica a Pintura do Dia
+        env:
+          INSTAGRAM_ACCESS_TOKEN: ${{ secrets.INSTAGRAM_ACCESS_TOKEN }}
+          INSTAGRAM_ACCOUNT_ID: ${{ secrets.INSTAGRAM_ACCOUNT_ID }}
+          FACEBOOK_PAGE_ACCESS_TOKEN: ${{ secrets.FACEBOOK_PAGE_ACCESS_TOKEN }}
+          FACEBOOK_PAGE_ID: ${{ secrets.FACEBOOK_PAGE_ID }}
+        run: node scripts/post-daily-social.mjs

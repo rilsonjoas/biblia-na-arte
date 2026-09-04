@@ -2993,6 +2993,22 @@ de 1307 — **0% ultrapassa o limite de 2200 caracteres** do Instagram.
   publicando na hora certa.
 - Limite de 25 posts/24h por conta — irrelevante pra 1 post/dia.
 
+**Bug real — cron no topo da hora, execução descartada sem rastro (2026-09-04):**
+
+O workflow `post-daily-social.yml` (na época ainda `post-daily-instagram.yml`)
+tinha `cron: '0 11 * * *'`. Na primeira manhã depois de configurado,
+não publicou nada — sem erro, sem execução nenhuma no histórico do
+Actions, como se o agendamento nem existisse. Confirmado que é
+comportamento **documentado pelo próprio GitHub**: topo da hora (`:00`)
+é o horário de maior fila no agendador deles, e em pico de carga uma
+execução agendada ali pode ser **descartada por inteiro**, sem log
+nenhum — não é atraso, é sumiço completo.
+[Fonte](https://github.com/orgs/community/discussions/201738),
+[fonte](https://runhooks.app/blog/github-actions-scheduled-workflows-unreliable/).
+Corrigido trocando pra um minuto fora do topo (`13 11 * * *`). Lição
+geral: **nunca agendar `cron` do GitHub Actions em `:00` ou `:30`** —
+vale pra qualquer workflow futuro, não só esse.
+
 **Pendente (não travando nada, só em aberto):**
 
 - [ ] Renovação do token de 60 dias — decisão de produto ainda não
