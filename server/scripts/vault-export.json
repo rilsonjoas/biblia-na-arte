@@ -2249,6 +2249,30 @@
       "createdAt": "2026-08-27T12:32:41.555Z"
     },
     {
+      "slug": "autor-desconhecido-os-alegres-martires-de-nagasaki",
+      "title": "Os alegres mártires de Nagasaki",
+      "subtitle": "The Joyful Martyrs of Nagasaki",
+      "artistOrDirector": "Autor Desconhecido",
+      "year": "1597",
+      "category": "painting",
+      "description": "Os 26 mártires de Nagasaki, crucificados em 1597 por sua fé cristã no Japão. Entre eles estavam franciscanos, jesuítas e leigos japoneses que louvaram a Deus até a morte. \"Bem-aventurados os que sofrem perseguição por causa da justiça, porque deles é o reino dos céus\" (Mateus 5:10). Exemplo supremo de fidelidade até a morte.\n\n### Contexto Histórico\n\nA execução dos 26 cristãos (incluindo o notório Paulo Miki) por ordem do *Taikō* Toyotomi Hideyoshi marcou o início de uma perseguição brutal que visava expurgar completamente a fé cristã do solo japonês. Telas anônimas produzidas no exterior celebraram imediatamente o evento não como uma tragédia política, mas como um glorioso triunfo espiritual, imortalizando-os como o \"proto-mártires\" do Extremo Oriente, cuja constância inabalável diante da cruz no monte Tateyama enraizou o Evangelho no arquipélago através do sangue.",
+      "imageFile": "autor-desconhecido-os-alegres-martires-de-nagasaki.webp",
+      "licenseType": "public-domain",
+      "location": "Nagasaki Museum of History and Culture, Nagasaki, Japão",
+      "sourceUrl": "https://www.indcatholicnews.com/news/49071",
+      "references": [
+        {
+          "book": "2 Timóteo",
+          "bookSlug": "2-timothy",
+          "chapter": 1,
+          "verses": "1-8",
+          "passageText": "\"Paulo, apóstolo de Cristo Jesus pela vontade de Deus, segundo a promessa da vida que está em Cristo Jesus, a Timóteo, amado filho: Graça, misericórdia e paz da parte de Deus Pai e de Cristo Jesus nosso Senhor. Dou graças a Deus, a quem desde os meus antepassados sirvo com uma consciência pura, de que sem cessar faço menção de ti em minhas súplicas de noite e de dia; e, recordando-me das tuas lágrimas, desejo muito ver-te, para me encher de gozo; trazendo à memória a fé não fingida que há em ti, a qual habitou primeiro em tua avó Loide, e em tua mãe Eunice e estou certo de que também habita em ti. Por esta razão te lembro que despertes o dom de Deus, que há em ti pela imposição das minhas mãos. Porque Deus não nos deu o espírito de covardia, mas de poder, de amor e de moderação. Portanto não te envergonhes do testemunho de nosso Senhor, nem de mim, que sou prisioneiro seu; antes participa comigo dos sofrimentos do evangelho segundo o poder de Deus,\""
+        }
+      ],
+      "themes": [],
+      "createdAt": "2026-09-05T14:34:56.310Z"
+    },
+    {
       "slug": "balthasar-van-cortbemde-o-bom-samaritano",
       "title": "O bom samaritano",
       "subtitle": "De barmhartige Samaritaan",
@@ -31745,5 +31769,5 @@
       "name": "Zombaria"
     }
   ],
-  "exportedAt": "2026-09-05T14:41:15.133Z"
+  "exportedAt": "2026-09-05T14:49:20.617Z"
 }

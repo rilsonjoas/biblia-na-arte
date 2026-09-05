@@ -133,7 +133,7 @@ const ALLOWED_UNKNOWN_AUTHOR_FILENAMES = new Set([
   'Autor Desconhecido - Paulo e Barnabé tomados por deuses (Paul and Barnabas at Lystra).md',
   'Autor Desconhecido - Transfiguração de Cristo (Transfiguration of Christ).md',
   'Autor desconhecido - A natividade.md',
-  'Autor desconhecido - Os alegres mártires de Nagasaki  The Joyful Martyrs of Nagasaki (The Joyful Martyrs of Nagasaki).md',
+  'Autor desconhecido - Os alegres mártires de Nagasaki (The Joyful Martyrs of Nagasaki).md', // renomeado 2026-09-05 (título estava com PT+EN colados)
   'Desconhecido - A Adoração do Cordeiro (Adoration of the Lamb).md',
   'Desconhecido - A Incredulidade de Tomé.md',
   'Autor Desconhecido - A Transfiguração (The Transfiguration).md', // mosaico do Monte Tabor, Umberto Noni, 1924
