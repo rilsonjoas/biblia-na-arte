@@ -1,8 +1,10 @@
 import Fastify from 'fastify';
+import multipart from '@fastify/multipart';
 import { isProduction } from './config.js';
 import { registerSecurity } from './plugins/security.js';
 import { registerErrorHandler } from './plugins/error-handler.js';
 import { swaggerPlugin } from './plugins/swagger.js';
+import { jwtAuthPlugin } from './plugins/jwt-auth.js';
 import { healthRoutes } from './routes/health.js';
 import { artworkRoutes } from './routes/artworks.js';
 import { bibleBookRoutes } from './routes/bible-books.js';
@@ -11,6 +13,9 @@ import { artistRoutes } from './routes/artists.js';
 import { themeRoutes } from './routes/themes.js';
 import { periodRoutes } from './routes/periods.js';
 import { exploreRoutes } from './routes/explore.js';
+import { submissionRoutes } from './routes/submissions.js';
+import { adminRoutes } from './routes/admin.js';
+import { uploadRoutes } from './routes/uploads.js';
 import { initSentry } from './lib/sentry.js';
 
 export async function buildApp() {
@@ -27,6 +32,13 @@ export async function buildApp() {
 
   await registerSecurity(app);
   registerErrorHandler(app);
+  await app.register(jwtAuthPlugin);
+
+  // Limite de tamanho aqui é só uma rede de segurança adicional — o
+  // limite de verdade (10MB) é checado manualmente na rota, depois de
+  // ler o mimetype (ver routes/submissions.ts). 15MB dá folga pro
+  // overhead do multipart em si.
+  await app.register(multipart, { limits: { fileSize: 15 * 1024 * 1024 } });
 
   // Precisa ser registrado ANTES das rotas pro swagger capturar os schemas.
   await app.register(swaggerPlugin);
@@ -39,6 +51,9 @@ export async function buildApp() {
   await app.register(themeRoutes, { prefix: '/api/v1' });
   await app.register(periodRoutes, { prefix: '/api/v1' });
   await app.register(exploreRoutes, { prefix: '/api/v1' });
+  await app.register(submissionRoutes, { prefix: '/api/v1' });
+  await app.register(adminRoutes, { prefix: '/api/v1' });
+  await app.register(uploadRoutes, { prefix: '/api/v1' });
 
   // JSON do OpenAPI em /docs (a UI Swagger fica por conta de um serviço
   // separado ou do usuário abrindo o JSON direto).

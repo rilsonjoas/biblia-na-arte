@@ -1,7 +1,17 @@
 import { and, desc, eq, inArray, isNotNull, sql } from 'drizzle-orm';
 import { db } from './client.js';
-import { artists, artworks, artworkThemes, bibleBooks, bibleReferences, themes } from './schema.js';
+import {
+  artists,
+  artworks,
+  artworkThemes,
+  bibleBooks,
+  bibleReferences,
+  themes,
+  submissions,
+  users,
+} from './schema.js';
 import type { ListArtworksQuery, SearchArtworksQuery } from '../schemas/artwork.schema.js';
+import type { CreateSubmissionInput, UpdateSubmissionInput } from '../schemas/submission.schema.js';
 import { getLectionaryEntry, parseLectionaryRef, SEASON_THEME_SLUGS } from '../lib/lectionary-refs.js';
 
 type ArtworkRow = typeof artworks.$inferSelect;
@@ -630,4 +640,166 @@ export async function getExploreByChapter(
     relatedChapters: relatedRows as unknown as ExploreChapterRow[],
     themes: themeRows as unknown as ExploreThemeRow[],
   };
+}
+
+// ---------------------------------------------------------------------
+// Submissão de artistas + painel administrativo (roadmap, 2026-09-05)
+// ---------------------------------------------------------------------
+
+export type SubmissionRow = typeof submissions.$inferSelect;
+export type UserRow = typeof users.$inferSelect;
+
+export async function findUserByEmail(email: string): Promise<UserRow | undefined> {
+  const [row] = await db.select().from(users).where(eq(users.email, email)).limit(1);
+  return row;
+}
+
+export async function createSubmission(
+  input: CreateSubmissionInput & { imagePath: string },
+): Promise<SubmissionRow> {
+  const [row] = await db
+    .insert(submissions)
+    .values({
+      submitterName: input.submitterName,
+      submitterEmail: input.submitterEmail,
+      submitterContact: input.submitterContact,
+      rightsConfirmed: input.rightsConfirmed,
+      rightsConfirmedAt: new Date(),
+      title: input.title,
+      subtitle: input.subtitle,
+      artistName: input.artistName,
+      year: input.year,
+      description: input.description,
+      location: input.location,
+      sourceUrl: input.sourceUrl || undefined,
+      imagePath: input.imagePath,
+      suggestedBook: input.suggestedBook,
+      suggestedChapter: input.suggestedChapter,
+      suggestedVerses: input.suggestedVerses,
+      suggestedPassageText: input.suggestedPassageText,
+    })
+    .returning();
+
+  if (!row) throw new Error('Falha ao criar submissão');
+  return row;
+}
+
+export async function listSubmissions(status?: SubmissionRow['status']): Promise<SubmissionRow[]> {
+  const query = db.select().from(submissions).orderBy(desc(submissions.createdAt));
+  if (status) {
+    return query.where(eq(submissions.status, status));
+  }
+  return query;
+}
+
+export async function getSubmissionById(id: string): Promise<SubmissionRow | undefined> {
+  const [row] = await db.select().from(submissions).where(eq(submissions.id, id)).limit(1);
+  return row;
+}
+
+export async function updateSubmission(
+  id: string,
+  data: UpdateSubmissionInput,
+): Promise<SubmissionRow | undefined> {
+  const [row] = await db.update(submissions).set(data).where(eq(submissions.id, id)).returning();
+  return row;
+}
+
+export async function rejectSubmission(
+  id: string,
+  reviewerId: string,
+  reason?: string,
+): Promise<SubmissionRow | undefined> {
+  const [row] = await db
+    .update(submissions)
+    .set({
+      status: 'rejeitado',
+      reviewedBy: reviewerId,
+      reviewedAt: new Date(),
+      reviewerNotes: reason,
+    })
+    .where(eq(submissions.id, id))
+    .returning();
+  return row;
+}
+
+/** Aprova uma submissão: cria a obra de verdade (origem 'submissao') +
+ *  a referência bíblica sugerida (se o livro bater com um `bible_books`
+ *  existente — nome digitado livre pelo artista, não confiar sem
+ *  conferir), e marca a submissão como aprovada com o link pra obra
+ *  criada. Tudo numa transação — nunca fica pela metade (obra criada
+ *  sem a submissão marcada, ou vice-versa). Recebe `imageUrl` e
+ *  `bookSlug` já resolvidos por quem chama (rota) — mover arquivo em
+ *  disco e casar nome de livro não são responsabilidade de uma query. */
+export async function approveSubmission(
+  id: string,
+  reviewerId: string,
+  imageUrl: string,
+  bookSlug: string | null,
+): Promise<{ submission: SubmissionRow; artworkId: string }> {
+  return db.transaction(async (tx) => {
+    const [submission] = await tx.select().from(submissions).where(eq(submissions.id, id)).limit(1);
+    if (!submission) throw new Error('Submissão não encontrada');
+
+    const [artwork] = await tx
+      .insert(artworks)
+      .values({
+        title: submission.title,
+        subtitle: submission.subtitle,
+        artistOrDirector: submission.artistName || 'Autor Desconhecido',
+        year: submission.year,
+        category: submission.category,
+        description: submission.description || submission.title,
+        imageUrl,
+        sourceUrl: submission.sourceUrl,
+        location: submission.location,
+        licenseType: 'submission-confirmed', // ver ROADMAP: confirmado via checkbox, não domínio público
+        origem: 'submissao',
+      })
+      .returning();
+
+    if (!artwork) throw new Error('Falha ao criar obra a partir da submissão');
+
+    if (submission.suggestedBook && submission.suggestedChapter && bookSlug) {
+      await tx.insert(bibleReferences).values({
+        artworkId: artwork.id,
+        book: submission.suggestedBook,
+        bookSlug,
+        chapter: submission.suggestedChapter,
+        verses: submission.suggestedVerses,
+        passageText: submission.suggestedPassageText,
+      });
+    }
+
+    const [updated] = await tx
+      .update(submissions)
+      .set({
+        status: 'aprovado',
+        reviewedBy: reviewerId,
+        reviewedAt: new Date(),
+        approvedArtworkId: artwork.id,
+      })
+      .where(eq(submissions.id, id))
+      .returning();
+
+    if (!updated) throw new Error('Falha ao atualizar submissão após aprovação');
+
+    return { submission: updated, artworkId: artwork.id };
+  });
+}
+
+/** Resolve o nome de livro digitado livre pelo artista pro slug oficial
+ *  — casamento exato por nome (mesma robustez que o resto do projeto
+ *  aplica: nunca inventar um slug a partir de texto livre sem conferir
+ *  contra a lista real de livros). Retorna null se não bater com nada
+ *  — nesse caso a obra é aprovada mesmo assim, só sem referência
+ *  bíblica estruturada (o revisor pode adicionar depois via `PATCH`,
+ *  corrigindo `suggestedBook` antes de aprovar, se preferir).*/
+export async function findBibleBookSlugByName(name: string): Promise<string | null> {
+  const [row] = await db
+    .select({ slug: bibleBooks.slug })
+    .from(bibleBooks)
+    .where(eq(bibleBooks.name, name.trim()))
+    .limit(1);
+  return row?.slug ?? null;
 }

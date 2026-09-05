@@ -30,6 +30,33 @@ const envSchema = z.object({
   // Rate limit — requisições por IP por janela.
   RATE_LIMIT_MAX: z.coerce.number().int().positive().default(200),
   RATE_LIMIT_WINDOW_MS: z.coerce.number().int().positive().default(60_000),
+
+  // Painel administrativo / submissão de artistas (roadmap, 2026-09-05).
+  // Sem valor padrão de propósito — gerar com `openssl rand -hex 32` e
+  // nunca reaproveitar entre ambientes; trocar esse valor invalida todo
+  // login ativo (aceitável, é só isso mesmo que teria que acontecer se
+  // vazasse).
+  JWT_SECRET: z.string().min(32, 'JWT_SECRET precisa ter pelo menos 32 caracteres'),
+
+  // Diretório onde imagens de submissões pendentes ficam salvas —
+  // separado de `web/public/images` de propósito: nada aqui é servido
+  // publicamente até a submissão ser aprovada (ver ROADMAP, "Submissão
+  // de artistas...").
+  SUBMISSION_UPLOADS_DIR: z.string().default('./uploads/pending-submissions'),
+
+  // Achado ao implementar: `web` é build estático servido por nginx
+  // (Dockerfile copia `web/dist` já pronto, sem volume gravável em
+  // produção) — a imagem de uma obra de submissão NÃO pode ir pra
+  // `web/public/images` como as do vault. Fica num diretório próprio,
+  // persistente, servido pela própria API (rota pública `/uploads/:file`).
+  APPROVED_SUBMISSION_UPLOADS_DIR: z.string().default('./uploads/approved-submissions'),
+
+  // URL pública de onde ESTA API responde — precisa ser absoluta porque
+  // o site (`web`, subdomínio diferente) não sabe converter uma URL
+  // relativa da API pro domínio certo. Só usada pra montar `imageUrl`
+  // de obras de submissão (as do vault continuam relativas, servidas
+  // pelo próprio nginx do `web`).
+  PUBLIC_API_URL: z.string().url().default('http://localhost:3000'),
 });
 
 const parsed = envSchema.safeParse(process.env);

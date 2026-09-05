@@ -12,10 +12,14 @@ export async function registerSecurity(app: FastifyInstance) {
   // Só os domínios em CORS_ORIGIN podem chamar a API do navegador (o
   // próprio site + outros projetos da "Biblioteca" que também consomem
   // essa API client-side, ex. lecionario.narniano.com). Sem credenciais
-  // (não tem cookie/sessão nessa API pública).
+  // (não tem cookie/sessão nessa API — login do painel usa token no
+  // header Authorization, não cookie, ver plugins/jwt-auth.ts).
+  //
+  // POST/PATCH liberados desde a submissão de artistas (roadmap,
+  // 2026-09-05) — antes a API era só leitura.
   await app.register(cors, {
     origin: env.CORS_ORIGIN,
-    methods: ['GET'],
+    methods: ['GET', 'POST', 'PATCH'],
   });
 
   // Limite por IP — protege o Postgres compartilhado (e o resto dos

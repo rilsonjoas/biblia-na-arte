@@ -11,7 +11,11 @@ describe('config — CORS_ORIGIN', () => {
 
   beforeEach(() => {
     vi.resetModules();
-    process.env = { ...ORIGINAL_ENV, DATABASE_URL: 'postgresql://u:p@localhost:5432/db' };
+    process.env = {
+      ...ORIGINAL_ENV,
+      DATABASE_URL: 'postgresql://u:p@localhost:5432/db',
+      JWT_SECRET: 'test-secret-with-at-least-32-characters',
+    };
   });
 
   afterEach(() => {
