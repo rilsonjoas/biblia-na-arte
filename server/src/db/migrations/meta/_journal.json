@@ -57,6 +57,13 @@
       "when": 1788320034616,
       "tag": "0007_worried_toad",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1788625267305,
+      "tag": "0008_special_lady_mastermind",
+      "breakpoints": true
     }
   ]
 }

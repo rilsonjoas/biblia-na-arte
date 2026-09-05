@@ -21,7 +21,7 @@
  */
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
-import { inArray, notInArray, sql } from 'drizzle-orm';
+import { and, eq, inArray, notInArray, sql } from 'drizzle-orm';
 import { db, closeDb } from '../src/db/client.js';
 import { artists, artworks, artworkThemes, bibleBooks, bibleReferences, themes } from '../src/db/schema.js';
 import { bibleBooksSeed } from '../src/db/seed-data/bible-books.js';
@@ -106,8 +106,14 @@ async function main() {
     // continuar o mesmo entre reseeds (ver ROADMAP).
     const validIds = exported.map((item) => artworkIdFromSlug(item.slug));
 
+    // Só remove obras de origem 'vault' — uma obra aprovada via painel
+    // de submissão (origem 'submissao') nunca existiu no vault pra
+    // "sair" dele, e não pode ser apagada por um reseed (ver ROADMAP,
+    // "Submissão de artistas + painel administrativo").
     console.log('▶ Removendo obras que saíram do vault...');
-    await tx.delete(artworks).where(notInArray(artworks.id, validIds));
+    await tx
+      .delete(artworks)
+      .where(and(notInArray(artworks.id, validIds), eq(artworks.origem, 'vault')));
 
     // bible_references não tem identidade própria (nada externo linka
     // pra uma referência individual) — mais simples limpar tudo dos
@@ -133,6 +139,7 @@ async function main() {
         sourceUrl: item.sourceUrl,
         classicCommentaryAuthor: item.classicCommentaryAuthor,
         classicCommentary: item.classicCommentary,
+        origem: 'vault' as const,
         createdAt: new Date(item.createdAt),
       };
 

@@ -24,6 +24,31 @@ export const artworkCategoryEnum = pgEnum('artwork_category', [
 
 export const testamentEnum = pgEnum('testament_type', ['old', 'new']);
 
+// Submissão de artistas + painel administrativo (roadmap, planejado
+// 2026-09-05): distingue obra que veio do vault (curadoria pessoal do
+// Rilson, via Obsidian) de obra aprovada pelo painel (submetida por
+// artista externo). Existe porque o reseed do vault (`import-seed-data.ts`)
+// apaga toda obra que não está no export atual — sem essa distinção,
+// uma obra de submissão seria apagada no primeiro reseed seguinte, já
+// que ela nunca existiu como nota no vault. A etapa de remoção do
+// reseed filtra por `origem = 'vault'`; `submissao` nunca é tocada por
+// ele.
+export const artworkOrigemEnum = pgEnum('artwork_origem', ['vault', 'submissao']);
+
+export const submissionStatusEnum = pgEnum('submission_status', [
+  'pendente',
+  'aprovado',
+  'rejeitado',
+]);
+
+// Dois papéis desde o início, mesmo com um usuário só por enquanto:
+// `revisor` prepara/edita/sinaliza uma submissão como pronta; só
+// `admin` de fato aprova (o que a torna uma obra pública). Resolve de
+// saída a pergunta "quem tem a palavra final na curadoria" — fica
+// garantido pela arquitetura, não só combinado verbalmente com um
+// eventual parceiro (ver ROADMAP, seção "Submissão de artistas...").
+export const userRoleEnum = pgEnum('user_role', ['admin', 'revisor']);
+
 export const bibleBooks = pgTable(
   'bible_books',
   {
@@ -87,11 +112,17 @@ export const artworks = pgTable(
     // Lista do que está desativado e por quê: docs/AUDITORIA-COPYRIGHT.md
     active: boolean('active').default(true).notNull(),
 
+    // Submissão de artistas (roadmap, 2026-09-05) — ver comentário do
+    // enum `artworkOrigemEnum` acima. Toda obra existente até aqui é
+    // 'vault' (valor padrão), preenchido automaticamente pela migração.
+    origem: artworkOrigemEnum('origem').default('vault').notNull(),
+
     createdAt: timestamp('created_at', { withTimezone: true }).defaultNow(),
     updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow(),
   },
   (table) => [
     index('idx_artworks_category').on(table.category),
+    index('idx_artworks_origem').on(table.origem),
     index('idx_artworks_artist').on(table.artistOrDirector),
     index('idx_artworks_year').on(table.year),
     index('idx_artworks_created_at').on(table.createdAt),
@@ -178,6 +209,95 @@ export const artworkThemes = pgTable(
   (table) => [
     primaryKey({ columns: [table.artworkId, table.themeSlug] }),
     index('idx_artwork_themes_theme_slug').on(table.themeSlug),
+  ],
+);
+
+// Login do painel administrativo (roadmap, 2026-09-05). Começa só com o
+// Rilson (`admin`); convite futuro pra revisor externo (ex.: equipe de
+// um eventual parceiro) é uma linha nova aqui, sem reengenharia nenhuma.
+// Hash de senha via `crypto.scrypt` nativo do Node — sem dependência
+// nova só pra isso.
+export const users = pgTable('users', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  email: text('email').notNull().unique(),
+  passwordHash: text('password_hash').notNull(),
+  role: userRoleEnum('role').default('revisor').notNull(),
+  createdAt: timestamp('created_at', { withTimezone: true }).defaultNow(),
+});
+
+// Fila de obras submetidas por artistas externos, separada de
+// `artworks` de propósito — nada aqui é servido publicamente até
+// aprovado, então não corre risco de uma submissão não revisada vazar
+// pra API por um filtro esquecido em algum lugar (ver ROADMAP,
+// "Submissão de artistas..."). Campos da obra espelham `artworks`/
+// `bibleReferences`, mas quase todos opcionais: existem pra serem
+// preenchidos com a mesma qualidade do resto do acervo, mas não travam
+// a submissão se vierem incompletos — a régua de qualidade de verdade
+// acontece na revisão, não na entrada (mesma lógica de uma nota nova
+// do vault, que pode nascer rasa e ser enriquecida depois).
+export const submissions = pgTable(
+  'submissions',
+  {
+    id: uuid('id').defaultRandom().primaryKey(),
+    status: submissionStatusEnum('status').default('pendente').notNull(),
+
+    // Quem submeteu — sempre obrigatório, é o mínimo pra poder
+    // responder/negociar direitos com a pessoa.
+    submitterName: text('submitter_name').notNull(),
+    submitterEmail: text('submitter_email').notNull(),
+    submitterContact: text('submitter_contact'), // WhatsApp/Instagram, opcional
+
+    // Confirmação de direito de imagem — obrigatória de verdade (não é
+    // "opcional, mas deveria"): proteção legal antes de publicar algo
+    // de terceiro. `rightsConfirmedAt` registra quando foi marcada, não
+    // só que foi marcada.
+    rightsConfirmed: boolean('rights_confirmed').notNull().default(false),
+    rightsConfirmedAt: timestamp('rights_confirmed_at', { withTimezone: true }),
+
+    // Dados da obra em si — mesmos nomes de campo de `artworks` onde
+    // existe equivalente direto, pra facilitar o mapeamento na hora de
+    // aprovar. Só `title` e `imagePath` são obrigatórios: o mínimo pra
+    // a submissão ser revisável (precisa de algo pra olhar e um nome
+    // pra identificar na fila).
+    title: text('title').notNull(),
+    subtitle: text('subtitle'),
+    artistName: text('artist_name'),
+    year: text('year'),
+    category: artworkCategoryEnum('category').default('painting').notNull(),
+    description: text('description'),
+    location: text('location'),
+    sourceUrl: text('source_url'),
+
+    // Caminho da imagem numa pasta privada (não servida publicamente)
+    // até a aprovação — nesse momento é copiada/convertida (mesmo
+    // pipeline WebP do `sharp` que o export do vault já usa) pra
+    // `web/public/images/`.
+    imagePath: text('image_path').notNull(),
+
+    // Referência bíblica sugerida pelo próprio artista — um só
+    // registro aqui de propósito (a maioria não vai saber apontar
+    // várias referências com precisão); o revisor pode adicionar mais
+    // referências reais em `bible_references` direto na hora de
+    // aprovar, se for o caso.
+    suggestedBook: text('suggested_book'),
+    suggestedChapter: integer('suggested_chapter'),
+    suggestedVerses: text('suggested_verses'),
+    suggestedPassageText: text('suggested_passage_text'),
+
+    // Preenchidos durante a revisão, não na submissão.
+    reviewerNotes: text('reviewer_notes'),
+    reviewedBy: uuid('reviewed_by').references(() => users.id),
+    reviewedAt: timestamp('reviewed_at', { withTimezone: true }),
+
+    // Preenchido só depois de aprovada — link pra obra real que a
+    // submissão virou, pra rastreabilidade (de onde essa obra veio).
+    approvedArtworkId: uuid('approved_artwork_id').references(() => artworks.id),
+
+    createdAt: timestamp('created_at', { withTimezone: true }).defaultNow(),
+  },
+  (table) => [
+    index('idx_submissions_status').on(table.status),
+    index('idx_submissions_created_at').on(table.createdAt),
   ],
 );
 
