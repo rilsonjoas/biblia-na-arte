@@ -40,6 +40,16 @@ COPY --from=build --chown=app:app /repo/server/src/db/custom-sql ./dist/db/custo
 # não é o `tsc build` real que garante a cópia pro dist; explícito aqui
 # evita depender desse detalhe de versão do tsc.
 COPY --from=build --chown=app:app /repo/server/src/data ./dist/data
+# Submissão de artistas (roadmap, 2026-09-05): pré-cria as pastas de
+# upload já com dono correto. Sem isso, o volume Docker nomeado
+# montado em /app/uploads nasce vazio e dono de root na primeira vez
+# — o processo (USER app, não-root) recebe EACCES ao tentar criar
+# subpastas nele. Docker semeia um volume novo com o conteúdo/dono
+# que já existir no caminho de destino da imagem, então criar aqui
+# resolve de vez (achado real: aconteceu no primeiro deploy da feature
+# em produção, 2026-09-05).
+RUN mkdir -p ./uploads/pending-submissions ./uploads/approved-submissions \
+    && chown -R app:app ./uploads
 USER app
 ENV NODE_ENV=production
 EXPOSE 3000
