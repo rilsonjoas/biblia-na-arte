@@ -39,6 +39,13 @@ export async function uploadRoutes(app: FastifyInstance) {
       }
 
       reply.header('Cache-Control', 'public, max-age=31536000, immutable');
+      // @fastify/helmet aplica Cross-Origin-Resource-Policy: same-origin
+      // por padrão (registerSecurity) — bloqueia o navegador de carregar
+      // essa imagem num <img> do biblianaarte.narniano.com, subdomínio
+      // diferente da API. Rota pública de propósito, feita pra ser
+      // embedada cross-origin (achado real: obra aprovada não aparecia
+      // no site, só dava pra ver via curl — curl não aplica CORP).
+      reply.header('Cross-Origin-Resource-Policy', 'cross-origin');
       reply.type('image/webp');
       return reply.send(createReadStream(filePath));
     },
