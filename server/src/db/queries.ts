@@ -788,6 +788,47 @@ export async function approveSubmission(
   });
 }
 
+/** Apaga uma submissão de vez — se já tinha sido aprovada, apaga também
+ *  a obra publicada (referências bíblicas somem em cascata, FK
+ *  `onDelete: 'cascade'`). Achado real 2026-09-05: o painel não tinha
+ *  nenhum jeito de desfazer uma aprovação/submissão de teste — quem
+ *  revisa só tem "aprovar" e "rejeitar", nenhum dos dois remove nada.
+ *  Devolve o que existe em disco pra apagar (rota cuida do arquivo —
+ *  mesma separação de responsabilidade de approveSubmission). */
+export async function deleteSubmission(id: string): Promise<
+  | {
+      pendingImagePath: string | null;
+      approvedImageUrl: string | null;
+    }
+  | undefined
+> {
+  return db.transaction(async (tx) => {
+    const [submission] = await tx.select().from(submissions).where(eq(submissions.id, id)).limit(1);
+    if (!submission) return undefined;
+
+    let approvedImageUrl: string | null = null;
+    if (submission.approvedArtworkId) {
+      const [artwork] = await tx
+        .select({ imageUrl: artworks.imageUrl })
+        .from(artworks)
+        .where(eq(artworks.id, submission.approvedArtworkId))
+        .limit(1);
+      approvedImageUrl = artwork?.imageUrl ?? null;
+      await tx.delete(artworks).where(eq(artworks.id, submission.approvedArtworkId));
+    }
+
+    await tx.delete(submissions).where(eq(submissions.id, id));
+
+    // Se foi aprovada, o arquivo pendente já foi movido (rename, não
+    // cópia) por promoteSubmissionImage — não existe mais nesse
+    // caminho, só a versão aprovada precisa ser removida.
+    return {
+      pendingImagePath: submission.approvedArtworkId ? null : submission.imagePath,
+      approvedImageUrl,
+    };
+  });
+}
+
 /** Resolve o nome de livro digitado livre pelo artista pro slug oficial
  *  — casamento exato por nome (mesma robustez que o resto do projeto
  *  aplica: nunca inventar um slug a partir de texto livre sem conferir

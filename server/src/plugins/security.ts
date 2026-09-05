@@ -15,11 +15,14 @@ export async function registerSecurity(app: FastifyInstance) {
   // (não tem cookie/sessão nessa API — login do painel usa token no
   // header Authorization, não cookie, ver plugins/jwt-auth.ts).
   //
-  // POST/PATCH liberados desde a submissão de artistas (roadmap,
-  // 2026-09-05) — antes a API era só leitura.
+  // POST/PATCH/DELETE liberados desde a submissão de artistas (roadmap,
+  // 2026-09-05) — antes a API era só leitura. DELETE entrou depois,
+  // junto da rota de apagar submissão/obra (achado real: sem isso o
+  // preflight do navegador bloqueia a chamada antes dela nem chegar na
+  // API — funcionava via curl, quebraria no painel de verdade).
   await app.register(cors, {
     origin: env.CORS_ORIGIN,
-    methods: ['GET', 'POST', 'PATCH'],
+    methods: ['GET', 'POST', 'PATCH', 'DELETE'],
   });
 
   // Limite por IP — protege o Postgres compartilhado (e o resto dos

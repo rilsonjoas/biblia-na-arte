@@ -152,3 +152,11 @@ export async function approveSubmission(id: string): Promise<{ artworkId: string
 export async function rejectSubmission(id: string, reason?: string): Promise<Submission> {
   return authedRequest<Submission>(`/admin/submissions/${id}/reject`, { method: 'POST', body: { reason } });
 }
+
+// Achado real 2026-09-05: o painel não tinha nenhum jeito de desfazer
+// uma submissão/aprovação de teste — só "aprovar" e "rejeitar", nenhum
+// dos dois remove. Se já tinha sido aprovada, apaga a obra publicada
+// junto (servidor cuida disso — ver admin.ts).
+export async function deleteSubmission(id: string): Promise<void> {
+  await authedRequest<void>(`/admin/submissions/${id}`, { method: 'DELETE' });
+}

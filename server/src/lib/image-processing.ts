@@ -47,19 +47,28 @@ export async function processSubmissionImage(buffer: Buffer, uploadsDir: string)
  *  (`SUBMISSION_UPLOADS_DIR`) pra pasta pública própria da API
  *  (`APPROVED_SUBMISSION_UPLOADS_DIR`, servida por `routes/uploads.ts`),
  *  renomeando pro mesmo padrão `artista-titulo.webp` das obras do vault
- *  (só cosmético — a rota serve por nome de arquivo, não por convenção).
+ *  (cosmético — a rota serve por nome de arquivo, não por convenção).
  *  `rename()` em vez de copiar+apagar: mesmo filesystem (mesmo volume
- *  Docker), então é atômico e mais barato. */
+ *  Docker), então é atômico e mais barato.
+ *
+ *  `submissionId` (sempre único, já existe antes da aprovação) entra
+ *  como sufixo curto do nome — achado real 2026-09-05: sem isso, duas
+ *  submissões com o mesmo artista+título (ou ambas "autor
+ *  desconhecido" + título igual) geram o mesmo slug, e a segunda
+ *  aprovação sobrescreve o arquivo da primeira em silêncio — nenhum
+ *  erro, só a obra antiga passa a apontar pra imagem errada. */
 export async function promoteSubmissionImage(
   pendingPath: string,
   approvedDir: string,
   artistName: string,
   title: string,
+  submissionId: string,
 ): Promise<string> {
   await mkdir(approvedDir, { recursive: true });
 
   const base = slugify(`${artistName || 'artista-desconhecido'}-${title}`);
-  const filename = `${base}.webp`;
+  const suffix = submissionId.replace(/-/g, '').slice(0, 8);
+  const filename = `${base}-${suffix}.webp`;
   await rename(pendingPath, path.join(approvedDir, filename));
 
   return filename;

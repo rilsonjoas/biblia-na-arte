@@ -22,6 +22,7 @@ vi.mock('../db/queries.js', () => ({
   updateSubmission: vi.fn(),
   approveSubmission: vi.fn(),
   rejectSubmission: vi.fn(),
+  deleteSubmission: vi.fn(),
   findBibleBookSlugByName: vi.fn(),
 }));
 
@@ -185,5 +186,65 @@ describe('rotas protegidas de admin', () => {
     });
 
     expect(res.statusCode).toBe(200);
+  });
+
+  it('DELETE /admin/submissions/:id funciona pra revisor quando ainda não foi aprovada', async () => {
+    const submissionId = '66666666-6666-6666-6666-666666666666';
+    vi.mocked(queries.getSubmissionById).mockResolvedValueOnce({
+      id: submissionId,
+      status: 'pendente',
+      imagePath: './uploads/pending-submissions-test/nao-existe.webp',
+      approvedArtworkId: null,
+    } as never);
+    vi.mocked(queries.deleteSubmission).mockResolvedValueOnce({
+      pendingImagePath: './uploads/pending-submissions-test/nao-existe.webp',
+      approvedImageUrl: null,
+    });
+
+    const res = await app.inject({
+      method: 'DELETE',
+      url: `/api/v1/admin/submissions/${submissionId}`,
+      headers: { authorization: `Bearer ${revisorToken}` },
+    });
+
+    expect(res.statusCode).toBe(204);
+  });
+
+  it('DELETE /admin/submissions/:id de uma já aprovada exige admin — revisor recebe 403', async () => {
+    const submissionId = '77777777-7777-7777-7777-777777777777';
+    vi.mocked(queries.getSubmissionById).mockResolvedValueOnce({
+      id: submissionId,
+      status: 'aprovado',
+      approvedArtworkId: '88888888-8888-8888-8888-888888888888',
+    } as never);
+
+    const res = await app.inject({
+      method: 'DELETE',
+      url: `/api/v1/admin/submissions/${submissionId}`,
+      headers: { authorization: `Bearer ${revisorToken}` },
+    });
+
+    expect(res.statusCode).toBe(403);
+  });
+
+  it('DELETE /admin/submissions/:id de uma já aprovada funciona pra admin', async () => {
+    const submissionId = '99999999-9999-9999-9999-999999999999';
+    vi.mocked(queries.getSubmissionById).mockResolvedValueOnce({
+      id: submissionId,
+      status: 'aprovado',
+      approvedArtworkId: 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa',
+    } as never);
+    vi.mocked(queries.deleteSubmission).mockResolvedValueOnce({
+      pendingImagePath: null,
+      approvedImageUrl: 'http://localhost:3000/api/v1/uploads/artista-titulo.webp',
+    });
+
+    const res = await app.inject({
+      method: 'DELETE',
+      url: `/api/v1/admin/submissions/${submissionId}`,
+      headers: { authorization: `Bearer ${adminToken}` },
+    });
+
+    expect(res.statusCode).toBe(204);
   });
 });

@@ -8,6 +8,17 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Alert, AlertDescription } from '@/components/ui/alert';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
 import { LoadingCard } from '@/components/ui/loading';
 import { useToast } from '@/components/ui/use-toast';
 import Header from '@/components/Header';
@@ -20,10 +31,11 @@ import {
   updateSubmission,
   approveSubmission,
   rejectSubmission,
+  deleteSubmission,
   AdminApiError,
   type UpdateSubmissionInput,
 } from '@/lib/admin-api';
-import { ArrowLeft, Save, CheckCircle2, XCircle } from 'lucide-react';
+import { ArrowLeft, Save, CheckCircle2, XCircle, Trash2 } from 'lucide-react';
 
 export default function AdminSubmissionDetail() {
   const { id } = useParams<{ id: string }>();
@@ -114,6 +126,25 @@ export default function AdminSubmissionDetail() {
     },
   });
 
+  // Achado real 2026-09-05: não existia jeito de desfazer uma
+  // submissão/aprovação de teste — só aprovar/rejeitar, nenhum dos
+  // dois remove. Disponível pra qualquer status (não só pendente),
+  // porque é justamente uma aprovação de teste que mais precisa disso.
+  const deleteMutation = useMutation({
+    mutationFn: () => deleteSubmission(id!),
+    onSuccess: () => {
+      toast({ title: 'Submissão apagada' });
+      navigate('/admin/submissoes');
+    },
+    onError: (err) => {
+      toast({
+        title: 'Erro ao apagar',
+        description: err instanceof AdminApiError ? err.message : undefined,
+        variant: 'destructive',
+      });
+    },
+  });
+
   if (isLoading || !submission) {
     return (
       <div className="min-h-screen bg-background">
@@ -148,7 +179,46 @@ export default function AdminSubmissionDetail() {
               {submission.submitterContact && ` — ${submission.submitterContact}`}
             </p>
           </div>
-          <Badge>{submission.status}</Badge>
+          <div className="flex flex-col items-end gap-2">
+            <Badge>{submission.status}</Badge>
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="text-destructive hover:text-destructive"
+                  disabled={submission.status === 'aprovado' && !canApprove}
+                  title={
+                    submission.status === 'aprovado' && !canApprove
+                      ? 'Só administradores podem apagar uma submissão já aprovada'
+                      : undefined
+                  }
+                >
+                  <Trash2 className="w-4 h-4 mr-2" />
+                  Apagar
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Apagar esta submissão?</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    {submission.status === 'aprovado'
+                      ? 'A obra publicada a partir dela também será removida do site, junto com a imagem. Essa ação não pode ser desfeita.'
+                      : 'Essa ação não pode ser desfeita.'}
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                  <AlertDialogAction
+                    onClick={() => deleteMutation.mutate()}
+                    className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                  >
+                    Apagar
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+          </div>
         </div>
 
         {isDecided && (

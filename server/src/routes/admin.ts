@@ -1,6 +1,7 @@
 import type { FastifyInstance } from 'fastify';
 import path from 'node:path';
 import { createReadStream } from 'node:fs';
+import { unlink } from 'node:fs/promises';
 import {
   loginSchema,
   listSubmissionsQuerySchema,
@@ -14,6 +15,7 @@ import {
   updateSubmission,
   approveSubmission,
   rejectSubmission,
+  deleteSubmission,
   findBibleBookSlugByName,
 } from '../db/queries.js';
 import { verifyPassword } from '../lib/auth.js';
@@ -145,6 +147,7 @@ export async function adminRoutes(app: FastifyInstance) {
         env.APPROVED_SUBMISSION_UPLOADS_DIR,
         submission.artistName ?? '',
         submission.title,
+        submission.id,
       );
       const imageUrl = new URL(path.posix.join('/api/v1/uploads', filename), env.PUBLIC_API_URL).toString();
 
@@ -152,6 +155,47 @@ export async function adminRoutes(app: FastifyInstance) {
 
       const result = await approveSubmission(id, request.user.sub, imageUrl, bookSlug);
       return result;
+    },
+  );
+
+  app.delete(
+    '/admin/submissions/:id',
+    {
+      preHandler: app.authenticate,
+      schema: {
+        tags: ['admin'],
+        summary: 'Apaga uma submissão (e a obra publicada, se já tiver sido aprovada)',
+      },
+    },
+    async (request, reply) => {
+      const { id } = request.params as { id: string };
+
+      const submission = await getSubmissionById(id);
+      if (!submission) throw new NotFoundError('Submissão');
+
+      // Apagar obra já publicada é tão sensível quanto publicá-la — só
+      // admin. Rejeitada/pendente pode qualquer revisor tirar da fila.
+      if (submission.status === 'aprovado' && request.user.role !== 'admin') {
+        return reply.status(403).send({
+          error: 'forbidden',
+          message: 'Só administradores podem apagar uma submissão já aprovada',
+        });
+      }
+
+      const result = await deleteSubmission(id);
+      if (!result) throw new NotFoundError('Submissão');
+
+      // Best-effort — arquivo já pode não existir (ex.: apagado à mão
+      // antes), não vale falhar a resposta por causa disso.
+      if (result.pendingImagePath) {
+        await unlink(result.pendingImagePath).catch(() => {});
+      }
+      if (result.approvedImageUrl) {
+        const filename = path.basename(new URL(result.approvedImageUrl).pathname);
+        await unlink(path.join(env.APPROVED_SUBMISSION_UPLOADS_DIR, filename)).catch(() => {});
+      }
+
+      return reply.status(204).send();
     },
   );
 }
