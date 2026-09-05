@@ -49,12 +49,16 @@
         {
           "book": "Marcos",
           "bookSlug": "mark",
-          "chapter": 14
+          "chapter": 14,
+          "verses": "43-46",
+          "passageText": "\"E logo, enquanto ele ainda falava, chegou Judas, um dos doze, e com ele uma multidão com espadas e varapaus, vinda da parte dos principais sacerdotes, dos escribas e dos anciãos. Ora, o que o traía lhes havia dado um sinal, dizendo: Aquele que eu beijar, esse é; prendei-o e levai-o com segurança. E, logo que chegou, aproximando-se de Jesus, disse: Rabi! E o beijou. Ao que eles lhes lançaram as mãos, e o prenderam.\""
         },
         {
           "book": "Lucas",
           "bookSlug": "luke",
-          "chapter": 22
+          "chapter": 22,
+          "verses": "47-48",
+          "passageText": "\"E estando ele ainda a falar, eis que surgiu uma multidão; e aquele que se chamava Judas, um dos doze, ia adiante dela, e chegou-se a Jesus para o beijar. Jesus, porém, lhe disse: Judas, com um beijo trais o Filho do homem?\""
         },
         {
           "book": "João",
@@ -67,7 +71,7 @@
       "themes": [
         "paixao-de-cristo"
       ],
-      "createdAt": "2026-08-25T01:49:23.887Z"
+      "createdAt": "2026-09-05T14:59:41.648Z"
     },
     {
       "slug": "aert-de-gelder-abraao-e-os-tres-anjos",
@@ -1881,13 +1885,15 @@
         {
           "book": "Lucas",
           "bookSlug": "luke",
-          "chapter": 9
+          "chapter": 9,
+          "verses": "31",
+          "passageText": "\"Os quais apareceram com glória, e falavam da sua morte, a qual havia de cumprir-se em Jerusalém.\""
         }
       ],
       "themes": [
         "transfiguracao"
       ],
-      "createdAt": "2026-08-27T12:32:41.550Z"
+      "createdAt": "2026-09-05T14:58:04.815Z"
     },
     {
       "slug": "autor-desconhecido-ceia-em-emaus-no-tabernaculo-de-cherves",
@@ -2047,13 +2053,15 @@
         {
           "book": "João",
           "bookSlug": "john",
-          "chapter": 6
+          "chapter": 6,
+          "verses": "19-20",
+          "passageText": "\"E, tendo remado uns vinte e cinco ou trinta estádios, viram a Jesus andando sobre o mar, e aproximando-se do barco; e temeram. Mas ele disse-lhes: Sou eu, não temais.\""
         }
       ],
       "themes": [
         "caminhar-sobre-a-agua"
       ],
-      "createdAt": "2026-08-27T12:32:41.552Z"
+      "createdAt": "2026-09-05T14:56:38.065Z"
     },
     {
       "slug": "james-tissot-jesus-chorou",
@@ -2157,16 +2165,18 @@
         {
           "book": "Marcos",
           "bookSlug": "mark",
-          "chapter": 12
+          "chapter": 12,
+          "verses": "15-17"
         },
         {
           "book": "Lucas",
           "bookSlug": "luke",
-          "chapter": 20
+          "chapter": 20,
+          "verses": "24-25"
         }
       ],
       "themes": [],
-      "createdAt": "2026-08-27T12:32:41.553Z"
+      "createdAt": "2026-09-05T14:56:28.766Z"
     },
     {
       "slug": "mestre-do-livro-de-oracoes-de-dresden-os-temperados-e-os-intemperados",
@@ -2635,7 +2645,9 @@
         {
           "book": "Mateus",
           "bookSlug": "matthew",
-          "chapter": 4
+          "chapter": 4,
+          "verses": "1-2",
+          "passageText": "\"Então foi conduzido Jesus pelo Espírito ao deserto, para ser tentado pelo diabo. E, tendo jejuado quarenta dias e quarenta noites, depois teve fome.\""
         },
         {
           "book": "Marcos",
@@ -2655,7 +2667,7 @@
       "themes": [
         "tentacao"
       ],
-      "createdAt": "2026-08-27T12:32:41.559Z"
+      "createdAt": "2026-09-05T14:56:17.415Z"
     },
     {
       "slug": "briton-riviere-daniel-na-cova-dos-leoes",
@@ -3183,11 +3195,13 @@
         {
           "book": "Lucas",
           "bookSlug": "luke",
-          "chapter": 3
+          "chapter": 3,
+          "verses": "2-3",
+          "passageText": "\"Sendo Anás e Caifás sumos sacerdotes, veio a palavra de Deus a João, filho de Zacarias, no deserto. E percorreu toda a terra ao redor do Jordão, pregando o batismo de arrependimento, para remissão dos pecados.\""
         }
       ],
       "themes": [],
-      "createdAt": "2026-08-28T17:57:27.417Z"
+      "createdAt": "2026-09-05T15:06:07.379Z"
     },
     {
       "slug": "caravaggio-marta-e-maria-madalena",
@@ -3492,11 +3506,13 @@
         {
           "book": "Marcos",
           "bookSlug": "mark",
-          "chapter": 15
+          "chapter": 15,
+          "verses": "17-19",
+          "passageText": "\"E vestiram-no de púrpura e, tecendo uma coroa de espinhos, lha puseram na cabeça. E começaram a saudá-lo: Salve, Rei dos judeus! E feriram-no na cabeça com uma cana, e cuspiram nele e, postos de joelhos, o adoraram.\""
         }
       ],
       "themes": [],
-      "createdAt": "2026-08-25T01:49:23.925Z"
+      "createdAt": "2026-09-05T15:00:01.327Z"
     },
     {
       "slug": "carl-bloch-a-ultima-ceia",
@@ -3662,11 +3678,13 @@
         {
           "book": "Marcos",
           "bookSlug": "mark",
-          "chapter": 8
+          "chapter": 8,
+          "verses": "33",
+          "passageText": "\"Ele, porém, voltando-se e olhando para os seus discípulos, repreendeu a Pedro, dizendo: Para trás de mim, Satanás; porque não cogitas as coisas que são de Deus, mas as que são dos homens.\""
         }
       ],
       "themes": [],
-      "createdAt": "2026-08-30T14:28:04.584Z"
+      "createdAt": "2026-09-05T14:53:07.875Z"
     },
     {
       "slug": "carl-bloch-o-sepultamento-de-jesus",
@@ -3715,7 +3733,9 @@
         {
           "book": "Mateus",
           "bookSlug": "matthew",
-          "chapter": 6
+          "chapter": 6,
+          "verses": "9-11",
+          "passageText": "\"Vós, pois, orareis assim: Pai nosso, que estás nos céus, santificado seja o teu nome; venha o teu reino, seja feita a tua vontade, assim na terra como no céu; o pão nosso de cada dia nos dá hoje.\""
         },
         {
           "book": "Mateus",
@@ -3727,13 +3747,15 @@
         {
           "book": "Lucas",
           "bookSlug": "luke",
-          "chapter": 6
+          "chapter": 6,
+          "verses": "20-21",
+          "passageText": "\"E, tirantes os olhos para os seus discípulos, dizia: Bem-aventurados vós, os pobres, porque vosso é o reino de Deus. Bem-aventurados vós, os que agora tendes fome, porque vós sereis fartos.\""
         }
       ],
       "themes": [
         "ensino-de-jesus"
       ],
-      "createdAt": "2026-08-28T17:57:27.418Z"
+      "createdAt": "2026-09-05T15:06:00.079Z"
     },
     {
       "slug": "carl-rahl-a-parabola-da-figueira-esteril",
@@ -3872,6 +3894,32 @@
       ],
       "themes": [],
       "createdAt": "2026-08-27T12:32:41.563Z"
+    },
+    {
+      "slug": "charles-allan-gilbert-tudo-e-vaidade",
+      "title": "Tudo é Vaidade",
+      "subtitle": "All Is Vanity",
+      "artistOrDirector": "Charles Allan Gilbert",
+      "year": "1892",
+      "category": "painting",
+      "description": "A princípio a composição parece simples: uma jovem mulher se senta diante do toucador de seu boudoir, a postura elegante, o vestido escuro caindo pela cadeira, o cabelo preso num coque, um brilho suave refletindo a luz. Ela encara um grande espelho oval que domina a metade superior da imagem.\n\nMas quase de imediato o espectador nota algo estranho: os contornos do espelho e o arranjo dos objetos sobre o toucador se alinham com precisão inquietante na forma inconfundível de uma caveira humana. O reflexo da mulher se torna o \"rosto\" da caveira; a curva escura do vestido, sua mandíbula oca; a toalha branca da mesa, os dentes.\n\nO resto do quarto se dissolve em escuridão. Cortinas pesadas emolduram a cena, aprofundando o efeito teatral. A superfície do toucador está coberta de frascos de perfume, potes e utensílios delicados de higiene, símbolos de beleza e cuidado pessoal que, vistos à distância, se fundem na arquitetura sombria da morte.\n\n### Contexto Histórico\n\n**Charles Allan Gilbert** (1873-1929) desenhou esta ilusão em 1892, aos dezoito anos, ainda recém-matriculado na Art Students League de Nova York. Vendeu o desenho à revista *Life*, que o publicou como estampa em 1902 (edição de 27 de novembro daquele ano) — foi essa reprodução que tornou a imagem célebre, muito além do círculo de quem viu o desenho original. A obra é considerada um marco na história das ilusões de ótica gráficas, um dos primeiros exemplos amplamente divulgados de imagem dupla (ou trocadilho visual) na ilustração americana.",
+      "imageFile": "charles-allan-gilbert-tudo-e-vaidade.webp",
+      "licenseType": "public-domain",
+      "location": "Publicada na revista Life, vol. 40, n.º 1048, 27 de novembro de 1902; exemplar digitalizado a partir da coleção da Harvard University Library",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Charles_Allan_Gilbert",
+      "references": [
+        {
+          "book": "Eclesiastes",
+          "bookSlug": "ecclesiastes",
+          "chapter": 1,
+          "verses": "2",
+          "passageText": "\"Vaidade de vaidades, diz o pregador; vaidade de vaidades, tudo é vaidade.\""
+        }
+      ],
+      "themes": [
+        "vanitas"
+      ],
+      "createdAt": "2026-09-05T15:07:53.304Z"
     },
     {
       "slug": "charles-jalabert-uma-noite-no-mar-da-galileia",
@@ -4309,14 +4357,16 @@
         {
           "book": "Hebreus",
           "bookSlug": "hebrews",
-          "chapter": 11
+          "chapter": 11,
+          "verses": "7",
+          "passageText": "\"Pela fé, Noé, sendo avisado por Deus das coisas que ainda não se viam, movido de temor, preparou a arca para salvamento da sua família; pela qual condenou o mundo, e foi feito herdeiro da justiça que é segundo a fé.\""
         }
       ],
       "themes": [
         "alianca",
         "noe"
       ],
-      "createdAt": "2026-08-27T12:32:41.568Z"
+      "createdAt": "2026-09-05T14:56:08.827Z"
     },
     {
       "slug": "dante-gabriel-rossetti-ecce-ancilla-domini",
@@ -4360,13 +4410,15 @@
         {
           "book": "Isaías",
           "bookSlug": "isaiah",
-          "chapter": 34
+          "chapter": 34,
+          "verses": "14",
+          "passageText": "\"E as bestas feras do deserto se encontrarão com as feras da ilha, e o sátiro clamará ao seu companheiro; e ali repousará ainda o animal noturno, e achará lugar de descanso para si.\""
         }
       ],
       "themes": [
         "orgulho"
       ],
-      "createdAt": "2026-08-25T01:49:23.933Z"
+      "createdAt": "2026-09-05T15:00:16.397Z"
     },
     {
       "slug": "daphne-stephenson-eu-sou-o-caminho-a-verdade-e-a-vida",
@@ -4534,11 +4586,13 @@
         {
           "book": "João",
           "bookSlug": "john",
-          "chapter": 19
+          "chapter": 19,
+          "verses": "17-18",
+          "passageText": "\"Tomaram, pois, a Jesus; e ele, carregando a sua própria cruz, saiu para o lugar chamado Caveira, que em hebraico se chama Gólgota, onde o crucificaram, e com ele outros dois, um de cada lado, e Jesus no meio.\""
         }
       ],
       "themes": [],
-      "createdAt": "2026-08-25T01:49:23.934Z"
+      "createdAt": "2026-09-05T14:59:09.023Z"
     },
     {
       "slug": "dirck-bouts-a-ressurreicao",
@@ -4570,19 +4624,23 @@
         {
           "book": "Lucas",
           "bookSlug": "luke",
-          "chapter": 24
+          "chapter": 24,
+          "verses": "4-6",
+          "passageText": "\"E, estando elas perplexas a esse respeito, eis que pararam junto delas dois varões com vestes resplandecentes. E, estando elas muito atemorizadas, e abaixando o rosto para o chão, eles lhes disseram: Por que buscais o vivente entre os mortos? Não está aqui, mas ressuscitou.\""
         },
         {
           "book": "João",
           "bookSlug": "john",
-          "chapter": 20
+          "chapter": 20,
+          "verses": "11-12",
+          "passageText": "\"E Maria estava fora, chorando, junto ao sepulcro. Estando ela, pois, chorando, abaixou-se para o sepulcro. E viu dois anjos vestidos de branco, assentados um à cabeceira, e outro aos pés, onde jazera o corpo de Jesus.\""
         }
       ],
       "themes": [
         "pascoa",
         "ressurreicao"
       ],
-      "createdAt": "2026-09-01T01:34:29.301Z"
+      "createdAt": "2026-09-05T14:51:08.928Z"
     },
     {
       "slug": "dirck-bouts-a-ultima-ceia",
@@ -4600,12 +4658,16 @@
         {
           "book": "Mateus",
           "bookSlug": "matthew",
-          "chapter": 26
+          "chapter": 26,
+          "verses": "26-28",
+          "passageText": "\"E, comendo eles, tomou Jesus o pão, e, abençoando-o, o partiu, e o deu aos discípulos, e disse: Tomai, comei, isto é o meu corpo. E, tomando o cálice, e dando graças, deu-lho, dizendo: Bebei dele todos; Porque isto é o meu sangue, o sangue do novo testamento, que é derramado por muitos, para remissão dos pecados.\""
         },
         {
           "book": "Marcos",
           "bookSlug": "mark",
-          "chapter": 14
+          "chapter": 14,
+          "verses": "22-24",
+          "passageText": "\"E, comendo eles, tomou Jesus pão, e, abençoando, o partiu e deu-lhes, e disse: Tomai, comei, isto é o meu corpo. E, tomando o cálice, e dando graças, deu-lho; e todos beberam dele. E disse-lhes: Isto é o meu sangue, o sangue do novo testamento, que por muitos é derramado.\""
         },
         {
           "book": "Lucas",
@@ -4627,7 +4689,7 @@
         "paixao",
         "ultima-ceia"
       ],
-      "createdAt": "2026-09-01T01:34:30.062Z"
+      "createdAt": "2026-09-05T14:50:57.101Z"
     },
     {
       "slug": "dieric-bouts-cristo-coroado-com-espinhos",
@@ -4645,7 +4707,9 @@
         {
           "book": "Mateus",
           "bookSlug": "matthew",
-          "chapter": 27
+          "chapter": 27,
+          "verses": "27-29",
+          "passageText": "\"Então os soldados do presidente, conduzindo Jesus à audiência, ajuntaram junto dele toda a coorte. E, despindo-o, o cobriram com uma capa de escarlata; e, tecendo uma coroa de espinhos, puseram-lha na cabeça, e em sua mão direita uma cana; e, ajoelhando diante dele, o escarneciam, dizendo: Salve, Rei dos judeus!\""
         },
         {
           "book": "João",
@@ -4667,7 +4731,7 @@
         "ecce-homo",
         "paixao"
       ],
-      "createdAt": "2026-08-27T12:32:41.569Z"
+      "createdAt": "2026-09-05T14:55:59.972Z"
     },
     {
       "slug": "dieric-bouts-cristo-na-casa-do-fariseu-simao",
@@ -4901,14 +4965,16 @@
         {
           "book": "Lucas",
           "bookSlug": "luke",
-          "chapter": 20
+          "chapter": 20,
+          "verses": "15-16",
+          "passageText": "\"Que lhes fará pois o senhor da vinha? Virá, e destruirá estes lavradores, e dará a vinha a outros. [...] E, ouvindo isto, disseram: Assim não seja.\""
         }
       ],
       "themes": [
         "julgamento",
         "parabolas"
       ],
-      "createdAt": "2026-08-27T12:32:41.571Z"
+      "createdAt": "2026-09-05T15:08:05.162Z"
     },
     {
       "slug": "domenico-morelli-o-barco-da-vida",
@@ -5587,7 +5653,9 @@
         {
           "book": "1 Samuel",
           "bookSlug": "1-samuel",
-          "chapter": 16
+          "chapter": 16,
+          "verses": "11-12",
+          "passageText": "\"E disse Samuel a Jessé: São estes todos os teus filhos? Então disse ele: Ainda resta o mais moço, e eis que apascenta as ovelhas. Disse então Samuel a Jessé: Manda chamá-lo, porque não nos assentaremos à mesa até que ele venha aqui. [...] E disse o Senhor: Levanta-te, e unge-o, porque este é.\""
         },
         {
           "book": "1 Samuel",
@@ -5600,7 +5668,7 @@
       "themes": [
         "davi"
       ],
-      "createdAt": "2026-08-27T12:32:41.574Z"
+      "createdAt": "2026-09-05T15:07:57.838Z"
     },
     {
       "slug": "emanuel-krescenc-liska-cristo-no-monte-das-oliveiras",
@@ -6244,11 +6312,13 @@
         {
           "book": "João",
           "bookSlug": "john",
-          "chapter": 19
+          "chapter": 19,
+          "verses": "38-40",
+          "passageText": "\"Depois disto, José de Arimatéia, que era discípulo de Jesus, embora oculto por medo dos judeus, rogou a Pilatos que lhe permitisse tirar o corpo de Jesus; e Pilatos lho permitiu. Então foi e o tirou. E Nicodemos, aquele que anteriormente viera ter com Jesus de noite, foi também, levando cerca de cem libras duma mistura de mirra e aloés. Tomaram, pois, o corpo de Jesus, e o envolveram em panos de linho com as especiarias, como os judeus costumavam fazer na preparação para a sepultura.\""
         }
       ],
       "themes": [],
-      "createdAt": "2026-08-25T01:49:23.950Z"
+      "createdAt": "2026-09-05T14:58:46.507Z"
     },
     {
       "slug": "fra-angelico-pieta",
@@ -6416,6 +6486,37 @@
       "createdAt": "2026-08-27T12:32:41.579Z"
     },
     {
+      "slug": "francisco-goya-a-pieta",
+      "title": "A Pietà",
+      "subtitle": "La Piedad",
+      "artistOrDirector": "Francisco Goya",
+      "year": "1772-1773",
+      "category": "painting",
+      "description": "Óleo sobre tela de cânhamo (83,5 × 58 cm), a Virgem Maria segura o corpo de Cristo morto no colo, os braços estendidos, o olhar erguido, num contido misto de dor e súplica silenciosa. A cruz aparece parcialmente ao fundo, e na base da composição estão os símbolos da Paixão: a cartela com INRI, a coroa de espinhos, os pregos. A anatomia de Cristo carrega influência direta de Michelangelo, cuja *Pietà* Goya conheceu de perto durante sua estada em Roma; o gesto de Maria, braços abertos, olhos ao céu, remete antes a Agostino Carracci. A luz dramática recorta as figuras contra um fundo escuro, em cores pastel (azul, rosa, ocre) de elegância acadêmica e cromatismo ainda rococó.\n\n### Contexto Histórico\n\nPintada quando **Francisco Goya** tinha entre 26 e 28 anos, logo depois de sua temporada em Roma, esta é uma das obras mais antigas conhecidas do pintor, ainda distante do estilo que o tornaria célebre décadas depois. Pertenceu, em meados do século XIX, a um cônego do cabido catedralício de Zaragoza, e permaneceu em coleções da própria cidade até 2008, quando foi comprada por um colecionador de Barcelona. Foi a leilão em 2022, pela casa Abalarte, em Madri, sem encontrar comprador. Em dezembro de 2023, o Ministério da Cultura da Espanha a adquiriu por 1,5 milhão de euros, tornando pública uma obra até então praticamente desconhecida do grande público, hoje na coleção do Museo Nacional del Romanticismo.",
+      "imageFile": "francisco-goya-a-pieta.webp",
+      "licenseType": "public-domain",
+      "location": "Museo Nacional del Romanticismo, Madri, Espanha",
+      "sourceUrl": "https://fundaciongoyaenaragon.es/eng/obra/la-piedad/1996",
+      "references": [
+        {
+          "book": "João",
+          "bookSlug": "john",
+          "chapter": 19,
+          "verses": "38-42"
+        },
+        {
+          "book": "Lucas",
+          "bookSlug": "luke",
+          "chapter": 23,
+          "verses": "49,55"
+        }
+      ],
+      "themes": [
+        "pieta"
+      ],
+      "createdAt": "2026-09-05T15:14:53.796Z"
+    },
+    {
       "slug": "francisco-de-zurbaran-a-casa-de-nazare",
       "title": "A Casa de Nazaré",
       "subtitle": "La casa de Nazaret",
@@ -6532,7 +6633,9 @@
         {
           "book": "1 Pedro",
           "bookSlug": "1-peter",
-          "chapter": 1
+          "chapter": 1,
+          "verses": "18-19",
+          "passageText": "\"Sabendo que não foi com coisas corruptíveis, como prata ou ouro, que fostes resgatados da vossa vã maneira de viver, que por tradição recebestes dos vossos pais, Mas com o precioso sangue de Cristo, como de um cordeiro imaculado e incontaminado.\""
         },
         {
           "book": "1 Pedro",
@@ -6545,7 +6648,7 @@
       "themes": [
         "cordeiro"
       ],
-      "createdAt": "2026-08-27T12:32:41.579Z"
+      "createdAt": "2026-09-05T15:07:45.864Z"
     },
     {
       "slug": "francisco-de-zurbaran-aser",
@@ -7003,13 +7106,15 @@
         {
           "book": "Lucas",
           "bookSlug": "luke",
-          "chapter": 22
+          "chapter": 22,
+          "verses": "61-62",
+          "passageText": "\"E, virando-se o Senhor, olhou para Pedro; e Pedro lembrou-se da palavra do Senhor, como lhe havia dito: Antes que o galo cante hoje, me negarás três vezes. E, saindo Pedro para fora, chorou amargamente.\""
         }
       ],
       "themes": [
         "paixao-de-cristo"
       ],
-      "createdAt": "2026-08-27T12:32:41.579Z"
+      "createdAt": "2026-09-05T15:07:29.555Z"
     },
     {
       "slug": "francisco-de-zurbaran-pentecostes",
@@ -7149,6 +7254,38 @@
       "createdAt": "2026-08-27T12:32:41.579Z"
     },
     {
+      "slug": "francois-joseph-navez-o-massacre-dos-inocentes",
+      "title": "O Massacre dos Inocentes",
+      "subtitle": "Le Massacre des Innocents",
+      "artistOrDirector": "François-Joseph Navez",
+      "year": "1824",
+      "category": "painting",
+      "description": "A cena não grita: sufoca. No centro, uma mãe sustenta o peso de um filho morto, o corpo sem resposta, a curva das costas dobrada como quem reza sem palavras. Ao redor, outras figuras atravessam diferentes graus do horror: incredulidade, medo, resignação, o instante em que se compreende que nada mais protege quem se ama. Ao fundo, a violência do massacre continua, mais difusa, quase como uma lembrança que já começou a se dissolver.\n\n**Navez**, formado sob Jacques-Louis David e depois anos em Roma, traz ao tema o desenho preciso e a construção anatômica clara do neoclassicismo davidiano, mas usa isso a serviço de um assunto que não tem nada de sereno: tecidos claros, cores vivas de vida cotidiana, contrastando com o que aquelas figuras seguram nos braços. Não é o sangue que domina a composição. É o silêncio depois do grito.\n\n### Contexto Histórico\n\n**François-Joseph Navez** (1787-1869), nascido em Charleroi, foi um dos pintores neoclássicos belgas mais importantes de sua geração. Estudou na Academia Real de Belas Artes de Bruxelas e, a partir de 1813, trabalhou diretamente sob Jacques-Louis David em Paris. Viveu em Roma entre 1817 e 1822, onde conheceu Ingres, antes de retornar aos Países Baixos. Entre 1835 e 1862 dirigiu a Académie Royale des Beaux-Arts de Bruxelas, moldando gerações de pintores belgas.\n\nEsta obra foi exibida em 1824 em Amsterdã e depois em Bruxelas. É contemporânea de outra *Cena do Massacre dos Inocentes* pintada no mesmo ano por Léon Cogniet, na França, episódio que mostra como o tema atraía a pintura europeia daquele momento, entre o rigor formal neoclássico e a emoção crescente que o Romantismo traria à mesma cena poucos anos depois.",
+      "imageFile": "francois-joseph-navez-o-massacre-dos-inocentes.webp",
+      "licenseType": "public-domain",
+      "location": "Metropolitan Museum of Art, Nova York, EUA (Coleção Catharine Lorillard Wolfe)",
+      "sourceUrl": "https://www.metmuseum.org/art/collection/search/438462",
+      "references": [
+        {
+          "book": "Mateus",
+          "bookSlug": "matthew",
+          "chapter": 2,
+          "verses": "16-18",
+          "passageText": "\"Então Herodes, vendo que fora iludido pelos magos, irou-se muito, e mandou matar todos os meninos que havia em Belém, e em todos os seus contornos, de dois anos para baixo, segundo o tempo que diligentemente inquirira dos magos. Então se cumpriu o que foi dito pelo profeta Jeremias, que diz: Em Ramá se ouviu uma voz, lamentação, choro e grande pranto: Raquel chorando os seus filhos, e não querendo ser consolada, porque já não existem.\""
+        },
+        {
+          "book": "Jeremias",
+          "bookSlug": "jeremiah",
+          "chapter": 31,
+          "verses": "15,"
+        }
+      ],
+      "themes": [
+        "massacre-dos-inocentes"
+      ],
+      "createdAt": "2026-09-05T15:11:58.890Z"
+    },
+    {
       "slug": "frederick-george-swaish-a-ceia-em-emaus",
       "title": "A ceia em Emaús",
       "subtitle": "The Supper at Emmaus",
@@ -7197,14 +7334,16 @@
         {
           "book": "João",
           "bookSlug": "john",
-          "chapter": 6
+          "chapter": 6,
+          "verses": "19-20",
+          "passageText": "\"E, tendo remado uns vinte e cinco ou trinta estádios, viram a Jesus andando sobre o mar, e aproximando-se do barco; e temeram. Mas ele disse-lhes: Sou eu, não temais.\""
         }
       ],
       "themes": [
         "agua",
         "milagre"
       ],
-      "createdAt": "2026-08-27T12:32:41.580Z"
+      "createdAt": "2026-09-05T15:07:21.869Z"
     },
     {
       "slug": "friedrich-overbeck-jesus-ressuscita-a-filha-de-jairo",
@@ -7508,13 +7647,15 @@
         {
           "book": "Lucas",
           "bookSlug": "luke",
-          "chapter": 4
+          "chapter": 4,
+          "verses": "1-2",
+          "passageText": "\"E, cheio do Espírito Santo, voltou do Jordão, e foi levado pelo Espírito ao deserto. E quarenta dias foi tentado pelo diabo, e não comeu coisa alguma naqueles dias; e, terminados eles, teve fome.\""
         }
       ],
       "themes": [
         "tentacao"
       ],
-      "createdAt": "2026-08-27T12:32:41.581Z"
+      "createdAt": "2026-09-05T15:07:14.728Z"
     },
     {
       "slug": "gabriel-max-a-ressurreicao-da-filha-de-jairo",
@@ -10039,7 +10180,7 @@
         }
       ],
       "themes": [],
-      "createdAt": "2026-09-02T12:18:47.646Z"
+      "createdAt": "2026-09-05T15:12:24.797Z"
     },
     {
       "slug": "gustave-dore-a-morte-de-abimeleque",
@@ -10676,13 +10817,15 @@
         {
           "book": "Lucas",
           "bookSlug": "luke",
-          "chapter": 4
+          "chapter": 4,
+          "verses": "5-7",
+          "passageText": "\"E, levando-o o diabo a um alto monte, mostrou-lhe num momento de tempo todos os reinos do mundo. E disse-lhe o diabo: Dar-te-ei todo este poder, e a glória deles; porque a mim me foi entregue, e dou-o a quem quero. Portanto, se tu me adorares, tudo será teu.\""
         }
       ],
       "themes": [
         "tentacao"
       ],
-      "createdAt": "2026-08-25T01:49:23.972Z"
+      "createdAt": "2026-09-05T14:58:23.065Z"
     },
     {
       "slug": "gustave-dore-a-transfiguracao",
@@ -13194,7 +13337,7 @@
         }
       ],
       "themes": [],
-      "createdAt": "2026-09-02T09:55:48.962Z"
+      "createdAt": "2026-09-05T15:04:53.148Z"
     },
     {
       "slug": "gustave-dore-o-exercito-de-senaqueribe-e-destruido",
@@ -13501,16 +13644,19 @@
           "book": "1 Reis",
           "bookSlug": "1-kings",
           "chapter": 11,
-          "passageText": "\"Vaidade de vaidades, diz o Pregador, vaidade de vaidades! Tudo é vaidade.\""
+          "verses": "4",
+          "passageText": "\"E aconteceu que, quando Salomão era já velho, suas mulheres inclinaram o seu coração após outros deuses; e o seu coração não era perfeito para com o Senhor seu Deus, como o coração de Davi, seu pai.\""
         },
         {
           "book": "Eclesiastes",
           "bookSlug": "ecclesiastes",
-          "chapter": 1
+          "chapter": 1,
+          "verses": "2",
+          "passageText": "\"Vaidade de vaidades, diz o Pregador, vaidade de vaidades! Tudo é vaidade.\""
         }
       ],
       "themes": [],
-      "createdAt": "2026-08-27T19:40:51.579Z"
+      "createdAt": "2026-09-05T15:06:15.585Z"
     },
     {
       "slug": "gustave-dore-o-retorno-dos-espias-da-terra-prometida",
@@ -13655,11 +13801,13 @@
         {
           "book": "Mateus",
           "bookSlug": "matthew",
-          "chapter": 27
+          "chapter": 27,
+          "verses": "33-38",
+          "passageText": "\"Quando chegaram ao lugar chamado Gólgota, que quer dizer, lugar da Caveira, deram-lhe a beber vinho misturado com fel; mas ele, provando-o, não quis beber. Então, depois de o crucificarem, repartiram as vestes dele, lançando sortes. E, sentados, ali o guardavam. Puseram-lhe por cima da cabeça a sua acusação escrita: ESTE É JESUS, O REI DOS JUDEUS. Então foram crucificados com ele dois salteadores, um à direita, e outro à esquerda.\""
         }
       ],
       "themes": [],
-      "createdAt": "2026-08-28T17:57:27.419Z"
+      "createdAt": "2026-09-05T15:05:50.525Z"
     },
     {
       "slug": "gustave-dore-o-fariseu-e-o-publicano",
@@ -13812,23 +13960,29 @@
         {
           "book": "Mateus",
           "bookSlug": "matthew",
-          "chapter": 6
+          "chapter": 6,
+          "verses": "9-13",
+          "passageText": "\"Vós, pois, orareis assim: Pai nosso, que estás nos céus, santificado seja o teu nome; venha o teu reino, seja feita a tua vontade, assim na terra como no céu; o pão nosso de cada dia nos dá hoje; e perdoa-nos as nossas dívidas, assim como nós perdoamos aos nossos devedores; e não nos induzas à tentação; mas livra-nos do mal.\""
         },
         {
           "book": "Mateus",
           "bookSlug": "matthew",
-          "chapter": 7
+          "chapter": 7,
+          "verses": "24-25",
+          "passageText": "\"Todo aquele, pois, que escuta estas minhas palavras, e as pratica, assemelhá-lo-ei ao homem prudente, que edificou a sua casa sobre a rocha. E desceu a chuva, e correram rios, e assopraram ventos, e combateram aquela casa, e não caiu, porque estava edificada sobre a rocha.\""
         },
         {
           "book": "Lucas",
           "bookSlug": "luke",
-          "chapter": 6
+          "chapter": 6,
+          "verses": "20-21",
+          "passageText": "\"E, tirantes os olhos para os seus discípulos, dizia: Bem-aventurados vós, os pobres, porque vosso é o reino de Deus. Bem-aventurados vós, os que agora tendes fome, porque vós sereis fartos. Bem-aventurados vós, os que agora chorais, porque vós rireis.\""
         }
       ],
       "themes": [
         "ensino-de-jesus"
       ],
-      "createdAt": "2026-08-28T17:57:27.420Z"
+      "createdAt": "2026-09-05T15:05:27.736Z"
     },
     {
       "slug": "gustave-dore-o-teste-de-fe-de-abraao",
@@ -14862,13 +15016,15 @@
         {
           "book": "Lucas",
           "bookSlug": "luke",
-          "chapter": 4
+          "chapter": 4,
+          "verses": "1-2",
+          "passageText": "\"E foi Jesus, cheio do Espírito Santo, voltou do Jordão, e foi levado pelo Espírito ao deserto. E quarenta dias foi tentado pelo diabo, e não comeu coisa alguma naqueles dias; e, terminados eles, teve fome.\""
         }
       ],
       "themes": [
         "tentacao"
       ],
-      "createdAt": "2026-08-25T01:49:23.984Z"
+      "createdAt": "2026-09-05T14:58:12.716Z"
     },
     {
       "slug": "heinrich-hofmann-jesus-e-o-jovem-rico",
@@ -15766,12 +15922,16 @@
         {
           "book": "Gênesis",
           "bookSlug": "genesis",
-          "chapter": 2
+          "chapter": 2,
+          "verses": "8,",
+          "passageText": "\"E o Senhor Deus plantou um jardim, no Éden, da banda do oriente, e pôs ali o homem que tinha formado. [...] E eram ambos nus, o homem e a sua mulher; e não se envergonhavam.\""
         },
         {
           "book": "Gênesis",
           "bookSlug": "genesis",
-          "chapter": 3
+          "chapter": 3,
+          "verses": "6-7",
+          "passageText": "\"E, vendo a mulher que aquela árvore era boa para se comer, e agradável aos olhos, e árvore desejável para dar entendimento, tomou do seu fruto, e comeu, e deu também a seu marido, e ele comeu com ela. Então foram abertos os olhos de ambos, e conheceram que estavam nus; e coseram folhas de figueira, e fizeram para si aventais.\""
         },
         {
           "book": "Romanos",
@@ -15786,7 +15946,7 @@
         "juizo-final",
         "pecado"
       ],
-      "createdAt": "2026-08-27T12:32:41.598Z"
+      "createdAt": "2026-09-05T15:07:06.099Z"
     },
     {
       "slug": "hieronymus-bosch-os-7-pecados-mortais-e-as-4-ultimas-coisas",
@@ -15885,11 +16045,13 @@
         {
           "book": "Hebreus",
           "bookSlug": "hebrews",
-          "chapter": 12
+          "chapter": 12,
+          "verses": "1",
+          "passageText": "\"Portanto nós também, pois que estamos rodeados de uma tão grande nuvem de testemunhas, deixemos todo o embaraço, e o pecado que tão de perto nos rodeia, e corramos com paciência a carreira que nos está proposta.\""
         }
       ],
       "themes": [],
-      "createdAt": "2026-08-27T12:32:41.599Z"
+      "createdAt": "2026-09-05T15:18:58.168Z"
     },
     {
       "slug": "ilya-repin-a-ressurreicao-da-filha-de-jairo",
@@ -16173,7 +16335,9 @@
         {
           "book": "Lucas",
           "bookSlug": "luke",
-          "chapter": 4
+          "chapter": 4,
+          "verses": "1-2",
+          "passageText": "\"Cheio do Espírito Santo, voltou do Jordão, e foi levado pelo Espírito ao deserto. E quarenta dias foi tentado pelo diabo.\""
         },
         {
           "book": "Hebreus",
@@ -16186,7 +16350,7 @@
       "themes": [
         "tentacao"
       ],
-      "createdAt": "2026-08-27T12:32:41.600Z"
+      "createdAt": "2026-09-05T15:06:56.072Z"
     },
     {
       "slug": "j-c-leyendecker-os-tres-reis-magos",
@@ -17252,6 +17416,32 @@
       ],
       "themes": [],
       "createdAt": "2026-08-29T20:10:41.459Z"
+    },
+    {
+      "slug": "james-tissot-jesus-transportado-por-um-espirito-a-uma-alta-montanha",
+      "title": "Jesus Transportado por um Espírito a uma Alta Montanha",
+      "subtitle": "Jesus Transported by a Spirit onto a High Mountain",
+      "artistOrDirector": "James Tissot",
+      "year": "1886-1894",
+      "category": "painting",
+      "description": "Nesta aquarela opaca (gouache) sobre grafite, parte da série *A Vida de Cristo*, Tissot mostra Jesus suspenso no ar, erguido por uma figura escura e alongada, quase esquelética, com dedos dos pés estendidos como garras. Cristo, vestido de branco, tem o rosto sereno, mas o corpo mole, cedendo por completo ao movimento. É um recurso visual sutil: ele não flutua por vontade própria, é carregado.\n\nO uso de gouache sobre papel cinza dá à obra um brilho crepuscular, quase onírico. O céu é um vazio de índigo e tons noturnos; a terra fica muito abaixo, distante e estranha. Em vez de pintar Satanás oferecendo os reinos do mundo, Tissot escolhe visualizar só o transporte, deixando a cena suspensa entre o concreto e o psicológico.\n\n### Contexto Histórico\n\nEsta é uma das cerca de 350 gouaches da série *A Vida de Nosso Senhor Jesus Cristo*, projeto ao qual **James Tissot** (1836-1902) dedicou os últimos dezessete anos de vida depois de uma experiência religiosa em 1885, na igreja de Saint-Sulpice, em Paris. Pintor de sucesso da alta sociedade parisiense e depois londrina, Tissot viajou ao Egito, à Síria e à Palestina para documentar com rigor arqueológico paisagem, arquitetura e vestimenta, buscando romper com o anacronismo comum na pintura religiosa da época.\n\nA série foi um sucesso de público nas exposições pagas de Paris, Londres e Nova York, embora a crítica ficasse dividida: alguns achavam a visão de Tissot mística demais, teatral demais; outros viam ali algo raro, um artista disposto a caminhar na fronteira entre o registro bíblico e a revelação pessoal. Em 1900, por sugestão do pintor John Singer Sargent ao presidente do conselho do Brooklyn Museum, a instituição comprou a série inteira por 60 mil dólares, valor altíssimo para a época, levantado por campanha pública de arrecadação.",
+      "imageFile": "james-tissot-jesus-transportado-por-um-espirito-a-uma-alta-montanha.webp",
+      "licenseType": "public-domain",
+      "location": "Brooklyn Museum, Nova York, EUA",
+      "sourceUrl": "https://www.brooklynmuseum.org/objects/4452",
+      "references": [
+        {
+          "book": "Lucas",
+          "bookSlug": "luke",
+          "chapter": 4,
+          "verses": "5-6",
+          "passageText": "\"E, levando-o o diabo a um alto monte, mostrou-lhe num momento de tempo todos os reinos do mundo. E disse-lhe o diabo: Dar-te-ei todo este poder, e a glória deles; porque a mim me foi entregue, e dou-o a quem quero.\""
+        }
+      ],
+      "themes": [
+        "tentacao"
+      ],
+      "createdAt": "2026-09-05T14:48:12.328Z"
     },
     {
       "slug": "james-tissot-jesus-ressuscita-a-filha-de-jairo",
@@ -18770,7 +18960,9 @@
         {
           "book": "Apocalipse",
           "bookSlug": "revelation",
-          "chapter": 5
+          "chapter": 5,
+          "verses": "6",
+          "passageText": "\"E olhei, e eis que, no meio do trono, e dos quatro animais, e no meio dos anciãos, um Cordeiro estava em pé, como que tinha sido morto, e tinha sete chifres e sete olhos, que são os sete espíritos de Deus, enviados a toda a terra.\""
         },
         {
           "book": "Apocalipse",
@@ -18784,7 +18976,7 @@
         "cordeiro",
         "espirito-santo"
       ],
-      "createdAt": "2026-08-29T20:18:11.937Z"
+      "createdAt": "2026-09-05T15:03:51.610Z"
     },
     {
       "slug": "jan-van-eyck-o-julgamento-final",
@@ -19671,6 +19863,32 @@
       "createdAt": "2026-08-29T20:41:48.732Z"
     },
     {
+      "slug": "joseph-noel-paton-o-adversario",
+      "title": "O Adversário",
+      "subtitle": "The Adversary",
+      "artistOrDirector": "Joseph Noel Paton",
+      "year": "1876",
+      "category": "painting",
+      "description": "Esta pintura pequena e incisiva é uma das imagens mais perturbadoras de Satanás na arte britânica do século XIX. Paton não mostra o Adversário como um governante distante num trono, mas como presença ativa e sombria dentro do próprio inferno. A figura alada se inclina para frente, o corpo poderoso curvado numa postura tensa e predatória, prendendo uma serpente que se contorce sob uma lança ou bastão. Ao redor, chamas se enrolam e lambem a escuridão, transformando a cena inteira numa fornalha de vermelhos profundos e sombra sufocante.\n\nA paleta é quase inteiramente tomada pela luz do fogo (ferrugem, brasa, vermelho-sangue), de modo que o demônio parece forjado do próprio calor. Suas asas se arqueiam para cima como um dossel medonho, emoldurando um rosto que não é grotesco, mas sombriamente inteligente e concentrado. Não é caricatura do mal: é uma presença pensante, vigilante, deliberada. A escala contida da tela intensifica o efeito, forçando o espectador a encarar a figura de perto, como quem espia um canto privado da danação.\n\n### Contexto Histórico\n\n**Joseph Noel Paton** (1821-1901), nascido em Dunfermline, na Escócia, foi o principal artista escocês da era vitoriana dedicado a temas imaginativos, alegóricos e religiosos. Formado próximo à sensibilidade pré-rafaelita (chegou a ser convidado por Millais para integrar a Irmandade Pré-Rafaelita, convite que recusou, ainda que tenha adotado boa parte de seu vocabulário visual), interessava-se profundamente por luta moral, tentação e drama espiritual. Foi nomeado Limner da Rainha para a Escócia em 1865 e armado cavaleiro em 1867.\n\nAqui, o mal não é ruidoso nem teatral: é quieto, intenso, duradouro. A pergunta que a pintura deixa não é bem o que é o inferno, mas se essa figura sofre tanto quanto governa, e se a punição eterna exige um carcereiro tão condenado quanto os próprios condenados.",
+      "imageFile": "joseph-noel-paton-o-adversario.webp",
+      "licenseType": "public-domain",
+      "location": "Coleção particular",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Joseph_Noel_Paton",
+      "references": [
+        {
+          "book": "Marcos",
+          "bookSlug": "mark",
+          "chapter": 9,
+          "verses": "43-44",
+          "passageText": "\"E, se a tua mão te escandalizar, corta-a; melhor te é entrar na vida mutilado do que, tendo duas mãos, ir para o inferno, para o fogo que nunca se apaga, onde o seu bichinho não morre, e o fogo nunca se apaga.\""
+        }
+      ],
+      "themes": [
+        "inferno"
+      ],
+      "createdAt": "2026-09-05T14:56:26.564Z"
+    },
+    {
       "slug": "joseph-von-fuhrich-cristo-sobre-o-mar",
       "title": "Cristo Sobre o Mar",
       "subtitle": "Christ on the Sea",
@@ -20179,13 +20397,14 @@
         {
           "book": "Atos",
           "bookSlug": "acts",
-          "chapter": 15
+          "chapter": 15,
+          "verses": "7,11"
         }
       ],
       "themes": [
         "apostolos"
       ],
-      "createdAt": "2026-08-29T21:02:06.707Z"
+      "createdAt": "2026-09-05T15:03:40.978Z"
     },
     {
       "slug": "karel-du-jardin-paulo-cura-o-aleijado-em-listra",
@@ -20425,7 +20644,7 @@
       "slug": "lawrence-alma-tadema-jose-supervisionando-o-celeiros-do-farao",
       "title": "José supervisionando o celeiros do Faraó",
       "subtitle": "Joseph, Overseer of Pharaoh's Granaries",
-      "artistOrDirector": "Lawrence Alma Tadema",
+      "artistOrDirector": "Lawrence Alma-Tadema",
       "year": "1874",
       "category": "painting",
       "description": "Óleo sobre tela de **Lawrence Alma Tadema** (1836–1912), pintor holandês-britânico conhecido por sua precisão histórica e representações luxuosas da Antiguidade, datada de **1874**. A obra retrata José, agora poderoso no Egito, supervisionando a coleta e o armazenamento de grãos durante os anos de fartura, conforme predito nos sonhos do Faraó.\n\nAlma-Tadema recria a cena com riqueza de detalhes. José, em trajes egípcios, senta-se em um trono ornamentado, enquanto um escriba registra diligentemente a entrada de grãos. Os hieróglifos, os objetos e a arquitetura reforçam a ambientação no Antigo Egito. A obra celebra a ascensão de José e sua sabedoria em preparar o Egito para os anos de escassez que viriam.\n\n### Contexto Histórico\n\nObra representativa de **Lawrence Alma Tadema**, integrada ao acervo histórico do Bíblia na Arte. As representações visuais inspiradas nas Sagradas Escrituras produzidas por este mestre combinam rigor estético, sensibilidade cultural e devoção à narrativa bíblica.",
@@ -20446,6 +20665,32 @@
         "jose"
       ],
       "createdAt": "2026-08-30T01:14:23.999Z"
+    },
+    {
+      "slug": "lawrence-alma-tadema-o-encontro-de-moises",
+      "title": "O Encontro de Moisés",
+      "subtitle": "The Finding of Moses",
+      "artistOrDirector": "Lawrence Alma-Tadema",
+      "year": "1904",
+      "category": "painting",
+      "description": "O relato bíblico conta que a filha do faraó encontrou um menino entre os juncos da margem do Nilo: era Moisés. **Alma-Tadema** transforma esse instante íntimo numa procissão solene, quase uma cerimônia sagrada. A cena tem algo de teatral e, ao mesmo tempo, de extraordinariamente verossímil. A filha do faraó avança numa liteira, como as divindades conduzidas em procissão, enquanto o escabel sob seus pés mostra inimigos vencidos, símbolo do poder real.\n\nTudo fala de Egito: cartuchos hieroglíficos identificam a mulher como filha de Ramsés II; as vestimentas, joias, objetos, granito e calcário reproduzem com precisão arqueológica o mundo que retratam. Os lótus que pendem da cestinha, os delfínios e os figos recriam a vegetação do Nilo. Ao fundo, a outra margem fervilha de atividade: homens enchem jarros com água, enquanto equipes de escravos trabalham ao longe, possivelmente nas pirâmides de Gizé, situando a cena nos arredores de Mênfis, para onde a procissão retorna. A luz da manhã vira bruma perto do rio e envolve a cena numa atmosfera quase irreal.\n\nNo centro de tudo, o pequeno Moisés. Duas mulheres, uma morena e outra ruiva, seguram a cestinha, cercadas de servos de pele escura, contraste que reproduz o próprio simbolismo cromático da arte egípcia. Entre flores, água, pedra e silêncio, o menino que será salvo das águas parece quase insignificante. E, no entanto, toda aquela procissão grandiosa parece girar ao redor dele: o Egito contempla, sem saber, o menino que mudará sua história.\n\n### Contexto Histórico\n\n**Lawrence Alma-Tadema** (1836-1912), pintor nascido nos Países Baixos e naturalizado britânico, era conhecido como \"o arqueólogo entre os artistas\" por sua pesquisa meticulosa: mantinha um vasto arquivo fotográfico de objetos, arquitetura e sítios antigos, e consultava sua extensa biblioteca antes de pintar qualquer cena. Nesta obra, a cadeira da filha do faraó segue ilustrações de pinturas tumulares egípcias reais, e a base da estátua vermelha ao fundo parece copiada de uma estátua de Séti II hoje no British Museum.\n\nA pintura permaneceu praticamente fora de vista do público por décadas em coleções particulares. Em novembro de 2010, foi vendida em leilão na Sotheby's por 35.922.500 dólares, incluindo a taxa do comprador, recorde para uma obra vitoriana que se mantém até hoje.",
+      "imageFile": "lawrence-alma-tadema-o-encontro-de-moises.webp",
+      "licenseType": "public-domain",
+      "location": "Coleção particular",
+      "sourceUrl": "https://en.wikipedia.org/wiki/The_Finding_of_Moses_(Alma-Tadema)",
+      "references": [
+        {
+          "book": "Êxodo",
+          "bookSlug": "exodus",
+          "chapter": 2,
+          "verses": "1-6",
+          "passageText": "\"E foi uma mulher da família de Levi, e casou com uma filha de Levi. E a mulher concebeu, e teve um filho; e, vendo que ele era formoso, escondeu-o três meses. [...] Então tomou uma arca de juncos, e a revestiu de betume e pez, e pôs nela o menino, e a pôs nos juncos à borda do rio. [...] E a filha de Faraó desceu a banhar-se no rio, e as suas moças passeavam pela borda do rio; e, vendo ela a arca no meio dos juncos, enviou a sua criada, e a tomou. E, abrindo-a, viu o menino, e eis que o menino chorava; e moveu-se de compaixão dele, e disse: Dos meninos dos hebreus é este.\""
+        }
+      ],
+      "themes": [
+        "moises"
+      ],
+      "createdAt": "2026-09-05T15:04:35.106Z"
     },
     {
       "slug": "leah-mitchell-uma-alegoria-de-eva-e-maria",
@@ -20864,14 +21109,16 @@
         {
           "book": "Lucas",
           "bookSlug": "luke",
-          "chapter": 8
+          "chapter": 8,
+          "verses": "24",
+          "passageText": "\"E, chegando-se a ele, o despertaram, dizendo: Mestre, Mestre, perecemos. E ele, levantando-se, repreendeu o vento e a fúria da água; e cessaram, e fez-se bonança.\""
         }
       ],
       "themes": [
         "milagre",
         "tempestade"
       ],
-      "createdAt": "2026-08-30T01:50:14.136Z"
+      "createdAt": "2026-09-05T15:03:15.451Z"
     },
     {
       "slug": "leo-paul-robert-a-justica-eleva-as-nacoes",
@@ -20889,7 +21136,8 @@
         {
           "book": "Salmos",
           "bookSlug": "psalms",
-          "chapter": 1
+          "chapter": 1,
+          "verses": "1"
         },
         {
           "book": "Provérbios",
@@ -20905,7 +21153,7 @@
         }
       ],
       "themes": [],
-      "createdAt": "2026-08-30T01:42:06.866Z"
+      "createdAt": "2026-09-05T15:03:23.717Z"
     },
     {
       "slug": "leon-bazile-perrault-o-primeiro-assassinato",
@@ -20924,13 +21172,14 @@
           "book": "Gênesis",
           "bookSlug": "genesis",
           "chapter": 4,
+          "verses": "8-10",
           "passageText": "\"E falou Caim com o seu irmão Abel; e sucedeu que, estando eles no campo, se levantou Caim contra o seu irmão Abel, e o matou. E disse o Senhor a Caim: Onde está Abel, teu irmão? E ele disse: Não sei; sou eu guardador do meu irmão? E disse Deus: Que fizeste? A voz do sangue do teu irmão clama a mim desde a terra.\""
         }
       ],
       "themes": [
         "genesis"
       ],
-      "createdAt": "2026-08-30T01:40:35.000Z"
+      "createdAt": "2026-09-05T15:03:30.818Z"
     },
     {
       "slug": "leon-cogniet-o-massacre-dos-inocentes",
@@ -20962,7 +21211,7 @@
       "themes": [
         "massacre-dos-inocentes"
       ],
-      "createdAt": "2026-08-30T01:41:02.074Z"
+      "createdAt": "2026-09-05T15:12:18.656Z"
     },
     {
       "slug": "leon-pierre-urbain-bourgeois-jose-e-reconhecido-por-seus-irmaos",
@@ -21020,7 +21269,9 @@
         {
           "book": "Mateus",
           "bookSlug": "matthew",
-          "chapter": 1
+          "chapter": 1,
+          "verses": "24-25",
+          "passageText": "\"E José, tendo despertado do sono, fez como o anjo do Senhor lhe ordenara, e recebeu a sua mulher; e não a conheceu até que deu à luz seu filho, o primogênito; e pôs-lhe por nome Jesus.\""
         },
         {
           "book": "Lucas",
@@ -21040,7 +21291,7 @@
       "themes": [
         "natividade"
       ],
-      "createdAt": "2026-08-30T01:43:10.359Z"
+      "createdAt": "2026-09-05T15:19:06.240Z"
     },
     {
       "slug": "maarten-van-heemskerck-gideao-e-o-milagre-do-velo",
@@ -21202,13 +21453,14 @@
           "book": "1 Samuel",
           "bookSlug": "1-samuel",
           "chapter": 18,
+          "verses": "6-7",
           "passageText": "\"Sucedeu, porém, que, vindo eles, quando Davi voltava de ferir os filisteus, as mulheres de todas as cidades de Israel saíram ao encontro do rei Saul, cantando e dançando, com adufes, com alegria, e com instrumentos de música. E as mulheres dançando e cantando se respondiam umas às outras, dizendo: Saul feriu os seus milhares, porém, Davi os seus dez milhares.\""
         }
       ],
       "themes": [
         "antigo-testamento"
       ],
-      "createdAt": "2026-08-30T02:17:52.652Z"
+      "createdAt": "2026-09-05T15:03:07.346Z"
     },
     {
       "slug": "maurice-denis-a-ressurreicao-de-lazaro",
@@ -21362,7 +21614,9 @@
         {
           "book": "Mateus",
           "bookSlug": "matthew",
-          "chapter": 28
+          "chapter": 28,
+          "verses": "19",
+          "passageText": "\"Portanto ide, fazei discípulos de todas as nações, batizando-os em nome do Pai, e do Filho, e do Espírito Santo.\""
         },
         {
           "book": "Efésios",
@@ -21375,7 +21629,7 @@
       "themes": [
         "vida-de-cristo"
       ],
-      "createdAt": "2026-08-30T02:18:48.817Z"
+      "createdAt": "2026-09-05T15:03:01.461Z"
     },
     {
       "slug": "michael-rieser-a-noite-antes-do-nascimento-de-cristo",
@@ -21429,14 +21683,16 @@
         {
           "book": "Oséias",
           "bookSlug": "hosea",
-          "chapter": 13
+          "chapter": 13,
+          "verses": "14",
+          "passageText": "\"Da mão do inferno os remirei, livrá-los-ei da morte; ó morte, onde estão as tuas pragas? Onde está, ó inferno, a tua perdição? Arrependimento se esconderá dos meus olhos.\""
         }
       ],
       "themes": [
         "morte",
         "vitoria"
       ],
-      "createdAt": "2026-08-30T02:19:10.115Z"
+      "createdAt": "2026-09-05T15:02:52.135Z"
     },
     {
       "slug": "michelangelo-a-conversao-de-sao-paulo",
@@ -22330,13 +22586,14 @@
           "book": "Marcos",
           "bookSlug": "mark",
           "chapter": 5,
+          "verses": "25-34",
           "passageText": "\"E certa mulher que, havia doze anos, tinha um fluxo de sangue, e que havia padecido muito com muitos médicos, e despendido tudo quanto tinha, nada lhe aproveitando isso, antes indo a pior; ouvindo falar de Jesus, veio por detrás, entre a multidão, e tocou na sua veste. Porque dizia: Se tão somente tocar nas suas vestes, sararei. E logo se lhe secou a fonte do seu sangue; e sentiu no seu corpo estar já curada daquele mal. E logo Jesus, conhecendo que poder de si mesmo saíra, voltou-se para a multidão, e disse: Quem tocou nas minhas vestes? [...] Então a mulher, que sabia o que lhe tinha acontecido, temendo e tremendo, aproximou-se, e prostrou-se diante dele, e disse-lhe toda a verdade. E ele lhe disse: Filha, a tua fé te salvou; vai em paz, e sê curada deste teu mal.\""
         }
       ],
       "themes": [
         "vida-de-cristo"
       ],
-      "createdAt": "2026-08-30T13:31:47.310Z"
+      "createdAt": "2026-09-05T15:02:43.315Z"
     },
     {
       "slug": "paolo-veronese-o-triunfo-de-mardoqueu",
@@ -22393,13 +22650,15 @@
         {
           "book": "Lucas",
           "bookSlug": "luke",
-          "chapter": 3
+          "chapter": 3,
+          "verses": "21-22",
+          "passageText": "\"E aconteceu que, como todo o povo se batizava, sendo Jesus também batizado, e orando, se abriu o céu; e o Espírito Santo desceu sobre ele em forma corpórea, como uma pomba; e ouviu-se uma voz do céu, que dizia: Tu és o meu Filho amado; em ti me tenho comprazido.\""
         }
       ],
       "themes": [
         "batismo"
       ],
-      "createdAt": "2026-08-24T02:41:22.741Z"
+      "createdAt": "2026-09-05T15:00:37.676Z"
     },
     {
       "slug": "pascal-dagnan-bouveret-a-ultima-ceia",
@@ -23369,19 +23628,23 @@
         {
           "book": "Lucas",
           "bookSlug": "luke",
-          "chapter": 3
+          "chapter": 3,
+          "verses": "21-22",
+          "passageText": "\"E aconteceu que, como todo o povo se batizava, sendo Jesus também batizado, e orando, se abriu o céu; e o Espírito Santo desceu sobre ele em forma corpórea, como uma pomba; e ouviu-se uma voz do céu, que dizia: Tu és o meu Filho amado; em ti me tenho comprazido.\""
         },
         {
           "book": "João",
           "bookSlug": "john",
-          "chapter": 1
+          "chapter": 1,
+          "verses": "32,34",
+          "passageText": "\"E João testificou, dizendo: Eu vi o Espírito descer do céu como pomba, e repousar sobre ele. [...] E vi, e testifiquei que este é o Filho de Deus.\""
         }
       ],
       "themes": [
         "batismo",
         "jesus"
       ],
-      "createdAt": "2026-08-30T14:06:53.486Z"
+      "createdAt": "2026-09-05T15:02:37.136Z"
     },
     {
       "slug": "pierre-jean-van-der-ouderaa-as-mulheres-voltam-da-tumba-de-jesus",
@@ -23609,14 +23872,16 @@
         {
           "book": "Lucas",
           "bookSlug": "luke",
-          "chapter": 8
+          "chapter": 8,
+          "verses": "24",
+          "passageText": "\"E, chegando-se a ele, o despertaram, dizendo: Mestre, Mestre, perecemos. E ele, levantando-se, repreendeu o vento e a fúria da água; e cessaram, e fez-se bonança.\""
         }
       ],
       "themes": [
         "milagre",
         "tempestade"
       ],
-      "createdAt": "2026-08-30T14:30:15.801Z"
+      "createdAt": "2026-09-05T14:52:49.184Z"
     },
     {
       "slug": "pieter-de-grebber-a-parabola-do-juiz-injusto",
@@ -23718,24 +23983,30 @@
         {
           "book": "Marcos",
           "bookSlug": "mark",
-          "chapter": 11
+          "chapter": 11,
+          "verses": "8-9",
+          "passageText": "*\"E muitos estendiam os seus vestidos pelo caminho, e outros cortavam ramos das árvores, e os espalhavam pelo caminho. E aqueles que iam adiante, e os que seguiam, clamavam, dizendo: Hosana, bendito o que vem em nome do Senhor.\"*"
         },
         {
           "book": "Lucas",
           "bookSlug": "luke",
-          "chapter": 19
+          "chapter": 19,
+          "verses": "37-38",
+          "passageText": "*\"E, quando já ia chegando à descida do Monte das Oliveiras, toda a multidão dos discípulos, regozijando-se, começou a louvar a Deus em alta voz, por todas as maravilhas que tinham visto, Dizendo: Bendito o Rei que vem em nome do Senhor; paz no céu, e glória nas alturas.\"*"
         },
         {
           "book": "João",
           "bookSlug": "john",
-          "chapter": 12
+          "chapter": 12,
+          "verses": "12-13",
+          "passageText": "*\"No dia seguinte, ouvindo a grande multidão, que viera à festa, que Jesus entrava em Jerusalém, Tomaram ramos de palmeiras, e saíram-lhe ao encontro, e clamavam: Hosana, bendito o Rei de Israel que vem em nome do Senhor.\"*"
         }
       ],
       "themes": [
         "domingo-ramos",
         "entrada-jerusalem"
       ],
-      "createdAt": "2026-08-30T14:30:41.593Z"
+      "createdAt": "2026-09-05T14:53:41.122Z"
     },
     {
       "slug": "piotr-stachiewicz-o-pai-nosso",
@@ -24192,7 +24463,9 @@
         {
           "book": "Mateus",
           "bookSlug": "matthew",
-          "chapter": 1
+          "chapter": 1,
+          "verses": "24-25",
+          "passageText": "\"E José, tendo despertado do sono, fez como o anjo do Senhor lhe ordenara, e recebeu a sua mulher; e não a conheceu até que deu à luz seu filho, o primogênito; e pôs-lhe por nome Jesus.\""
         },
         {
           "book": "Lucas",
@@ -24212,7 +24485,7 @@
       "themes": [
         "natividade"
       ],
-      "createdAt": "2026-08-27T12:32:41.659Z"
+      "createdAt": "2026-09-05T15:06:34.776Z"
     },
     {
       "slug": "rembrandt-van-rijn-a-tempestade-no-mar-da-galileia",
@@ -24270,16 +24543,20 @@
         {
           "book": "Lucas",
           "bookSlug": "luke",
-          "chapter": 3
+          "chapter": 3,
+          "verses": "2-3",
+          "passageText": "\"Sendo Anás e Caifás sumos sacerdotes, veio a palavra de Deus a João, filho de Zacarias, no deserto. E percorreu toda a terra ao redor do Jordão, pregando o batismo de arrependimento, para remissão dos pecados.\""
         },
         {
           "book": "João",
           "bookSlug": "john",
-          "chapter": 1
+          "chapter": 1,
+          "verses": "19,23",
+          "passageText": "\"E este foi o testemunho de João, quando os judeus mandaram de Jerusalém sacerdotes e levitas para que lhe perguntassem: Quem és tu? [...] Disse: Eu sou a voz do que clama no deserto: Endireitai o caminho do Senhor, como disse o profeta Isaías.\""
         }
       ],
       "themes": [],
-      "createdAt": "2026-08-30T14:39:58.476Z"
+      "createdAt": "2026-09-05T14:53:28.147Z"
     },
     {
       "slug": "rembrandt-van-rijn-adoracao-dos-magos",
@@ -24557,11 +24834,12 @@
           "book": "Lamentações",
           "bookSlug": "lamentations",
           "chapter": 1,
+          "verses": "1",
           "passageText": "\"Como está sentada solitária aquela cidade, antes tão populosa! Tornou-se como viúva, a que era grande entre as nações!\""
         }
       ],
       "themes": [],
-      "createdAt": "2026-08-30T14:59:40.951Z"
+      "createdAt": "2026-09-05T14:52:32.596Z"
     },
     {
       "slug": "rembrandt-van-rijn-jesus-expulsando-os-vendilhoes-do-templo",
@@ -25029,13 +25307,15 @@
         {
           "book": "Lucas",
           "bookSlug": "luke",
-          "chapter": 2
+          "chapter": 2,
+          "verses": "4-5",
+          "passageText": "\"E subiu também José da Galiléia, da cidade de Nazaré, à Judéia, à cidade de Davi, chamada Belém (porque era da casa e família de Davi), a fim de alistar-se com Maria, sua mulher, que estava grávida.\""
         }
       ],
       "themes": [
         "natividade"
       ],
-      "createdAt": "2026-08-30T18:23:03.447Z"
+      "createdAt": "2026-09-05T15:19:13.689Z"
     },
     {
       "slug": "robert-henderson-blyth-a-imagem-do-homem",
@@ -25280,14 +25560,16 @@
         {
           "book": "Lucas",
           "bookSlug": "luke",
-          "chapter": 4
+          "chapter": 4,
+          "verses": "1-2",
+          "passageText": "\"E, cheio do Espírito Santo, voltou do Jordão, e foi levado pelo Espírito ao deserto. E quarenta dias foi tentado pelo diabo.\""
         }
       ],
       "themes": [
         "jesus",
         "tentacao"
       ],
-      "createdAt": "2026-08-27T12:32:41.670Z"
+      "createdAt": "2026-09-05T15:06:26.027Z"
     },
     {
       "slug": "sandro-botticelli-o-castigo-de-core",
@@ -25405,18 +25687,21 @@
           "book": "Isaías",
           "bookSlug": "isaiah",
           "chapter": 53,
+          "verses": "4-5",
           "passageText": "\"Verdadeiramente ele tomou sobre si as nossas enfermidades, e as nossas dores levou sobre si; e nós o reputávamos por aflito, ferido de Deus, e oprimido. Mas ele foi ferido por causa das nossas transgressões, e moído por causa das nossas iniquidades; o castigo que nos traz a paz estava sobre ele, e pelas suas pisaduras fomos sarados.\""
         },
         {
           "book": "Mateus",
           "bookSlug": "matthew",
-          "chapter": 27
+          "chapter": 27,
+          "verses": "27-30",
+          "passageText": "\"Então os soldados do presidente, conduzindo Jesus à audiência, ajuntaram junto dele toda a coorte. E, despindo-o, o cobriram com uma capa de escarlata; e, tecendo uma coroa de espinhos, puseram-lha na cabeça, e em sua mão direita uma cana; e, ajoelhando diante dele, o escarneciam, dizendo: Salve, Rei dos judeus! E, cuspindo nele, tiraram-lhe a cana, e batiam-lhe com ela na cabeça.\""
         }
       ],
       "themes": [
         "paixao-de-cristo"
       ],
-      "createdAt": "2026-08-30T18:51:32.161Z"
+      "createdAt": "2026-09-05T15:02:26.910Z"
     },
     {
       "slug": "simon-de-myle-a-arca-de-noe-no-monte-ararate",
@@ -25465,14 +25750,16 @@
         {
           "book": "Lucas",
           "bookSlug": "luke",
-          "chapter": 8
+          "chapter": 8,
+          "verses": "24-25",
+          "passageText": "\"E, chegando-se a ele, o despertaram, dizendo: Mestre, Mestre, perecemos. E ele, levantando-se, repreendeu o vento e a fúria da água; e cessaram, e fez-se bonança. E disse-lhes: Onde está a vossa fé? E eles, atemorizados, maravilharam-se, dizendo uns aos outros: Quem é este, que manda até aos ventos e à água, e lhe obedecem?\""
         }
       ],
       "themes": [
         "milagre",
         "tempestade"
       ],
-      "createdAt": "2026-08-30T18:50:36.319Z"
+      "createdAt": "2026-09-05T14:52:57.087Z"
     },
     {
       "slug": "simon-de-vos-cristo-no-mar-da-galileia",
@@ -25497,14 +25784,16 @@
         {
           "book": "Lucas",
           "bookSlug": "luke",
-          "chapter": 8
+          "chapter": 8,
+          "verses": "24",
+          "passageText": "\"E, chegando-se a ele, o despertaram, dizendo: Mestre, Mestre, perecemos. E ele, levantando-se, repreendeu o vento e a fúria da água; e cessaram, e fez-se bonança.\""
         }
       ],
       "themes": [
         "milagre",
         "tempestade"
       ],
-      "createdAt": "2026-08-30T18:51:11.915Z"
+      "createdAt": "2026-09-05T14:52:42.727Z"
     },
     {
       "slug": "sylwia-perczak-a-santa-trindade",
@@ -25587,7 +25876,9 @@
         {
           "book": "Lucas",
           "bookSlug": "luke",
-          "chapter": 18
+          "chapter": 18,
+          "verses": "15-17",
+          "passageText": "\"E traziam-lhe também meninos, para que os tocasse; e os discípulos, vendo isto, repreendiam-nos. Mas Jesus, chamando-os para si, disse: Deixai vir a mim os meninos, e não os impeçais, porque de tais é o reino de Deus. Em verdade vos digo que, qualquer que não receber o reino de Deus como menino, de maneira nenhuma entrará nele.\""
         },
         {
           "book": "Mateus",
@@ -25601,7 +25892,7 @@
         "bencao",
         "criancas"
       ],
-      "createdAt": "2026-08-30T18:49:57.693Z"
+      "createdAt": "2026-09-05T14:53:18.909Z"
     },
     {
       "slug": "tadessa-wolde-aregay-belem",
@@ -25624,14 +25915,16 @@
         {
           "book": "Lucas",
           "bookSlug": "luke",
-          "chapter": 2
+          "chapter": 2,
+          "verses": "4-7",
+          "passageText": "\"E subiu também José da Galiléia, da cidade de Nazaré, à Judéia, à cidade de Davi, chamada Belém (porque era da casa e família de Davi), a fim de alistar-se com Maria, sua mulher, que estava grávida. E aconteceu que, estando eles ali, se cumpriram os dias em que ela havia de dar à luz. E deu à luz o seu filho primogênito, e envolveu-o em faixas, e deitou-o numa manjedoura, porque não havia lugar para eles na estalagem.\""
         }
       ],
       "themes": [
         "belem",
         "natividade"
       ],
-      "createdAt": "2026-08-24T02:41:22.752Z"
+      "createdAt": "2026-09-05T15:00:28.067Z"
     },
     {
       "slug": "takehisa-yumeji-oracao",
@@ -26206,13 +26499,15 @@
         {
           "book": "Lucas",
           "bookSlug": "luke",
-          "chapter": 3
+          "chapter": 3,
+          "verses": "21-22",
+          "passageText": "\"E aconteceu que, como todo o povo se batizava, sendo Jesus também batizado, e orando, se abriu o céu; e o Espírito Santo desceu sobre ele em forma corpórea, como uma pomba; e ouviu-se uma voz do céu, que dizia: Tu és o meu Filho amado; em ti me tenho comprazido.\""
         }
       ],
       "themes": [
         "batismo"
       ],
-      "createdAt": "2026-08-30T19:11:27.676Z"
+      "createdAt": "2026-09-05T15:17:56.989Z"
     },
     {
       "slug": "ticiano-o-descer-do-espirito-santo",
@@ -26440,18 +26735,22 @@
         {
           "book": "Marcos",
           "bookSlug": "mark",
-          "chapter": 9
+          "chapter": 9,
+          "verses": "2-4",
+          "passageText": "\"E seis dias depois, tomou Jesus consigo a Pedro, e a Tiago, e a João, e os levou à parte, sós, a um alto monte; e transfigurou-se diante deles. E as suas vestes tornaram-se resplandecentes, mui brancas como a neve; tais como nenhum lavandeiro sobre a terra as poderia branquear. E apareceu-lhes Elias com Moisés, e falavam com Jesus.\""
         },
         {
           "book": "Lucas",
           "bookSlug": "luke",
-          "chapter": 9
+          "chapter": 9,
+          "verses": "28-30",
+          "passageText": "\"E aconteceu, quase oito dias depois destas palavras, que tomou consigo a Pedro, e a João, e a Tiago, e subiu ao monte a orar. E, orando ele, mudou-se a aparência do seu rosto, e o seu vestido ficou branco e resplandecente. E eis que dois varões falavam com ele, e eram Moisés e Elias.\""
         }
       ],
       "themes": [
         "transfiguracao"
       ],
-      "createdAt": "2026-08-30T19:19:19.709Z"
+      "createdAt": "2026-09-05T15:19:24.828Z"
     },
     {
       "slug": "valentin-de-boulogne-cristo-e-a-mulher-adultera",
@@ -26555,13 +26854,14 @@
           "book": "Êxodo",
           "bookSlug": "exodus",
           "chapter": 14,
+          "verses": "21-25",
           "passageText": "\"Então Moisés estendeu a sua mão sobre o mar, e o Senhor fez retirar o mar por um forte vento oriental toda aquela noite; e o mar tornou-se em seco, e as águas foram partidas. E os filhos de Israel entraram pelo meio do mar em seco; e as águas foram-lhes como muro à sua direita e à sua esquerda. E os egípcios os seguiram, e entraram atrás deles todos os cavalos de Faraó, os seus carros e os seus cavaleiros, até ao meio do mar. E aconteceu que, na vigília daquela manhã, o Senhor, na coluna do fogo e da nuvem, viu o campo dos egípcios; e alvoroçou o campo dos egípcios. E tirou-lhes as rodas dos seus carros, e dificultosamente os governavam. Então disseram os egípcios: Fujamos da face de Israel, porque o Senhor por eles peleja contra os egípcios.\""
         }
       ],
       "themes": [
         "attribution-dueteronomio"
       ],
-      "createdAt": "2026-08-30T19:40:41.589Z"
+      "createdAt": "2026-09-05T14:51:24.655Z"
     },
     {
       "slug": "vasily-polenov-a-ressurreicao-da-filha-de-jairo",
@@ -26652,7 +26952,9 @@
         {
           "book": "Lucas",
           "bookSlug": "luke",
-          "chapter": 4
+          "chapter": 4,
+          "verses": "2-3",
+          "passageText": "\"Durante quarenta dias, e foi tentado pelo diabo. E não comeu coisa alguma naqueles dias, e, terminados eles, teve fome. Então o diabo lhe disse: Se tu és Filho de Deus, dize a esta pedra que se torne em pão.\""
         },
         {
           "book": "Hebreus",
@@ -26665,7 +26967,7 @@
       "themes": [
         "tentacao"
       ],
-      "createdAt": "2026-08-30T19:41:23.800Z"
+      "createdAt": "2026-09-05T14:51:17.005Z"
     },
     {
       "slug": "vasily-surikov-paulo-explica-a-fe-para-o-rei-agripa",
@@ -29172,6 +29474,11 @@
       "bio": "**Cecília Rosa** — pouca informação disponível; não foi identificada com segurança uma escritora devocional cristã com esse nome, havendo homônimas como uma artista plástica de Recife e a tradutora Cecília Rosas. Recomenda-se confirmar a referência."
     },
     {
+      "name": "Charles Allan Gilbert",
+      "slug": "charles-allan-gilbert",
+      "bio": "**Charles Allan Gilbert** nasceu em 3 de setembro de 1873, em Hartford, Connecticut, e morreu em 20 de abril de 1929. Inválido na infância, começou a desenhar como entretenimento próprio. Aos dezesseis anos, passou a estudar com Charles Noel Flagg, pintor oficial de retratos do estado de Connecticut. Em 1892, matriculou-se na Art Students League de Nova York, onde ficou dois anos; em 1894, mudou-se para a França, onde estudou com Jean-Paul Laurens e Jean-Joseph Benjamin-Constant na Académie Julian, em Paris.\n\nDe volta a Nova York, construiu carreira ativa como ilustrador de livros, revistas, cartazes e calendários, publicando com frequência em *Scribner's*, *Harper's*, *Atlantic Monthly* e outras revistas de destaque. É lembrado sobretudo por *Tudo é Vaidade* (*All Is Vanity*), desenho de imagem dupla que, visto de perto, mostra uma mulher diante do espelho de seu toucador, e, visto à distância, revela uma caveira."
+    },
+    {
       "name": "Charles Jalabert",
       "slug": "charles-jalabert",
       "bio": null
@@ -29409,7 +29716,7 @@
     {
       "name": "Francisco Goya",
       "slug": "francisco-goya",
-      "bio": "**Francisco de Goya** (1746-1828) foi um pintor e gravurista espanhol, um dos maiores da história da arte. Pintor da corte, atravessou o Rococó, o Romantismo e antecipou o modernismo com obras como *O 3 de Maio de 1808* e *As Mêninas*. Suas gravuras *Os Caprichos* e *Os Desastres da Guerra* são obras-primas da sátira."
+      "bio": "**Francisco José de Goya y Lucientes** nasceu em 30 de março de 1746, em Fuendetodos, Aragão, e morreu em 16 de abril de 1828, em Bordeaux, na França, onde vivia exilado desde 1824. Foi nomeado pintor da corte do rei Carlos III em 1786 e Primeiro Pintor de Carlos IV em 1799, atravessando o Rococó, o Neoclassicismo e o Romantismo ao longo de uma carreira que costuma ser lida como ponte entre os últimos grandes mestres antigos e a pintura moderna.\n\nEm 1792, depois de uma doença grave (hoje atribuída por alguns pesquisadores ao envenenamento por chumbo nos próprios pigmentos), ficou surdo — surdez que marcaria o tom cada vez mais sombrio de sua obra tardia. Entre 1820 e 1823, já recluso na Quinta del Sordo, pintou diretamente sobre as paredes de casa a série hoje chamada de Pinturas Negras, obras privadas de tom sinistro como *Saturno Devorando um Filho*. Entre suas obras-primas está *O 3 de Maio de 1808* (1814), sobre a repressão napoleônica em Madri. Suas séries de gravuras *Os Caprichos* e *Os Desastres da Guerra* são obras-primas da sátira e da denúncia política.\n\n*(Correção: uma versão anterior desta nota atribuía \"As Meninas\" a Goya — a obra é de Diego Velázquez, 1656.)*"
     },
     {
       "name": "Francisco de Zurbarán",
@@ -29420,6 +29727,11 @@
       "name": "Frans Floris",
       "slug": "frans-floris",
       "bio": null
+    },
+    {
+      "name": "François-Joseph Navez",
+      "slug": "francois-joseph-navez",
+      "bio": "**François-Joseph Navez** nasceu em 16 de novembro de 1787, em Charleroi, e morreu em 12 de outubro de 1869. Estudou de 1803 a 1808 na Academia Real de Belas Artes de Bruxelas, sob Pierre Joseph Célestin François, e em 1812 venceu o primeiro prêmio num concurso de pintura histórica, o que lhe garantiu ir a Paris estudar diretamente sob Jacques-Louis David, entre 1813 e 1816. No ano seguinte partiu para Roma, onde conheceu Ingres e viveu até 1822.\n\nFoi um retratista muito bem-sucedido, além de pintor de temas mitológicos e históricos. Entre 1835 e 1862 dirigiu a Académie Royale des Beaux-Arts de Bruxelas, posição de grande influência sobre a formação de pintores belgas do período."
     },
     {
       "name": "Frederick George Swaish",
@@ -29927,6 +30239,11 @@
       "bio": "**Josefa de Óbidos** (1630-1684) foi uma pintora barroca portuguesa, nascida em Sevilha e criada em Óbidos, filha do pintor Baltazar Gomes Figueira. Nunca se casou e manteve ateliê próprio, tornando-se uma das artistas femininas mais celebradas do Portugal barroco. Produziu retábulos, obras devocionais e naturezas-mortas."
     },
     {
+      "name": "Joseph Noel Paton",
+      "slug": "joseph-noel-paton",
+      "bio": "**Sir Joseph Noel Paton** nasceu em 13 de dezembro de 1821 em Dunfermline, na Escócia, filho de desenhistas e tecelões de damasco, e morreu em 26 de dezembro de 1901 em Edimburgo. Continuou por um tempo o ofício familiar antes de estudar brevemente na Royal Academy, em Londres, em 1843, sob George Jones. Ali travou amizade com John Everett Millais, que o convidou a integrar a Irmandade Pré-Rafaelita. Paton recusou o convite formal, mas adotou boa parte do vocabulário visual do movimento em sua obra.\n\nTornou-se o principal artista escocês da era vitoriana dedicado a temas imaginativos: pintura de fadas, alegoria, história e religião. Suas obras mais célebres do período inicial, *The Quarrel of Oberon and Titania* (1846) e *The Reconciliation of Oberon and Titania* (1847), estão hoje na National Gallery of Scotland. Tinha conhecimento raro de folclore e lendas célticas entre os pintores vitorianos de temática feérica.\n\nMais tarde, voltou-se com intensidade para quadros religiosos, muitos deles reproduzidos em gravuras e levados em turnê, chegando a servir de tema para sermões. Foi nomeado Limner da Rainha para a Escócia em 1865, armado cavaleiro em 1867 e recebeu doutorado honorário da Universidade de Edimburgo em 1878. A Rainha Vitória também lhe encomendou quadros para a sala de orações de Osborne House, na Ilha de Wight."
+    },
+    {
       "name": "Joseph von Führich",
       "slug": "joseph-von-fuhrich",
       "bio": "**Joseph von Führich** (1800-1876) foi um pintor austríaco do Romantismo, ligado ao movimento nazareno. Dedicou-se à arte religiosa, com obras como *A Estrada para o Calvário* e ciclos de afrescos. Foi professor na Academia de Belas Artes de Viena."
@@ -30027,9 +30344,9 @@
       "bio": null
     },
     {
-      "name": "Lawrence Alma Tadema",
+      "name": "Lawrence Alma-Tadema",
       "slug": "lawrence-alma-tadema",
-      "bio": null
+      "bio": "**Sir Lawrence Alma-Tadema** nasceu Lourens Alma Tadema em 8 de janeiro de 1836, em Dronrijp, na Frísia, Países Baixos, filho de um tabelião, e morreu em 25 de junho de 1912, em Wiesbaden, na Alemanha. Estudou na Academia de Antuérpia (1852-1858) sob o pintor histórico belga Hendrik Leys. Numa viagem à Itália em 1863, despertou seu interesse pela antiguidade grega e romana e pela arqueologia egípcia, temas que passaria a explorar quase exclusivamente pelo resto da carreira. Mudou-se para a Inglaterra, naturalizou-se britânico em 1873 e foi eleito membro da Royal Academy em 1879.\n\nFicou conhecido como \"o arqueólogo entre os artistas\": pesquisava cada cena consultando sua vasta biblioteca, estudando artefatos em museus e visitando sítios antigos, mantendo um arquivo fotográfico próprio de objetos, arquitetura e ruínas. Essa disciplina de pesquisa se combinava com uma habilidade rara de povoar o mundo clássico com figuras humanamente cridíveis, não estátuas. Seus quadros de vida cotidiana na Grécia, Roma e Egito antigos, sempre pesquisados com rigor arqueológico, o tornaram um dos pintores mais bem-sucedidos comercialmente da era vitoriana."
     },
     {
       "name": "Leah Mitchell",
@@ -31145,6 +31462,10 @@
       "name": "Infancia Jesus"
     },
     {
+      "slug": "inferno",
+      "name": "Inferno"
+    },
+    {
       "slug": "isabel",
       "name": "Isabel"
     },
@@ -31769,5 +32090,5 @@
       "name": "Zombaria"
     }
   ],
-  "exportedAt": "2026-09-05T14:49:20.617Z"
+  "exportedAt": "2026-09-05T15:23:00.228Z"
 }
