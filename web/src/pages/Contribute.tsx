@@ -23,9 +23,9 @@ export default function Contribute() {
     {
       icon: BookOpen,
       title: "Sugerir Obras",
-      description: "Conhece alguma pintura, música ou filme inspirado na Bíblia que ainda não está em nossa coleção?",
-      action: "Enviar sugestão",
-      href: "mailto:biblianaarte@narniano.com?subject=Sugest%C3%A3o%20de%20obra",
+      description: "Conhece alguma pintura, música ou filme inspirado na Bíblia que ainda não está em nossa coleção? Envie direto pelo formulário, com imagem e tudo.",
+      action: "Enviar obra",
+      href: "/contribuir/enviar-obra",
       difficulty: "Fácil"
     },
     {
@@ -136,9 +136,11 @@ export default function Contribute() {
                       {type.description}
                     </p>
                     <Button variant="outline" size="sm" className="w-full" asChild>
-                      <a href={type.href}>
-                        {type.action}
-                      </a>
+                      {type.href.startsWith('/') ? (
+                        <Link to={type.href}>{type.action}</Link>
+                      ) : (
+                        <a href={type.href}>{type.action}</a>
+                      )}
                     </Button>
                   </CardContent>
                 </Card>

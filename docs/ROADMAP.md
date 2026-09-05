@@ -3450,3 +3450,198 @@ mesmo problema.
       também `hetzner-infra/PADRAO-DE-ENGENHARIA.md` (novo item de
       checklist, mesma seção dos achados de fuso horário/identidade
       estável de hoje).
+
+---
+
+## Submissão de artistas + painel administrativo (planejado 2026-09-05, ainda não implementado)
+
+> **Contexto de negócio**: o Bíblia na Arte cresceu além do esperado e
+> chamou atenção do **Efeito Prisma**, organização paraeclesiástica
+> brasileira (fé + vida cotidiana + arte, ~75 mil seguidores), que
+> propôs uma parceria — trazer o site pro ecossistema deles (marca,
+> audiência, possível equipe de curadoria), em troca de visibilidade.
+> Proposta ainda em fase de "tenho interesse, me manda uma proposta
+> concreta" — nada fechado (controle editorial, monetização, marca e
+> reversibilidade ainda em aberto do lado deles). Esta seção documenta
+> o que decidimos construir **independente do resultado da parceria**,
+> porque o problema é real de qualquer forma: já chegam propostas de
+> artistas brasileiros por e-mail/WhatsApp querendo entrar no acervo,
+> sem nenhum método formal de submissão hoje.
+
+### O problema de arquitetura que precisou ser resolvido primeiro
+
+O Postgres hoje é só um espelho do vault: todo reseed faz
+`TRUNCATE`/remove e reconstrói a partir do `vault-export.json` (ver
+`import-seed-data.ts`, etapa "Removendo obras que saíram do vault...").
+Se uma submissão de artista fosse inserida direto na tabela
+`artworks`, o **próximo reseed do vault apagaria ela**, porque ela
+nunca existiu como nota no Obsidian.
+
+Duas soluções possíveis foram consideradas:
+
+- **(A) Submissão vira nota do vault** — mantém uma única fonte da
+  verdade, mas exige que toda submissão aprovada seja convertida numa
+  nota `.md` de verdade. Problema real dessa opção: quem faz essa
+  conversão precisa ter acesso ao filesystem do vault, que **só existe
+  no computador do Rilson** (o próprio RUNBOOK já documenta isso — "o
+  vault não existe no servidor nem no repo"). Isso inviabiliza dar
+  acesso de revisão/aprovação pra qualquer outra pessoa (equipe do
+  Prisma, por exemplo) sem o Rilson mediar cada aprovação manualmente.
+- **(B) Postgres vira fonte de verdade também pra submissões, convivendo
+  com o vault** — escolhida. Não é uma virada completa de arquitetura:
+  o `import-seed-data.ts` já faz *upsert* por slug (atualiza o que já
+  existe, insere o que é novo) — o único ponto realmente destrutivo é
+  a etapa de remoção. A correção é cirúrgica, não uma reescrita.
+
+### Desenho escolhido
+
+1. **Coluna `origem`** na tabela `artworks` (`'vault'` por padrão,
+   `'submissao'` pra quem vier do painel). A etapa de "remover o que
+   saiu do vault" no reseed passa a filtrar só `origem = 'vault'` —
+   nunca toca em obras de submissão, porque elas nunca existiram no
+   vault pra "sair" dele.
+2. **Tabela `submissions`** (nova, separada de `artworks` — nunca
+   servida publicamente até aprovada): dados do submissor
+   (nome/e-mail/contato), campos da obra espelhando o schema de
+   `artworks` (título, subtítulo/título original, artista, ano,
+   categoria, descrição, localização, fonte, referência bíblica
+   sugerida com livro/capítulo/versos/texto), **todos opcionais menos
+   o mínimo pra ser útil** — os campos existem pra serem preenchidos
+   com a mesma qualidade do resto do acervo, mas não bloqueiam a
+   submissão se vierem incompletos (mesma lógica de uma nota nova do
+   vault: pode nascer rasa, ser enriquecida na revisão). Inclui
+   confirmação de direito de imagem (checkbox + timestamp — proteção
+   legal, não opcional) e status (`pendente`/`aprovado`/`rejeitado`).
+3. **Tabela `users`** (nova, mínima: e-mail, hash de senha, papel) —
+   login do painel. Começa só com o Rilson; convite futuro é uma linha
+   nova, sem reengenharia.
+4. **Dois papéis desde o início**, mesmo com um usuário só por
+   enquanto: `revisor` (prepara/edita/sinaliza como pronta) e `admin`
+   (só ele publica de fato). Existe porque resolve de saída a pergunta
+   "quem tem a palavra final na curadoria" que precisa ser combinada
+   com qualquer parceiro — a resposta fica garantida pela arquitetura,
+   não só combinada verbalmente.
+
+**Fluxo**: formulário público → `POST /submissions` (limitado por
+`@fastify/rate-limit`, já instalado) → cai em `submissions` como
+pendente → revisão/edição no painel → aprovação → vira linha real em
+`artworks` com `origem = 'submissao'` → aparece no site no próximo
+build (sem reseed do vault envolvido).
+
+### Stack — só o que falta, reaproveitando o que já existe
+
+Confirmado antes de sugerir qualquer coisa nova: servidor já é
+Fastify + Drizzle ORM + Postgres + Zod; site é React + Vite. Nada de
+autenticação ainda. `sharp` já existe mas só como devDependency (usado
+no export) — precisa virar dependência de produção pra processar
+upload ao vivo.
+
+- **`@fastify/multipart`** — plugin oficial do Fastify pra upload de
+  imagem, mesmo ecossistema já em uso.
+- **`@fastify/secure-session`** — sessão via cookie assinado, sem
+  precisar de tabela de sessão. Mais simples que JWT pro tamanho atual.
+- **`crypto.scrypt`** (nativo do Node) pra hash de senha — zero
+  dependência nova.
+- Nada de framework de admin pronto (Retool/Forest/etc.) — volume não
+  justifica.
+
+### Fases de execução
+
+- [x] **Fase 1 — Banco (2026-09-05)**: coluna `origem` em `artworks`
+      (`artwork_origem`: `'vault'` | `'submissao'`, default `'vault'`
+      — cobre as obras existentes automaticamente); tabela `submissions`
+      (25 colunas — só `submitter_name`, `submitter_email`, `title`,
+      `image_path` obrigatórios, resto opcional de propósito, régua de
+      qualidade acontece na revisão); tabela `users` (`admin`/`revisor`).
+      `import-seed-data.ts` ajustado — a etapa de remoção agora só
+      afeta `origem = 'vault'`. Migração gerada via `drizzle-kit
+      generate` (`0008_special_lady_mastermind.sql`), validada rodando
+      de ponta a ponta contra o Postgres de teste isolado
+      (`docker-compose.test.yml`, nunca tocou produção) — aplicou sem
+      erro, schema conferido via `psql`. `typecheck`/`lint`/`test`
+      (99 testes) verdes, nenhum warning novo. Nada commitado nem
+      deployado ainda — aguardando sinal do Rilson.
+- [x] **Fase 2 — API (2026-09-05)**: implementada e testada de ponta a
+      ponta (unitário + smoke test real contra Postgres de teste — login,
+      submissão multipart com imagem de verdade convertida pra WebP,
+      aprovação criando obra + referência bíblica, tudo confirmado via
+      `curl`). Duas correções de rota encontradas só ao implementar:
+
+      1. **Auth por token, não cookie**: a API já roda num subdomínio
+         diferente do site (CORS de verdade entre eles) — cookie de
+         sessão cross-site exigiria `SameSite=None`+`credentials:true`,
+         complexidade sem ganho real nesse volume. Usado
+         **`@fastify/jwt`** (token no header `Authorization`) em vez do
+         `@fastify/secure-session` do desenho original.
+      2. **Imagem de submissão não pode ir pra `web/public/images`**:
+         `web` é build estático (nginx, Dockerfile copia `web/dist`
+         pronto) — não existe volume gravável ali em produção. A própria
+         API (processo Node de verdade, disco gravável) passou a servir
+         essas imagens direto, por uma rota nova (`GET /uploads/:filename`,
+         só da pasta de aprovadas — nunca da de pendentes).
+
+      Migração de dependências: `@fastify/multipart` (upload) +
+      `@fastify/jwt` (login); `sharp` promovido de devDependency pra
+      dependência real (processa upload ao vivo, não só no export do
+      vault). **Pendência de infra pra quando for deployar** (não é
+      código, é ação manual no VPS): a conexão do Postgres da API era
+      documentada como só-leitura (`v1 é somente leitura pública`) —
+      precisa de `GRANT INSERT, UPDATE` em `submissions`, `users`,
+      `artworks`, `bible_references` pro usuário que a API usa. Também
+      precisa de `JWT_SECRET` (gerar com `openssl rand -hex 32`) e
+      `PUBLIC_API_URL` no `.env` de produção, e os dois diretórios de
+      upload (`SUBMISSION_UPLOADS_DIR`/`APPROVED_SUBMISSION_UPLOADS_DIR`)
+      montados como volume Docker persistente, não caminho efêmero do
+      container. 15 arquivos novos, 12 testes novos (119 no total),
+      `typecheck`/`lint` limpos. Nada commitado nem deployado — aguardando
+      sinal do Rilson.
+- [x] **Fase 3 — Frontend (2026-09-05)**: formulário público em
+      `/contribuir/enviar-obra` (card "Sugerir Obras" de `/contribuir`
+      agora aponta pra lá em vez de `mailto:`) + painel em
+      `/admin/login`, `/admin/submissoes` e `/admin/submissoes/:id`,
+      como rotas protegidas dentro do próprio `web/` — sem app novo
+      separado, como decidido. Achado útil: existia um
+      `_archived-supabase-admin/` (painel morto de 2026-08-07, Supabase
+      Auth) cujo próprio README já listava os 3 passos exatos pra
+      reativar — a Fase 2 resolveu o passo 1 (API de escrita
+      autenticada); reaproveitado o **estilo visual** de lá
+      (`Login.tsx`, cards, `shadow-card`) reescrevendo a lógica de auth
+      contra o JWT novo, não o código Supabase em si.
+
+      Achado técnico ao implementar: imagem de submissão pendente não
+      pode ir num `<img src>` direto — exigiria o token no header
+      `Authorization`, que tag de imagem não manda, e pôr o token na
+      query string vazaria em log de acesso do servidor. Resolvido com
+      fetch autenticado + `URL.createObjectURL` (blob), revogada no
+      cleanup do componente.
+
+      Testado de verdade num navegador headless (Playwright, já que
+      `chromium-cli` não estava disponível aqui) — as duas páginas
+      novas renderizam completas, sem tela branca nem erro do React
+      (screenshots conferidos). `typecheck`/`lint`/`build` de produção
+      limpos. **Achado colateral, não é regressão**: um erro de console
+      minificado (`pageerror`, nome de 2 letras tipo "Yl"/"Wl") aparece
+      em QUALQUER página do site, inclusive a home — confirmado
+      comparando as páginas novas com a home sem nenhuma mudança minha.
+      Pré-existente, não investigado a fundo (fora do escopo desta
+      tarefa) — registrado aqui pra não ser confundido com bug
+      introduzido pela submissão de artistas.
+- [ ] **Fase 4 (futuro, só se a parceria com o Prisma avançar)**:
+      convites multi-usuário reais (linha nova em `users`), papéis mais
+      granulares se necessário.
+
+### O que esse desenho resolve — e o que NÃO resolve, pra não vender ilusão
+
+**Resolve**: alguém de fora (equipe do Prisma, por exemplo) consegue
+revisar/aprovar submissões **novas** sem precisar de acesso ao
+computador do Rilson nem ao Obsidian. Reversibilidade também sai de
+graça — revogar acesso de alguém é apagar uma linha em `users`; a
+infraestrutura inteira (VPS, domínio, código) continua 100% do Rilson
+o tempo todo.
+
+**NÃO resolve**: curadoria colaborativa do **acervo já existente**
+(os 1000+ que vêm do vault) — essas notas continuam só no Obsidian do
+Rilson. Se a parceria implicar em alguém do Prisma querendo editar ou
+corrigir obras já catalogadas (não só trazer obra nova), esse desenho
+cobre só metade do problema. Registrado aqui pra não ser descoberto
+como surpresa depois.
