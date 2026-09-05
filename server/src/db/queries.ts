@@ -814,10 +814,18 @@ export async function deleteSubmission(id: string): Promise<
         .where(eq(artworks.id, submission.approvedArtworkId))
         .limit(1);
       approvedImageUrl = artwork?.imageUrl ?? null;
-      await tx.delete(artworks).where(eq(artworks.id, submission.approvedArtworkId));
     }
 
+    // Ordem importa: submissions.approved_artwork_id referencia
+    // artworks.id, então apagar a obra primeiro viola a FK. Achado
+    // real (2026-09-05) — bati nesse mesmo erro fazendo limpeza manual
+    // mais cedo hoje e repeti o descuido aqui na primeira versão desta
+    // função; a transação reverteu tudo, nada ficou pela metade, mas
+    // devolvia 500.
     await tx.delete(submissions).where(eq(submissions.id, id));
+    if (submission.approvedArtworkId) {
+      await tx.delete(artworks).where(eq(artworks.id, submission.approvedArtworkId));
+    }
 
     // Se foi aprovada, o arquivo pendente já foi movido (rename, não
     // cópia) por promoteSubmissionImage — não existe mais nesse
