@@ -2249,30 +2249,6 @@
       "createdAt": "2026-08-27T12:32:41.555Z"
     },
     {
-      "slug": "autor-desconhecido-os-alegres-martires-de-nagasaki-the-joyful-martyrs-of-nagasaki",
-      "title": "Os alegres mártires de Nagasaki  The Joyful Martyrs of Nagasaki",
-      "subtitle": "The Joyful Martyrs of Nagasaki",
-      "artistOrDirector": "Autor Desconhecido",
-      "year": "1597",
-      "category": "painting",
-      "description": "Os 26 mártires de Nagasaki, crucificados em 1597 por sua fé cristã no Japão. Entre eles estavam franciscanos, jesuítas e leigos japoneses que louvaram a Deus até a morte. \"Bem-aventurados os que sofrem perseguição por causa da justiça, porque deles é o reino dos céus\" (Mateus 5:10). Exemplo supremo de fidelidade até a morte.\n\n### Contexto Histórico\n\nA execução dos 26 cristãos (incluindo o notório Paulo Miki) por ordem do *Taikō* Toyotomi Hideyoshi marcou o início de uma perseguição brutal que visava expurgar completamente a fé cristã do solo japonês. Telas anônimas produzidas no exterior celebraram imediatamente o evento não como uma tragédia política, mas como um glorioso triunfo espiritual, imortalizando-os como o \"proto-mártires\" do Extremo Oriente, cuja constância inabalável diante da cruz no monte Tateyama enraizou o Evangelho no arquipélago através do sangue.",
-      "imageFile": "autor-desconhecido-os-alegres-martires-de-nagasaki-the-joyful-martyrs-of-nagasaki.webp",
-      "licenseType": "public-domain",
-      "location": "Nagasaki Museum of History and Culture, Nagasaki, Japão",
-      "sourceUrl": "https://www.indcatholicnews.com/news/49071",
-      "references": [
-        {
-          "book": "2 Timóteo",
-          "bookSlug": "2-timothy",
-          "chapter": 1,
-          "verses": "1-8",
-          "passageText": "\"Paulo, apóstolo de Cristo Jesus pela vontade de Deus, segundo a promessa da vida que está em Cristo Jesus, a Timóteo, amado filho: Graça, misericórdia e paz da parte de Deus Pai e de Cristo Jesus nosso Senhor. Dou graças a Deus, a quem desde os meus antepassados sirvo com uma consciência pura, de que sem cessar faço menção de ti em minhas súplicas de noite e de dia; e, recordando-me das tuas lágrimas, desejo muito ver-te, para me encher de gozo; trazendo à memória a fé não fingida que há em ti, a qual habitou primeiro em tua avó Loide, e em tua mãe Eunice e estou certo de que também habita em ti. Por esta razão te lembro que despertes o dom de Deus, que há em ti pela imposição das minhas mãos. Porque Deus não nos deu o espírito de covardia, mas de poder, de amor e de moderação. Portanto não te envergonhes do testemunho de nosso Senhor, nem de mim, que sou prisioneiro seu; antes participa comigo dos sofrimentos do evangelho segundo o poder de Deus,\""
-        }
-      ],
-      "themes": [],
-      "createdAt": "2026-08-27T12:32:41.556Z"
-    },
-    {
       "slug": "balthasar-van-cortbemde-o-bom-samaritano",
       "title": "O bom samaritano",
       "subtitle": "De barmhartige Samaritaan",
@@ -3029,6 +3005,47 @@
       "createdAt": "2026-08-25T01:49:23.919Z"
     },
     {
+      "slug": "caravaggio-cristo-na-coluna",
+      "title": "Cristo na Coluna",
+      "subtitle": "Christ at the Column",
+      "artistOrDirector": "Caravaggio",
+      "year": "c. 1606-1607",
+      "category": "painting",
+      "description": "Cristo ainda não recebeu um único golpe. Dois algozes o seguram e o amarram a uma coluna alta, no prelúdio da Paixão. A iconografia do tema oferecia duas opções: a coluna baixa do pretório de Jerusalém, venerada como relíquia em Santa Prassede, em Roma, ou a coluna alta que evoca o pórtico do Templo. **Caravaggio** escolheu a segunda.\n\nIsolado à esquerda da tela, Cristo se destaca contra o fundo escuro, com expressão de abatimento e solidão. O algoz em primeiro plano tem olhos claros, quase de piedade, mas suas mãos amarram firmemente as cordas bem no centro da obra. A luz guia o olhar para o torso e o rosto do condenado, para os rostos dos algozes, e para a mão que segura o chicote fora do quadro.\n\n### Contexto Histórico\n\nA obra pertence ao primeiro período napolitano de Caravaggio. O pintor havia fugido de Roma em maio de 1606, depois de matar Ranuccio Tomassoni numa briga em 28 de maio, e alcançou Nápoles depois de passar pelas propriedades da família Colonna, seus protetores havia muito tempo, nos montes Albanos, no Lácio, chegando à cidade por volta de setembro daquele ano.\n\nEsses meses produziram duas flagelações. A outra, vertical e de grande formato, foi encomendada para a igreja napolitana de San Domenico Maggiore e hoje está no Museo di Capodimonte (ver Caravaggio - Flagelação de Cristo (Flagellazione di Cristo)). O algoz de nariz achatado, à direita da tela de Rouen, repete o modelo de um dos torturadores daquela versão e do executor em *Salomé com a Cabeça do Batista*, indício de que Caravaggio estudava essas figuras a partir de modelos reais e reconhecíveis, reaproveitados entre obras.\n\nO museu de Rouen comprou a tela em novembro de 1955, no mercado de arte parisiense, como obra de Mattia Preti, por 225 mil francos antigos, cerca de cinco mil euros em valores atuais. Em setembro de 1959, Roberto Longhi devolveu a obra a Caravaggio, com base na qualidade da pintura e nas numerosas incisões na camada de tinta, típicas do método de trabalho do artista. Desde então, esta versão prevaleceu como o original diante de outras cópias documentadas em coleções particulares na Suíça e em Roma.",
+      "imageFile": "caravaggio-cristo-na-coluna.webp",
+      "licenseType": "public-domain",
+      "location": "Musée des Beaux-Arts de Rouen, França",
+      "sourceUrl": "https://fr.wikipedia.org/wiki/Le_Christ_%C3%A0_la_colonne_(Le_Caravage)",
+      "references": [
+        {
+          "book": "Mateus",
+          "bookSlug": "matthew",
+          "chapter": 27,
+          "verses": "26",
+          "passageText": "\"Então soltou-lhes Barrabás; mas a Jesus, tendo-o açoitado, entregou-o para ser crucificado.\""
+        },
+        {
+          "book": "Marcos",
+          "bookSlug": "mark",
+          "chapter": 15,
+          "verses": "15",
+          "passageText": "\"Então Pilatos, querendo satisfazer o povo, soltou-lhes Barrabás; e, açoitado Jesus, o entregou para ser crucificado.\""
+        },
+        {
+          "book": "João",
+          "bookSlug": "john",
+          "chapter": 19,
+          "verses": "1",
+          "passageText": "\"Então Pilatos tomou a Jesus, e mandou açoitá-lo.\""
+        }
+      ],
+      "themes": [
+        "flagelacao",
+        "paixao-de-cristo"
+      ],
+      "createdAt": "2026-09-05T14:23:16.110Z"
+    },
+    {
       "slug": "caravaggio-davi-com-a-cabeca-de-golias",
       "title": "Davi com a Cabeça de Golias",
       "subtitle": "David with the Head of Goliath",
@@ -3102,7 +3119,7 @@
       "artistOrDirector": "Caravaggio",
       "year": "1607",
       "category": "painting",
-      "description": "> [!info] Flagelação de Cristo (Caravaggio, Capodimonte)  \n> Flagelação de Cristo, também conhecida por Cristo na Coluna, é uma pintura a óleo sobre tela do mestre italiano do período barroco Michelangelo Merisi da Caravaggio que está actualmente no Museo di Capodimonte, em Nápoles.  \n> [https://it.wikipedia.org/wiki/Flagellazione_di_Cristo_(Caravaggio)](https://it.wikipedia.org/wiki/Flagellazione_di_Cristo_(Caravaggio))  \n\nA flagelação de Cristo (Mateus 27:26; Marcos 15:15; João 19:1) ocorre após Jesus ser julgado por Pôncio Pilatos. Pilatos, incapaz de encontrar culpa suficiente para condenar Jesus à morte, decide castigá-Lo, e manda que Ele seja flagelado, uma prática cruel e brutal. Os soldados romanos açoitam Jesus com um chicote composto por várias cordas ou tiras de couro, frequentemente com fragmentos de metal ou ossos nas extremidades, o que causava intenso sofrimento e ferimentos graves. Durante a flagelação, os soldados zombam de Jesus, colocando uma coroa de espinhos em Sua cabeça e uma capa de púrpura, fazendo troça de Sua alegada realeza. Eles O saudam dizendo: \"Salve, Rei dos Judeus!\" (Mateus 27:29). Este episódio é um dos momentos mais dolorosos da Paixão de Cristo, simbolizando o sofrimento físico e humilhação que Jesus suportou em nome da redenção da humanidade.\n\n### Contexto Histórico\n\nPintada em 1607 para a Igreja de San Domenico Maggiore em Nápoles e conservada no Museu de Capodimonte. **Caravaggio** destaca a brutalidade dos algozes romanos em contraste com a serenidade luminosa do corpo de Cristo na coluna da tortura.",
+      "description": "> [!info] Flagelação de Cristo (Caravaggio, Capodimonte)  \n> Flagelação de Cristo, também conhecida por Cristo na Coluna, é uma pintura a óleo sobre tela do mestre italiano do período barroco Michelangelo Merisi da Caravaggio que está actualmente no Museo di Capodimonte, em Nápoles.  \n> [https://it.wikipedia.org/wiki/Flagellazione_di_Cristo_(Caravaggio)](https://it.wikipedia.org/wiki/Flagellazione_di_Cristo_(Caravaggio))  \n\nA flagelação de Cristo (Mateus 27:26; Marcos 15:15; João 19:1) ocorre após Jesus ser julgado por Pôncio Pilatos. Pilatos, incapaz de encontrar culpa suficiente para condenar Jesus à morte, decide castigá-Lo, e manda que Ele seja flagelado, uma prática cruel e brutal. Os soldados romanos açoitam Jesus com um chicote composto por várias cordas ou tiras de couro, frequentemente com fragmentos de metal ou ossos nas extremidades, o que causava intenso sofrimento e ferimentos graves. Durante a flagelação, os soldados zombam de Jesus, colocando uma coroa de espinhos em Sua cabeça e uma capa de púrpura, fazendo troça de Sua alegada realeza. Eles O saudam dizendo: \"Salve, Rei dos Judeus!\" (Mateus 27:29). Este episódio é um dos momentos mais dolorosos da Paixão de Cristo, simbolizando o sofrimento físico e humilhação que Jesus suportou em nome da redenção da humanidade.\n\n### Contexto Histórico\n\nPintada em 1607 para a Igreja de San Domenico Maggiore em Nápoles e conservada no Museu de Capodimonte. **Caravaggio** destaca a brutalidade dos algozes romanos em contraste com a serenidade luminosa do corpo de Cristo na coluna da tortura.\n\nFoi a segunda de duas flagelações produzidas nos meses seguintes à chegada de Caravaggio a Nápoles, fugido de Roma após matar Ranuccio Tomassoni em maio de 1606. A outra, horizontal e hoje no Musée des Beaux-Arts de Rouen, compartilha ao menos um modelo de algoz com esta tela — ver Caravaggio - Cristo na Coluna (Christ at the Column).",
       "imageFile": "caravaggio-flagelacao-de-cristo.webp",
       "licenseType": "public-domain",
       "location": "Museo Nazionale di Capodimonte, Nápoles, Itália",
@@ -3117,7 +3134,7 @@
         }
       ],
       "themes": [],
-      "createdAt": "2026-08-27T12:32:41.561Z"
+      "createdAt": "2026-09-04T01:03:01.889Z"
     },
     {
       "slug": "caravaggio-joao-batista-no-deserto",
@@ -3211,7 +3228,7 @@
       "themes": [
         "chamado"
       ],
-      "createdAt": "2026-08-25T01:49:23.920Z"
+      "createdAt": "2026-09-04T00:57:42.199Z"
     },
     {
       "slug": "caravaggio-o-chamado-dos-santos-pedro-e-andre",
@@ -3388,7 +3405,7 @@
       "artistOrDirector": "Carl Bloch",
       "year": "c. 1876",
       "category": "painting",
-      "description": "Esta pintura de **Carl Bloch** captura um dos momentos mais dolorosos e humanos do Novo Testamento: a negação tripla de Pedro. Bloch utiliza sua característica abordagem de **Realismo Psicológico**, onde a expressão facial e a linguagem corporal comunicam o drama interior dos personagens de forma mais poderosa do que qualquer gesto teatral.\n\nA **composição triangular** organiza as figuras ao redor da fogueira, com Pedro destacado pela luz do fogo que ilumina seu rosto em um momento de angústia. O uso do **chiaroscuro** (contraste entre luz e sombra) não é meramente técnico, mas simbólico: Pedro está na escuridão tanto literal quanto espiritual, tendo abandonado a Luz do Mundo no momento de maior necessidade.\n\nA figura apontando para Pedro — possivelmente a criada que o reconheceu — cria uma **tensão narrativa** palpável. O gesto acusatório contrasta com a postura defensiva e envergonhada de Pedro. Bloch evita qualquer idealização: Pedro é retratado como um homem comum, atormentado pela covardia e pelo medo. Ao fundo, podemos perceber outras figuras observando, ampliando o sentimento de exposição e humilhação do apóstolo.\n\n### Contexto Histórico\n\nPintura sacra de **Carl Bloch** (1834–1890), expoente do **Realismo e Romantismo Dinamarquês**. Celebrado pelas 23 telas produzidas para o Castelo de Frederiksborg, Bloch destacou-se por capturar a compaixão, a humanidade e a autoridade divina de Cristo com impecável técnica pictórica.",
+      "description": "Esta pintura de **Carl Bloch** captura um dos momentos mais dolorosos e humanos do Novo Testamento: a negação tripla de Pedro. Bloch utiliza sua característica abordagem de **Realismo Psicológico**, onde a expressão facial e a linguagem corporal comunicam o drama interior dos personagens de forma mais poderosa do que qualquer gesto teatral.\n\nO uso do **chiaroscuro** (contraste entre luz e sombra) não é meramente técnico, mas simbólico — e organizado de um jeito preciso: é o grupo junto à fogueira, não Pedro, que recebe o calor da luz. Pedro já se afastou, isolado à esquerda junto a uma coluna e um leão de pedra, em tons frios e sombra — ele próprio se retirou do círculo de luz no instante em que negou conhecer Jesus, um afastamento tão físico quanto espiritual.\n\nA figura apontando para Pedro, do outro lado da composição — possivelmente a criada que o reconheceu —, cria uma **tensão narrativa** palpável. O gesto acusatório contrasta com a postura defensiva e envergonhada de Pedro. Bloch evita qualquer idealização: Pedro é retratado como um homem comum, atormentado pela covardia e pelo medo.\n\nDois detalhes amarram a cena ao texto bíblico com precisão: dois galos, ainda quietos, estão pousados nos degraus entre Pedro e o grupo da fogueira — o relógio profetizado por Jesus prestes a soar. E ao fundo, sob os arcos, é possível ver Cristo, de manto vermelho, sendo conduzido por guardas: é essa presença visível ao longe que torna literal o momento de Lucas 22:61 — \"o Senhor, virando-se, olhou para Pedro\" —, já que os dois, apesar da distância entre si na composição, estão na mesma cena.\n\n### Contexto Histórico\n\nPintura sacra de **Carl Bloch** (1834–1890), expoente do **Realismo e Romantismo Dinamarquês**. Celebrado pelas 23 telas produzidas para o Castelo de Frederiksborg, Bloch destacou-se por capturar a compaixão, a humanidade e a autoridade divina de Cristo com impecável técnica pictórica.",
       "imageFile": "carl-bloch-a-negacao-de-pedro.webp",
       "licenseType": "public-domain",
       "location": "Capela do Castelo de Frederiksborg, Hillerød, Dinamarca",
@@ -3426,7 +3443,7 @@
       "themes": [
         "arrependimento"
       ],
-      "createdAt": "2026-08-25T01:49:23.925Z"
+      "createdAt": "2026-09-04T00:55:34.110Z"
     },
     {
       "slug": "carl-bloch-a-zombaria-de-cristo",
@@ -15543,13 +15560,13 @@
       "title": "A Ascensão dos Abençoados",
       "subtitle": "Hemelvaart van de uitverkorenen",
       "artistOrDirector": "Hieronymus Bosch",
-      "year": "c. 1500",
+      "year": "c. 1505-1515",
       "category": "painting",
-      "description": "Esta obra fascinante de **Hieronymus Bosch** faz parte de um políptico (conjunto de várias pinturas) chamado \"As Visões do Além\". Bosch é o maior expoente do **Renascimento Nórdico** focado no fantástico e no simbólico. A pintura é famosa por sua representação revolucionária de um túnel de luz cilíndrico, que transporta as almas da escuridão do mundo material para a radiância do paraíso.\n\nO artista utiliza um **Simbolismo Visionário**, onde anjos acompanham os \"abençoados\" (as almas purificadas) através de um vazio escuro em direção a uma fonte de luz branca absoluta no horizonte. A técnica de Bosch nesta obra é notável pela sua modernidade: o uso de círculos concêntricos de luz cria uma sensação de profundidade e movimento acelerado para cima. As almas são retratadas nuas e frágeis, simbolizando que nada da riqueza ou status da Terra pode ser levado para a eternidade, apenas a essência espiritual.\n\n### Contexto Histórico\n\nObra de **Hieronymus Bosch** (c. 1450–1516), genial mestre do **Renascimento Flamou**. Bosch é famoso por seu simbolismo complexo, visões moralistas e profusão de imagens alegóricas sobre o pecado, a criação e a salvação.",
+      "description": "Esta obra fascinante de **Hieronymus Bosch** faz parte de um políptico (conjunto de várias pinturas) chamado \"As Visões do Além\". Bosch é o maior expoente do **Renascimento Nórdico** focado no fantástico e no simbólico. A pintura é famosa por sua representação revolucionária de um túnel de luz cilíndrico, que transporta as almas da escuridão do mundo material para a radiância do paraíso.\n\nO artista utiliza um **Simbolismo Visionário**, onde anjos acompanham os \"abençoados\" (as almas purificadas) através de um vazio escuro em direção a uma fonte de luz branca absoluta no horizonte. A técnica de Bosch nesta obra é notável pela sua modernidade: o uso de círculos concêntricos de luz cria uma sensação de profundidade e movimento acelerado para cima. As almas são retratadas nuas e frágeis, simbolizando que nada da riqueza ou status da Terra pode ser levado para a eternidade, apenas a essência espiritual.\n\n### Contexto Histórico\n\nObra de **Hieronymus Bosch** (c. 1450–1516), genial mestre do **Renascimento Flamengo**. Bosch é famoso por seu simbolismo complexo, visões moralistas e profusão de imagens alegóricas sobre o pecado, a criação e a salvação.\n\nVale registrar uma ressalva de honestidade acadêmica: a atribuição a Bosch, embora amplamente aceita, não é universal entre os estudiosos — parte da crítica levanta dúvidas sobre a autoria dos quatro painéis de \"As Visões do Além\" como um todo.",
       "imageFile": "hieronymus-bosch-a-ascensao-dos-abencoados.webp",
       "licenseType": "public-domain",
-      "location": "Palazzo Grimani, Veneza, Itália",
-      "sourceUrl": "https://www.wikidata.org/wiki/Q130531",
+      "location": "Gallerie dell'Accademia, Veneza, Itália (em exibição temporária no Palazzo Grimani)",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Ascent_of_the_Blessed",
       "references": [
         {
           "book": "Mateus",
@@ -15567,7 +15584,7 @@
         }
       ],
       "themes": [],
-      "createdAt": "2026-08-25T01:49:23.989Z"
+      "createdAt": "2026-09-04T01:04:51.150Z"
     },
     {
       "slug": "hieronymus-bosch-cenas-da-paixao-de-cristo",
@@ -16148,6 +16165,33 @@
       "createdAt": "2026-08-27T12:32:41.600Z"
     },
     {
+      "slug": "j-c-leyendecker-os-tres-reis-magos",
+      "title": "Os Três Reis Magos",
+      "subtitle": "Three Wise Men",
+      "artistOrDirector": "J. C. Leyendecker",
+      "year": "1900",
+      "category": "painting",
+      "description": "**Joseph Christian Leyendecker** desenhou esta capa para o número de Natal da revista *Success*, de dezembro de 1900. Os três reis aparecem com suas ofertas: um rei jovem traz o incenso, um companheiro idoso e barbudo carrega um vaso de mirra, e um terceiro, de meia-idade, segura o ouro. Seus mantos pesados e ricamente estampados, e as poses formais, dão ao desenho a gravidade de uma pintura religiosa, mesmo sua função sendo comercial: a imagem precisava parar o leitor numa banca de jornal.\n\nAs figuras são construídas com os traços densos e cruzados (*hatching*) que se tornaram sua marca registrada, um sistema de linhas que preserva a energia do desenho dentro de uma composição acabada. Leyendecker havia treinado na Académie Julian, em Paris, pouco antes, e o tratamento decorativo dos reis carrega a marca do Art Nouveau que absorveu lá. Ele preparou a composição com cuidado: sobrevive um estudo a óleo para esta capa, com as margens preenchidas por esboços de detalhe (textura de cota de malha, um par de mãos em oração), evidência de como testava cada elemento antes da versão final.\n\nA encomenda veio no momento em que sua carreira acelerava. Leyendecker teve sua primeira capa na *The Saturday Evening Post* em maio de 1899, início de uma associação de 44 anos que produziria 322 capas. As revistas reservavam seus números de Natal para seus nomes mais consagrados. A *Success* entregar sua edição de Natal a um ilustrador de 26 anos mostra o lugar que ele já ocupava.\n\n### Contexto Histórico\n\nO comissionamento aconteceu num ano decisivo para Leyendecker. Nascido em Montabaur, Alemanha, em 1874, ele havia emigrado para Chicago aos oito anos e estudado no Art Institute of Chicago antes de ir para a Académie Julian, em Paris, entre 1895 e 1897. De volta aos Estados Unidos, sua primeira capa na *Saturday Evening Post* saiu em maio de 1899, o começo de uma parceria que duraria até 1943 e resultaria em 322 capas, além de 80 capas para a *Collier's Weekly*. Ele se mudaria de Chicago para Nova York, então o centro da arte comercial e da indústria editorial americana, em 1902.\n\nLeyendecker é hoje reconhecido como uma das figuras centrais da Idade de Ouro da Ilustração americana, e criador de ícones visuais que perduram — incluindo a imagem moderna de Papai Noel e o \"Bebê do Ano Novo\" usado por décadas em capas de revista.",
+      "imageFile": "j-c-leyendecker-os-tres-reis-magos.webp",
+      "licenseType": "public-domain",
+      "location": "Coleção particular (estudo a óleo); a capa impressa original foi publicada na revista Success, dezembro de 1900",
+      "sourceUrl": "https://www.artrenewal.org/artworks/three-wise-men/joseph-christian-leyendecker/90300",
+      "references": [
+        {
+          "book": "Mateus",
+          "bookSlug": "matthew",
+          "chapter": 2,
+          "verses": "1-2",
+          "passageText": "\"E, tendo nascido Jesus em Belém de Judá, no tempo do rei Herodes, eis que uns magos vindos do Oriente chegaram a Jerusalém, dizendo: Onde está aquele que é nascido rei dos judeus? Porque vimos a sua estrela no Oriente, e viemos a adorá-lo.\""
+        }
+      ],
+      "themes": [
+        "epifania",
+        "magos"
+      ],
+      "createdAt": "2026-09-05T14:23:55.169Z"
+    },
+    {
       "slug": "j-m-w-turner-sadraque-mesaque-e-abede-nego-na-fornalha-ardente",
       "title": "Sadraque, Mesaque e Abede-Nego na Fornalha Ardente",
       "subtitle": "Shadrach, Meshach and Abednego in the Burning Fiery Furnace",
@@ -16550,6 +16594,40 @@
       ],
       "themes": [],
       "createdAt": "2026-08-27T19:40:51.588Z"
+    },
+    {
+      "slug": "jacopo-torriti-o-criador",
+      "title": "O Criador",
+      "subtitle": "Volto di Dio Padre creatore",
+      "artistOrDirector": "Jacopo Torriti",
+      "year": "c. 1290",
+      "category": "painting",
+      "description": "Esta é uma **sinopia**: o desenho preparatório que o pintor traçava diretamente no reboco grosseiro (*arriccio*) da parede, em terra vermelha, antes de aplicar a camada final de argamassa (*intonaco*) e pintar o afresco a fresco. A peça mostra apenas o rosto, em traço rápido e seguro: um rosto frontal, hierático, de barba e cabelos longos divididos ao meio, a tipologia bizantino-medieval do \"Ancião de Dias\"/Criador, aqui atribuída a **Jacopo Torriti**, um dos principais pintores-mosaicistas da escola romana do Duecento.\n\nA sinopia é tudo o que restou visível de perto do afresco original da *Criação do Mundo*, que decorava a primeira campata da nave da Basílica Superior de São Francisco em Assis. O afresco final, executado sobre essa sinopia, sofreu graves danos ao longo dos séculos; o desenho preparatório só veio à luz quando a camada de reboco foi destacada da parede em trabalhos de restauro do Instituto Central de Restauro, no final dos anos 1950, revelando o traço original do artista, sem os retoques e repinturas que o afresco acabado havia acumulado.\n\n### Contexto Histórico\n\nJacopo Torriti atuou na segunda metade do século XIII, sobretudo em Roma, sob o patrocínio de figuras como o papa Nicolau IV. É documentado como autor dos mosaicos da abside de São João de Latrão (1287–1292, com Jacopo da Camerino) e, principalmente, dos mosaicos da abside de Santa Maria Maior (1295), com a *Coroação da Virgem*, considerado o mais importante conjunto sobrevivente de arte musiva romana do fim da Idade Média.\n\nSua atuação em Assis é atribuída, não documentada com a mesma certeza: acredita-se que Torriti tenha participado da decoração da primeira campata da Basílica Superior de São Francisco, incluindo as cenas da *Criação do Mundo* e *Criação de Adão* de um lado, e *Anunciação* e *Visitação* do outro. Essa sinopia é o vestígio mais direto que temos desse trabalho: um desenho de sua própria mão, sem a mediação de restauradores posteriores que já alteraram bastante o afresco final visível na basílica.",
+      "imageFile": "jacopo-torriti-o-criador.webp",
+      "licenseType": "public-domain",
+      "location": "Museo del Tesoro della Basilica di San Francesco, Assisi, Itália (Settore I – Dipinti e sculture)",
+      "sourceUrl": "https://it.cathopedia.org/wiki/Museo_del_Tesoro_della_Basilica_di_San_Francesco_di_Assisi",
+      "references": [
+        {
+          "book": "Gênesis",
+          "bookSlug": "genesis",
+          "chapter": 1,
+          "verses": "1",
+          "passageText": "\"No princípio criou Deus os céus e a terra.\""
+        },
+        {
+          "book": "João",
+          "bookSlug": "john",
+          "chapter": 1,
+          "verses": "1-3",
+          "passageText": "\"No princípio era o Verbo, e o Verbo estava com Deus, e o Verbo era Deus. Ele estava no princípio com Deus. Todas as coisas foram feitas por ele, e sem ele nada do que foi feito se fez.\""
+        }
+      ],
+      "themes": [
+        "criacao",
+        "rosto-de-cristo"
+      ],
+      "createdAt": "2026-09-05T14:24:39.718Z"
     },
     {
       "slug": "james-christensen-tocando-a-orla-da-veste-de-deus",
@@ -18955,6 +19033,40 @@
       "createdAt": "2026-08-29T20:39:06.028Z"
     },
     {
+      "slug": "joaquin-sorolla-eu-sou-o-pao-da-vida",
+      "title": "Eu Sou o Pão da Vida",
+      "subtitle": "Yo soy el pan de la vida",
+      "artistOrDirector": "Joaquín Sorolla",
+      "year": "1897",
+      "category": "painting",
+      "description": "Banhada pela luz mediterrânea que é a marca registrada de **Joaquín Sorolla**, a cena evoca Jesus pregando de um barco de pesca no Mar da Galileia: a embarcação se torna um púlpito flutuante, a vela um pano de fundo radiante, e a margem um altar natural para suas palavras, \"Eu sou o pão da vida\". Armadilhas de pesca, crianças e gente do mar enraízam o Evangelho no mundo humilde do lago, ao mesmo tempo em que evocam o chamado de Cristo para fazer de seus discípulos \"pescadores de homens\".\n\nVale notar que a cena é uma síntese pictórica, não a ilustração literal de um único episódio: Cristo pregando do barco remete a Lucas 5:1-3 (e à cena paralela de Marcos 1:16-20 / Mateus 4:18-22, o chamado dos primeiros pescadores), enquanto a frase \"Eu sou o pão da vida\" vem do discurso de João 6:35, proferido segundo o texto na sinagoga de Cafarnaum, não do barco. Sorolla funde as duas cenas (o púlpito à beira-mar e a declaração do pão da vida) numa única composição, licença comum na pintura religiosa devocional do período.\n\nCom 417 × 528,2 cm, é a maior pintura religiosa sobrevivente do mestre valenciano.\n\n### Contexto Histórico\n\nA obra foi encomendada em 1896 pelo diplomata e empresário chileno **Rafael Errázuriz Urmeneta**, que Sorolla conhecera em Madri no fim de 1895. Errázuriz encarregou o pintor de uma série de retratos de família e de uma pintura religiosa com o tema de Jesus pregando do barco, destinada a presidir a escadaria principal de seu palácio em Valparaíso, Chile. Sorolla assinou e datou a tela em 1897.\n\nA pintura permaneceu em coleções particulares por mais de um século até ser adquirida pela Generalitat Valenciana em outubro de 2022, junto à coleção da família Lladró. Depois de integrar a exposição *De la foscor a la llum*, a obra foi instalada de forma permanente em junho de 2023 na sala dedicada a Sorolla no Museo de Bellas Artes de Valencia, voltando, mais de um século depois, à cidade natal do pintor.",
+      "imageFile": "joaquin-sorolla-eu-sou-o-pao-da-vida.webp",
+      "licenseType": "public-domain",
+      "location": "Museo de Bellas Artes de Valencia, Espanha",
+      "sourceUrl": "https://www.elperiodic.com/valencia/obra-vida-sorolla-encuentra-instalada-museo-bellas-artes-valencia_909590",
+      "references": [
+        {
+          "book": "Lucas",
+          "bookSlug": "luke",
+          "chapter": 5,
+          "verses": "3",
+          "passageText": "\"E ele, entrando num dos barcos, que era de Simão, pediu-lhe que o afastasse um pouco da terra; e, assentando-se, ensinava do barco a multidão.\""
+        },
+        {
+          "book": "João",
+          "bookSlug": "john",
+          "chapter": 6,
+          "verses": "32-33,35",
+          "passageText": "\"Disse-lhes, pois, Jesus: Na verdade, na verdade vos digo que não foi Moisés quem vos deu o pão do céu, mas meu Pai vos dá o verdadeiro pão do céu. Porque o pão de Deus é aquele que desce do céu e dá vida ao mundo. [...] Disse-lhes Jesus: Eu sou o pão da vida; aquele que vem a mim não terá fome, e quem crê em mim nunca terá sede.\""
+        }
+      ],
+      "themes": [
+        "cristo-ensinando",
+        "discipulado"
+      ],
+      "createdAt": "2026-09-05T14:22:06.131Z"
+    },
+    {
       "slug": "johannes-vermeer-cristo-na-casa-de-marta-e-maria",
       "title": "Cristo na Casa de Marta e Maria",
       "subtitle": "Christ in the House of Martha and Mary",
@@ -19322,6 +19434,54 @@
         "josue"
       ],
       "createdAt": "2026-08-29T20:40:44.958Z"
+    },
+    {
+      "slug": "john-martin-o-juizo-final",
+      "title": "O Juízo Final",
+      "subtitle": "The Last Judgement",
+      "artistOrDirector": "John Martin",
+      "year": "1853",
+      "category": "painting",
+      "description": "*O Juízo Final* é uma das três telas do tríptico monumental de **John Martin**, ao lado de *O Grande Dia da Sua Ira* e *As Planícies do Céu*, concluídas pouco antes de sua morte e amplamente consideradas o auge de sua carreira, possivelmente sua obra-prima. Com 196,8 × 325,8 cm, é a peça central: pensada para ficar entre a paisagem serena de *As Planícies do Céu*, à esquerda, e a cena turbulenta de *O Grande Dia da Sua Ira*, à direita.\n\nNo centro, Deus está sentado em julgamento sobre seu trono, cercado pelos vinte e quatro anciãos. Os quatro anjos já soaram suas trombetas, sinalizando a abertura do sétimo selo. Abaixo, a cena se divide em dois reinos: à direita, o caos reina enquanto as forças de Satanás são derrubadas, e os exércitos de Gogue e Magogue despencam num abismo sem fundo, engolidos por ele. À esquerda, serenidade: os justos reunidos no Monte Sião, já nas Planícies do Céu, aguardando o chamado divino.\n\nUma chave gravada, publicada em 1855, identificava muitas das figuras da pintura. Entre os condenados estão mulheres ricamente vestidas (incluindo a filha de Herodíades e a Prostituta da Babilônia) e advogados e clérigos corruptos que preferiram a riqueza à virtude. Entre os salvos, à direita de Deus, estão mulheres virtuosas, crianças inocentes, casais devotados, mártires e filantropos. Martin também povoa essa reunião celestial com gigantes históricos e intelectuais: artistas, poetas, filósofos e estadistas, seus rostos reproduzidos a partir de retratos conhecidos.\n\nUm detalhe marcante da obra é a inclusão de imagética contemporânea: um trem, com vagões identificados por nomes de cidades como Londres e Paris, descarrila no abismo. Esse detalhe anacrônico sugere uma crítica de Martin à modernidade, um possível aviso contra o progresso industrial desenfreado e a decadência moral que o acompanharia.\n\n### Contexto Histórico\n\nA obra encerra a carreira de **John Martin** (1789–1854), o principal representante do \"sublime apocalíptico\" no Romantismo britânico. O tríptico, formado por *O Juízo Final*, *O Grande Dia da Sua Ira* e *As Planícies do Céu*, foi concluído em 1853, pouco antes de o pintor sofrer um derrame que o deixou parcialmente paralisado; morreu no ano seguinte, em 1854, na Ilha de Man.\n\nAs três telas circularam pelo Reino Unido e pelos Estados Unidos em exibições públicas pagas nas décadas seguintes, acompanhadas de catálogos descritivos que ajudavam o público a identificar as dezenas de figuras retratadas. Era uma prática comum para grandes telas históricas da época, quando exibições itinerantes funcionavam como espetáculo popular pago, quase concorrendo com o próprio teatro. O prestígio crítico da obra de Martin caiu bruscamente após sua morte, a ponto de suas telas monumentais serem vendidas por poucas libras nas décadas de 1930-1940, antes de serem redescobertas no século XX.",
+      "imageFile": "john-martin-o-juizo-final.webp",
+      "licenseType": "public-domain",
+      "location": "Tate Britain, Londres, Reino Unido",
+      "sourceUrl": "https://www.tate.org.uk/art/artworks/martin-the-last-judgement-t01927",
+      "references": [
+        {
+          "book": "Apocalipse",
+          "bookSlug": "revelation",
+          "chapter": 4,
+          "verses": "4",
+          "passageText": "\"E ao redor do trono havia vinte e quatro tronos; e vi assentados sobre os tronos vinte e quatro anciãos, vestidos de vestes brancas; e tinham sobre as suas cabeças coroas de ouro.\""
+        },
+        {
+          "book": "Apocalipse",
+          "bookSlug": "revelation",
+          "chapter": 5,
+          "verses": "2",
+          "passageText": "\"E vi um anjo forte, bradando com grande voz: Quem é digno de abrir o livro, e de soltar os seus selos?\""
+        },
+        {
+          "book": "Apocalipse",
+          "bookSlug": "revelation",
+          "chapter": 8,
+          "verses": "2",
+          "passageText": "\"E vi os sete anjos que estavam diante de Deus, e foram-lhes dadas sete trombetas.\""
+        },
+        {
+          "book": "Apocalipse",
+          "bookSlug": "revelation",
+          "chapter": 20,
+          "verses": "11-12",
+          "passageText": "\"E vi um grande trono branco, e o que estava assentado sobre ele, [...] E vi os mortos, grandes e pequenos, que estavam diante de Deus, e abriram-se os livros; e abriu-se outro livro, que é o livro da vida; e os mortos foram julgados pelas coisas que estavam escritas nos livros, segundo as suas obras.\""
+        }
+      ],
+      "themes": [
+        "juizo-final",
+        "apocalipse"
+      ],
+      "createdAt": "2026-09-05T14:21:34.682Z"
     },
     {
       "slug": "john-reilly-milagre-de-peixes",
@@ -20305,7 +20465,7 @@
       "artistOrDirector": "Leonardo da Vinci",
       "year": "1472",
       "category": "painting",
-      "description": "Óleo e têmpera sobre painel de **Leonardo da Vinci** (1452–1519), pintada por volta de **1472-1476**, quando o artista ainda trabalhava na oficina de Verrocchio em Florença — uma das primeiras obras atribuídas a Leonardo sozinho, já com a marca de sua observação científica da natureza.\n\nO anjo Gabriel, ajoelhado num jardim murado, ergue a mão direita em saudação enquanto segura um lírio branco (símbolo da pureza de Maria) na esquerda. Maria, interrompida na leitura, responde com um gesto sereno e comedido. Entre os dois, um atril de mármore esculpido com precisão quase arquitetônica — Leonardo, ainda jovem, já demonstra o interesse que definiria sua carreira: a botânica das flores do gramado (estudada com rigor científico, não decorativo) e a perspectiva atmosférica da paisagem ao fundo, que se dissolve em azul-esverdeado à distância.\n\nAs asas de Gabriel, segundo estudiosos, foram pintadas com base em observação real de asas de aves — Leonardo dissecava e desenhava aves ao longo da vida, e essa atenção empírica já aparece aqui, décadas antes dos famosos estudos de voo.\n\n### Contexto Histórico\n\nA *Anunciação* é a obra-prima inicial mais antiga de Leonardo da Vinci, pintada quando ele ainda era aprendiz na oficina de Andrea del Verrocchio em Florença. O detalhe do mármore do atril é possivelmente derivado do túmulo de Piero e Giovanni de' Medici na Basílica de San Lorenzo, que Verrocchio esculpiu no mesmo período — evidência da influência direta do mestre sobre o jovem Leonardo.\n\nA pintura foi encomendada provavelmente pelos monges olivetanos do mosteiro de San Bartolomeo, perto de Florença, para sua sacristia após a reforma da igreja em 1472. Foi trazida para os Uffizi em 1867. Inicialmente, a atribuição era de Domenico Ghirlandaio — que também estudou na oficina de Verrocchio — mas em 1869, o historiador de arte alemão Karl Eduard von Liphart identificou corretamente a obra como um trabalho juvenil de Leonardo. Uma evidência adicional foi o reconhecimento de um desenho de Leonardo na Christ Church Picture Gallery de Oxford como estudo preparatório para a manga do anjo.\n\nEmbora criticada por algumas imprecisões na composição — como o braço direito de Maria que parece estendido demais, possivelmente um reflexo das pesquisas iniciais de Leonardo sobre óptica — a obra já demonstra as inovações que definiriam sua carreira: sfumato e perspectiva atmosférica. A pintura só foi emprestada três vezes em sua história: para exposições em Paris e Milão nos anos 1930, e para salvaguarda durante a Segunda Guerra Mundial. Em 2007, o empréstimo para uma exposição no Japão gerou enorme controvérsia na Itália, com cerca de 300 políticos e especialistas em arte escrevendo ao ministro da cultura para tentar impedir a transferência.",
+      "description": "Óleo e têmpera sobre painel de **Leonardo da Vinci** (1452–1519), pintada por volta de **1472-1476**, quando o artista ainda trabalhava na oficina de Verrocchio em Florença — uma das primeiras obras atribuídas a Leonardo sozinho, já com a marca de sua observação científica da natureza.\n\nO anjo Gabriel, ajoelhado num jardim murado, ergue a mão direita em saudação enquanto segura um lírio branco (símbolo da pureza de Maria) na esquerda. Maria, interrompida na leitura, responde com um gesto sereno e comedido. Entre os dois, um atril de mármore esculpido com precisão quase arquitetônica — Leonardo, ainda jovem, já demonstra o interesse que definiria sua carreira: a botânica das flores do gramado (estudada com rigor científico, não decorativo) e a perspectiva atmosférica da paisagem ao fundo, que se dissolve em azul-esverdeado à distância.\n\nLeonardo rompe com a tradição que ambientava a Anunciação num quarto ou loggia: aqui a cena se passa diante de um palácio renascentista, num jardim murado e florido que evoca o *hortus conclusus* — o \"jardim fechado\" do Cântico dos Cânticos, alusão medieval consagrada à pureza e à virgindade de Maria. A ruptura não é total: espiando por uma porta atrás de Maria, ainda é possível entrever o quarto que a iconografia tradicional exigia — Leonardo cita a convenção antes de subvertê-la.\n\nAs asas de Gabriel, diferente das asas emplumadas e decorativas (por vezes de pavão) comuns entre seus contemporâneos, foram pintadas a partir de estudo direto de aves de rapina — um falcão ou gavião, segundo a maioria dos estudiosos —, com penugem e articulação anatomicamente corretas. É também uma das primeiras vezes na pintura em que um anjo projeta uma sombra real sobre o gramado, reforçando sua presença física na cena — mais um sinal da observação empírica que definiria toda a carreira científica de Leonardo, décadas antes de seus famosos estudos de voo.\n\n### Contexto Histórico\n\nA *Anunciação* é a obra-prima inicial mais antiga de Leonardo da Vinci, pintada quando ele ainda era aprendiz na oficina de Andrea del Verrocchio em Florença. O detalhe do mármore do atril é possivelmente derivado do túmulo de Piero e Giovanni de' Medici na Basílica de San Lorenzo, que Verrocchio esculpiu no mesmo período — evidência da influência direta do mestre sobre o jovem Leonardo.\n\nA pintura foi encomendada provavelmente pelos monges olivetanos do mosteiro de San Bartolomeo, perto de Florença, para sua sacristia após a reforma da igreja em 1472. Foi trazida para os Uffizi em 1867. Inicialmente, a atribuição era de Domenico Ghirlandaio — que também estudou na oficina de Verrocchio — mas em 1869, o historiador de arte alemão Karl Eduard von Liphart, figura central da colônia de expatriados alemães em Florença, identificou corretamente a obra como um trabalho juvenil de Leonardo, seguindo métodos de conexão estilística desenvolvidos por Gustav Waagen, outro historiador de arte alemão da época. Uma evidência adicional foi o reconhecimento de um desenho de Leonardo na Christ Church Picture Gallery de Oxford como estudo preparatório para a manga do anjo.\n\nEmbora criticada por algumas imprecisões na composição — como o braço direito de Maria que parece estendido demais, possivelmente um reflexo das pesquisas iniciais de Leonardo sobre óptica — a obra já demonstra as inovações que definiriam sua carreira: sfumato e perspectiva atmosférica. A pintura só foi emprestada três vezes em sua história: para exposições em Paris e Milão nos anos 1930, e para salvaguarda durante a Segunda Guerra Mundial. Em 2007, o empréstimo para uma exposição no Japão gerou enorme controvérsia na Itália, com cerca de 300 políticos e especialistas em arte escrevendo ao ministro da cultura para tentar impedir a transferência.",
       "imageFile": "leonardo-da-vinci-a-anunciacao.webp",
       "licenseType": "public-domain",
       "location": "Galleria degli Uffizi, Florença, Itália",
@@ -20322,7 +20482,7 @@
       "themes": [
         "anunciacao"
       ],
-      "createdAt": "2026-08-30T01:38:44.736Z"
+      "createdAt": "2026-09-04T00:56:56.159Z"
     },
     {
       "slug": "lippo-memmi-o-massacre-dos-inocentes",
@@ -21864,13 +22024,39 @@
       "createdAt": "2026-08-30T02:22:06.582Z"
     },
     {
+      "slug": "nikolai-ge-cristo-no-jardim-do-getsemani",
+      "title": "Cristo no Jardim do Getsêmani",
+      "subtitle": "Christ at the Garden of Gethsemane",
+      "artistOrDirector": "Nikolai Ge",
+      "year": "1869",
+      "category": "painting",
+      "description": "Diferente de muitos mestres europeus que trataram esse episódio evangélico, **Nikolai Ge** não pinta os discípulos adormecidos. Ele concentra a cena inteira na figura ajoelhada de Cristo, banhada pela luz da lua. Não há anjo, não há cálice, não há testemunhas. A solidão é o assunto.\n\nGe pintou o quadro na Itália, onde viveu por treze anos depois de deixar São Petersburgo, e o modelo para Cristo foi, segundo relatos, um pedreiro de Fiesole, um garibaldino de nome Sani — não consegui confirmar esse detalhe específico de forma independente, mas ele é consistente com o método de trabalho realista de Ge. Se verdadeiro, essa escolha diz muito: o Cristo de Ge não é uma figura idealizada, mas um homem concreto vivendo a pior noite de sua vida.\n\nA luz faz o trabalho narrativo. O rosto de Cristo se volta para um raio que simboliza a presença do Pai, de modo que o diálogo entre os dois acontece pela dramaturgia da luz, sem palavras nem gestos declamatórios. Essa leitura conecta com a tradição cristã oriental, segundo a qual a luz é inseparável do próprio Deus. A paleta reforça essa tensão: Ge constrói a atmosfera com acordes de azul-tinta, lilás, cinza, verde e preto, atravessados pela luz prateada da lua. Na passagem de Mateus que a cena ilustra, Cristo pede que o cálice passe dele, mas aceita a vontade do Pai. Ge enfatiza precisamente isso — não o pedido, mas a obediência diante do sacrifício.\n\n### Contexto Histórico\n\nO quadro foi exibido pela primeira vez em 1869, na Exposição Internacional de Munique, depois em 1870 em Moscou e na Academia de São Petersburgo. O público e a crítica russos não o compreenderam, e o julgaram displicente a ponto da insolência — uma reação típica ao realismo cru de Ge, que rompia com décadas de convenção acadêmica na pintura religiosa russa. Ge não abandonou a obra: retrabalhou-a em 1873 e novamente na década de 1880, e em 1887 Pavel Tretyakov a comprou diretamente do artista para sua galeria em Moscou.\n\nVista em retrospecto, a tela antecipa o ciclo da Paixão que Ge produziria na década de 1890 — *O Julgamento do Sinédrio*, *Gólgota*, *Crucificação* —, onde levaria ao limite essa mesma ideia de um Cristo humano que sente, duvida e sofre.",
+      "imageFile": "nikolai-ge-cristo-no-jardim-do-getsemani.webp",
+      "licenseType": "public-domain",
+      "location": "Galeria Tretyakov, Moscou, Rússia",
+      "sourceUrl": "https://www.tretyakovgallerymagazine.com/articles/3-2011-32/nikolai-ge-chronicle-artist-life-and-work",
+      "references": [
+        {
+          "book": "Mateus",
+          "bookSlug": "matthew",
+          "chapter": 26,
+          "verses": "39",
+          "passageText": "\"E, indo um pouco mais para diante, prostrou-se sobre o seu rosto, orando e dizendo: Meu Pai, se é possível, passe de mim este cálice; todavia, não seja como eu quero, mas como tu queres.\""
+        }
+      ],
+      "themes": [
+        "getsemani"
+      ],
+      "createdAt": "2026-09-04T01:11:02.791Z"
+    },
+    {
       "slug": "nikolai-ge-o-que-e-a-verdade-ou-cristo-e-pilatos",
       "title": "O que é a verdade Ou Cristo e Pilatos",
       "subtitle": "«Что есть истина?» Христос и Пилат (1890)",
       "artistOrDirector": "Nikolai Ge",
       "year": "1890",
       "category": "painting",
-      "description": "Óleo sobre tela de **Nikolai Ge** (1831–1894), pintor russo associado ao movimento dos *Peredvizhniki* (Perambulantes), datada de **1890**. Esta é uma das obras mais controversas e poderosas de Ge sobre a paixão de Cristo.\n\nA obra retrata o tenso diálogo durante o julgamento de Jesus, onde **Pôncio Pilatos**, o governador romano, após ouvir Cristo falar sobre Seu testemunho da verdade, lança a célebre pergunta: *\"O que é a verdade?\"* (João 18:38).\n\nGe posiciona **Pilatos banhado por uma luz forte**, representando o poder temporal e talvez a sua própria confusão ou ceticismo, enquanto **Cristo permanece em profunda sombra**, humilde, desgastado e acorrentado, mas possuindo uma dignidade silenciosa e uma realidade interior inacessível ao governador. O uso magistral do **chiaroscuro** não é apenas técnico, mas profundamente simbólico: a luz ofuscante sobre Pilatos contrasta com a escuridão que envolve Cristo, sugerindo a cegueira do poder terreno diante da verdade espiritual, ou a natureza incompreensível do divino para aqueles que não a buscam sinceramente. O **realismo psicológico** captura a tensão e o abismo existencial entre os dois mundos representados.\n\n> [!info] What is Truth. Christ and Pilate, 1890 - Nikolai Ge - WikiArt.org  \n> ‘What is Truth.  \n> [https://www.wikiart.org/en/nikolai-ge/what-is-truth-christ-and-pilate](https://www.wikiart.org/en/nikolai-ge/what-is-truth-christ-and-pilate)\n\nVer também: Jean-Léon Gérôme - Pilatos apresentando Jesus ao povo e Antonio Ciseri - Ecce Homo (outras representações do julgamento de Pilatos).\n\n### Contexto Histórico\n\nObra representativa de **Nikolai Ge**, integrada ao acervo histórico do Bíblia na Arte. As representações visuais inspiradas nas Sagradas Escrituras produzidas por este mestre combinam rigor estético, sensibilidade cultural e devoção à narrativa bíblica.",
+      "description": "Óleo sobre tela de **Nikolai Ge** (1831–1894), pintor russo associado ao movimento dos *Peredvizhniki* (Perambulantes), datada de **1890**. Esta é uma das obras mais controversas e poderosas de Ge sobre a paixão de Cristo.\n\nA obra retrata o tenso diálogo durante o julgamento de Jesus, onde **Pôncio Pilatos**, o governador romano, após ouvir Cristo falar sobre Seu testemunho da verdade, lança a célebre pergunta: *\"O que é a verdade?\"* (João 18:38).\n\nGe posiciona **Pilatos banhado por uma luz forte**, representando o poder temporal e talvez a sua própria confusão ou ceticismo, enquanto **Cristo permanece em profunda sombra**, humilde, desgastado e acorrentado, mas possuindo uma dignidade silenciosa e uma realidade interior inacessível ao governador. O uso magistral do **chiaroscuro** não é apenas técnico, mas profundamente simbólico: a luz ofuscante sobre Pilatos contrasta com a escuridão que envolve Cristo, sugerindo a cegueira do poder terreno diante da verdade espiritual, ou a natureza incompreensível do divino para aqueles que não a buscam sinceramente. O **realismo psicológico** captura a tensão e o abismo existencial entre os dois mundos representados.\n\n### Contexto Histórico\n\nObra representativa de **Nikolai Ge**, integrada ao acervo histórico do Bíblia na Arte. As representações visuais inspiradas nas Sagradas Escrituras produzidas por este mestre combinam rigor estético, sensibilidade cultural e devoção à narrativa bíblica.",
       "imageFile": "nikolai-ge-o-que-e-a-verdade-ou-cristo-e-pilatos.webp",
       "licenseType": "public-domain",
       "location": "Galeria Tretyakov, Moscou, Rússia",
@@ -21894,7 +22080,7 @@
       "themes": [
         "pilatos"
       ],
-      "createdAt": "2026-08-30T02:22:19.152Z"
+      "createdAt": "2026-09-04T01:11:38.791Z"
     },
     {
       "slug": "orazio-borgianni-cristo-entre-os-doutores",
@@ -22190,6 +22376,40 @@
         "batismo"
       ],
       "createdAt": "2026-08-24T02:41:22.741Z"
+    },
+    {
+      "slug": "pascal-dagnan-bouveret-a-ultima-ceia",
+      "title": "A Última Ceia",
+      "subtitle": "La Cène",
+      "artistOrDirector": "Pascal Dagnan-Bouveret",
+      "year": "1896",
+      "category": "painting",
+      "description": "**Dagnan-Bouveret** posiciona Cristo de pé, no centro de uma longa mesa, vestido de branco e segurando o cálice diante dos apóstolos. É o momento em que, segundo os Evangelhos, ele institui a Eucaristia. Toda a luz da pintura recai sobre ele. Os apóstolos, sentados dos dois lados, permanecem numa penumbra de tons terrosos, enquanto a mesa, coberta por uma toalha branca, sustenta jarros de barro, pratos simples e pão. Não há nada da grandiosidade que costuma acompanhar esse tema. O interior é austero e escuro, e o pintor usa o contraste entre a figura iluminada e o espaço sombrio para estruturar a cena.\n\nQuase todos os apóstolos olham para Cristo. Dagnan-Bouveret não identifica nenhum deles por atributos tradicionais, mas o grupo se lê como um estudo de reações individuais ao mesmo gesto, com expressões que vão da atenção devota ao desconforto. Até então, o pintor havia trabalhado sobretudo como naturalista, conhecido por suas cenas da vida camponesa da Bretanha. Foi também um dos primeiros artistas a usar a fotografia como ferramenta preparatória. O método se percebe aqui na precisão dos gestos e na iluminação quase teatral da figura central, que evoca mais um retrato de estúdio do que a tradição renascentista do tema.\n\n### Contexto Histórico\n\nA obra é assinada e datada de 1895, e foi apresentada no Salão da Société Nationale des Beaux-Arts, no Champ-de-Mars, em 1896. Numa carta escrita naquele mesmo ano, Dagnan-Bouveret explicou que finalmente se atrevera a enfrentar, em escala monumental, um dos temas mais nobres e comoventes que conhecia.\n\nA tela pertenceu a Martine de Béhague, condessa de Béarn, que a doou ao Estado francês em 1931. Desde esse mesmo ano está em depósito no museu de Arras, embora continue fazendo parte das coleções do Musée d'Orsay.",
+      "imageFile": "pascal-dagnan-bouveret-a-ultima-ceia.webp",
+      "licenseType": "public-domain",
+      "location": "Musée d'Orsay, Paris (em depósito no Musée des Beaux-Arts d'Arras, França, desde 1931)",
+      "sourceUrl": "https://www.musee-orsay.fr/en/artworks/la-cene-78471",
+      "references": [
+        {
+          "book": "Mateus",
+          "bookSlug": "matthew",
+          "chapter": 26,
+          "verses": "26-28",
+          "passageText": "\"E, quando comiam, tomou Jesus o pão e, abençoando-o, o partiu, e o deu aos discípulos, e disse: Tomai, comei, isto é o meu corpo. E, tomando o cálice, e dando graças, deu-lho, dizendo: Bebei dele todos; porque isto é o meu sangue, o sangue do novo testamento, que é derramado por muitos, para remissão dos pecados.\""
+        },
+        {
+          "book": "Lucas",
+          "bookSlug": "luke",
+          "chapter": 22,
+          "verses": "19-20",
+          "passageText": "\"E, tomando o pão, e havendo dado graças, partiu-o, e deu-lho, dizendo: Isto é o meu corpo, que por vós é dado; fazei isto em memória de mim. Semelhantemente, tomou o cálice depois da ceia, dizendo: Este cálice é o novo testamento no meu sangue, que por vós se derrama.\""
+        }
+      ],
+      "themes": [
+        "ultima-ceia",
+        "eucaristia"
+      ],
+      "createdAt": "2026-09-05T14:22:31.395Z"
     },
     {
       "slug": "paul-gauguin-jesus-no-monte-das-oliveiras",
@@ -26877,7 +27097,7 @@
       "themes": [
         "sepultamento"
       ],
-      "createdAt": "2026-08-30T23:19:12.592Z"
+      "createdAt": "2026-09-05T14:35:31.626Z"
     },
     {
       "slug": "william-blake-jo-e-suas-filhas",
@@ -26954,6 +27174,39 @@
         "rute"
       ],
       "createdAt": "2026-08-31T17:13:48.924Z"
+    },
+    {
+      "slug": "william-blake-o-anciao-dos-dias",
+      "title": "O Ancião dos Dias",
+      "subtitle": "The Ancient of Days",
+      "artistOrDirector": "William Blake",
+      "year": "1794",
+      "category": "painting",
+      "description": "**The Ancient of Days** (1794) é uma célebre água-forte em relevo colorida à mão com aquarela e têmpera (23,3 × 16,8 cm) de **William Blake**, conservada no **British Museum** em Londres. A obra serve como o monumental frontispício de seu livro profético iluminado *Europe a Prophecy*.\n\nA composição apresenta uma figura sobre-humana e anciã — identificada na mitologia poética de Blake como **Urizen** (a personificação da razão fria, da lei restritiva e da ordem geométrica) — agachada no interior de um disco solar flamejante em meio às trevas cósmicas. Seus longos cabelos e barba brancos são agitados por um vento metafísico violento, enquanto ele estende o braço esquerdo para baixo, medindo e delimitando o abismo escuro com um colossal **compasso de ouro**.\n\nEmbora visualmente arrebatadora e associada à figura do \"Deus Geômetra\", a imagem carrega a crítica visceral de Blake ao racionalismo mecanicista do Iluminismo (representado por Newton e Locke). O ato de traçar círculos com o compasso não expressa a pura liberdade da criação, mas o aprisionamento da imaginação divina infinita dentro de leis matemáticas e limites materiais restritivos.\n\n### Contexto Histórico\n\nConsiderada por Blake como uma de suas realizações mais perfeitas, o artista trabalhou em novas cópias iluminadas desta imagem até os últimos dias de sua vida em 1827. **William Blake** (1757–1827) permaneceu à margem do *establishment* da *Royal Academy*, rebelando-se contra a pintura a óleo convencional e a estética acadêmica em favor de uma arte visionária, espiritual e profética.",
+      "imageFile": "william-blake-o-anciao-dos-dias.webp",
+      "licenseType": "public-domain",
+      "location": "British Museum, Londres, Reino Unido",
+      "sourceUrl": "https://www.wikidata.org/wiki/Q2324840",
+      "references": [
+        {
+          "book": "Daniel",
+          "bookSlug": "daniel",
+          "chapter": 7,
+          "verses": "9",
+          "passageText": "\"Eu continuei olhando, até que foram postos uns tronos, e um ancião de dias se assentou; a sua veste era branca como a neve, e o cabelo da sua cabeça como a pura lã; e seu trono era de chamas de fogo, e as suas rodas de fogo ardente.\""
+        },
+        {
+          "book": "Provérbios",
+          "bookSlug": "proverbs",
+          "chapter": 8,
+          "verses": "27,",
+          "passageText": "\"Quando ele preparava os céus, aí estava eu, quando traçava o horizonte sobre a face do abismo... então eu estava com ele, e era seu arquiteto.\""
+        }
+      ],
+      "themes": [
+        "criacao"
+      ],
+      "createdAt": "2026-09-05T14:34:50.520Z"
     },
     {
       "slug": "william-blake-o-anjo-aparecendo-a-zacarias",
@@ -27176,39 +27429,6 @@
         "queda"
       ],
       "createdAt": "2026-08-30T23:23:53.346Z"
-    },
-    {
-      "slug": "william-blake-the-ancient-of-days",
-      "title": "The Ancient of Days",
-      "subtitle": "O Ancião dos Dias",
-      "artistOrDirector": "William Blake",
-      "year": "1794",
-      "category": "painting",
-      "description": "**The Ancient of Days** (1794) é uma célebre água-forte em relevo colorida à mão com aquarela e têmpera (23,3 × 16,8 cm) de **William Blake**, conservada no **British Museum** em Londres. A obra serve como o monumental frontispício de seu livro profético iluminado *Europe a Prophecy*.\n\nA composição apresenta uma figura sobre-humana e anciã — identificada na mitologia poética de Blake como **Urizen** (a personificação da razão fria, da lei restritiva e da ordem geométrica) — agachada no interior de um disco solar flamejante em meio às trevas cósmicas. Seus longos cabelos e barba brancos são agitados por um vento metafísico violento, enquanto ele estende o braço esquerdo para baixo, medindo e delimitando o abismo escuro com um colossal **compasso de ouro**.\n\nEmbora visualmente arrebatadora e associada à figura do \"Deus Geômetra\", a imagem carrega a crítica visceral de Blake ao racionalismo mecanicista do Iluminismo (representado por Newton e Locke). O ato de traçar círculos com o compasso não expressa a pura liberdade da criação, mas o aprisionamento da imaginação divina infinita dentro de leis matemáticas e limites materiais restritivos.\n\n### Contexto Histórico\n\nConsiderada por Blake como uma de suas realizações mais perfeitas, o artista trabalhou em novas cópias iluminadas desta imagem até os últimos dias de sua vida em 1827. **William Blake** (1757–1827) permaneceu à margem do *establishment* da *Royal Academy*, rebelando-se contra a pintura a óleo convencional e a estética acadêmica em favor de uma arte visionária, espiritual e profética.",
-      "imageFile": "william-blake-the-ancient-of-days.webp",
-      "licenseType": "public-domain",
-      "location": "British Museum, Londres, Reino Unido",
-      "sourceUrl": "https://www.wikidata.org/wiki/Q2324840",
-      "references": [
-        {
-          "book": "Daniel",
-          "bookSlug": "daniel",
-          "chapter": 7,
-          "verses": "9",
-          "passageText": "\"Eu continuei olhando, até que foram postos uns tronos, e um ancião de dias se assentou; a sua veste era branca como a neve, e o cabelo da sua cabeça como a pura lã; e seu trono era de chamas de fogo, e as suas rodas de fogo ardente.\""
-        },
-        {
-          "book": "Provérbios",
-          "bookSlug": "proverbs",
-          "chapter": 8,
-          "verses": "27,",
-          "passageText": "\"Quando ele preparava os céus, aí estava eu, quando traçava o horizonte sobre a face do abismo... então eu estava com ele, e era seu arquiteto.\""
-        }
-      ],
-      "themes": [
-        "criacao"
-      ],
-      "createdAt": "2026-08-30T23:24:14.323Z"
     },
     {
       "slug": "william-dyce-homem-de-sofrimentos",
@@ -29468,6 +29688,11 @@
       "bio": null
     },
     {
+      "name": "J. C. Leyendecker",
+      "slug": "j-c-leyendecker",
+      "bio": "**Joseph Christian Leyendecker** (Montabaur, Alemanha, 23 de março de 1874 – New Rochelle, Nova York, 25 de julho de 1951) foi um dos ilustradores comerciais mais influentes e financeiramente bem-sucedidos dos Estados Unidos, figura central da chamada Idade de Ouro da Ilustração americana. Emigrou com a família para Chicago aos oito anos, em 1882. Estudou no Art Institute of Chicago e, entre 1895 e 1897, na Académie Julian, em Paris — onde absorveu o vocabulário decorativo do Art Nouveau que marcaria toda sua obra posterior.\n\nDe volta aos Estados Unidos, Leyendecker construiu uma carreira definida por duas parcerias editoriais duradouras: 80 capas para a *Collier's Weekly* e, a partir de maio de 1899, 322 capas para a *The Saturday Evening Post* ao longo de 44 anos — a maior série de capas de um único artista para uma revista americana. Mudou-se de Chicago para Nova York em 1902, então o centro da indústria editorial e da arte comercial no país.\n\nSeu estilo é reconhecível pelo traço denso e cruzado (*hatching*), que mantinha a energia do desenho a lápis mesmo em composições finalizadas para impressão, e por um domínio de padrão decorativo aplicado a tecido, armadura e ornamento. Leyendecker é hoje creditado por moldar boa parte da iconografia comercial americana do início do século XX, incluindo a imagem moderna de Papai Noel e o recorrente \"Bebê do Ano Novo\" das capas de fim de ano."
+    },
+    {
       "name": "J.M.W. Turner",
       "slug": "j-m-w-turner",
       "bio": "**Joseph Mallord William Turner** (23 de abril de 1775, Londres – 19 de dezembro de 1851, Londres) foi um pintor inglês, considerado o maior paisagista britânico e um dos precursores mais diretos do impressionismo francês. Filho de um barbeiro de Covent Garden, entrou ainda adolescente para a Royal Academy of Arts, onde expôs pela primeira vez aos quinze anos e se tornou membro pleno aos vinte e sete — o mais jovem a alcançar o título até então.\n\nAo longo de mais de sessenta anos de carreira, Turner percorreu um caminho estilístico incomum para sua época: partiu de aquarelas topográficas e marinhas de precisão quase documental, e evoluiu progressivamente para composições em que a luz, a atmosfera e a cor dissolvem os contornos das formas — um vocabulário visual tão à frente de seu tempo que muitos contemporâneos o consideravam obscuro ou incompleto. Obras como *Chuva, Vapor e Velocidade* (1844) e *O Naufrágio do Navio Negreiro* (1840) são hoje vistas como antecipações diretas do impressionismo, décadas antes de o movimento nascer na França. Nunca se casou oficialmente, viveu de forma reclusa em seus últimos anos e, ao morrer, doou à nação britânica um vasto legado de mais de trezentas pinturas e milhares de aquarelas e desenhos — o chamado Turner Bequest, hoje na Tate."
@@ -29496,6 +29721,11 @@
       "name": "Jacopo Tintoretto",
       "slug": "jacopo-tintoretto",
       "bio": "**Jacopo Tintoretto** — nome de batismo Jacopo Robusti (final de setembro ou início de outubro de 1518 – 31 de maio de 1594) — foi um pintor italiano nascido e falecido em Veneza, uma das figuras centrais do Maneirismo e da última fase do Renascimento veneziano. O apelido \"Tintoretto\" (\"tintureirinho\") deriva da profissão do pai, Battista, um tintureiro de tecidos (*tintore*, em italiano; *tintor*, em vêneto). Segundo os biógrafos antigos, sua única formação formal teria sido um breve período no ateliê de Ticiano, que o teria dispensado depois de poucos dias — episódio contestado por historiadores modernos, mas que se tornou parte do mito fundador de sua rivalidade com o mestre veneziano. Formou-se, de todo modo, largamente por conta própria, e teria inscrito no próprio ateliê o lema \"*il disegno di Michelangelo e il colorito di Tiziano*\" (\"o desenho de Michelangelo e a cor de Ticiano\") — síntese que resume seu projeto artístico de unir o desenho e o vigor formal florentino/romano ao colorido luminoso da escola veneziana.\n\nTintoretto desenvolveu uma técnica de execução rápida (a chamada *prestezza*) e um ateliê de produção intensa, com grande uso de assistentes, o que lhe permitiu deixar cerca de 300 pinturas — muitas de escala monumental. Seu ciclo mais célebre é o da Scuola Grande di San Rocco, em Veneza (executado entre 1564 e 1588), com dezenas de telas de temas bíblicos e neotestamentários cobrindo paredes e tetos inteiros; no Palácio Ducal pintou o *Paraíso*, uma das maiores pinturas a óleo sobre tela do mundo (cerca de 9,1 por 22,6 metros). Entre suas obras bíblicas mais conhecidas estão *A Última Ceia* (1594, sua obra derradeira), *As Bodas de Caná* (1561), *O Milagre do Escravo* (1548) e a *Criação dos Animais*, todas marcadas por composições de perspectiva extrema, luz dramática e figuras em movimento diagonal — recursos que privilegiam o impacto narrativo e emocional em vez da clareza descritiva clássica, e que o distinguem tanto de Ticiano quanto dos maneiristas florentinos.\n\nCasou-se por volta de 1560 com Faustina de Vescovi, com quem teve pelo menos três filhos homens e a filha Marietta Robusti, que se tornou pintora e música de talento reconhecido antes de morrer prematuramente, aos trinta anos, em 1590 — precedendo o pai em quatro anos. Tintoretto morreu em Veneza em 1594, após uma crise de dores estomacais e febre que o impediu de comer e dormir por cerca de duas semanas, e foi sepultado na igreja de Madonna dell'Orto, ao lado de Marietta."
+    },
+    {
+      "name": "Jacopo Torriti",
+      "slug": "jacopo-torriti",
+      "bio": "**Jacopo Torriti** foi um pintor e mosaicista italiano da escola romana, ativo na segunda metade do século XIII — não há registro documentado de suas datas de nascimento ou morte, nem de sua formação. É a figura mais importante da arte musiva romana do fim da Idade Média, num momento em que Roma tentava recuperar prestígio artístico próprio diante da ascensão de Florença e Siena.\n\nSua obra documentada mais segura são os mosaicos da abside da Basílica de São João de Latrão (1287–1292, em colaboração com Jacopo da Camerino — hoje bastante alterados por restauro de 1878) e, sobretudo, os mosaicos da abside da Basílica de Santa Maria Maior (1295, sob patrocínio do papa Nicolau IV), com a *Coroação da Virgem por Cristo* em grande medalha central — considerado o mais importante conjunto sobrevivente de mosaico romano do período. Também lhe é atribuída a decoração do monumento funerário do papa Bonifácio VIII.\n\nSua participação na decoração da Basílica Superior de São Francisco, em Assis, não é documentalmente certa, mas é amplamente aceita pela crítica: é atribuído a Torriti o afresco da *Criação do Mundo* e *Criação de Adão* na primeira campata da nave, ao lado da *Anunciação* e *Visitação*. A sinopia (desenho preparatório) desse afresco, com o rosto do Criador, veio à luz em restauro dos anos 1950 e é hoje o testemunho mais direto de sua mão nesse ciclo.\n\nEstilisticamente, Torriti trabalha ainda dentro do vocabulário bizantino-românico — figuras hieráticas, frontalidade, ouro musivo —, mas já com sinais de abertura ao naturalismo que se consolidaria logo depois com Cimabue, Duccio e Giotto na mesma Basílica de Assis."
     },
     {
       "name": "James Christensen",
@@ -29606,6 +29836,11 @@
       "name": "Joakim Skovgaard",
       "slug": "joakim-skovgaard",
       "bio": null
+    },
+    {
+      "name": "Joaquín Sorolla",
+      "slug": "joaquin-sorolla",
+      "bio": "**Joaquín Sorolla y Bastida** (Valência, 1863 – Cercedilla, 1923) foi pintor e desenhista espanhol, o artista espanhol de sua geração mais celebrado internacionalmente pelo domínio da luz, da cor e do movimento. Perdeu os pais, vítimas de uma epidemia de cólera, aos dois anos de idade, e foi criado por parentes. Formou-se na Real Academia de Belas Artes de San Carlos, em Valência, onde teve como professores Gonzalo Salvá e **Ignacio Pinazo** — este último decisivo em incentivá-lo à pintura ao ar livre (*plein air*), com pinceladas soltas e atenção aos efeitos da luz.\n\nViagens a Madri lhe permitiram estudar Velázquez e Ribera no Prado, enquanto uma bolsa de estudos o levou a Roma e depois a Paris, onde teve contato com o naturalismo e o impressionismo europeus. Em 1888 casou-se com **Clotilde García del Castillo**, companheira de vida, musa e figura central em dezenas de suas telas — os dois haviam se conhecido em 1879, no ateliê do pai dela. Sorolla ganhou reconhecimento inicial com cenas de dificuldade social, trabalho marítimo e vida contemporânea, unindo observação naturalista a um domínio cada vez mais sofisticado da luz.\n\nPor volta de 1900, a luz passou a ser o princípio organizador de sua pintura — o **luminismo**. Trabalhando rapidamente diante do motivo, usava pinceladas vigorosas, sombras coloridas, reflexos e enquadramentos abruptos para capturar a luz do sol espalhada sobre a água, o tecido agitado pelo vento, corpos em movimento. Embora frequentemente chamado de impressionista, sua linguagem permaneceu independente, enraizada no realismo espanhol, em Velázquez e num desenho excepcional.\n\nA partir da década de 1890, Sorolla acumulou honrarias por toda a Europa e as Américas, tornando-se um dos primeiros pintores espanhóis modernos a alcançar celebridade internacional. Seu vasto ciclo *Visão da Espanha*, pintado para a Hispanic Society of America nos Estados Unidos, o deixou exausto, mas o consolidou como observador da identidade nacional espanhola. Um derrame sofrido logo depois encerrou sua carreira; morreu poucos anos depois, em 1923."
     },
     {
       "name": "Johannes Vermeer",
@@ -29950,7 +30185,7 @@
     {
       "name": "Nikolai Ge",
       "slug": "nikolai-ge",
-      "bio": null
+      "bio": "**Nikolai Nikolaievich Ge** (Voronej, 27 de fevereiro de 1831 – 13 de junho de 1894) foi um pintor russo de origem nobre e ascendência francesa, figura influente no desenvolvimento do realismo e do simbolismo russos, conhecido sobretudo por obras de tema histórico e religioso.\n\nDeixou São Petersburgo em abril de 1857 para uma viagem de estudos pela Europa e viveu na Itália por treze anos, a maior parte deles em Florença, retornando à Rússia apenas em maio de 1870. Foi nesse período italiano que pintou *Cristo no Jardim do Getsêmani* (1869), buscando modelos reais — inclusive, segundo relatos, moradores locais de Fiesole — em vez da idealização acadêmica convencional para figuras bíblicas.\n\nNos últimos anos de vida, Ge radicalizou essa abordagem num ciclo dedicado à Paixão de Cristo — incluindo *O Julgamento do Sinédrio* (1892), *Gólgota* (1892) e *Crucificação* (1894), todos hoje na Galeria Tretyakov — em que buscava deliberadamente chocar o público com o sofrimento físico e humano de Cristo, forçando reflexão sobre questões morais e existenciais em vez de devoção convencional. Vários de seus quadros religiosos foram recebidos com hostilidade pela crítica e pela censura eclesiástica russa da época, precisamente por essa recusa da idealização."
     },
     {
       "name": "Orazio Borgianni",
@@ -29986,6 +30221,11 @@
       "name": "Paris Bordone",
       "slug": "paris-bordone",
       "bio": "**Paris Bordone** (1500-1571) foi um pintor italiano do Renascimento veneziano. Aluno de Ticiano, pintou retratos, temas mitológicos e religiosos de rica cor. Trabalhou para as cortes de Veneza, França e Polônia."
+    },
+    {
+      "name": "Pascal Dagnan-Bouveret",
+      "slug": "pascal-dagnan-bouveret",
+      "bio": "**Pascal-Adolphe-Jean Dagnan-Bouveret** (Paris, 7 de janeiro de 1852 – 3 de julho de 1929) foi um dos principais pintores franceses da escola naturalista. Filho de um alfaiate, foi criado pelo avô depois que o pai emigrou para o Brasil — e mais tarde incorporou ao próprio nome o sobrenome do avô, Bouveret. Estudou a partir de 1869 na École des Beaux-Arts sob Alexandre Cabanel e Jean-Léon Gérôme.\n\nExpôs no Salão a partir de 1875, vencendo a medalha de primeira classe em 1880 por *Un accident* e a medalha de honra em 1885 por *Chevaux à l'abreuvoir*. Tornou-se conhecido sobretudo por suas cenas da vida camponesa da Bretanha e, mais tarde, por composições místico-religiosas de grande escala. Foi um dos primeiros pintores a usar a fotografia como ferramenta preparatória para aumentar o realismo de suas composições — método visível na precisão quase fotográfica de gestos e iluminação em obras como *La Cène* (1896).\n\nFoi nomeado Oficial da Legião de Honra em 1891 e tornou-se membro do Institut de France em 1900."
     },
     {
       "name": "Paul Gauguin",
@@ -31505,5 +31745,5 @@
       "name": "Zombaria"
     }
   ],
-  "exportedAt": "2026-09-03T14:08:26.380Z"
+  "exportedAt": "2026-09-05T14:41:15.133Z"
 }
