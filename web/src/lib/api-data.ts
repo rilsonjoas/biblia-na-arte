@@ -51,11 +51,11 @@ export async function getPeriods(): Promise<Period[]> {
 }
 
 // "Páginas de Artista Ricas" (roadmap, aprovada 2026-08-23).
-export async function getArtistBySlug(slug: string): Promise<ArtistDetail | undefined> {
+export async function getArtistBySlug(slug: string): Promise<ArtistDetail | null> {
   try {
     return await apiClient.request<ArtistDetail>(`/artists/${slug}`);
   } catch (error) {
-    if (error instanceof ApiError && error.status === 404) return undefined;
+    if (error instanceof ApiError && error.status === 404) return null;
     throw error;
   }
 }
@@ -65,11 +65,19 @@ export async function getArtworks(): Promise<Artwork[]> {
   return items;
 }
 
-export async function getArtworkById(id: string): Promise<Artwork | undefined> {
+// `null`, nunca `undefined`, pra 404 — achado real 2026-09-05: uma
+// queryFn do TanStack Query v5 que resolve com sucesso mas devolve
+// `undefined` vira erro interno da própria lib (`[queryKey] data is
+// undefined`), não um "não encontrado" normal — ArtworkDetail.tsx
+// nunca chegava no branch de `<NotFoundError />` porque `isError` já
+// vinha `true` antes disso. `null` é dado válido pro React Query,
+// `undefined` não é. Mesmo padrão nas 3 funções abaixo que também
+// mapeiam 404 (getArtistBySlug, getBibleBookBySlug, getExplore).
+export async function getArtworkById(id: string): Promise<Artwork | null> {
   try {
     return await apiClient.request<Artwork>(`/artworks/${id}`);
   } catch (error) {
-    if (error instanceof ApiError && error.status === 404) return undefined;
+    if (error instanceof ApiError && error.status === 404) return null;
     throw error;
   }
 }
@@ -220,11 +228,11 @@ export async function getBibleBooks(): Promise<BibleBook[]> {
   return apiClient.request<BibleBook[]>('/bible-books');
 }
 
-export async function getBibleBookBySlug(slug: string): Promise<BibleBook | undefined> {
+export async function getBibleBookBySlug(slug: string): Promise<BibleBook | null> {
   try {
     return await apiClient.request<BibleBook>(`/bible-books/${slug}`);
   } catch (error) {
-    if (error instanceof ApiError && error.status === 404) return undefined;
+    if (error instanceof ApiError && error.status === 404) return null;
     throw error;
   }
 }
@@ -239,14 +247,14 @@ export async function getNewTestamentBooks(): Promise<BibleBook[]> {
 
 // "Mapa de obras ↔ referências bíblicas" (/explorar, aprovada 2026-09-02).
 // A passagem como hub do grafo. Livro/capítulo inexistente ou capítulo fora
-// do intervalo vira 404 na API — mapper devolve undefined no mesmo padrão de
+// do intervalo vira 404 na API — mapper devolve null no mesmo padrão de
 // getBibleBookBySlug/getArtistBySlug, pra página renderizar o estado de
 // "não encontrado" em vez de assumir erro de servidor.
-export async function getExplore(bookSlug: string, chapter: number): Promise<ExploreData | undefined> {
+export async function getExplore(bookSlug: string, chapter: number): Promise<ExploreData | null> {
   try {
     return await apiClient.request<ExploreData>(`/explore/${bookSlug}/${chapter}`);
   } catch (error) {
-    if (error instanceof ApiError && error.status === 404) return undefined;
+    if (error instanceof ApiError && error.status === 404) return null;
     throw error;
   }
 }

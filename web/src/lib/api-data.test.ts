@@ -52,7 +52,7 @@ describe('getArtworkById', () => {
 
   it('devolve undefined em 404', async () => {
     requestMock.mockRejectedValue(new ApiError(404, 'Obra não encontrada'));
-    await expect(getArtworkById('nao-existe')).resolves.toBeUndefined();
+    await expect(getArtworkById('nao-existe')).resolves.toBeNull();
   });
 
   it('propaga erros que não são 404', async () => {
@@ -211,6 +211,6 @@ describe('getBibleBookBySlug', () => {
 
   it('devolve undefined em 404', async () => {
     requestMock.mockRejectedValue(new ApiError(404, 'Livro não encontrado'));
-    await expect(getBibleBookBySlug('x')).resolves.toBeUndefined();
+    await expect(getBibleBookBySlug('x')).resolves.toBeNull();
   });
 });
