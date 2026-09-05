@@ -3714,6 +3714,59 @@ receber submissões de artistas de verdade. Formulário público em
 `/contribuir/enviar-obra`, painel em `/admin/login` (sem link na
 navegação, só por URL direta).
 
+### Bugs achados no primeiro uso manual de verdade (2026-09-05, mesmo dia)
+
+O Rilson testou o formulário e o painel pessoalmente, direto no
+navegador, ainda no mesmo dia do deploy — e achou 3 problemas reais
+que nenhum teste automatizado (nem os smoke tests em produção feitos
+antes) tinha pego, todos da mesma classe: **funciona via `curl`/mock,
+quebra no navegador de verdade**.
+
+1. **Imagem aprovada não aparecia no site** — `Cross-Origin-Resource-
+   Policy: same-origin` (padrão do `@fastify/helmet`) bloqueava o
+   `<img>` do `biblianaarte.narniano.com` de carregar imagem servida
+   por `api-biblianaarte.narniano.com` (subdomínio diferente). `curl`
+   não aplica CORP, por isso passou despercebido em todo teste
+   anterior. Corrigido com `Cross-Origin-Resource-Policy: cross-origin`
+   explícito na rota `/uploads/:filename` (pública de propósito).
+2. **Obra apagada quebrava a página com erro técnico** (bug
+   pré-existente do site inteiro, não só desta feature) —
+   `getArtworkById`/`getArtistBySlug`/`getBibleBookBySlug`/`getExplore`
+   devolviam `undefined` em 404, e o TanStack Query v5 não aceita uma
+   queryFn resolvendo com sucesso mas com `undefined` (vira erro
+   interno da lib, `isError` fica `true` antes da página chegar no
+   branch de "não encontrado" que já existia). Corrigido devolvendo
+   `null` nas 4 funções.
+3. **Não tinha como desfazer uma aprovação de teste** — o Rilson
+   aprovou uma submissão "Teste" (com telefone real dele) só pra
+   validar o fluxo, e perguntou "não tem como apagar???". Não tinha.
+   Painel só tinha aprovar/rejeitar. Adicionado `DELETE
+   /admin/submissions/:id` — revisor apaga pendente/rejeitada, só
+   admin apaga uma já aprovada (mesma régua de quem publica), e nesse
+   caso a obra publicada some junto. Botão "Apagar" no painel, com
+   confirmação. **2 bugs a mais nascidos ao construir essa correção,
+   achados antes de qualquer usuário bater neles**:
+   - CORS só liberava `GET/POST/PATCH` — `DELETE` seria bloqueado pelo
+     preflight do navegador (mesma classe dos 2 achados acima).
+   - `promoteSubmissionImage` gerava o nome do arquivo só de
+     `slugify(artista-título)`, sem checar duplicata — duas obras com
+     o mesmo artista+título (ou ambas "autor desconhecido" + título
+     igual) gerariam o mesmo slug, e a segunda aprovação sobrescreveria
+     o arquivo da primeira **em silêncio**, sem erro nenhum avisando.
+     Corrigido com sufixo do id da submissão (sempre único) no nome.
+   - E, ironicamente, a própria correção do "apagar" teve um bug na
+     primeira versão: apagava a obra antes da submissão que a
+     referencia, violando a FK `approved_artwork_id` (500 em
+     produção). Corrigido invertendo a ordem, e dessa vez com teste de
+     integração contra Postgres real (não mock) cobrindo esse caminho
+     — reproduziu o erro de FK antes da correção, prova de que só um
+     banco de verdade pega esse tipo de bug.
+
+Todos os 3 achados originais + as 3 correções derivadas foram testados
+em produção de verdade (submissão real → aprovação real → imagem
+carregando com o header certo → delete real → obra some), com limpeza
+completa depois de cada teste.
+
 ### O que esse desenho resolve — e o que NÃO resolve, pra não vender ilusão
 
 **Resolve**: alguém de fora (equipe do Prisma, por exemplo) consegue
