@@ -14,3 +14,8 @@ const testUrl =
 process.env.NODE_ENV = 'test';
 process.env.DATABASE_URL = testUrl;
 process.env.CORS_ORIGIN = 'http://localhost:8080';
+// JWT_SECRET é obrigatório desde a Fase 2 da submissão de artistas
+// (2026-09-05) — sem isso buildApp() derruba o processo via
+// config.ts, e no CI não existe .env local pro dotenv pegar de bônus
+// como acontecia no dev (achado real: passava local, falhava no CI).
+process.env.JWT_SECRET ??= 'test-secret-with-at-least-32-characters-for-integration';
