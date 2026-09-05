@@ -716,6 +716,33 @@
       "createdAt": "2026-08-27T12:32:41.537Z"
     },
     {
+      "slug": "alexander-ivanov-cristo-aparece-a-maria-madalena-depois-da-ressurreicao",
+      "title": "Cristo Aparece a Maria Madalena Depois da Ressurreição",
+      "subtitle": "Noli me tangere",
+      "artistOrDirector": "Alexander Ivanov",
+      "year": "1835",
+      "category": "painting",
+      "description": "Composição de duas figuras em escala real, 242 × 321 cm, que capta o instante exato em que Maria Madalena reconhece Jesus junto ao túmulo vazio. Pintada por **Ivanov** ainda em Roma, antes de se dedicar por completo à sua obra máxima, *A Aparição de Cristo ao Povo*, esta tela já mostra o cuidado psicológico com que o pintor tratava momentos de reconhecimento espiritual: o instante em que o reconhecimento transforma luto em espanto, e espanto em fé.\n\n### Contexto Histórico\n\nPintada entre 1834 e 1835, esta obra foi um grande sucesso tanto em Roma quanto em São Petersburgo, consolidando a reputação do jovem **Alexander Ivanov** (1806-1858) antes que ele se recolhesse por mais de vinte anos ao trabalho quase monástico em *A Aparição de Cristo ao Povo*, sua obra-prima máxima, hoje na Galeria Estatal Tretyakov.",
+      "imageFile": "alexander-ivanov-cristo-aparece-a-maria-madalena-depois-da-ressurreicao.webp",
+      "licenseType": "public-domain",
+      "location": "Museu Estatal Russo, São Petersburgo, Rússia",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Christ%27s_Appearance_to_Mary_Magdalene_after_the_Resurrection",
+      "references": [
+        {
+          "book": "João",
+          "bookSlug": "john",
+          "chapter": 20,
+          "verses": "17-18",
+          "passageText": "\"Disse-lhe Jesus: Não me detenhas, porque ainda não subi para meu Pai, mas vai para meus irmãos, e dize-lhes que eu subo para meu Pai e vosso Pai, meu Deus e vosso Deus. Maria Madalena foi então anunciar aos discípulos que vira o Senhor, e que ele lhe dissera estas coisas.\""
+        }
+      ],
+      "themes": [
+        "ressurreicao",
+        "maria-madalena"
+      ],
+      "createdAt": "2026-09-05T15:32:21.779Z"
+    },
+    {
       "slug": "alexander-ivanov-o-anjo-gabriel-aparece-a-zacarias",
       "title": "O anjo Gabriel aparece a Zacarias",
       "subtitle": "Архангел Гавриил поражает Захарию немотой",
@@ -780,7 +807,7 @@
       "themes": [
         "transfiguracao"
       ],
-      "createdAt": "2026-08-27T12:32:41.538Z"
+      "createdAt": "2026-09-05T15:36:17.040Z"
     },
     {
       "slug": "alexandre-cabanel-a-morte-de-moises",
@@ -913,6 +940,32 @@
         "sagrada-familia"
       ],
       "createdAt": "2026-08-25T01:49:23.895Z"
+    },
+    {
+      "slug": "alonso-cano-cristo-morto-sustentado-por-um-anjo",
+      "title": "Cristo Morto Sustentado por um Anjo",
+      "subtitle": "Cristo muerto sostenido por un ángel",
+      "artistOrDirector": "Alonso Cano",
+      "year": "1646-1652",
+      "category": "painting",
+      "description": "O corpo de Cristo descansa, vencido por um peso que não é só carne. A pele, pálida como cera, ainda guarda o traço do humano, enquanto a cabeça cai suavemente, como se até o sofrimento tivesse adormecido. Um anjo jovem o sustenta com delicadeza, asas escuras abertas como um véu de noite emoldurando a cena. Não há pressa nas mãos do anjo: há ternura, há respeito.\n\nÀ esquerda, sobre o pano branco, uma bacia de latão reúne uma esponja, os pregos e a coroa de espinhos, os instrumentos da Paixão dispostos como relicário silencioso. Atrás, o céu arde numa luz distante, crepuscular, onde o dia não termina de morrer nem a noite ousa nascer. O anjo não olha para o espectador: olha o mistério que sustenta.\n\n### Contexto Histórico\n\n**Alonso Cano** (1601-1667), nascido em Granada, foi pintor, escultor e arquiteto, chamado por vezes de \"Michelangelo espanhol\" pela amplitude de seus talentos. Formou-se em Sevilha sob Francisco Pacheco, o mesmo mestre de Velázquez, e sob o escultor Juan Martínez Montañés. Depois de ferir um colega em duelo em Sevilha, refugiou-se em Madri em 1638, onde conquistou o favor da corte e se tornou pintor de Filipe IV e preceptor do príncipe Baltasar Carlos.\n\nEsta obra pertence ao fim de seu primeiro período madrilenho, quando o contato direto com a coleção real, com a pintura flamenga e italiana, e a amizade com Velázquez transformaram radicalmente seu uso da cor e do pincel. É também um período conturbado da vida pessoal de Cano: em 1644, dois anos antes da data provável desta pintura, foi acusado da morte da própria esposa e libertado somente depois de ser submetido a tortura. A partir de 1652 passou a trabalhar principalmente em Granada, onde projetou a fachada da catedral, um dos marcos do barroco espanhol.",
+      "imageFile": "alonso-cano-cristo-morto-sustentado-por-um-anjo.webp",
+      "licenseType": "public-domain",
+      "location": "Museo Nacional del Prado, Madri, Espanha",
+      "sourceUrl": "https://www.museodelprado.es/en/the-collection/art-work/the-dead-christ-supported-by-an-angel/5339e422-9b8a-47fd-804c-32ddfd2fcde4",
+      "references": [
+        {
+          "book": "João",
+          "bookSlug": "john",
+          "chapter": 19,
+          "verses": "38-40",
+          "passageText": "\"E José, tomando o corpo, envolveu-o num fino e limpo lençol. E pô-lo na sua sepultura nova, que já tinha aberto em rocha; e, revolvendo uma grande pedra para a porta do sepulcro, foi-se.\""
+        }
+      ],
+      "themes": [
+        "sepultamento-de-cristo"
+      ],
+      "createdAt": "2026-09-05T15:26:19.778Z"
     },
     {
       "slug": "amedee-varint-cristo-caminhando-sobre-o-mar",
@@ -1304,18 +1357,13 @@
           "chapter": 8,
           "verses": "7,",
           "passageText": "\"E, como insistissem, perguntando-lhe, endireitou-se e disse-lhes: Aquele que de entre vós está sem pecado seja o primeiro que atire pedra contra ela... E, ouvindo eles isto, acusados pela consciência, saíram um a um... e ficou só Jesus e a mulher que estava no meio. E, endireitando-se Jesus... disse-lhe: Mulher, onde estão aqueles teus acusadores? Ninguém te condenou? E ela disse: Ninguém, Senhor. E disse-lhe Jesus: Nem eu também te condeno; vai-te, e não peques mais.\""
-        },
-        {
-          "book": "Lucas",
-          "bookSlug": "luke",
-          "chapter": 7
         }
       ],
       "themes": [
         "pecadora",
         "perdao"
       ],
-      "createdAt": "2026-08-27T12:32:41.547Z"
+      "createdAt": "2026-09-05T15:28:11.285Z"
     },
     {
       "slug": "andrei-mironov-cristo-e-os-discipulos",
@@ -3410,7 +3458,7 @@
         }
       ],
       "themes": [],
-      "createdAt": "2026-08-25T01:49:23.923Z"
+      "createdAt": "2026-09-05T15:37:24.044Z"
     },
     {
       "slug": "carl-bloch-a-mulher-do-poco",
@@ -3484,6 +3532,58 @@
       "createdAt": "2026-09-04T00:55:34.110Z"
     },
     {
+      "slug": "carl-bloch-a-transfiguracao-de-jesus",
+      "title": "A Transfiguração de Jesus",
+      "subtitle": "Transfiguration of Jesus",
+      "artistOrDirector": "Carl Bloch",
+      "year": "1872",
+      "category": "painting",
+      "description": "A montanha se torna fronteira entre a terra e o céu. A luz não rodeia Jesus: brota dele. **Bloch** faz uma escolha de composição precisa para reforçar isso: Moisés e Elias, de pé ao lado de Cristo, estão de costas para o espectador. Só Cristo, banhado numa luz ofuscante, encara diretamente quem olha o quadro. A Lei e os Profetas testemunham; não anunciam mais.\n\nAbaixo, Pedro, Tiago e João mal sustentam o olhar, as mãos erguidas no espanto de quem descobre algo grande demais para compreender e próximo demais para ignorar. As rochas áridas e escuras contrastam com o resplendor do céu, lembrando que a glória não elimina a dureza do caminho, apenas lhe dá sentido.\n\n### Contexto Histórico\n\nEsta é uma das 23 telas em óleo sobre cobre que **Carl Bloch** (1834-1890) pintou para o Oratório do Rei, na capela do Castelo de Frederiksborg, comissionadas em 1865 e concluídas ao longo de quase catorze anos.",
+      "imageFile": "carl-bloch-a-transfiguracao-de-jesus.webp",
+      "licenseType": "public-domain",
+      "location": "Capela do Castelo de Frederiksborg, Hillerød, Dinamarca",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Carl_Bloch",
+      "references": [
+        {
+          "book": "Mateus",
+          "bookSlug": "matthew",
+          "chapter": 17,
+          "verses": "1-5",
+          "passageText": "\"E, seis dias depois, Jesus tomou consigo a Pedro, e a Tiago, e a João, seu irmão, e os levou à parte a um alto monte; e transfigurou-se diante deles; e o seu rosto resplandeceu como o sol, e as suas vestes se tornaram brancas como a luz. E eis que lhes apareceram Moisés e Elias, falando com ele. E, tomando Pedro a palavra, disse a Jesus: Senhor, bom é estarmos aqui; se queres, farei aqui três tendas, uma para ti, outra para Moisés, e outra para Elias. E, estando ele ainda a falar, eis que uma nuvem luminosa os cobriu; e eis que uma voz vinda da nuvem dizia: Este é o meu Filho amado, em quem me comprazo; a ele ouvi.\""
+        }
+      ],
+      "themes": [
+        "transfiguracao"
+      ],
+      "createdAt": "2026-09-05T15:37:27.706Z"
+    },
+    {
+      "slug": "carl-bloch-a-visitacao",
+      "title": "A Visitação",
+      "subtitle": "The Visitation",
+      "artistOrDirector": "Carl Bloch",
+      "year": "1866",
+      "category": "painting",
+      "description": "Maria sobe até a casa de Isabel com a serenidade de quem não busca ser admirada, mas servir. Isabel a recebe de braços abertos, porque seu coração reconhece, antes dos olhos, o cumprimento da promessa. **Bloch** faz uma escolha de composição reveladora: é Isabel, não Maria, quem ocupa o centro da cena. Somente Maria recebe o halo, o sinal de eleição e santidade que a diferencia das outras figuras.\n\nNão há gestos grandiosos. Um abraço basta para unir a espera e seu cumprimento. Ao redor, lírios evocam a pureza de Maria, e a luz banha a cena como se nascesse do próprio encontro.\n\n### Contexto Histórico\n\nEsta é uma das 23 telas em óleo sobre cobre que **Carl Bloch** (1834-1890) pintou para o Oratório do Rei, na capela do Castelo de Frederiksborg, comissionadas em 1865 e concluídas ao longo de quase catorze anos.",
+      "imageFile": "carl-bloch-a-visitacao.webp",
+      "licenseType": "public-domain",
+      "location": "Capela do Castelo de Frederiksborg, Hillerød, Dinamarca",
+      "sourceUrl": "https://www.tumblr.com/carlbloch/169151175331/02-the-visitation-by-carl-bloch-1866-oil-on-copper",
+      "references": [
+        {
+          "book": "Lucas",
+          "bookSlug": "luke",
+          "chapter": 1,
+          "verses": "40-43",
+          "passageText": "\"E entrou em casa de Zacarias, e saudou a Isabel. E aconteceu que, ao ouvir Isabel a saudação de Maria, a criancinha saltou no seu ventre; e Isabel ficou cheia do Espírito Santo, e exclamou com grande voz, e disse: Bendita és tu entre as mulheres, e bendito o fruto do teu ventre! E de onde me provém isto, que venha a mim a mãe do meu Senhor?\""
+        }
+      ],
+      "themes": [
+        "visitacao"
+      ],
+      "createdAt": "2026-09-05T15:37:16.979Z"
+    },
+    {
       "slug": "carl-bloch-a-zombaria-de-cristo",
       "title": "A Zombaria de Cristo",
       "subtitle": "The Mocking of Christ",
@@ -3553,6 +3653,40 @@
         "ultima-ceia"
       ],
       "createdAt": "2026-08-25T01:49:23.925Z"
+    },
+    {
+      "slug": "carl-bloch-cristo-expulsando-os-cambistas",
+      "title": "Cristo Expulsando os Cambistas",
+      "subtitle": "Jesus Casting out the Money Changers at the Temple",
+      "artistOrDirector": "Carl Bloch",
+      "year": "c. 1874",
+      "category": "painting",
+      "description": "No limiar do templo, a luz não é silêncio: é juízo. Cristo se ergue no centro como eixo do ambiente, não com fúria transbordante, mas com autoridade serena que domina o espaço sem esforço aparente. À esquerda, os cambistas reagem com alarme, mãos que se agarram às moedas, corpos que se dobram para recolher o que se perdeu. O dinheiro cai, rola, se espalha pelo chão. À direita, figuras de posição mais alta observam com inquietação contida, o cenho franzido, o cálculo silencioso de quem entende tarde demais o que está acontecendo.\n\n**Bloch** usa a luz como critério, não só como técnica: ilumina Cristo e deixa o resto em penumbra, onde cada gesto vira revelação moral. Ao fundo, na sombra da arquitetura do templo, outras testemunhas contemplam a cena. Uma pomba em voo introduz uma nota leve de pureza em meio à desordem. Nenhuma figura na cena é neutra: cada uma encarna uma resposta diferente ao que testemunha, medo, resistência, dúvida, cálculo ou rendição.\n\n### Contexto Histórico\n\nEsta é uma das 23 telas em óleo sobre cobre que **Carl Bloch** (1834-1890) pintou para o Oratório do Rei, na capela do Castelo de Frederiksborg, comissionadas em 1865 e concluídas ao longo de quase catorze anos.",
+      "imageFile": "carl-bloch-cristo-expulsando-os-cambistas.webp",
+      "licenseType": "public-domain",
+      "location": "Capela do Castelo de Frederiksborg, Hillerød, Dinamarca",
+      "sourceUrl": "https://catholicmagazine.news/jesus-expulsa-os-cambistas-do-templo-por-carl-heinrich-bloch-palacio-de-frederiksborg-dinamarca-foto-divulgacao/",
+      "references": [
+        {
+          "book": "Mateus",
+          "bookSlug": "matthew",
+          "chapter": 21,
+          "verses": "12-13",
+          "passageText": "\"E entrou Jesus no templo de Deus, e expulsou todos os que vendiam e compravam no templo, e derribou as mesas dos cambiadores, e as cadeiras dos que vendiam pombas; e disse-lhes: Está escrito: A minha casa será chamada casa de oração; mas vós a tendes feito covil de ladrões.\""
+        },
+        {
+          "book": "João",
+          "bookSlug": "john",
+          "chapter": 2,
+          "verses": "14-16",
+          "passageText": "\"E, achando no templo os que vendiam bois, e ovelhas, e pombos, e os cambiadores assentados, e, feito um açoite de cordéis, lançou todos fora do templo, também os bois e ovelhas; e espalhou o dinheiro dos cambiadores, e derribou as mesas; e disse aos que vendiam pombos: Tirai daqui estas coisas, e não façais da casa de meu Pai casa de venda.\""
+        }
+      ],
+      "themes": [
+        "purificacao-templo",
+        "cambistas"
+      ],
+      "createdAt": "2026-09-05T15:37:20.633Z"
     },
     {
       "slug": "carl-bloch-cristo-curando-o-cego",
@@ -20244,6 +20378,46 @@
       "createdAt": "2026-08-25T01:49:24.022Z"
     },
     {
+      "slug": "julien-michel-gue-o-ultimo-suspiro-de-cristo",
+      "title": "O Último Suspiro de Cristo",
+      "subtitle": "Le dernier soupir du Christ",
+      "artistOrDirector": "Julien-Michel Gué",
+      "year": "1840",
+      "category": "painting",
+      "description": "Cristo ocupa o eixo central da composição, o corpo levemente inclinado, recortado contra um fundo escuro que acentua o sofrimento. Os dois ladrões, aos lados da cruz, têm o corpo torcido e parcialmente em sombra, contraste visual entre salvação e condenação. Aos pés da cruz, Maria desfalece sobre João, o rosto marcado por dor contida; João a sustenta, ajoelhado numa postura ereta e contemplativa; Maria Madalena abraça a cruz com expressão de súplica desesperada. Uma figura encoberta e escura, quase absorvida pelas sombras, junta-se ao grupo aos pés da cruz, identidade ambígua (soldado? espectador? presença simbólica do pecado?) que **Gué** deixa em aberto.\n\nAo fundo, sob um céu apocalíptico, testemunhas aterrorizadas observam a cena; à esquerda, legiões angelicais se vislumbram no céu; embaixo à direita, os mortos se levantam de seus túmulos. O claro-escuro dramático ilumina os corpos e rostos mais próximos de Cristo, deixando o restante em sombra; a paleta sóbria, ocres, marrons, tons avermelhados, reforça a solenidade da cena. A disposição diagonal das figuras e a convergência dos olhares conduzem o olhar do espectador dos pés à cabeça de Cristo.\n\n### Contexto Histórico\n\n**Julien-Michel Gué** nasceu em 1789 em Saint-Domingue (atual Haiti), colônia francesa então em plena revolução; depois do assassinato do pai em 1794, a família voltou para Bordeaux. Estudou com Pierre Lacour na École des Beaux-Arts de Bordeaux e depois sob Jacques-Louis David. Ganhou o segundo prêmio de Roma em 1815 com *Briséis Chorando a Morte de Pátroclo*. Expôs no Salão de Paris de 1819 a 1843, recebendo medalha de segunda classe em 1828 e de primeira classe em 1831; foi nomeado Cavaleiro da Legião de Honra em 1834. Morreu em Paris em dezembro de 1843, três anos depois de concluir esta tela.",
+      "imageFile": "julien-michel-gue-o-ultimo-suspiro-de-cristo.webp",
+      "licenseType": "public-domain",
+      "location": "Musée de Picardie, Amiens, França",
+      "sourceUrl": "https://www.artrenewal.org/artworks/le-dernier-soupir-du-christ/julien-michel-gue/111187",
+      "references": [
+        {
+          "book": "Lucas",
+          "bookSlug": "luke",
+          "chapter": 23,
+          "verses": "44-46",
+          "passageText": "\"E era já quase a hora sexta, e houve trevas em toda a terra até à hora nona. E o sol escureceu, e rasgou-se ao meio o véu do templo. E, clamando Jesus com grande voz, disse: Pai, nas tuas mãos entrego o meu espírito. E, havendo dito isto, expirou.\""
+        },
+        {
+          "book": "Mateus",
+          "bookSlug": "matthew",
+          "chapter": 27,
+          "verses": "51-52",
+          "passageText": "\"E eis que o véu do templo se rasgou em dois, de alto a baixo; e tremeu a terra, e fenderam-se as pedras, e abriram-se os sepulcros, e muitos corpos de santos que dormiam foram ressuscitados.\""
+        },
+        {
+          "book": "João",
+          "bookSlug": "john",
+          "chapter": 19,
+          "verses": "25-27",
+          "passageText": "\"Ora, junto à cruz de Jesus, estavam sua mãe, e a irmã de sua mãe, Maria mulher de Cléofas, e Maria Madalena. Ora, Jesus, vendo ali sua mãe, e ao lado dela o discípulo a quem ele amava, disse a sua mãe: Mulher, eis aí o teu filho. Depois disse ao discípulo: Eis aí tua mãe. E desde aquela hora o discípulo a recebeu em sua casa.\""
+        }
+      ],
+      "themes": [
+        "crucificacao"
+      ],
+      "createdAt": "2026-09-05T15:37:21.649Z"
+    },
+    {
       "slug": "julius-schnorr-von-carolsfeld-a-parabola-do-fariseu-e-do-cobrador-de-impostos",
       "title": "A Parábola do Fariseu e do Cobrador de Impostos",
       "subtitle": "The Parable of the Pharisee and the Tax Collector",
@@ -24445,7 +24619,7 @@
       "themes": [
         "ressurreicao"
       ],
-      "createdAt": "2026-08-30T14:40:20.896Z"
+      "createdAt": "2026-09-05T15:37:34.955Z"
     },
     {
       "slug": "rembrandt-van-rijn-a-sagrada-familia",
@@ -27118,6 +27292,7 @@
           "book": "Isaías",
           "bookSlug": "isaiah",
           "chapter": 53,
+          "verses": "5",
           "passageText": "\"Mas ele foi ferido por causa das nossas transgressões, e moído por causa das nossas iniquidades; o castigo que nos traz a paz estava sobre ele, e pelas suas pisaduras fomos sarados.\""
         }
       ],
@@ -27125,7 +27300,7 @@
         "biblia",
         "natureza-morta"
       ],
-      "createdAt": "2026-08-30T19:52:25.149Z"
+      "createdAt": "2026-09-05T15:29:06.210Z"
     },
     {
       "slug": "vincenzo-catena-sao-jeronimo-em-seu-estudo",
@@ -28893,9 +29068,11 @@
           "passageText": "\"E, tendo eles se retirado, eis que o anjo do Senhor apareceu a José num sonho, dizendo: Levanta-te, e toma o menino e sua mãe, e foge para o Egito, e demora-te lá até que eu te diga; porque Herodes há de procurar o menino para o matar.\""
         },
         {
-          "book": "1 Pedro",
-          "bookSlug": "1-peter",
-          "chapter": 2
+          "book": "Apocalipse",
+          "bookSlug": "revelation",
+          "chapter": 7,
+          "verses": "9,",
+          "passageText": "\"Depois destas coisas olhei, e eis aqui uma grande multidão, que ninguém podia contar, de todas as nações, e tribos, e povos, e línguas, que estavam diante do trono, e diante do Cordeiro, trajando vestes brancas e com palmas nas suas mãos... Porque o Cordeiro que está no meio do trono os apascentará, e lhes servirá de guia para as fontes vivas das águas; e Deus alimpará de seus olhos toda a lágrima.\""
         },
         {
           "book": "Jeremias",
@@ -28921,7 +29098,7 @@
       "themes": [
         "massacre-dos-inocentes"
       ],
-      "createdAt": "2026-08-31T00:13:07.313Z"
+      "createdAt": "2026-09-05T15:30:50.692Z"
     },
     {
       "slug": "william-ladd-taylor-a-natividade",
@@ -29317,6 +29494,11 @@
       "name": "Almeida Júnior",
       "slug": "almeida-junior",
       "bio": "**José Ferraz de Almeida Júnior** (8 de maio de 1850, Itu, São Paulo — 13 de novembro de 1899, Piracicaba, São Paulo) foi um dos principais pintores brasileiros do realismo do século XIX. Incentivado pelo padre Miguel Correia Pacheco, para cuja igreja em Itu já pintava obras sacras na juventude, mudou-se em 1869 para o Rio de Janeiro e ingressou na Academia Imperial de Belas Artes, onde estudou com Victor Meirelles, Jules Le Chevrel e, provavelmente, Pedro Américo, vencendo medalha de ouro em 1874 com *Ressurreição do Senhor*. Impressionado com seu talento numa visita ao interior paulista, o imperador Dom Pedro II financiou pessoalmente seus estudos na Europa: entre 1876 e 1882, Almeida Júnior formou-se na École Nationale Supérieure des Beaux-Arts de Paris sob Alexandre Cabanel, aprimorando o domínio do desenho anatômico.\n\nÉ considerado pioneiro da temática regionalista na pintura acadêmica brasileira, sendo um dos primeiros a incorporar a tradição realista de Courbet e Millet ao retratar com dignidade e naturalismo personagens simples e anônimos do interior paulista, em ruptura com a monumentalidade então predominante no ensino oficial. Dessa fase são suas obras mais célebres, como *O Derrubador Brasileiro* (1879), *Caipira Picando Fumo* (1893), *A Partida da Monção* (1897) e *O Violeiro* (1899). Paralelamente, manteve produção religiosa ao longo de toda a carreira — caso do *Apóstolo São Paulo* (1869) para a Igreja Matriz de Itu e de *A Fuga para o Egito* (1881) — conciliando o repertório sacro de encomenda com o projeto naturalista que o notabilizou.\n\nMorreu aos 49 anos, esfaqueado em frente ao Hotel Central de Piracicaba por José de Almeida Sampaio, seu primo e marido de Maria Laura do Amaral Gurgel, mulher com quem o pintor mantinha um relacionamento secreto havia anos — um fim trágico e abrupto para a carreira do artista então no auge."
+    },
+    {
+      "name": "Alonso Cano",
+      "slug": "alonso-cano",
+      "bio": "**Alonso Cano Almansa** nasceu em Granada em 19 de março de 1601 e morreu na mesma cidade em 3 de setembro de 1667. Aprendeu arquitetura com o pai, Miguel Cano, e mudou-se para Sevilha em 1614, onde estudou pintura sob Francisco Pacheco (o mesmo mestre de Velázquez) e escultura sob Juan Martínez Montañés. Essa formação tríplice, pintor, escultor e arquiteto, lhe rendeu o apelido de \"Michelangelo espanhol\".\n\nDepois de ferir um colega em duelo em Sevilha, fugiu para Madri em 1638, onde conquistou o favor da corte: tornou-se primeiro arquiteto real, pintor de Filipe IV e preceptor do príncipe Baltasar Carlos. Sua vida pessoal foi marcada por episódios turbulentos, incluindo prisão por dívidas em 1636 e, em 1644, acusação da morte da própria esposa, da qual foi libertado depois de ser submetido a tortura. A partir de 1652 trabalhou principalmente em Granada, onde projetou a fachada da catedral (1667), uma das obras mais originais do barroco arquitetônico espanhol. Produziu ainda esculturas policromadas em madeira, entre elas a *Imaculada Conceição* (1655-56)."
     },
     {
       "name": "Amédée Varint",
@@ -30297,6 +30479,11 @@
       "name": "Julia Mann",
       "slug": "julia-mann",
       "bio": "**Julia Mann** — pouca informação disponível; não foi encontrada uma escritora cristã/devocional com esse nome, sendo os resultados mais comuns Julia Mann (1851-1923), mãe do escritor Thomas Mann. Recomenda-se confirmar a referência."
+    },
+    {
+      "name": "Julien-Michel Gué",
+      "slug": "julien-michel-gue",
+      "bio": "**Julien-Michel Gué** nasceu em 19 ou 25 de julho de 1789, em Saint-Domingue (atual Haiti), então colônia francesa, filho de Jean-Baptiste Gué e Jeanne-Marie Lavit. Depois do assassinato do pai em 1794, no contexto da Revolução Haitiana, deixou a ilha com a família e voltou para Bordeaux, de onde eram originários. Estudou pintura desde cedo com Pierre Lacour na École des Beaux-Arts de Bordeaux, e depois sob Jacques-Louis David.\n\nGanhou o segundo prêmio de Roma em 1815 com *Briséis Chorando a Morte de Pátroclo*, hoje no Museu de Belas Artes de Bordeaux. Pintor versátil, trabalhou em praticamente todos os gêneros: pintura histórica, religiosa, cenas de costumes, retratos e paisagens. Expôs no Salão de Paris de 1819 até sua morte em 1843, recebendo medalha de segunda classe em 1828 e de primeira classe em 1831; foi nomeado Cavaleiro da Legião de Honra em 1834. Morreu em Paris em 13 de dezembro de 1843."
     },
     {
       "name": "Julius Schnorr von Carolsfeld",
@@ -32090,5 +32277,5 @@
       "name": "Zombaria"
     }
   ],
-  "exportedAt": "2026-09-05T15:23:00.228Z"
+  "exportedAt": "2026-09-05T15:41:07.181Z"
 }
