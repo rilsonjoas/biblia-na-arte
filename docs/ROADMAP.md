@@ -1409,10 +1409,22 @@ Google" não é viável em iOS de qualquer forma.
 
 > Iniciativas estratégicas para integrar o Bíblia na Arte ao ecossistema A Biblioteca e elevar a acessibilidade/profundidade do catálogo.
 
-- [ ] **Integração com o Cluster "A Biblioteca"**:
-  - Incluir o selo unificado `<ClusterHeader />` ("REDE A BIBLIOTECA") no topo.
-  - Pontes explícitas Bíblia na Arte → Scriptorium Divinum (cards ao final de obras retratando autores/teólogos clássicos: *"Leia obras de Santo Agostinho no Scriptorium Divinum"*).
-  - Pontes Bíblia na Arte → Lecionário (conexão de obras com as passagens do lecionário litúrgico do dia).
+- [x] **Integração com o Cluster "A Biblioteca" — atendida por outros
+      meios, decisão do Rilson (2026-09-05)**: os itens literais abaixo
+      (`<ClusterHeader />` no topo, cards contextuais pra Scriptorium
+      Divinum) não foram construídos como descritos, mas o Rilson
+      considera a integração real satisfeita por dois caminhos que já
+      existem: a barra "Conheça também" no footer (`Footer.tsx`,
+      linkando Narniano/Scriptorium Divinum/Lecionário/Gerador C.S.
+      Lewis) e a sincronização de verdade da Pintura do Dia com o
+      Lecionário (seção "Afinidade litúrgica" acima). Fechado por
+      julgamento de produto, não por entrega literal da lista — se
+      quiser as pontes contextuais específicas (tipo o card "Leia
+      Santo Agostinho no Scriptorium Divinum") no futuro, é item novo,
+      não reabertura deste.
+  - ~~Incluir o selo unificado `<ClusterHeader />` ("REDE A BIBLIOTECA") no topo.~~
+  - ~~Pontes explícitas Bíblia na Arte → Scriptorium Divinum (cards ao final de obras retratando autores/teólogos clássicos: *"Leia obras de Santo Agostinho no Scriptorium Divinum"*).~~
+  - ~~Pontes Bíblia na Arte → Lecionário (conexão de obras com as passagens do lecionário litúrgico do dia).~~
 - [~] **Páginas de Artista Ricas (Alimentadas pelo Vault Obsidian)**:
   - Enriquecer as páginas de artista (`/artist/:slug`) com biografias, contexto histórico e citações diretamente das notas do **Vault Obsidian** do Rilson.
   - **Correção de premissa (2026-08-24): a página base NÃO existe — o nome
@@ -1780,28 +1792,27 @@ restante), depois honestidade do download.
 
 ### 🔴 Crítico
 
-- [ ] **Deu erro no último deploy** — primeira pendência da fila:
-      investigar logs do GitHub Actions e do VPS (`docker ps`,
-      `docker compose logs`, sintoma→causa na tabela do `RUNBOOK.md`)
-      antes de qualquer outro trabalho que precise de deploy. Registrar
-      causa/solução aqui quando identificado.
-- [ ] **Não existe página do pintor** — confirmado pelo Rilson testando
-      o site: o nome do artista aparece como texto morto, sem página
-      própria clicável. A premissa do item "Páginas de Artista Ricas"
-      (Recursos Estratégicos acima) estava errada — assumia que
-      `/artist/:slug` existia e só faltava enriquecer; não existe nem a
-      rota base. **É o maior buraco de SEO restante do site**: cada
-      página de artista é cauda longa pura ("pinturas bíblicas de
-      Rembrandt", "obras religiosas de Caravaggio") — exatamente o
-      padrão de busca mapeado na estratégia, e hoje esse tráfego não tem
-      pra onde aterrissar. Mínimo viável primeiro: rota `/artista/:slug`
-      com H1, grade das obras do artista (o filtro por artista usado nas
-      relacionadas da página de obra deve cobrir — confirmar endpoint;
-      `GET /api/v1/artists` já existe pra agregação/nome), breadcrumb,
-      links do nome do artista em card/página de obra/capítulo apontando
-      pra lá + entrada no sitemap. Biografia rica/retrato tondo/timeline
-      do item estratégico viram camada 2, em cima da rota que já
-      funciona — não bloquear o SEO esperando o desenho completo.
+- [x] **Deu erro no último deploy — desatualizado, verificado em
+      2026-09-05**: registrado em 24/08 sem causa identificada na hora.
+      Conferido o histórico de `Deploy VPS` agora — toda execução desde
+      então (inclusive as 4 mais recentes, de 04/09, publicação
+      Instagram/Facebook/Threads) terminou com sucesso. Ou foi um
+      problema pontual já resolvido por outro commit, ou era ruído — sem
+      como saber qual à distância, mas não é mais pendência ativa.
+- [x] **Não existe página do pintor — RESOLVIDO (2026-09-01), item
+      ficou órfão sem cross-referência**: o mínimo viável descrito
+      abaixo foi entregue no mesmo dia em que outro item deste mesmo
+      arquivo ("Páginas de Artista Ricas", em "Recursos Estratégicos")
+      já registrava a entrega — só faltou apontar de volta pra cá.
+      Confirmado de novo em 2026-09-05 (Rilson: "página do autor já
+      temos, isso está desatualizado"): rota `/artista/:slug` existe
+      (`web/src/pages/ArtistPage.tsx`, commit `3925faf`), com hero,
+      biografia em markdown, grade de obras, SEO com schema.org
+      `Person`, e o nome do artista virou link clicável no card e na
+      página da obra. Ver detalhe completo em "Páginas de Artista
+      Ricas" acima. Camada 2 (retrato tondo, timeline visual) segue não
+      implementada, mas não é mais bloqueio de SEO — vira item
+      separado, de polish, não de gap crítico.
 
 ### 🟠 Honestidade de produto / UX
 
@@ -2515,18 +2526,15 @@ específico (ex.: `collections.louvre.fr/.../ark:.../clNNNNNNNN`,
       "está meio escondida" — ele vai avaliar se cabe dar mais destaque
       (ex.: link mais visível no header/footer, CTA na página da obra).
       Ação dele, não pedido de implementação ainda.
-- [ ] **Gustave Doré — cobertura muito abaixo do potencial real**: Doré
-      tem ~600 ilustrações bíblicas historicamente conhecidas; o acervo
-      atual do site tem só uma fração disso. Decisão consciente do
-      Rilson na curadoria original (priorizou diversidade de artistas
-      antes de aprofundar um só) — agora vira prioridade futura
-      explícita, porque Doré cobre capítulos que hoje não têm nenhuma
-      obra no site. **Pedido específico: manter a curadoria "internacional"**
-      (não se prender a uma edição/gravura específica de um só país)
-      ao expandir. Nada iniciado ainda — quando entrar em pauta, é
-      trabalho de curadoria no vault (mesmo pipeline de sempre:
-      pesquisar, verificar fonte, criar nota, rodar export), não mudança
-      de código.
+- [ ] **Gustave Doré — cobertura muito abaixo do potencial real —
+      ADIADO por decisão do Rilson (2026-09-05: "tá de boas por
+      enquanto, se eu quiser obras novas eu te passo")**: Doré tem ~600
+      ilustrações bíblicas historicamente conhecidas; o acervo atual do
+      site tem só uma fração disso. Não é pendência ativa — fica
+      registrado o potencial (cobre capítulos sem nenhuma obra hoje) e o
+      pedido específico de manter a curadoria "internacional" (não se
+      prender a uma edição/gravura de um só país) **pra quando** o
+      Rilson decidir retomar, não como próximo passo a puxar sozinho.
 
 ---
 
