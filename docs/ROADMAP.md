@@ -3453,7 +3453,7 @@ mesmo problema.
 
 ---
 
-## Submissão de artistas + painel administrativo (planejado 2026-09-05, ainda não implementado)
+## Submissão de artistas + painel administrativo (implementado e em produção, 2026-09-05)
 
 > **Contexto de negócio**: o Bíblia na Arte cresceu além do esperado e
 > chamou atenção do **Efeito Prisma**, organização paraeclesiástica
@@ -3583,18 +3583,25 @@ upload ao vivo.
       Migração de dependências: `@fastify/multipart` (upload) +
       `@fastify/jwt` (login); `sharp` promovido de devDependency pra
       dependência real (processa upload ao vivo, não só no export do
-      vault). **Pendência de infra pra quando for deployar** (não é
-      código, é ação manual no VPS): a conexão do Postgres da API era
-      documentada como só-leitura (`v1 é somente leitura pública`) —
-      precisa de `GRANT INSERT, UPDATE` em `submissions`, `users`,
-      `artworks`, `bible_references` pro usuário que a API usa. Também
-      precisa de `JWT_SECRET` (gerar com `openssl rand -hex 32`) e
-      `PUBLIC_API_URL` no `.env` de produção, e os dois diretórios de
-      upload (`SUBMISSION_UPLOADS_DIR`/`APPROVED_SUBMISSION_UPLOADS_DIR`)
-      montados como volume Docker persistente, não caminho efêmero do
-      container. 15 arquivos novos, 12 testes novos (119 no total),
-      `typecheck`/`lint` limpos. Nada commitado nem deployado — aguardando
-      sinal do Rilson.
+      vault). 15 arquivos novos, 12 testes novos (119 no total),
+      `typecheck`/`lint` limpos.
+
+      **Correção sobre a "pendência de GRANT" registrada aqui
+      originalmente**: o comentário em `config.ts`/`.env.example`
+      dizia que a conexão do Postgres da API era só-leitura
+      (`"v1 é somente leitura pública, sem admin exposto"`), e por
+      isso o plano era rodar `GRANT INSERT, UPDATE` manual em
+      produção antes do deploy. Na hora de executar (ver "Deploy em
+      produção" abaixo), `SELECT tablename, tableowner FROM pg_tables`
+      mostrou que `biblianarte_app` já é **dono** de todas as tabelas
+      — porque é essa mesma credencial que roda `runMigrations()` no
+      boot do servidor desde sempre (`server.ts`, todo deploy,
+      migrações 0000–0007 incluídas). Dono de tabela no Postgres já
+      tem todos os privilégios nela, `submissions`/`users` incluídas
+      assim que a migração 0008 as criar. O comentário "só-leitura"
+      descrevia uma decisão de **não expor rotas de escrita na API**,
+      não uma restrição real de permissão no banco — nenhum `GRANT`
+      foi necessário.
 - [x] **Fase 3 — Frontend (2026-09-05)**: formulário público em
       `/contribuir/enviar-obra` (card "Sugerir Obras" de `/contribuir`
       agora aponta pra lá em vez de `mailto:`) + painel em
@@ -3629,6 +3636,83 @@ upload ao vivo.
 - [ ] **Fase 4 (futuro, só se a parceria com o Prisma avançar)**:
       convites multi-usuário reais (linha nova em `users`), papéis mais
       granulares se necessário.
+
+### Deploy em produção (2026-09-05)
+
+4 commits no `main`, um por fase (`4624e9b` schema, `e32c9e8` API,
+`278951e` frontend, `154a2dc` re-export do vault não relacionado à
+feature, feito à parte de propósito) + 2 correções encontradas só ao
+deployar de verdade (abaixo). CI (lint/typecheck/test/build/audit) e
+Deploy VPS verdes em todos os pushes finais.
+
+**Infra preparada antes do primeiro push** (volume Docker pro upload
+em `hetzner-infra/biblia-na-arte/docker-compose.yml`, `JWT_SECRET` +
+`PUBLIC_API_URL` no `.env` de produção) — ver correção sobre o `GRANT`
+acima, na Fase 2.
+
+**Bug real encontrado em produção, ao vivo, pelo próprio Rilson
+testando o formulário** (não em teste automatizado): `POST
+/submissions` devolvia "Erro interno" — `EACCES: permission denied,
+mkdir './uploads/pending-submissions'`. Causa: volume Docker nomeado
+novo nasce vazio e **dono de root**; o processo roda como `USER app`
+(não-root, Dockerfile). Corrigido em duas camadas:
+1. **Imediata em produção**: `chown -R app:app /app/uploads` no
+   volume já existente (via `docker exec -u root`), pra destravar na
+   hora.
+2. **Definitiva no código** (`c093f31`): Dockerfile agora cria
+   `uploads/pending-submissions` e `uploads/approved-submissions` com
+   dono certo antes do `USER app` — um volume novo (se este for
+   apagado e recriado no futuro) já nasce semeado com essa permissão,
+   porque é assim que o Docker inicializa volume nomeado vazio: copia
+   conteúdo + dono do que já existe no caminho de destino da imagem.
+   Validado com build + run local antes de subir de novo.
+
+**Segunda correção, achada pelo CI, não pelo Rilson** (`837afe5`): o
+job de testes de integração do GitHub Actions (Postgres real de
+serviço) falhava com `JWT_SECRET: Required` — `integration-setup.ts`
+nunca setava essa variável, e local só "funcionava" porque o `dotenv`
+carregava por baixo dos panos o `.env` de desenvolvimento (que já
+tinha `JWT_SECRET` de outro teste manual). No CI não existe esse
+arquivo. Corrigido na raiz (`integration-setup.ts` seta um valor de
+teste se não vier definido), não só remendado no workflow — resolve
+pra qualquer ambiente que rode `test:integration` do zero.
+
+**Usuário admin real criado** em produção (e-mail do Rilson, role
+`admin`) via script one-off temporário, copiado pro container rodando
+e apagado logo depois — senha entregue uma única vez, fora do
+histórico do repositório.
+
+**Smoke test real em produção**, depois dos dois fixes acima, com
+limpeza completa dos dados de teste em seguida (nenhum resquício
+ficou no banco nem nos diretórios de upload):
+- Login admin → token válido.
+- `GET /admin/submissions` autenticado → lista vazia (banco/tabelas
+  OK).
+- `POST /submissions` inválida de propósito (sem imagem) → `400`
+  limpo, confirma validação registrada.
+- `POST /submissions` válida, com imagem real → `201`, criada de
+  verdade.
+- Rejeição de submissão (`POST .../reject`) → `200`, status muda,
+  nenhuma obra pública criada.
+- **Fluxo completo de aprovação**: nova submissão → imagem pendente
+  buscada autenticada (confirma o padrão blob URL/fetch com token) →
+  `POST .../approve` → obra criada de verdade, `GET /artworks/:id`
+  retornando ela, imagem servida publicamente em
+  `GET /uploads/:slug.webp` com `Content-Type: image/webp` — o
+  pipeline inteiro (mover arquivo de pendente pra aprovada, slug
+  bonito via `slugify`, registro na tabela `artworks` com
+  `origem = 'submissao'`) validado com dado real, na infra real.
+- Limpeza: obra + submissão de teste removidas via `DELETE` direto
+  (ordem importa — `submissions` antes de `artworks`, por causa da FK
+  `approved_artwork_id`), arquivos órfãos removidos das duas pastas de
+  upload. Confirmado `GET /admin/submissions` vazio de novo e
+  `GET /artworks/:id` da obra de teste devolvendo `404`.
+
+**Status final**: feature completa, em produção, testada de ponta a
+ponta com tráfego real (não só mocks/Postgres isolado) — pronta pra
+receber submissões de artistas de verdade. Formulário público em
+`/contribuir/enviar-obra`, painel em `/admin/login` (sem link na
+navegação, só por URL direta).
 
 ### O que esse desenho resolve — e o que NÃO resolve, pra não vender ilusão
 
