@@ -62,13 +62,21 @@ export default function Footer() {
               >
                 Livros da Bíblia
               </Link>
-              <Link 
-                to="/arte/painting" 
+              <Link
+                to="/arte/painting"
                 className="block text-muted-foreground hover:text-primary transition-colors"
               >
                 Pinturas
               </Link>
-              <Link 
+              {/* Diretório de pintores (roadmap, 2026-09-05) — pedido do
+                  Rilson, olhando esse mesmo rodapé. */}
+              <Link
+                to="/pintores"
+                className="block text-muted-foreground hover:text-primary transition-colors"
+              >
+                Pintores
+              </Link>
+              <Link
                 to="/busca" 
                 className="block text-muted-foreground hover:text-primary transition-colors"
               >

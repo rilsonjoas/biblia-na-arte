@@ -14,6 +14,7 @@ import Chapter from "./pages/Chapter";
 import ArtCategories from "./pages/ArtCategories";
 import ArtworkDetail from "./pages/ArtworkDetail";
 import ArtistPage from "./pages/ArtistPage";
+import Artists from "./pages/Artists";
 import Explore from "./pages/Explore";
 import About from "./pages/About";
 import Contribute from "./pages/Contribute";
@@ -56,6 +57,9 @@ const App = () => (
               <Route path="/arte/:category" element={<Search />} />
               <Route path="/obra/:artworkId" element={<ArtworkDetail />} />
               <Route path="/artista/:slug" element={<ArtistPage />} />
+              {/* Diretório de pintores (roadmap, 2026-09-05) — faltava
+                  índice pra /artista/:slug, que já existia. */}
+              <Route path="/pintores" element={<Artists />} />
               {/* "Mapa de obras ↔ referências bíblicas" (roadmap 2026-09-02):
                   rotas novas fora do /biblia pra não tocar nas URLs indexadas. */}
               <Route path="/explorar/:bookSlug/:chapter" element={<Explore />} />
