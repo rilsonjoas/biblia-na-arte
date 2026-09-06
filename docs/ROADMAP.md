@@ -3782,3 +3782,38 @@ Rilson. Se a parceria implicar em alguém do Prisma querendo editar ou
 corrigir obras já catalogadas (não só trazer obra nova), esse desenho
 cobre só metade do problema. Registrado aqui pra não ser descoberto
 como surpresa depois.
+
+## Ajustes de UI vendo o site no ar (2026-09-05, mesmo dia)
+
+O Rilson revisou o site já com a submissão de artistas no ar e pediu 3
+coisas — uma delas descartada por investigação, duas implementadas.
+
+**1. "Fonte do header parece diferente entre os itens" — investigado,
+não é bug.** `Navegar pela Bíblia`, `Galeria de Arte` e `Sobre o
+Projeto` têm exatamente a mesma classe CSS (`text-display text-sm
+font-medium`) — conferido via computed styles no navegador (Playwright):
+`14px`, peso `500`, `Cormorant Garamond` idênticos nos três. A
+impressão de tamanho diferente é ilusão de ótica da serifada em corpo
+pequeno, com letras de proporção diferente entre as palavras — não
+alterado.
+
+**2. Página "Como Contribuir" simplificada.** Tinha demais: grade de 4
+formas de contribuir, diretrizes, processo em 3 passos e seção de
+reconhecimento. Reduzida a 3 elementos: card grande de "Sugerir uma
+Obra" (destaque, linka pro formulário), card de e-mail, card de Pix.
+
+**3. Diretório de Pintores, novo, em `/pintores`.** Pedido do Rilson
+olhando o rodapé ("Explorar" tinha Livros da Bíblia/Pinturas/Busca
+Avançada, mas nenhum jeito de chegar em "quero ver quem pintou" sem
+passar por uma obra específica). `/artista/:slug` já existia — faltava
+só o índice. Grade compacta + filtro por nome (mesmo padrão de
+`BibleBooks.tsx`), ordem alfabética. Depois de ver a página no ar, o
+Rilson pediu a mesma "capa" translúcida que os cards de livro bíblico
+têm — adicionada usando a 1ª obra de cada pintor encontrada em
+`useArtworks()` (sem endpoint dedicado pra isso, e sem necessidade de
+criar um só pra decoração).
+
+Testado com dado real de produção antes de cada deploy (307 pintores,
+~1000 obras), via mock de rede no Playwright — sem tocar CORS nem
+banco local pra isso. `typecheck`/`lint`/`build` limpos em todos os 3
+commits, sem warning novo.
