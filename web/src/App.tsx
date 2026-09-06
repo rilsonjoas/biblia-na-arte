@@ -26,6 +26,7 @@ import NotFound from "./pages/NotFound";
 import AdminLogin from "./pages/admin/AdminLogin";
 import AdminSubmissions from "./pages/admin/AdminSubmissions";
 import AdminSubmissionDetail from "./pages/admin/AdminSubmissionDetail";
+import AdminUsers from "./pages/admin/AdminUsers";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -90,6 +91,16 @@ const App = () => (
                 element={
                   <AdminProtectedRoute>
                     <AdminSubmissionDetail />
+                  </AdminProtectedRoute>
+                }
+              />
+              {/* Gestão de usuários (roadmap, 2026-09-06) — só admin,
+                  requireAdminRole redireciona revisor de volta pra fila. */}
+              <Route
+                path="/admin/usuarios"
+                element={
+                  <AdminProtectedRoute requireAdminRole>
+                    <AdminUsers />
                   </AdminProtectedRoute>
                 }
               />

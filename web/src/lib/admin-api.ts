@@ -160,3 +160,28 @@ export async function rejectSubmission(id: string, reason?: string): Promise<Sub
 export async function deleteSubmission(id: string): Promise<void> {
   await authedRequest<void>(`/admin/submissions/${id}`, { method: 'DELETE' });
 }
+
+// Gestão de usuários do painel (roadmap, 2026-09-06) — só admin usa
+// (ver AdminProtectedRoute com requireAdminRole na rota /admin/usuarios).
+export interface PanelUser {
+  id: string;
+  email: string;
+  role: 'admin' | 'revisor';
+  createdAt: string;
+}
+
+export async function listUsers(): Promise<PanelUser[]> {
+  return authedRequest<PanelUser[]>('/admin/users');
+}
+
+export async function createPanelUser(
+  email: string,
+  password: string,
+  role: 'admin' | 'revisor',
+): Promise<PanelUser> {
+  return authedRequest<PanelUser>('/admin/users', { method: 'POST', body: { email, password, role } });
+}
+
+export async function deletePanelUser(id: string): Promise<void> {
+  await authedRequest<void>(`/admin/users/${id}`, { method: 'DELETE' });
+}

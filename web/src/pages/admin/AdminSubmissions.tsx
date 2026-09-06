@@ -12,7 +12,7 @@ import Footer from '@/components/Footer';
 import { SEO } from '@/components/SEO';
 import { useAdminAuth } from '@/contexts/AdminAuthContext';
 import { listSubmissions, type Submission } from '@/lib/admin-api';
-import { LogOut, ImageOff } from 'lucide-react';
+import { LogOut, ImageOff, Users } from 'lucide-react';
 
 const STATUS_LABEL: Record<Submission['status'], string> = {
   pendente: 'Pendente',
@@ -48,10 +48,21 @@ export default function AdminSubmissions() {
               Logado como <strong>{user?.email}</strong> ({user?.role})
             </p>
           </div>
-          <Button variant="outline" onClick={logout}>
-            <LogOut className="w-4 h-4 mr-2" />
-            Sair
-          </Button>
+          <div className="flex gap-2">
+            {/* Só admin — mesma régua de quem publica (roadmap, 2026-09-06) */}
+            {user?.role === 'admin' && (
+              <Button variant="outline" asChild>
+                <Link to="/admin/usuarios">
+                  <Users className="w-4 h-4 mr-2" />
+                  Usuários
+                </Link>
+              </Button>
+            )}
+            <Button variant="outline" onClick={logout}>
+              <LogOut className="w-4 h-4 mr-2" />
+              Sair
+            </Button>
+          </div>
         </div>
 
         <Tabs
