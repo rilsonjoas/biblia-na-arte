@@ -3817,3 +3817,43 @@ Testado com dado real de produção antes de cada deploy (307 pintores,
 ~1000 obras), via mock de rede no Playwright — sem tocar CORS nem
 banco local pra isso. `typecheck`/`lint`/`build` limpos em todos os 3
 commits, sem warning novo.
+
+## Gestão de usuários do painel + fix de revogação (2026-09-06)
+
+Pergunta direta do Rilson ("onde crio novo usuário?") escancarou que
+não tinha resposta — só o script one-off manual usado pra criar o
+primeiro admin. Construída a tela de verdade: `GET/POST /admin/users`
+e `DELETE /admin/users/:id`, todas `requireAdmin` (mesma régua de quem
+publica). Sem edição de papel/senha de propósito — revogar acesso é
+apagar e recriar, menos superfície de erro. UI em `/admin/usuarios`,
+link só visível pra quem é `admin` na fila de submissões.
+
+**Achado de segurança real, descoberto construindo isso**: `authenticate`
+e `requireAdmin` (jwt-auth.ts) só conferiam a **assinatura** do JWT,
+nunca se a conta ainda existia no banco. Na prática, a promessa
+registrada mais acima ("revogar acesso é apagar uma linha em `users`")
+**não era totalmente verdadeira** — um token já emitido (validade de
+7 dias) continuava autenticando normalmente depois da conta apagada,
+até expirar sozinho. Corrigido: os dois preHandlers agora revalidam
+contra o banco a cada requisição (`findUserById`), e o papel usado em
+`request.user.role` passa a ser sempre o do banco, nunca o que veio
+(potencialmente desatualizado) dentro do token. Custo de um `SELECT` a
+mais por requisição — irrelevante pro volume de tráfego do painel
+administrativo (não é a API pública de leitura).
+
+Travas adicionadas na criação/remoção:
+- Senha de conta nova exige 12+ caracteres (mais rígido que login).
+- E-mail duplicado devolve `409`, não sobrescreve.
+- Ninguém apaga a própria conta logada (`400`).
+- Ninguém apaga o último `admin` restante (`400`) — evita o painel
+  ficar sem ninguém que possa aprovar/publicar ou criar admin novo.
+
+Testado em duas camadas: 8 novos testes unitários com mock
+(`admin.test.ts`, cobrindo os 400/403/409/201/204 de cada rota) e 2
+testes de integração contra Postgres real (`queries.integration.test.ts`)
+provando que `findUserById` — a mesma função que os preHandlers chamam —
+realmente não encontra mais o usuário depois de `deleteUser`. Validado
+também de ponta a ponta num navegador real (Playwright), com servidor
+local + banco de teste isolado, nunca produção: login → criar usuário →
+botão de apagar a própria conta desabilitado → apagar outro usuário →
+some da lista de verdade.
