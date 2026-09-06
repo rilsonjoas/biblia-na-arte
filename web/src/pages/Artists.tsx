@@ -8,7 +8,7 @@ import Footer from '@/components/Footer';
 import { SEO } from '@/components/SEO';
 import { LoadingGrid } from '@/components/ui/loading';
 import { ErrorCard } from '@/components/ui/error-display';
-import { useArtists } from '@/hooks/use-artworks';
+import { useArtists, useArtworks } from '@/hooks/use-artworks';
 import { Palette, Search as SearchIcon, X } from 'lucide-react';
 import { slugifyArtistName, normalizeForSearch } from '@/lib/utils';
 
@@ -21,6 +21,21 @@ import { slugifyArtistName, normalizeForSearch } from '@/lib/utils';
 export default function Artists() {
   const [nameFilter, setNameFilter] = useState('');
   const { data: artists = [], isLoading, isError, error, refetch } = useArtists();
+  const { data: allArtworks = [] } = useArtworks();
+
+  // "Capa" translúcida por pintor — mesma ideia de BibleBooks.tsx
+  // (pedido do Rilson vendo a página no ar: "e a ideia de colocar uma
+  // obra no card como acontece nos livros bíblicos?"). Não existe
+  // endpoint dedicado pra "obra de capa de um artista" — 1ª obra
+  // encontrada no acervo já carregado é suficiente, mesmo espírito do
+  // que os livros já fazem (decorativo, não precisa ser a "melhor").
+  const coverByArtist = new Map<string, string>();
+  for (const artwork of allArtworks) {
+    const key = artwork.artistOrDirector.toLowerCase();
+    if (artwork.imageUrl && !coverByArtist.has(key)) {
+      coverByArtist.set(key, artwork.imageUrl);
+    }
+  }
 
   const normalizedFilter = normalizeForSearch(nameFilter.trim());
   const sorted = [...artists].sort((a, b) => a.name.localeCompare(b.name, 'pt-BR'));
@@ -114,28 +129,40 @@ export default function Artists() {
             )}
 
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4">
-              {filtered.map((artist) => (
-                <Card
-                  key={artist.name}
-                  className="group hover:shadow-classical transition-all duration-300 hover:-translate-y-1 gradient-card border border-border/60 hover:border-accent/40"
-                >
-                  <Link to={`/artista/${slugifyArtistName(artist.name)}`} className="block">
-                    <CardHeader className="text-center p-2.5 sm:p-3 pb-2">
-                      <div className="w-10 h-10 sm:w-12 sm:h-12 mx-auto gradient-hero rounded-lg flex items-center justify-center mb-2 group-hover:shadow-golden transition-all duration-300">
-                        <Palette className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
-                      </div>
-                      <CardTitle className="text-display text-sm sm:text-base font-semibold group-hover:text-primary transition-colors leading-tight">
-                        {artist.name}
-                      </CardTitle>
-                    </CardHeader>
-                    <CardContent className="p-2.5 sm:p-3 pt-0 text-center">
-                      <p className="text-[10px] sm:text-xs text-muted-foreground">
-                        {artist.artworkCount} {artist.artworkCount === 1 ? 'obra' : 'obras'}
-                      </p>
-                    </CardContent>
-                  </Link>
-                </Card>
-              ))}
+              {filtered.map((artist) => {
+                const coverImageUrl = coverByArtist.get(artist.name.toLowerCase());
+                return (
+                  <Card
+                    key={artist.name}
+                    className="group relative overflow-hidden hover:shadow-classical transition-all duration-300 hover:-translate-y-1 gradient-card border border-border/60 hover:border-accent/40"
+                  >
+                    {coverImageUrl && (
+                      <img
+                        src={coverImageUrl}
+                        alt=""
+                        aria-hidden="true"
+                        loading="lazy"
+                        className="absolute inset-0 h-full w-full object-cover opacity-[0.14] dark:opacity-[0.10] pointer-events-none"
+                      />
+                    )}
+                    <Link to={`/artista/${slugifyArtistName(artist.name)}`} className="relative z-10 block">
+                      <CardHeader className="text-center p-2.5 sm:p-3 pb-2">
+                        <div className="w-10 h-10 sm:w-12 sm:h-12 mx-auto gradient-hero rounded-lg flex items-center justify-center mb-2 group-hover:shadow-golden transition-all duration-300">
+                          <Palette className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
+                        </div>
+                        <CardTitle className="text-display text-sm sm:text-base font-semibold group-hover:text-primary transition-colors leading-tight">
+                          {artist.name}
+                        </CardTitle>
+                      </CardHeader>
+                      <CardContent className="p-2.5 sm:p-3 pt-0 text-center">
+                        <p className="text-[10px] sm:text-xs text-muted-foreground">
+                          {artist.artworkCount} {artist.artworkCount === 1 ? 'obra' : 'obras'}
+                        </p>
+                      </CardContent>
+                    </Link>
+                  </Card>
+                );
+              })}
             </div>
           </>
         )}
