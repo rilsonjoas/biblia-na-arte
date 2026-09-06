@@ -64,3 +64,14 @@ export const loginSchema = z.object({
   email: z.string().trim().email(),
   password: z.string().min(1),
 });
+
+// Criação de usuário do painel (roadmap, 2026-09-06) — min(12) na senha
+// aqui é mais estrito que o login de propósito: essa conta publica
+// obra de verdade, vale uma régua mais alta que uma senha qualquer.
+export const createUserSchema = z.object({
+  email: z.string().trim().email('E-mail inválido'),
+  password: z.string().min(12, 'Senha precisa ter pelo menos 12 caracteres'),
+  role: z.enum(['admin', 'revisor']),
+});
+
+export type CreateUserInput = z.infer<typeof createUserSchema>;

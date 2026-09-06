@@ -654,6 +654,46 @@ export async function findUserByEmail(email: string): Promise<UserRow | undefine
   return row;
 }
 
+// Usado no preHandler de auth (jwt-auth.ts) pra revalidar contra o
+// banco a cada requisição — achado real 2026-09-06: sem isso, apagar
+// um usuário não revogava nada na prática, o token JWT dele (até 7
+// dias de validade) continuava passando em authenticate/requireAdmin,
+// que só conferiam a assinatura, nunca se a conta ainda existe.
+export async function findUserById(id: string): Promise<UserRow | undefined> {
+  const [row] = await db.select().from(users).where(eq(users.id, id)).limit(1);
+  return row;
+}
+
+export type SafeUser = Omit<UserRow, 'passwordHash'>;
+
+export async function listUsers(): Promise<SafeUser[]> {
+  return db
+    .select({ id: users.id, email: users.email, role: users.role, createdAt: users.createdAt })
+    .from(users)
+    .orderBy(users.createdAt);
+}
+
+export async function createUser(email: string, passwordHash: string, role: 'admin' | 'revisor'): Promise<SafeUser> {
+  const [row] = await db
+    .insert(users)
+    .values({ email, passwordHash, role })
+    .returning({ id: users.id, email: users.email, role: users.role, createdAt: users.createdAt });
+  if (!row) throw new Error('Falha ao criar usuário');
+  return row;
+}
+
+export async function deleteUser(id: string): Promise<void> {
+  await db.delete(users).where(eq(users.id, id));
+}
+
+export async function countAdmins(): Promise<number> {
+  const [result] = await db
+    .select({ count: sql<number>`count(*)::int` })
+    .from(users)
+    .where(eq(users.role, 'admin'));
+  return result?.count ?? 0;
+}
+
 export async function createSubmission(
   input: CreateSubmissionInput & { imagePath: string },
 ): Promise<SubmissionRow> {

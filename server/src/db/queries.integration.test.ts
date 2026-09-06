@@ -5,6 +5,7 @@ import { drizzle } from 'drizzle-orm/postgres-js';
 import { migrate } from 'drizzle-orm/postgres-js/migrator';
 import { createSubmission, approveSubmission, deleteSubmission, getSubmissionById } from './queries.js';
 import { getArtworkById } from './queries.js';
+import { createUser, findUserById, deleteUser, countAdmins } from './queries.js';
 
 const MIGRATIONS_DIR = path.join(import.meta.dirname, 'migrations');
 
@@ -85,5 +86,48 @@ describe('deleteSubmission — integração (Postgres real de teste)', () => {
       approvedImageUrl: null,
     });
     expect(await getSubmissionById(submission.id)).toBeUndefined();
+  });
+});
+
+/** Achado real 2026-09-06: authenticate/requireAdmin (jwt-auth.ts)
+ *  passaram a revalidar contra o banco a cada requisição — sem isso,
+ *  apagar um usuário não revogava nada de verdade enquanto o token
+ *  antigo não expirasse (até 7 dias). Este teste prova a parte de
+ *  dados que sustenta esse fix: depois de deleteUser, findUserById
+ *  (a mesma função que o preHandler chama) não acha mais o usuário —
+ *  contra Postgres real, não mock. */
+describe('createUser/deleteUser — integração (Postgres real de teste)', () => {
+  let admin: postgres.Sql;
+
+  beforeAll(async () => {
+    const url = process.env.DATABASE_URL;
+    if (!url) throw new Error('DATABASE_URL não definida nos testes de integração');
+    admin = postgres(url, { max: 1 });
+    await migrate(drizzle(admin), { migrationsFolder: MIGRATIONS_DIR });
+  });
+
+  afterAll(async () => {
+    await admin.end();
+  });
+
+  it('usuário apagado some de verdade — findUserById não acha mais', async () => {
+    const user = await createUser('integracao-delete@example.com', 'hash-qualquer', 'revisor');
+    expect(await findUserById(user.id)).toBeDefined();
+
+    await deleteUser(user.id);
+
+    expect(await findUserById(user.id)).toBeUndefined();
+  });
+
+  it('countAdmins conta só quem tem role admin', async () => {
+    const before = await countAdmins();
+    const admin1 = await createUser('integracao-admin1@example.com', 'hash-qualquer', 'admin');
+    const revisor = await createUser('integracao-revisor1@example.com', 'hash-qualquer', 'revisor');
+
+    expect(await countAdmins()).toBe(before + 1);
+
+    await deleteUser(admin1.id);
+    await deleteUser(revisor.id);
+    expect(await countAdmins()).toBe(before);
   });
 });

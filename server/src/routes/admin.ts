@@ -7,9 +7,11 @@ import {
   listSubmissionsQuerySchema,
   updateSubmissionSchema,
   rejectSubmissionSchema,
+  createUserSchema,
 } from '../schemas/submission.schema.js';
 import {
   findUserByEmail,
+  findUserById,
   listSubmissions,
   getSubmissionById,
   updateSubmission,
@@ -17,8 +19,12 @@ import {
   rejectSubmission,
   deleteSubmission,
   findBibleBookSlugByName,
+  listUsers,
+  createUser,
+  deleteUser,
+  countAdmins,
 } from '../db/queries.js';
-import { verifyPassword } from '../lib/auth.js';
+import { verifyPassword, hashPassword } from '../lib/auth.js';
 import { promoteSubmissionImage } from '../lib/image-processing.js';
 import { NotFoundError } from '../plugins/error-handler.js';
 import { env } from '../config.js';
@@ -195,6 +201,79 @@ export async function adminRoutes(app: FastifyInstance) {
         await unlink(path.join(env.APPROVED_SUBMISSION_UPLOADS_DIR, filename)).catch(() => {});
       }
 
+      return reply.status(204).send();
+    },
+  );
+
+  // Gestão de usuários do painel (roadmap, 2026-09-06) — só admin, é a
+  // mesma régua de quem publica de fato. Sem edição de papel/senha por
+  // enquanto: revogar acesso é apagar e recriar, mais simples e menos
+  // superfície de erro pro volume de contas que esse painel vai ter.
+  app.get(
+    '/admin/users',
+    {
+      preHandler: app.requireAdmin,
+      schema: { tags: ['admin'], summary: 'Lista usuários do painel' },
+    },
+    async () => listUsers(),
+  );
+
+  app.post(
+    '/admin/users',
+    {
+      preHandler: app.requireAdmin,
+      schema: { tags: ['admin'], summary: 'Cria um novo usuário do painel' },
+    },
+    async (request, reply) => {
+      const input = createUserSchema.parse(request.body);
+
+      const existing = await findUserByEmail(input.email);
+      if (existing) {
+        return reply.status(409).send({ error: 'conflict', message: 'Já existe um usuário com esse e-mail' });
+      }
+
+      const passwordHash = hashPassword(input.password);
+      const user = await createUser(input.email, passwordHash, input.role);
+      return reply.status(201).send(user);
+    },
+  );
+
+  app.delete(
+    '/admin/users/:id',
+    {
+      preHandler: app.requireAdmin,
+      schema: { tags: ['admin'], summary: 'Apaga um usuário do painel' },
+    },
+    async (request, reply) => {
+      const { id } = request.params as { id: string };
+
+      // Acesso já revalidado contra o banco em requireAdmin — dá pra
+      // confiar em request.user aqui.
+      if (id === request.user.sub) {
+        return reply.status(400).send({
+          error: 'bad_request',
+          message: 'Não é possível apagar a própria conta logada',
+        });
+      }
+
+      const target = await findUserById(id);
+      if (!target) throw new NotFoundError('Usuário');
+
+      // Sem isso, um admin distraído consegue apagar o único
+      // administrador que existe (o próprio, via outra sessão, ou o
+      // único outro) e ninguém mais consegue aprovar/publicar nada —
+      // nem recriar um admin novo, porque isso também exige admin.
+      if (target.role === 'admin') {
+        const adminCount = await countAdmins();
+        if (adminCount <= 1) {
+          return reply.status(400).send({
+            error: 'bad_request',
+            message: 'Não é possível apagar o único administrador restante',
+          });
+        }
+      }
+
+      await deleteUser(id);
       return reply.status(204).send();
     },
   );
