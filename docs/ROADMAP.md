@@ -3174,16 +3174,92 @@ Corrigido trocando pra um minuto fora do topo (`13 11 * * *`). Lição
 geral: **nunca agendar `cron` do GitHub Actions em `:00` ou `:30`** —
 vale pra qualquer workflow futuro, não só esse.
 
+### Incidente real — tokens invalidados por troca de senha (2026-09-07)
+
+> Achado no mesmo dia do fix do `schedule:` acima, testando o cron novo
+> de ponta a ponta — dois problemas diferentes coincidindo na mesma
+> semana, não confundir um com o outro:
+> **1) horário** (resolvido acima, era o `schedule:`) e
+> **2) autenticação** (esta seção).
+
+**Sintoma**: workflow disparava na hora certa (fix do `schedule:` já
+funcionando), mas Instagram e Facebook falhavam com
+
+```
+Error validating access token: The session has been invalidated
+because the user changed their password or Facebook has changed
+the session for security reasons.
+```
+`OAuthException`, `code: 190`, `error_subcode: 460` — **Threads
+continuou funcionando** (token separado, sessão própria).
+
+**Causa raiz**: `error_subcode: 460` é o código exato da Meta pra
+"a senha da conta foi trocada" — quando isso acontece, a Meta invalida
+**todas** as sessões ativas ligadas à conta, token de API incluído
+(medida de segurança deles, não bug nosso, não expiração adiantada do
+token de 60 dias). Não é padrão recorrente esperado — só volta a
+acontecer se a senha da conta mudar de novo. Comparado o histórico de
+execuções antes/depois pra confirmar a janela exata: 06/09 11h08 (SP)
+publicou nos três normalmente; a sessão foi invalidada em algum ponto
+entre esse horário e o teste do dia seguinte.
+
+**Como reconhecer isso de novo no futuro, sem precisar reler este
+texto todo**: `code: 190` + `error_subcode: 460` (ou a frase "changed
+their password") na mensagem de erro = precisa gerar token novo, não é
+bug de código nem cron. Qualquer outro `code: 190` sem esse subcode
+específico costuma ser token realmente expirado (Instagram, ~60 dias)
+ou malformado (ver gotcha do "Failed to decode" abaixo).
+
+**Fix — regerar os tokens** (processo já documentado acima, "Passo a
+passo real de configuração"; como o app/produto/permissões já existiam,
+desta vez foi só regerar o token em si, não reconfigurar do zero):
+
+1. Instagram: mesmo assistente ("Personalizar caso de uso" → "Gerar
+   tokens de acesso").
+2. Facebook: mesmo fluxo (Explorador da Graph API → Token de Usuário →
+   trocar por longa duração → `/me/accounts` pra pegar o token da
+   Página).
+3. `INSTAGRAM_ACCOUNT_ID` e `FACEBOOK_PAGE_ID` **não mudaram** — só os
+   tokens de acesso em si precisaram ser trocados.
+
+**Três gotchas novos, achados regerando de verdade (guardar pra próxima
+vez que isso acontecer):**
+
+- **O ID mostrado na tela do assistente do Instagram errou nas DUAS
+  vezes** (03/09 e 07/09), com o mesmo número errado
+  (`17841463956330521`) — não é acaso de uma vez só, é padrão
+  confiável de repetir. **Sempre** confirma contra a API de verdade
+  (`GET /{id}?fields=username`) antes de salvar — nunca confia no
+  número que a tela mostra. ID real confirmado de novo:
+  `28673697788910100`.
+- **`/me/accounts` do Facebook agora devolve mais de uma Página**
+  (o app passou a gerenciar "Arte Cristã Diária" **e** "Narniano",
+  outro projeto do Rilson conectado ao mesmo Portfólio Empresarial) —
+  precisa escolher a Página certa **pelo nome**, não assumir que é a
+  primeira do array. Confundir as duas colaria o token de acesso da
+  Página errada no secret.
+- **Erro `"Failed to decode"` (ainda `code: 190`, mensagem diferente da
+  de sessão invalidada) = o valor do token chegou incompleto/corrompido
+  no secret**, tipicamente copiar/colar perdendo um pedaço de um token
+  bem longo. Não é "token errado", é "token quebrado no meio" — a
+  solução é recolar com mais cuidado (ou gerar de novo), não gerar um
+  token totalmente novo achando que o anterior expirou.
+
+**Lembrete de renovação atualizado** (token regerado nesta correção,
+data antiga de 2026-09-03 não vale mais):
+**Instagram gerado em 2026-09-07, expira ~2026-11-06 — renovar por
+volta de 2026-10-23** (`gh secret set INSTAGRAM_ACCESS_TOKEN --repo
+rilsonjoas/biblia-na-arte`). Facebook não tem prazo fixo (só quebra nos
+mesmos dois cenários acima: troca de senha, ou revogação do app).
+
 **Pendente (não travando nada, só em aberto):**
 
 - [ ] Renovação do token de 60 dias — decisão de produto ainda não
       tomada: 2º workflow automatizado (troca o token ~15 dias antes de
       expirar, via endpoint próprio de refresh) vs. lembrete manual a
-      cada ~50 dias. Enquanto não decidir, marcar um lembrete manual é
-      o mínimo pra não descobrir o token morto só quando o post falhar.
-      **Token atual gerado em 2026-09-03, expira ~2026-11-02 — renovar
-      por volta de 2026-10-18** (`gh secret set INSTAGRAM_ACCESS_TOKEN
-      --repo rilsonjoas/biblia-na-arte`).
+      cada ~50 dias. Enquanto não decidir, o lembrete manual acima
+      (atualizado a cada regeneração) é o mínimo pra não descobrir o
+      token morto só quando o post falhar.
 - [x] Cross-post pro Facebook (Página) — feito em 2026-09-04, narrativa
       completa acima.
 - [x] Threads — feito em 2026-09-04, narrativa completa acima.
