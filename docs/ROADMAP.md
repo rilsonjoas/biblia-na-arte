@@ -2904,14 +2904,48 @@ específico (ex.: `collections.louvre.fr/.../ark:.../clNNNNNNNN`,
 > Pinterest e X (Twitter) foram pesquisados e descartados por ora — ver
 > "Pendente" no final desta seção.
 
-**Onde isso roda**: inteiramente no GitHub Actions (runner hospedado
-pelo próprio GitHub), não no VPS nem em nenhum computador do Rilson. O
-`schedule: cron` do workflow dispara sozinho todo dia, independente de
-qualquer máquina pessoal estar ligada ou conectada — decisão
-deliberada desde o início (menos superfície de manutenção, sem log
-crescendo em disco em lugar nenhum). Disparos manuais feitos durante a
-configuração (`gh workflow run`) só *pedem* pro GitHub rodar — a
-execução em si sempre acontece do lado deles.
+**Onde isso roda**: a publicação em si continua inteiramente no GitHub
+Actions (runner hospedado pelo próprio GitHub) — decisão deliberada
+desde o início (menos superfície de manutenção, sem log crescendo em
+disco em lugar nenhum). **O gatilho de horário, porém, saiu do
+`schedule:` do Actions em 2026-09-07** (ver "Achado real — agendador do
+Actions não confiável" logo abaixo) — agora é um cron na VPS que só
+chama a API do GitHub (`workflow_dispatch`), sem rodar nada do post em
+si por lá.
+
+### Achado real — agendador `schedule:` do Actions não confiável (2026-09-07)
+
+> O Rilson percebeu (post saindo cada vez mais tarde, 3 dias seguidos)
+> e pediu pra investigar: "achei que era 8h, mas ontem saiu depois de
+> 10h, e hoje já é mais de 11h e não postou".
+
+Histórico real de execuções (`gh run list --workflow=post-daily-social.yml`),
+horário previsto 08:13 em São Paulo:
+
+| Dia | Rodou de verdade (SP) | Atraso |
+|---|---|---|
+| 04/09 | não rodou nenhuma vez agendada | — |
+| 05/09 | 10:51 | +2h38 |
+| 06/09 | 11:08 | +2h55 |
+| 07/09 | ainda não tinha rodado às 11:16 quando investigamos | +3h+ |
+
+Já tinha sido mudado uma vez antes (de `0 11 * * *` pra `13 11 * * *`,
+ver histórico do `.yml`) depois do dia 04/09 não rodar — não resolveu:
+o atraso voltou, crescendo dia a dia. É um limite documentado da
+própria GitHub (`schedule:` é best-effort, sem SLA, mais sujeito a
+atraso em repositórios de baixo tráfego como este) — não tem fix do
+lado do cron em si.
+
+**Fix**: `schedule:` removido do workflow (só `workflow_dispatch`
+ficou). `scripts/trigger-daily-post.sh` roda como cron na VPS
+(`08:13 America/Sao_Paulo`) e dispara o workflow via API do GitHub —
+`workflow_dispatch` executa quase na hora, sem fila de agendamento.
+Token: fine-grained PAT escopado só a este repo, permissão `Actions:
+Read and write`, fica em `/opt/biblia-na-arte/.github-dispatch-token`
+(gitignored, `chmod 600`, nunca commitado). Log do script sobrescreve
+(`>`, não `>>`) — só o resultado da última tentativa importa pra
+debugar, o histórico de verdade de cada dia já vive no run history do
+próprio Actions.
 
 **O plano original (abaixo, riscado) previa Facebook Login + Página do
 Facebook desde o início, pro Instagram. Na configuração real, a Meta
