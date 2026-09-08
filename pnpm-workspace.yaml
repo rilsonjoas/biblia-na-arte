@@ -15,6 +15,11 @@ overrides:
   # mais o campo velho — mesmo aviso do comentário acima, achado de novo
   # na prática, ver ROADMAP.
   fast-uri: ">=4.1.3"
+  # CVE "high" de js-yaml (achado 2026-09-08, CI bloqueou o push do
+  # re-export do vault) — transitiva via eslint>@eslint/eslintrc,
+  # devDependency, nunca chega em produção, mas o pnpm audit não
+  # diferencia isso e o CI trava mesmo assim.
+  js-yaml: ">=4.3.2"
 
 onlyBuiltDependencies:
   - esbuild
