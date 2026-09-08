@@ -97,6 +97,24 @@ pnpm --filter server sitemap:generate
   → migration → `export-vault-data.ts`/`import-seed-data.ts` →
   `response.schema.ts` → **`functions.sql` + `queries.ts` (search)** →
   frontend `types/index.ts` + UI.
+- **`git commit --amend` + `--force-with-lease` depois que o "Deploy
+  VPS" já rodou trava o próximo deploy** (achado real 2026-09-08): CI
+  falhou (CVE "high" achada só na hora), corrigido local com
+  `--amend`, force-pushed — mas "Deploy VPS" já tinha rodado em
+  paralelo no push anterior e tinha feito `git pull --ff-only` com
+  sucesso no checkout de `/opt/biblia-na-arte`, deixando-o num commit
+  que não existe mais no histórico reescrito. Próximo `git pull
+  --ff-only` do "Deploy VPS" falha com "Not possible to fast-forward"
+  — branches divergentes, não uma continuação linear. Site não caiu
+  (containers seguem rodando o código antigo), só o deploy trava.
+  Resolvido com `git fetch origin main && git reset --hard
+  origin/main` no checkout (`/opt/biblia-na-arte` é só destino de
+  deploy, sem trabalho local que valha preservar — confirmar `git
+  status` antes mesmo assim), seguido de `gh run rerun` no job que
+  falhou. Lição: depois de um `--amend`+force-push num commit que já
+  foi pro `main`, sempre checar se o "Deploy VPS" daquele push
+  específico já rodou (`gh run list`) antes de assumir que o próximo
+  push vai resolver sozinho.
 
 ## Diagnóstico rápido — sintoma → causa provável
 
