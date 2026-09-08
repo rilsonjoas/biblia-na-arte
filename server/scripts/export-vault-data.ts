@@ -126,18 +126,39 @@ const ALLOWED_UNKNOWN_AUTHOR_FILENAMES = new Set([
   'Autor Desconhecido - Criação do Universo (Creation of the Universe).md',
   'Autor Desconhecido - Entrada de Jesus em Jerusalém, 1856 (Entry of Jesus into Jerusalem).md',
   'Autor Desconhecido - Jesus Amaldiçoa a Figueira (Jesus Curses the Fig Tree).md',
-  'Autor Desconhecido - Judas recebendo 30 moedas de prata (Judas recebendo 30 moedas de prata).md',
+  'Autor Desconhecido - Judas recebendo 30 moedas de prata (Judas receiving thirty pieces of silver).md',
   'Autor Desconhecido - Maria unge os pés de Jesus (Mary Anoints the Feet of Jesus).md',
-  'Autor Desconhecido - O sonho de José e a jornada até Belém (O sonho de José e a jornada até Belém).md',
-  'Autor Desconhecido - Os temperados e os intemperados (Os temperados e os intemperados).md',
+  'Autor Desconhecido - O sonho de José e a jornada até Belém (Joseph\'s Dream and the Journey to Bethlehem).md',
+  'Autor Desconhecido - Os temperados e os intemperados (The Temperate and the Intemperate).md',
   'Autor Desconhecido - Paulo e Barnabé tomados por deuses (Paul and Barnabas at Lystra).md',
   'Autor Desconhecido - Transfiguração de Cristo (Transfiguration of Christ).md',
-  'Autor desconhecido - A natividade.md',
+  'Autor desconhecido - A natividade (The Nativity).md',
   'Autor desconhecido - Os alegres mártires de Nagasaki (The Joyful Martyrs of Nagasaki).md', // renomeado 2026-09-05 (título estava com PT+EN colados)
-  'Desconhecido - A Adoração do Cordeiro (Adoration of the Lamb).md',
-  'Desconhecido - A Incredulidade de Tomé.md',
+  'Autor Desconhecido - A Adoração do Cordeiro (Adoration of the Lamb).md',
+  'Autor Desconhecido - A Incredulidade de Tomé (The Incredulity of Thomas).md',
   'Autor Desconhecido - A Transfiguração (The Transfiguration).md', // mosaico do Monte Tabor, Umberto Noni, 1924
-  'Autor Desconhecido - Pentecoste (Pentecoste).md', // capela de Eugenio Cisterna, Lourdes, 1893-1907
+  'Autor Desconhecido - Pentecoste (Pentecost).md', // capela de Eugenio Cisterna, Lourdes, 1893-1907
+  // Achado 2026-09-08: as 7 linhas acima estavam com nome de arquivo
+  // quebrado (mesmo bug já documentado embaixo pra
+  // EXCLUDED_NON_BIBLICAL_KEYS, nunca corrigido aqui) — o processo de
+  // renomeação do vault (acrescenta titulo_original entre parênteses)
+  // silenciosamente invalidou 7 de 16 entradas desta allowlist, cada
+  // uma delas fora do catálogo sem ninguém perceber. Corrigido pros
+  // nomes reais atuais dos arquivos.
+
+  // 9 obras da arte cristã primitiva (roadmap, 2026-09-08, pedido do
+  // Rilson depois de assistir um vídeo do UsefulCharts sobre as
+  // imagens mais antigas de Jesus) — a de Gala Placidia já existia no
+  // vault desde antes, mas nunca tinha entrado nesta allowlist.
+  'Autor Desconhecido - O bom pastor (Il Buon Pastore).md',
+  'Autor Desconhecido - Cristo Cura o Paralítico (Christ Healing the Paralytic).md',
+  'Autor Desconhecido - O Bom Pastor da Cripta de Lucina (The Good Shepherd, Crypt of Lucina).md',
+  'Autor Desconhecido - A Cura da Hemorroíssa (The Healing of the Hemorrhaging Woman).md',
+  'Autor Desconhecido - Cristo Barbado de Commodilla (Bearded Christ, Catacombs of Commodilla).md',
+  'Autor Desconhecido - A Crucificação da Porta de Santa Sabina (The Crucifixion, Doors of Santa Sabina).md',
+  'Autor Desconhecido - Cristo Pantocrator do Sinai (Christ Pantocrator, Saint Catherine\'s Monastery).md',
+  'Autor Desconhecido - O Batismo de Cristo de Shivta (The Baptism of Christ, Shivta).md',
+  'Autor Desconhecido - Grafite de Alexamenos (Alexamenos Graffito).md',
 ]);
 
 /** Notas vazias (stub) ou de tema NÃO-bíblico que entraram na pasta
@@ -205,6 +226,33 @@ const LICENSED_ARTISTS: Record<string, { licenseType: string; attributionText: s
     licenseType: 'cc-by-sa-4.0',
     attributionText:
       'Andrei Mironov, CC BY-SA 4.0, via Wikimedia Commons (https://commons.wikimedia.org/wiki/Category:Religious_paintings_by_Andrei_Mironov)',
+  },
+};
+
+/** Igual a LICENSED_ARTISTS, mas por ARQUIVO (nome exato da nota), não
+ * por artista — achado real 2026-09-08: obra é "Autor Desconhecido"
+ * (domínio público de verdade, talha/afresco do séc. V), mas a ÚNICA
+ * foto disponível de um objeto físico esculpido (não é reprodução
+ * plana de pintura — PD-Art não se aplica) carrega direito autoral
+ * do fotógrafo moderno que tirou a foto, mesmo a obra em si sendo
+ * antiquíssima. LICENSED_ARTISTS não serve aqui: chavear por "Autor
+ * Desconhecido" aplicaria essa atribuição a QUALQUER pintura anônima
+ * do acervo, a maioria das quais são reprodução plana PD de verdade.
+ * Checado antes de LICENSED_ARTISTS na resolução de licença abaixo. */
+const LICENSED_ARTWORK_FILES: Record<string, { licenseType: string; attributionText: string }> = {
+  'Autor Desconhecido - A Crucificação da Porta de Santa Sabina (The Crucifixion, Doors of Santa Sabina).md': {
+    licenseType: 'cc-by-3.0',
+    attributionText:
+      'Sailko, CC BY 3.0, via Wikimedia Commons (https://commons.wikimedia.org/wiki/File:Battenti_in_cipresso_di_santa_sabina,_V_secolo,_01_crocifissione_2.jpg) — a obra em si (talha em cipreste, c. 430-432 d.C.) é de domínio público; a fotografia do objeto físico, não.',
+  },
+  // Mesmo raciocínio acima: a foto ilustra a Igreja Norte de Shivta (o
+  // prédio, não o afresco em si — inédito fora de publicação acadêmica,
+  // ver nota), e o fotógrafo exige atribuição própria, distinta de
+  // qualquer coisa relacionada à obra retratada.
+  'Autor Desconhecido - O Batismo de Cristo de Shivta (The Baptism of Christ, Shivta).md': {
+    licenseType: 'attribution-required',
+    attributionText:
+      'Ester Inbar, via Wikimedia Commons (https://commons.wikimedia.org/wiki/File:Ruins_of_a_church_in_Shivta_in_the_Negev.jpg), licença de atribuição livre.',
   },
 };
 
@@ -389,7 +437,7 @@ async function main() {
       });
     }
 
-    const licensed = LICENSED_ARTISTS[artist];
+    const licensed = LICENSED_ARTWORK_FILES[file] ?? LICENSED_ARTISTS[artist];
     const yearRaw = frontmatter.ano ?? frontmatter.data;
     const year = yearRaw !== undefined && yearRaw !== '' ? String(yearRaw) : undefined;
     const classicCommentary = extractClassicCommentary(content);
