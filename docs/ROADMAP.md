@@ -3052,6 +3052,23 @@ com causa raiz diferente, na ordem em que apareceram:
    válido e o app não for revogado).
 9. Secrets: `FACEBOOK_PAGE_ACCESS_TOKEN` e `FACEBOOK_PAGE_ID`.
 
+**Achado real (2026-09-09): token de Página expirou em 3 dias, não
+"enquanto o token de usuário for válido" como documentado acima.**
+Configurado dia 04/09, quebrou o cron do dia 09/09 com
+`OAuthException code 190, subcode 463` ("Session has expired"). Causa
+mais provável: o passo 7 (trocar o token de usuário curto do
+Explorador por um de longa duração via `GET /oauth/access_token?
+grant_type=fb_exchange_token&...`) não foi feito da primeira vez — o
+token de Página herdou a validade curta (~1-2h) do token de usuário
+gerado direto no Explorador, em vez da validade longa do trocado.
+Refeito certo dessa vez (token curto → troca por longa duração →
+`GET /me/accounts` → token da Página "Arte Cristã Diária", id
+`275367562320364`), confirmado com uma chamada real (`GET
+/{page-id}?fields=name`) antes de gravar no secret. Vale conferir de
+novo em ~60 dias (meados de novembro) se o novo token seguiu valendo
+— se quebrar de novo tão rápido, o problema é outro, não só o passo 7
+esquecido.
+
 **Passo a passo real de configuração do Threads (2026-09-04), no MESMO
 app — bem mais simples que o Facebook:**
 
