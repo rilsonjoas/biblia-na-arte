@@ -1,10 +1,18 @@
-name: Publicar Pintura do Dia (Instagram + Facebook + Threads)
+name: Publicar Pintura do Dia (Instagram + Threads)
 
 # Publica automaticamente a Pintura do Dia (GET /artworks/daily) na
-# conta @artecristadiaria (Instagram), na Página "Arte Cristã Diária"
-# (Facebook) e no Threads, todo dia. Ver docs/ROADMAP.md — "Publicação
-# automática — Arte Cristã Diária" — pra todo o histórico da
-# configuração de cada plataforma e decisões tomadas.
+# conta @artecristadiaria (Instagram) e no Threads, todo dia. Ver
+# docs/ROADMAP.md — "Publicação automática — Arte Cristã Diária" — pra
+# todo o histórico da configuração de cada plataforma e decisões
+# tomadas.
+#
+# Facebook tirado do padrão em 2026-09-11 — decisão do Rilson, não
+# pendência técnica: a Página nunca teve retorno de engajamento que
+# justificasse manter, e o token dela invalida com frequência (mesma
+# classe de incidente documentada abaixo). Continua dando pra publicar
+# lá manualmente via workflow_dispatch (`platforms: instagram,facebook,threads`)
+# se um dia a decisão mudar — o código e os secrets não foram removidos,
+# só o padrão automático.
 #
 # Roda em GitHub Actions (não no VPS) de propósito: sem cron novo pra
 # manter, sem log crescendo em disco — o histórico de execuções já vive
@@ -33,7 +41,7 @@ on:
       platforms:
         description: 'Quais publicar (separado por vírgula): instagram,facebook,threads'
         required: false
-        default: 'instagram,facebook,threads'
+        default: 'instagram,threads'
 
 permissions:
   contents: read
@@ -50,11 +58,13 @@ jobs:
 
       - name: Publica a Pintura do Dia
         env:
-          # No disparo agendado (schedule) não existe `inputs` — cai no
-          # padrão (todas as três). No disparo manual, respeita o que
-          # foi escolhido — útil pra testar uma plataforma nova sem
-          # duplicar post nas que já publicaram a obra do dia.
-          PLATFORMS: ${{ github.event.inputs.platforms || 'instagram,facebook,threads' }}
+          # No disparo via VPS (workflow_dispatch sem inputs) cai no
+          # padrão (Instagram+Threads — Facebook tirado do padrão em
+          # 2026-09-11, decisão do Rilson, ver comentário no topo do
+          # arquivo). No disparo manual, respeita o que foi escolhido —
+          # inclusive `facebook`, se um dia quiser publicar lá nesse dia
+          # específico sem mudar o padrão.
+          PLATFORMS: ${{ github.event.inputs.platforms || 'instagram,threads' }}
           INSTAGRAM_ACCESS_TOKEN: ${{ secrets.INSTAGRAM_ACCESS_TOKEN }}
           INSTAGRAM_ACCOUNT_ID: ${{ secrets.INSTAGRAM_ACCOUNT_ID }}
           FACEBOOK_PAGE_ACCESS_TOKEN: ${{ secrets.FACEBOOK_PAGE_ACCESS_TOKEN }}

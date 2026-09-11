@@ -2891,7 +2891,7 @@ específico (ex.: `collections.louvre.fr/.../ark:.../clNNNNNNNN`,
       que já se encaixam (Profeta, João Batista, vigilância/segunda
       vinda).
 
-## Publicação automática — Arte Cristã Diária (Instagram + Facebook + Threads)
+## Publicação automática — Arte Cristã Diária (Instagram + Threads, Facebook descontinuado)
 
 > Pedido do Rilson (2026-09-03): reativar a página
 > [@artecristadiaria](https://www.instagram.com/artecristadiaria/) e
@@ -2902,7 +2902,10 @@ específico (ex.: `collections.louvre.fr/.../ark:.../clNNNNNNNN`,
 > `.github/workflows/post-daily-social.yml` +
 > `scripts/post-daily-social.mjs`, rodando 1x/dia às 08:13 (São Paulo).
 > Pinterest e X (Twitter) foram pesquisados e descartados por ora — ver
-> "Pendente" no final desta seção.
+> "Pendente" no final desta seção. **Facebook tirado do padrão em
+> 2026-09-11 — decisão do Rilson, ver "Facebook descontinuado" mais
+> abaixo.** Código/secrets do Facebook continuam no repo, só não fazem
+> mais parte do disparo automático diário.
 
 **Onde isso roda**: a publicação em si continua inteiramente no GitHub
 Actions (runner hospedado pelo próprio GitHub) — decisão deliberada
@@ -3984,3 +3987,50 @@ também de ponta a ponta num navegador real (Playwright), com servidor
 local + banco de teste isolado, nunca produção: login → criar usuário →
 botão de apagar a própria conta desabilitado → apagar outro usuário →
 some da lista de verdade.
+
+## Facebook descontinuado da publicação automática (2026-09-11)
+
+**Incidente que motivou a revisão**: o workflow falhou de novo com
+`OAuthException code 190` — Instagram com `error_subcode 0` e Facebook
+com `error_subcode 460` ("the user changed their password or Facebook
+has changed the session"), o mesmo padrão já documentado na seção
+acima ("Incidente real — tokens invalidados por troca de senha"). Só
+que dessa vez **não foi troca de senha** — o Rilson confirmou: foi
+criar uma conta nova na **Central de Contas (Accounts Center)** da
+Meta. Achado novo pro guia de reconhecimento: mudança de identidade na
+Central de Contas dispara a mesma invalidação em massa que troca de
+senha, mesmo sem mexer em nenhuma senha de verdade. `error_subcode`
+também confirmado não-confiável — veio `0` pro Instagram e `460` pro
+Facebook, mesma causa raiz nos dois, só a Meta não populou o campo de
+forma consistente entre os dois endpoints. Threads não foi afetado
+(sessão própria, já era esperado).
+
+**Token do Instagram**: regenerado (chave secreta do app resetada +
+token novo gerado) e confirmado funcionando — disparo manual via
+`gh workflow run post-daily-social.yml -f platforms=instagram`
+publicou com sucesso (ID do post `17876388780629572`), 2026-09-11.
+
+**Decisão do Rilson sobre o Facebook (2026-09-11): não vale a pena
+manter.** A Página nunca teve retorno de engajamento (curtidas) que
+justificasse o esforço de ficar regenerando o token toda vez que a
+Meta invalida a sessão — e isso já aconteceu pelo menos 2 vezes em
+poucos dias (07/09 por troca de senha, 11/09 pela Central de Contas).
+Não é abandono técnico, é decisão de produto: o esforço de manutenção
+não compensa o retorno pra essa plataforma especificamente.
+
+**O que foi feito**:
+- `platforms` padrão do workflow (`workflow_dispatch.inputs.platforms`
+  e o fallback do `env.PLATFORMS`) mudou de
+  `instagram,facebook,threads` pra `instagram,threads`.
+- Nome do workflow atualizado: "Publicar Pintura do Dia (Instagram +
+  Threads)".
+- **Nada foi removido** — os secrets do Facebook
+  (`FACEBOOK_PAGE_ACCESS_TOKEN`/`FACEBOOK_PAGE_ID`) e a lógica de
+  publicação no `scripts/post-daily-social.mjs` continuam intactos.
+  Se um dia a decisão mudar, dá pra publicar lá de novo a qualquer
+  momento — manualmente via `workflow_dispatch` passando
+  `platforms: instagram,facebook,threads` (ou regenerando o token e
+  voltando o padrão), sem precisar reescrever nada.
+- Resultado prático: o workflow diário não falha mais por causa do
+  Facebook — só tenta Instagram e Threads, que são as plataformas que
+  o Rilson de fato quer manter.
