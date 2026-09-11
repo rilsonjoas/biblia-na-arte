@@ -88,7 +88,11 @@ export default function Index() {
                 size="lg" 
                 className="shadow-classical text-lg px-8 py-6"
               >
-                <Link to="/arte">
+                {/* Mesmo achado do "Ver Todas as Obras" mais abaixo
+                    (2026-09-11, Rilson): "Descobrir Arte" promete arte,
+                    não um menu de categorias com "Música"/"Filmes — em
+                    breve" à mostra. */}
+                <Link to="/arte/painting">
                   <Palette className="w-5 h-5 mr-2" />
                   Descobrir Arte
                 </Link>
@@ -172,7 +176,13 @@ export default function Index() {
             </Card>
 
             <Card className="group hover:shadow-classical transition-all duration-300 hover:-translate-y-2 gradient-card border-0">
-              <Link to="/arte">
+              {/* Decisão do Rilson (2026-09-11): corrigir junto com
+                  "Descobrir Arte"/"Ver Todas as Obras" — nenhuma chamada
+                  da Home deve revelar o seletor de categorias
+                  ("Música"/"Filmes — em breve"), mesmo esta cuja própria
+                  descrição fala em "categorias". O seletor em si
+                  continua existindo, só não é mais promovido daqui. */}
+              <Link to="/arte/painting">
                 <CardHeader className="text-center pb-4">
                   <div className="w-16 h-16 mx-auto gradient-hero rounded-full flex items-center justify-center mb-4 group-hover:shadow-golden transition-all duration-300">
                     <Sparkles className="w-8 h-8 text-white" />
@@ -183,7 +193,7 @@ export default function Index() {
                 </CardHeader>
                 <CardContent>
                   <CardDescription className="text-center">
-                    Conheça as diferentes categorias e seleções curadas 
+                    Conheça as diferentes categorias e seleções curadas
                     da nossa biblioteca visual de arte sacra.
                   </CardDescription>
                 </CardContent>
@@ -227,8 +237,14 @@ export default function Index() {
           )}
 
           <div className="text-center mt-12">
+            {/* Bug real achado 2026-09-11 (Rilson): ia pra /arte (o
+                seletor de categorias, que revela "Música"/"Filmes — em
+                breve") em vez de direto pras obras, que é o único
+                conteúdo real hoje. "Ver Todas as Obras" promete obras,
+                não um menu de categorias — igual "Galeria de Pinturas"
+                já faz (Como Explorar, mais acima nesta mesma página). */}
             <Button asChild variant="outline" size="lg" className="shadow-card">
-              <Link to="/arte">
+              <Link to="/arte/painting">
                 Ver Todas as Obras
               </Link>
             </Button>

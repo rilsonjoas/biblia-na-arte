@@ -474,8 +474,11 @@ export default function Search() {
                     <Button onClick={clearFilters} variant="outline">
                       Limpar Filtros
                     </Button>
+                    {/* Mesmo achado do Index.tsx (2026-09-11, Rilson):
+                        "Ver Todas as Obras" promete obras, não um menu
+                        de categorias com "em breve" à mostra. */}
                     <Button asChild>
-                      <Link to="/arte">Ver Todas as Obras</Link>
+                      <Link to="/arte/painting">Ver Todas as Obras</Link>
                     </Button>
                   </div>
                 </CardContent>

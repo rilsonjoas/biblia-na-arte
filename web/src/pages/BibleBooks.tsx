@@ -9,7 +9,7 @@ import Footer from '@/components/Footer';
 import { SEO } from '@/components/SEO';
 import { LoadingGrid, Loading } from '@/components/ui/loading';
 import { ErrorCard } from '@/components/ui/error-display';
-import { useBibleBooks, useOldTestamentBooks, useNewTestamentBooks } from '@/hooks/use-bible-books';
+import { useOldTestamentBooks, useNewTestamentBooks } from '@/hooks/use-bible-books';
 import { Book, BookOpen, Search as SearchIcon, X } from 'lucide-react';
 import { toRomanBookName, normalizeForSearch } from '@/lib/utils';
 
@@ -18,9 +18,17 @@ export default function BibleBooks() {
   const testament = searchParams.get('testament');
   const [nameFilter, setNameFilter] = useState('');
 
-  const { isLoading: allLoading, isError: allError, error: allErrorData, refetch: refetchAll } = useBibleBooks();
-  const { data: oldTestamentBooksRaw = [], isLoading: oldLoading, isError: oldError, error: oldErrorData, refetch: refetchOld } = useOldTestamentBooks();
-  const { data: newTestamentBooksRaw = [], isLoading: newLoading, isError: newError, error: newErrorData, refetch: refetchNew } = useNewTestamentBooks();
+  // Bug real achado 2026-09-11 (Rilson: "Navegar pela Bíblia" carregando
+  // de forma inconsistente): esta página buscava os 3 conjuntos (todos/
+  // AT/NT) em TODA visita, mesmo sem filtro nenhum ativo — 3 requisições
+  // concorrentes ao mesmo endpoint quando no máximo 2 são realmente
+  // usadas (com filtro, só 1; sem filtro, AT+NT juntos já cobrem tudo,
+  // "todos" nunca era exibido, só usado como flag de loading). Cada
+  // hook agora só busca quando a visão atual realmente precisa dele.
+  const needsOld = !testament || testament === 'old';
+  const needsNew = !testament || testament === 'new';
+  const { data: oldTestamentBooksRaw = [], isLoading: oldLoading, isError: oldError, error: oldErrorData, refetch: refetchOld } = useOldTestamentBooks({ enabled: needsOld });
+  const { data: newTestamentBooksRaw = [], isLoading: newLoading, isError: newError, error: newErrorData, refetch: refetchNew } = useNewTestamentBooks({ enabled: needsNew });
 
   // Filtro por nome (pedido do Rilson 2026-09-01, "o mais profissional e
   // acessível possível pra usuários com dificuldade"): ordem alfabética
@@ -49,11 +57,13 @@ export default function BibleBooks() {
     return 'Navegue pelos 66 livros da Bíblia e descubra as obras de arte que cada um inspirou ao longo da história.';
   };
 
-  // Handle loading and error states
-  const isLoading = testament === 'old' ? oldLoading : testament === 'new' ? newLoading : allLoading;
-  const isError = testament === 'old' ? oldError : testament === 'new' ? newError : allError;
-  const errorData = testament === 'old' ? oldErrorData : testament === 'new' ? newErrorData : allErrorData;
-  const refetch = testament === 'old' ? refetchOld : testament === 'new' ? refetchNew : refetchAll;
+  // Handle loading and error states — sem filtro, precisa dos dois
+  // (AT+NT) carregados antes de mostrar qualquer seção; com filtro, só
+  // o lado pedido importa.
+  const isLoading = testament === 'old' ? oldLoading : testament === 'new' ? newLoading : oldLoading || newLoading;
+  const isError = testament === 'old' ? oldError : testament === 'new' ? newError : oldError || newError;
+  const errorData = testament === 'old' ? oldErrorData : testament === 'new' ? newErrorData : (oldErrorData ?? newErrorData);
+  const refetch = testament === 'old' ? refetchOld : testament === 'new' ? refetchNew : () => { refetchOld(); refetchNew(); };
 
   return (
     <div className="min-h-screen bg-background">
@@ -306,8 +316,12 @@ export default function BibleBooks() {
               Explore nossas obras de arte por categoria ou use a busca para encontrar algo específico.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              {/* Mesmo padrão do Index.tsx/Search.tsx (2026-09-11,
+                  Rilson): nenhum CTA genérico de "ver arte" deve levar
+                  pro seletor de categorias, mesmo quando o próprio texto
+                  menciona "categoria". */}
               <Button asChild variant="outline" className="shadow-card">
-                <Link to="/arte">Explorar por Arte</Link>
+                <Link to="/arte/painting">Explorar por Arte</Link>
               </Button>
               <Button asChild variant="outline" className="shadow-card">
                 <Link to="/busca">Busca Avançada</Link>

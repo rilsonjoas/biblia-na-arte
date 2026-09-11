@@ -49,8 +49,11 @@ export default function Favorites() {
               <p className="text-muted-foreground mb-6">
                 Clique na fita de qualquer obra pra guardá-la aqui.
               </p>
+              {/* Mesmo padrão de CTA corrigido em toda a Home/Busca
+                  (2026-09-11, Rilson): vai direto pras obras, não pro
+                  seletor de categorias. */}
               <Link
-                to="/arte"
+                to="/arte/painting"
                 className="inline-flex items-center px-6 py-3 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors shadow-classical"
               >
                 <Palette className="w-5 h-5 mr-2" />

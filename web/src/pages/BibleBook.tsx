@@ -339,8 +339,11 @@ export default function BibleBook() {
                       Ainda não temos obras de arte específicas para este livro em nossa coleção.
                     </p>
                     <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                      {/* Mesmo padrão de CTA corrigido em toda a Home/
+                          Busca (2026-09-11, Rilson): vai direto pras
+                          obras, não pro seletor de categorias. */}
                       <Button asChild variant="outline" className="shadow-card">
-                        <Link to="/arte">
+                        <Link to="/arte/painting">
                           Explorar Todas as Artes
                         </Link>
                       </Button>

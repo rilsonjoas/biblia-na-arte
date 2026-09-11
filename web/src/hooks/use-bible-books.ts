@@ -30,22 +30,33 @@ export function useBibleBookBySlug(slug: string | undefined) {
   })
 }
 
+// `enabled` (2026-09-11, achado real do Rilson — "Navegar pela Bíblia"
+// carregando de forma inconsistente/página pesada): BibleBooks.tsx
+// chamava os 3 hooks (all/old/new) incondicionalmente a cada visita,
+// mesmo quando só 1 dos 3 resultados era realmente usado pra renderizar
+// — 3 requisições concorrentes ao mesmo endpoint quando no máximo 2 são
+// necessárias. `enabled` deixa quem usa o hook desligar a busca quando
+// não precisa dela, sem quebrar quem já chama sem esse argumento
+// (default `true`, mesmo comportamento de antes).
+
 // Hook for fetching Old Testament books
-export function useOldTestamentBooks() {
+export function useOldTestamentBooks(options: { enabled?: boolean } = {}) {
   return useQuery({
     queryKey: [...bibleBookKeys.lists(), { testament: 'old' }],
     queryFn: getOldTestamentBooks,
     staleTime: 30 * 60 * 1000, // 30 minutes
     gcTime: 60 * 60 * 1000, // 1 hour
+    enabled: options.enabled ?? true,
   })
 }
 
 // Hook for fetching New Testament books
-export function useNewTestamentBooks() {
+export function useNewTestamentBooks(options: { enabled?: boolean } = {}) {
   return useQuery({
     queryKey: [...bibleBookKeys.lists(), { testament: 'new' }],
     queryFn: getNewTestamentBooks,
     staleTime: 30 * 60 * 1000, // 30 minutes
     gcTime: 60 * 60 * 1000, // 1 hour
+    enabled: options.enabled ?? true,
   })
 }

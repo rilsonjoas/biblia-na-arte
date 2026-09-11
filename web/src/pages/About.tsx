@@ -289,8 +289,11 @@ export default function About() {
                 Como Contribuir
               </Link>
             </Button>
+            {/* Mesmo padrão de CTA corrigido em toda a Home/Busca
+                (2026-09-11, Rilson): vai direto pras obras, não pro
+                seletor de categorias. */}
             <Button asChild variant="outline" size="lg" className="shadow-card">
-              <Link to="/arte">
+              <Link to="/arte/painting">
                 <Book className="w-5 h-5 mr-2" />
                 Explorar Coleção
               </Link>
