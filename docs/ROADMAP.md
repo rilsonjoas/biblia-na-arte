@@ -549,11 +549,13 @@ elevar a qualidade do catálogo.
 
 > **Decisão estratégica (2026-09-11)**: Ordem de avanço estrita, priorizando melhorias rápidas de UX/UI e refinamento de linguagem/curadoria no vault antes das expansões maiores de produto e integrações jurídicas/externas.
 
-### 🟢 Nível 1: Muito Fácil (Ajustes de UI e Otimizações de Código) — Concluído (2026-09-11)
+### 🟢 Nível 1: Muito Fácil (Ajustes de UI e Otimizações de Código) — Concluído (2026-09-11; adições 2026-09-14)
 - [x] **Feedback visual ao copiar citação/link**: aviso tipo *toast* com vibração hática no celular (`navigator.vibrate`) ao clicar em "copiar citação", "copiar link", imagem ou chave Pix.
 - [x] **Capa translúcida nos cards dos livros bíblicos**: refinada em `BibleBooks.tsx` com imagem de fundo translúcida (`opacity-[0.14]`), mantendo simetria com `/pintores`.
 - [x] **Ordenação da estante por "Livro com mais obras"**: seletor de ordenação ("Ordem Canônica" × "Mais Obras") adicionado em `BibleBooks.tsx`.
 - [x] **Efeitos visuais de carregamento**: skeleton loaders com efeito *shimmer* customizado em `ArtworkImage.tsx` (`animate-shimmer`) e animação de fade/zoom-in na abertura do `ArtworkLightbox.tsx`.
+- [x] **Ordenação alfabética (A–Z) na página de pinturas** (adição 2026-09-14): seletor "Mais Recentes" × "A–Z" adicionado em `Search.tsx` (rotas `/arte/:category` e `/busca`), com o helper `sortByTitleAz()` em `web/src/lib/utils.ts` (ordena por título via `localeCompare` pt-BR, sem mutar o array do React Query, paginação preservada). Complementa os filtros existentes (Período/século, Livro, Tema, Artista, Categoria) — pedido do Rilson: ver pinturas em ordem alfabética com filtros, inclusive por época.
+- [x] **Legibilidade dos versículos bíblicos** (adição 2026-09-14): removida a itálica do trecho bíblico na página da obra (`ArtworkDetail.tsx`), mantendo `font-serif` + box `bg-muted/20` e borda — EB Garamond itálica inteira era o que comprometia a leitura. Fica consistente com a página de capítulo (`Chapter.tsx`), que já renderizava passagens sem itálico.
 
 ### 🟡 Nível 2: Fácil a Média (Curadoria de Conteúdo e Linguagem) — Parcialmente Concluído (2026-09-11)
 - [x] **Sanitização de Clichês de IA (Skill/Regra Humanizer — Passada 1)**: auditadas as 1.238 notas do vault; 14 obras identificadas com clichês de IA ("profundo significado", "jornada de fé", "nos convida a") foram sanitizadas para linguagem sóbria, objetiva e factual.
