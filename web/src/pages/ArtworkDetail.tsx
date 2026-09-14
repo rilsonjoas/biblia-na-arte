@@ -552,7 +552,7 @@ export default function ArtworkDetail() {
                       </div>
 
                       {ref.passageText && (
-                        <div className="pt-2 border-t border-border/40 text-sm md:text-base text-foreground/90 font-serif leading-relaxed italic bg-muted/20 p-3 rounded-lg">
+                        <div className="pt-2 border-t border-border/40 text-sm md:text-base text-foreground/90 font-serif leading-relaxed bg-muted/20 p-3 rounded-lg">
                           <Markdown content={ref.passageText} />
                         </div>
                       )}

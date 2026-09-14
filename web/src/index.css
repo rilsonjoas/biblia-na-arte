@@ -271,6 +271,17 @@
   .shadow-golden {
     box-shadow: var(--shadow-golden);
   }
+
+  @keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+  }
+
+  .animate-shimmer {
+    background: linear-gradient(90deg, hsl(var(--muted)) 0%, hsl(var(--accent) / 0.15) 50%, hsl(var(--muted)) 100%);
+    background-size: 200% 100%;
+    animation: shimmer 2s infinite linear;
+  }
   
   .gradient-text {
     background: var(--gradient-text);

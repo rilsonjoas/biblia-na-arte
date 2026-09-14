@@ -70,7 +70,7 @@ export const ArtworkImage: React.FC<ArtworkImageProps> = ({
     >
       {/* Loading skeleton */}
       {!imageLoaded && !imageError && (
-        <div className="absolute inset-0 animate-pulse bg-muted" />
+        <div className="absolute inset-0 animate-shimmer" />
       )}
 
       {/* Error state */}

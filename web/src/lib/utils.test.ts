@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { cn, toRomanBookName, normalizeForSearch, toRomanNumeral } from './utils';
+import { cn, toRomanBookName, normalizeForSearch, toRomanNumeral, sortByTitleAz } from './utils';
 
 describe('cn', () => {
   it('junta classes e resolve conflitos de tailwind-merge', () => {
@@ -50,5 +50,26 @@ describe('normalizeForSearch', () => {
     expect(normalizeForSearch('Êxodo')).toBe('exodo');
     expect(normalizeForSearch('EXODO')).toBe('exodo');
     expect(normalizeForSearch('João')).toBe('joao');
+  });
+});
+
+describe('sortByTitleAz', () => {
+  it('ordena por título em pt-BR sem mutar o array original', () => {
+    const items = [
+      { id: 'a', title: 'Zacarias' },
+      { id: 'b', title: 'Abraão' },
+      { id: 'c', title: 'Água viva' },
+    ];
+    const result = sortByTitleAz(items);
+    // localeCompare 'pt-BR' é insensível a acento: "Ab" < "Ág", então
+    // "Abraão" vem antes de "Água viva" — sem reordenar acentuados pro fim
+    // do alfabeto, que é o que esperamos de uma lista alfabética real.
+    expect(result.map((i) => i.title)).toEqual(['Abraão', 'Água viva', 'Zacarias']);
+    expect(items.map((i) => i.title)).toEqual(['Zacarias', 'Abraão', 'Água viva']);
+  });
+
+  it('trata itens sem título com string vazia (não quebra)', () => {
+    const items = [{ id: 'a', title: 'Beta' }, { id: 'b' }, { id: 'c', title: 'Alfa' }];
+    expect(sortByTitleAz(items).map((i) => 'title' in i ? i.title : '')).toEqual(['', 'Alfa', 'Beta']);
   });
 });

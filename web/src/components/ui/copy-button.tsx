@@ -1,6 +1,7 @@
-import { useState } from 'react';
-import { Check, Copy } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { useState } from "react";
+import { Check, Copy } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { useToast } from "@/components/ui/use-toast";
 
 interface CopyButtonProps {
   text: string;
@@ -8,12 +9,21 @@ interface CopyButtonProps {
   className?: string;
 }
 
-export function CopyButton({ text, label = 'Copiar', className }: CopyButtonProps) {
+export function CopyButton({ text, label = "Copiar", className }: CopyButtonProps) {
   const [copied, setCopied] = useState(false);
+  const { toast } = useToast();
 
   const handleCopy = async () => {
     await navigator.clipboard.writeText(text);
     setCopied(true);
+    if (typeof window !== "undefined" && "vibrate" in navigator) {
+      try { navigator.vibrate(40); } catch { /* vibração é opcional */ }
+    }
+    toast({
+      title: "Copiado com sucesso!",
+      description: "Citação/texto copiado para a área de transferência.",
+      duration: 2500,
+    });
     setTimeout(() => setCopied(false), 2000);
   };
 
@@ -33,7 +43,7 @@ export function CopyButton({ text, label = 'Copiar', className }: CopyButtonProp
       // são quase a mesma cor — dourado sobre dourado, ilegível.
       // hover:bg-primary/10 sobrepõe o bg-accent padrão do ghost com algo
       // que não compete com o texto dourado.
-      className={`h-7 gap-1.5 px-2 text-xs text-muted-foreground hover:bg-primary/10 hover:text-primary ${className ?? ''}`}
+      className={`h-7 gap-1.5 px-2 text-xs text-muted-foreground hover:bg-primary/10 hover:text-primary ${className ?? ""}`}
       aria-label={copied ? `${label} — copiado` : label}
     >
       {copied ? (
@@ -55,14 +65,14 @@ async function fetchAsPngBlob(url: string): Promise<Blob> {
   const response = await fetch(url);
   const blob = await response.blob();
   const bitmap = await createImageBitmap(blob);
-  const canvas = document.createElement('canvas');
+  const canvas = document.createElement("canvas");
   canvas.width = bitmap.width;
   canvas.height = bitmap.height;
-  const ctx = canvas.getContext('2d');
-  if (!ctx) throw new Error('Canvas 2D indisponível');
+  const ctx = canvas.getContext("2d");
+  if (!ctx) throw new Error("Canvas 2D indisponível");
   ctx.drawImage(bitmap, 0, 0);
   return new Promise<Blob>((resolve, reject) => {
-    canvas.toBlob((b) => (b ? resolve(b) : reject(new Error('Falha ao converter pra PNG'))), 'image/png');
+    canvas.toBlob((b) => (b ? resolve(b) : reject(new Error("Falha ao converter pra PNG"))), "image/png");
   });
 }
 
@@ -72,19 +82,28 @@ interface CopyImageButtonProps {
   className?: string;
 }
 
-export function CopyImageButton({ url, label = 'Copiar imagem', className }: CopyImageButtonProps) {
+export function CopyImageButton({ url, label = "Copiar imagem", className }: CopyImageButtonProps) {
   const [copied, setCopied] = useState(false);
+  const { toast } = useToast();
 
   const handleCopy = () => {
     try {
       // A Promise entra no ClipboardItem ainda dentro do gesto do usuário
       // (exigência do Safari); o download/reencode rodam em paralelo.
       const png = fetchAsPngBlob(url);
-      void navigator.clipboard.write([new ClipboardItem({ 'image/png': png })]);
+      void navigator.clipboard.write([new ClipboardItem({ "image/png": png })]);
       setCopied(true);
+      if (typeof window !== "undefined" && "vibrate" in navigator) {
+        try { navigator.vibrate(40); } catch { /* vibração é opcional */ }
+      }
+      toast({
+        title: "Imagem copiada!",
+        description: "Imagem salva na sua área de transferência.",
+        duration: 2500,
+      });
       setTimeout(() => setCopied(false), 2000);
     } catch (error) {
-      console.warn('Cópia de imagem não suportada neste navegador:', error);
+      console.warn("Cópia de imagem não suportada neste navegador:", error);
     }
   };
 

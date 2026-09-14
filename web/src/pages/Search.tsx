@@ -28,7 +28,7 @@ import { useArtworkSearchAdvanced, useArtists, useThemes, usePeriods } from '@/h
 import { useBibleBooks } from '@/hooks/use-bible-books';
 import type { SearchFilters } from '@/lib/api-data';
 import { CATEGORIES, getCategoryMeta } from '@/lib/categories';
-import { toRomanNumeral, toRomanBookName } from '@/lib/utils';
+import { toRomanNumeral, toRomanBookName, sortByTitleAz } from '@/lib/utils';
 
 const PAGE_SIZE = 24;
 
@@ -72,6 +72,12 @@ export default function Search() {
   const [selectedArtists, setSelectedArtists] = useState<string[]>([]);
   // Multiselect de tema (roadmap, Passo 3, 2026-09-02) — mesma semântica.
   const [selectedThemes, setSelectedThemes] = useState<string[]>([]);
+  // Ordenação alfabética (pedido 2026-09-14, Rilson) — a página de
+  // pinturas buscava tudo e paginava no cliente, mas sem controle de
+  // ordenação (vinha sempre "mais recentes" do server). Mesmo padrão de
+  // toggle da estante (BibleBooks.tsx): "Mais Recentes" preserva o
+  // comportamento de hoje, "A–Z" ordena por título.
+  const [sortBy, setSortBy] = useState<'recent' | 'az'>('recent');
 
   // Hooks para dados
   const { data: artists = [] } = useArtists();
@@ -99,6 +105,11 @@ export default function Search() {
   } = useArtworkSearchAdvanced(query, searchFilters);
 
   const currentCategory = getCategoryMeta(categoryParam);
+
+  // Ordenação alfabética (pedido 2026-09-14, Rilson): "Mais Recentes"
+  // preserva a ordem do server (padrão de sempre); "A–Z" ordena por
+  // título no cliente via sortByTitleAz (não muta o array do hook).
+  const sortedResults = sortBy === 'az' ? sortByTitleAz(searchResults) : searchResults;
 
   // Lista de séculos vem de /periods (ao vivo, ver `usePeriods` acima) —
   // já chega ordenada cronologicamente do backend; só falta o rótulo em
@@ -140,7 +151,7 @@ export default function Search() {
   // paginação antiga cai fora do alcance do resultado novo (grade vazia)
   useEffect(() => {
     setPage(1);
-  }, [query, selectedCategory, selectedBooks, selectedCentury, selectedArtists, selectedThemes]);
+  }, [query, selectedCategory, selectedBooks, selectedCentury, selectedArtists, selectedThemes, sortBy]);
 
   const handleSearch = () => {
     if (query.trim()) {
@@ -239,6 +250,29 @@ export default function Search() {
                   <Filter className="w-4 h-4 mr-2" />
                   Filtros
                 </Button>
+                {/* Ordenação alfabética (pedido 2026-09-14, Rilson) —
+                    mesmo padrão de toggle da estante (BibleBooks.tsx).
+                    "Mais Recentes" é o comportamento de sempre (ordem do
+                    servidor); "A–Z" ordena por título no cliente, já que
+                    o acervo todo já vem carregado aqui. */}
+                <div className="inline-flex rounded-md shadow-card border border-border p-1 bg-muted/40 h-11">
+                  <button
+                    type="button"
+                    onClick={() => setSortBy('recent')}
+                    aria-pressed={sortBy === 'recent'}
+                    className={`px-3 py-1.5 text-xs font-medium rounded transition-colors ${sortBy === 'recent' ? 'bg-background text-foreground shadow-xs' : 'text-muted-foreground hover:text-foreground'}`}
+                  >
+                    Mais Recentes
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setSortBy('az')}
+                    aria-pressed={sortBy === 'az'}
+                    className={`px-3 py-1.5 text-xs font-medium rounded transition-colors ${sortBy === 'az' ? 'bg-background text-foreground shadow-xs' : 'text-muted-foreground hover:text-foreground'}`}
+                  >
+                    A–Z
+                  </button>
+                </div>
               </div>
             </div>
           </CardContent>
@@ -486,13 +520,13 @@ export default function Search() {
             ) : searchResults.length > 0 ? (
               <>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-8">
-                  {searchResults.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE).map((artwork) => (
+                  {sortedResults.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE).map((artwork) => (
                     <ArtworkCard key={artwork.id} artwork={artwork} />
                   ))}
                 </div>
 
                 {/* Pagination Controls */}
-                {Math.ceil(searchResults.length / PAGE_SIZE) > 1 && (
+                {Math.ceil(sortedResults.length / PAGE_SIZE) > 1 && (
                   <div className="flex items-center justify-center gap-3 pt-6 border-t border-border/50">
                     <Button
                       variant="outline"
@@ -508,16 +542,16 @@ export default function Search() {
                       Anterior
                     </Button>
                     <span className="text-sm text-muted-foreground">
-                      Página <strong className="text-foreground">{page}</strong> de {Math.ceil(searchResults.length / PAGE_SIZE)}
+                      Página <strong className="text-foreground">{page}</strong> de {Math.ceil(sortedResults.length / PAGE_SIZE)}
                     </span>
                     <Button
                       variant="outline"
                       size="sm"
                       onClick={() => {
-                        setPage((p) => Math.min(p + 1, Math.ceil(searchResults.length / PAGE_SIZE)));
+                        setPage((p) => Math.min(p + 1, Math.ceil(sortedResults.length / PAGE_SIZE)));
                         window.scrollTo({ top: 0, behavior: 'smooth' });
                       }}
-                      disabled={page >= Math.ceil(searchResults.length / PAGE_SIZE)}
+                      disabled={page >= Math.ceil(sortedResults.length / PAGE_SIZE)}
                       className="gap-1"
                     >
                       Próxima

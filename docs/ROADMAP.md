@@ -188,6 +188,10 @@ elevar a qualidade do catálogo.
         sentido retomar. **Reforço do Rilson (2026-08-24): muitas das
         descrições existentes continuam magras — ver Achados
         2026-08-24 (Conteúdo).**
+  - [ ] **Revisão Editorial e Humanização de Conteúdo (Skill/Regra Humanizer)**:
+        aplicar diretrizes estritas de linguagem nas descrições do vault, banindo
+        clichês de IA (ex: "profundo significado", "jornada emocionante", "obra tocante"),
+        priorizando observação visual objetiva, sobriedade hermenêutica e fontes primárias.
   - [x] **3 achados reais testando as 18 no ar (2026-08-16), corrigidos
         na raiz**:
         1. Blocos `[!info]` (sintaxe exclusiva do Obsidian) apareciam
@@ -514,6 +518,13 @@ elevar a qualidade do catálogo.
 
 **Objetivo:** features que transformam catálogo em plataforma.
 
+- [ ] **Metadados Expandidos de Arte e Teologia**:
+      - Suporte no frontmatter do Vault: `periodo` (ex: Barroco, Renascimento), `tradicao` (ex: Católica, Ortodoxa, Protestante), `tecnica` (ex: Óleo sobre tela, Afresco, Mosaico) e `pais` de origem.
+      - Atualização do parser `vault-parse.ts` + schema Drizzle Postgres (`artworks`).
+      - UI/Frontend: exibição de badges na página da obra e suporte a filtros por período, tradição e técnica.
+- [ ] **Expansão para Música Sacra em Domínio Público (IMSLP)**:
+      - Catalogação de oratórios, missas, cantatas e obras musicais sacras com `category: 'music'` vinculadas a livros/capítulos bíblicos.
+      - Componente player de áudio (`EmbedPlayer` com suporte a reprodução de áudio via IMSLP, YouTube e Internet Archive).
 - [ ] Coleções/playlists temáticas ("A Vida de Cristo", "As Parábolas")
       reaproveitando o vault (personagens, parábolas, milagres).
 - [x] ~~Modo devocional/leitura~~ — **decisão: tirar da lista (2026-08-23)**,
@@ -531,6 +542,40 @@ elevar a qualidade do catálogo.
       (ou esconder até lá — decidir na hora). Material de curadoria no
       vault: notas de música sacra/livros (`10 - Arte e literatura`) e
       análise de cinema via Rookmaaker (`3 - Clippings`, Scorsese).
+
+---
+
+## 🎯 Fila Priorizada de Execução (da Menor para a Maior Dificuldade) — 2026-09-11
+
+> **Decisão estratégica (2026-09-11)**: Ordem de avanço estrita, priorizando melhorias rápidas de UX/UI e refinamento de linguagem/curadoria no vault antes das expansões maiores de produto e integrações jurídicas/externas.
+
+### 🟢 Nível 1: Muito Fácil (Ajustes de UI e Otimizações de Código) — Concluído (2026-09-11)
+- [x] **Feedback visual ao copiar citação/link**: aviso tipo *toast* com vibração hática no celular (`navigator.vibrate`) ao clicar em "copiar citação", "copiar link", imagem ou chave Pix.
+- [x] **Capa translúcida nos cards dos livros bíblicos**: refinada em `BibleBooks.tsx` com imagem de fundo translúcida (`opacity-[0.14]`), mantendo simetria com `/pintores`.
+- [x] **Ordenação da estante por "Livro com mais obras"**: seletor de ordenação ("Ordem Canônica" × "Mais Obras") adicionado em `BibleBooks.tsx`.
+- [x] **Efeitos visuais de carregamento**: skeleton loaders com efeito *shimmer* customizado em `ArtworkImage.tsx` (`animate-shimmer`) e animação de fade/zoom-in na abertura do `ArtworkLightbox.tsx`.
+
+### 🟡 Nível 2: Fácil a Média (Curadoria de Conteúdo e Linguagem) — Parcialmente Concluído (2026-09-11)
+- [x] **Sanitização de Clichês de IA (Skill/Regra Humanizer — Passada 1)**: auditadas as 1.238 notas do vault; 14 obras identificadas com clichês de IA ("profundo significado", "jornada de fé", "nos convida a") foram sanitizadas para linguagem sóbria, objetiva e factual.
+- [x] **Auditoria e Correção de Cabeçalhos/Stubs (Passada 2)**: corrigido cabeçalho estrutural em nota e confirmado que 100% das 1.238 obras de pintura agora possuem descrições completas e válidas extraíveis pelo parser.
+- [ ] **Preenchimento de versículos nas 185 obras com apenas capítulo (Passada 3)**: reservado para gestão manual do Rilson no vault.
+- [ ] **Tradução dos títulos em inglês (Passada 4)**: reservado para gestão manual do Rilson no vault.
+- [ ] **Expansão do acervo de Gustave Doré**: catalogar mais gravuras bíblicas de Doré para aumentar a cobertura nos livros históricos e proféticos.
+
+### 🔵 Nível 3: Média (Novas Funcionalidades de Engenharia e Banco de Dados)
+- [ ] **Favoritos locais (`localStorage` / PWA)**: permitir salvar obras favoritas no próprio navegador/celular, sem necessidade de login.
+- [ ] **Metadados Expandidos (Período/Estilo, Tradição Religiosa, Técnica, País)**: adicionar suporte no frontmatter do Vault → parser `vault-parse.ts` → migração Drizzle Postgres (`artworks`) → badges e filtros na UI.
+- [ ] **Expansão para Música Sacra em Domínio Público (IMSLP)**: catalogar obras musicais (Bach, Handel, Mozart) associadas aos textos bíblicos e implementar player de áudio dedicado (`EmbedPlayer`).
+- [ ] **Coleções e Playlists Temáticas**: criar páginas de coleções como *"A Vida de Cristo"*, *"As Parábolas"* e *"Gênesis na Arte"*.
+- [ ] **Geração de imagens dinâmicas para redes sociais (OG-Image)**: geração automática do preview visual (quadro + título) ao compartilhar links nas redes.
+
+### 🟠 Nível 4: Média a Alta (Processos Jurídicos, Integrações e Parceiros)
+- [ ] **Fluxo e termo para coletivos de artistas vivos (Caso SOPRARTE)**: validação de termo de cessão não-exclusivo e mandato com advogado (Lucas Vianna) + armazenamento do termo e categoria no painel `/admin`.
+- [ ] **Newsletter semanal por e-mail**: integração de captura de e-mails e disparo da *"Pintura da Semana + Versículo + Contexto"* (em sinergia com a parceria Efeito Prisma).
+
+### 🔴 Nível 5: Alta (Recursos Avançados e Acessibilidade Plena)
+- [ ] **Acessibilidade plena WCAG AA nos modais e busca (`⌘K`)**: suporte completo a leitores de tela (TalkBack/NVDA) no `CommandPalette`, lightbox e formulários, com contraste auditado.
+- [ ] **Audiodescrição e TTS Enriquecido de Obras Sacras**: sistema de audiodescrição para pessoas com deficiência visual ouvirem a composição, cores e símbolos da pintura sacra.
 
 ### Ideias de produto — "o que faria deste site um lugar favorito" (2026-08-22)
 

@@ -17,6 +17,7 @@ export default function BibleBooks() {
   const [searchParams] = useSearchParams();
   const testament = searchParams.get('testament');
   const [nameFilter, setNameFilter] = useState('');
+  const [sortBy, setSortBy] = useState<'canonical' | 'artworks'>('canonical');
 
   // Bug real achado 2026-09-11 (Rilson: "Navegar pela Bíblia" carregando
   // de forma inconsistente): esta página buscava os 3 conjuntos (todos/
@@ -37,12 +38,17 @@ export default function BibleBooks() {
   // dois públicos (quem lembra o nome exato E quem só lembra um pedaço)
   // sem exigir digitar acento certo (normalizeForSearch ignora acento/caixa).
   const normalizedFilter = normalizeForSearch(nameFilter.trim());
-  const oldTestamentBooks = normalizedFilter
+  let oldTestamentBooks = normalizedFilter
     ? oldTestamentBooksRaw.filter((b) => normalizeForSearch(b.name).includes(normalizedFilter))
     : oldTestamentBooksRaw;
-  const newTestamentBooks = normalizedFilter
+  let newTestamentBooks = normalizedFilter
     ? newTestamentBooksRaw.filter((b) => normalizeForSearch(b.name).includes(normalizedFilter))
     : newTestamentBooksRaw;
+
+  if (sortBy === "artworks") {
+    oldTestamentBooks = [...oldTestamentBooks].sort((a, b) => (b.artworkCount ?? 0) - (a.artworkCount ?? 0));
+    newTestamentBooks = [...newTestamentBooks].sort((a, b) => (b.artworkCount ?? 0) - (a.artworkCount ?? 0));
+  }
   const totalFilteredCount = oldTestamentBooks.length + newTestamentBooks.length;
 
   const getTitle = () => {
@@ -120,7 +126,8 @@ export default function BibleBooks() {
               de tela) + aria-live anunciando quantos livros bateram, pra
               quem usa teclado/leitor de tela saber o resultado sem
               precisar "ver" a grade mudar. */}
-          <div className="max-w-md mx-auto mt-6 text-left">
+          <div className="flex flex-col sm:flex-row gap-3 items-stretch sm:items-end justify-between max-w-2xl mx-auto mt-6">
+            <div className="flex-1 text-left">
             <label htmlFor="book-name-filter" className="text-sm font-medium mb-2 block">
               Filtrar livro por nome
             </label>
@@ -159,6 +166,29 @@ export default function BibleBooks() {
                 : ''}
             </p>
           </div>
+
+          <div className="text-left shrink-0">
+            <label className="text-sm font-medium mb-2 block">
+              Ordenação
+            </label>
+            <div className="inline-flex rounded-md shadow-card border border-border p-1 bg-muted/40">
+              <button
+                type="button"
+                onClick={() => setSortBy('canonical')}
+                className={`px-3 py-1.5 text-xs font-medium rounded transition-colors ${sortBy === 'canonical' ? 'bg-background text-foreground shadow-xs' : 'text-muted-foreground hover:text-foreground'}`}
+              >
+                Ordem Canônica
+              </button>
+              <button
+                type="button"
+                onClick={() => setSortBy('artworks')}
+                className={`px-3 py-1.5 text-xs font-medium rounded transition-colors ${sortBy === 'artworks' ? 'bg-background text-foreground shadow-xs' : 'text-muted-foreground hover:text-foreground'}`}
+              >
+                Mais Obras
+              </button>
+            </div>
+          </div>
+        </div>
         </div>
 
         {/* Loading State */}

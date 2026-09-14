@@ -285,7 +285,7 @@ export function ArtworkLightbox({ artwork, isOpen, onClose }: ArtworkLightboxPro
           src={imageUrl}
           alt={artwork.title}
           draggable={false}
-          className="max-h-full max-w-full object-contain transition-transform duration-200 [transition-timing-function:var(--ease-liturgico)] shadow-2xl rounded-sm"
+          className="max-h-full max-w-full object-contain transition-transform duration-200 [transition-timing-function:var(--ease-liturgico)] shadow-2xl rounded-sm animate-in zoom-in-95 fade-in duration-300"
           style={{
             transform: `translate(${position.x}px, ${position.y}px) scale(${zoom})`,
           }}

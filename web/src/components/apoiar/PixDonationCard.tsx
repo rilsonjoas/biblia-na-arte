@@ -1,3 +1,4 @@
+import { useToast } from "@/components/ui/use-toast";
 import { useState } from 'react';
 import { QRCodeSVG } from 'qrcode.react';
 import { Check, Copy } from 'lucide-react';
@@ -10,11 +11,14 @@ import { buildPixBrCode, PIX_CONFIG } from '@/lib/pix';
 // fixado: quem doa escolhe quanto.
 export function PixDonationCard() {
   const [copied, setCopied] = useState(false);
+  const { toast } = useToast();
   const brCode = buildPixBrCode(PIX_CONFIG);
 
   const handleCopyKey = async () => {
     await navigator.clipboard.writeText(brCode);
     setCopied(true);
+    if (typeof window !== "undefined" && "vibrate" in navigator) { try { navigator.vibrate(50); } catch { /* vibração é opcional */ } }
+    toast({ title: "Código Pix copiado!", description: "Chave pronta para colar no app do seu banco.", duration: 3000 });
     setTimeout(() => setCopied(false), 2000);
   };
 

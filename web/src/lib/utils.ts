@@ -92,3 +92,14 @@ export function stripMarkdown(text: string): string {
     .replace(/^[-*]\s+/gm, '') // listas
     .trim()
 }
+
+// Ordenação alfabética de obras por título (pedido do Rilson 2026-09-14:
+// a página de pinturas listava sempre em "mais recentes"; com multiseletos
+// de Livro/Período/Artista/Tema já cobrindo filtros, faltava só a ordem
+// A–Z). `localeCompare` em 'pt-BR' segue a mesma convenção dos outros
+// agrupamentos ordenados do site (ex.: `Artists.tsx` ordena nomes assim).
+// Nunca muta o array original — retorna cópia, porque o Search.tsx aplica
+// isso em cima do resultado em cache do React Query.
+export function sortByTitleAz<T extends { title?: string }>(items: T[]): T[] {
+  return [...items].sort((a, b) => (a.title ?? '').localeCompare(b.title ?? '', 'pt-BR'));
+}
