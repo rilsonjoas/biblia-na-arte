@@ -185,16 +185,42 @@ function buildThreadsCaption(artwork) {
 }
 
 async function graphPost(base, path, params) {
-  const url = new URL(`${base}${path}`);
-  for (const [key, value] of Object.entries(params)) {
-    url.searchParams.set(key, value);
+  // Retry só pra erro TRANSITÓRIO (Threads volta `500 {"code":2,
+  // "is_transient":true}` e Instagram/Facebook às vezes `400` com
+  // `is_transient`... "Failed to decrypt" no IG é token morto [190],
+  // NUNCA entra nesse retry). Meta documenta esses transient como
+  // "retry later" — a página volta 3s depois. 5 tentativas, 5s de
+  // espera entre elas; erro permanente (190/400/código 4xx) aborta
+  // direto sem gastar tentativa.
+  const MAX_ATTEMPTS = 5;
+  const RETRY_DELAY_MS = 5000     // 5 garfadas de 5s = 20s de tolerância,
+  ;                                // bem abaixo do timeout do job (20min)
+  let lastError;
+
+  for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
+    const url = new URL(`${base}${path}`);
+    for (const [key, value] of Object.entries(params)) {
+      url.searchParams.set(key, value);
+    }
+    const res = await fetch(url, { method: 'POST' });
+    const body = await res.json();
+
+    const isTransient =
+      body?.error?.is_transient === true ||
+      body?.error?.code === 2 ||
+      (typeof res.status === 'number' && res.status >= 500);
+
+    if (res.ok) return body;
+    if (!isTransient) {
+      throw new Error(`Graph API ${path} falhou (${res.status}): ${JSON.stringify(body)}`);
+    }
+    lastError = body;
+    if (attempt < MAX_ATTEMPTS) {
+      console.log(`⏳ erro transitório (${res.status}) — tentativa ${attempt}/${MAX_ATTEMPTS}, aguardando ${RETRY_DELAY_MS / 1000}s...`);
+      await new Promise((resolve) => setTimeout(resolve, RETRY_DELAY_MS));
+    }
   }
-  const res = await fetch(url, { method: 'POST' });
-  const body = await res.json();
-  if (!res.ok) {
-    throw new Error(`Graph API ${path} falhou (${res.status}): ${JSON.stringify(body)}`);
-  }
-  return body;
+  throw new Error(`Graph API ${path} falhou definitivamente após ${MAX_ATTEMPTS} tentativas: ${JSON.stringify(lastError)}`);
 }
 
 /** Container de mídia (imagem) não costuma demorar pra ficar pronto,
