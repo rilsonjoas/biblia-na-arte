@@ -116,6 +116,24 @@ pnpm --filter server sitemap:generate
   específico já rodou (`gh run list`) antes de assumir que o próximo
   push vai resolver sozinho.
 
+- **`rsync` direto pro checkout do VPS antes de commitar/pushar trava o
+  próximo `git pull` do "Deploy VPS"** (achado real, 2026-09-19): pra
+  rodar o seed (passo 5) sem esperar o deploy de código, copiei
+  `vault-export.json` + `web/public/images/` direto pro
+  `/opt/biblia-na-arte` via `rsync`, sem passar por git. O seed funcionou
+  (lê arquivo local, não liga pra git), mas isso deixou o checkout do VPS
+  com mudanças locais/arquivos não rastreados; quando o commit normal foi
+  pushado depois, o "Deploy VPS" falhou em `git pull` ("your local
+  changes would be overwritten"). Resolvido com `git checkout --
+  <arquivos> && git clean -fd web/public/images/` no VPS (escopado só
+  nesses dois caminhos, sem tocar `.env`/`.pnpm-store`) seguido de
+  `gh run rerun --failed`. **Ordem certa, sempre**: `export:vault` local
+  → commit → push (dispara CI + "Deploy VPS" sozinho, que já atualiza o
+  checkout do VPS via `git pull`) → **depois** SSH pro VPS rodar o
+  `docker run` do seed (passo 5). Nunca usar `rsync` pra "adiantar" o
+  seed antes do push — o próprio passo 5 do runbook já supõe que o
+  checkout está limpo e no commit certo quando ele roda.
+
 ## Diagnóstico rápido — sintoma → causa provável
 
 | Sintoma | Causa provável | Onde checar |
