@@ -46,8 +46,21 @@ jobs:
             # Prune total pós-deploy (INCIDENTES.md 2026-08-23): sem filtro de
             # tempo — filtros semanais não pegam rajadas; e o prune simples (-f)
             # deixa registros compartilhados no disco (17,9GB invisíveis).
-            docker builder prune -af >/dev/null
-            docker image prune -f >/dev/null
+            # Achado 2026-09-19: deploys de repos DIFERENTES no mesmo host não
+            # são serializados (o `concurrency` do Actions é por repositório),
+            # então dois prunes concorrentes fazem o daemon responder
+            # "a prune operation is already running" — com `set -euo pipefail`
+            # isso derrubava a job DEPOIS do deploy ter dado certo. Retry curto:
+            # a disputa dura segundos. Se ainda falhar, segue mesmo assim — o
+            # guard de disco (>=90%) do próximo deploy cobre acúmulo real.
+            for CMD in "builder prune -af" "image prune -f"; do
+              OK=0
+              for i in $(seq 1 5); do
+                if docker $CMD >/dev/null 2>&1; then OK=1; break; fi
+                sleep 10
+              done
+              [ "$OK" -eq 1 ] || echo "⚠️  docker $CMD não concluiu em 5 tentativas"
+            done
             USO=$(df --output=pcent / | tail -1 | tr -dc '0-9')
             echo "✅ Deploy ok — disco em ${USO}%"
 
