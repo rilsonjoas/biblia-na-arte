@@ -1,13 +1,13 @@
 import type { FastifyInstance } from 'fastify';
 import { zodToJsonSchema } from 'zod-to-json-schema';
-import { listArtworks, getArtworkById, getRandomArtwork, getDailyArtwork, searchArtworks } from '../db/queries.js';
+import { listArtworks, getArtworkBySlugOrId, getRandomArtwork, getDailyArtwork, searchArtworks } from '../db/queries.js';
 import { todaySaoPaulo } from '../lib/lectionary-refs.js';
 import {
   listArtworksQuerySchema,
   searchArtworksQuerySchema,
   dailyArtworkQuerySchema,
 } from '../schemas/artwork.schema.js';
-import { idParamSchema } from '../schemas/common.schema.js';
+import { idOrSlugParamSchema } from '../schemas/common.schema.js';
 import {
   artworkResponseSchema,
   artworkListResponseSchema,
@@ -26,7 +26,7 @@ const searchQueryJson = zodToJsonSchema(searchArtworksQuerySchema, {
   $refStrategy: 'none',
   allowedAdditionalProperties: true,
 });
-const idParamJson = zodToJsonSchema(idParamSchema, {
+const idOrSlugParamJson = zodToJsonSchema(idOrSlugParamSchema, {
   $refStrategy: 'none',
   allowedAdditionalProperties: true,
 });
@@ -128,14 +128,14 @@ export async function artworkRoutes(app: FastifyInstance) {
     {
       schema: {
         tags: ['obras'],
-        summary: 'Detalhes de uma obra',
-        params: idParamJson,
+        summary: 'Detalhes de uma obra — aceita UUID (link antigo) ou slug (URL amigável)',
+        params: idOrSlugParamJson,
         response: { 200: artworkJson, 400: errorJson, 404: errorJson },
       },
     },
     async (request, reply) => {
-      const { id } = idParamSchema.parse(request.params);
-      const artwork = await getArtworkById(id);
+      const { id } = idOrSlugParamSchema.parse(request.params);
+      const artwork = await getArtworkBySlugOrId(id);
       if (!artwork) throw new NotFoundError('Obra');
       reply.header('Cache-Control', 'public, max-age=600, stale-while-revalidate=120');
       return artwork;

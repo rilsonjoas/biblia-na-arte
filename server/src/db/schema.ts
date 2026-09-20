@@ -83,6 +83,16 @@ export const artworks = pgTable(
     sourceUrl: text('source_url'),
     dimensionsOrDuration: text('dimensions_or_duration'),
 
+    // URL amigável (roadmap, 2026-09-19) — mesmo slug já calculado em
+    // export-vault-data.ts pro nome do arquivo de imagem (dedupe
+    // determinístico, ver ADR 004) e do qual `artworkIdFromSlug` deriva o
+    // próprio `id`. Nullable porque obra aprovada via submissão
+    // (`origem: 'submissao'`) não passa pelo export do vault — recebe
+    // slug próprio em `approveSubmission`. `/obra/:id` aceita UUID OU
+    // slug (ver `getArtworkBySlugOrId`) pra nunca quebrar link antigo já
+    // indexado enquanto o slug vira o padrão novo.
+    slug: text('slug').unique(),
+
     // Campos novos (não existiam no schema do Supabase) — resultado direto
     // da auditoria de direitos autorais de 2026-08-07. Toda obra que não é
     // domínio público simples precisa registrar sob que licença está

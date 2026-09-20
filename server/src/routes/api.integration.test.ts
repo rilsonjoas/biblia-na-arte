@@ -38,11 +38,11 @@ describe('API v1 — integração (Postgres real de teste)', () => {
         ('${BOOK_ISAIAH}', 'Isaías', 'isaiah', 66, 'old'),
         ('${BOOK_LUKE}', 'Lucas', 'luke', 24, 'new');
 
-      INSERT INTO artworks (id, title, artist_or_director, year, category, description, image_url, license_type, location, classic_commentary_author, classic_commentary) VALUES
-        ('${ARTWORK_SAMARITAN}', 'O bom samaritano', 'Aimé Morot', '1880', 'painting',
+      INSERT INTO artworks (id, slug, title, artist_or_director, year, category, description, image_url, license_type, location, classic_commentary_author, classic_commentary) VALUES
+        ('${ARTWORK_SAMARITAN}', 'aime-morot-o-bom-samaritano', 'O bom samaritano', 'Aimé Morot', '1880', 'painting',
          'Descrição **com markdown** da obra do samaritano.', '/images/samaritano.jpg', 'public-domain',
          'Musée d''Orsay, Paris, França', 'Schaeffer', 'Um comentário de teste.'),
-        ('${ARTWORK_PRODIGAL}', 'O filho pródigo', 'Rembrandt', '1668', 'painting',
+        ('${ARTWORK_PRODIGAL}', NULL, 'O filho pródigo', 'Rembrandt', '1668', 'painting',
          'Outra obra sobre o perdão.', NULL, 'public-domain', NULL, NULL, NULL);
 
       INSERT INTO bible_references (id, artwork_id, book, book_slug, chapter, verses) VALUES
@@ -184,6 +184,32 @@ describe('API v1 — integração (Postgres real de teste)', () => {
         expect.objectContaining({ book: 'Lucas', bookSlug: 'luke', chapter: 10, verses: '34' }),
       ]),
     );
+  });
+
+  // URL amigável (roadmap, 2026-09-19): /obra/:id aceita UUID (link
+  // antigo, já indexado) OU slug (padrão novo) no mesmo parâmetro —
+  // nenhum dos dois pode quebrar.
+  it('GET /api/v1/artworks/:id por slug devolve a obra', async () => {
+    const res = await app.inject({ method: 'GET', url: '/api/v1/artworks/aime-morot-o-bom-samaritano' });
+    expect(res.statusCode).toBe(200);
+    expect(res.json().id).toBe(ARTWORK_SAMARITAN);
+  });
+
+  it('GET /api/v1/artworks/:id por UUID continua funcionando (link antigo)', async () => {
+    const res = await app.inject({ method: 'GET', url: `/api/v1/artworks/${ARTWORK_SAMARITAN}` });
+    expect(res.statusCode).toBe(200);
+    expect(res.json().slug).toBe('aime-morot-o-bom-samaritano');
+  });
+
+  it('GET /api/v1/artworks/:id por UUID funciona mesmo pra obra ainda sem slug (backfill pendente)', async () => {
+    const res = await app.inject({ method: 'GET', url: `/api/v1/artworks/${ARTWORK_PRODIGAL}` });
+    expect(res.statusCode).toBe(200);
+    expect(res.json().slug).toBeNull();
+  });
+
+  it('GET /api/v1/artworks/:id — slug inexistente devolve 404, não 500', async () => {
+    const res = await app.inject({ method: 'GET', url: '/api/v1/artworks/slug-que-nao-existe' });
+    expect(res.statusCode).toBe(404);
   });
 
   it('"Me surpreenda" — devolve uma obra qualquer do fixture, com referências', async () => {
@@ -346,6 +372,10 @@ describe('API v1 — integração (Postgres real de teste)', () => {
     expect(samaritan.location).toBe('Musée d\'Orsay, Paris, França');
     expect(samaritan.classicCommentaryAuthor).toBe('Schaeffer');
     expect(samaritan.classicCommentary).toBe('Um comentário de teste.');
+    // Mesmo achado, mesma prevenção — `slug` (2026-09-19) é campo novo de
+    // novo, exatamente o tipo que essa lista de colunas escrita à mão
+    // esquece em silêncio.
+    expect(samaritan.slug).toBe('aime-morot-o-bom-samaritano');
   });
 
   // Achado real 2026-08-22: plainto_tsquery exigia a palavra completa

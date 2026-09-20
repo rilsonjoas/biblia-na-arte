@@ -103,3 +103,13 @@ export function stripMarkdown(text: string): string {
 export function sortByTitleAz<T extends { title?: string }>(items: T[]): T[] {
   return [...items].sort((a, b) => (a.title ?? '').localeCompare(b.title ?? '', 'pt-BR'));
 }
+
+// URL amigável (roadmap, 2026-09-19) — todo link novo pra `/obra/` deve
+// preferir o slug ('guido-reni-o-martirio-de-andre') sobre o UUID cru;
+// cai pro `id` só quando a obra ainda não tem slug (backfill em
+// andamento, ver server/scripts/backfill-artwork-slugs.ts). A rota
+// `/obra/:id` do backend aceita os dois formatos no mesmo parâmetro
+// (getArtworkBySlugOrId), então link antigo com UUID nunca quebra.
+export function artworkHref(artwork: { id: string; slug?: string | null }): string {
+  return `/obra/${artwork.slug || artwork.id}`;
+}

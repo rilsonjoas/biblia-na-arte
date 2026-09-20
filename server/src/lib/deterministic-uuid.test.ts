@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { artworkIdFromSlug, uuidV5 } from './deterministic-uuid.js';
+import { artworkIdFromSlug, looksLikeUuid, uuidV5 } from './deterministic-uuid.js';
 
 describe('artworkIdFromSlug', () => {
   it('devolve o mesmo UUID pro mesmo slug, sempre', () => {
@@ -21,5 +21,24 @@ describe('artworkIdFromSlug', () => {
     expect(uuidV5('www.widgets.com', '6ba7b810-9dad-11d1-80b4-00c04fd430c8')).toBe(
       '21f7f8de-8051-5b89-8680-0195ef798b6a',
     );
+  });
+});
+
+describe('looksLikeUuid', () => {
+  it('reconhece um UUID v5 gerado por artworkIdFromSlug', () => {
+    expect(looksLikeUuid(artworkIdFromSlug('rembrandt-o-filho-prodigo'))).toBe(true);
+  });
+
+  it('reconhece um UUID em maiúsculas também', () => {
+    expect(looksLikeUuid('468F4FD5-7944-5DE7-963B-518C97CE3ED4')).toBe(true);
+  });
+
+  it('rejeita um slug', () => {
+    expect(looksLikeUuid('rembrandt-o-filho-prodigo')).toBe(false);
+  });
+
+  it('rejeita string vazia e lixo qualquer', () => {
+    expect(looksLikeUuid('')).toBe(false);
+    expect(looksLikeUuid('nao-e-um-uuid')).toBe(false);
   });
 });

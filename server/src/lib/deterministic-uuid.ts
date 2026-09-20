@@ -38,3 +38,15 @@ export function uuidV5(name: string, namespace: string): string {
 export function artworkIdFromSlug(slug: string): string {
   return uuidV5(slug, ARTWORK_NAMESPACE);
 }
+
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
+/** Distingue um `id` (UUID) de um `slug` no mesmo parâmetro de rota
+ *  (`/obra/:id` aceita os dois, ver `getArtworkBySlugOrId`). Não dá pra
+ *  simplesmente tentar `eq(artworks.id, valor)` pros dois casos: a coluna
+ *  é `uuid` nativa do Postgres, e mandar um slug como literal pra ela
+ *  estoura "invalid input syntax for type uuid" em vez de só não achar
+ *  nada — precisa decidir ANTES de montar a query qual coluna comparar. */
+export function looksLikeUuid(value: string): boolean {
+  return UUID_RE.test(value);
+}

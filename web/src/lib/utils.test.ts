@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { cn, toRomanBookName, normalizeForSearch, toRomanNumeral, sortByTitleAz } from './utils';
+import { cn, toRomanBookName, normalizeForSearch, toRomanNumeral, sortByTitleAz, artworkHref } from './utils';
 
 describe('cn', () => {
   it('junta classes e resolve conflitos de tailwind-merge', () => {
@@ -71,5 +71,22 @@ describe('sortByTitleAz', () => {
   it('trata itens sem título com string vazia (não quebra)', () => {
     const items = [{ id: 'a', title: 'Beta' }, { id: 'b' }, { id: 'c', title: 'Alfa' }];
     expect(sortByTitleAz(items).map((i) => 'title' in i ? i.title : '')).toEqual(['', 'Alfa', 'Beta']);
+  });
+});
+
+describe('artworkHref', () => {
+  it('prefere o slug quando a obra tem um', () => {
+    expect(artworkHref({ id: '468f4fd5-7944-5de7-963b-518c97ce3ed4', slug: 'guido-reni-o-martirio-de-andre' })).toBe(
+      '/obra/guido-reni-o-martirio-de-andre',
+    );
+  });
+
+  it('cai pro id (UUID) quando a obra ainda não tem slug', () => {
+    expect(artworkHref({ id: '468f4fd5-7944-5de7-963b-518c97ce3ed4', slug: null })).toBe(
+      '/obra/468f4fd5-7944-5de7-963b-518c97ce3ed4',
+    );
+    expect(artworkHref({ id: '468f4fd5-7944-5de7-963b-518c97ce3ed4' })).toBe(
+      '/obra/468f4fd5-7944-5de7-963b-518c97ce3ed4',
+    );
   });
 });

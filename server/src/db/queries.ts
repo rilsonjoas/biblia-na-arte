@@ -13,6 +13,8 @@ import {
 import type { ListArtworksQuery, SearchArtworksQuery } from '../schemas/artwork.schema.js';
 import type { CreateSubmissionInput, UpdateSubmissionInput } from '../schemas/submission.schema.js';
 import { getLectionaryEntry, parseLectionaryRef, SEASON_THEME_SLUGS } from '../lib/lectionary-refs.js';
+import { looksLikeUuid } from '../lib/deterministic-uuid.js';
+import { slugify } from '../lib/vault-parse.js';
 
 type ArtworkRow = typeof artworks.$inferSelect;
 type ReferenceRow = typeof bibleReferences.$inferSelect;
@@ -21,6 +23,7 @@ export type ArtworkWithReferences = ArtworkRow & { references: ReferenceRow[] };
 
 export interface ExploreArtwork {
   id: string;
+  slug: string | null;
   title: string;
   subtitle: string | null;
   artistOrDirector: string;
@@ -131,6 +134,56 @@ export async function getArtworkById(id: string): Promise<ArtworkWithReferences 
 
   const [withRefs] = await attachReferences([row]);
   return withRefs;
+}
+
+/** `/obra/:id` (rota e preview de link) aceita UUID ou slug no mesmo
+ *  parâmetro — link antigo já indexado no Google continua funcionando,
+ *  slug novo é o padrão amigável (roadmap, 2026-09-19). `artworks.id` é
+ *  `uuid` nativo do Postgres: mandar um slug direto pra `eq(artworks.id,
+ *  ...)` estoura "invalid input syntax for type uuid" em vez de só não
+ *  achar nada, então a coluna certa tem que ser decidida ANTES da query. */
+export async function getArtworkBySlugOrId(idOrSlug: string): Promise<ArtworkWithReferences | undefined> {
+  const [row] = await db
+    .select()
+    .from(artworks)
+    .where(
+      and(
+        looksLikeUuid(idOrSlug) ? eq(artworks.id, idOrSlug) : eq(artworks.slug, idOrSlug),
+        eq(artworks.active, true),
+      ),
+    )
+    .limit(1);
+  if (!row) return undefined;
+
+  const [withRefs] = await attachReferences([row]);
+  return withRefs;
+}
+
+/** Slug único pra uma obra nova (aprovação de submissão, ver
+ *  `approveSubmission`) — mesma receita de `export-vault-data.ts`
+ *  (`slugify(artista-título)`, ADR 004), mas o desempate aqui consulta o
+ *  banco direto em vez de uma lista de slugs já vistos na mesma
+ *  passada, porque cada submissão é aprovada isoladamente, não em lote. */
+type QueryExecutor = Pick<typeof db, 'select'>;
+
+async function generateUniqueArtworkSlug(
+  artistOrDirector: string,
+  title: string,
+  executor: QueryExecutor = db,
+): Promise<string> {
+  const baseSlug = slugify(`${artistOrDirector}-${title}`);
+  let slug = baseSlug;
+  let suffix = 2;
+  for (;;) {
+    const [existing] = await executor
+      .select({ id: artworks.id })
+      .from(artworks)
+      .where(eq(artworks.slug, slug))
+      .limit(1);
+    if (!existing) return slug;
+    slug = `${baseSlug}-${suffix}`;
+    suffix += 1;
+  }
 }
 
 /** Feature "Me surpreenda" (roadmap Fase 5, item de menor esforço).
@@ -316,7 +369,7 @@ export async function getDailyArtwork(dateStr: string): Promise<ArtworkWithRefer
 export async function searchArtworks({ q, limit }: SearchArtworksQuery) {
   const rows = await db.execute<ArtworkRow>(
     sql`SELECT
-          id, title, subtitle,
+          id, slug, title, subtitle,
           artist_or_director AS "artistOrDirector",
           year, category,
           medium_or_genre AS "mediumOrGenre",
@@ -622,6 +675,7 @@ export async function getExploreByChapter(
 
   const artworksOut: ExploreArtwork[] = artworksWithRefs.map((art) => ({
     id: art.id,
+    slug: art.slug,
     title: art.title,
     subtitle: art.subtitle,
     artistOrDirector: art.artistOrDirector,
@@ -781,12 +835,18 @@ export async function approveSubmission(
     const [submission] = await tx.select().from(submissions).where(eq(submissions.id, id)).limit(1);
     if (!submission) throw new Error('Submissão não encontrada');
 
+    const artistOrDirector = submission.artistName || 'Autor Desconhecido';
+    // Obra de submissão nunca passa pelo export do vault (só o
+    // `export-vault-data.ts` calcula slug do lado de lá) — gera aqui, na
+    // aprovação, pra também ter URL amigável desde o dia 1.
+    const slug = await generateUniqueArtworkSlug(artistOrDirector, submission.title, tx);
+
     const [artwork] = await tx
       .insert(artworks)
       .values({
         title: submission.title,
         subtitle: submission.subtitle,
-        artistOrDirector: submission.artistName || 'Autor Desconhecido',
+        artistOrDirector,
         year: submission.year,
         category: submission.category,
         description: submission.description || submission.title,
@@ -795,6 +855,7 @@ export async function approveSubmission(
         location: submission.location,
         licenseType: 'submission-confirmed', // ver ROADMAP: confirmado via checkbox, não domínio público
         origem: 'submissao',
+        slug,
       })
       .returning();
 

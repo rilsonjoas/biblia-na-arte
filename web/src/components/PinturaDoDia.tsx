@@ -4,7 +4,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useDailyArtwork } from '@/hooks/use-artworks';
-import { stripMarkdown } from '@/lib/utils';
+import { stripMarkdown, artworkHref } from '@/lib/utils';
 
 /** "Pintura do Dia" (roadmap, pedido do Rilson 2026-08-23) — mesma obra
  *  pra todo mundo que visitar no mesmo dia (fuso de São Paulo, ver
@@ -51,7 +51,7 @@ export function PinturaDoDia() {
             </div>
           ) : (
             <Link
-              to={`/obra/${artwork.id}`}
+              to={artworkHref(artwork)}
               className="group grid grid-cols-1 md:grid-cols-2 gap-8 items-center rounded-2xl overflow-hidden gradient-card shadow-classical hover:shadow-golden transition-all duration-300 [transition-timing-function:var(--ease-liturgico)] p-6 md:p-8 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             >
               <div className="relative overflow-hidden rounded-xl bg-muted/40 gallery-frame">

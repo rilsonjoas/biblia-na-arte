@@ -1,6 +1,6 @@
 import type { FastifyInstance } from 'fastify';
-import { getArtworkById } from '../db/queries.js';
-import { idParamSchema } from '../schemas/common.schema.js';
+import { getArtworkBySlugOrId } from '../db/queries.js';
+import { idOrSlugParamSchema } from '../schemas/common.schema.js';
 
 const SITE_URL = 'https://biblianaarte.narniano.com';
 const SITE_NAME = 'Bíblia na Arte';
@@ -38,10 +38,12 @@ function plainTextSummary(markdown: string, maxLength = 200): string {
  *  redirect, nunca a SPA de verdade. */
 export async function shareRoutes(app: FastifyInstance) {
   app.get('/share/obra/:id', async (request, reply) => {
-    const parsed = idParamSchema.safeParse(request.params);
-    const targetUrl = parsed.success ? `${SITE_URL}/obra/${parsed.data.id}` : `${SITE_URL}/`;
-
-    const artwork = parsed.success ? await getArtworkById(parsed.data.id) : undefined;
+    const parsed = idOrSlugParamSchema.safeParse(request.params);
+    const artwork = parsed.success ? await getArtworkBySlugOrId(parsed.data.id) : undefined;
+    // Preview sempre aponta pra URL canônica (slug, quando a obra tiver
+    // um) — mesmo se o link compartilhado ainda for o UUID antigo, o bot
+    // de preview vê o padrão novo, não o que o usuário digitou.
+    const targetUrl = artwork ? `${SITE_URL}/obra/${artwork.slug ?? artwork.id}` : `${SITE_URL}/`;
 
     const title = artwork
       ? `${artwork.title} — ${artwork.artistOrDirector} | ${SITE_NAME}`

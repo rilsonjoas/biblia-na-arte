@@ -34,10 +34,18 @@ describe('ArtworkCard', () => {
     expect(screen.getByText('Lucas 10:34')).toBeInTheDocument();
   });
 
-  it('linka pra página da obra', () => {
+  it('linka pra página da obra pelo id quando não tem slug ainda', () => {
     renderCard();
     const link = screen.getByRole('link', { name: /O bom samaritano/ });
     expect(link).toHaveAttribute('href', '/obra/abc-123');
+  });
+
+  // URL amigável (roadmap, 2026-09-19): assim que a obra tem slug, o link
+  // do card deve preferir ele sobre o UUID — ver artworkHref em lib/utils.
+  it('linka pra página da obra pelo slug quando a obra já tem um', () => {
+    renderCard({ slug: 'aime-morot-o-bom-samaritano' });
+    const link = screen.getByRole('link', { name: /O bom samaritano/ });
+    expect(link).toHaveAttribute('href', '/obra/aime-morot-o-bom-samaritano');
   });
 
   // "Páginas de Artista Ricas" (roadmap, aprovada 2026-08-23) — o nome do

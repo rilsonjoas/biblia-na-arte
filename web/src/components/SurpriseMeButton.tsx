@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router';
 import { Shuffle, RefreshCcw } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { getRandomArtwork } from '@/lib/api-data';
+import { artworkHref } from '@/lib/utils';
 
 /** "Me surpreenda" — obra aleatória do acervo, no estilo do artigo
  *  aleatório da Wikipédia (roadmap Fase 5, ideia de menor esforço).
@@ -27,7 +28,7 @@ export function SurpriseMeButton({
     setLoading(true);
     try {
       const artwork = await getRandomArtwork();
-      navigate(`/obra/${artwork.id}`);
+      navigate(artworkHref(artwork));
     } catch (error) {
       // Falha silenciosa com warn no console — mesmo padrão do
       // CopyImageButton pra ações secundárias que não bloqueiam o resto

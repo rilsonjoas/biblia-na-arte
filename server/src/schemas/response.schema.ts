@@ -19,6 +19,10 @@ export const bibleReferenceResponseSchema = z.object({
 
 export const artworkResponseSchema = z.object({
   id: z.string().uuid(),
+  // Nullable: obra aprovada via submissão antes do backfill (ou se o
+  // backfill não rodar) pode não ter slug ainda — `/obra/:id` cai pro
+  // UUID nesse caso (ver getArtworkBySlugOrId).
+  slug: z.string().nullable().optional(),
   title: z.string(),
   subtitle: z.string().nullable().optional(),
   artistOrDirector: z.string(),
@@ -118,6 +122,7 @@ export const exploreArtworkThemeResponseSchema = z.object({
 
 export const exploreArtworkResponseSchema = z.object({
   id: z.string().uuid(),
+  slug: z.string().nullable().optional(),
   title: z.string(),
   subtitle: z.string().nullable().optional(),
   artistOrDirector: z.string(),

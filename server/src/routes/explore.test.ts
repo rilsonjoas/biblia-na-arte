@@ -53,6 +53,7 @@ describe('GET /api/v1/explore/:bookSlug/:chapter', () => {
       artworks: [
         {
           id: '10000000-0000-0000-0000-000000000001',
+          slug: 'aime-morot-o-bom-samaritano',
           title: 'O bom samaritano',
           subtitle: null,
           artistOrDirector: 'Aimé Morot',
@@ -88,6 +89,9 @@ describe('GET /api/v1/explore/:bookSlug/:chapter', () => {
     expect(body.chapter).toBe(10);
     expect(body.artworks).toHaveLength(1);
     expect(body.artworks[0].title).toBe('O bom samaritano');
+    // URL amigável (roadmap, 2026-09-19): o hub de /explorar também
+    // precisa do slug pro card da obra linkar bonito, não só GET /artworks/:id.
+    expect(body.artworks[0].slug).toBe('aime-morot-o-bom-samaritano');
     expect(body.artworks[0].themes[0].name).toBe('Bom Samaritano');
     expect(body.relatedChapters).toEqual([
       { chapter: 15, chapterCount: 2, coverImageUrl: '/images/prodigo.jpg' },

@@ -47,6 +47,7 @@ DROP FUNCTION IF EXISTS search_artworks(TEXT);
 CREATE OR REPLACE FUNCTION search_artworks(search_query TEXT)
 RETURNS TABLE(
     id UUID,
+    slug TEXT,
     title TEXT,
     subtitle TEXT,
     artist_or_director TEXT,
@@ -90,7 +91,7 @@ BEGIN
 
     RETURN QUERY
     SELECT
-        a.id, a.title, a.subtitle, a.artist_or_director, a.year, a.category,
+        a.id, a.slug, a.title, a.subtitle, a.artist_or_director, a.year, a.category,
         a.medium_or_genre, a.description, a.image_url, a.embed_url,
         a.source_url, a.dimensions_or_duration, a.license_type,
         a.attribution_text, a.location, a.classic_commentary_author,

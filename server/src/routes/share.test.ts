@@ -21,7 +21,7 @@ vi.mock('../db/queries.js', () => ({
   getArtistBySlug: vi.fn(),
   listBibleBooks: vi.fn(),
   getBibleBookBySlug: vi.fn(),
-  getArtworkById: vi.fn(),
+  getArtworkBySlugOrId: vi.fn(),
   listArtworks: vi.fn(),
   getRandomArtwork: vi.fn(),
   getArtworksByBibleReference: vi.fn(),
@@ -48,15 +48,16 @@ describe('GET /share/obra/:id', () => {
   });
 
   it('devolve HTML com as meta tags da obra, não as genéricas do site', async () => {
-    vi.mocked(queries.getArtworkById).mockResolvedValueOnce({
+    vi.mocked(queries.getArtworkBySlugOrId).mockResolvedValueOnce({
       id: ARTWORK_ID,
+      slug: 'fra-angelico-a-transfiguracao',
       title: 'A Transfiguração',
       artistOrDirector: 'Fra Angelico',
       description: '**Fra Angelico** pinta Cristo de pé sobre um pequeno afloramento rochoso...',
       imageUrl: '/images/fra-angelico-a-transfiguracao.webp',
       references: [],
       // campos restantes do ArtworkWithReferences não importam pro teste
-    } as unknown as Awaited<ReturnType<typeof queries.getArtworkById>>);
+    } as unknown as Awaited<ReturnType<typeof queries.getArtworkBySlugOrId>>);
 
     const res = await app.inject({ method: 'GET', url: `/share/obra/${ARTWORK_ID}` });
 
@@ -66,13 +67,35 @@ describe('GET /share/obra/:id', () => {
     expect(res.body).toContain(
       'property="og:image" content="https://biblianaarte.narniano.com/images/fra-angelico-a-transfiguracao.webp"',
     );
-    expect(res.body).toContain(`https://biblianaarte.narniano.com/obra/${ARTWORK_ID}`);
+    // Preview aponta pra URL canônica (slug), mesmo o link compartilhado
+    // tendo sido o UUID antigo (achado 2026-09-19, ver artworkHref no
+    // frontend e este mesmo comentário em share.ts).
+    expect(res.body).toContain('https://biblianaarte.narniano.com/obra/fra-angelico-a-transfiguracao');
+    expect(res.body).not.toContain(`/obra/${ARTWORK_ID}`);
     // negrito markdown não deve vazar pro texto puro da og:description
     expect(res.body).not.toContain('**');
   });
 
+  it('bot que bate direto no slug (link novo) também recebe as meta tags certas', async () => {
+    vi.mocked(queries.getArtworkBySlugOrId).mockResolvedValueOnce({
+      id: ARTWORK_ID,
+      slug: 'fra-angelico-a-transfiguracao',
+      title: 'A Transfiguração',
+      artistOrDirector: 'Fra Angelico',
+      description: 'Descrição qualquer.',
+      imageUrl: '/images/fra-angelico-a-transfiguracao.webp',
+      references: [],
+    } as unknown as Awaited<ReturnType<typeof queries.getArtworkBySlugOrId>>);
+
+    const res = await app.inject({ method: 'GET', url: '/share/obra/fra-angelico-a-transfiguracao' });
+
+    expect(res.statusCode).toBe(200);
+    expect(vi.mocked(queries.getArtworkBySlugOrId)).toHaveBeenCalledWith('fra-angelico-a-transfiguracao');
+    expect(res.body).toContain('A Transfiguração — Fra Angelico | Bíblia na Arte');
+  });
+
   it('obra inexistente cai pras meta tags genéricas do site, sem quebrar', async () => {
-    vi.mocked(queries.getArtworkById).mockResolvedValueOnce(undefined);
+    vi.mocked(queries.getArtworkBySlugOrId).mockResolvedValueOnce(undefined);
 
     const res = await app.inject({ method: 'GET', url: `/share/obra/${ARTWORK_ID}` });
 
@@ -80,8 +103,8 @@ describe('GET /share/obra/:id', () => {
     expect(res.body).toContain('Bíblia na Arte — A Bíblia através da Arte e Cultura');
   });
 
-  it('id inválido (não-UUID) não derruba a rota', async () => {
-    const res = await app.inject({ method: 'GET', url: '/share/obra/nao-e-um-uuid' });
+  it('id com caractere inválido não derruba a rota', async () => {
+    const res = await app.inject({ method: 'GET', url: '/share/obra/n%C3%A3o-vale' });
 
     expect(res.statusCode).toBe(200);
     expect(res.body).toContain('Bíblia na Arte — A Bíblia através da Arte e Cultura');

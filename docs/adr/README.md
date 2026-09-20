@@ -11,3 +11,4 @@ Formato: Contexto / Decisão / Consequências.
 - [003 — WebP gerado no export, não em script separado](003-webp-no-export.md)
 - [004 — Dedupe determinístico de slug](004-dedupe-slug.md)
 - [005 — PWA antes de app nativo](005-pwa-antes-de-nativo.md)
+- [006 — URL amigável de obra, UUID nunca aposentado](006-url-amigavel-obra.md)

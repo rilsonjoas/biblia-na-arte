@@ -6,7 +6,7 @@ import { AspectRatio } from '@/components/ui/aspect-ratio';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Artwork } from '@/types';
 import { Music, Film, Palette, ImageIcon } from 'lucide-react';
-import { stripMarkdown, slugifyArtistName } from '@/lib/utils';
+import { stripMarkdown, slugifyArtistName, artworkHref } from '@/lib/utils';
 import { FavoriteButton } from '@/components/FavoriteButton';
 
 interface ArtworkCardProps {
@@ -82,7 +82,7 @@ export default function ArtworkCard({ artwork, showReferences = true }: ArtworkC
     }
   };
 
-  const linkTarget = `/obra/${artwork.id}`;
+  const linkTarget = artworkHref(artwork);
 
   return (
       <Card className="group relative overflow-hidden hover:shadow-classical transition-all duration-300 [transition-timing-function:var(--ease-liturgico)] hover:-translate-y-1 bg-card border border-border/60 hover:border-accent/40 rounded-xl">

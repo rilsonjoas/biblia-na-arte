@@ -126,6 +126,7 @@ async function main() {
     for (const item of exported) {
       const id = artworkIdFromSlug(item.slug);
       const values = {
+        slug: item.slug,
         title: item.title,
         subtitle: item.subtitle,
         artistOrDirector: item.artistOrDirector,

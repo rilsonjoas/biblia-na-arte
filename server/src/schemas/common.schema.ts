@@ -12,6 +12,19 @@ export const slugParamSchema = z.object({
     .regex(/^[a-z0-9-]+$/, 'slug só pode ter letras minúsculas, números e hífen'),
 });
 
+// `/obra/:id` aceita UUID (link antigo, já indexado) OU slug (padrão
+// novo, URL amigável — ver ADR 004 e getArtworkBySlugOrId). Um UUID já é
+// só letras minúsculas/dígitos/hífen, então a mesma regex do slug cobre
+// os dois formatos aqui; quem decide qual coluna consultar é
+// `looksLikeUuid`, não este schema.
+export const idOrSlugParamSchema = z.object({
+  id: z
+    .string()
+    .min(1)
+    .max(150)
+    .regex(/^[a-z0-9-]+$/, 'id precisa ser um UUID ou um slug válido'),
+});
+
 export const paginationSchema = z.object({
   page: z.coerce.number().int().min(1).default(1),
   // Limite máximo travado em 100 — evita que alguém peça a coleção

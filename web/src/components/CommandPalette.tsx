@@ -23,6 +23,7 @@ import {
   CommandSeparator,
 } from '@/components/ui/command';
 import { getBibleBooks, searchArtworks } from '@/lib/api-data';
+import { artworkHref } from '@/lib/utils';
 
 interface CommandPaletteProps {
   open?: boolean;
@@ -173,7 +174,7 @@ export function CommandPalette({ open: controlledOpen, onOpenChange }: CommandPa
               <CommandItem
                 key={art.id}
                 value={`${art.title} ${art.artistOrDirector}`}
-                onSelect={() => handleSelect(() => navigate(`/obra/${art.id}`))}
+                onSelect={() => handleSelect(() => navigate(artworkHref(art)))}
                 className="flex items-center justify-between cursor-pointer py-2"
               >
                 <div className="flex items-center gap-3">

@@ -12,6 +12,7 @@ import { ThemeToggle } from '@/components/ThemeToggle';
 import { CommandPalette } from '@/components/CommandPalette';
 import { SurpriseMeButton } from '@/components/SurpriseMeButton';
 import { getRandomArtwork } from '@/lib/api-data';
+import { artworkHref } from '@/lib/utils';
 
 export default function Header() {
   const navigate = useNavigate();
@@ -25,7 +26,7 @@ export default function Header() {
     try {
       const artwork = await getRandomArtwork();
       setMobileMenuOpen(false);
-      navigate(`/obra/${artwork.id}`);
+      navigate(artworkHref(artwork));
     } catch (error) {
       console.warn('[SurpriseMe] falha ao buscar obra aleatória:', error);
     } finally {

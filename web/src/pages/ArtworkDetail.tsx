@@ -17,7 +17,7 @@ import { CopyButton, CopyImageButton } from '@/components/ui/copy-button';
 import { DownloadStoryButton } from '@/components/DownloadStoryButton';
 import { DownloadArtworkButton } from '@/components/DownloadArtworkButton';
 import { FavoriteButton } from '@/components/FavoriteButton';
-import { cn, stripMarkdown, slugifyArtistName } from '@/lib/utils';
+import { cn, stripMarkdown, slugifyArtistName, artworkHref } from '@/lib/utils';
 import { useArtwork, useArtworksByBibleReference, useArtworks } from '@/hooks/use-artworks';
 import {
   Music,
@@ -193,6 +193,11 @@ export default function ArtworkDetail() {
         image={imageUrl}
         type="article"
         schema={artworkSchema}
+        // Canonical sempre no slug (URL amigável, roadmap 2026-09-19),
+        // mesmo quando quem visitou entrou pelo link antigo com UUID —
+        // consolida o sinal de SEO num só endereço sem precisar de
+        // redirect, o antigo continua respondendo 200 normalmente.
+        url={typeof window !== 'undefined' ? `${window.location.origin}${artworkHref(artwork)}` : undefined}
       />
       <Header />
 

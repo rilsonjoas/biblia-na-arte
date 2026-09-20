@@ -11,6 +11,10 @@ export type ArtworkCategory = 'painting' | 'music' | 'film';
 
 export interface Artwork {
   id: string;
+  /** URL amigável (roadmap, 2026-09-19) — quando presente, é o que todo
+   * link novo pro `/obra/` da obra deve usar em vez do `id` (UUID). Nem
+   * toda obra tem ainda (backfill em andamento), por isso opcional. */
+  slug?: string | null;
   title: string;
   subtitle?: string;
   artistOrDirector: string;

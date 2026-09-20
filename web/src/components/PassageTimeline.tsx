@@ -1,5 +1,6 @@
 import { Link } from 'react-router';
 import { parseYear } from '@/lib/api-data';
+import { artworkHref } from '@/lib/utils';
 import type { Artwork } from '@/types';
 
 interface PassageTimelineProps {
@@ -40,7 +41,7 @@ export function PassageTimeline({ artworks }: PassageTimelineProps) {
           {dated.map(({ artwork, year }) => (
             <Link
               key={artwork.id}
-              to={`/obra/${artwork.id}`}
+              to={artworkHref(artwork)}
               className="group flex shrink-0 snap-start flex-col items-center gap-2 w-28"
             >
               <span className="numeral-classico text-xs text-muted-foreground">{year}</span>
