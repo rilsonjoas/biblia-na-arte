@@ -3160,6 +3160,29 @@ mensagem de erro. Verificação de secret é sempre via workflow do
 GitHub Actions usando `secrets.*` (mascarado automaticamente em log),
 nunca `curl` local com saída colada de volta.
 
+**Incidente real 2026-09-17/18 — token do Instagram invalidado de novo
+(mesmo padrão da Central de Contas).** O workflow falhou nos dois dias
+(`OAuthException code 190, error_subcode 0`: "The session has been
+invalidated because the user changed their password or Facebook has
+changed the session for security reasons") — mesma classe do incidente
+de 11/09. Causa provável: repetição do mecanismo da Central de Contas
+(nova sessão/identidade) invalidando o token de usuário do Instagram;
+o Threads falhou no 18/09 só em cascata (media container criado a
+partir de uma sessão já inválida → "Media Not Found"). Fix: token do
+Instagram regenerado no painel da Meta e `INSTAGRAM_ACCESS_TOKEN`
+atualizado via `gh secret set` (sem logar o valor em lugar nenhum).
+Disparo manual de verificação em 2026-09-18 18:21Z publicou com
+sucesso no Instagram (ID `18017252132952944`) e no Threads (ID
+`18121329367916748`) — obra "Trindade", Luca Rossetti. Gatilho da VPS
+verificado sem intervenção: cron `13 11 * * *` presente,
+`/opt/biblia-na-arte/.github-dispatch-token` ok (chmod 600) e log do
+dia confirmando `HTTP 204`. Lição deste incidente (sexto na série):
+a **troca de senha não é a única causa** que invalida o token longo do
+Instagram — qualquer mudança de sessão/identidade na conta Meta derruba
+a publicação silenciosamente até o dia seguinte (o post seguinte é que
+falha). Se voltar a acontecer com frequência, vale automatizar o alerta
+quando o log do Actions falhar, em vez de descobrir 1 dia depois.
+
 **Bug de produto real, sem relação com a Meta**: ao colar blocos de
 código bash (com `$(comando)` e `$VARIAVEL`) copiados desta conversa
 pro terminal, os cifrões (`$`) somem no processo de copiar/colar,
@@ -3319,8 +3342,64 @@ volta de 2026-10-23** (`gh secret set INSTAGRAM_ACCESS_TOKEN --repo
 rilsonjoas/biblia-na-arte`). Facebook não tem prazo fixo (só quebra nos
 mesmos dois cenários acima: troca de senha, ou revogação do app).
 
+### Incidente real — 4ª invalidação de sessão em menos de 2 semanas (2026-09-19)
+
+Workflow falhou de novo: Instagram com o mesmo `OAuthException code 190`
+("session has been invalidated because the user changed their password
+or Facebook has changed the session for security reasons") — 4º
+incidente da mesma classe, depois de 2026-09-07, 2026-09-11 e
+2026-09-17/18. Threads falhou junto, mas com assinatura DIFERENTE dos
+incidentes anteriores (`code: 2, is_transient: true`, "An unexpected
+error has occurred" — genérico de instabilidade da Meta, não o padrão
+de sessão inválida); tratado como transiente, não como o mesmo bug —
+verificar no próximo disparo se persiste sozinho.
+
+Fix aplicado: mesmo processo de sempre (token do Instagram regerado
+pelo Rilson no assistente "Personalizar caso de uso" → "Gerar tokens de
+acesso", `INSTAGRAM_ACCESS_TOKEN` atualizado via `gh secret set`, nunca
+colado na conversa).
+
+**Complicador à parte, no meio deste mesmo incidente**: ao pedir o App
+ID, o Rilson colou sem querer o **App Secret** e um **token de acesso
+real** direto na conversa (não só IDs). Tratados como comprometidos na
+hora — App Secret resetado no painel da Meta, token descartado sem
+uso. Nenhum dos dois foi ecoado de volta. Mesma classe de descuido já
+registrada nos "cinco incidentes reais" documentados acima; ver
+`feedback_segredos_no_chat` na memória do Claude.
+
+**Segunda rodada, gotcha "Failed to decode" na 1ª tentativa de troca**:
+o primeiro `gh secret set` (colando no prompt interativo mascarado)
+truncou o token — exatamente o gotcha já documentado acima ("Failed to
+decode" = token cortado, não token errado). Resolvido só na 2ª troca.
+Verificado de ponta a ponta via disparo manual (`gh workflow run
+post-daily-social.yml -f platforms=instagram`, depois só
+`platforms=instagram` sozinho pra isolar): Threads publicou de
+primeira (ID `18133013182658573`), Instagram só depois da 2ª troca de
+token (ID `17883456768503861`).
+
+**Decisão consciente do Rilson**: com a causa raiz genuína sendo "o
+token depende da sessão pessoal da conta Meta" (qualquer mudança de
+identidade — senha, Central de Contas, etc. — derruba tudo), a correção
+de fundo seria migrar pra um token de **System User** no Business
+Settings da Meta (não fica preso à sessão de uma conta pessoal). Oferecido
+e recusado por ora — prioridade é resolver o dia a dia, não investir os
+~30-40min da configuração agora. Fica registrado aqui como opção válida
+pra quando a frequência dos incidentes justificar o investimento (o
+próprio incidente de 09-17/18 já sugeria isso: "se voltar a acontecer
+com frequência, vale automatizar"; 4 vezes em 12 dias já é esse
+"frequência").
+
 **Pendente (não travando nada, só em aberto):**
 
+- [ ] **Migrar pra token de System User (Business Settings)** —
+      eliminaria a causa raiz dos 4 incidentes de invalidação de sessão
+      documentados até aqui (09-07, 09-11, 09-17/18, 09-19), não só o
+      sintoma. Adiado por decisão do Rilson em 09-19 (ver incidente
+      acima), sem prazo.
+- [ ] Alerta automático quando o workflow diário falhar (e-mail/
+      notificação), em vez de só descobrir no dia seguinte quando o
+      post não sai — mesma lição do incidente de 09-17/18, ainda não
+      implementado.
 - [ ] Renovação do token de 60 dias — decisão de produto ainda não
       tomada: 2º workflow automatizado (troca o token ~15 dias antes de
       expirar, via endpoint próprio de refresh) vs. lembrete manual a
