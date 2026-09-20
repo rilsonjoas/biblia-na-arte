@@ -16,6 +16,7 @@ import { exploreRoutes } from './routes/explore.js';
 import { submissionRoutes } from './routes/submissions.js';
 import { adminRoutes } from './routes/admin.js';
 import { uploadRoutes } from './routes/uploads.js';
+import { shareRoutes } from './routes/share.js';
 import { initSentry } from './lib/sentry.js';
 
 export async function buildApp() {
@@ -54,6 +55,7 @@ export async function buildApp() {
   await app.register(submissionRoutes, { prefix: '/api/v1' });
   await app.register(adminRoutes, { prefix: '/api/v1' });
   await app.register(uploadRoutes, { prefix: '/api/v1' });
+  await app.register(shareRoutes);
 
   // JSON do OpenAPI em /docs (a UI Swagger fica por conta de um serviço
   // separado ou do usuário abrindo o JSON direto).
