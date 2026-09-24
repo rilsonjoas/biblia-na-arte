@@ -1,5 +1,8 @@
 import { createRoot } from 'react-dom/client'
 import App from './App.tsx'
 import './index.css'
+import { initUmami } from './lib/umami'
 
-createRoot(document.getElementById("root")!).render(<App />);
+initUmami()
+
+createRoot(document.getElementById("root")!).render(<App />)
