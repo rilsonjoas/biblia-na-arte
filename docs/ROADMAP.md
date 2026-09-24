@@ -530,7 +530,9 @@ elevar a qualidade do catálogo.
 - [x] ~~Modo devocional/leitura~~ — **decisão: tirar da lista (2026-08-23)**,
       Rilson descartou ao revisar a Fase 5.
 - [ ] Compartilhamento com OG-image dinâmica.
-- [ ] Favoritos locais.
+- [x] **Favoritos locais** — `utils/favorites.ts` + `Favorites.tsx`, `FavoriteButton.tsx`,
+      `FavoriteButton` no header (desktop) e na ficha da obra, página `/favoritos`
+      dedicada. Verificado no código 2026-09-24 (ROADMAP estava desatualizado).
 - [ ] **Expansão do acervo: música e cinema (2026-08-22)** — decisão do
       Rilson: precisa necessariamente acontecer, depois das pinturas
       estarem sólidas. O schema já nasceu com `category`
@@ -565,7 +567,7 @@ elevar a qualidade do catálogo.
 - [ ] **Expansão do acervo de Gustave Doré**: catalogar mais gravuras bíblicas de Doré para aumentar a cobertura nos livros históricos e proféticos.
 
 ### 🔵 Nível 3: Média (Novas Funcionalidades de Engenharia e Banco de Dados)
-- [ ] **Favoritos locais (`localStorage` / PWA)**: permitir salvar obras favoritas no próprio navegador/celular, sem necessidade de login.
+- [x] **Favoritos locais (`localStorage` / PWA)**: permitir salvar obras favoritas no próprio navegador/celular, sem necessidade de login. **Concluído** — `web/src/hooks/use-favorites.ts`, `web/src/pages/Favorites.tsx`, `web/src/components/FavoriteButton.tsx` (verificado no código 2026-09-24; item abaixo na lista do Nível 3 sinalizava pendência, ROADMAP desatualizado).
 - [ ] **Metadados Expandidos (Período/Estilo, Tradição Religiosa, Técnica, País)**: adicionar suporte no frontmatter do Vault → parser `vault-parse.ts` → migração Drizzle Postgres (`artworks`) → badges e filtros na UI.
 - [ ] **Expansão para Música Sacra em Domínio Público (IMSLP)**: catalogar obras musicais (Bach, Handel, Mozart) associadas aos textos bíblicos e implementar player de áudio dedicado (`EmbedPlayer`).
 - [ ] **Coleções e Playlists Temáticas**: criar páginas de coleções como *"A Vida de Cristo"*, *"As Parábolas"* e *"Gênesis na Arte"*.
