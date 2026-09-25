@@ -34,7 +34,7 @@ export function VersiculoDoDia() {
         <div className="max-w-4xl mx-auto text-center">
           <Badge variant="secondary" className="mb-4 text-xs shadow-golden">
             <CalendarDays className="w-3.5 h-3.5 mr-1.5" />
-            Versículo do Dia
+Passagem do Dia
           </Badge>
 
           {isLoading ? (
