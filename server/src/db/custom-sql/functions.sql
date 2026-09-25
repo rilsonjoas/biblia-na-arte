@@ -62,6 +62,10 @@ RETURNS TABLE(
     license_type TEXT,
     attribution_text TEXT,
     location TEXT,
+    period TEXT,
+    tradition TEXT,
+    technique TEXT,
+    country TEXT,
     classic_commentary_author TEXT,
     classic_commentary TEXT,
     created_at TIMESTAMPTZ,
@@ -94,8 +98,8 @@ BEGIN
         a.id, a.slug, a.title, a.subtitle, a.artist_or_director, a.year, a.category,
         a.medium_or_genre, a.description, a.image_url, a.embed_url,
         a.source_url, a.dimensions_or_duration, a.license_type,
-        a.attribution_text, a.location, a.classic_commentary_author,
-        a.classic_commentary, a.created_at, a.updated_at, a.active,
+        a.attribution_text, a.location, a.period, a.tradition, a.technique, a.country,
+        a.classic_commentary_author, a.classic_commentary, a.created_at, a.updated_at, a.active,
         ts_rank(
             to_tsvector('portuguese', unaccent(
                 coalesce(a.title, '') || ' ' ||
