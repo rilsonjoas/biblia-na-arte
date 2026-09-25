@@ -37,6 +37,10 @@ export const artworkResponseSchema = z.object({
   licenseType: z.string(),
   attributionText: z.string().nullable().optional(),
   location: z.string().nullable().optional(),
+  period: z.string().nullable().optional(),
+  tradition: z.string().nullable().optional(),
+  technique: z.string().nullable().optional(),
+  country: z.string().nullable().optional(),
   classicCommentaryAuthor: z.string().nullable().optional(),
   classicCommentary: z.string().nullable().optional(),
   createdAt: timestamp.nullable().optional(),
@@ -143,4 +147,22 @@ export const exploreResponseSchema = z.object({
   artworks: z.array(exploreArtworkResponseSchema),
   relatedChapters: z.array(exploreChapterResponseSchema),
   themes: z.array(exploreThemeResponseSchema),
+});
+
+export const collectionResponseSchema = z.object({
+  slug: z.string(),
+  title: z.string(),
+  subtitle: z.string(),
+  description: z.string(),
+  coverImage: z.string().nullable().optional(),
+  artworkCount: z.number().int().nonnegative(),
+});
+
+export const collectionDetailResponseSchema = z.object({
+  slug: z.string(),
+  title: z.string(),
+  subtitle: z.string(),
+  description: z.string(),
+  coverImage: z.string().nullable().optional(),
+  artworks: z.array(artworkResponseSchema),
 });

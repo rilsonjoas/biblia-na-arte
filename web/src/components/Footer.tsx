@@ -77,6 +77,12 @@ export default function Footer() {
                 Pintores
               </Link>
               <Link
+                to="/colecoes"
+                className="block text-muted-foreground hover:text-primary transition-colors"
+              >
+                Coleções Temáticas
+              </Link>
+              <Link
                 to="/busca" 
                 className="block text-muted-foreground hover:text-primary transition-colors"
               >

@@ -1,5 +1,15 @@
 import { apiClient, ApiError } from './api-client';
-import type { Artwork, BibleBook, Artist, ArtistDetail, Theme, Period, ExploreData } from '@/types';
+import type {
+  Artwork,
+  BibleBook,
+  Artist,
+  ArtistDetail,
+  Theme,
+  Period,
+  ExploreData,
+  ThematicCollection,
+  ThematicCollectionDetail,
+} from '@/types';
 
 const ALL_ARTWORKS_LIMIT = 1000;
 
@@ -253,6 +263,19 @@ export async function getNewTestamentBooks(): Promise<BibleBook[]> {
 export async function getExplore(bookSlug: string, chapter: number): Promise<ExploreData | null> {
   try {
     return await apiClient.request<ExploreData>(`/explore/${bookSlug}/${chapter}`);
+  } catch (error) {
+    if (error instanceof ApiError && error.status === 404) return null;
+    throw error;
+  }
+}
+
+export async function getCollections(): Promise<ThematicCollection[]> {
+  return apiClient.request<ThematicCollection[]>('/collections');
+}
+
+export async function getCollectionBySlug(slug: string): Promise<ThematicCollectionDetail | null> {
+  try {
+    return await apiClient.request<ThematicCollectionDetail>(`/collections/${slug}`);
   } catch (error) {
     if (error instanceof ApiError && error.status === 404) return null;
     throw error;

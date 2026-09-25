@@ -108,6 +108,12 @@ export const artworks = pgTable(
     // confirmada (mesmo padrão de `attributionText`).
     location: text('location'),
 
+    // Metadados Expandidos de Arte e Teologia (Fase 5)
+    period: text('period'),
+    tradition: text('tradition'),
+    technique: text('technique'),
+    country: text('country'),
+
     // "Vozes dos clássicos" (roadmap Fase 5, 2026-08-23) — onde
     // Rookmaaker/Schaeffer/Lewis já comentaram esta obra específica, com
     // fonte verificada (não paráfrase). Curadoria de profundidade, não de

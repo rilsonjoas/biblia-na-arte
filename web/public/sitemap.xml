@@ -12916,6 +12916,11 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://biblianaarte.narniano.com/obra/caravaggio-sao-mateus-e-o-anjo</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://biblianaarte.narniano.com/obra/carl-bloch-a-incredulidade-de-tome</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -13002,6 +13007,11 @@
   </url>
   <url>
     <loc>https://biblianaarte.narniano.com/obra/carl-wilhelmson-frequentadores-da-igreja-em-um-barco-num-domingo</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://biblianaarte.narniano.com/obra/carlo-crivelli-o-cristo-morto-sustentado-por-dois-anjos</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -13446,6 +13456,11 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://biblianaarte.narniano.com/obra/fra-angelico-cenas-da-vida-de-cristo</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://biblianaarte.narniano.com/obra/fra-angelico-o-sepultamento-de-cristo</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -13467,6 +13482,11 @@
   </url>
   <url>
     <loc>https://biblianaarte.narniano.com/obra/francesco-hayez-a-destruicao-do-templo-de-jerusalem</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://biblianaarte.narniano.com/obra/francesco-hayez-ecce-homo</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -13647,11 +13667,6 @@
   </url>
   <url>
     <loc>https://biblianaarte.narniano.com/obra/friedrich-wilhelm-schadow-as-virgens-prudentes-e-insensatas</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://biblianaarte.narniano.com/obra/friedrich-wilhelm-schadow-virgens-dormindo-com-a-lampada</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -14026,7 +14041,7 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://biblianaarte.narniano.com/obra/gustav-amberger-o-crucifixo-ao-luar-crucifix-in-the-moonlight-o-crucifixo-ao-luar</loc>
+    <loc>https://biblianaarte.narniano.com/obra/gustav-amberger-o-crucifixo-ao-luar</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -16691,6 +16706,11 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://biblianaarte.narniano.com/obra/pieter-bruegel-o-velho-o-cego-guiando-outros-cegos</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://biblianaarte.narniano.com/obra/pieter-lastman-jonas-e-a-baleia</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -17286,6 +17306,11 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://biblianaarte.narniano.com/obra/viktor-vasnetsov-o-salvador</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://biblianaarte.narniano.com/obra/vincent-van-gogh-o-bom-samaritano</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -17312,6 +17337,11 @@
   </url>
   <url>
     <loc>https://biblianaarte.narniano.com/obra/vladimir-borovikovsky-joao-o-evangelista</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://biblianaarte.narniano.com/obra/wang-suda-jesus-acalma-a-tempestade</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -17681,6 +17711,16 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://biblianaarte.narniano.com/obra/friedrich-wilhelm-schadow-virgens-dormindo-com-a-lampada</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://biblianaarte.narniano.com/obra/gustav-amberger-o-crucifixo-ao-luar-crucifix-in-the-moonlight-o-crucifixo-ao-luar</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://biblianaarte.narniano.com/obra/aaron-douglas-dia-do-julgamento-judgment-day-dia-do-julgamento</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -17852,11 +17892,6 @@
   </url>
   <url>
     <loc>https://biblianaarte.narniano.com/obra/ernst-zimmerman-jesus-e-encontrado-no-templo</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://biblianaarte.narniano.com/obra/gustav-amberger-o-crucifixo-ao-luar</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>

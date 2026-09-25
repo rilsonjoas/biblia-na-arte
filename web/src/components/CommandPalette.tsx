@@ -109,6 +109,12 @@ export function CommandPalette({ open: controlledOpen, onOpenChange }: CommandPa
       label: 'Galeria Completa de Pinturas',
     },
     {
+      value: 'colecoes tematicas trilhas narrativas vida de cristo parabolas genesis',
+      onSelect: () => handleSelect(() => navigate('/colecoes')),
+      icon: <Sparkles className="w-4 h-4 mr-2 text-amber-500 group-data-[selected=true]:text-accent-foreground" />,
+      label: 'Coleções Temáticas & Trilhas',
+    },
+    {
       value: 'antigo testamento genesis salmos isaias',
       onSelect: () => handleSelect(() => navigate('/biblia?testament=old')),
       icon: <BookOpen className="w-4 h-4 mr-2 text-primary group-data-[selected=true]:text-accent-foreground" />,

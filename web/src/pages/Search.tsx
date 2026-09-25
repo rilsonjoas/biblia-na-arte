@@ -26,6 +26,7 @@ import {
 } from 'lucide-react';
 import { useArtworkSearchAdvanced, useArtists, useThemes, usePeriods } from '@/hooks/use-artworks';
 import { useBibleBooks } from '@/hooks/use-bible-books';
+import { parseThemesParam, parseBookSlugParam } from '@/lib/search-params';
 import type { SearchFilters } from '@/lib/api-data';
 import { CATEGORIES, getCategoryMeta } from '@/lib/categories';
 import { toRomanNumeral, toRomanBookName, sortByTitleAz } from '@/lib/utils';
@@ -59,19 +60,27 @@ export default function Search() {
   const [showFilters, setShowFilters] = useState(false);
   const [page, setPage] = useState(1);
 
+  // Filtros vindos de URL no primeiro render — cluster "A Biblioteca"
+  // (2026-09-22): `?themes=` e `?bookSlug=` ligam galeria filtrada por
+  // tema/livro a partir de outros projetos ou do próprio `/explorar`.
+  // O efeito abaixo mantém isso em sync quando a URL muda em navegação
+  // interna (padrão do efeito de `?q=`). Contrato em lib/search-params.ts.
+  const initialThemesFromUrl = parseThemesParam(searchParams.get('themes'));
+  const initialBookFromUrl = parseBookSlugParam(searchParams.get('bookSlug'));
+
   // Filtros avançados
   const [selectedCategory, setSelectedCategory] = useState<string>(categoryParam || '');
   // Multiselect de livro (achado 2026-09-02, Rilson: substitui o antigo
   // Select de Testamento — livro já informa o testamento, e é bem mais
   // útil pra filtrar). Mesma semântica "ou" de Artista/Tema.
-  const [selectedBooks, setSelectedBooks] = useState<string[]>([]);
+  const [selectedBooks, setSelectedBooks] = useState<string[]>(initialBookFromUrl ? [initialBookFromUrl] : []);
   const [selectedCentury, setSelectedCentury] = useState<string>('');
   // Multiselect (roadmap 2026-09-01, pedido do Rilson) — "ou" entre os
   // artistas escolhidos, "e" com os outros filtros. Ver MultiSelect em
   // components/ui/multi-select.tsx.
   const [selectedArtists, setSelectedArtists] = useState<string[]>([]);
   // Multiselect de tema (roadmap, Passo 3, 2026-09-02) — mesma semântica.
-  const [selectedThemes, setSelectedThemes] = useState<string[]>([]);
+  const [selectedThemes, setSelectedThemes] = useState<string[]>(initialThemesFromUrl);
   // Ordenação alfabética (pedido 2026-09-14, Rilson) — a página de
   // pinturas buscava tudo e paginava no cliente, mas sem controle de
   // ordenação (vinha sempre "mais recentes" do server). Mesmo padrão de
@@ -138,6 +147,21 @@ export default function Search() {
     const searchQuery = searchParams.get('q');
     if (searchQuery && searchQuery !== query) {
       setQuery(searchQuery);
+    }
+  }, [searchParams]);
+
+  // Mesmo padrão do efeito de `?q=`, pro cluster "A Biblioteca": aplicar
+  // filtros de tema/livro quando a URL tiver ?themes= / ?bookSlug= (ex.:
+  // link do /explorar ou de outro projeto). Só age quando o parâmetro
+  // existe — navegar pra /busca sem parâmetros não mexe no filtro atual.
+  useEffect(() => {
+    const themesParam = parseThemesParam(searchParams.get('themes'));
+    if (themesParam.length) {
+      setSelectedThemes((prev) => (themesParam.join(',') === prev.join(',') ? prev : themesParam));
+    }
+    const bookSlug = parseBookSlugParam(searchParams.get('bookSlug'));
+    if (bookSlug) {
+      setSelectedBooks((prev) => (prev.includes(bookSlug) ? prev : [...prev, bookSlug]));
     }
   }, [searchParams]);
 

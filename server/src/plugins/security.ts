@@ -21,7 +21,16 @@ export async function registerSecurity(app: FastifyInstance) {
   // preflight do navegador bloqueia a chamada antes dela nem chegar na
   // API — funcionava via curl, quebraria no painel de verdade).
   await app.register(cors, {
-    origin: env.CORS_ORIGIN,
+    origin: (origin, cb) => {
+      if (!origin) return cb(null, true);
+      if (env.NODE_ENV === 'development' && /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origin)) {
+        return cb(null, true);
+      }
+      if (env.CORS_ORIGIN.includes(origin)) {
+        return cb(null, true);
+      }
+      cb(null, false);
+    },
     methods: ['GET', 'POST', 'PATCH', 'DELETE'],
   });
 

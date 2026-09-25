@@ -89,6 +89,24 @@ describe('extractFrontmatter', () => {
     expect(fm?.capítulos).toEqual(['[[Lucas 10]]']);
   });
 
+  it('lê metadados expandidos de arte e teologia (periodo, tradicao, tecnica, pais)', () => {
+    const noteWithMetadata = `---
+autor: "[[Rembrandt]]"
+ano: 1648
+periodo: "Barroco Holandês"
+tradicao: "Protestante"
+tecnica: "Óleo sobre tela"
+pais: "Holanda"
+localizacao: "Musée du Louvre, Paris, França"
+---`;
+    const fm = extractFrontmatter(noteWithMetadata);
+    expect(fm?.periodo).toBe('Barroco Holandês');
+    expect(fm?.tradicao).toBe('Protestante');
+    expect(fm?.tecnica).toBe('Óleo sobre tela');
+    expect(fm?.pais).toBe('Holanda');
+    expect(fm?.localizacao).toBe('Musée du Louvre, Paris, França');
+  });
+
   it('retorna null sem frontmatter', () => {
     expect(extractFrontmatter('# Só um título')).toBeNull();
   });

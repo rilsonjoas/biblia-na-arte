@@ -28,6 +28,11 @@ export interface RawFrontmatter {
   // exportar sourceUrl (eram só 10, as poucas notas que por acaso usavam
   // o nome errado).
   fonte_localizacao?: string;
+  // Metadados Expandidos de Arte e Teologia (Fase 5)
+  periodo?: string;
+  tradicao?: string;
+  tecnica?: string;
+  pais?: string;
 }
 
 export function slugify(input: string): string {

@@ -282,6 +282,10 @@ interface ExportedArtwork {
   // Cleveland, EUA". Opcional de propósito: preenchido só onde a
   // curadoria já confirmou museu/acervo — não força dado que não existe.
   location?: string | undefined;
+  period?: string | undefined;
+  tradition?: string | undefined;
+  technique?: string | undefined;
+  country?: string | undefined;
   sourceUrl?: string | undefined;
   classicCommentaryAuthor?: string | undefined;
   classicCommentary?: string | undefined;
@@ -456,12 +460,18 @@ async function main() {
       location: typeof frontmatter.localizacao === 'string' && frontmatter.localizacao.trim()
         ? frontmatter.localizacao.trim()
         : undefined,
-      // Achado 2026-09-01 (Rilson perguntou "os links de fonte oficial
-      // estão aparecendo pros usuários?" — a resposta era não, quase
-      // nunca): lia `frontmatter.fonte`, mas o campo real usado em toda
-      // nota do vault é `fonte_localizacao`. Só as 10 notas (de 904!) que
-      // por acaso usavam o nome errado é que já tinham sourceUrl
-      // preenchido — bug de longa data, não um achado de hoje.
+      period: typeof frontmatter.periodo === 'string' && frontmatter.periodo.trim()
+        ? frontmatter.periodo.trim()
+        : undefined,
+      tradition: typeof frontmatter.tradicao === 'string' && frontmatter.tradicao.trim()
+        ? frontmatter.tradicao.trim()
+        : undefined,
+      technique: typeof frontmatter.tecnica === 'string' && frontmatter.tecnica.trim()
+        ? frontmatter.tecnica.trim()
+        : undefined,
+      country: typeof frontmatter.pais === 'string' && frontmatter.pais.trim()
+        ? frontmatter.pais.trim()
+        : undefined,
       sourceUrl: typeof frontmatter.fonte_localizacao === 'string' && frontmatter.fonte_localizacao.trim()
         ? frontmatter.fonte_localizacao.trim()
         : undefined,

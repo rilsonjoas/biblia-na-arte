@@ -6,15 +6,14 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import ArtworkCard, { ArtworkCardSkeleton } from '@/components/ArtworkCard';
 import { PinturaDoDia } from '@/components/PinturaDoDia';
+import { VersiculoDoDia } from '@/components/VersiculoDoDia';
 import { SEO } from '@/components/SEO';
 import { ErrorCard } from '@/components/ui/error-display';
 import { useFeaturedArtworks } from '@/hooks/use-artworks';
 import { Book, Palette, Search, Sparkles, Instagram } from 'lucide-react';
 
-// Servido de web/public/ (não é uma pintura do catálogo, é asset de UI) —
-// path fixo em vez de import, sem precisar de hash de build pra um banner
-// único que não muda com frequência.
-const heroImage = '/hero-banner.jpg';
+// Pintura/gravura sacra do acervo usada como imagem de fundo do Hero (Gustave Doré — Egípcios Afogados no Mar, 1866)
+const heroImage = '/images/gustave-dore-egipcios-afogados-no-mar.webp';
 
 export default function Index() {
   const { data: featuredArtworks = [], isLoading, isError, error, refetch } = useFeaturedArtworks();
@@ -40,32 +39,30 @@ export default function Index() {
       {/* Hero Section */}
       <section className="relative min-h-[70vh] flex items-center justify-center overflow-hidden">
         <div 
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          className="absolute inset-0 bg-cover bg-[center_30%] md:bg-center bg-no-repeat transition-all duration-700"
           style={{ backgroundImage: `url(${heroImage})` }}
         />
-        {/* Scrim fixo (não bg-primary) a 75% — achado real 2026-08-16:
-            bg-primary/NN quebrava no tema escuro, onde --primary vira
-            dourado (cor de marca no escuro) e o overlay ficava "dourado
-            sobre imagem dourada", contraste real de 1.13:1. Cor fixa
-            (--hero-scrim, ver index.css) funciona igual nos dois temas:
-            5.77:1 (texto dourado) / 10.49:1 (branco). */}
-        <div className="absolute inset-0 bg-[hsl(var(--hero-scrim))]/75" />
+        {/* Scrim cinematográfico equilibrado: a arte fica perfeitamente visível e o texto 100% legível */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/55 via-black/35 to-black/70" />
         
-        <div className="relative z-10 container mx-auto px-4 text-center text-white">
+        <div className="relative z-10 container mx-auto px-4 text-center text-white py-12">
           <div className="max-w-4xl mx-auto">
-            <Badge variant="secondary" className="mb-6 text-sm shadow-golden">
-              <Sparkles className="w-4 h-4 mr-2" />
+            <Badge 
+              variant="outline" 
+              className="mb-6 text-sm px-4 py-1.5 bg-black/60 text-amber-300 border-amber-500/40 shadow-golden backdrop-blur-md inline-flex items-center"
+            >
+              <Sparkles className="w-4 h-4 mr-2 text-amber-400" />
               Explore as Conexões Sagradas
             </Badge>
             
-            <h1 className="text-display text-3xl sm:text-4xl md:text-6xl font-bold mb-6 leading-tight">
+            <h1 className="text-display text-3xl sm:text-4xl md:text-6xl font-bold mb-6 leading-tight text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.9)]">
               A Bíblia através da
-              <span className="block gradient-accent bg-clip-text text-transparent">
+              <span className="block mt-1 bg-gradient-to-r from-amber-200 via-amber-300 to-amber-100 bg-clip-text text-transparent drop-shadow-[0_2px_10px_rgba(0,0,0,0.95)]">
                 Arte e Cultura
               </span>
             </h1>
             
-            <p className="text-base sm:text-xl md:text-2xl mb-8 text-white/90 max-w-3xl mx-auto leading-relaxed">
+            <p className="text-base sm:text-xl md:text-2xl mb-8 text-white/95 max-w-3xl mx-auto leading-relaxed drop-shadow-[0_1px_6px_rgba(0,0,0,0.9)] font-normal">
               Descubra como as narrativas sagradas foram interpretadas 
               ao longo da história através de pinturas cuidadosamente 
               curadas, ligadas às passagens que as inspiraram.
@@ -75,7 +72,7 @@ export default function Index() {
               <Button 
                 asChild 
                 size="lg" 
-                className="shadow-golden text-lg px-8 py-6 bg-accent hover:bg-accent/90 text-accent-foreground"
+                className="shadow-golden text-lg px-8 py-6 bg-amber-500 hover:bg-amber-400 text-slate-950 font-semibold transition-transform hover:scale-[1.02]"
               >
                 <Link to="/biblia">
                   <Book className="w-5 h-5 mr-2" />
@@ -86,12 +83,8 @@ export default function Index() {
                 asChild 
                 variant="hero"
                 size="lg" 
-                className="shadow-classical text-lg px-8 py-6"
+                className="shadow-classical text-lg px-8 py-6 bg-black/50 text-white border-white/30 hover:bg-white/20 hover:text-white backdrop-blur-md transition-transform hover:scale-[1.02]"
               >
-                {/* Mesmo achado do "Ver Todas as Obras" mais abaixo
-                    (2026-09-11, Rilson): "Descobrir Arte" promete arte,
-                    não um menu de categorias com "Música"/"Filmes — em
-                    breve" à mostra. */}
                 <Link to="/arte/painting">
                   <Palette className="w-5 h-5 mr-2" />
                   Descobrir Arte
@@ -102,9 +95,7 @@ export default function Index() {
         </div>
       </section>
 
-      <PinturaDoDia />
-
-      {/* Navigation Cards */}
+      {/* Navigation Cards: Como Explorar */}
       <section className="py-20 bg-background">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
@@ -176,13 +167,7 @@ export default function Index() {
             </Card>
 
             <Card className="group hover:shadow-classical transition-all duration-300 hover:-translate-y-2 gradient-card border-0">
-              {/* Decisão do Rilson (2026-09-11): corrigir junto com
-                  "Descobrir Arte"/"Ver Todas as Obras" — nenhuma chamada
-                  da Home deve revelar o seletor de categorias
-                  ("Música"/"Filmes — em breve"), mesmo esta cuja própria
-                  descrição fala em "categorias". O seletor em si
-                  continua existindo, só não é mais promovido daqui. */}
-              <Link to="/arte/painting">
+              <Link to="/colecoes">
                 <CardHeader className="text-center pb-4">
                   <div className="w-16 h-16 mx-auto gradient-hero rounded-full flex items-center justify-center mb-4 group-hover:shadow-golden transition-all duration-300">
                     <Sparkles className="w-8 h-8 text-white" />
@@ -193,7 +178,7 @@ export default function Index() {
                 </CardHeader>
                 <CardContent>
                   <CardDescription className="text-center">
-                    Conheça as diferentes categorias e seleções curadas
+                    Conheça as trilhas temáticas e seleções curadas
                     da nossa biblioteca visual de arte sacra.
                   </CardDescription>
                 </CardContent>
@@ -202,6 +187,9 @@ export default function Index() {
           </div>
         </div>
       </section>
+
+      {/* Pintura do Dia */}
+      <PinturaDoDia />
 
       {/* Featured Artworks */}
       <section className="py-20 bg-muted/30">
@@ -237,12 +225,6 @@ export default function Index() {
           )}
 
           <div className="text-center mt-12">
-            {/* Bug real achado 2026-09-11 (Rilson): ia pra /arte (o
-                seletor de categorias, que revela "Música"/"Filmes — em
-                breve") em vez de direto pras obras, que é o único
-                conteúdo real hoje. "Ver Todas as Obras" promete obras,
-                não um menu de categorias — igual "Galeria de Pinturas"
-                já faz (Como Explorar, mais acima nesta mesma página). */}
             <Button asChild variant="outline" size="lg" className="shadow-card">
               <Link to="/arte/painting">
                 Ver Todas as Obras
@@ -251,6 +233,9 @@ export default function Index() {
           </div>
         </div>
       </section>
+
+      {/* Versículo do Dia */}
+      <VersiculoDoDia />
 
       {/* About Section */}
       <section className="py-20 bg-background">

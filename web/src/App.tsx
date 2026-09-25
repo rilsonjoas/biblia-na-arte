@@ -20,6 +20,8 @@ import About from "./pages/About";
 import Contribute from "./pages/Contribute";
 import SubmitArtwork from "./pages/SubmitArtwork";
 import Search from "./pages/Search";
+import Collections from "./pages/Collections";
+import CollectionDetail from "./pages/CollectionDetail";
 import Favorites from "./pages/Favorites";
 import Privacy from "./pages/Privacy";
 import NotFound from "./pages/NotFound";
@@ -64,6 +66,8 @@ const App = () => (
               {/* "Mapa de obras ↔ referências bíblicas" (roadmap 2026-09-02):
                   rotas novas fora do /biblia pra não tocar nas URLs indexadas. */}
               <Route path="/explorar/:bookSlug/:chapter" element={<Explore />} />
+              <Route path="/colecoes" element={<Collections />} />
+              <Route path="/colecoes/:slug" element={<CollectionDetail />} />
               <Route path="/sobre" element={<About />} />
               <Route path="/contribuir" element={<Contribute />} />
               {/* Submissão de artistas (roadmap, 2026-09-05) — rota nova,

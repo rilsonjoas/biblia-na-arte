@@ -17,6 +17,7 @@ import { submissionRoutes } from './routes/submissions.js';
 import { adminRoutes } from './routes/admin.js';
 import { uploadRoutes } from './routes/uploads.js';
 import { shareRoutes } from './routes/share.js';
+import { collectionRoutes } from './routes/collections.js';
 import { initSentry } from './lib/sentry.js';
 
 export async function buildApp() {
@@ -52,6 +53,7 @@ export async function buildApp() {
   await app.register(themeRoutes, { prefix: '/api/v1' });
   await app.register(periodRoutes, { prefix: '/api/v1' });
   await app.register(exploreRoutes, { prefix: '/api/v1' });
+  await app.register(collectionRoutes, { prefix: '/api/v1' });
   await app.register(submissionRoutes, { prefix: '/api/v1' });
   await app.register(adminRoutes, { prefix: '/api/v1' });
   await app.register(uploadRoutes, { prefix: '/api/v1' });

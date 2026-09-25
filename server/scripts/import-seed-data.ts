@@ -41,6 +41,10 @@ interface ExportedArtwork {
   licenseType: string;
   attributionText?: string;
   location?: string;
+  period?: string;
+  tradition?: string;
+  technique?: string;
+  country?: string;
   sourceUrl?: string;
   classicCommentaryAuthor?: string;
   classicCommentary?: string;
@@ -137,6 +141,10 @@ async function main() {
         licenseType: item.licenseType,
         attributionText: item.attributionText,
         location: item.location,
+        period: item.period,
+        tradition: item.tradition,
+        technique: item.technique,
+        country: item.country,
         sourceUrl: item.sourceUrl,
         classicCommentaryAuthor: item.classicCommentaryAuthor,
         classicCommentary: item.classicCommentary,

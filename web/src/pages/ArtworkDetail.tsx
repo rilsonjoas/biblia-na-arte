@@ -224,7 +224,17 @@ export default function ArtworkDetail() {
         {/* Main Artwork Stage */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 mb-12 items-start">
           {/* Image / Media Column */}
-          <div className="lg:col-span-7 space-y-3">
+          <div className="lg:col-span-7 space-y-3 relative">
+            {/* Ambient Glow sutil no tema escuro — 0KB de bundle, aproveita cache WebP */}
+            {imageUrl && !artwork.embedUrl && (
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute -inset-3 dark:opacity-30 opacity-0 blur-2xl transition-opacity duration-300 rounded-3xl overflow-hidden -z-10 bg-cover bg-center"
+                style={{
+                  backgroundImage: `url(${imageUrl})`,
+                }}
+              />
+            )}
             <div className="relative group rounded-xl overflow-hidden bg-muted/40 border border-border/70 shadow-lg gallery-frame">
               <AspectRatio ratio={4 / 3}>
                 {artwork.embedUrl ? (
@@ -244,7 +254,8 @@ export default function ArtworkDetail() {
                       src={imageUrl}
                       alt={artwork.title}
                       onLoad={() => setImageLoaded(true)}
-                      className={`w-full h-full object-contain bg-black/5 dark:bg-black/40 rounded-xl transition-all duration-300 [transition-timing-function:var(--ease-liturgico)] group-hover:scale-[1.02] cursor-pointer ${
+                      style={{ viewTransitionName: `artwork-img-${artwork.id}` }}
+                      className={`w-full h-full object-contain bg-black/5 dark:bg-black/40 rounded-xl transition-all duration-200 [transition-timing-function:var(--ease-liturgico)] group-hover:scale-[1.01] cursor-pointer ${
                         imageLoaded ? 'opacity-100' : 'opacity-0'
                       }`}
                       onClick={() => setLightboxOpen(true)}
@@ -252,7 +263,7 @@ export default function ArtworkDetail() {
                     {/* Hover Zoom Overlay Badge */}
                     <button
                       onClick={() => setLightboxOpen(true)}
-                      className="absolute bottom-3 right-3 flex items-center gap-1.5 bg-black/75 hover:bg-black/90 text-white backdrop-blur px-3 py-1.5 rounded-full text-xs font-medium shadow-lg transition-transform group-hover:scale-105"
+                      className="absolute bottom-3 right-3 flex items-center gap-1.5 bg-black/75 hover:bg-black/90 text-white backdrop-blur px-3 py-1.5 rounded-full text-xs font-medium shadow-lg transition-transform duration-200 group-hover:scale-105"
                       title="Clique para ampliar em alta resolução"
                     >
                       <Maximize2 className="w-3.5 h-3.5 text-amber-400" />
@@ -389,6 +400,54 @@ export default function ArtworkDetail() {
                     </div>
                     <span className="text-foreground text-right min-w-0 break-words">
                       {artwork.dimensionsOrDuration}
+                    </span>
+                  </div>
+                )}
+
+                {artwork.technique && (
+                  <div className="flex items-start justify-between gap-3 border-t border-border/40 pt-2">
+                    <div className="flex items-center gap-2 text-muted-foreground shrink-0">
+                      <Palette className="w-4 h-4 text-primary" />
+                      <span>Técnica / Suporte:</span>
+                    </div>
+                    <span className="text-foreground text-right min-w-0 break-words font-medium">
+                      {artwork.technique}
+                    </span>
+                  </div>
+                )}
+
+                {artwork.period && (
+                  <div className="flex items-start justify-between gap-3 border-t border-border/40 pt-2">
+                    <div className="flex items-center gap-2 text-muted-foreground shrink-0">
+                      <Calendar className="w-4 h-4 text-primary" />
+                      <span>Período / Movimento:</span>
+                    </div>
+                    <span className="text-foreground text-right min-w-0 break-words font-medium">
+                      {artwork.period}
+                    </span>
+                  </div>
+                )}
+
+                {artwork.tradition && (
+                  <div className="flex items-start justify-between gap-3 border-t border-border/40 pt-2">
+                    <div className="flex items-center gap-2 text-muted-foreground shrink-0">
+                      <BookOpen className="w-4 h-4 text-primary" />
+                      <span>Tradição:</span>
+                    </div>
+                    <span className="text-foreground text-right min-w-0 break-words font-medium">
+                      {artwork.tradition}
+                    </span>
+                  </div>
+                )}
+
+                {artwork.country && (
+                  <div className="flex items-start justify-between gap-3 border-t border-border/40 pt-2">
+                    <div className="flex items-center gap-2 text-muted-foreground shrink-0">
+                      <MapPin className="w-4 h-4 text-primary" />
+                      <span>País de Origem:</span>
+                    </div>
+                    <span className="text-foreground text-right min-w-0 break-words">
+                      {artwork.country}
                     </span>
                   </div>
                 )}

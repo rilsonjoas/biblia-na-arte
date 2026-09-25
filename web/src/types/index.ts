@@ -35,6 +35,11 @@ export interface Artwork {
   /** "Onde ver pessoalmente" — museu/cidade/país, texto livre. Curadoria
    * progressiva: nem toda obra tem isso preenchido ainda. */
   location?: string;
+  /** Metadados Expandidos de Arte e Teologia (Fase 5) */
+  period?: string;
+  tradition?: string;
+  technique?: string;
+  country?: string;
   /** "Vozes dos clássicos" — onde Rookmaaker/Schaeffer/Lewis comentaram
    * esta obra específica (fonte verificada). Raro de propósito. */
   classicCommentaryAuthor?: string;
@@ -116,4 +121,22 @@ export interface ExploreData {
   artworks: ExploreArtwork[];
   relatedChapters: ExploreRelatedChapter[];
   themes: ExploreTheme[];
+}
+
+export interface ThematicCollection {
+  slug: string;
+  title: string;
+  subtitle: string;
+  description: string;
+  coverImage?: string | null;
+  artworkCount: number;
+}
+
+export interface ThematicCollectionDetail {
+  slug: string;
+  title: string;
+  subtitle: string;
+  description: string;
+  coverImage?: string | null;
+  artworks: Artwork[];
 }

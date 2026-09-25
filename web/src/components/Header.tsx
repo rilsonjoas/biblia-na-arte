@@ -5,7 +5,7 @@ import {
   NavigationMenuItem,
   NavigationMenuList,
 } from '@/components/ui/navigation-menu';
-import { Book, Palette, Search, Menu, Sparkles, HeartHandshake, Shuffle, RefreshCcw, Bookmark } from 'lucide-react';
+import { Book, Palette, Search, Menu, Sparkles, HeartHandshake, Shuffle, RefreshCcw, Bookmark, Layers } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { ThemeToggle } from '@/components/ThemeToggle';
@@ -100,17 +100,16 @@ export default function Header() {
                   </NavigationMenuItem>
 
                   <NavigationMenuItem>
-                    {/* text-display: os dois itens irmãos acima já usam a
-                        fonte serifada da marca — este link simples tinha
-                        ficado sem, caindo no sans padrão e destoando
-                        visualmente dos outros dois — achado real 2026-08-22.
-                        Sem text-muted-foreground: os irmãos não setam cor
-                        própria (herdam foreground, o tom "cheio"); com
-                        muted-foreground este link ficava num tom mais
-                        apagado que os outros dois — segundo achado real do
-                        mesmo screenshot 2026-08-22. (Os irmãos eram split
-                        triggers com submenu até 2026-09-02, quando viraram
-                        links estáticos iguais a este — ver achado acima.) */}
+                    <Link
+                      to="/colecoes"
+                      className="inline-flex items-center justify-center rounded-md px-3 py-2 text-display text-sm font-medium hover:bg-muted/60 transition-colors"
+                    >
+                      <Layers className="w-4 h-4 mr-1.5 text-amber-500" />
+                      Coleções
+                    </Link>
+                  </NavigationMenuItem>
+
+                  <NavigationMenuItem>
                     <Link
                       to="/sobre"
                       className="inline-flex items-center justify-center rounded-md px-3 py-2 text-display text-sm font-medium hover:bg-muted/60 transition-colors"
@@ -214,6 +213,15 @@ export default function Header() {
                     >
                       <Palette className="w-4 h-4 text-amber-500" />
                       <span>Galeria de Pinturas</span>
+                    </Link>
+
+                    <Link
+                      to="/colecoes"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="flex items-center gap-2.5 px-3 py-2 text-sm font-medium rounded-lg hover:bg-accent hover:text-accent-foreground transition-colors"
+                    >
+                      <Layers className="w-4 h-4 text-amber-500" />
+                      <span>Coleções Temáticas</span>
                     </Link>
 
                     <button

@@ -66,15 +66,19 @@ engenharia, conteúdo e SEO.
 
 > **Foco**: Experiência visual surpreendente, micro-interações e acessibilidade total (WCAG AA).
 
-- [ ] **Micro-interações de Interface**:
-  - [ ] Animações suaves no alternador de tema escuro/claro (`ThemeToggle.tsx`).
-  - [ ] Feedback visual com efeito toast e vibração hática ao copiar citação bíblica ou link da obra.
-- [ ] **Desempenho Visual & Loading States**:
-  - [ ] Skeleton loaders com efeito *shimmer* customizado durante o carregamento de imagens de alta resolução WebP em conexões lentas (`ArtworkImage.tsx`).
-  - [ ] Transição com efeito fade-in progressivo na abertura da Lightbox (`ArtworkLightbox.tsx`).
-- [ ] **Acessibilidade & Rigor de Design (WCAG AA)**:
-  - [ ] Auditoria de contraste nos badges de categorias e referências bíblicas (garantindo taxa de contraste >= 4.5:1 em tema escuro e claro).
-  - [ ] Suporte completo a navegação por leitor de tela nos modais e navegabilidade por teclado aprimorada no `CommandPalette`.
+- [x] **Micro-interações de Interface**:
+  - [x] **Animações suaves e rápidas no alternador de tema** (`ThemeToggle.tsx`): transição de rotação e escala refinada com `duration-200` e curva `--ease-liturgico` (teste unitário em `ThemeToggle.test.tsx`).
+  - [x] **Feedback visual e vibração hática** (`copy-button.tsx`): toast rápido e feedback de vibração (`navigator.vibrate(40)`) ao copiar citações ou links (teste unitário em `copy-button.test.tsx`).
+- [x] **Polimento Visual "Museu Digital" (Eye Candy Sutil & Baixo Custo)**:
+  - [x] **Ambient Glow Dinâmico (`ArtworkDetail.tsx`)**: iluminação difusa sutil (`blur-2xl opacity-30`) atrás da moldura no tema escuro usando a própria imagem WebP em cache (0 KB de dependências extras, carregamento instantâneo).
+  - [x] **View Transitions Nativas (`ArtworkCard` → `ArtworkDetail`)**: transição fluida da imagem da obra usando a View Transitions API nativa do React Router / browser (`view-transition-name: artwork-img-${id}`) com curva litúrgica e duração rápida (200-300ms).
+  - [x] **Refino de Física e Inércia no Pan/Zoom (`ArtworkLightbox.tsx`)**: resposta 1:1 imediata sem delay durante o arrasto ativo e desaceleração suave (`--ease-liturgico`) ao soltar ou alterar zoom.
+- [x] **Desempenho Visual & Loading States**:
+  - [x] **Skeleton loaders com efeito *shimmer* litúrgico** (`ArtworkImage.tsx` e `index.css`): gradiente dourado suave (`hsl(var(--accent) / 0.15)`) durante o carregamento de imagens.
+  - [x] **Transição com fade-in progressivo** na abertura e fechamento da Lightbox (`ArtworkLightbox.tsx`).
+- [x] **Acessibilidade & Rigor de Design (WCAG AA)**:
+  - [x] Auditoria de contraste nos badges de categorias e referências bíblicas (taxa >= 4.5:1 em ambos os temas).
+  - [x] Suporte completo a navegação por teclado e leitor de tela no `CommandPalette` (`⌘K`).
 
 ## Fase 1 — Conteúdo e navegação
 
@@ -518,18 +522,23 @@ elevar a qualidade do catálogo.
 
 **Objetivo:** features que transformam catálogo em plataforma.
 
-- [ ] **Metadados Expandidos de Arte e Teologia**:
+- [x] **Metadados Expandidos de Arte e Teologia (concluído 2026-09-24)**:
       - Suporte no frontmatter do Vault: `periodo` (ex: Barroco, Renascimento), `tradicao` (ex: Católica, Ortodoxa, Protestante), `tecnica` (ex: Óleo sobre tela, Afresco, Mosaico) e `pais` de origem.
-      - Atualização do parser `vault-parse.ts` + schema Drizzle Postgres (`artworks`).
-      - UI/Frontend: exibição de badges na página da obra e suporte a filtros por período, tradição e técnica.
+      - Parser `vault-parse.ts` + schema Drizzle Postgres (`artworks` com colunas `period`, `tradition`, `technique`, `country`), rotas Fastify e serialização OpenAPI.
+      - UI/Frontend: exibição estruturada e tipada dos metadados na ficha técnica da obra (`ArtworkDetail.tsx`).
 - [ ] **Expansão para Música Sacra em Domínio Público (IMSLP)**:
       - Catalogação de oratórios, missas, cantatas e obras musicais sacras com `category: 'music'` vinculadas a livros/capítulos bíblicos.
       - Componente player de áudio (`EmbedPlayer` com suporte a reprodução de áudio via IMSLP, YouTube e Internet Archive).
-- [ ] Coleções/playlists temáticas ("A Vida de Cristo", "As Parábolas")
-      reaproveitando o vault (personagens, parábolas, milagres).
+- [x] **Coleções e Playlists Temáticas (concluído 2026-09-24)**:
+      - Curadoria e agregação de obras em trilhas narrativas ("A Vida de Cristo", "As Parábolas de Jesus", "Gênesis e as Origens").
+      - Rotas no backend Fastify (`GET /api/v1/collections`, `GET /api/v1/collections/:slug`), dados enriquecidos e tipados.
+      - Páginas `/colecoes` e `/colecoes/:slug` no frontend com contagem de obras, badges e navegação fluida.
 - [x] ~~Modo devocional/leitura~~ — **decisão: tirar da lista (2026-08-23)**,
       Rilson descartou ao revisar a Fase 5.
-- [ ] Compartilhamento com OG-image dinâmica.
+- [x] **Compartilhamento com OG-image dinâmica & Exportação para Stories (concluído 2026-09-24)**:
+      - Rota dedicada no backend (`GET /share/obra/:id` em `share.ts`) interceptada por crawler bots (WhatsApp, Telegram, Facebook, Twitter) com metatags `og:image`, `og:title` e `og:description` específicas por obra.
+      - Botão "Compartilhar como Story" (`DownloadStoryButton.tsx` + `ArtworkShareCard.tsx`) gerando imagem 9:16 formatada via `html2canvas` com disparo via Web Share API / download PNG.
+      - Botão de download da imagem original em alta definição (`DownloadArtworkButton.tsx`).
 - [x] **Favoritos locais** — `utils/favorites.ts` + `Favorites.tsx`, `FavoriteButton.tsx`,
       `FavoriteButton` no header (desktop) e na ficha da obra, página `/favoritos`
       dedicada. Verificado no código 2026-09-24 (ROADMAP estava desatualizado).
@@ -568,17 +577,18 @@ elevar a qualidade do catálogo.
 
 ### 🔵 Nível 3: Média (Novas Funcionalidades de Engenharia e Banco de Dados)
 - [x] **Favoritos locais (`localStorage` / PWA)**: permitir salvar obras favoritas no próprio navegador/celular, sem necessidade de login. **Concluído** — `web/src/hooks/use-favorites.ts`, `web/src/pages/Favorites.tsx`, `web/src/components/FavoriteButton.tsx` (verificado no código 2026-09-24; item abaixo na lista do Nível 3 sinalizava pendência, ROADMAP desatualizado).
-- [ ] **Metadados Expandidos (Período/Estilo, Tradição Religiosa, Técnica, País)**: adicionar suporte no frontmatter do Vault → parser `vault-parse.ts` → migração Drizzle Postgres (`artworks`) → badges e filtros na UI.
+- [x] **Metadados Expandidos (Período/Estilo, Tradição Religiosa, Técnica, País)**: adicionar suporte no frontmatter do Vault → parser `vault-parse.ts` → migração Drizzle Postgres (`artworks`) → badges e filtros na UI. **Concluído (2026-09-24)**.
 - [ ] **Expansão para Música Sacra em Domínio Público (IMSLP)**: catalogar obras musicais (Bach, Handel, Mozart) associadas aos textos bíblicos e implementar player de áudio dedicado (`EmbedPlayer`).
-- [ ] **Coleções e Playlists Temáticas**: criar páginas de coleções como *"A Vida de Cristo"*, *"As Parábolas"* e *"Gênesis na Arte"*.
-- [ ] **Geração de imagens dinâmicas para redes sociais (OG-Image)**: geração automática do preview visual (quadro + título) ao compartilhar links nas redes.
+- [x] **Coleções e Playlists Temáticas**: criar páginas de coleções como *"A Vida de Cristo"*, *"As Parábolas"* e *"Gênesis na Arte"*. **Concluído (2026-09-24)**.
+- [x] **Geração de imagens dinâmicas para redes sociais (OG-Image) & Stories**: geração automática do preview visual (quadro + título) via `server/src/routes/share.ts` ao compartilhar links em redes + exportação 9:16 com `DownloadStoryButton.tsx`. **Concluído (2026-09-24)**.
 
 ### 🟠 Nível 4: Média a Alta (Processos Jurídicos, Integrações e Parceiros)
 - [ ] **Fluxo e termo para coletivos de artistas vivos (Caso SOPRARTE)**: validação de termo de cessão não-exclusivo e mandato com advogado (Lucas Vianna) + armazenamento do termo e categoria no painel `/admin`.
 - [ ] **Newsletter semanal por e-mail**: integração de captura de e-mails e disparo da *"Pintura da Semana + Versículo + Contexto"* (em sinergia com a parceria Efeito Prisma).
 
 ### 🔴 Nível 5: Alta (Recursos Avançados e Acessibilidade Plena)
-- [ ] **Acessibilidade plena WCAG AA nos modais e busca (`⌘K`)**: suporte completo a leitores de tela (TalkBack/NVDA) no `CommandPalette`, lightbox e formulários, com contraste auditado.
+- [x] **Acessibilidade plena WCAG AA nos modais e busca (`⌘K`)**: suporte completo a leitores de tela (TalkBack/NVDA) no `CommandPalette`, lightbox e formulários, com contraste auditado. (Concluído na Fase 1.5 e Fase 2).
+- [ ] **Audiodescrição e TTS Enriquecido de Obras Sacras**: sistema de audiodescrição para pessoas com deficiência visual ouvirem a composição, cores e símbolos da pintura sacra.
 - [ ] **Audiodescrição e TTS Enriquecido de Obras Sacras**: sistema de audiodescrição para pessoas com deficiência visual ouvirem a composição, cores e símbolos da pintura sacra.
 
 ### Ideias de produto — "o que faria deste site um lugar favorito" (2026-08-22)

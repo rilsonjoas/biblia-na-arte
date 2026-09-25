@@ -93,7 +93,7 @@ export default function ArtworkCard({ artwork, showReferences = true }: ArtworkC
         size="sm"
         className="absolute top-2 left-2 z-10 h-7 w-7 flex items-center justify-center rounded-full shadow-md backdrop-blur-md bg-card/85 border border-border/40"
       />
-      <Link to={linkTarget} className="block focus:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-xl">
+      <Link to={linkTarget} viewTransition className="block focus:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-xl">
         <CardHeader className="p-0 relative overflow-hidden bg-muted/40 gallery-frame">
           <AspectRatio ratio={4 / 3}>
             {imageUrl ? (
@@ -106,7 +106,8 @@ export default function ArtworkCard({ artwork, showReferences = true }: ArtworkC
                   alt={artwork.title}
                   loading="lazy"
                   onLoad={() => setImageLoaded(true)}
-                  className={`w-full h-full object-cover rounded-t-xl group-hover:scale-105 transition-transform duration-500 [transition-timing-function:var(--ease-vela)] ${
+                  style={{ viewTransitionName: `artwork-img-${artwork.id}` }}
+                  className={`w-full h-full object-cover rounded-t-xl group-hover:scale-105 transition-transform duration-300 [transition-timing-function:var(--ease-vela)] ${
                     imageLoaded ? 'opacity-100' : 'opacity-0'
                   }`}
                 />

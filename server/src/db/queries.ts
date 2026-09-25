@@ -15,6 +15,7 @@ import type { CreateSubmissionInput, UpdateSubmissionInput } from '../schemas/su
 import { getLectionaryEntry, parseLectionaryRef, SEASON_THEME_SLUGS } from '../lib/lectionary-refs.js';
 import { looksLikeUuid } from '../lib/deterministic-uuid.js';
 import { slugify } from '../lib/vault-parse.js';
+import { THEMATIC_COLLECTIONS } from '../lib/collections-data.js';
 
 type ArtworkRow = typeof artworks.$inferSelect;
 type ReferenceRow = typeof bibleReferences.$inferSelect;
@@ -381,6 +382,10 @@ export async function searchArtworks({ q, limit }: SearchArtworksQuery) {
           license_type AS "licenseType",
           attribution_text AS "attributionText",
           location,
+          period,
+          tradition,
+          technique,
+          country,
           classic_commentary_author AS "classicCommentaryAuthor",
           classic_commentary AS "classicCommentary",
           created_at AS "createdAt",
@@ -952,4 +957,86 @@ export async function findBibleBookSlugByName(name: string): Promise<string | nu
     .where(eq(bibleBooks.name, name.trim()))
     .limit(1);
   return row?.slug ?? null;
+}
+
+export async function listCollections() {
+  const collectionsWithCount = await Promise.all(
+    THEMATIC_COLLECTIONS.map(async (col) => {
+      const detail = await getCollectionDetail(col.slug);
+      return {
+        slug: col.slug,
+        title: col.title,
+        subtitle: col.subtitle,
+        description: col.description,
+        coverImage: col.coverImage || (detail && detail.artworks[0]?.imageUrl) || null,
+        artworkCount: detail ? detail.artworks.length : 0,
+      };
+    })
+  );
+  return collectionsWithCount;
+}
+
+export async function getCollectionDetail(slug: string) {
+  const def = THEMATIC_COLLECTIONS.find((c) => c.slug === slug);
+  if (!def) return null;
+
+  const baseQuery = db
+    .selectDistinct({ id: artworks.id })
+    .from(artworks)
+    .leftJoin(bibleReferences, eq(bibleReferences.artworkId, artworks.id))
+    .leftJoin(artworkThemes, eq(artworkThemes.artworkId, artworks.id))
+    .where(eq(artworks.active, true));
+
+  const conditions = [];
+
+  if (def.bookSlugs && def.bookSlugs.length > 0) {
+    conditions.push(inArray(bibleReferences.bookSlug, def.bookSlugs));
+  }
+
+  if (def.themeSlugs && def.themeSlugs.length > 0) {
+    conditions.push(inArray(artworkThemes.themeSlug, def.themeSlugs));
+  }
+
+  if (conditions.length > 0) {
+    const matchedIds = await db
+      .selectDistinct({ id: artworks.id })
+      .from(artworks)
+      .leftJoin(bibleReferences, eq(bibleReferences.artworkId, artworks.id))
+      .leftJoin(artworkThemes, eq(artworkThemes.artworkId, artworks.id))
+      .where(and(eq(artworks.active, true), sql`(${sql.join(conditions, sql` OR `)})`));
+
+    const ids = matchedIds.map((r) => r.id);
+    if (ids.length === 0) {
+      return {
+        ...def,
+        artworks: [],
+      };
+    }
+
+    const rows = await db
+      .select()
+      .from(artworks)
+      .where(inArray(artworks.id, ids))
+      .orderBy(artworks.year, artworks.createdAt);
+
+    const artworksWithRefs = await attachReferences(rows);
+
+    return {
+      slug: def.slug,
+      title: def.title,
+      subtitle: def.subtitle,
+      description: def.description,
+      coverImage: def.coverImage || artworksWithRefs[0]?.imageUrl || null,
+      artworks: artworksWithRefs,
+    };
+  }
+
+  return {
+    slug: def.slug,
+    title: def.title,
+    subtitle: def.subtitle,
+    description: def.description,
+    coverImage: def.coverImage || null,
+    artworks: [],
+  };
 }

@@ -2,6 +2,10 @@
 
 Uma plataforma digital que explora a profunda conexão entre as Sagradas Escrituras e as manifestações artísticas ao longo da história. Descobra como pinturas, músicas e outras formas de arte deram vida às narrativas bíblicas.
 
+<p align="center">
+  <img src="docs/screenshots/preview.png" alt="Bíblia na Arte Preview" width="800" />
+</p>
+
 ## Sobre o Projeto
 
 BiblianaArte.com é um projeto cultural e educativo que celebra a intersecção entre fé, arte e história. Nossa missão é tornar acessível o vasto patrimônio artístico inspirado pela Bíblia, oferecendo uma experiência rica e envolvente para estudantes, pesquisadores, artistas e entusiastas da cultura.
