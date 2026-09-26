@@ -76,8 +76,16 @@
     --popover: 35 20% 99%;
     --popover-foreground: 30 15% 15%;
 
-    /* Rich burgundy primary inspired by manuscript illuminations */
-    --primary: 0 45% 25%;
+    /* Vinho profundo do cluster A Biblioteca (#4B2E39 = hsl(336 24% 24%)).
+       Antes era carmesim "Rich burgundy" hsl(0 45% 25%) — decisão do
+       Rilson em 2026-09-26, medindo em produção: o token pintava
+       ícones e acentos de autoria em carmesim, e o próprio arquivo
+       dizia (linha 12) que `--primary` "é dourado, não o vinho do
+       claro" — mas só o tema escuro era dourado. O mesmo token era
+       carmesim no claro e dourado no escuro, que é o defeito de
+       "um token por cor" em vez de "um token por papel".
+       O guia do cluster mede este vinho em 10.48:1 no pergaminho. */
+    --primary: 336 24% 24%;
     --primary-foreground: 35 20% 97%;
 
     /* Warm cream secondary */
