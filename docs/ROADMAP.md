@@ -589,7 +589,12 @@ elevar a qualidade do catálogo.
 ### 🔴 Nível 5: Alta (Recursos Avançados e Acessibilidade Plena)
 - [x] **Acessibilidade plena WCAG AA nos modais e busca (`⌘K`)**: suporte completo a leitores de tela (TalkBack/NVDA) no `CommandPalette`, lightbox e formulários, com contraste auditado. (Concluído na Fase 1.5 e Fase 2).
 - [ ] **Audiodescrição e TTS Enriquecido de Obras Sacras**: sistema de audiodescrição para pessoas com deficiência visual ouvirem a composição, cores e símbolos da pintura sacra.
-- [ ] **Audiodescrição e TTS Enriquecido de Obras Sacras**: sistema de audiodescrição para pessoas com deficiência visual ouvirem a composição, cores e símbolos da pintura sacra.
+- [ ] **`altText` curto por obra — a imagem que descreve a pintura, e não só o título** (achado 2026-09-25, ao auditar o consumidor — o **Lecionário**):
+  - **O que está errado hoje:** `alt={artwork.title}` em toda parte — `web/src/components/PinturaDoDia.tsx:61`, `ArtworkDetail`, `Collections`, `BibleBooks`. Para quem não vê, "O bom samaritano" não diz nada sobre a pintura. E no consumidor é **pior**: no `ArtSection` do Lecionário o `alt` é o título *e* o título é o `<h3>` logo abaixo — o leitor de tela ouve a mesma frase duas vezes e nenhuma descrição. 1.1.1 (A).
+  - **O que já existe (e não é pouco):** o campo `description` está na API e está preenchido em **1090 de 1090 obras** (mediana 1496 chars), e o texto descreve a cena ("A composição retrata o episódio de Gênesis 41:1-42…"). O problema nunca foi falta de descrição — é que **`description` não serve como `alt`**: 253 a 4000 caracteres, com `**markdown**`, número de inventário do museu. Alt é conciso; parágrafo no `alt` é má técnica.
+  - **O que fazer:** campo novo `altText` (≤200 chars, descrevendo **o que se vê na tela** — não o assunto abstrato), preenchido a partir da primeira frase da `description` com o markdown limpo, exposto na API e **usado como `alt` em todas as páginas daqui**. A `description` longa continua sendo texto visível, que é onde ela rende.
+  - **Por que aqui e não no consumidor:** o alt nasce com a obra. Corrigir no consumidor dá o mesmo texto para todo mundo e deixa a decisão editorial onde ela pertence. O Lecionário já está consumindo `description` e pode melhorar hoje — mas o texto certo é este campo.
+  - **Bug do mesmo tipo no app:** `ArtCard.tsx` (lecionario-mobile) monta a `<Image>` **sem `accessibilityLabel` nenhum** — o leitor de tela anuncia só "imagem".
 
 ### Ideias de produto — "o que faria deste site um lugar favorito" (2026-08-22)
 
