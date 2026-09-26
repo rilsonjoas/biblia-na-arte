@@ -2,6 +2,8 @@ import type { FastifyInstance } from 'fastify';
 import { zodToJsonSchema } from 'zod-to-json-schema';
 import { listArtworks, getArtworkBySlugOrId, getRandomArtwork, getDailyArtwork, searchArtworks } from '../db/queries.js';
 import { todaySaoPaulo } from '../lib/lectionary-refs.js';
+import { generateSocialImage, SocialImageUpstreamError } from '../lib/image-processing.js';
+import { env } from '../config.js';
 import {
   listArtworksQuerySchema,
   searchArtworksQuerySchema,
@@ -139,6 +141,45 @@ export async function artworkRoutes(app: FastifyInstance) {
       if (!artwork) throw new NotFoundError('Obra');
       reply.header('Cache-Control', 'public, max-age=600, stale-while-revalidate=120');
       return artwork;
+    },
+  );
+
+  app.get(
+    '/artworks/:id/social-image',
+    {
+      schema: {
+        tags: ['obras'],
+        summary: 'Versão da obra segura pra publicar no Instagram/Facebook',
+        description:
+          'Instagram Graph API rejeita imagem fora da proporção 4:5–1.91:1 (achado em produção, 2026-09-26: pintura panorâmica de 2.39:1 derrubou o post do dia). Devolve a imagem original sem alteração quando já está dentro do limite; fora dele, adiciona moldura sólida na cor de fundo do site até caber, sem cortar a obra. Consumida por `scripts/post-daily-social.mjs`, não pelo site.',
+        params: idOrSlugParamJson,
+        response: { 400: errorJson, 404: errorJson, 502: errorJson },
+      },
+    },
+    async (request, reply) => {
+      const { id } = idOrSlugParamSchema.parse(request.params);
+      const artwork = await getArtworkBySlugOrId(id);
+      if (!artwork || !artwork.imageUrl) throw new NotFoundError('Obra');
+
+      const sourceUrl = artwork.imageUrl.startsWith('http')
+        ? artwork.imageUrl
+        : `${env.WEB_PUBLIC_URL}${artwork.imageUrl}`;
+
+      const upstream = await fetch(sourceUrl).catch(() => null);
+      if (!upstream || !upstream.ok) {
+        throw new SocialImageUpstreamError(`Não foi possível buscar a imagem original (${sourceUrl}).`);
+      }
+
+      const original = Buffer.from(await upstream.arrayBuffer());
+      const social = await generateSocialImage(original);
+
+      reply.header('Cache-Control', 'public, max-age=3600, stale-while-revalidate=300');
+      // Mesmo motivo do CORP em routes/uploads.ts: precisa ser buscável
+      // cross-origin pelo Graph API da Meta (e embedável se algum dia
+      // usarmos essa rota pra preview no próprio painel).
+      reply.header('Cross-Origin-Resource-Policy', 'cross-origin');
+      reply.type('image/jpeg');
+      return reply.send(social);
     },
   );
 }

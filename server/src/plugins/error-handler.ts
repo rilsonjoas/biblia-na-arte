@@ -2,6 +2,7 @@ import type { FastifyInstance, FastifyError } from 'fastify';
 import { ZodError } from 'zod';
 import { isProduction } from '../config.js';
 import { BibleTextNotFoundError, BibleTextUpstreamError } from '../lib/bible-api.js';
+import { SocialImageUpstreamError } from '../lib/image-processing.js';
 import { captureException } from '../lib/sentry.js';
 
 export class NotFoundError extends Error {
@@ -30,6 +31,10 @@ export function registerErrorHandler(app: FastifyInstance) {
     }
 
     if (error instanceof BibleTextUpstreamError) {
+      return reply.status(502).send({ error: 'upstream_error', message: error.message });
+    }
+
+    if (error instanceof SocialImageUpstreamError) {
       return reply.status(502).send({ error: 'upstream_error', message: error.message });
     }
 

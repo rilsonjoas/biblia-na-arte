@@ -38,6 +38,14 @@ vi.mock('../lib/auth.js', () => ({
 
 vi.mock('../lib/image-processing.js', () => ({
   promoteSubmissionImage: vi.fn().mockResolvedValue('diego-velazquez-cristo-na-cruz.webp'),
+  processSubmissionImage: vi.fn(),
+  InvalidImageError: class InvalidImageError extends Error {},
+  generateSocialImage: vi.fn(),
+  // `error-handler.ts` faz `instanceof SocialImageUpstreamError` — mockar
+  // sem essa classe real faz QUALQUER erro tratado pelo handler (mesmo
+  // sem relação com imagem, ex. 401 de autenticação) virar 500, porque o
+  // `instanceof` quebra contra `undefined`. Achado real 2026-09-26.
+  SocialImageUpstreamError: class SocialImageUpstreamError extends Error {},
 }));
 
 import { buildApp } from '../app.js';

@@ -57,6 +57,13 @@ const envSchema = z.object({
   // de obras de submissão (as do vault continuam relativas, servidas
   // pelo próprio nginx do `web`).
   PUBLIC_API_URL: z.string().url().default('http://localhost:3000'),
+
+  // URL pública do `web` (nginx, subdomínio diferente da API) — usada só
+  // pela rota `/artworks/:id/social-image` (achado 2026-09-26: Instagram
+  // rejeita imagem com proporção fora de 4:5–1.91:1, ex. pinturas muito
+  // panorâmicas) pra buscar a imagem original do vault e gerar a versão
+  // com moldura sob demanda, sem duplicar o arquivo em disco.
+  WEB_PUBLIC_URL: z.string().url().default('https://biblianaarte.narniano.com'),
 });
 
 const parsed = envSchema.safeParse(process.env);

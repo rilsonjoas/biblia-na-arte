@@ -316,12 +316,19 @@ async function main() {
   }
 
   const imageUrl = `${WEB_BASE}${artwork.imageUrl}`;
+  // Instagram e Facebook rejeitam imagem fora da proporção 4:5–1.91:1
+  // (achado em produção, 2026-09-26: pintura panorâmica de 2.39:1
+  // derrubou o post do dia enquanto o Threads, mais tolerante, publicou
+  // normal). A API gera essa versão sob demanda — devolve a original sem
+  // alteração quando já está dentro do limite, senão adiciona moldura.
+  // Threads continua na imagem original (nunca teve esse problema).
+  const socialImageUrl = `${API_BASE}/artworks/${artwork.id}/social-image`;
   const caption = buildCaption(artwork);
   console.log('▶ Legenda (Instagram/Facebook) montada:\n' + caption);
 
   const jobs = [];
-  if (PLATFORMS.has('instagram')) jobs.push(['Instagram', publishToInstagram(imageUrl, caption)]);
-  if (PLATFORMS.has('facebook')) jobs.push(['Facebook', publishToFacebook(imageUrl, caption)]);
+  if (PLATFORMS.has('instagram')) jobs.push(['Instagram', publishToInstagram(socialImageUrl, caption)]);
+  if (PLATFORMS.has('facebook')) jobs.push(['Facebook', publishToFacebook(socialImageUrl, caption)]);
   if (PLATFORMS.has('threads')) {
     const threadsCaption = buildThreadsCaption(artwork);
     console.log('▶ Legenda (Threads) montada:\n' + threadsCaption);
