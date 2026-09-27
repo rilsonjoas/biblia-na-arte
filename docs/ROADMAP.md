@@ -4192,14 +4192,13 @@ original + Achado 1 corrigido no mesmo dia, a pedido do Rilson.
 `DownloadStoryButton` (`web/src/components/DownloadStoryButton.tsx`) +
 `ArtworkShareCard` (`web/src/components/ArtworkShareCard.tsx`): gera um
 Story 1080×1920 via `html2canvas` sobre um card fora da tela (moldura
-dupla dourada, obra inteira sem corte, tipografia cuidada — logo isolada
-do texto de propósito, achado de alinhamento do html2canvas já
-documentado acima). Usa Web Share API com arquivo quando o navegador
-suporta (mobile, folha nativa com "Salvar na Galeria"), cai pra
-`<a download>` no desktop.
+dupla dourada, obra inteira sem corte). Usa Web Share API com arquivo
+quando o navegador suporta (mobile, folha nativa com "Salvar na
+Galeria"), cai pra `<a download>` no desktop.
 
-**A imagem em si já está com design bom** — não é aí que está o
-problema principal.
+**Redesenhado por completo em 2026-09-26** (ver "Achado 2" abaixo) —
+fundo passou de branco-quente pra um gradiente escuro, tipografia
+alinhada à voz real do site, informação simplificada.
 
 ### Achado 1 — botão sem destaque nenhum — RESOLVIDO (2026-09-26)
 
@@ -4244,6 +4243,95 @@ sempre, sem mudança visual nenhuma lá.
 `ArtworkShareCard` só gera 1080×1920 (Story). Não existe versão quadrada
 pra feed nem pra compartilhar direto num post — quem prefere postar no
 feed em vez de story não tem opção pronta.
+
+### Achado 3 — imagem gerada "quase lá, falta pouco pra viralizável" — RESOLVIDO (2026-09-26)
+
+Depois do Achado 1, o Rilson revisitou a imagem do Story em si: "acho
+que ela está quase lá, falta pouco para ser algo realmente
+viralizável". Virou uma sessão de várias rodadas de ajuste fino, cada
+uma com um achado real.
+
+**Problema original — moldura quase quadrada com pintura em paisagem
+(`backgroundSize: contain`)**: a maioria das obras do acervo é mais
+larga que alta, mas a moldura do card era um quadrado quase perfeito
+(920×1100px) — sobrava faixa branca enorme em cima/embaixo,
+aproximadamente metade do card vazia. Num scroll rápido de Stories,
+lia como "inacabado", não como pronto pra parar o dedo.
+
+- **Solução**: fundo dentro da moldura com a MESMA pintura em
+  `backgroundSize: cover` (preenche tudo, cortada), com um véu escuro
+  por cima (`rgba(74,47,27,0.86)`) — não desfocada. Duas razões pra não
+  usar blur: (1) o Rilson não curte fundo borrado como estética geral;
+  (2) `filter: blur()` não rasteriza de forma confiável no
+  `html2canvas` (mesma categoria de CSS "chique" que este componente já
+  evita — color-mix, filtro SVG). A primeira tentativa com véu mais
+  claro (opacidade 0.55) deixava o fundo cortado ainda reconhecível,
+  lendo como "dupla exposição" confusa — escurecido até só sobrar cor/
+  textura ambiente, sem competir com a imagem nítida por cima.
+
+**Fundo do card inteiro — pedido "inspirado no nosso modo escuro"**:
+trocado o branco-quente (`#fffefb`) pelo MESMO gradiente "Biblioteca à
+noite" do modo escuro do Gerador C.S. Lewis (`.dark .bg-narniano` em
+`gerador-cslewis/src/app/globals.css`). Toda a paleta de texto/moldura
+precisou ser re-auditada pro fundo escuro novo (WCAG AA, contraste real
+calculado, não estimado — valores na casa de 8:1 a 15:1 contra os 3
+tons do gradiente).
+
+**Cabeçalho (logo + "Bíblia na Arte") — a parte mais difícil de
+verdade**: o Rilson pediu logo e nome na mesma linha, igual ao
+`Header.tsx` real do site. Três tentativas de alinhar os dois lado a
+lado, todas com problema medido em pixel real no PNG exportado (não só
+no olho):
+1. `flex + items-center` — o texto ficava perceptivelmente mais alto
+   que o centro do logo.
+2. `transform: translateY()` — **não-determinístico**: dois valores
+   diferentes (+6px e -2px) produziram bounding boxes de ALTURA
+   diferente pro mesmo texto no PNG exportado.
+3. `marginTop` — **não-linear**: 6px de margem moveu só 1.5px de
+   verdade a posição real.
+
+As três são a mesma categoria de dependência de layout de flexbox que
+o achado original deste componente (2026-08-24) já tinha isolado como
+não-confiável no html2canvas — só que dessa vez pra alinhamento
+vertical entre uma imagem e uma linha de texto, não pra margem entre
+blocos de texto. **Solução que o próprio Rilson propôs depois de ver
+que não convergia**: parar de tentar alinhar os dois numa linha, e
+empilhar verticalmente (logo em cima, nome embaixo, cada um
+centralizado por conta própria com `flex-col items-center`) — não
+existe mais "alinhar A com B", só "centralizar A" e "centralizar B",
+trivial e confiável. Confirmado com medição de pixel real: os dois
+centralizados no mesmo eixo X, a 0.5px um do outro.
+
+**Divisor ornamentado (linha + `✦` + linha) abaixo do título**: o
+Rilson notou que a estrela ficava visivelmente mais baixa e menor que
+as linhas — "elementos confusos", não ornamento. Ao tentar consertar
+com um traço único (sem estrela), achado um bug à parte: um `<span>`
+vazio (só `width`/`height`/`background-color`, sem conteúdo) logo
+depois de um bloco de texto grande renderizava na posição ERRADA no
+`html2canvas` — bem em cima do título, não depois dele (sintoma:
+parecia um sublinhado na palavra "em" de "A Entrada em Jerusalém",
+reproduzido de forma determinística). Confirmado que o problema era o
+`<span>` (não o `<h1>`) removendo-o e vendo o "sublinhado" desaparecer.
+**Decisão final: sem divisor nenhum**, só espaçamento — mais simples,
+evita o bug por completo, e combina com a linha de simplificação do
+resto do redesign.
+
+**Autor/ano em caixa-alta + sans-serif tracked**: essa voz tipográfica
+foi copiada do `ShareCard` do Gerador C.S. Lewis sem perceber que é
+outra "voz" — o site real do Bíblia na Arte nunca usa esse estilo.
+Trocado pra itálico serifado (`font-display`), a mesma família do
+título, como legenda de museu — mais quieto, sem competir.
+
+**Versículo removido**: o Rilson achou "informação demais" nesse
+formato (card já tem título, autor, ano — passagem bíblica era um 4º
+dado competindo por atenção). `formatReference()` e o campo `reference`
+removidos do componente (ficaram sem uso).
+
+Todo o processo foi validado gerando o PNG real via `html2canvas`
+(clicando o botão de verdade num teste do Playwright, não só
+screenshotando a tela) — o histórico acima só apareceu porque vários
+desses bugs (o `<span>` mal posicionado, o `transform`/`marginTop`
+não-confiáveis) só existiam no PNG rasterizado, nunca na tela ao vivo.
 
 ### Deep link direto pro Instagram Stories — pesquisado, decisão: não implementar (2026-09-26)
 

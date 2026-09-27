@@ -68,10 +68,12 @@ describe('DownloadStoryButton', () => {
   });
 
   it('renderiza o card escondido fora da tela com os dados da obra', () => {
+    // Achado 2026-09-26: o card não mostra mais a referência bíblica
+    // (Rilson: "informação demais" nesse formato de Story) — teste
+    // atualizado pra não esperar mais esse texto.
     render(<DownloadStoryButton artwork={artwork} />);
     expect(screen.getByText('O bom samaritano')).toBeInTheDocument();
     expect(screen.getByText(/Decamps/)).toBeInTheDocument();
-    expect(screen.getByText('Lucas 10:33-34')).toBeInTheDocument();
   });
 
   it('não quebra se html2canvas falhar', async () => {
