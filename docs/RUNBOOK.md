@@ -23,9 +23,12 @@ pnpm --filter server export:vault
 # 3. Conferir localmente antes de mandar pra produção
 pnpm --filter web dev   # olhar as obras novas/alteradas em localhost
 
-# 4. Deploy do código (se mudou algo em web/ ou server/) via CI normal —
-#    build das imagens Docker, push GHCR, deploy no VPS (make deploy
-#    service=biblia-na-arte, hetzner-infra/README.md)
+# 4. Deploy do código (se mudou algo em web/ ou server/): o push pro main
+#    dispara o CI (testes + build) e o "Deploy VPS" (git pull + make deploy
+#    service=biblia-na-arte, que builda as imagens no próprio VPS). Não há
+#    mais push no GHCR (removido 2026-09-27, nunca foi usado).
+#    ATENÇÃO até 01/10/2026: cota de LFS estourada, não commitar imagem
+#    nova (ver "Cota de banda do Git LFS").
 
 # 5. Seed dos dados no Postgres de produção — via SSH, container one-off
 #    na proxy-network (não roda local contra prod). Espera o "Deploy VPS"
@@ -168,9 +171,18 @@ pnpm --filter server sitemap:generate
 - **Regra daqui pra frente:** workflow novo começa com `lfs: false`.
   `lfs: true` só com justificativa escrita de qual passo lê o binário.
   Ver checklist em `hetzner-infra/PADRAO-DE-ENGENHARIA.md`.
-- **Em aberto (decisão do Rilson):** os jobs `docker-api` e `docker-web`
-  publicam no GHCR imagens que ninguém usa. Removê-los tira ~2 jobs por
-  push. Não removidos nesta rodada.
+- **Jobs `docker-api` e `docker-web` removidos (mesmo dia, decisão do
+  Rilson):** publicavam no GHCR imagens que ninguém usava. Conferido antes
+  de remover: o `deploy.yml` é independente do CI; `make deploy` é
+  `compose up -d --build`; o compose do VPS não tem `image:` do GHCR; as
+  imagens rodando são as buildadas localmente; o repo não tem tag `v*`; e
+  nada no repo nem no `hetzner-infra` referencia essas imagens. O CI ficou
+  com um job só e sem `packages: write`. As imagens antigas continuam no
+  GHCR, sem uso, e podem ser apagadas.
+- **Quando a cota volta:** *"Usage resets on the first of the next
+  month"* (documentação do GitHub), ou seja, 01/10/2026. Até lá, não
+  clonar o repo de novo (desktop ou VPS), porque as imagens chegariam como
+  ponteiros de texto.
 
 ### Threads: "Media Not Found" ao publicar (2026-09-18 e 2026-09-27)
 
