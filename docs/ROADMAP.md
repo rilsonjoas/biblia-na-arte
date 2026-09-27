@@ -808,30 +808,40 @@ pnpm --filter server db:seed        # importa o JSON no Postgres (VPS)
 | 0 — Engenharia base | ✅ concluída | 2026-08-07 |
 | 1 — Conteúdo e navegação | ✅ concluída | 2026-08-08 |
 | 2 — UI/UX profissional | ✅ concluída | 2026-08-08 |
-| 3 — Performance e SEO | ⏳ pendente | — |
+| 3 — Performance e SEO | ✅ concluída (7 de 7 itens, nenhum aberto) | 2026-08-22 |
 | 4 — Segurança/observabilidade/infra | ✅ concluída (2 itens adiados/decididos conscientemente: métricas Prometheus, moldura arco literal) | 2026-08-22 |
-| 5 — Produto | ⏳ pendente | — |
+| 5 — Produto | 🟡 em andamento (189 entregues, 34 abertos — escopo novo, não dívida) | 2026-08-22 |
 
-> **Esta tabela está desatualizada (registrado em 2026-09-27).** Ela foi
-> escrita em agosto e não é regerada desde então. Nas células acima, as
-> datas de conclusão são de agosto e seguem válidas; o que não está
-> refletido é o que foi para o ar depois:
+> **Histórico desta correção (2026-09-27).** A tabela ficou desatualizada
+> de agosto até esta data. As fases 3 e 5 foram regeradas por contagem de
+> checkbox no corpo deste documento, não por impressão:
 >
-> - Publicação automática de arte no Instagram e Threads (2026-09-03)
-> - Submissão de artistas com painel administrativo (2026-09-05)
-> - Ajustes de UI verificados no ar (2026-09-05)
-> - Gestão de usuários no painel e fix de revocação (2026-09-06)
-> - Fim do Facebook na publicação automática (2026-09-11)
-> - Compartilhamento manual de obra (2026-09-26)
+> - **Fase 3: 7 de 7 itens fechados, nenhum aberto.** A célula dizia
+>   "pendente" e estava errada — a seção foi executada por completo em
+>   agosto (pipeline de imagens em WebP na fonte, correção das colisões de
+>   slug que faziam obra aparecer com imagem errada, as 32 remoções de
+>   duplicatas). Virou ✅.
+> - **Fase 5: 189 fechados, 34 abertos.** A célula dizia "pendente", o que
+>   não estava errado, mas sugeria que o produto não existia. Virou 🟡
+>   em andamento. Os 34 abertos são **escopo novo**, não trabalho original
+>   faltando: música sacra (IMSLP), newsletter, TTS/audiodescrição, termo de
+>   cessão com advogado, `altText` curto. Parte deles é "reservado para
+>   gestão manual do Rilson no vault" (versículos em 185 obras, títulos em
+>   inglês) e não é código.
 >
-> Ou seja: a célula de Fase 5 está no mínimo imprecisa — as features de
-> produto acima são dela e estão em produção, o que é diferente de Fase 5
-> estar *concluída* — ela continuaria pendente mesmo com elas no ar.
-> **Fase 3 (performance e SEO) continua marcada como pendente, e isso é o
-> que o arquivo diz.** Não regerei nenhuma das duas células por inferência:
-> o que cada uma vira depende de avaliação do Rilson, e preferi registrar a
-> divergência a escolher um lado. Esta é a única linha deste ROADMAP que
-> pede decisão.
+> O que foi para o ar entre a última vez que a tabela foi escrita e esta
+> correção: publicação automática no Instagram e Threads (2026-09-03),
+> painel administrativo com submissão de artistas (2026-09-05), ajustes de
+> UI verificados no ar (2026-09-05), gestão de usuários e fix de revocação
+> (2026-09-06), fim do Facebook na publicação automática (2026-09-11),
+> compartilhamento manual (2026-09-26).
+>
+> - **Sabendo de duas duplicatas:** dois itens da Fase 5 estão repetidos
+>   no arquivo ("Newsletter semanal por e-mail" e "Expansão para Música
+>   Sacra em Domínio Público (IMSLP)" aparecem 2× cada). Não removi aqui
+>   porque duplicata entre sub-listas pode ser intencional — vale o Rilson
+>   olhar antes.
+
 
 
 
@@ -4576,47 +4586,52 @@ transcrição manual para fora do site — o README, que say até 27/09.
 
 ---
 
-## 📊 Umami (analytics self-hosted) está no código e não está registrado em lugar nenhum (2026-09-27)
+## 📊 Umami (analytics self-hosted) — ativo, documentado aqui (2026-09-27)
 
-Achado de auditoria: existe analytics neste projeto e nada no repositório
-nem no vault o diz.
+Existe analytics neste projeto, está funcionando, e nada no repositório
+nem no vault registrava. Registrando para não levar duas semanas para
+descobrir de novo.
 
-**O que está no código (verificado):**
+**Onde as variáveis moram:** `hetzner-infra/biblia-na-arte/docker-compose.yml`,
+linhas 42-43, como **build args** do serviço `biblianaarte-web` — que é o
+lugar certo, porque `VITE_*` é resolvido pelo Vite em tempo de build, não
+em runtime:
 
-- `web/src/lib/umami.ts` — `initUmami()`: injeta o script do Umami no
-  `<head>` com `defer`, lendo `VITE_UMAMI_SRC` e
-  `VITE_UMAMI_WEBSITE_ID` do `import.meta.env`. Se qualquer uma das duas
-  faltar, sai sem fazer nada; se o script já estiver no DOM, não injeta
-  de novo.
-- `web/src/main.tsx` — importa e chama `initUmami()` no carregamento do
-  módulo (linhas 4 e 6), ou seja, vale para todas as rotas.
-- Guard duplo (env ausente + DOM já populado) significa que o site não
-  quebra em dev nem em build sem as variáveis.
+```yaml
+VITE_UMAMI_SRC: https://umami.narniano.com/script.js
+VITE_UMAMI_WEBSITE_ID: f3dae9ba-ad89-4ffe-bc9e-405a59d6c637
+```
 
-**O que não está registrado (a lacuna real):**
+O website id não é segredo: ele já está no HTML público do site, no
+atributo `data-website-id` do script. Pode ser documentado.
 
-- As duas variáveis `VITE_UMAMI_*` **não aparecem em nenhum workflow do
-  `.github/` nem em nenhum `.env` versionado**. Ou seja: a origem delas
-  está fora do repositório, e o repositório não diz onde.
-- Não há registro de **onde a instância do Umami está hospedada**, qual
-  website id está em uso, nem se está coletando de fato.
-- Zero menções a Umami neste ROADMAP antes desta seção, e zero menções
-  na busca por "umami" nas pastas `9 - TI` do vault.
+**O que roda em produção (verificado em 2026-09-27):**
 
-**Por que isso é pendência e não改正:** analytics que ninguém sabe se
-está no ar é pior do que analytics ausente, porque cria a impressão de
-medição sem medir. Se o Umami estiver ativo, falta saber se está
-funcionando; se não estiver, `initUmami()` é código morto que só parece
-observabilidade.
+- `web/src/lib/umami.ts` — `initUmami()`: injeta o script no `<head>`
+  com `defer`, lendo as duas variáveis do `import.meta.env`. Guard duplo:
+  se qualquer uma faltar, sai sem fazer nada; se o script já estiver no
+  DOM, não injeta de novo. Por isso o site não quebra em dev nem em
+  build sem as variáveis.
+- `web/src/main.tsx` linhas 4 e 6 — importa e chama no carregamento do
+  módulo, valendo para todas as rotas.
+- Bundle em produção (`index-DaCIf76o.js`) contém a URL **e** o id —
+  ou seja, o build pegou as variáveis, não só o código-fonte tem elas.
+- Container `umami` no mesmo host, de pé há 5 semanas em 2026-09-27.
 
-**Decisão pendente do Rilson:** (1) o Umami está ativo em produção, e
-sim — aí o que falta é documentar origem das variáveis e-instance, e
-conferir se os eventos chegam; (2) não está ativo — aí o `initUmami()`
-deve ser removido em vez de documentado, e a medição de conversão do
-funil de topo (pendência da seção da bio acima) segue sem instrumentação.
+**Não é caso isolado:** o `scriptorium-divinum` usa o mesmo padrão
+(`VITE_UMAMI_SRC` igual, website id `03fc34ed-b2b9-478f-bc37-04fe75675e52`).
+Analytics self-hosted é padrão do cluster, não decisão deste repo — o que
+significa que trocar de host ou de id aqui é decisão que afeta um site só,
+mas mudar o padrão é decisão de cluster.
+
+**Ligação com a pendência da bio:** a seção da bio do
+`@artecristadiaria` registra que o link da bio e o do post diário não
+carregam UTM, e que sem isso não dá para distinguir visita de curtida.
+O Umami já coleta-pageviews agora, então a lacuna restante não é
+instrumentar — é marcar as duas URLs com UTM para ter o dado separável.
+Essa parte segue pendente.
 
 Relacionado: a Fase 4 foi marcada como concluída em 2026-08-22 com
-"métricas Prometheus" explicitamente adiada. O Umami é o substituto
-parcial que cobre métricas de audiência, não de infraestrutura — as duas
-coisas não são a mesma, e adiar uma não fulfill a outra.
-
+"métricas Prometheus" explicitamente adiada. O Umami cobre métricas de
+audiência, não de infraestrutura — as duas coisas não são a mesma, e adiar
+uma não cumpre a outra.
