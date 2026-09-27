@@ -3490,24 +3490,65 @@ página de obra responde `200` com e sem os parâmetros; a legenda do
 Threads fica em **251 de 500** caracteres no caso típico e **351** no pior
 caso realista (título 150 + autor 40), então o UTM não ameaça o teto.
 
-> [!WARNING] Bug latente, não corrigido
+> [!WARNING] Bug latente — MEDIDO, não corrigido
 > A rede de segurança da legenda do Threads (`truncateAtSentence`) corta
-> por fronteira de frase, e a **última linha da legenda é uma URL nua** —
-> se ela algum dia disparar, o corte come o link em vez de uma frase.
-> Só acontece com título acima de ~360 caracteres, e nenhum item do
-> acervo atual chega nisso. **Não corrigido agora** de propósito: é item
-> separado, e mexer no `truncateAtSentence` sem teste é exatamente o tipo
-> de coisa que derruba o post do dia silenciosamente.
+> por fronteira de frase, e a **última linha da legenda é uma URL nua**.
+> Quando o corte dispara, ele **come o link**: a legenda vira
+> `...https://exemplo. (…)` e o post sairia sem URL — com o cron
+> reportando sucesso.
+>
+> **Limiar medido em 2026-09-27** (não é estimativa): título de até **382
+> caracteres** preserva o link; **383 já perde**. E o pior caso real: o
+> título mais longo das **1074 obras em produção tem 90 caracteres**
+> (consultado na API, não estimado) — margem de **293**. Não é
+> urgência; é o tipo de coisa que vira problema sozinha quando alguém
+> catalogar um título enorme e não lembrar disto.
+>
+> O comportamento está travado em `scripts/social-caption.test.mjs` como
+> `test.todo` — a suíte fica verde agora, e o `todo` vira o contrato a
+> adotar no dia da correção. **Não corrigido agora** de propósito: mexer
+> no `truncateAtSentence` muda a forma de todas as legendas.
 
 **Pendente (não travando nada, só em aberto):**
 
-- [ ] **`scripts/post-daily-social.mjs` está fora de toda cobertura
-      automática** — o `lint-staged` só roda `eslint --fix` em
-      `server/**/*.ts` e `web/**/*.{ts,tsx}`, e o `eslint.config.js`
-      existe só em `web/` e `server/`. Não há teste nenhum referenciando
-      o script (confirmado por busca no repositório). É o único caminho do
-      projeto que **publica em conta de produção** sem lint e sem teste.
-      Registrar o buraco é o mínimo; cobrir é decisão do Rilson.
+- [x] **Cobertura do script do post diário — lógica de legenda coberta
+      (2026-09-27).** O `scripts/` não é pacote do pnpm workspace (só
+      `web` e `server` estão no `pnpm-workspace.yaml`), então não tinha
+      lint nem teste — e o `lint-staged` confirmava isso ao vivo
+      ("could not find any staged files"). **A lógica de legenda foi
+      extraída para `scripts/social-caption.mjs`** (funções puras,
+      interface de 2 funções) e coberta por `scripts/social-caption.test.mjs`
+     :
+      - **`node:test`, o runner nativo** — sem vitest novo, sem mexer no
+        `pnpm-lock.yaml`. `pnpm test` passou a ser `pnpm -r test && pnpm
+        test:scripts`, então o CI pega sem passo novo.
+      - **17 testes, 16 passando + 1 `todo`** que é o bug real (abaixo).
+      - Verificado que as 8 funções movidas ficaram **byte-idênticas** ao
+        original (diff automático, não leitura).
+      - `pnpm test` completo: 149 server + 108 web + 17 scripts, exit 0.
+
+      **Continua sem cobertura, e é o resto do problema:** o
+      `post-daily-social.mjs` em si (rede, tokens, retry) não é
+      importável — `requireEnv()` roda no **module scope**, não dentro de
+      `main()`, então qualquer `import` morre em `process.exit(1)` antes
+      de rodar. Foi tentada a guarda de entrypoint padrão do ESM
+      (`import.meta.url === pathToFileURL(process.argv[1]).href`) e ela
+      **não resolve**: o `requireEnv` acontece antes. Fazer resolver
+      exigiria mover a leitura das credenciais para dentro de `main()` —
+      mexer no caminho de segredo de script de produção. **Revertido de
+      propósito**, e fica como pendência real:
+- [ ] **Tornar `post-daily-social.mjs` importável**, se a rede merecer
+      teste: mover `requireEnv` de module scope para dentro de `main()` e
+      adicionar a guarda de entrypoint. Aí dá pra mockar `fetch` e cobrir
+      o retry — que é onde estão os 4 incidentes de token já registrados.
+      Decisão do Rilson; não é urgente porque o retry foi verificado em
+      produção 4 vezes.
+- [ ] **Não usar `node --check` no `lint-staged` para `scripts/`**:
+      verificado que `node --check a.mjs b.mjs` **retorna 0 mesmo com `b`
+      quebrado** — só verifica o primeiro arquivo. Daria falsa sensação
+      de proteção. Se for preciso checar sintaxe de todos, é um eslint
+      flat config novo na raiz (hoje `eslint.config.js` existe só em
+      `web/` e `server/`).
 - [x] **Medir o link da bio do Instagram — resolvido sem UTM (2026-09-27).**
       **Decisão do Rilson: link cru, sem redirecionador.** Motivo dele:
       link que mostra o domínio próprio passa confiança; redirecionador
