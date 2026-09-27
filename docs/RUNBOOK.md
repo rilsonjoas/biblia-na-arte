@@ -134,6 +134,62 @@ pnpm --filter server sitemap:generate
   seed antes do push — o próprio passo 5 do runbook já supõe que o
   checkout está limpo e no commit certo quando ele roda.
 
+### Cota de banda do Git LFS (incidente 2026-09-27)
+
+- **O que aconteceu:** e-mail do GitHub, "You have used 100% of the Git
+  LFS bandwidth", 10 GB de 10 GB no ciclo. A conta inteira fica sem LFS
+  até o próximo ciclo. Texto da documentação do GitHub: *"Git LFS support
+  is disabled on your account until the next month."*
+- **Causa:** o `ci.yml` tinha `lfs: true` no checkout dos 3 jobs (`ci`,
+  `docker-api`, `docker-web`). O repo tem 1.104 arquivos em LFS, ~228 MB,
+  quase tudo em `web/public/images`. Cada job baixava tudo: **~680 MB por
+  push**, e 10 GB acabam em ~15 pushes (setembro teve 83 execuções de
+  CI). Download do Actions conta na cota. Documentação do GitHub: *"If
+  GitHub Actions downloads a 500 MB file that is tracked with Git LFS, it
+  will use 500 MB of the repository owner's bandwidth."*
+- **Por que era desperdício puro:** nenhum dos 3 jobs usa as imagens.
+  - Os testes geram os próprios arquivos (`image-processing.test.ts`).
+  - O build do web só copia `web/public` para `dist`.
+  - `server/Dockerfile` nem copia `web/`.
+  - A imagem `ghcr.io/.../biblianaarte-web` que o `docker-web` publica
+    **não é usada**: o VPS builda do próprio checkout em
+    `/opt/biblia-na-arte` (`build: context:` no compose do
+    `hetzner-infra`), então a imagem do GHCR não tem uso.
+- **Correção:** `lfs: false` nos 3 checkouts e `GIT_LFS_SKIP_SMUDGE: '1'`
+  no `env` do workflow. O gasto do CI com LFS vai a zero.
+- **O que ainda gasta cota (pouco, e é necessário):** o `git pull` do
+  "Deploy VPS" baixa só os objetos LFS **novos** de cada push, ou seja,
+  as pinturas de um lote novo do export. Clones novos (desktop ou VPS)
+  baixam tudo.
+- **Enquanto a cota estiver estourada:** não commitar lote novo de
+  imagens. O `git pull` do VPS precisaria baixar os objetos LFS novos e
+  falharia (`filter.lfs.required=true` no checkout), travando o deploy.
+  Commit sem imagem nova passa normalmente.
+- **Regra daqui pra frente:** workflow novo começa com `lfs: false`.
+  `lfs: true` só com justificativa escrita de qual passo lê o binário.
+  Ver checklist em `hetzner-infra/PADRAO-DE-ENGENHARIA.md`.
+- **Em aberto (decisão do Rilson):** os jobs `docker-api` e `docker-web`
+  publicam no GHCR imagens que ninguém usa. Removê-los tira ~2 jobs por
+  push. Não removidos nesta rodada.
+
+### Threads: "Media Not Found" ao publicar (2026-09-18 e 2026-09-27)
+
+- **Sintoma:** "Publicar Pintura do Dia" vermelho com `threads_publish
+  falhou (400)`, `error_subcode 4279009`, "The media with id … cannot be
+  found". O Instagram publica normalmente na mesma execução.
+- **Causa:** o container do Threads respondeu `FINISHED` e o publish, 0,1s
+  depois, não achou a mídia. Documentação da Meta
+  (developers.facebook.com/docs/threads/posts): *"It is recommended to
+  wait on average 30 seconds before publishing a Threads media container
+  to give our server enough time to fully process the upload."* A Meta
+  marca o erro como `is_transient: false`, então o retry não entrava.
+- **Correção (`scripts/post-daily-social.mjs`):** espera mínima de 30s
+  entre criar o container e publicar, e o subcode 4279009 passou a ser
+  retentado (5 tentativas de 5s). O Threads roda em paralelo ao
+  Instagram, então o post do Instagram não atrasa.
+- **Repor o post do dia só no Threads:** `gh workflow run
+  post-daily-social.yml -f platforms=threads`. Foi feito em 27/09.
+
 ## Diagnóstico rápido — sintoma → causa provável
 
 | Sintoma | Causa provável | Onde checar |
@@ -144,6 +200,8 @@ pnpm --filter server sitemap:generate
 | Obra nova não aparece no site depois do export | Seed não rodou em produção, ou `autor` bate em `UNKNOWN_AUTHOR_VALUES` sem estar no `ALLOWED_UNKNOWN_AUTHOR_FILENAMES` | Rodar `export:vault` local e checar o log de `skipped` no console |
 | Duas obras com a mesma imagem | Colisão de slug (mesmo artista+título, ano igual ou ausente) | Log `⚠️ Slug duplicado desambiguado` do `export:vault`; preencher `ano` na nota mais recente ajuda o dedupe |
 | Busca não acha nada com filtro sem texto | Regressão específica já documentada — ver `Search.tsx` / achado 22/08 no ROADMAP | `ROADMAP.md` § "Buscar artista no /busca" |
+| CI falha no checkout, ou "Deploy VPS" falha no `git pull` com erro de LFS / "bandwidth" | Cota de banda do Git LFS estourada (LFS desligado na conta até o próximo ciclo) | GitHub → Settings → Billing → Git LFS; ver "Cota de banda do Git LFS" acima |
+| "Publicar Pintura do Dia" vermelho só no Threads, subcode 4279009 | Publicou antes do container terminar de processar | Ver "Threads: Media Not Found" acima; repor com `-f platforms=threads` |
 | Site fora do ar mas `docker ps` mostra tudo `healthy` | Provavelmente não é este projeto — ver `hetzner-infra/RECUPERACAO.md` | Health checks: `/health`, `/health/live`, `/health/ready` |
 
 ## Onde cada coisa mora
