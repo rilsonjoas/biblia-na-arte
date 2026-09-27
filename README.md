@@ -24,7 +24,7 @@ A arte que a Bíblia inspirou ao longo de dois mil anos está espalhada — muse
 
 Eu construo isto porque contemplar a beleza que Deus espalhou na criação — inclusive a beleza que passa pela mão humana — não é secundário à fé, é parte dela. Arte sacra não é decoração, é teologia visual. Um catálogo bem curado, com referência bíblica precisa e proveniência de direitos autorais séria, é mordomia: tornar esse patrimônio acessível sem custo pra quem quer estudar, pregar ou só contemplar.
 
-Hoje isso é uma fundação técnica sólida (self-host, sem Supabase, catálogo real, ~850 obras) buscando a audiência certa via SEO de nicho — não virá de campanha, vem de quem já está procurando "arte bíblica Gênesis" e encontra algo curado em vez de resultado genérico. A visão de mais longo prazo é virar referência: coleções temáticas (Vida de Cristo, Parábolas), modo devocional, o tipo de profundidade que só cresce com curadoria contínua — não um catálogo estático, uma biblioteca visual que vale a pena voltar.
+Hoje isso é uma fundação técnica sólida (self-host, sem Supabase, catálogo real e curado) buscando a audiência certa via SEO de nicho — não virá de campanha, vem de quem já está procurando "arte bíblica Gênesis" e encontra algo curado em vez de resultado genérico. A visão de mais longo prazo é virar referência: coleções temáticas (Vida de Cristo, Parábolas), modo devocional, o tipo de profundidade que só cresce com curadoria contínua — não um catálogo estático, uma biblioteca visual que vale a pena voltar.
 
 ## Como Executar Localmente
 

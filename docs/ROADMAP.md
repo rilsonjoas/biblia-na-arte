@@ -1418,6 +1418,7 @@ Google" não é viável em iOS de qualquer forma.
 
 - O manual (`12 - Redes sociais/@artecristadiaria.md`) **é** a estratégia de distribuição deste site: museu devocional digital, Obra do Dia, carrossel de detalhes, reels de zoom contemplativo
 - Cada post liga à página da obra aqui no site (as descrições reais escritas em 16/08 são exatamente a legenda desses posts) → Instagram alimenta o site, o site dá profundidade ao Instagram
+- **Marcas deliberadamente separadas, não fundidas** (decisão de 2026-09-27, quando foi perguntado se as duas deveriam virar uma só sob "Bíblia na Arte"). A bio em vigor do perfil e o porquê estão no fim deste ROADMAP — ver "Bio do @artecristadiaria e decisão de não unificar as marcas"
 
 ### Pinterest (segunda frente)
 
@@ -4417,3 +4418,91 @@ Perguntas em aberto (pra decidir com o Rilson, não decidido aqui):
 - Isso é prioridade maior ou menor que resolver primeiro os achados do
   Instagram acima (hierarquia visual do botão de compartilhar)? Ou os
   dois podem andar juntos, já que a imagem-base é reaproveitada?
+
+
+## 📌 Bio do @artecristadiaria e decisão de não unificar as marcas (2026-09-27)
+
+Pergunta do Rilson: as duas marcas deveriam ser unificadas sob "Bíblia na
+Arte"? Contexto que muda a resposta — **existe um único perfil no Instagram**.
+**Decisão: não unificar. Unificar por narrativa, não por fusão.**
+
+### A bio em vigor
+
+```text
+Uma obra de arte cristã por dia.
+Veja acervo de obras no link abaixo.
+```
+
+Por que ela é melhor que as três alternativas que estavam no manual (as três
+seguem registradas lá, como histórico, não como menu aberto): a primeira
+linha vende o **ritmo** — que é o que o algoritmo de feed paga — e a segunda
+converte o seguidor em visita ao acervo, **sem precisar nomear a marca no
+perfil**. Bio longa não cabe no primeiro corte do Instagram; esta cabe.
+
+### Por que não fundir as marcas
+
+1. **A ordem cronológica é a própria história do projeto.** A cadeia real
+   é leitura de Rookmaaker → `@artecristadiaria` no Instagram → este site
+   (é a mesma história que substituiu a "Capela Sistina" fabricada na página
+   Sobre o Projeto, ver Achados 2026-08-22). Fundir inverteria a narrativa:
+   o site apareceria como sucessor de algo que na verdade o precede.
+2. **As marcas vendem coisas diferentes.** O perfil vende *ritmo* ("uma obra
+   por dia" é gancho de hábito); o site vende *acervo* (aprofundamento,
+   busca, taxonomia, SEO). Não são concorrentes — são topo e fundo do mesmo
+   funil.
+3. **O handle é capital social acumulado.** Renomear o perfil descarta
+   reconhecimento construído, e ocupa a única assinatura que o
+   `@narnianoexistencialista` e o `@rilsonjoas` não usam.
+
+### O que já está no ar (não é plano)
+
+| Peça | Status |
+|---|---|
+| Link na bio do perfil → este site | ✅ |
+| Pintura do Dia publicada **automaticamente** todo dia no **Instagram** e no **Threads** | ✅ (mecânica e histórico em "Publicação automática — Arte Cristã Diária", 2026-09-03) |
+| Fonte da Pintura do Dia | Este site (`GET /api/v1/artworks/daily`). Instagram e Threads são **cópias derivadas**, nunca a fonte |
+
+Ou seja: a decisão de não fundir não custou nenhuma funcionalidade. As duas
+marcas já conversam por dois caminhos automáticos e um link.
+
+### Onde cada coisa mora
+
+- **Estratégia de marca** (manifesto, arquétipo de curador, paleta, formatos
+  de conteúdo, mantra "Ora et Contempla") → `12 - Redes sociais/@artecristadiaria.md`
+  no vault, seção 5. É o manual completo, continua sendo a estratégia.
+- **A bio e a decisão de não fundir** → aqui, porque é superfície pública deste
+  projeto e este ROADMAP é a fonte da verdade do repo. Uma coisa só, num
+  lugar só.
+- **A mecânica da publicação** → a seção de 2026-09-03 deste arquivo + `scripts/post-daily-social.mjs`.
+
+### Pendência que sobrou
+
+O funil de topo publica todo dia, mas **ninguém mede se converte**: o link da
+bio e o link do post diário não carregam UTM. Sem isso é impossível distinguir
+seguidor que vira visita ao acervo de seguidor que só curte — "crescimento no
+escuro". O padrão de UTM já existe no resto do cluster (rodapés cruzados em
+`narniano.com`, `scriptorium`, `lecionario`, `alternativas-br`), é o mesmo
+trabalho de sempre, nunca foi priorizado porque a urgência era feature, não
+medição. Pendente, sem prazo.
+
+### Alinhado com o padrão já registrado aqui
+
+O vetor por trás disto é o mesmo do incidente do nº de obras em três valores
+diferentes (achado 2026-09-19: bio, portfólio e banco discordando entre si).
+A regra que fechou aquele incidente, escrita em `9 - TI/08 - Carreira e
+Aprendizagem/Filosofia e Padrões de Engenharia.md` §9 do vault:
+
+> **Nenhuma superfície que descreve o presente carrega número exato.**
+> Superfície derivável (este site, portfólio, sitemap) → contar em tempo de
+> render. Superfície digitada à mão (bio do Instagram, About do LinkedIn) →
+> só qualitativo arredondado pra cima ("mais de mil obras"), que permanece
+> verdadeiro enquanto o acervo cresce. Registro datado (ADR, log, checklist
+> concluído) → mantém número e data, porque ali o número é evidência.
+
+Vale notar que **este site já estava certo**: a contagem vem do banco
+(`cat.count` em `ArtCategories.tsx`, `artworks.length` em `ArtistPage.tsx` e
+`Explore.tsx`), não de string no código. A parte que rodou mal foi só a
+transcrição manual para fora do site — o README, que say até 27/09.
+
+---
+
