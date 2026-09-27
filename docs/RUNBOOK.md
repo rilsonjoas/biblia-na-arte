@@ -195,12 +195,40 @@ pnpm --filter server sitemap:generate
   wait on average 30 seconds before publishing a Threads media container
   to give our server enough time to fully process the upload."* A Meta
   marca o erro como `is_transient: false`, então o retry não entrava.
-- **Correção (`scripts/post-daily-social.mjs`):** espera mínima de 30s
-  entre criar o container e publicar, e o subcode 4279009 passou a ser
-  retentado (5 tentativas de 5s). O Threads roda em paralelo ao
-  Instagram, então o post do Instagram não atrasa.
+- **Correção (2026-09-27):** espera mínima de 30s entre criar o container e
+  publicar, e o subcode 4279009 passou a ser retentado (5 tentativas de 5s).
+  O Threads roda em paralelo ao Instagram, então o post do Instagram não
+  atrasa. **Em 2026-09-27 essa lógica foi extraída para
+  `scripts/graph-api.mjs`** e coberta por 21 testes — a decisão
+  "transitório ou permanente?" é o que mais já errou aqui, e era a única
+  parte sem teste. Se for mexer em retry, o lugar é `graph-api.mjs`
+  (`isGraphErrorTransient`), não o `post-daily-social.mjs`.
 - **Repor o post do dia só no Threads:** `gh workflow run
   post-daily-social.yml -f platforms=threads`. Foi feito em 27/09.
+
+## Testes dos scripts de publicação
+
+`scripts/` **não é pacote do pnpm workspace** (o `pnpm-workspace.yaml`
+lista só `web` e `server/`), então `pnpm -r test` nunca cobriu esse
+diretório. Desde 2026-09-27 a raiz tem `test:scripts`
+(`node --test "scripts/*.test.mjs"`) e o `pnpm test` da raiz já chama —
+antes disso, o único caminho do projeto que publica em conta de produção
+rodava sem nenhum teste no CI.
+
+| arquivo | estado |
+|---|---|
+| `social-caption.mjs` | coberto (montagem de legenda) |
+| `graph-api.mjs` | coberto (retry, poll de container, `PLATFORMS`) |
+| `post-daily-social.mjs` | orquestrador, sem teste próprio — o risco está nos módulos |
+| `renew-ig-token.mjs` | **sem teste** |
+| `renew-threads-token.mjs` | **sem teste** |
+
+Rodar só os de script, que é bem mais rápido que a suíte toda:
+`pnpm test:scripts`.
+
+**Não usar `node --check` no `lint-staged` para isso.** Com vários
+arquivos ele retorna 0 mesmo quando um deles está quebrado — só verifica
+o primeiro. A decisão e o porquê estão no registro de 2026-09-27.
 
 ## Diagnóstico rápido — sintoma → causa provável
 
