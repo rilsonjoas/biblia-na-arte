@@ -44,6 +44,25 @@ const IG_GRAPH_BASE = 'https://graph.instagram.com/v21.0';
 const FB_GRAPH_BASE = 'https://graph.facebook.com/v21.0';
 const THREADS_GRAPH_BASE = 'https://graph.threads.net/v1.0';
 
+/** Link da legenda com UTM, pra medir se o funil @artecristadiaria
+ *  realmente converte em visita ao acervo (decisão 2026-09-27).
+ *
+ *  `utm_campaign` é FIXO de propósito: cada disparo é uma obra diferente,
+ *  e um campaign por obra daria uma linha nova por dia no relatório sem
+ *  responder pergunta nenhuma. O eixo "qual obra converte" já está no
+ *  path (`/obra/:id`) — segmenta-se por path, que é o lugar certo. O que
+ *  o UTM responde é "o Instagram gera clique?", e pra isso a campaign
+ *  precisa ser o nome do funil, não da peça.
+ *
+ *  `utm_medium=post` segue a convenção já usada no resto do cluster
+ *  (mesma forma nos posts da a-bancada-evangelica); `message` no WhatsApp,
+ *  `social` no Reddit. */
+const UTM_CAMPAIGN = 'artecristadiaria';
+
+function withUtm(artworkId, source) {
+  return `${WEB_BASE}/obra/${artworkId}?utm_source=${source}&utm_medium=post&utm_campaign=${UTM_CAMPAIGN}`;
+}
+
 // Instagram e Facebook cortam em 2200 caracteres — usamos o mesmo teto
 // pras duas (mesma voz, mesma legenda, sem motivo real pra divergir).
 // Threads é bem mais curto (500 caracteres, link incluso, sem
@@ -127,7 +146,7 @@ function bareQuote(ref) {
   return capitalizeFirstLetter(ref.passageText.trim().replace(/^["“]|["”]$/g, ''));
 }
 
-function buildCaption(artwork) {
+function buildCaption(artwork, source = 'instagram') {
   const ref = pickReference(artwork.references ?? []);
   const intro = extractDescriptionIntro(artwork.description);
   const lines = [];
@@ -152,7 +171,7 @@ function buildCaption(artwork) {
   }
 
   lines.push('');
-  lines.push(`Veja a obra completa (contexto histórico, outras referências) em ${WEB_BASE}/obra/${artwork.id}`);
+  lines.push(`Veja a obra completa (contexto histórico, outras referências) em ${withUtm(artwork.id, source)}`);
   lines.push('');
   lines.push('#BíbliaNaArte #ArteCristã #ArteSacra #Devocional');
 
@@ -176,7 +195,7 @@ function buildThreadsCaption(artwork) {
   }
 
   lines.push('');
-  lines.push(`${WEB_BASE}/obra/${artwork.id}`);
+  lines.push(withUtm(artwork.id, 'threads'));
 
   const caption = lines.join('\n');
   // Rede de segurança: se mesmo assim passar de 500 (título muito
