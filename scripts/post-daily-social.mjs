@@ -39,6 +39,7 @@
  */
 
 import { buildCaption, buildThreadsCaption } from './social-caption.mjs';
+import { graphPost, waitForContainerReady, parsePlatforms } from './graph-api.mjs';
 
 const API_BASE = 'https://api-biblianaarte.narniano.com/api/v1';
 const WEB_BASE = 'https://biblianaarte.narniano.com';
@@ -46,9 +47,7 @@ const IG_GRAPH_BASE = 'https://graph.instagram.com/v21.0';
 const FB_GRAPH_BASE = 'https://graph.facebook.com/v21.0';
 const THREADS_GRAPH_BASE = 'https://graph.threads.net/v1.0';
 
-const PLATFORMS = new Set(
-  (process.env.PLATFORMS ?? 'instagram,facebook,threads').split(',').map((p) => p.trim()),
-);
+const PLATFORMS = parsePlatforms(process.env.PLATFORMS, ['instagram', 'facebook', 'threads']);
 
 const IG_TOKEN = PLATFORMS.has('instagram') ? requireEnv('INSTAGRAM_ACCESS_TOKEN') : null;
 const IG_ACCOUNT_ID = PLATFORMS.has('instagram') ? requireEnv('INSTAGRAM_ACCOUNT_ID') : null;
@@ -66,74 +65,11 @@ function requireEnv(name) {
   return value;
 }
 
-async function graphPost(base, path, params) {
-  // Retry só pra erro TRANSITÓRIO (Threads volta `500 {"code":2,
-  // "is_transient":true}` e Instagram/Facebook às vezes `400` com
-  // `is_transient`... "Failed to decrypt" no IG é token morto [190],
-  // NUNCA entra nesse retry). Meta documenta esses transient como
-  // "retry later" — a página volta 3s depois. 5 tentativas, 5s de
-  // espera entre elas; erro permanente (190/400/código 4xx) aborta
-  // direto sem gastar tentativa.
-  const MAX_ATTEMPTS = 5;
-  const RETRY_DELAY_MS = 5000     // 5 garfadas de 5s = 20s de tolerância,
-  ;                                // bem abaixo do timeout do job (20min)
-  let lastError;
-
-  for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
-    const url = new URL(`${base}${path}`);
-    for (const [key, value] of Object.entries(params)) {
-      url.searchParams.set(key, value);
-    }
-    const res = await fetch(url, { method: 'POST' });
-    const body = await res.json();
-
-    const isTransient =
-      body?.error?.is_transient === true ||
-      body?.error?.code === 2 ||
-      // Threads "Media Not Found" no threads_publish: o container ainda
-      // não terminou de processar, mesmo tendo respondido FINISHED. A Meta
-      // marca como is_transient:false, mas some esperando (18/09, 27/09).
-      body?.error?.error_subcode === 4279009 ||
-      (typeof res.status === 'number' && res.status >= 500);
-
-    if (res.ok) return body;
-    if (!isTransient) {
-      throw new Error(`Graph API ${path} falhou (${res.status}): ${JSON.stringify(body)}`);
-    }
-    lastError = body;
-    if (attempt < MAX_ATTEMPTS) {
-      console.log(`⏳ erro transitório (${res.status}) — tentativa ${attempt}/${MAX_ATTEMPTS}, aguardando ${RETRY_DELAY_MS / 1000}s...`);
-      await new Promise((resolve) => setTimeout(resolve, RETRY_DELAY_MS));
-    }
-  }
-  throw new Error(`Graph API ${path} falhou definitivamente após ${MAX_ATTEMPTS} tentativas: ${JSON.stringify(lastError)}`);
-}
-
-/** Container de mídia (imagem) não costuma demorar pra ficar pronto,
- *  mas checar `status`/`status_code` antes de publicar evita o erro
- *  esporádico de "mídia ainda não pronta" — poll curto, não bloqueia
- *  por muito tempo se algo estiver genuinamente errado. Instagram e
- *  Threads usam nomes de campo ligeiramente diferentes pro status. */
-async function waitForContainerReady(base, creationId, token, statusField) {
-  const attempts = 5;
-  const delayMs = 2000;
-  for (let i = 0; i < attempts; i++) {
-    const url = new URL(`${base}/${creationId}`);
-    url.searchParams.set('fields', statusField);
-    url.searchParams.set('access_token', token);
-    const res = await fetch(url);
-    const body = await res.json();
-    const status = body[statusField];
-    if (status === 'FINISHED') return;
-    if (status === 'ERROR') {
-      throw new Error(`Container de mídia falhou: ${JSON.stringify(body)}`);
-    }
-    await new Promise((resolve) => setTimeout(resolve, delayMs));
-  }
-  // Não travou em ERROR — segue tentando publicar mesmo sem confirmação
-  // explícita de FINISHED (a maioria das imagens processa quase
-  // instantaneamente; isso é rede de segurança, não bloqueio duro).
-}
+// `graphPost` e `waitForContainerReady` vêm de `./graph-api.mjs`, com a
+// decisão de retry e o poll de container testados em 21 casos — inclusive
+// os 4 incidentes que escreveram as regras (190, code 2, 5xx e o subcode
+// 4279009 do Threads). Este arquivo ficou só com orquestração: qual
+// plataforma, qual payload, em que ordem.
 
 async function publishToInstagram(imageUrl, caption) {
   console.log('▶ [Instagram] Criando container de mídia...');
