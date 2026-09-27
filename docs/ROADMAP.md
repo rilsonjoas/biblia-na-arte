@@ -4419,6 +4419,48 @@ Perguntas em aberto (pra decidir com o Rilson, não decidido aqui):
   Instagram acima (hierarquia visual do botão de compartilhar)? Ou os
   dois podem andar juntos, já que a imagem-base é reaproveitada?
 
+## 📌 "Fonte oficial" com link quebrado — dado ruim no banco, achado real (2026-09-27)
+
+Achado do Rilson testando a página de obra: o badge "Saiba mais" (ao
+lado de "Fonte oficial:", `ArtworkDetail.tsx` linhas ~504 e ~530) abre
+uma URL quebrada em pelo menos 1 obra confirmada:
+
+- **Obra**: "Entrada de Jesus em Jerusalém, 1856" (Autor Desconhecido),
+  id `110ed29c-6253-59fd-baff-bcd33c319cb2`, slug
+  `autor-desconhecido-entrada-de-jesus-em-jerusalem-1856`.
+- **Causa raiz confirmada**: o campo `sourceUrl` dessa obra no banco
+  não contém uma URL — contém o texto **"Domínio Público (localização/
+  acervo não confirmados; ver nota em Contexto Histórico)"**. O código
+  usa `artwork.sourceUrl` direto como `href` sem validar se é de fato
+  uma URL (`http...`), então o navegador resolve esse texto como
+  caminho relativo à página atual, virando um link pra
+  `/obra/Domínio Público (...)`, que não existe.
+- **Ironia**: a MESMA explicação já está corretamente escrita na
+  própria descrição da obra, seção "Contexto Histórico" ("sem que a
+  pesquisa tenha localizado... uma instituição, coleção ou publicação
+  de origem confirmada"). O campo `sourceUrl` devia estar `null` nesse
+  caso (a nota já vive no lugar certo) — parece ter sido preenchido por
+  engano durante a curadoria/pipeline de importação em vez de deixado
+  vazio.
+- **Risco real**: o Rilson já apontou que isso "diminui a credibilidade
+  do site" — um link quebrado bem no meio da seção de proveniência é
+  visível e passa impressão de descuido, justo num catálogo cuja
+  identidade é rigor de fonte.
+
+**Não corrigido ainda — só registrado, a pedido do Rilson.** Quando for
+retomado, os passos naturais:
+1. Auditar quantas obras têm esse mesmo padrão (`sourceUrl` que não
+   começa com `http`) — provavelmente não é caso isolado, dado que
+   parece vir de um padrão do pipeline de curadoria pra obras "sem
+   fonte confirmada".
+2. Corrigir os registros afetados (`sourceUrl = null`, já que a nota
+   equivalente já mora na descrição).
+3. Rede de segurança no frontend: só renderizar o badge "Saiba mais" se
+   `sourceUrl` realmente parecer uma URL (`startsWith('http')`), pra
+   esse tipo de dado ruim nunca mais virar link quebrado visível,
+   mesmo que reapareça no futuro.
+
+---
 
 ## 📌 Bio do @artecristadiaria e decisão de não unificar as marcas (2026-09-27)
 
