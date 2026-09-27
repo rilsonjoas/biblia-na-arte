@@ -532,9 +532,6 @@ elevar a qualidade do catálogo.
       - Suporte no frontmatter do Vault: `periodo` (ex: Barroco, Renascimento), `tradicao` (ex: Católica, Ortodoxa, Protestante), `tecnica` (ex: Óleo sobre tela, Afresco, Mosaico) e `pais` de origem.
       - Parser `vault-parse.ts` + schema Drizzle Postgres (`artworks` com colunas `period`, `tradition`, `technique`, `country`), rotas Fastify e serialização OpenAPI.
       - UI/Frontend: exibição estruturada e tipada dos metadados na ficha técnica da obra (`ArtworkDetail.tsx`).
-- [ ] **Expansão para Música Sacra em Domínio Público (IMSLP)**:
-      - Catalogação de oratórios, missas, cantatas e obras musicais sacras com `category: 'music'` vinculadas a livros/capítulos bíblicos.
-      - Componente player de áudio (`EmbedPlayer` com suporte a reprodução de áudio via IMSLP, YouTube e Internet Archive).
 - [x] **Coleções e Playlists Temáticas (concluído 2026-09-24)**:
       - Curadoria e agregação de obras em trilhas narrativas ("A Vida de Cristo", "As Parábolas de Jesus", "Gênesis e as Origens").
       - Rotas no backend Fastify (`GET /api/v1/collections`, `GET /api/v1/collections/:slug`), dados enriquecidos e tipados.
@@ -584,13 +581,13 @@ elevar a qualidade do catálogo.
 ### 🔵 Nível 3: Média (Novas Funcionalidades de Engenharia e Banco de Dados)
 - [x] **Favoritos locais (`localStorage` / PWA)**: permitir salvar obras favoritas no próprio navegador/celular, sem necessidade de login. **Concluído** — `web/src/hooks/use-favorites.ts`, `web/src/pages/Favorites.tsx`, `web/src/components/FavoriteButton.tsx` (verificado no código 2026-09-24; item abaixo na lista do Nível 3 sinalizava pendência, ROADMAP desatualizado).
 - [x] **Metadados Expandidos (Período/Estilo, Tradição Religiosa, Técnica, País)**: adicionar suporte no frontmatter do Vault → parser `vault-parse.ts` → migração Drizzle Postgres (`artworks`) → badges e filtros na UI. **Concluído (2026-09-24)**.
-- [ ] **Expansão para Música Sacra em Domínio Público (IMSLP)**: catalogar obras musicais (Bach, Handel, Mozart) associadas aos textos bíblicos e implementar player de áudio dedicado (`EmbedPlayer`).
+- [ ] **Expansão para Música Sacra em Domínio Público (IMSLP)**: catalogar oratórios, missas, cantatas e obras musicais sacras (Bach, Handel, Mozart) associadas a livros/capítulos bíblicos, com `category: 'music'` no banco, e implementar player de áudio dedicado (`EmbedPlayer`, com reprodução via IMSLP, YouTube e Internet Archive).
 - [x] **Coleções e Playlists Temáticas**: criar páginas de coleções como *"A Vida de Cristo"*, *"As Parábolas"* e *"Gênesis na Arte"*. **Concluído (2026-09-24)**.
 - [x] **Geração de imagens dinâmicas para redes sociais (OG-Image) & Stories**: geração automática do preview visual (quadro + título) via `server/src/routes/share.ts` ao compartilhar links em redes + exportação 9:16 com `DownloadStoryButton.tsx`. **Concluído (2026-09-24)**.
 
 ### 🟠 Nível 4: Média a Alta (Processos Jurídicos, Integrações e Parceiros)
 - [ ] **Fluxo e termo para coletivos de artistas vivos (Caso SOPRARTE)**: validação de termo de cessão não-exclusivo e mandato com advogado (Lucas Vianna) + armazenamento do termo e categoria no painel `/admin`.
-- [ ] **Newsletter semanal por e-mail**: integração de captura de e-mails e disparo da *"Pintura da Semana + Versículo + Contexto"* (em sinergia com a parceria Efeito Prisma).
+- [ ] **Newsletter semanal por e-mail**: integração de captura de e-mails e disparo da *"Pintura da Semana + Versículo + Contexto"* — 1 obra + 1 verso + 3 linhas de reflexão, toda semana (sinergia com a parceria Efeito Prisma). Hoje a distribuição é 100% terra alugada (Instagram/Pinterest); e-mail é canal próprio, combina com o ritmo devocional do produto e independe de algoritmo. Enviar via alias `biblianaarte@narniano.com`.
 
 ### 🔴 Nível 5: Alta (Recursos Avançados e Acessibilidade Plena)
 - [x] **Acessibilidade plena WCAG AA nos modais e busca (`⌘K`)**: suporte completo a leitores de tela (TalkBack/NVDA) no `CommandPalette`, lightbox e formulários, com contraste auditado. (Concluído na Fase 1.5 e Fase 2).
@@ -616,11 +613,6 @@ elevar a qualidade do catálogo.
       no limite de alvos de toque). Testado: 1 teste de integração
       (server), 3 testes do componente (web, sucesso/falha/rótulo).
       Typecheck limpo, build ok nos dois pacotes.
-- [ ] **Newsletter semanal por e-mail** — 1 obra + 1 verso + 3 linhas de
-      reflexão, toda semana. Hoje a distribuição é 100% terra alugada
-      (Instagram/Pinterest); e-mail é canal próprio, combina com o ritmo
-      devocional do produto e independe de algoritmo. Enviar via alias
-      `biblianaarte@narniano.com`.
 - [x] **"Onde ver pessoalmente" — concluído (2026-08-22)**: campo
       `location` novo (migration 0003) + `localizacao`/`fonte` no
       frontmatter do vault (curadoria progressiva, não retroativa — só
@@ -3495,10 +3487,24 @@ caso realista (título 150 + autor 40), então o UTM não ameaça o teto.
       o script (confirmado por busca no repositório). É o único caminho do
       projeto que **publica em conta de produção** sem lint e sem teste.
       Registrar o buraco é o mínimo; cobrir é decisão do Rilson.
-- [ ] **Medir o link da bio do Instagram.** Ele segue sem UTM por causa
-      do limite de caracteres (decisão 3). Se a conversão da bio importar,
-      o caminho é um redirecionador curto no domínio — nunca parâmetro
-      dentro da bio.
+- [x] **Medir o link da bio do Instagram — resolvido sem UTM (2026-09-27).**
+      **Decisão do Rilson: link cru, sem redirecionador.** Motivo dele:
+      link que mostra o domínio próprio passa confiança; redirecionador
+      esconde justamente o que constrói confiança. Registro aqui porque a
+      sugestão anterior (redirecionador curto) estava errada e foi
+      descartada.
+      **Como medir então, sem custo e sem trust:** o próprio Instagram já
+      conta — no Insights, "Links" mostra os cliques no link da bio, com
+      o mesmo número que qualquer conta profissional mostra, sem
+      redirecionador nenhum.
+      **O que fica cego, aceito de propósito:** no Umami, toda visita sem
+      `utm_source` cai em "direct". Isso passa a misturar bio, mensagem
+      direta, link digitado à mão e favorito. É ponto cego real, aceito
+      de propósito — e é o mesmo número que a bio tenta resolver, então
+      não há o que recuperar dele.
+      **Dependência:** o número do Insights só existe em perfil
+      profissional. Se a conta ainda for pessoal, a troca é gratuita e
+      não afeta alcance.
 - [ ] **Migrar pra token de System User (Business Settings)** —
       eliminaria a causa raiz dos 4 incidentes de invalidação de sessão
       documentados até aqui (09-07, 09-11, 09-17/18, 09-19), não só o
