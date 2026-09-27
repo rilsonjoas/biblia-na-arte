@@ -1,6 +1,12 @@
 # Roadmap de Produção — Bíblia na Arte
 
-> **Status atual: Fase 0 concluída** (2026-08-07)
+> **Status atual: site em produção, Fases 0, 1, 2 e 4 concluídas** (2026-09-27)
+>
+> O cabeçalho anterior dizia "Fase 0 concluída (2026-08-07)" e ficou 7
+> semanas atrás: o próprio documento já marcava outras fases como
+> concluídas. A tabela `## Status` mais abaixo é a autoridade, mas ela
+> também não é regerada desde agosto — o que foi para o ar em setembro
+> está anotado logo abaixo dela.
 >
 > Este documento é a fonte da verdade do caminho até produção confiável.
 > O `README.md` do repo e a nota `Bíblia na Arte.md` no vault Obsidian
@@ -805,6 +811,28 @@ pnpm --filter server db:seed        # importa o JSON no Postgres (VPS)
 | 3 — Performance e SEO | ⏳ pendente | — |
 | 4 — Segurança/observabilidade/infra | ✅ concluída (2 itens adiados/decididos conscientemente: métricas Prometheus, moldura arco literal) | 2026-08-22 |
 | 5 — Produto | ⏳ pendente | — |
+
+> **Esta tabela está desatualizada (registrado em 2026-09-27).** Ela foi
+> escrita em agosto e não é regerada desde então. Nas células acima, as
+> datas de conclusão são de agosto e seguem válidas; o que não está
+> refletido é o que foi para o ar depois:
+>
+> - Publicação automática de arte no Instagram e Threads (2026-09-03)
+> - Submissão de artistas com painel administrativo (2026-09-05)
+> - Ajustes de UI verificados no ar (2026-09-05)
+> - Gestão de usuários no painel e fix de revocação (2026-09-06)
+> - Fim do Facebook na publicação automática (2026-09-11)
+> - Compartilhamento manual de obra (2026-09-26)
+>
+> Ou seja: a célula de Fase 5 está no mínimo imprecisa — as features de
+> produto acima são dela e estão em produção, o que é diferente de Fase 5
+> estar *concluída* — ela continuaria pendente mesmo com elas no ar.
+> **Fase 3 (performance e SEO) continua marcada como pendente, e isso é o
+> que o arquivo diz.** Não regerei nenhuma das duas células por inferência:
+> o que cada uma vira depende de avaliação do Rilson, e preferi registrar a
+> divergência a escolher um lado. Esta é a única linha deste ROADMAP que
+> pede decisão.
+
 
 
 
@@ -4547,4 +4575,48 @@ Vale notar que **este site já estava certo**: a contagem vem do banco
 transcrição manual para fora do site — o README, que say até 27/09.
 
 ---
+
+## 📊 Umami (analytics self-hosted) está no código e não está registrado em lugar nenhum (2026-09-27)
+
+Achado de auditoria: existe analytics neste projeto e nada no repositório
+nem no vault o diz.
+
+**O que está no código (verificado):**
+
+- `web/src/lib/umami.ts` — `initUmami()`: injeta o script do Umami no
+  `<head>` com `defer`, lendo `VITE_UMAMI_SRC` e
+  `VITE_UMAMI_WEBSITE_ID` do `import.meta.env`. Se qualquer uma das duas
+  faltar, sai sem fazer nada; se o script já estiver no DOM, não injeta
+  de novo.
+- `web/src/main.tsx` — importa e chama `initUmami()` no carregamento do
+  módulo (linhas 4 e 6), ou seja, vale para todas as rotas.
+- Guard duplo (env ausente + DOM já populado) significa que o site não
+  quebra em dev nem em build sem as variáveis.
+
+**O que não está registrado (a lacuna real):**
+
+- As duas variáveis `VITE_UMAMI_*` **não aparecem em nenhum workflow do
+  `.github/` nem em nenhum `.env` versionado**. Ou seja: a origem delas
+  está fora do repositório, e o repositório não diz onde.
+- Não há registro de **onde a instância do Umami está hospedada**, qual
+  website id está em uso, nem se está coletando de fato.
+- Zero menções a Umami neste ROADMAP antes desta seção, e zero menções
+  na busca por "umami" nas pastas `9 - TI` do vault.
+
+**Por que isso é pendência e não改正:** analytics que ninguém sabe se
+está no ar é pior do que analytics ausente, porque cria a impressão de
+medição sem medir. Se o Umami estiver ativo, falta saber se está
+funcionando; se não estiver, `initUmami()` é código morto que só parece
+observabilidade.
+
+**Decisão pendente do Rilson:** (1) o Umami está ativo em produção, e
+sim — aí o que falta é documentar origem das variáveis e-instance, e
+conferir se os eventos chegam; (2) não está ativo — aí o `initUmami()`
+deve ser removido em vez de documentado, e a medição de conversão do
+funil de topo (pendência da seção da bio acima) segue sem instrumentação.
+
+Relacionado: a Fase 4 foi marcada como concluída em 2026-08-22 com
+"métricas Prometheus" explicitamente adiada. O Umami é o substituto
+parcial que cobre métricas de audiência, não de infraestrutura — as duas
+coisas não são a mesma, e adiar uma não fulfill a outra.
 
