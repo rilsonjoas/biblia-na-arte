@@ -136,11 +136,18 @@ export const ArtworkShareCard = React.forwardRef<HTMLDivElement, ArtworkShareCar
               relativo, é medido pelo html2canvas de forma inconsistente
               pra calcular onde o próximo elemento com margin-top começa).
               Fix igual: `lineHeight` explícito em px. */}
+          {/* Achado 2026-09-27 (Rilson: "Ué", o ano vinha grudado no
+              autor — "Sigmundt Bergk · 1625" lia como se 1625 fosse do
+              autor, não da obra). Ano junto do título, formato de legenda
+              de museu ("Título (Ano)"), autor sozinho embaixo. */}
           <h1
             className="font-display text-[54px] font-bold"
             style={{ color: '#E8C97A', lineHeight: '62px' }}
           >
             {artwork.title}
+            {artwork.year && (
+              <span style={{ color: '#D6B26E', fontWeight: 400 }}> ({artwork.year})</span>
+            )}
           </h1>
 
           {/* Redesenhado 2026-09-26 (Rilson: "elementos confusos" no
@@ -157,7 +164,6 @@ export const ArtworkShareCard = React.forwardRef<HTMLDivElement, ArtworkShareCar
             style={{ color: '#D6B26E' }}
           >
             {artwork.artistOrDirector}
-            {artwork.year && ` · ${artwork.year}`}
           </p>
         </div>
 

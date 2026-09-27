@@ -1,6 +1,7 @@
 import { useRef, useState } from 'react';
 import { Check, Share2, ImageDown } from 'lucide-react';
 import { ArtworkShareCard } from '@/components/ArtworkShareCard';
+import { buildArtworkFilenameSlug } from '@/lib/utils';
 import type { Artwork } from '@/types';
 
 interface DownloadStoryButtonProps {
@@ -35,7 +36,7 @@ export function DownloadStoryButton({
     try {
       const { default: html2canvas } = await import('html2canvas');
       const canvas = await html2canvas(cardRef.current, { scale: 1, useCORS: true });
-      const filename = `biblia-na-arte-${artwork.id}.png`;
+      const filename = `biblia-na-arte-${buildArtworkFilenameSlug(artwork)}.png`;
 
       // Achado 2026-08-23 (Rilson testando no celular): <a download> num
       // data: URL vira "arquivo" no Android/iOS — some pra Arquivos/

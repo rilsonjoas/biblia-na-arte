@@ -4238,11 +4238,12 @@ obra. Corrigido com posicionamento explícito de grid (`lg:col-start-N`/
 no desktop, o posicionamento explícito recria o layout de 2 colunas de
 sempre, sem mudança visual nenhuma lá.
 
-### Achado 2 — só um formato (Story vertical)
+### Achado 2 — só um formato (Story vertical) — descartado por decisão do Rilson (2026-09-27)
 
 `ArtworkShareCard` só gera 1080×1920 (Story). Não existe versão quadrada
-pra feed nem pra compartilhar direto num post — quem prefere postar no
-feed em vez de story não tem opção pronta.
+pra feed. **Decisão do Rilson**: só faz sentido pra esse projeto o
+formato Story mesmo — não vale a pena gerar versão quadrada pro feed.
+Não é mais pendência, fica só o registro histórico.
 
 ### Achado 3 — imagem gerada "quase lá, falta pouco pra viralizável" — RESOLVIDO (2026-09-26)
 
@@ -4357,7 +4358,8 @@ recorrente de usuário no futuro.
 
 ### Perguntas ainda em aberto (pra decidir com o Rilson, não decidido aqui)
 
-- Vale gerar também um formato quadrado (feed) além do Story?
+- ~~Vale gerar também um formato quadrado (feed) além do Story?~~ Decidido
+  2026-09-27: não, só Story faz sentido pra este projeto.
 - Estratégia de viralização mais ampla (marca d'água sempre visível já
   existe — `biblianaarte.narniano.com` no rodapé do card; vale mais que
   isso? Gamificação, séries temáticas, algo que dê motivo recorrente de
@@ -4367,11 +4369,28 @@ Ver a mesma seção espelhada nos ROADMAPs de `a-bancada-evangelica` e
 `teste-politico` — achados específicos de cada um lá, ainda pendentes
 (o Achado 1 acima foi resolvido só aqui no Bíblia na Arte por enquanto).
 
-### Pinterest — anotado, não decidido (2026-09-26)
+### Pinterest — proposta registrada, implementação adiada pro futuro (2026-09-26, atualizado 2026-09-27)
 
 Pedido do Rilson: Bíblia na Arte e o Narniano (site principal) se
 beneficiariam de usar o Pinterest a favor da divulgação. Só o registro
 por enquanto, nenhuma implementação.
+
+**Proposta esboçada em 2026-09-27** (resposta à pergunta abaixo sobre
+automatizar): sim, dá — via **API oficial do Pinterest** (Create Pin),
+não a interface manual (o Rilson já tinha feito isso manualmente por um
+tempo na conta `@narnianoexistencialista` e achou inviável manter —
+com razão, subir 1090+ obras uma por uma não é sustentável). Mesmo
+molde de app+OAuth+token já dominado com Instagram/Threads:
+- **Diário**: estende o cron que já escolhe a "Pintura do Dia" pro
+  Instagram/Threads — no mesmo disparo, cria também 1 pin. Zero
+  trabalho manual novo, reaproveita a infra existente.
+- **Catálogo já publicado (~1090 obras)**: script rodando a API,
+  pausado (não tudo de uma vez, pra não parecer spam) — roda uma vez,
+  esvazia o backlog, some.
+
+**Decisão do Rilson (2026-09-27): não implementar agora, revisitar
+quando houver tempo/prioridade.** Nada foi feito além deste registro —
+perguntas abaixo seguem em aberto pra quando isso for retomado.
 
 Por que faz sentido especificamente aqui (diferente do Instagram, que é
 mais genérico pros três projetos acima): Pinterest é buscador visual de

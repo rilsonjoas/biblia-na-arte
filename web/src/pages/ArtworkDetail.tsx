@@ -17,7 +17,7 @@ import { CopyButton, CopyImageButton } from '@/components/ui/copy-button';
 import { DownloadStoryButton } from '@/components/DownloadStoryButton';
 import { DownloadArtworkButton } from '@/components/DownloadArtworkButton';
 import { FavoriteButton } from '@/components/FavoriteButton';
-import { cn, stripMarkdown, slugifyArtistName, artworkHref } from '@/lib/utils';
+import { cn, stripMarkdown, slugifyArtistName, artworkHref, buildArtworkFilenameSlug } from '@/lib/utils';
 import { useArtwork, useArtworksByBibleReference, useArtworks } from '@/hooks/use-artworks';
 import {
   Music,
@@ -344,7 +344,7 @@ export default function ArtworkDetail() {
                       (sempre .webp no pipeline atual, mas não hardcoded). */}
                   <DownloadArtworkButton
                     url={imageUrl}
-                    filename={`biblia-na-arte-${artwork.id}.${imageUrl.split('.').pop() || 'webp'}`}
+                    filename={`biblia-na-arte-${buildArtworkFilenameSlug(artwork)}.${imageUrl.split('.').pop() || 'webp'}`}
                     className="hover:text-primary transition-colors flex items-center gap-1"
                   />
                   {/* "Inspecionar detalhes da pintura" removido (achado do

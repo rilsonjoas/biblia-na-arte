@@ -22,6 +22,17 @@ export function slugifyArtistName(input: string): string {
     .slice(0, 100)
 }
 
+// Achado do Rilson 2026-09-27: nome de arquivo baixado vinha com o UUID
+// da obra ("biblia-na-arte-110ed29c-....png"), sem nenhum sentido pra
+// quem recebe o arquivo. Usa o `slug` da obra quando j\u00e1 existe (mesmo
+// identificador da URL p\u00fablica); nem toda obra tem slug ainda (backfill
+// em andamento, ver Artwork.slug), ent\u00e3o cai pro t\u00edtulo "slugificado"
+// (mesma fun\u00e7\u00e3o acima, s\u00f3 reaproveitada \u2014 n\u00e3o precisa bater com nenhuma
+// tabela do banco aqui, \u00e9 s\u00f3 pro nome do arquivo).
+export function buildArtworkFilenameSlug(artwork: { slug?: string | null; title: string }): string {
+  return artwork.slug || slugifyArtistName(artwork.title);
+}
+
 // Pedido do Rilson 2026-09-01 (feedback de amigos vendo o site): "1 Pedro",
 // "2 Samuel" etc. têm contraste visual ruim entre o algarismo arábico e a
 // letra maiúscula colada nele (ex.: "1 Pedro" — o "1" quase lê como um "l"
