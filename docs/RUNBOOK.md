@@ -24,14 +24,15 @@ pnpm --filter server export:vault
 pnpm --filter web dev   # olhar as obras novas/alteradas em localhost
 
 # 4. Deploy do código (se mudou algo em web/ ou server/): o push pro main
-#    dispara o CI (testes + build) e o "Deploy VPS" (git pull + make deploy
-#    service=biblia-na-arte, que builda as imagens no próprio VPS). Não há
-#    mais push no GHCR (removido 2026-09-27, nunca foi usado).
+#    dispara o CI (testes + build) e, **se os 6 passos passarem**, o job
+#    `deploy` (git pull + make deploy service=biblia-na-arte, que builda as
+#    imagens no próprio VPS). Não há mais push no GHCR (removido 2026-09-27,
+#    nunca foi usado).
 #    ATENÇÃO até 01/10/2026: cota de LFS estourada, não commitar imagem
 #    nova (ver "Cota de banda do Git LFS").
 
 # 5. Seed dos dados no Postgres de produção — via SSH, container one-off
-#    na proxy-network (não roda local contra prod). Espera o "Deploy VPS"
+#    na proxy-network (não roda local contra prod). Espera o job `deploy` do "CI"
 #    (dispara sozinho no push) terminar primeiro — reseed usa o código já
 #    deployado (schema/queries.ts precisam bater com as colunas do seed).
 ssh narniano@debian13-4gb-narniano
@@ -60,7 +61,7 @@ docker run --rm --network proxy-network \
 # monta o diretório de verdade, não uma cópia) — se der erro no meio do
 # `pnpm install`, pode deixar `pnpm-workspace.yaml`/`node_modules`
 # modificados localmente ali, o que trava o PRÓXIMO `git pull --ff-only`
-# (do humano ou do "Deploy VPS" automático) até alguém rodar
+# (do humano ou do job `deploy` do "CI" automático) até alguém rodar
 # `git checkout -- pnpm-workspace.yaml` manualmente. Se o reseed falhar,
 # conferir `git status` em `/opt/biblia-na-arte` antes de tentar de novo.
 
@@ -84,7 +85,7 @@ pnpm --filter server sitemap:generate
 - **Migration e `functions.sql`/`data-fixes.sql` RODAM SOZINHOS no boot**
   (`server.ts` → `runMigrations()`) — confirmado ao vivo 2026-08-23 (2
   migrations novas + `functions.sql` atualizado aplicaram sozinhos no
-  restart do "Deploy VPS", sem passo manual). Achado antigo (0001,
+  restart do job `deploy` do "CI", sem passo manual). Achado antigo (0001,
   16/08) que dizia o contrário está desatualizado — foi corrigido depois
   daquele incidente, exatamente pra nunca mais precisar de passo manual
   aqui. O que **continua** manual: o **seed** (dado, não schema — rodar
@@ -103,11 +104,11 @@ pnpm --filter server sitemap:generate
 - **`git commit --amend` + `--force-with-lease` depois que o "Deploy
   VPS" já rodou trava o próximo deploy** (achado real 2026-09-08): CI
   falhou (CVE "high" achada só na hora), corrigido local com
-  `--amend`, force-pushed — mas "Deploy VPS" já tinha rodado em
+  `--amend`, force-pushed — mas o job `deploy` já tinha rodado em
   paralelo no push anterior e tinha feito `git pull --ff-only` com
   sucesso no checkout de `/opt/biblia-na-arte`, deixando-o num commit
   que não existe mais no histórico reescrito. Próximo `git pull
-  --ff-only` do "Deploy VPS" falha com "Not possible to fast-forward"
+  --ff-only` do job `deploy` do "CI" falha com "Not possible to fast-forward"
   — branches divergentes, não uma continuação linear. Site não caiu
   (containers seguem rodando o código antigo), só o deploy trava.
   Resolvido com `git fetch origin main && git reset --hard
@@ -115,23 +116,23 @@ pnpm --filter server sitemap:generate
   deploy, sem trabalho local que valha preservar — confirmar `git
   status` antes mesmo assim), seguido de `gh run rerun` no job que
   falhou. Lição: depois de um `--amend`+force-push num commit que já
-  foi pro `main`, sempre checar se o "Deploy VPS" daquele push
+  foi pro `main`, sempre checar se o job `deploy` do "CI" daquele push
   específico já rodou (`gh run list`) antes de assumir que o próximo
   push vai resolver sozinho.
 
 - **`rsync` direto pro checkout do VPS antes de commitar/pushar trava o
-  próximo `git pull` do "Deploy VPS"** (achado real, 2026-09-19): pra
+  próximo `git pull` do job `deploy` do "CI"** (achado real, 2026-09-19): pra
   rodar o seed (passo 5) sem esperar o deploy de código, copiei
   `vault-export.json` + `web/public/images/` direto pro
   `/opt/biblia-na-arte` via `rsync`, sem passar por git. O seed funcionou
   (lê arquivo local, não liga pra git), mas isso deixou o checkout do VPS
   com mudanças locais/arquivos não rastreados; quando o commit normal foi
-  pushado depois, o "Deploy VPS" falhou em `git pull` ("your local
+  pushado depois, o job `deploy` do "CI" falhou em `git pull` ("your local
   changes would be overwritten"). Resolvido com `git checkout --
   <arquivos> && git clean -fd web/public/images/` no VPS (escopado só
   nesses dois caminhos, sem tocar `.env`/`.pnpm-store`) seguido de
   `gh run rerun --failed`. **Ordem certa, sempre**: `export:vault` local
-  → commit → push (dispara CI + "Deploy VPS" sozinho, que já atualiza o
+  → commit → push (dispara o CI, que encadeia o `deploy`, que já atualiza o
   checkout do VPS via `git pull`) → **depois** SSH pro VPS rodar o
   `docker run` do seed (passo 5). Nunca usar `rsync` pra "adiantar" o
   seed antes do push — o próprio passo 5 do runbook já supõe que o
@@ -161,7 +162,7 @@ pnpm --filter server sitemap:generate
 - **Correção:** `lfs: false` nos 3 checkouts e `GIT_LFS_SKIP_SMUDGE: '1'`
   no `env` do workflow. O gasto do CI com LFS vai a zero.
 - **O que ainda gasta cota (pouco, e é necessário):** o `git pull` do
-  "Deploy VPS" baixa só os objetos LFS **novos** de cada push, ou seja,
+  o `deploy` baixa só os objetos LFS **novos** de cada push, ou seja,
   as pinturas de um lote novo do export. Clones novos (desktop ou VPS)
   baixam tudo.
 - **Enquanto a cota estiver estourada:** não commitar lote novo de
@@ -184,7 +185,34 @@ pnpm --filter server sitemap:generate
   clonar o repo de novo (desktop ou VPS), porque as imagens chegariam como
   ponteiros de texto.
 
-### Threads: "Media Not Found" ao publicar (2026-09-18 e 2026-09-27)
+### O workflow "Deploy VPS" não existe mais (2026-09-27)
+
+Era um workflow separado, disparado pelo mesmo push em **paralelo** ao CI.
+O resultado era uma leitura perigosa: o GitHub mostrava
+`Deploy VPS ✅` ao lado de `CI ❌`, e "deploy com sucesso" ao lado de
+"teste vermelho" é exatamente o que ninguém deveria inferir. Pior: o
+código ia pro ar mesmo com os 6 passos reprovados.
+
+Agora está tudo em `.github/workflows/ci.yml`, com o `deploy` tendo
+`needs: ci` e `if: github.event_name == 'push'`. Três consequências:
+
+- **Falha de teste impede deploy.** Não é mais "acho que passou": o job
+  nem chega a começar.
+- **Uma barra só** em vez de duas, o que elimina a leitura ambígua.
+- **Em pull_request o `deploy` não roda** — não existe VPS para o PR. É
+  o que o `if` garante, e é o motivo de ele ser explícito em vez de
+  herdado.
+
+O nome antigo ainda aparece em incidentes antigos deste arquivo e no
+`hetzner-infra/INCIDENTES.md`; aquelas narrativas são registro do que
+aconteceu na data e ficaram como estavam. Onde o texto era instrução
+operacional, foi atualizado.
+
+Se um dia o `deploy` precisar rodar sem passar por testes, isso é uma
+decisão explícita — e o lugar de escrever isso é este arquivo, não um
+`if:` silencioso no workflow.
+
+## Threads: "Media Not Found" ao publicar (2026-09-18 e 2026-09-27)
 
 - **Sintoma:** "Publicar Pintura do Dia" vermelho com `threads_publish
   falhou (400)`, `error_subcode 4279009`, "The media with id … cannot be
@@ -240,7 +268,7 @@ o primeiro. A decisão e o porquê estão no registro de 2026-09-27.
 | Obra nova não aparece no site depois do export | Seed não rodou em produção, ou `autor` bate em `UNKNOWN_AUTHOR_VALUES` sem estar no `ALLOWED_UNKNOWN_AUTHOR_FILENAMES` | Rodar `export:vault` local e checar o log de `skipped` no console |
 | Duas obras com a mesma imagem | Colisão de slug (mesmo artista+título, ano igual ou ausente) | Log `⚠️ Slug duplicado desambiguado` do `export:vault`; preencher `ano` na nota mais recente ajuda o dedupe |
 | Busca não acha nada com filtro sem texto | Regressão específica já documentada — ver `Search.tsx` / achado 22/08 no ROADMAP | `ROADMAP.md` § "Buscar artista no /busca" |
-| CI falha no checkout, ou "Deploy VPS" falha no `git pull` com erro de LFS / "bandwidth" | Cota de banda do Git LFS estourada (LFS desligado na conta até o próximo ciclo) | GitHub → Settings → Billing → Git LFS; ver "Cota de banda do Git LFS" acima |
+| CI falha no checkout, ou o `deploy` falha no `git pull` com erro de LFS / "bandwidth" | Cota de banda do Git LFS estourada (LFS desligado na conta até o próximo ciclo) | GitHub → Settings → Billing → Git LFS; ver "Cota de banda do Git LFS" acima |
 | "Publicar Pintura do Dia" vermelho só no Threads, subcode 4279009 | Publicou antes do container terminar de processar | Ver "Threads: Media Not Found" acima; repor com `-f platforms=threads` |
 | Site fora do ar mas `docker ps` mostra tudo `healthy` | Provavelmente não é este projeto — ver `hetzner-infra/RECUPERACAO.md` | Health checks: `/health`, `/health/live`, `/health/ready` |
 
