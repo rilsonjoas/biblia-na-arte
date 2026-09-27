@@ -18,6 +18,7 @@ import { DownloadStoryButton } from '@/components/DownloadStoryButton';
 import { DownloadArtworkButton } from '@/components/DownloadArtworkButton';
 import { FavoriteButton } from '@/components/FavoriteButton';
 import { cn, stripMarkdown, slugifyArtistName, artworkHref, buildArtworkFilenameSlug } from '@/lib/utils';
+import { safeSourceUrl } from '@/lib/source-url';
 import { useArtwork, useArtworksByBibleReference, useArtworks } from '@/hooks/use-artworks';
 import {
   Music,
@@ -500,12 +501,17 @@ export default function ArtworkDetail() {
                           em parênteses dentro do texto (achado 2026-09-01,
                           Rilson: parênteses coladas na prosa não
                           pareciam a melhor forma) — pedido aprovado pelo
-                          Rilson: "Saiba mais" + ícone, em badge. */}
-                      {artwork.sourceUrl && (
+                          Rilson: "Saiba mais" + ícone, em badge.
+                          Só renderiza se `safeSourceUrl` aceitar o valor:
+                          8 das 1090 obras tinham "Domínio Público" (ou uma
+                          URL entre aspas) no lugar de URL, e isso virava
+                          link quebrado na seção de proveniência. Ver
+                          `lib/source-url.ts`. */}
+                      {safeSourceUrl(artwork.sourceUrl) && (
                         <>
                           {' '}
                           <a
-                            href={artwork.sourceUrl}
+                            href={safeSourceUrl(artwork.sourceUrl) ?? undefined}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="inline-block align-middle"
@@ -527,13 +533,13 @@ export default function ArtworkDetail() {
                 {/* Fallback raro: fonte oficial existe mas não tem
                     `location` pra ancorar do lado (obra sem localização
                     física registrada) — não deixa a fonte desaparecer. */}
-                {!artwork.location && artwork.sourceUrl && (
+                {!artwork.location && safeSourceUrl(artwork.sourceUrl) && (
                   <div className="flex items-center justify-between gap-3 border-t border-border/40 pt-2">
                     <div className="flex items-center gap-2 text-muted-foreground shrink-0">
                       <ExternalLink className="w-4 h-4 text-primary" />
                       <span>Fonte oficial:</span>
                     </div>
-                    <a href={artwork.sourceUrl} target="_blank" rel="noopener noreferrer">
+                    <a href={safeSourceUrl(artwork.sourceUrl) ?? undefined} target="_blank" rel="noopener noreferrer">
                       <Badge
                         variant="outline"
                         className="gap-1 px-2 py-0.5 text-[10px] text-muted-foreground border-border hover:border-primary hover:text-primary transition-colors"
