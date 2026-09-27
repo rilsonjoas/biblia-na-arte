@@ -208,6 +208,10 @@ async function graphPost(base, path, params) {
     const isTransient =
       body?.error?.is_transient === true ||
       body?.error?.code === 2 ||
+      // Threads "Media Not Found" no threads_publish: o container ainda
+      // não terminou de processar, mesmo tendo respondido FINISHED. A Meta
+      // marca como is_transient:false, mas some esperando (18/09, 27/09).
+      body?.error?.error_subcode === 4279009 ||
       (typeof res.status === 'number' && res.status >= 500);
 
     if (res.ok) return body;
@@ -280,8 +284,17 @@ async function publishToFacebook(imageUrl, caption) {
   return published.post_id ?? published.id;
 }
 
+// Doc oficial (developers.facebook.com/docs/threads/posts): "It is
+// recommended to wait on average 30 seconds before publishing a Threads
+// media container to give our server enough time to fully process the
+// upload." O status FINISHED sozinho não bastou: em 18/09 e 27/09 o
+// container respondeu FINISHED e o publish, 0,1s depois, deu "Media Not
+// Found". Roda em paralelo com o Instagram, então não atrasa o outro post.
+const THREADS_PUBLISH_MIN_WAIT_MS = 30_000;
+
 async function publishToThreads(imageUrl, caption) {
   console.log('▶ [Threads] Criando container de mídia...');
+  const createdAt = Date.now();
   const container = await graphPost(THREADS_GRAPH_BASE, `/${THREADS_USER_ID}/threads`, {
     media_type: 'IMAGE',
     image_url: imageUrl,
@@ -291,6 +304,11 @@ async function publishToThreads(imageUrl, caption) {
 
   console.log('▶ [Threads] Aguardando processamento...');
   await waitForContainerReady(THREADS_GRAPH_BASE, container.id, THREADS_TOKEN, 'status');
+  const remaining = THREADS_PUBLISH_MIN_WAIT_MS - (Date.now() - createdAt);
+  if (remaining > 0) {
+    console.log(`▶ [Threads] Aguardando ${Math.ceil(remaining / 1000)}s (recomendação da Meta)...`);
+    await new Promise((resolve) => setTimeout(resolve, remaining));
+  }
 
   console.log('▶ [Threads] Publicando...');
   const published = await graphPost(THREADS_GRAPH_BASE, `/${THREADS_USER_ID}/threads_publish`, {
