@@ -77,18 +77,18 @@ export function DownloadStoryButton({
       <button onClick={handleDownload} disabled={downloading} aria-label={label} className={className}>
         {done ? (
           <>
-            <Check className="w-3 h-3 text-green-600 dark:text-green-400" />
-            <span className="hidden sm:inline">Baixado!</span>
+            <Check className="w-3.5 h-3.5" />
+            <span>Baixado!</span>
           </>
         ) : downloading ? (
           <>
-            <ImageDown className="w-3 h-3 animate-pulse" />
-            <span className="hidden sm:inline">Gerando...</span>
+            <ImageDown className="w-3.5 h-3.5 animate-pulse" />
+            <span>Gerando...</span>
           </>
         ) : (
           <>
-            <Share2 className="w-3 h-3" />
-            <span className="hidden sm:inline">{label}</span>
+            <Share2 className="w-3.5 h-3.5" />
+            <span>{label}</span>
           </>
         )}
       </button>

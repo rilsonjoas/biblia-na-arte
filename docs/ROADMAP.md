@@ -4177,3 +4177,136 @@ não compensa o retorno pra essa plataforma especificamente.
 - Resultado prático: o workflow diário não falha mais por causa do
   Facebook — só tenta Instagram e Threads, que são as plataformas que
   o Rilson de fato quer manter.
+
+---
+
+## 📌 Compartilhamento manual (usuário → Instagram) — Achado 1 resolvido (2026-09-26)
+
+Pedido do Rilson: nem Bíblia na Arte, nem A Bancada Evangélica, nem o
+Teste Político estão aproveitando o compartilhamento pro Instagram como
+poderiam — mesmo achado registrado nos três repos. Levantamento
+original + Achado 1 corrigido no mesmo dia, a pedido do Rilson.
+
+### O que já existe
+
+`DownloadStoryButton` (`web/src/components/DownloadStoryButton.tsx`) +
+`ArtworkShareCard` (`web/src/components/ArtworkShareCard.tsx`): gera um
+Story 1080×1920 via `html2canvas` sobre um card fora da tela (moldura
+dupla dourada, obra inteira sem corte, tipografia cuidada — logo isolada
+do texto de propósito, achado de alinhamento do html2canvas já
+documentado acima). Usa Web Share API com arquivo quando o navegador
+suporta (mobile, folha nativa com "Salvar na Galeria"), cai pra
+`<a download>` no desktop.
+
+**A imagem em si já está com design bom** — não é aí que está o
+problema principal.
+
+### Achado 1 — botão sem destaque nenhum — RESOLVIDO (2026-09-26)
+
+"Compartilhar como Story" era um dos 4 links de mesmo peso visual numa
+barra fina de metadados abaixo da imagem: `Copiar imagem` · `Baixar
+obra` · `Compartilhar como Story` · `Inspecionar detalhes`. Ícone
+`w-3 h-3`, texto `text-xs`, cor de texto neutro que só mudava pra
+`hover:text-primary` — nenhuma hierarquia entre eles. Contra a própria
+regra de design do skill `qualidade-de-interface` (§4, "uma ação
+primária por tela, o primário visualmente inequívoco"): não tinha
+primário nenhum, eram 4 secundários competindo pela mesma atenção.
+
+**Solução aplicada**: o botão virou uma pílula preenchida usando
+`bg-primary text-primary-foreground` — o MESMO token que os outros já
+usavam só como cor de hover (vinho no tema claro, dourado no escuro,
+ver `index.css`), sem introduzir cor nova que destoasse da identidade
+do projeto (pergunta explícita do Rilson antes de implementar).
+Rótulo/ícone agora sempre visíveis (antes só ícone no mobile). Isolado
+no fim da barra, separado do grupo de ações neutras (Copiar/Baixar) —
+uma tentativa inicial de separar com borda vertical ficou com uma marca
+"órfã" quando a linha quebra em 2 no desktop (coluna estreita); trocado
+por espaço extra, que funciona quebrando ou não.
+
+**Achado extra, reportado pelo Rilson ao testar**: "Inspecionar
+detalhes da pintura" (4º link da barra) fazia exatamente a mesma coisa
+que o badge "Ampliar Obra (HD)" sobre a imagem — mesmo
+`onClick={() => setLightboxOpen(true)}`, redundância real, não só
+parecida. Removido.
+
+**Achado extra 2, reportado pelo Rilson ao testar no mobile**: a
+hierarquia da página no mobile tinha o título/subtítulo/badges
+aparecendo DEPOIS da imagem e da barra de ações — quem via a página
+primeiro topava com botões de compartilhar antes de saber o nome da
+obra. Corrigido com posicionamento explícito de grid (`lg:col-start-N`/
+`lg:row-start-N`) em vez de depender só da ordem no DOM: no mobile
+(1 coluna), título/badges vêm logo após o breadcrumb, antes da imagem;
+no desktop, o posicionamento explícito recria o layout de 2 colunas de
+sempre, sem mudança visual nenhuma lá.
+
+### Achado 2 — só um formato (Story vertical)
+
+`ArtworkShareCard` só gera 1080×1920 (Story). Não existe versão quadrada
+pra feed nem pra compartilhar direto num post — quem prefere postar no
+feed em vez de story não tem opção pronta.
+
+### Deep link direto pro Instagram Stories — pesquisado, decisão: não implementar (2026-09-26)
+
+Pergunta do Rilson: dá pra pular a folha de compartilhamento genérica e
+já abrir o Instagram Stories direto com a imagem carregada?
+
+- **Android**: não precisa de nada novo — o `navigator.share` que já
+  existe abre a folha nativa do Android, e o Instagram (Stories
+  incluso) já aparece lá como opção, porque o próprio app se registra
+  como destino de compartilhamento de imagem no sistema.
+- **iOS**: existe um mecanismo oficial da Meta (`instagram-stories://
+  share`), mas exige (1) cadastrar um App ID no Meta for Developers,
+  (2) escrever a imagem na área de transferência do sistema com um
+  tipo especial (`com.instagram.sharedSticker.backgroundImage`) via
+  Clipboard API, e só então (3) navegar pro link especial. Funciona,
+  mas com relatos reais de falha intermitente (timing entre escrever no
+  clipboard e trocar de app é sensível), sem fallback automático se o
+  Instagram não estiver instalado.
+
+**Decisão do Rilson**: não vale a dependência externa (cadastro Meta) e
+o risco de flakiness pra esse ganho. Fica registrado caso vire pedido
+recorrente de usuário no futuro.
+
+### Perguntas ainda em aberto (pra decidir com o Rilson, não decidido aqui)
+
+- Vale gerar também um formato quadrado (feed) além do Story?
+- Estratégia de viralização mais ampla (marca d'água sempre visível já
+  existe — `biblianaarte.narniano.com` no rodapé do card; vale mais que
+  isso? Gamificação, séries temáticas, algo que dê motivo recorrente de
+  voltar e compartilhar de novo?) — em aberto, discutir com o Rilson.
+
+Ver a mesma seção espelhada nos ROADMAPs de `a-bancada-evangelica` e
+`teste-politico` — achados específicos de cada um lá, ainda pendentes
+(o Achado 1 acima foi resolvido só aqui no Bíblia na Arte por enquanto).
+
+### Pinterest — anotado, não decidido (2026-09-26)
+
+Pedido do Rilson: Bíblia na Arte e o Narniano (site principal) se
+beneficiariam de usar o Pinterest a favor da divulgação. Só o registro
+por enquanto, nenhuma implementação.
+
+Por que faz sentido especificamente aqui (diferente do Instagram, que é
+mais genérico pros três projetos acima): Pinterest é buscador visual de
+longo prazo (um pin bem indexado continua trazendo tráfego meses/anos
+depois, ao contrário do feed efêmero do Instagram) e o público que busca
+"arte cristã", "pintura bíblica", "quadros religiosos" por lá já está em
+intenção de pesquisa — encaixa com o catálogo de obras existente (cada
+obra já tem página própria, imagem vertical de story pronta via
+`ArtworkShareCard`) sem precisar de conteúdo novo, só de um canal de
+distribuição a mais para o que já existe.
+
+Perguntas em aberto (pra decidir com o Rilson, não decidido aqui):
+
+- Vale um formato de imagem dedicado pro Pinterest (proporção 2:3,
+  recomendada pela própria plataforma) além do 9:16 do Story e de um
+  eventual quadrado pro feed, ou um dos dois já serve?
+- Cada obra vira um Pin individual linkando pra `/obra/:id` (tráfego
+  direto pro site, mesma lógica do Instagram) — dá pra automatizar a
+  partir do catálogo existente ou é esforço manual, pelo menos no
+  início?
+- Vale um Pinterest "Save" button/rich pin nas páginas de obra do site
+  (deixa qualquer visitante salvar sem precisar do fluxo social share
+  manual)?
+- Isso é prioridade maior ou menor que resolver primeiro os achados do
+  Instagram acima (hierarquia visual do botão de compartilhar)? Ou os
+  dois podem andar juntos, já que a imagem-base é reaproveitada?

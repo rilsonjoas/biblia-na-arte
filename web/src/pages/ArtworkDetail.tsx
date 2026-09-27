@@ -222,9 +222,49 @@ export default function ArtworkDetail() {
         </nav>
 
         {/* Main Artwork Stage */}
+        {/* Reordenado 2026-09-26 (achado do Rilson: hierarquia bagunçada no
+            mobile) — no mobile, título/badges vêm ANTES da imagem (identificar
+            a obra antes de agir sobre ela); no desktop, volta pro layout de
+            2 colunas de sempre via posicionamento explícito de grid
+            (col-start/row-start), que ignora a ordem no DOM. */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 mb-12 items-start">
+          {/* Identity Block: badges + título + subtítulo */}
+          <div className="lg:col-start-8 lg:col-span-5 lg:row-start-1">
+            <div className="flex items-center gap-2 mb-3">
+              <Badge variant="secondary" className="gap-1.5 px-2.5 py-1 text-xs">
+                {getCategoryIcon()}
+                <span>{getCategoryLabel()}</span>
+              </Badge>
+
+              {artwork.licenseType === 'public-domain' ? (
+                <Badge variant="outline" className="gap-1.5 px-2.5 py-1 text-xs text-muted-foreground border-border bg-muted/50">
+                  <ShieldCheck className="w-3.5 h-3.5" />
+                  <span>Domínio Público</span>
+                </Badge>
+              ) : (
+                <Badge variant="outline" className="gap-1.5 px-2.5 py-1 text-xs text-muted-foreground border-border bg-muted/50">
+                  <Info className="w-3.5 h-3.5" />
+                  <span>Licenciado</span>
+                </Badge>
+              )}
+            </div>
+
+            <div className="flex items-center gap-3 mb-2">
+              <h1 className="text-display text-2xl sm:text-3xl md:text-4xl font-bold leading-tight">
+                {artwork.title}
+              </h1>
+              <FavoriteButton artworkId={artwork.id} className="shrink-0" />
+            </div>
+
+            {artwork.subtitle && (
+              <p className="signature-italic text-lg md:text-xl">
+                {artwork.subtitle}
+              </p>
+            )}
+          </div>
+
           {/* Image / Media Column */}
-          <div className="lg:col-span-7 space-y-3 relative">
+          <div className="lg:col-start-1 lg:col-span-7 lg:row-start-1 lg:row-span-2 space-y-3 relative">
             {/* Ambient Glow sutil no tema escuro — 0KB de bundle, aproveita cache WebP */}
             {imageUrl && !artwork.embedUrl && (
               <div
@@ -288,6 +328,9 @@ export default function ArtworkDetail() {
               <span className="italic">{artwork.mediumOrGenre || 'Óleo sobre tela'}</span>
               {!artwork.embedUrl && imageUrl && (
                 <div className="flex items-center gap-4 flex-wrap">
+                  {/* Ações neutras de inspeção/utilidade agrupadas primeiro
+                      (achado 2026-09-26, Rilson: o botão de destaque ficava
+                      espremido entre elas, sem separação clara). */}
                   <CopyImageButton
                     url={imageUrl}
                     className="hover:text-primary transition-colors flex items-center gap-1"
@@ -304,59 +347,31 @@ export default function ArtworkDetail() {
                     filename={`biblia-na-arte-${artwork.id}.${imageUrl.split('.').pop() || 'webp'}`}
                     className="hover:text-primary transition-colors flex items-center gap-1"
                   />
+                  {/* "Inspecionar detalhes da pintura" removido (achado do
+                      Rilson, 2026-09-26): fazia exatamente a mesma coisa que
+                      o badge "Ampliar Obra (HD)" sobre a imagem — mesmo
+                      onClick={() => setLightboxOpen(true)}, redundante de
+                      verdade, não só parecido. */}
+                  {/* Ação principal isolada no fim, com respiro extra antes
+                      dela (achado: uma borda-separadora aqui fica com uma
+                      marca órfã quando a linha quebra em 2 — a coluna
+                      lateral desktop é estreita o bastante pra isso
+                      acontecer sempre; espaço extra funciona quebrando ou
+                      não, e o preenchimento da pílula já basta pra
+                      separar visualmente do grupo neutro). */}
                   <DownloadStoryButton
                     artwork={artwork}
-                    className="hover:text-primary transition-colors flex items-center gap-1"
+                    className="ml-1 bg-primary text-primary-foreground hover:opacity-90 transition-opacity flex items-center gap-1.5 px-3 py-1.5 rounded-full font-medium shadow-sm"
                   />
-                  <button
-                    onClick={() => setLightboxOpen(true)}
-                    className="hover:text-primary transition-colors flex items-center gap-1 underline underline-offset-4"
-                    title="Inspecionar detalhes da pintura"
-                  >
-                    <Maximize2 className="w-3 h-3 sm:hidden" />
-                    <span className="hidden sm:inline">Inspecionar detalhes da pintura</span>
-                    <span className="sm:hidden">Detalhes</span>
-                  </button>
                 </div>
               )}
             </div>
           </div>
 
-          {/* Artwork Info & Metadata Column */}
-          <div className="lg:col-span-5 space-y-6">
+          {/* Metadata Card + Description Column — segue o bloco de
+              identidade (badges/título/subtítulo, agora acima da imagem) */}
+          <div className="lg:col-start-8 lg:col-span-5 lg:row-start-2 space-y-6">
             <div>
-              <div className="flex items-center gap-2 mb-3">
-                <Badge variant="secondary" className="gap-1.5 px-2.5 py-1 text-xs">
-                  {getCategoryIcon()}
-                  <span>{getCategoryLabel()}</span>
-                </Badge>
-
-                {artwork.licenseType === 'public-domain' ? (
-                  <Badge variant="outline" className="gap-1.5 px-2.5 py-1 text-xs text-muted-foreground border-border bg-muted/50">
-                    <ShieldCheck className="w-3.5 h-3.5" />
-                    <span>Domínio Público</span>
-                  </Badge>
-                ) : (
-                  <Badge variant="outline" className="gap-1.5 px-2.5 py-1 text-xs text-muted-foreground border-border bg-muted/50">
-                    <Info className="w-3.5 h-3.5" />
-                    <span>Licenciado</span>
-                  </Badge>
-                )}
-              </div>
-
-              <div className="flex items-center gap-3 mb-2">
-                <h1 className="text-display text-2xl sm:text-3xl md:text-4xl font-bold leading-tight">
-                  {artwork.title}
-                </h1>
-                <FavoriteButton artworkId={artwork.id} className="shrink-0" />
-              </div>
-
-              {artwork.subtitle && (
-                <p className="signature-italic text-lg md:text-xl mb-4">
-                  {artwork.subtitle}
-                </p>
-              )}
-
               {/* Creator & Metadata details */}
               {/* items-start (não center) + shrink-0 no rótulo + min-w-0 no
                   valor: sem isso, um nome de artista ou dimensão longa
