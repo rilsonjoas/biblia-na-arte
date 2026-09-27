@@ -3445,8 +3445,60 @@ próprio incidente de 09-17/18 já sugeria isso: "se voltar a acontecer
 com frequência, vale automatizar"; 4 vezes em 12 dias já é esse
 "frequência").
 
+### Medição do funil — UTM no link do post diário (2026-09-27)
+
+O `@artecristadiaria` publica todo dia, mas o link da legenda ia cru pro
+site, sem parâmetro nenhum. O Umami registrava a visita e não dizia de
+onde ela veio — dá pra saber *que* o site recebeu tráfego, não se o post
+diário o causou. É o "crescimento no escuro" que a auditoria de 19/09
+apontou, agora no lado do único projeto que tem audiência.
+
+Mudança (commit `c0bb66f`): o link da legenda sai como
+`.../obra/{id}?utm_source={instagram|threads}&utm_medium=post&utm_campaign=artecristadiaria`.
+
+Três decisões, e o motivo de cada uma:
+
+1. **`utm_campaign` fixo** em `artecristadiaria`, não um por obra. Cada
+   disparo é uma obra diferente — um campaign por obra criaria uma linha
+   nova por dia no relatório sem responder pergunta nenhuma. O eixo "qual
+   obra converte" **já está no path** (`/obra/:id`), que é onde se
+   segmenta. Campaign identifica o *funil*, não a peça.
+2. **`utm_medium=post`**, a mesma forma já usada nos posts da
+   `a-bancada-evangelica` (`message` no WhatsApp, `social` no Reddit).
+   Não criar taxonomia nova no meio do cluster vale mais do que o rótulo
+   perfeito.
+3. **A bio do Instagram segue sem UTM.** O link da bio é um campo de 150
+   caracteres escrito à mão; encher de parâmetro não cabe, e não sobrevive
+   a nenhuma edição de bio futura. A bio aponta pro site direto e serve de
+   entrada — medir a bio é outra conversa (ver pendente abaixo).
+
+Verificado **antes** de commitar, não depois: `node --check` limpo; a
+página de obra responde `200` com e sem os parâmetros; a legenda do
+Threads fica em **251 de 500** caracteres no caso típico e **351** no pior
+caso realista (título 150 + autor 40), então o UTM não ameaça o teto.
+
+> [!WARNING] Bug latente, não corrigido
+> A rede de segurança da legenda do Threads (`truncateAtSentence`) corta
+> por fronteira de frase, e a **última linha da legenda é uma URL nua** —
+> se ela algum dia disparar, o corte come o link em vez de uma frase.
+> Só acontece com título acima de ~360 caracteres, e nenhum item do
+> acervo atual chega nisso. **Não corrigido agora** de propósito: é item
+> separado, e mexer no `truncateAtSentence` sem teste é exatamente o tipo
+> de coisa que derruba o post do dia silenciosamente.
+
 **Pendente (não travando nada, só em aberto):**
 
+- [ ] **`scripts/post-daily-social.mjs` está fora de toda cobertura
+      automática** — o `lint-staged` só roda `eslint --fix` em
+      `server/**/*.ts` e `web/**/*.{ts,tsx}`, e o `eslint.config.js`
+      existe só em `web/` e `server/`. Não há teste nenhum referenciando
+      o script (confirmado por busca no repositório). É o único caminho do
+      projeto que **publica em conta de produção** sem lint e sem teste.
+      Registrar o buraco é o mínimo; cobrir é decisão do Rilson.
+- [ ] **Medir o link da bio do Instagram.** Ele segue sem UTM por causa
+      do limite de caracteres (decisão 3). Se a conversão da bio importar,
+      o caminho é um redirecionador curto no domínio — nunca parâmetro
+      dentro da bio.
 - [ ] **Migrar pra token de System User (Business Settings)** —
       eliminaria a causa raiz dos 4 incidentes de invalidação de sessão
       documentados até aqui (09-07, 09-11, 09-17/18, 09-19), não só o
