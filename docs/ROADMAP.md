@@ -1,6 +1,6 @@
 # Roadmap de Produção — Bíblia na Arte
 
-> **Status atual: site em produção, Fases 0, 1, 2 e 4 concluídas** (2026-09-27)
+> **Status atual: site em produção, Fases 0 a 4 concluídas, Fase 5 em andamento** (2026-09-27)
 >
 > O cabeçalho anterior dizia "Fase 0 concluída (2026-08-07)" e ficou 7
 > semanas atrás: o próprio documento já marcava outras fases como
