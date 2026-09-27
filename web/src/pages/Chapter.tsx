@@ -159,8 +159,25 @@ export default function Chapter() {
         {/* Hero Section */}
         <div className="relative mb-10 sm:mb-16">
           <div className="gradient-hero rounded-2xl p-0.5 sm:p-1">
-            <Card className="border-0 bg-background/95 backdrop-blur">
-              <CardContent className="p-4 sm:p-8 md:p-12">
+            <Card className="relative overflow-hidden border-0 bg-background/95 backdrop-blur">
+              {/* "Capa" translúcida — o "e talvez capítulo" do pedido de
+                  2026-09-02, confirmado pelo Rilson em 2026-09-27. Mesma
+                  receita dos cards de livro (`BibleBooks.tsx`): 1 obra do
+                  livro como plano de fundo, decorativa (aria-hidden), atrás
+                  do conteúdo real. A opacidade é baixa de propósito — o
+                  texto por cima é o que tem que ser lido, e aqui o
+                  contraste é AUDITADO (WCAG), diferente do card compacto,
+                  então 0.14 é o teto e não um ponto de partida. */}
+              {book.coverImageUrl && (
+                <img
+                  src={book.coverImageUrl}
+                  alt=""
+                  aria-hidden="true"
+                  loading="lazy"
+                  className="absolute inset-0 h-full w-full object-cover opacity-[0.14] dark:opacity-[0.10] pointer-events-none"
+                />
+              )}
+              <CardContent className="relative p-4 sm:p-8 md:p-12">
                 <div className="text-center">
                   <Badge variant="secondary" className="mb-3 sm:mb-6 shadow-golden text-xs sm:text-sm">
                     <Book className="w-3.5 h-3.5 sm:w-4 sm:h-4 mr-1.5 sm:mr-2" />
