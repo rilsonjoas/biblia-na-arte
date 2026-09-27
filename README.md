@@ -34,9 +34,12 @@ Hoje isso é uma fundação técnica sólida (self-host, sem Supabase, catálogo
 > por inatividade em set/2025) e roda hoje em self-host num VPS Hetzner.
 > **Não usar Supabase de novo** — decisão explícita do mantenedor. O
 > caminho até produção confiável e o backlog completo vivem no
-> [`docs/ROADMAP.md`](docs/ROADMAP.md); procedimentos operacionais
-> (pipeline de dados, troubleshooting) em [`docs/RUNBOOK.md`](docs/RUNBOOK.md);
-> o porquê das decisões de arquitetura em [`docs/adr/`](docs/adr/).
+> [`docs/ROADMAP.md`](docs/ROADMAP.md) — que é o **plano**: o que falta,
+> por fase. O **diário** do que já foi achado, decidido e corrigido está
+> em [`docs/registro/`](docs/registro/), um arquivo por mês; procedimentos
+> operacionais (pipeline de dados, troubleshooting) em
+> [`docs/RUNBOOK.md`](docs/RUNBOOK.md); o porquê das decisões de arquitetura
+> em [`docs/adr/`](docs/adr/).
 
 ### Pré-requisitos
 - Node.js 20+
