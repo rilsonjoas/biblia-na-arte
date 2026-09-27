@@ -802,24 +802,33 @@ pnpm --filter server db:seed        # importa o JSON no Postgres (VPS)
 | 2 — UI/UX profissional | ✅ concluída | 2026-08-08 |
 | 3 — Performance e SEO | ✅ concluída (7 de 7 itens, nenhum aberto) | 2026-08-22 |
 | 4 — Segurança/observabilidade/infra | ✅ concluída (2 itens adiados/decididos conscientemente: métricas Prometheus, moldura arco literal) | 2026-08-22 |
-| 5 — Produto | 🟡 em andamento (189 entregues, 34 abertos — escopo novo, não dívida) | 2026-08-22 |
+| 5 — Produto | 🟡 em andamento (entregue em 2026-08 e 2026-09; pendente é escopo novo) | 2026-08-22 |
 
 > **Histórico desta correção (2026-09-27).** A tabela ficou desatualizada
 > de agosto até esta data. As fases 3 e 5 foram regeradas por contagem de
 > checkbox no corpo deste documento, não por impressão:
 >
-> - **Fase 3: 7 de 7 itens fechados, nenhum aberto.** A célula dizia
->   "pendente" e estava errada — a seção foi executada por completo em
->   agosto (pipeline de imagens em WebP na fonte, correção das colisões de
->   slug que faziam obra aparecer com imagem errada, as 32 remoções de
->   duplicatas). Virou ✅.
-> - **Fase 5: 189 fechados, 34 abertos.** A célula dizia "pendente", o que
->   não estava errado, mas sugeria que o produto não existia. Virou 🟡
->   em andamento. Os 34 abertos são **escopo novo**, não trabalho original
->   faltando: música sacra (IMSLP), newsletter, TTS/audiodescrição, termo de
->   cessão com advogado, `altText` curto. Parte deles é "reservado para
->   gestão manual do Rilson no vault" (versículos em 185 obras, títulos em
->   inglês) e não é código.
+> - **Fase 3 tem contagem confiável: 7 de 7, nenhum aberto.** A seção é
+>   uma só, sem `##` aninhado, então a contagem de checkbox fecha. Foi
+>   executada por completo em agosto — pipeline de imagens em WebP na
+>   fonte, correção das colisões de slug que faziam obra aparecer com
+>   imagem errada, remoções de duplicatas. Vira ✅.
+>
+> - **Fase 5 não tem contagem confiável, e por isso a célula não tem
+>   número.** A fase está espalhada por várias seções de nível 2 — `## Fase
+>   5`, `## 🎯 Fila Priorizada de Execução`, `## Ideias de produto`, `##
+>   Integração com o Lecionário`, `## Estratégia` — e não existe fronteira
+>   única. Três métodos de contagem legítimos deram três números: contando
+>   até o fim do arquivo, até `## Status`, e até o próximo `##`. Medir exige
+>   decidir se "Ideias de produto" e "Estratégia" contam como Fase 5, e isso
+>   muda o resultado de 5 a 190. **Um número aqui seria falsa precisão**,
+>   então a célula registra qualitativamente o que se sabe: houve entrega
+>   grande em agosto e setembro (painel administrativo com submissão de
+>   artistas, metadados expandidos, coleções, favoritos, PWA), e o que
+>   sobrou é escopo novo (música sacra, newsletter, TTS, termo de cessão,
+>   `altText`) e parte dele é gestão manual do Rilson no vault, não código.
+>   Se o Rilson quiser o número, é uma decisão de escopo antes de ser uma
+>   contagem.
 >
 > O que foi para o ar entre a última vez que a tabela foi escrita e esta
 > correção: publicação automática no Instagram e Threads (2026-09-03),
@@ -828,11 +837,23 @@ pnpm --filter server db:seed        # importa o JSON no Postgres (VPS)
 > (2026-09-06), fim do Facebook na publicação automática (2026-09-11),
 > compartilhamento manual (2026-09-26).
 >
-> - **Sabendo de duas duplicatas:** dois itens da Fase 5 estão repetidos
->   no arquivo ("Newsletter semanal por e-mail" e "Expansão para Música
->   Sacra em Domínio Público (IMSLP)" aparecem 2× cada). Não removi aqui
->   porque duplicata entre sub-listas pode ser intencional — vale o Rilson
->   olhar antes.
+> - **Duplicatas removidas (2026-09-27).** "Expansão para Música Sacra em
+>   Domínio Público (IMSLP)" aparecia 2× e "Newsletter semanal por e-mail"
+>   também 2×, cada uma em lista diferente e com detalhe diferente. O Rilson
+>   confirmou que não era intencional. Ambas foram unificadas no item
+>   canônico de cada lista, guardando o detalhe que existia só na cópia
+>   removida (as três fontes de áudio do `EmbedPlayer` e `category:
+>   'music'`; o alias `biblianaarte@narniano.com` e o argumento de canal
+>   próprio). Nenhum item foi perdido: os dois passaram a ter o texto
+>   completo, e não há mais contagem dupla inflando o que falta.
+>
+> - **Duplicação que sobrou, e é outra coisa.** A Fase 5 tem uma
+>   lista-resumo no topo (com o detalhe de implementação em sub-bullets) e
+>   depois as listas por Nível (com uma linha por item, e marcação de
+>   "Concluído"). "Metadados Expandidos", "Coleções e Playlists Temáticas"
+>   e "Favoritos locais" aparecem nas duas. **Não toquei nessas**: aí a
+>   repetição parece indexação (resumo detalhado + índice priorizado), não
+>   erro. Vale o Rilson decidir se quer as duas listas ou só uma.
 
 
 
