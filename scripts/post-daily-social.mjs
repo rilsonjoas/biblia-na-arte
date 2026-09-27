@@ -38,38 +38,13 @@
  *      PLATFORMS=threads node scripts/post-daily-social.mjs
  */
 
+import { buildCaption, buildThreadsCaption } from './social-caption.mjs';
+
 const API_BASE = 'https://api-biblianaarte.narniano.com/api/v1';
 const WEB_BASE = 'https://biblianaarte.narniano.com';
 const IG_GRAPH_BASE = 'https://graph.instagram.com/v21.0';
 const FB_GRAPH_BASE = 'https://graph.facebook.com/v21.0';
 const THREADS_GRAPH_BASE = 'https://graph.threads.net/v1.0';
-
-/** Link da legenda com UTM, pra medir se o funil @artecristadiaria
- *  realmente converte em visita ao acervo (decisão 2026-09-27).
- *
- *  `utm_campaign` é FIXO de propósito: cada disparo é uma obra diferente,
- *  e um campaign por obra daria uma linha nova por dia no relatório sem
- *  responder pergunta nenhuma. O eixo "qual obra converte" já está no
- *  path (`/obra/:id`) — segmenta-se por path, que é o lugar certo. O que
- *  o UTM responde é "o Instagram gera clique?", e pra isso a campaign
- *  precisa ser o nome do funil, não da peça.
- *
- *  `utm_medium=post` segue a convenção já usada no resto do cluster
- *  (mesma forma nos posts da a-bancada-evangelica); `message` no WhatsApp,
- *  `social` no Reddit. */
-const UTM_CAMPAIGN = 'artecristadiaria';
-
-function withUtm(artworkId, source) {
-  return `${WEB_BASE}/obra/${artworkId}?utm_source=${source}&utm_medium=post&utm_campaign=${UTM_CAMPAIGN}`;
-}
-
-// Instagram e Facebook cortam em 2200 caracteres — usamos o mesmo teto
-// pras duas (mesma voz, mesma legenda, sem motivo real pra divergir).
-// Threads é bem mais curto (500 caracteres, link incluso, sem
-// encurtamento automático de URL) — legenda própria, mais enxuta.
-const MAX_DESCRIPTION_CHARS = 700;
-const MAX_QUOTE_CHARS = 250;
-const THREADS_MAX_CHARS = 500;
 
 const PLATFORMS = new Set(
   (process.env.PLATFORMS ?? 'instagram,facebook,threads').split(',').map((p) => p.trim()),
@@ -89,118 +64,6 @@ function requireEnv(name) {
     process.exit(1);
   }
   return value;
-}
-
-/** Corta um texto até o fim da última frase completa antes do limite —
- *  nunca corta uma frase no meio. Usado tanto pra citação bíblica
- *  (passagens de capítulo inteiro chegam a ~2200 caracteres) quanto
- *  pra descrição da obra (a intro chega a mais de 3000). */
-function truncateAtSentence(text, maxChars) {
-  if (text.length <= maxChars) return text;
-  const cut = text.slice(0, maxChars);
-  const lastPeriod = cut.lastIndexOf('.');
-  const safe = lastPeriod > maxChars * 0.4 ? cut.slice(0, lastPeriod + 1) : cut;
-  return `${safe} (…)`;
-}
-
-/** A `description` da obra é markdown (tem "**negrito**" e um cabeçalho
- *  "### Contexto Histórico" mais pra frente) — pra legenda queremos só
- *  o parágrafo introdutório (a descrição real da obra em si, sem o
- *  aprofundamento histórico) e sem sintaxe de markdown, que nenhuma das
- *  redes renderiza. */
-function extractDescriptionIntro(description) {
-  if (!description) return null;
-  const headerIndex = description.search(/\n#{2,3} /);
-  const intro = headerIndex === -1 ? description : description.slice(0, headerIndex);
-  return intro.replace(/\*\*/g, '').trim();
-}
-
-/** Entre as referências catalogadas da obra, prefere a de citação MAIS
- *  CURTA com texto real — dá uma citação mais "de legenda", não a
- *  passagem inteira de um capítulo só porque veio primeiro na lista. */
-function pickReference(references) {
-  const withText = references.filter((r) => r.passageText);
-  if (withText.length === 0) return references[0] ?? null;
-  return withText.reduce((shortest, r) =>
-    r.passageText.length < shortest.passageText.length ? r : shortest,
-  );
-}
-
-function formatReference(ref) {
-  return ref.verses ? `${ref.book} ${ref.chapter}:${ref.verses}` : `${ref.book} ${ref.chapter}`;
-}
-
-/** Alguns trechos de `passageText` são o MEIO de uma frase maior (ex.:
- *  "eis que a mão do Senhor...", de um versículo que na tradução ACF
- *  completa começa com "Eis") e vêm em minúscula na fonte. Como citação
- *  isolada na legenda, isso lê como erro de digitação — capitaliza a
- *  primeira letra visível (ignora aspas/parênteses na frente). */
-function capitalizeFirstLetter(text) {
-  const match = text.match(/[a-zà-ÿ]/i);
-  if (!match) return text;
-  const index = match.index;
-  return text.slice(0, index) + text[index].toUpperCase() + text.slice(index + 1);
-}
-
-function bareQuote(ref) {
-  return capitalizeFirstLetter(ref.passageText.trim().replace(/^["“]|["”]$/g, ''));
-}
-
-function buildCaption(artwork, source = 'instagram') {
-  const ref = pickReference(artwork.references ?? []);
-  const intro = extractDescriptionIntro(artwork.description);
-  const lines = [];
-
-  lines.push(`${artwork.title}${artwork.year ? ` (${artwork.year})` : ''}`);
-  lines.push(artwork.artistOrDirector);
-
-  if (intro) {
-    lines.push('');
-    lines.push(truncateAtSentence(intro, MAX_DESCRIPTION_CHARS));
-  }
-
-  if (ref?.passageText) {
-    lines.push('');
-    lines.push(`"${truncateAtSentence(bareQuote(ref), MAX_QUOTE_CHARS)}"`);
-    lines.push(`— ${formatReference(ref)}`);
-  }
-
-  if (artwork.location) {
-    lines.push('');
-    lines.push(artwork.location);
-  }
-
-  lines.push('');
-  lines.push(`Veja a obra completa (contexto histórico, outras referências) em ${withUtm(artwork.id, source)}`);
-  lines.push('');
-  lines.push('#BíbliaNaArte #ArteCristã #ArteSacra #Devocional');
-
-  return lines.join('\n');
-}
-
-/** Threads corta em 500 caracteres (link incluso, sem encurtar URL) —
- *  pedido do Rilson (2026-09-04): pra Threads especificamente, ir no
- *  essencial — título, autor, só a CITAÇÃO da referência (livro/
- *  capítulo/verso, não o texto do versículo) e o link. Sem a descrição
- *  longa, sem o texto da passagem, sem os múltiplos hashtags do
- *  Instagram — o risco de estourar 500 caracteres em algum título maior
- *  fica muito menor assim. */
-function buildThreadsCaption(artwork) {
-  const ref = pickReference(artwork.references ?? []);
-  const lines = [];
-
-  lines.push(`${artwork.title}${artwork.year ? ` (${artwork.year})` : ''} — ${artwork.artistOrDirector}`);
-  if (ref) {
-    lines.push(formatReference(ref));
-  }
-
-  lines.push('');
-  lines.push(withUtm(artwork.id, 'threads'));
-
-  const caption = lines.join('\n');
-  // Rede de segurança: se mesmo assim passar de 500 (título muito
-  // longo, por exemplo), corta o texto inteiro no limite.
-  return caption.length <= THREADS_MAX_CHARS ? caption : truncateAtSentence(caption, THREADS_MAX_CHARS);
 }
 
 async function graphPost(base, path, params) {
@@ -360,14 +223,14 @@ async function main() {
   // alteração quando já está dentro do limite, senão adiciona moldura.
   // Threads continua na imagem original (nunca teve esse problema).
   const socialImageUrl = `${API_BASE}/artworks/${artwork.id}/social-image`;
-  const caption = buildCaption(artwork);
+  const caption = buildCaption(artwork, { source: 'instagram', webBase: WEB_BASE });
   console.log('▶ Legenda (Instagram/Facebook) montada:\n' + caption);
 
   const jobs = [];
   if (PLATFORMS.has('instagram')) jobs.push(['Instagram', publishToInstagram(socialImageUrl, caption)]);
   if (PLATFORMS.has('facebook')) jobs.push(['Facebook', publishToFacebook(socialImageUrl, caption)]);
   if (PLATFORMS.has('threads')) {
-    const threadsCaption = buildThreadsCaption(artwork);
+    const threadsCaption = buildThreadsCaption(artwork, { webBase: WEB_BASE });
     console.log('▶ Legenda (Threads) montada:\n' + threadsCaption);
     jobs.push(['Threads', publishToThreads(imageUrl, threadsCaption)]);
   }
