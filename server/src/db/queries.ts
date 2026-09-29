@@ -1,4 +1,4 @@
-import { and, desc, eq, inArray, isNotNull, sql } from 'drizzle-orm';
+import { and, desc, eq, gte, inArray, isNotNull, lt, sql } from 'drizzle-orm';
 import { db } from './client.js';
 import {
   artists,
@@ -6,13 +6,22 @@ import {
   artworkThemes,
   bibleBooks,
   bibleReferences,
+  dailyArtwork,
   themes,
   submissions,
   users,
 } from './schema.js';
 import type { ListArtworksQuery, SearchArtworksQuery } from '../schemas/artwork.schema.js';
 import type { CreateSubmissionInput, UpdateSubmissionInput } from '../schemas/submission.schema.js';
-import { getLectionaryEntry, parseLectionaryRef, SEASON_THEME_SLUGS } from '../lib/lectionary-refs.js';
+import { getLectionaryEntry, SEASON_THEME_SLUGS, todaySaoPaulo } from '../lib/lectionary-refs.js';
+import {
+  DAILY_NO_REPEAT_WINDOW_DAYS,
+  buildDailyTiers,
+  chapterKey,
+  getDateSeed,
+  parseDayRefs,
+  pickDailyArtworkId,
+} from '../lib/daily-artwork.js';
 import { looksLikeUuid } from '../lib/deterministic-uuid.js';
 import { slugify } from '../lib/vault-parse.js';
 import { THEMATIC_COLLECTIONS } from '../lib/collections-data.js';
@@ -205,156 +214,187 @@ export async function getRandomArtwork(): Promise<ArtworkWithReferences | undefi
   return withRefs;
 }
 
-/** Mesmo algoritmo de hash de data usado no Lecionário e no Gerador C.S.
- *  Lewis (getDateSeed em lecionario-web/src/lib/artwork-fetcher.ts e
- *  citação do dia) — replicado aqui de propósito pra manter o mesmo
- *  padrão de "seleção diária determinística" em todo o cluster Design
- *  Narniano, não é código compartilhado (cada projeto já duplica essa
- *  função por conta própria, ver comentário do artwork-fetcher.ts). */
-function getDateSeed(dateStr: string): number {
-  let hash = 0;
-  for (let i = 0; i < dateStr.length; i++) {
-    hash = (hash << 5) - hash + dateStr.charCodeAt(i);
-    hash |= 0;
-  }
-  return Math.abs(hash);
-}
-
 /** Pool de obras catalogadas num livro+capítulo, só as com imagem
  *  publicável — mesmo espírito do filtro de `listArtworks`, mas sem
  *  paginação/contagem (não precisa aqui) e com o `imageUrl IS NOT NULL`
  *  que lá não existe (aqui importa: nunca queremos escolher "a obra do
- *  dia" e ela não ter imagem pra mostrar). `orderBy(artworks.id)` pela
- *  mesma razão do `getDailyArtwork` — ordem estável pro `seed % length`
- *  ser reprodutível entre chamadas. */
-async function getArtworkPoolForReference(bookSlug: string, chapter: number): Promise<ArtworkRow[]> {
-  const matchingRefs = await db
-    .select({ artworkId: bibleReferences.artworkId })
+ *  dia" e ela não ter imagem pra mostrar). `orderBy(artworks.id)` pra
+ *  ordem estável — o `seed % length` precisa ser reprodutível entre
+ *  chamadas. Devolve só os ids. */
+async function getArtworkIdsForReference(bookSlug: string, chapter: number): Promise<string[]> {
+  const rows = await db
+    .selectDistinct({ id: artworks.id })
     .from(bibleReferences)
-    .where(and(eq(bibleReferences.bookSlug, bookSlug), eq(bibleReferences.chapter, chapter)));
-
-  const artworkIds = [...new Set(matchingRefs.map((r) => r.artworkId))];
-  if (artworkIds.length === 0) return [];
-
-  return db
-    .select()
-    .from(artworks)
-    .where(and(eq(artworks.active, true), isNotNull(artworks.imageUrl), inArray(artworks.id, artworkIds)))
+    .innerJoin(artworks, eq(artworks.id, bibleReferences.artworkId))
+    .where(
+      and(
+        eq(bibleReferences.bookSlug, bookSlug),
+        eq(bibleReferences.chapter, chapter),
+        eq(artworks.active, true),
+        isNotNull(artworks.imageUrl),
+      ),
+    )
     .orderBy(artworks.id);
+  return rows.map((row) => row.id);
 }
 
-/** Entre as referências do dia (leituras do Lecionário pra essa data),
- *  fica com o MAIOR pool de obras — mesmo critério do
- *  `fetchArtworkForReferences` do Lecionário (ver ROADMAP dele,
- *  "Pintura do Dia repetindo"): se a 1ª leitura tiver 1 obra e o
- *  Evangelho tiver 13, usar o Evangelho é o que garante variar dia após
- *  dia. `break` cedo com pool >= 3 evita rodar as 4 queries sempre. */
-async function getBestPoolForReferences(refs: string[]): Promise<ArtworkRow[]> {
-  const seen = new Set<string>();
-  let bestPool: ArtworkRow[] = [];
-
-  for (const ref of refs) {
-    const parsed = parseLectionaryRef(ref);
-    if (!parsed) continue;
-
-    const key = `${parsed.bookSlug}|${parsed.chapter}`;
-    if (seen.has(key)) continue;
-    seen.add(key);
-
-    const pool = await getArtworkPoolForReference(parsed.bookSlug, parsed.chapter);
-    if (pool.length > bestPool.length) bestPool = pool;
-    if (bestPool.length >= 3) break;
-  }
-
-  return bestPool;
+/** Obras publicáveis com alguma referência no livro (qualquer capítulo). */
+async function getArtworkIdsForBook(bookSlug: string): Promise<string[]> {
+  const rows = await db
+    .selectDistinct({ id: artworks.id })
+    .from(bibleReferences)
+    .innerJoin(artworks, eq(artworks.id, bibleReferences.artworkId))
+    .where(and(eq(bibleReferences.bookSlug, bookSlug), eq(artworks.active, true), isNotNull(artworks.imageUrl)))
+    .orderBy(artworks.id);
+  return rows.map((row) => row.id);
 }
 
-/** Refinamento OPCIONAL: interssecciona um pool já calculado com os temas
- *  da estação (`SEASON_THEME_SLUGS`) — ex.: pool inteiro de João 1 (14
- *  obras, mistura Natividade com Paixão/Batismo) vira só "A Sagrada
- *  Família" no Natal (ROADMAP "Afinidade litúrgica da Pintura do Dia",
- *  2026-09-03, confirmado contra a API de produção antes de implementar).
- *  NUNCA devolve pool vazio quando o original não era — se a interseção
- *  zerar (nenhuma obra do capítulo tem a tag ainda), fica com o pool
- *  original sem tema. Refinamento é estritamente aditivo, nunca perde
- *  candidato. */
-async function filterPoolByThemes(pool: ArtworkRow[], themeSlugs: string[]): Promise<ArtworkRow[]> {
-  if (themeSlugs.length === 0 || pool.length === 0) return pool;
+/** Acervo inteiro publicável (ativo e com imagem) — o último recurso da
+ *  escolha do dia. Antes o sorteio global não exigia imagem, e o script de
+ *  publicação aborta em obra sem imagem. */
+async function getPublishableArtworkIds(): Promise<string[]> {
+  const rows = await db
+    .select({ id: artworks.id })
+    .from(artworks)
+    .where(and(eq(artworks.active, true), isNotNull(artworks.imageUrl)))
+    .orderBy(artworks.id);
+  return rows.map((row) => row.id);
+}
 
-  const ids = pool.map((row) => row.id);
+/** Refinamento OPCIONAL pela estação litúrgica (ROADMAP "Afinidade
+ *  litúrgica da Pintura do Dia", 2026-09-03): quais obras do pool têm um dos
+ *  temas da estação. Quem usa (`buildDailyTiers`) ignora o refinamento se
+ *  ele zerar o pool — estritamente aditivo, nunca perde candidato. */
+async function getThemedArtworkIds(ids: string[], themeSlugs: string[]): Promise<Set<string>> {
+  if (ids.length === 0 || themeSlugs.length === 0) return new Set();
   const matches = await db
     .select({ artworkId: artworkThemes.artworkId })
     .from(artworkThemes)
     .where(and(inArray(artworkThemes.artworkId, ids), inArray(artworkThemes.themeSlug, themeSlugs)));
+  return new Set(matches.map((m) => m.artworkId));
+}
 
-  const matchedIds = new Set(matches.map((m) => m.artworkId));
-  if (matchedIds.size === 0) return pool;
+function shiftDate(dateStr: string, days: number): string {
+  const date = new Date(`${dateStr}T00:00:00Z`);
+  date.setUTCDate(date.getUTCDate() + days);
+  return date.toISOString().slice(0, 10);
+}
 
-  return pool.filter((row) => matchedIds.has(row.id));
+/** Obras mostradas nos `DAILY_NO_REPEAT_WINDOW_DAYS` dias antes de `dateStr`
+ *  (o próprio dia fica de fora). Dia sem linha simplesmente não exclui nada
+ *  — ninguém viu obra nenhuma nele. */
+async function getRecentDailyArtworkIds(dateStr: string): Promise<Set<string>> {
+  const rows = await db
+    .select({ artworkId: dailyArtwork.artworkId })
+    .from(dailyArtwork)
+    .where(
+      and(
+        gte(dailyArtwork.date, shiftDate(dateStr, -DAILY_NO_REPEAT_WINDOW_DAYS)),
+        lt(dailyArtwork.date, dateStr),
+      ),
+    );
+  return new Set(rows.map((r) => r.artworkId));
+}
+
+/** Obra gravada pra essa data, só se ainda for publicável — obra desativada
+ *  depois (ex.: retirada por direitos autorais, docs/AUDITORIA-COPYRIGHT.md)
+ *  não pode continuar sendo servida por já estar gravada. */
+async function findPersistedDailyArtwork(dateStr: string): Promise<ArtworkRow | undefined> {
+  const [row] = await db
+    .select({ artwork: artworks })
+    .from(dailyArtwork)
+    .innerJoin(artworks, eq(artworks.id, dailyArtwork.artworkId))
+    .where(and(eq(dailyArtwork.date, dateStr), eq(artworks.active, true), isNotNull(artworks.imageUrl)));
+  return row?.artwork;
+}
+
+/** Calcula (sem gravar) a obra da data: candidatas da leitura litúrgica do
+ *  dia, da mais ligada à leitura pra menos (`buildDailyTiers`), pulando as
+ *  que saíram na janela de não-repetição. */
+async function computeDailyArtworkId(dateStr: string): Promise<string | undefined> {
+  const [recentIds, globalPool] = await Promise.all([
+    getRecentDailyArtworkIds(dateStr),
+    getPublishableArtworkIds(),
+  ]);
+
+  const entry = getLectionaryEntry(dateStr);
+  const refs = entry?.refs ?? [];
+  const { chapters, books } = parseDayRefs(refs);
+
+  const chapterPools = new Map<string, string[]>();
+  const bookPools = new Map<string, string[]>();
+  await Promise.all([
+    ...chapters.map(async (c) => {
+      chapterPools.set(chapterKey(c.bookSlug, c.chapter), await getArtworkIdsForReference(c.bookSlug, c.chapter));
+    }),
+    ...books.map(async (book) => {
+      bookPools.set(book, await getArtworkIdsForBook(book));
+    }),
+  ]);
+
+  const themeSlugs = (entry && SEASON_THEME_SLUGS[entry.season]) ?? [];
+  const themedIds =
+    themeSlugs.length > 0
+      ? await getThemedArtworkIds([...new Set([...chapterPools.values()].flat())], themeSlugs)
+      : undefined;
+
+  const tiers = buildDailyTiers(refs, { chapterPools, bookPools, ...(themedIds ? { themedIds } : {}) }, globalPool);
+  return pickDailyArtworkId(getDateSeed(dateStr), tiers, recentIds);
 }
 
 /** "Pintura do Dia" — mesma obra pra todo mundo que visitar no mesmo
- *  `dateStr` (quem decide QUAL data é "hoje" é quem chama esta função —
- *  a rota usa `todaySaoPaulo()` em `lectionary-refs.ts`, não UTC; ver
- *  achado real em produção lá). Primeiro tenta ligar a escolha à leitura
- *  litúrgica do dia (tabela copiada do Lecionário, ver
- *  `lectionary-refs.ts` e ROADMAP "Pintura do Dia sumindo..."
- *  2026-09-02) — reverte a decisão de 2026-08-23 de sortear
- *  independente; agora as duas pontas mostram a MESMA obra, porque só
- *  esta função calcula a escolha (o Lecionário passa a só consumir este
- *  endpoint). Refinamento por cima da referência exata do dia: só
- *  interseccionar com o tema da estação quando existir (ver ROADMAP
- *  "Afinidade litúrgica da Pintura do Dia", 2026-09-03) —
- *  **DELIBERADAMENTE sem alargar pra estação inteira quando o pool for
- *  pequeno**: tentado e revertido no mesmo dia (mesma seção do
- *  ROADMAP) depois de um caso real em produção (03/09/2026: pool
- *  correto de 2 obras da 5ª praga do Egito, correspondente à leitura
- *  do dia, foi substituído por um pool "estação inteira" de tempo
- *  comum — metade do ano, sem coerência temática nenhuma — que caiu
- *  numa obra de Páscoa completamente sem relação). Pool pequeno mas
- *  certo é preferível a pool grande e aleatório: se a leitura exata do
- *  dia só tem 1-2 obras, mostra essas mesmo, sem variar mais que isso.
- *  Se a leitura do dia não tiver NENHUMA obra catalogada, cai pro
- *  sorteio aleatório sobre o acervo inteiro de sempre — nunca quebra.
- *  Ordena por id (UUID) pra ter uma ordem estável entre chamadas — sem
- *  isso, `seed % total` apontaria pra uma obra diferente a cada vez
- *  mesmo com o mesmo seed, porque a ordem "natural" das linhas no
- *  Postgres não é garantida entre queries. */
-export async function getDailyArtwork(dateStr: string): Promise<ArtworkWithReferences | undefined> {
-  const seed = getDateSeed(dateStr);
-
-  const entry = getLectionaryEntry(dateStr);
-  if (entry && entry.refs.length > 0) {
-    const themeSlugs = SEASON_THEME_SLUGS[entry.season] ?? [];
-
-    let pool = await getBestPoolForReferences(entry.refs);
-    pool = await filterPoolByThemes(pool, themeSlugs);
-
-    if (pool.length > 0) {
-      const row = pool[seed % pool.length];
-      if (row) {
-        const [withRefs] = await attachReferences([row]);
-        return withRefs;
-      }
-    }
+ *  `dateStr` (quem decide QUAL data é "hoje" é quem chama — a rota usa
+ *  `todaySaoPaulo()`, não UTC; ver achado real em `lectionary-refs.ts`).
+ *
+ *  Escolha (`computeDailyArtworkId`): primeiro tenta ligar à leitura litúrgica
+ *  do dia (tabela copiada do Lecionário, ROADMAP "Pintura do Dia sumindo...",
+ *  2026-09-02) — as duas pontas mostram a MESMA obra porque só esta função
+ *  calcula, o Lecionário só consome o endpoint. A obra sai do capítulo da
+ *  leitura, refinada pelo tema da estação (2026-09-03). DELIBERADAMENTE sem
+ *  alargar pra estação inteira: caso real de 03/09/2026 — pool correto de 2
+ *  obras foi trocado por um "estação inteira" de tempo comum e caiu numa obra
+ *  de Páscoa sem relação nenhuma. Sem leitura catalogada, sorteio sobre o
+ *  acervo publicável.
+ *
+ *  Não-repetição (2026-09-29): a mesma pintura saiu em 28 e 29/09 porque
+ *  Êxodo 18 tinha 1 obra e a leitura ficou no mesmo capítulo. Nada que saiu
+ *  nos últimos `DAILY_NO_REPEAT_WINDOW_DAYS` dias volta; quando o pool do
+ *  capítulo esgota, cai pras outras leituras do dia, depois pro livro, depois
+ *  pro acervo (`buildDailyTiers`).
+ *
+ *  Persistência: a escolha de HOJE é gravada em `daily_artwork` na primeira
+ *  consulta e nunca mais recalculada — `seed % pool.length` muda quando o
+ *  acervo cresce, o que trocaria a obra depois do post e o site divergiria
+ *  das redes. Só `dateStr === today` grava; datas passadas/futuras (`?date=`)
+ *  devolvem o gravado se existir, senão só calculam, pra uma requisição
+ *  qualquer não escrever no banco. `today` é parâmetro só pra teste. */
+export async function getDailyArtwork(
+  dateStr: string,
+  today: string = todaySaoPaulo(),
+): Promise<ArtworkWithReferences | undefined> {
+  const persisted = await findPersistedDailyArtwork(dateStr);
+  if (persisted) {
+    const [withRefs] = await attachReferences([persisted]);
+    return withRefs;
   }
 
-  const [countRow] = await db
-    .select({ count: sql<number>`count(*)::int` })
-    .from(artworks)
-    .where(eq(artworks.active, true));
-  const count = countRow?.count ?? 0;
-  if (!count) return undefined;
+  const artworkId = await computeDailyArtworkId(dateStr);
+  if (!artworkId) return undefined;
 
-  const offset = seed % count;
+  let finalId = artworkId;
+  if (dateStr === today) {
+    // Linha gravada mas com obra que deixou de ser publicável: sai do caminho.
+    await db.execute(sql`
+      DELETE FROM daily_artwork d
+      USING artworks a
+      WHERE d.date = ${dateStr} AND a.id = d.artwork_id AND (a.active = false OR a.image_url IS NULL)
+    `);
+    await db.insert(dailyArtwork).values({ date: dateStr, artworkId }).onConflictDoNothing();
+    // Se duas requisições calcularam ao mesmo tempo, vale a linha que ganhou.
+    finalId = (await findPersistedDailyArtwork(dateStr))?.id ?? artworkId;
+  }
 
-  const [row] = await db
-    .select()
-    .from(artworks)
-    .where(eq(artworks.active, true))
-    .orderBy(artworks.id)
-    .limit(1)
-    .offset(offset);
+  const [row] = await db.select().from(artworks).where(eq(artworks.id, finalId));
   if (!row) return undefined;
 
   const [withRefs] = await attachReferences([row]);
