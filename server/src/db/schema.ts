@@ -7,6 +7,7 @@ import {
   integer,
   boolean,
   timestamp,
+  date,
   index,
   primaryKey,
 } from 'drizzle-orm/pg-core';
@@ -317,3 +318,24 @@ export const submissions = pgTable(
   ],
 );
 
+
+/** Obra que a "Pintura do Dia" mostrou em cada data (fuso de São Paulo).
+ *  Gravada na primeira consulta do próprio dia e nunca mais recalculada:
+ *  sem isso a escolha (`seed % pool.length`) muda quando o acervo cresce, e
+ *  o site passaria a divergir do que já foi postado nas redes. É também o
+ *  histórico da janela de não-repetição (`DAILY_NO_REPEAT_WINDOW_DAYS`).
+ *  Só se grava o dia de hoje — datas passadas/futuras vindas de `?date=`
+ *  são calculadas sem escrever, pra uma requisição qualquer não encher a
+ *  tabela. `onDelete: cascade`: obra apagada some do histórico e o dia é
+ *  recalculado. */
+export const dailyArtwork = pgTable(
+  'daily_artwork',
+  {
+    date: date('date', { mode: 'string' }).primaryKey(),
+    artworkId: uuid('artwork_id')
+      .notNull()
+      .references(() => artworks.id, { onDelete: 'cascade' }),
+    createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
+  },
+  (table) => [index('idx_daily_artwork_artwork_id').on(table.artworkId)],
+);
