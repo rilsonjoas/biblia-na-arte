@@ -234,6 +234,27 @@ decisão explícita — e o lugar de escrever isso é este arquivo, não um
 - **Repor o post do dia só no Threads:** `gh workflow run
   post-daily-social.yml -f platforms=threads`. Foi feito em 27/09.
 
+## Instagram: "media is not ready" no media_publish (2026-10-01)
+
+- **Sintoma:** "Publicar Pintura do Dia" vermelho com `Graph API
+  /…/media_publish falhou (400)`, `code 9007`, `error_subcode 2207027`,
+  "The media is not ready for publishing, please wait for a moment". O
+  Threads publica normalmente na mesma execução (o contrário do caso acima).
+- **Causa:** mesma corrida do Threads, no outro lado. No log, "Aguardando
+  processamento" e "Publicando" ficaram 0,26s um do outro; com 5 consultas de
+  2s, um container sem `FINISHED` teria levado ~10s. Ou seja, o poll leu
+  `FINISHED` e o publish ainda foi recusado. Isso é inferência pelos tempos,
+  o status do container não foi consultado na hora. A Meta marca o erro como
+  `is_transient: false`, então o `graphPost` abortou na primeira tentativa.
+  Os runs de 28/09 a 30/09 passaram; foi a primeira ocorrência.
+- **Correção (2026-10-01):** o subcode 2207027 entrou em `isGraphErrorTransient`
+  (`scripts/graph-api.mjs`), com teste. Dá até 5 tentativas de 5s (~25s) no
+  `media_publish`. **Não** foi adicionada espera mínima fixa antes do publish
+  do Instagram, para não atrasar todo dia por uma falha ocasional. Se o
+  2207027 voltar mesmo com o retry, reavaliar.
+- **Repor o post do dia só no Instagram:** `gh workflow run
+  post-daily-social.yml -f platforms=instagram`. Foi feito em 01/10.
+
 ## Testes dos scripts de publicação
 
 `scripts/` **não é pacote do pnpm workspace** (o `pnpm-workspace.yaml`
@@ -270,6 +291,7 @@ o primeiro. A decisão e o porquê estão no registro de 2026-09-27.
 | Busca não acha nada com filtro sem texto | Regressão específica já documentada — ver `Search.tsx` / achado 22/08 no ROADMAP | `ROADMAP.md` § "Buscar artista no /busca" |
 | CI falha no checkout, ou o `deploy` falha no `git pull` com erro de LFS / "bandwidth" | Cota de banda do Git LFS estourada (LFS desligado na conta até o próximo ciclo) | GitHub → Settings → Billing → Git LFS; ver "Cota de banda do Git LFS" acima |
 | "Publicar Pintura do Dia" vermelho só no Threads, subcode 4279009 | Publicou antes do container terminar de processar | Ver "Threads: Media Not Found" acima; repor com `-f platforms=threads` |
+| "Publicar Pintura do Dia" vermelho só no Instagram, subcode 2207027 | `media_publish` chamado antes da mídia ficar pronta | Ver "Instagram: media is not ready" acima; repor com `-f platforms=instagram` |
 | Site fora do ar mas `docker ps` mostra tudo `healthy` | Provavelmente não é este projeto — ver `hetzner-infra/RECUPERACAO.md` | Health checks: `/health`, `/health/live`, `/health/ready` |
 
 ## Onde cada coisa mora
