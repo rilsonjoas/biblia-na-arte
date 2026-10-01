@@ -12,6 +12,8 @@
  *                     que a Meta marca `is_transient: false` mas que some
  *                     esperando — está na lista de retrentativa por isso.
  *   2026-09-18, 27/09  o mesmo 4279009, de novo, dois dias seguidos.
+ *   2026-10-01        Instagram `media_publish` com 2207027 ("media is not
+ *                     ready"), `is_transient: false`, logo após FINISHED.
  *
  * Extrair para módulo próprio é o que torna testável: `fetch`, `sleep` e
  * `log` são injetados, então o teste exercita retry e espera sem rede e sem
@@ -27,6 +29,15 @@ const TRANSIENT_ERROR_CODE = 2;
  * transitório; na prática sumiu esperando, em 18/09 e 27/09.
  */
 const MEDIA_NOT_FOUND_SUBCODE = 4279009;
+
+/**
+ * "Media is not ready for publishing" no `media_publish` do Instagram
+ * (code 9007): o mesmo FINISHED-mas-não-pronto do Threads, só que no outro
+ * lado. Em 01/10 o container respondeu FINISHED e o publish, 0,26s depois,
+ * foi recusado com `is_transient: false`. A própria mensagem pede "wait for
+ * a moment", então entra na lista de retrentativa.
+ */
+const MEDIA_NOT_READY_SUBCODE = 2207027;
 
 /** Erro definitivo que nunca deve ser retentado (token morto/revogado). */
 const FATAL_ERROR_CODE = 190;
@@ -44,6 +55,7 @@ export function isGraphErrorTransient(body, status) {
   if (error?.is_transient === true) return true;
   if (error?.code === TRANSIENT_ERROR_CODE) return true;
   if (error?.error_subcode === MEDIA_NOT_FOUND_SUBCODE) return true;
+  if (error?.error_subcode === MEDIA_NOT_READY_SUBCODE) return true;
   if (typeof status === 'number' && status >= 500) return true;
   return false;
 }

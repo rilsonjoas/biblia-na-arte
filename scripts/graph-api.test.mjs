@@ -34,6 +34,13 @@ describe('isGraphErrorTransient', () => {
     assert.equal(isGraphErrorTransient(body, 400), true);
   });
 
+  test('retenta o subcode 2207027 (Instagram, mídia ainda não pronta) mesmo com is_transient false', () => {
+    // 2026-10-01: container respondeu FINISHED e o media_publish, 0,26s
+    // depois, voltou 9007/2207027 "The media is not ready for publishing".
+    const body = { error: { code: 9007, error_subcode: 2207027, is_transient: false } };
+    assert.equal(isGraphErrorTransient(body, 400), true);
+  });
+
   test('retenta 5xx com corpo que não traz error', () => {
     assert.equal(isGraphErrorTransient({}, 503), true);
     assert.equal(isGraphErrorTransient(undefined, 500), true);
