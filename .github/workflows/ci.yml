@@ -92,12 +92,18 @@ jobs:
         # (3 tentativas) às vezes não é suficiente (2026-09-03). Distingue
         # falha de rede (tenta de novo) de vulnerabilidade real encontrada
         # (falha na hora, não adianta insistir).
+        #
+        # O GitHub roda `run:` com `bash -e`, e `set -uo` não desliga o -e. Por
+        # isso `output=$(cmd)` com cmd falhando encerrava o script ali, antes
+        # do `echo` e do retry: em 2026-10-01 o passo falhou em 0,6s sem
+        # mostrar a lista de vulnerabilidades nem a mensagem abaixo. O
+        # `|| status=$?` é o que mantém o script vivo até imprimir.
         run: |
           set -uo pipefail
           max_attempts=4
           for attempt in $(seq 1 "$max_attempts"); do
-            output=$(pnpm audit --audit-level=high 2>&1)
-            status=$?
+            status=0
+            output=$(pnpm audit --audit-level=high 2>&1) || status=$?
             echo "$output"
             if [ "$status" -eq 0 ]; then
               exit 0
