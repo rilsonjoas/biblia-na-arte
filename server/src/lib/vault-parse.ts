@@ -413,6 +413,27 @@ export function normalizeForComparison(s: string): string {
     .trim();
 }
 
+/** Devolve o nome do artista excluído por direitos autorais, ou `undefined`.
+ *  A lista compara NOME EXATO de artista (normalizado), então não pode depender
+ *  só do campo `autor:` da nota: quando ele aponta pra própria nota ("Henk
+ *  Helmantel - Nova vida (Nieuw Leven)", achado 2026-10-12, 10 obras de artistas
+ *  excluídos estavam no ar assim) o nome nunca bate. Por isso confere três
+ *  candidatos: o `autor:` resolvido, o trecho dele antes do " - " e o artista
+ *  do nome do arquivo ("Artista - Título.md"). Continua exigindo nome inteiro:
+ *  "Josh Tiessenberg" não casa com "Josh Tiessen". */
+export function findExcludedArtist(
+  excludedNormalized: ReadonlySet<string>,
+  artist: string,
+  filename: string,
+): string | undefined {
+  const candidates = [artist, artist.split(' - ')[0] ?? '', deriveArtistFromFilename(filename)];
+  for (const candidate of candidates) {
+    const name = candidate.trim();
+    if (name && excludedNormalized.has(normalizeForComparison(name))) return name;
+  }
+  return undefined;
+}
+
 /** "Autor - Título.md" -> "Título"; sem " - ", o nome inteiro é o título.
  *  (O parse inteligente que tira " N" e o parêntese do título original é a
  *  Fase 1 do ROADMAP — aqui preservamos o comportamento atual.) */
