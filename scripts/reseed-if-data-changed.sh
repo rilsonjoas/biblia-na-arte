@@ -16,7 +16,14 @@
 #
 # RESEED_FORCE=1 faz o modo `dry` agir mesmo sem mudança nos dados.
 # RESEED_PLAN_ONLY=1 faz o modo `dry` só imprimir "reseed" ou "skip" (usado nos testes).
+# RESEED_NETWORK, RESEED_API_CONTAINER e RESEED_ENV_FILE trocam rede Docker, container da
+# API e arquivo de ambiente (padrões = produção); servem para ensaiar contra um Postgres
+# descartável (docs/RUNBOOK.md, passo 5b).
 set -euo pipefail
+
+NETWORK="${RESEED_NETWORK:-proxy-network}"
+API_CONTAINER="${RESEED_API_CONTAINER:-biblianaarte-api}"
+ENV_FILE="${RESEED_ENV_FILE:-server/.env}"
 
 MODE="${1:-}"
 case "$MODE" in
@@ -44,7 +51,7 @@ fi
 
 wait_api() {
   for _ in $(seq 1 36); do
-    [[ "$(docker inspect -f '{{.State.Health.Status}}' biblianaarte-api 2>/dev/null || true)" == "healthy" ]] && return 0
+    [[ "$(docker inspect -f '{{.State.Health.Status}}' "$API_CONTAINER" 2>/dev/null || true)" == "healthy" ]] && return 0
     sleep 5
   done
   echo "❌ API não ficou saudável em 3 minutos; nada foi executado." >&2
@@ -52,14 +59,15 @@ wait_api() {
 }
 
 run_seed() { # $1 = valor de DRY_RUN
-  docker run --rm --network proxy-network --env-file server/.env \
+  docker run --rm --network "$NETWORK" --env-file "$ENV_FILE" \
     -e NODE_ENV=development -e CI=true -e "DRY_RUN=$1" \
     -v "$(pwd)":/app -w /app node:22-alpine \
     sh -c "corepack enable && pnpm install --frozen-lockfile --filter server >/dev/null 2>&1 && pnpm --filter server db:seed"
 }
 
-# Imprime a saída sem o ruído dos NOTICE do Postgres (linhas de objeto JSON).
-show() { grep -v "^[{} ]" || true; }
+# Imprime a saída sem o ruído dos NOTICE do Postgres (blocos "{ ... }" em várias linhas).
+# Não filtrar por indentação: as linhas do relatório também começam com espaços.
+show() { awk '/^\{/ {skip=1} !skip {print} /^\}/ {skip=0}'; }
 
 if [[ "$MODE" == "apply" ]]; then
   # Só grava com o código do main já implantado: o seed usa schema/queries do checkout.
@@ -74,11 +82,11 @@ wait_api
 
 echo "▶ Ensaio (DRY_RUN=1): nada é gravado."
 if ! OUT=$(run_seed 1 2>&1); then
-  echo "$OUT" | tail -30
+  echo "$OUT" | show | grep -v '^ *at ' | tail -30
   echo "❌ Ensaio falhou ou a trava abortou; banco intocado."
   exit 1
 fi
-echo "$OUT" | show | tail -12
+echo "$OUT" | show | tail -20
 
 if [[ "$MODE" == "dry" ]]; then
   echo "✅ Ensaio passou. O banco NÃO foi alterado."
@@ -88,9 +96,9 @@ fi
 
 echo "▶ Reseed de verdade."
 if ! OUT=$(run_seed 0 2>&1); then
-  echo "$OUT" | tail -30
+  echo "$OUT" | show | grep -v '^ *at ' | tail -30
   echo "❌ Reseed falhou (a transação desfez tudo)."
   exit 1
 fi
-echo "$OUT" | show | tail -12
+echo "$OUT" | show | tail -20
 echo "✅ Reseed concluído."

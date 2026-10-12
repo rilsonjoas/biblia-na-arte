@@ -104,6 +104,15 @@ docker run --rm --network proxy-network \
 #     de criação do ARQUIVO da nota. Notas regravadas por edição ganham data nova e a
 #     ordenação "Mais Recentes" (listagens e busca) é reembaralhada para elas.
 
+# 5c. ENSAIO DO PRÓPRIO SCRIPT DE RESEED (scripts/reseed-if-data-changed.sh), sempre que ele
+#     mudar. Sem tocar na produção: Postgres descartável (docker run --tmpfs, porta livre),
+#     um container qualquer com healthcheck fingindo ser a API, clone do repo em disco
+#     (não em /tmp), migrations aplicadas, e as variáveis RESEED_NETWORK=host,
+#     RESEED_API_CONTAINER=<container fake>, RESEED_ENV_FILE. Cenários validados em
+#     2026-10-12: `dry` sem mudança de dados (nada a ensaiar); `dry` com RESEED_FORCE=1
+#     (relatório, banco intacto); `apply` (grava 1084 obras); `apply` de novo (0 novas);
+#     export sem uma obra ativa (trava aborta no `dry` e no `apply`, banco intacto).
+
 # 6. Sitemap (se mudou quantidade de páginas indexáveis)
 pnpm --filter server sitemap:generate
 ```
