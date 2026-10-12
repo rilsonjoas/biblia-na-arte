@@ -34,9 +34,11 @@ import {
   extractWikilink,
   findImageFile,
   deriveArtistFromFilename,
+  findExcludedArtist,
   normalizeForComparison,
   parseChapterLink,
   parseTitleParts,
+  restoreQuestionMark,
   slugify,
   titleFromFilename,
 } from '../src/lib/vault-parse.js';
@@ -353,8 +355,12 @@ async function main() {
       continue;
     }
 
-    if (EXCLUDED_ARTISTS_NORMALIZED.has(normalizeForComparison(artist))) {
-      skipped.push({ file, reason: `artista excluído: ${artist}` });
+    // Confere também o artista do NOME DO ARQUIVO: o `autor:` da nota às vezes
+    // aponta pra própria nota e a lista (nome exato) nunca casava — ver
+    // findExcludedArtist.
+    const excludedArtist = findExcludedArtist(EXCLUDED_ARTISTS_NORMALIZED, artist, file);
+    if (excludedArtist) {
+      skipped.push({ file, reason: `artista excluído: ${excludedArtist}` });
       continue;
     }
 
@@ -371,6 +377,12 @@ async function main() {
 
     const parsedTitle = parseTitleParts(titleFromFilename(file));
     const title = parsedTitle.title;
+    // O nome do arquivo não pode ter "?" (Windows), mas o titulo_original do
+    // frontmatter guarda o título verdadeiro — ver restoreQuestionMark.
+    const subtitle = restoreQuestionMark(
+      parsedTitle.subtitle,
+      typeof frontmatter.titulo_original === 'string' ? frontmatter.titulo_original : undefined,
+    );
 
     // Desempate determinístico de slug (achado 2026-08-22: 8 grupos de
     // notas geravam o MESMO slug e, portanto, a mesma imagem no banco).
@@ -449,7 +461,7 @@ async function main() {
     artworks.push({
       slug,
       title,
-      subtitle: parsedTitle.subtitle,
+      subtitle,
       artistOrDirector: artist,
       year,
       category: 'painting',

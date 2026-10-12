@@ -413,6 +413,27 @@ export function normalizeForComparison(s: string): string {
     .trim();
 }
 
+/** Devolve o nome do artista excluído por direitos autorais, ou `undefined`.
+ *  A lista compara NOME EXATO de artista (normalizado), então não pode depender
+ *  só do campo `autor:` da nota: quando ele aponta pra própria nota ("Henk
+ *  Helmantel - Nova vida (Nieuw Leven)", achado 2026-10-12, 10 obras de artistas
+ *  excluídos estavam no ar assim) o nome nunca bate. Por isso confere três
+ *  candidatos: o `autor:` resolvido, o trecho dele antes do " - " e o artista
+ *  do nome do arquivo ("Artista - Título.md"). Continua exigindo nome inteiro:
+ *  "Josh Tiessenberg" não casa com "Josh Tiessen". */
+export function findExcludedArtist(
+  excludedNormalized: ReadonlySet<string>,
+  artist: string,
+  filename: string,
+): string | undefined {
+  const candidates = [artist, artist.split(' - ')[0] ?? '', deriveArtistFromFilename(filename)];
+  for (const candidate of candidates) {
+    const name = candidate.trim();
+    if (name && excludedNormalized.has(normalizeForComparison(name))) return name;
+  }
+  return undefined;
+}
+
 /** "Autor - Título.md" -> "Título"; sem " - ", o nome inteiro é o título.
  *  (O parse inteligente que tira " N" e o parêntese do título original é a
  *  Fase 1 do ROADMAP — aqui preservamos o comportamento atual.) */
@@ -460,6 +481,32 @@ export function parseTitleParts(rawTitle: string): { title: string; subtitle?: s
     return subtitle && subtitle !== title ? { title, subtitle } : { title };
   }
   return { title: stripTrailingNumber(trimmed) };
+}
+
+/** O vault não pode ter "?" no nome do arquivo (o Windows não aceita; ver seção
+ *  4.5 do Manual de Padronização), então "Weib, warum weinest du?" vira
+ *  "...weinest du" no subtítulo que sai do nome. O "?" faz parte do nome real
+ *  de algumas obras (Frye Museum, Tretyakov), e o `titulo_original` do
+ *  frontmatter guarda o texto verdadeiro. Esta função devolve o `titulo_original`
+ *  como subtítulo SÓ quando ele tem "?" e a única diferença pro subtítulo do
+ *  arquivo é a pontuação que o Windows proíbe (":" e "/" viram " - ", "?" some,
+ *  aspas duplas viram simples). Qualquer outra diferença mantém o subtítulo do
+ *  arquivo; ":" sem "?" também (muitas vezes é etiqueta de catálogo, "ES:", "nl:",
+ *  não parte do nome). */
+export function restoreQuestionMark(subtitle: string | undefined, tituloOriginal: string | undefined): string | undefined {
+  if (!subtitle || !tituloOriginal || !tituloOriginal.includes('?')) return subtitle;
+
+  const original = tituloOriginal.trim();
+  const windowsSafe = original
+    .replace(/\s*[:/]\s*/g, ' - ')
+    .replace(/\?/g, '')
+    .replace(/"/g, "'")
+    .replace(/\s+/g, ' ')
+    .trim();
+
+  // A barra nunca pôde estar no nome do arquivo, então o site sempre mostrou
+  // " - " no lugar dela; mantém isso, só o "?" volta.
+  return windowsSafe === subtitle.replace(/\s+/g, ' ').trim() ? original.replace(/\s*\/\s*/g, ' - ') : subtitle;
 }
 
 /** "Vozes dos clássicos" (roadmap Fase 5, 2026-08-23) — extrai a seção

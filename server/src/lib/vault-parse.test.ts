@@ -13,8 +13,10 @@ import {
   extractThemes,
   parseChapterLink,
   deriveArtistFromFilename,
+  findExcludedArtist,
   normalizeForComparison,
   parseTitleParts,
+  restoreQuestionMark,
   titleFromFilename,
   findImageFile,
 } from './vault-parse.js';
@@ -440,6 +442,49 @@ describe('normalizeForComparison', () => {
   });
 });
 
+// Achado 2026-10-12: 10 obras de artistas da lista de exclusão por direitos autorais
+// estavam no ar porque o campo `autor:` da nota apontava pra própria nota
+// ("Henk Helmantel - Nova vida (Nieuw Leven)"), e a lista compara nome exato de
+// artista. A exclusão tem que valer também pro artista do NOME DO ARQUIVO.
+describe('findExcludedArtist', () => {
+  const excluidos = new Set(['henk helmantel', 'josh tiessen', 'kim ki-chang', 'salvador dali'].map(normalizeForComparison));
+
+  it('exclui quando o autor resolvido é exatamente o artista excluído', () => {
+    expect(findExcludedArtist(excluidos, 'Josh Tiessen', 'Josh Tiessen - Alfa e Ômega (Alpha and Omega).md')).toBe('Josh Tiessen');
+  });
+
+  it('exclui quando o `autor:` é o título da nota (o caso do Helmantel)', () => {
+    const arquivo = 'Henk Helmantel - Nova vida (Nieuw Leven).md';
+    expect(findExcludedArtist(excluidos, 'Henk Helmantel - Nova vida (Nieuw Leven)', arquivo)).toBe('Henk Helmantel');
+  });
+
+  it('exclui pelo artista do nome do arquivo mesmo quando o autor resolvido não tem relação', () => {
+    expect(findExcludedArtist(excluidos, 'Alfa e Ômega', 'Josh Tiessen - Alfa e Ômega.md')).toBe('Josh Tiessen');
+  });
+
+  it('ignora acento e caixa, como o resto da lista (Kim Ki-Chang, Dalí)', () => {
+    expect(findExcludedArtist(excluidos, 'Kim Ki-Chang', 'Kim Ki-Chang - Obra.md')).toBe('Kim Ki-Chang');
+    expect(findExcludedArtist(excluidos, 'Salvador Dalí', 'Salvador Dalí - Obra.md')).toBe('Salvador Dalí');
+  });
+
+  it('não exclui artista que não está na lista, nem com o autor poluído', () => {
+    expect(findExcludedArtist(excluidos, 'Rembrandt van Rijn', 'Rembrandt van Rijn - O filho pródigo.md')).toBeUndefined();
+    expect(
+      findExcludedArtist(excluidos, 'Jan Styka - Pregação de Pedro (St. Peter Preaching)', 'Jan Styka - Pregação de Pedro (St. Peter Preaching).md'),
+    ).toBeUndefined();
+  });
+
+  it('não casa por pedaço de nome (só nome inteiro)', () => {
+    expect(findExcludedArtist(excluidos, 'Josh Tiessenberg', 'Josh Tiessenberg - Obra.md')).toBeUndefined();
+    expect(findExcludedArtist(excluidos, 'Obra de Josh Tiessen Junior', 'Obra de Josh Tiessen Junior.md')).toBeUndefined();
+  });
+
+  it('não quebra com valor vazio ou arquivo fora da convenção "Autor - Título"', () => {
+    expect(findExcludedArtist(excluidos, '', 'Jesus chorou.md')).toBeUndefined();
+    expect(findExcludedArtist(excluidos, 'Rembrandt van Rijn', '')).toBeUndefined();
+  });
+});
+
 describe('titleFromFilename', () => {
   it('título é tudo depois do " - "', () => {
     expect(titleFromFilename('Aimé Morot - O bom samaritano (Le bon Samaritain).md')).toBe(
@@ -501,6 +546,62 @@ describe('parseTitleParts', () => {
 
   it('não remove número de 3 dígitos como título de salmo', () => {
     expect(parseTitleParts('Salmo 148')).toEqual({ title: 'Salmo 148', subtitle: undefined });
+  });
+});
+
+// O vault tira "?" do nome do arquivo (o Windows não aceita), mas o "?" faz parte
+// do nome real de algumas obras. `titulo_original` no frontmatter guarda o
+// texto verdadeiro; o subtítulo do site só volta a ele quando a ÚNICA diferença
+// é a pontuação que o Windows proíbe.
+describe('restoreQuestionMark', () => {
+  it('devolve o "?" ao subtítulo (Fritz von Uhde, Frye Museum)', () => {
+    expect(restoreQuestionMark('Weib, warum weinest du', 'Weib, warum weinest du?')).toBe('Weib, warum weinest du?');
+  });
+
+  it('devolve o "?" no meio do texto, entre aspas francesas (Nikolai Ge)', () => {
+    expect(restoreQuestionMark('«Что есть истина» Христос и Пилат (1890)', '«Что есть истина?» Христос и Пилат (1890)')).toBe(
+      '«Что есть истина?» Христос и Пилат (1890)',
+    );
+  });
+
+  it('aceita a barra do frontmatter no lugar do " - " do arquivo e mantém o " - " que o site já mostrava (Polenov)', () => {
+    expect(
+      restoreQuestionMark(
+        '«Христос и грешница» («Кто без греха») - Christ and the Woman Taken in Adultery',
+        '«Христос и грешница» («Кто без греха?») / Christ and the Woman Taken in Adultery',
+      ),
+    ).toBe('«Христос и грешница» («Кто без греха?») - Christ and the Woman Taken in Adultery');
+  });
+
+  it('quando o título tem "?" e ":" juntos, devolve o texto original inteiro', () => {
+    expect(restoreQuestionMark('What is truth - a study', 'What is truth?: a study')).toBe('What is truth?: a study');
+  });
+
+  it('tolera espaços repetidos e nas pontas', () => {
+    expect(restoreQuestionMark('Where Have They Taken Him', '  Where Have  They Taken Him? ')).toBe('Where Have  They Taken Him?');
+  });
+
+  it('não mexe quando o original não tem "?" (":" de etiqueta de idioma continua virando " - ")', () => {
+    expect(
+      restoreQuestionMark(
+        'The Prodigal Son Feeding Swine (ES convencional - El hijo pródigo alimentando a los cerdos)',
+        'The Prodigal Son Feeding Swine (ES convencional: El hijo pródigo alimentando a los cerdos)',
+      ),
+    ).toBe('The Prodigal Son Feeding Swine (ES convencional - El hijo pródigo alimentando a los cerdos)');
+  });
+
+  it('não troca um subtítulo que difere do original em mais que pontuação', () => {
+    expect(restoreQuestionMark('The Last Supper', 'Das Abendmahl?')).toBe('The Last Supper');
+  });
+
+  it('não duplica o "?" quando o subtítulo do arquivo já o tem', () => {
+    expect(restoreQuestionMark('Who is this?', 'Who is this?')).toBe('Who is this?');
+  });
+
+  it('devolve o subtítulo como veio quando falta um dos dois lados', () => {
+    expect(restoreQuestionMark(undefined, 'Algo?')).toBeUndefined();
+    expect(restoreQuestionMark('Algo', undefined)).toBe('Algo');
+    expect(restoreQuestionMark('Algo', '')).toBe('Algo');
   });
 });
 
