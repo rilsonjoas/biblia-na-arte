@@ -14,6 +14,10 @@ import {
   parseChapterLink,
   deriveArtistFromFilename,
   findExcludedArtist,
+  frontmatterExclusionReason,
+  isPollutedAuthor,
+  frozenSlugOf,
+  assignFrozenSlugs,
   normalizeForComparison,
   parseTitleParts,
   restoreQuestionMark,
@@ -732,3 +736,105 @@ Só a descrição, sem menção a leitura nenhuma.
   });
 });
 
+// Decisão de 2026-10-12: a exclusão por direitos autorais não pode depender só de uma
+// lista de NOMES no código (10 obras de artistas excluídos foram ao ar com o `autor:`
+// da nota torto). A nota passa a poder dizer sozinha que não se publica.
+describe('frontmatterExclusionReason', () => {
+  it('nota sem marca nenhuma não é excluída', () => {
+    expect(frontmatterExclusionReason(null)).toBeUndefined();
+    expect(frontmatterExclusionReason({})).toBeUndefined();
+    expect(frontmatterExclusionReason({ autor: '[[Rembrandt van Rijn]]' })).toBeUndefined();
+  });
+
+  it('direitos: excluir (e variações de caixa, espaço e sinônimos) exclui', () => {
+    for (const valor of ['excluir', 'Excluir', '  BLOQUEADO ', 'bloquear', 'proibido', 'Não publicar', 'nao publicar']) {
+      expect(frontmatterExclusionReason({ direitos: valor }), valor).toMatch(/direitos/);
+    }
+  });
+
+  it('direitos com outro valor (liberado, domínio público) não exclui', () => {
+    for (const valor of ['liberado', 'dominio publico', 'domínio público', 'ok', '']) {
+      expect(frontmatterExclusionReason({ direitos: valor }), valor).toBeUndefined();
+    }
+  });
+
+  it('publicar: false (ou "não") exclui; publicar: true ou "sim" não', () => {
+    expect(frontmatterExclusionReason({ publicar: false })).toMatch(/publicar/);
+    expect(frontmatterExclusionReason({ publicar: 'não' })).toMatch(/publicar/);
+    expect(frontmatterExclusionReason({ publicar: 'nao' })).toMatch(/publicar/);
+    expect(frontmatterExclusionReason({ publicar: true })).toBeUndefined();
+    expect(frontmatterExclusionReason({ publicar: 'sim' })).toBeUndefined();
+  });
+
+  it('valor de tipo inesperado (número, lista) não quebra e não exclui', () => {
+    expect(frontmatterExclusionReason({ direitos: 42 })).toBeUndefined();
+    expect(frontmatterExclusionReason({ direitos: ['excluir'] })).toBeUndefined();
+    expect(frontmatterExclusionReason({ publicar: 0 })).toBeUndefined();
+  });
+});
+
+describe('isPollutedAuthor', () => {
+  it('reconhece o título da nota usado como artista (o caso do Helmantel)', () => {
+    expect(isPollutedAuthor('Henk Helmantel - Nova vida (Nieuw Leven)', 'Henk Helmantel - Nova vida (Nieuw Leven).md')).toBe(true);
+    expect(isPollutedAuthor('Jan Styka - Pregação de Pedro (St. Peter Preaching)', 'Jan Styka - Pregação de Pedro.md')).toBe(true);
+  });
+
+  it('reconhece autor igual ao nome do arquivo, mesmo sem " - "', () => {
+    expect(isPollutedAuthor('Jesus chorou', 'Jesus chorou.md')).toBe(true);
+    expect(isPollutedAuthor('jesus chorou', 'Jesus Chorou.md')).toBe(true);
+  });
+
+  it('nome de artista normal não é acusado, nem com hífen ou parênteses', () => {
+    expect(isPollutedAuthor('Rembrandt van Rijn', 'Rembrandt van Rijn - O filho pródigo.md')).toBe(false);
+    expect(isPollutedAuthor('Kim Ki-chang', 'Kim Ki-chang - Obra.md')).toBe(false);
+    expect(isPollutedAuthor('Jean-Baptiste Greuze', 'Jean-Baptiste Greuze - Obra.md')).toBe(false);
+    expect(isPollutedAuthor('Autor Desconhecido', 'Autor Desconhecido - Pentecoste.md')).toBe(false);
+  });
+
+  it('valor vazio não é acusado', () => {
+    expect(isPollutedAuthor('', 'Qualquer.md')).toBe(false);
+  });
+});
+
+describe('frozenSlugOf', () => {
+  it('aceita slug bem formado e ignora espaços nas pontas', () => {
+    expect(frozenSlugOf({ slug: ' rembrandt-o-filho-prodigo ' })).toBe('rembrandt-o-filho-prodigo');
+  });
+  it('rejeita maiúscula, acento, espaço, barra, hífen solto e tipo errado', () => {
+    for (const bad of ['Rembrandt-x', 'são-pedro', 'a b', 'a/b', '-a', 'a-', 'a--b', '', 42, ['a'], null]) {
+      expect(frozenSlugOf({ slug: bad as never })).toBeUndefined();
+    }
+  });
+  it('sem frontmatter ou sem campo: undefined', () => {
+    expect(frozenSlugOf(null)).toBeUndefined();
+    expect(frozenSlugOf({})).toBeUndefined();
+  });
+});
+
+describe('assignFrozenSlugs', () => {
+  it('devolve arquivo -> slug para os válidos', () => {
+    const r = assignFrozenSlugs([
+      { file: 'A.md', fm: { slug: 'a-x' } },
+      { file: 'B.md', fm: {} },
+    ]);
+    expect(r.bySlug.get('a-x')).toBe('A.md');
+    expect(r.byFile.get('A.md')).toBe('a-x');
+    expect(r.byFile.has('B.md')).toBe(false);
+    expect(r.problems).toEqual([]);
+  });
+  it('slug repetido: o primeiro arquivo (ordem alfabética) fica, o outro vira problema', () => {
+    const r = assignFrozenSlugs([
+      { file: 'B.md', fm: { slug: 'x-y' } },
+      { file: 'A.md', fm: { slug: 'x-y' } },
+    ]);
+    expect(r.byFile.get('A.md')).toBe('x-y');
+    expect(r.byFile.has('B.md')).toBe(false);
+    expect(r.problems).toHaveLength(1);
+    expect(r.problems[0]).toContain('B.md');
+  });
+  it('slug presente mas malformado vira problema, e a nota cai no cálculo normal', () => {
+    const r = assignFrozenSlugs([{ file: 'A.md', fm: { slug: 'Mal Formado' } }]);
+    expect(r.byFile.has('A.md')).toBe(false);
+    expect(r.problems).toHaveLength(1);
+  });
+});
