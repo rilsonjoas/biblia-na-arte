@@ -35,11 +35,14 @@ import {
   findImageFile,
   deriveArtistFromFilename,
   findExcludedArtist,
+  frontmatterExclusionReason,
+  isPollutedAuthor,
   normalizeForComparison,
   parseChapterLink,
   parseTitleParts,
   restoreQuestionMark,
   slugify,
+  assignFrozenSlugs,
   titleFromFilename,
 } from '../src/lib/vault-parse.js';
 import { resolveBibleBook } from '../src/db/seed-data/bible-books.js';
@@ -328,8 +331,16 @@ async function main() {
 
   const artworks: ExportedArtwork[] = [];
   const skipped: { file: string; reason: string }[] = [];
+  // Notas cujo `autor:` é o título da própria nota (ver isPollutedAuthor): não são puladas,
+  // mas aparecem no relatório (e abortam o export com STRICT_AUTOR=1).
+  const pollutedAuthors: { file: string; artist: string }[] = [];
+  const exportedFiles = new Set<string>();
   const unresolvedBooks = new Set<string>();
   const usedSlugs = new Map<string, number>();
+  const frozen = assignFrozenSlugs(
+    files.map((f) => ({ file: f, fm: extractFrontmatter(readFileSync(path.join(VAULT_PINTURAS, f), 'utf-8')) })),
+  );
+  for (const p of frozen.problems) console.warn(`⚠️  slug congelado: ${p}`);
   let optimizeFailures = 0;
 
   for (const file of files) {
@@ -339,6 +350,14 @@ async function main() {
 
     if (EXCLUDED_NON_BIBLICAL_KEYS.has(nonBiblicalKey(file))) {
       skipped.push({ file, reason: 'stub sem tema bíblico (obra confirmada não-bíblica, achado 2026-08-16)' });
+      continue;
+    }
+
+    // A própria nota pode dizer que não se publica (`direitos: excluir`, `publicar: não`):
+    // vale antes de qualquer lista de nomes, porque não depende de o `autor:` estar certo.
+    const markedInNote = frontmatterExclusionReason(frontmatter);
+    if (markedInNote) {
+      skipped.push({ file, reason: `marcada na nota (${markedInNote})` });
       continue;
     }
 
@@ -354,6 +373,8 @@ async function main() {
       skipped.push({ file, reason: 'autor não identificável (frontmatter vazio + nome de arquivo sem convenção)' });
       continue;
     }
+
+    if (isPollutedAuthor(artist, file)) pollutedAuthors.push({ file, artist });
 
     // Confere também o artista do NOME DO ARQUIVO: o `autor:` da nota às vezes
     // aponta pra própria nota e a lista (nome exato) nunca casava — ver
@@ -390,16 +411,18 @@ async function main() {
     // estáveis); duplicatas recebem o ano da obra e, se ainda colidir,
     // sufixo numérico (-2, -3...). Curadoria final por par continua no
     // vault (excluir duplicado verdadeiro como os 3 Van Gogh).
+    // `slug:` na nota congela o endereço (ver frozenSlugOf); sem ele, deriva de autor + título.
+    const taken = (s: string) => usedSlugs.has(s) || frozen.bySlug.has(s);
     const baseSlug = slugify(`${artist}-${title}`);
-    let slug = baseSlug;
-    if (usedSlugs.has(baseSlug)) {
+    let slug = frozen.byFile.get(file) ?? baseSlug;
+    if (!frozen.byFile.has(file) && taken(baseSlug)) {
       const yearDigits = String(frontmatter.ano ?? frontmatter.data ?? '').match(/\d{4}/)?.[0];
       const withYear = yearDigits ? `${baseSlug}-${yearDigits}` : '';
-      if (withYear && !usedSlugs.has(withYear)) {
+      if (withYear && !taken(withYear)) {
         slug = withYear;
       } else {
         let suffix = 2;
-        while (usedSlugs.has(`${baseSlug}-${suffix}`)) suffix++;
+        while (taken(`${baseSlug}-${suffix}`)) suffix++;
         slug = `${baseSlug}-${suffix}`;
       }
       console.warn(`⚠️  Slug duplicado desambiguado: ${baseSlug} -> ${slug} (${file})`);
@@ -458,6 +481,7 @@ async function main() {
     const year = yearRaw !== undefined && yearRaw !== '' ? String(yearRaw) : undefined;
     const classicCommentary = extractClassicCommentary(content);
 
+    exportedFiles.add(file);
     artworks.push({
       slug,
       title,
@@ -552,6 +576,18 @@ async function main() {
     slug,
     name: themeLabel(slug),
   }));
+
+  // Só conta as notas que SAÍRAM no export: autor torto numa nota pulada por outro motivo
+  // (ex.: artista excluído) não vai pro ar e não é problema.
+  const pollutedExported = pollutedAuthors.filter(({ file }) => exportedFiles.has(file));
+  if (pollutedExported.length > 0) {
+    console.log(`⚠️  ${pollutedExported.length} nota(s) exportada(s) com \`autor:\` torto (o título da nota no lugar do nome do artista):`);
+    for (const { file, artist } of pollutedExported.slice(0, 10)) console.log(`   - ${file.slice(0, 70)}  →  autor: ${artist.slice(0, 40)}`);
+    if (pollutedExported.length > 10) console.log(`   … e mais ${pollutedExported.length - 10}`);
+    if (process.env.STRICT_AUTOR === '1') {
+      throw new Error(`STRICT_AUTOR=1: ${pollutedExported.length} nota(s) exportada(s) com \`autor:\` torto; corrija antes de exportar.`);
+    }
+  }
 
   writeFileSync(
     OUTPUT_JSON,
