@@ -13461,6 +13461,11 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://biblianaarte.narniano.com/obra/fra-angelico-noli-me-tangere</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://biblianaarte.narniano.com/obra/fra-angelico-o-sepultamento-de-cristo</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -15121,7 +15126,7 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://biblianaarte.narniano.com/obra/hendrick-de-clerck-israelitas-reunindo-o-mana-do-ceu-the-israelites-gathering-manna-israelitas-reuni</loc>
+    <loc>https://biblianaarte.narniano.com/obra/hendrick-de-clerck-israelitas-reunindo-o-mana-do-ceu</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -15136,7 +15141,7 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://biblianaarte.narniano.com/obra/henri-martin-cristo-e-a-samaritana-le-christ-et-la-samaritaine-cristo-e-a-samaritana</loc>
+    <loc>https://biblianaarte.narniano.com/obra/henri-martin-cristo-e-a-samaritana</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -15271,7 +15276,7 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://biblianaarte.narniano.com/obra/ilya-glazunov-russia-eterna-vechnaya-rossiya-russia-eterna</loc>
+    <loc>https://biblianaarte.narniano.com/obra/ilya-glazunov-russia-eterna</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -15291,12 +15296,12 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://biblianaarte.narniano.com/obra/irma-martin-as-tres-mulheres-no-tumulo-de-cristo-the-three-women-on-the-tomb-of-christ-as-tres-mulhe</loc>
+    <loc>https://biblianaarte.narniano.com/obra/irma-martin-as-tres-mulheres-no-tumulo-de-cristo</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://biblianaarte.narniano.com/obra/isidore-alexandre-augustin-pils-sao-pedro-curando-o-paralitico-na-porta-do-templo-st-peter-healing-a</loc>
+    <loc>https://biblianaarte.narniano.com/obra/isidore-alexandre-augustin-pils-sao-pedro-curando-o-paralitico-na-porta-do-templo</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -15316,12 +15321,12 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://biblianaarte.narniano.com/obra/ivan-konstantinovich-aivazovsky-noe-descendo-do-ararate-noe-descendo-do-ararate</loc>
+    <loc>https://biblianaarte.narniano.com/obra/ivan-aivazovsky-noe-descendo-do-ararate</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://biblianaarte.narniano.com/obra/ivan-kramskoi-cristo-no-deserto-christ-in-the-wilderness-cristo-no-deserto</loc>
+    <loc>https://biblianaarte.narniano.com/obra/ivan-kramskoi-cristo-no-deserto</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -15341,6 +15346,11 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://biblianaarte.narniano.com/obra/jacob-jordaens-o-bom-samaritano</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://biblianaarte.narniano.com/obra/jacob-jordaens-o-dinheiro-de-impostos-ou-pedro-achando-a-moeda-na-boca-do-peixe</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -15351,7 +15361,7 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://biblianaarte.narniano.com/obra/jacopo-amigoni-jael-e-sisera-jael-and-sisera-jael-e-sisera</loc>
+    <loc>https://biblianaarte.narniano.com/obra/jacopo-amigoni-jael-e-sisera</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -15492,6 +15502,11 @@
   </url>
   <url>
     <loc>https://biblianaarte.narniano.com/obra/james-tissot-deus-renova-suas-promessas-a-abraao</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://biblianaarte.narniano.com/obra/james-tissot-debora-debaixo-da-palmeira</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -15696,7 +15711,7 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://biblianaarte.narniano.com/obra/jan-bruegel-o-velho-o-censo-em-belem</loc>
+    <loc>https://biblianaarte.narniano.com/obra/pieter-bruegel-o-velho-o-censo-em-belem</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -15756,7 +15771,12 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://biblianaarte.narniano.com/obra/jan-micker-o-caminho-estreito-da-virtude-e-o-caminho-largo-do-pecado-narrow-road-of-virtue-and-wide-</loc>
+    <loc>https://biblianaarte.narniano.com/obra/jan-micker-o-caminho-estreito-da-virtude-e-o-caminho-largo-do-pecado</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://biblianaarte.narniano.com/obra/jan-provoost-a-anunciacao</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -17861,42 +17881,7 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://biblianaarte.narniano.com/obra/hendrick-de-clerck-israelitas-reunindo-o-mana-do-ceu</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://biblianaarte.narniano.com/obra/henri-martin-cristo-e-a-samaritana</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://biblianaarte.narniano.com/obra/ilya-glazunov-russia-eterna</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://biblianaarte.narniano.com/obra/irma-martin-as-tres-mulheres-no-tumulo-de-cristo</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://biblianaarte.narniano.com/obra/isidore-alexandre-augustin-pils-sao-pedro-curando-o-paralitico-na-porta-do-templo</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
     <loc>https://biblianaarte.narniano.com/obra/ivan-konstantinovich-aivazovsky-noe-descendo-do-ararate</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://biblianaarte.narniano.com/obra/ivan-kramskoi-cristo-no-deserto</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://biblianaarte.narniano.com/obra/jacopo-amigoni-jael-e-sisera</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -17907,11 +17892,6 @@
   </url>
   <url>
     <loc>https://biblianaarte.narniano.com/obra/jan-brueghel-o-velho-entrada-dos-animais-na-arca-de-noe</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://biblianaarte.narniano.com/obra/jan-micker-o-caminho-estreito-da-virtude-e-o-caminho-largo-do-pecado</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
