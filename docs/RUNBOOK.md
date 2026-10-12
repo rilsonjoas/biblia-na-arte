@@ -65,6 +65,40 @@ docker run --rm --network proxy-network \
 # `git checkout -- pnpm-workspace.yaml` manualmente. Se o reseed falhar,
 # conferir `git status` em `/opt/biblia-na-arte` antes de tentar de novo.
 
+# 5a. ENSAIO ANTES DE QUALQUER RESEED REAL (ADR 007). Mesmo comando do passo 5, com
+#     `-e DRY_RUN=1`: faz o reseed inteiro DENTRO de uma transação, imprime o relatório
+#     e DESFAZ. Nada é gravado. Relatório: obras novas, obras removidas (ativas e
+#     inativas), linhas do histórico da Pintura do Dia remapeadas, redirecionamentos.
+#
+#     Se o ensaio ABORTAR com "N obra(s) ativa(s) sumiriam do site sem explicação", é a
+#     trava funcionando: aquele slug existe no banco, não está no export e ninguém
+#     decidiu o que fazer. Duas saídas, ambas em server/scripts/ e revisadas em PR:
+#       - o slug MUDOU (nota renomeada, artista corrigido): "antigo": "novo" em
+#         slug-redirects.json (o destino tem que estar no export; cadeia A→B→C é
+#         achatada; ciclo e slug vivo como origem são recusados);
+#       - a obra saiu DE PROPÓSITO (ex.: direitos autorais): o slug em removed-slugs.json.
+#     Para achar o par de cada slug que sumiu: o mesmo título no export velho e no novo
+#     (cuidado com atribuição corrigida, ex.: Jan Bruegel → Pieter Bruegel).
+#
+# 5b. ENSAIO GERAL (obrigatório antes do PRIMEIRO reseed com redirecionamentos, e sempre
+#     que o reseed mudar). Num Postgres descartável (docker run ... --tmpfs):
+#       1. dump de produção SEM o conteúdo de users e submissions (senhas e e-mails):
+#          pg_dump -Fc --no-owner --no-privileges \
+#            --exclude-table-data=users --exclude-table-data=submissions
+#       2. pg_restore e `pnpm --filter server db:migrate` (aplica as migrations pendentes,
+#          como o deploy faria);
+#       3. DRY_RUN SEM o mapa (tem que abortar listando os slugs) e COM o mapa;
+#       4. reseed de verdade; checar pela API real (app.inject): slug antigo e UUID antigo
+#          dão 200 com a obra nova, obras vivas seguem vivas, obras de artistas excluídos
+#          dão 404, histórico da Pintura do Dia preservado (linhas remapeadas, nenhuma
+#          perdida sem motivo), IDs das obras não renomeadas idênticos;
+#       5. rodar o reseed de novo: 0 novas, 0 removidas (idempotente).
+#     Apagar o dump no fim. Resultado do ensaio de 2026-10-12 em docs/adr/007-*.md.
+#
+#     ATENÇÃO, efeito colateral conhecido: o reseed grava `created_at` a partir da data
+#     de criação do ARQUIVO da nota. Notas regravadas por edição ganham data nova e a
+#     ordenação "Mais Recentes" (listagens e busca) é reembaralhada para elas.
+
 # 6. Sitemap (se mudou quantidade de páginas indexáveis)
 pnpm --filter server sitemap:generate
 ```
