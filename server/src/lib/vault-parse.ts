@@ -12,6 +12,7 @@ export interface RawFrontmatter {
   // Direitos autorais declarados NA PRÓPRIA NOTA (ver frontmatterExclusionReason).
   direitos?: unknown;
   publicar?: unknown;
+  slug?: unknown;
   ano?: string | number;
   data?: string | number;
   titulo_original?: string;
@@ -621,4 +622,45 @@ export function isPollutedAuthor(artist: string, filename: string): boolean {
   if (!name) return false;
   if (name.includes(' - ')) return true;
   return normalizeForComparison(name) === normalizeForComparison(filename.replace(/\.md$/i, ''));
+}
+
+const FROZEN_SLUG_RE = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+
+/** `slug:` escrito na nota: congela o endereço público da obra. Sem isso o slug sai de
+ *  `autor + título` (nome do arquivo), e corrigir um autor torto ou renomear a nota muda a URL
+ *  e a imagem de uma obra já indexada. Só vale forma canônica (minúsculas, dígitos, hífens
+ *  simples); qualquer outra coisa é ignorada aqui e acusada por `assignFrozenSlugs`. */
+export function frozenSlugOf(fm: RawFrontmatter | null): string | undefined {
+  if (!fm || typeof fm.slug !== 'string') return undefined;
+  const slug = fm.slug.trim();
+  return FROZEN_SLUG_RE.test(slug) ? slug : undefined;
+}
+
+/** Reserva os `slug:` das notas antes de calcular os derivados, para que nenhuma nota sem
+ *  `slug:` ocupe o endereço de uma congelada. Slug repetido: o 1º arquivo em ordem alfabética
+ *  fica, os demais caem no cálculo normal. Tudo que não foi aceito volta em `problems`. */
+export function assignFrozenSlugs(entries: { file: string; fm: RawFrontmatter | null }[]): {
+  byFile: Map<string, string>;
+  bySlug: Map<string, string>;
+  problems: string[];
+} {
+  const byFile = new Map<string, string>();
+  const bySlug = new Map<string, string>();
+  const problems: string[] = [];
+  for (const { file, fm } of [...entries].sort((a, b) => a.file.localeCompare(b.file))) {
+    if (!fm || fm.slug === undefined || fm.slug === null || fm.slug === '') continue;
+    const slug = frozenSlugOf(fm);
+    if (!slug) {
+      problems.push(`${file}: slug inválido (${JSON.stringify(fm.slug)}); use minúsculas, dígitos e hífens`);
+      continue;
+    }
+    const owner = bySlug.get(slug);
+    if (owner) {
+      problems.push(`${file}: slug "${slug}" já pertence a ${owner}; ignorado`);
+      continue;
+    }
+    bySlug.set(slug, file);
+    byFile.set(file, slug);
+  }
+  return { byFile, bySlug, problems };
 }

@@ -42,6 +42,7 @@ import {
   parseTitleParts,
   restoreQuestionMark,
   slugify,
+  assignFrozenSlugs,
   titleFromFilename,
 } from '../src/lib/vault-parse.js';
 import { resolveBibleBook } from '../src/db/seed-data/bible-books.js';
@@ -336,6 +337,10 @@ async function main() {
   const exportedFiles = new Set<string>();
   const unresolvedBooks = new Set<string>();
   const usedSlugs = new Map<string, number>();
+  const frozen = assignFrozenSlugs(
+    files.map((f) => ({ file: f, fm: extractFrontmatter(readFileSync(path.join(VAULT_PINTURAS, f), 'utf-8')) })),
+  );
+  for (const p of frozen.problems) console.warn(`⚠️  slug congelado: ${p}`);
   let optimizeFailures = 0;
 
   for (const file of files) {
@@ -406,16 +411,18 @@ async function main() {
     // estáveis); duplicatas recebem o ano da obra e, se ainda colidir,
     // sufixo numérico (-2, -3...). Curadoria final por par continua no
     // vault (excluir duplicado verdadeiro como os 3 Van Gogh).
+    // `slug:` na nota congela o endereço (ver frozenSlugOf); sem ele, deriva de autor + título.
+    const taken = (s: string) => usedSlugs.has(s) || frozen.bySlug.has(s);
     const baseSlug = slugify(`${artist}-${title}`);
-    let slug = baseSlug;
-    if (usedSlugs.has(baseSlug)) {
+    let slug = frozen.byFile.get(file) ?? baseSlug;
+    if (!frozen.byFile.has(file) && taken(baseSlug)) {
       const yearDigits = String(frontmatter.ano ?? frontmatter.data ?? '').match(/\d{4}/)?.[0];
       const withYear = yearDigits ? `${baseSlug}-${yearDigits}` : '';
-      if (withYear && !usedSlugs.has(withYear)) {
+      if (withYear && !taken(withYear)) {
         slug = withYear;
       } else {
         let suffix = 2;
-        while (usedSlugs.has(`${baseSlug}-${suffix}`)) suffix++;
+        while (taken(`${baseSlug}-${suffix}`)) suffix++;
         slug = `${baseSlug}-${suffix}`;
       }
       console.warn(`⚠️  Slug duplicado desambiguado: ${baseSlug} -> ${slug} (${file})`);
