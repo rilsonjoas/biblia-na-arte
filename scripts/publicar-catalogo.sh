@@ -42,7 +42,10 @@ BRANCH="dados/$(date +%F)"
 git show-ref --verify --quiet "refs/heads/$BRANCH" && BRANCH="$BRANCH-$(date +%H%M)"
 git checkout -q -b "$BRANCH" "${BASE_REF:-origin/main}"
 ok "branch $BRANCH"
-pnpm install --frozen-lockfile >/dev/null 2>&1 || die "pnpm install falhou."
+if ! INSTALL_OUT=$(pnpm install --frozen-lockfile 2>&1); then
+  echo "$INSTALL_OUT" | tail -15
+  die "pnpm install falhou (saída acima)."
+fi
 
 say "▶ 3/6 Exportando o vault (leva alguns minutos)"
 cp server/scripts/vault-export.json "$TMP/export-anterior.json"
