@@ -10,6 +10,7 @@ import {
   date,
   index,
   primaryKey,
+  check,
 } from 'drizzle-orm/pg-core';
 
 // Espelha supabase/schema.sql original, sem as partes específicas do
@@ -338,4 +339,30 @@ export const dailyArtwork = pgTable(
     createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
   },
   (table) => [index('idx_daily_artwork_artwork_id').on(table.artworkId)],
+);
+
+/** Slugs (e UUIDs) antigos de obras que mudaram de slug, apontando pro slug
+ *  atual (ADR 007). Corrigir uma nota no vault muda o slug, e slug novo é ID
+ *  novo: sem isto a URL e o UUID antigos viram 404, inclusive os links das
+ *  legendas já postadas nas redes. SEM chave estrangeira pra `artworks`, de
+ *  propósito: o `DELETE` do reseed apagaria o redirecionamento junto, justo
+ *  quando ele é necessário. O destino é por SLUG (estável), não por UUID.
+ *  `getArtworkBySlugOrId` só consulta esta tabela quando a busca normal falha,
+ *  então um slug vivo nunca é sombreado. Alimentada pelo reseed a partir de
+ *  `server/scripts/slug-redirects.json` (etapa 3 do ADR 007); vazia = o
+ *  sistema se comporta exatamente como antes. */
+export const artworkRedirects = pgTable(
+  'artwork_redirects',
+  {
+    oldSlug: text('old_slug').primaryKey(),
+    // ID que a obra tinha com o slug antigo (UUID v5 do slug, ver
+    // `artworkIdFromSlug`): é o que permite resolver link antigo por UUID.
+    oldId: uuid('old_id').notNull().unique(),
+    newSlug: text('new_slug').notNull(),
+    createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
+  },
+  (table) => [
+    index('idx_artwork_redirects_new_slug').on(table.newSlug),
+    check('artwork_redirects_no_self_redirect', sql`${table.oldSlug} <> ${table.newSlug}`),
+  ],
 );
