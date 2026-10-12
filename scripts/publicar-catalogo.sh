@@ -63,7 +63,7 @@ elif [[ "$DIFF_STATUS" -ne 0 ]]; then
 fi
 
 say "▶ 5/6 Regenerando o sitemap"
-pnpm sitemap:generate 2>&1 | tail -1
+pnpm --filter server sitemap:generate 2>&1 | tail -1
 
 say "▶ 6/6 Resumo"
 git add -A
