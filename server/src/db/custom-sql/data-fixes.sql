@@ -112,3 +112,29 @@ WHERE artist_or_director ILIKE 'Hermann Clementz' AND title ILIKE 'Cristo no Get
 -- domínio público; Prix de Rome 1902 do próprio artista — verificado 2026-08-22)
 UPDATE artworks SET active = true, license_type = 'public-domain'
 WHERE artist_or_director ILIKE 'Victor Oscar Guetin' AND title ILIKE 'Jesus ressuscita a filha de Jairo';
+
+-- Achado 2026-10-12: 10 obras de artistas da lista de exclusão por direitos
+-- (EXCLUDED_ARTISTS em export-vault-data.ts) estavam no ar como public-domain
+-- porque o campo `autor:` da nota apontava pra própria nota ("Henk Helmantel -
+-- Nova vida (Nieuw Leven)"), então o nome do artista nunca batia com a lista, nem
+-- com os UPDATEs por nome acima. Artistas: Henk Helmantel, Josh Tiessen, Luke Hua
+-- Xiaoxian, Mariusz Lewandowski, Maximino Cerezo Barredo, Natalya Rusetska,
+-- Nobleheart, Olivia McLeod, Olya Kravchenko e Takato Yamamoto.
+-- Por SLUG exato, não por nome de artista (era isso que falhava). Depois do
+-- próximo export + reseed essas obras deixam de existir no banco (a exclusão do
+-- exportador passou a valer também pelo nome do arquivo); este bloco é a rede de
+-- segurança enquanto o JSON commitado ainda as contém. Se alguma ganhar licença
+-- formal, NÃO remover o bloco: reativar o registro específico (ver cabeçalho).
+UPDATE artworks SET active = false, license_type = 'in-copyright'
+WHERE slug IN (
+    'henk-helmantel-nova-vida-nieuw-leven-nova-vida',
+    'josh-tiessen-alfa-e-omega-alpha-and-omega-alfa-e-omega',
+    'luke-hua-xiaoxian-o-anjo-traz-boas-novas-aos-pastores-the-angel-brings-good-news-to-the-shepherds-o-',
+    'mariusz-lewandowski-desejo-imortal-immortal-desire-desejo-imortal',
+    'maximino-cerezo-barredo-viver-em-comunhao-vivir-en-comunion-viver-em-comunhao',
+    'natalya-rusetska-jesus-a-vinha-e-a-ultima-ceia-jesus-the-grapevine-and-the-last-supper-jesus-a-vinha',
+    'nobleheart-a-espada-do-espirito-sword-of-the-spirit-a-espada-do-espirito',
+    'olivia-mcleod-salmo-148-psalm-148-salmo-148',
+    'olya-kravchenko-sacrificio-e-vitoria-sacrifice-and-victory-sacrificio-e-vitoria',
+    'takato-yamamoto-a-anunciacao-a-anunciacao'
+);
