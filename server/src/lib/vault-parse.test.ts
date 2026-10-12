@@ -16,6 +16,8 @@ import {
   findExcludedArtist,
   frontmatterExclusionReason,
   isPollutedAuthor,
+  frozenSlugOf,
+  assignFrozenSlugs,
   normalizeForComparison,
   parseTitleParts,
   restoreQuestionMark,
@@ -791,5 +793,48 @@ describe('isPollutedAuthor', () => {
 
   it('valor vazio não é acusado', () => {
     expect(isPollutedAuthor('', 'Qualquer.md')).toBe(false);
+  });
+});
+
+describe('frozenSlugOf', () => {
+  it('aceita slug bem formado e ignora espaços nas pontas', () => {
+    expect(frozenSlugOf({ slug: ' rembrandt-o-filho-prodigo ' })).toBe('rembrandt-o-filho-prodigo');
+  });
+  it('rejeita maiúscula, acento, espaço, barra, hífen solto e tipo errado', () => {
+    for (const bad of ['Rembrandt-x', 'são-pedro', 'a b', 'a/b', '-a', 'a-', 'a--b', '', 42, ['a'], null]) {
+      expect(frozenSlugOf({ slug: bad as never })).toBeUndefined();
+    }
+  });
+  it('sem frontmatter ou sem campo: undefined', () => {
+    expect(frozenSlugOf(null)).toBeUndefined();
+    expect(frozenSlugOf({})).toBeUndefined();
+  });
+});
+
+describe('assignFrozenSlugs', () => {
+  it('devolve arquivo -> slug para os válidos', () => {
+    const r = assignFrozenSlugs([
+      { file: 'A.md', fm: { slug: 'a-x' } },
+      { file: 'B.md', fm: {} },
+    ]);
+    expect(r.bySlug.get('a-x')).toBe('A.md');
+    expect(r.byFile.get('A.md')).toBe('a-x');
+    expect(r.byFile.has('B.md')).toBe(false);
+    expect(r.problems).toEqual([]);
+  });
+  it('slug repetido: o primeiro arquivo (ordem alfabética) fica, o outro vira problema', () => {
+    const r = assignFrozenSlugs([
+      { file: 'B.md', fm: { slug: 'x-y' } },
+      { file: 'A.md', fm: { slug: 'x-y' } },
+    ]);
+    expect(r.byFile.get('A.md')).toBe('x-y');
+    expect(r.byFile.has('B.md')).toBe(false);
+    expect(r.problems).toHaveLength(1);
+    expect(r.problems[0]).toContain('B.md');
+  });
+  it('slug presente mas malformado vira problema, e a nota cai no cálculo normal', () => {
+    const r = assignFrozenSlugs([{ file: 'A.md', fm: { slug: 'Mal Formado' } }]);
+    expect(r.byFile.has('A.md')).toBe(false);
+    expect(r.problems).toHaveLength(1);
   });
 });
