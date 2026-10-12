@@ -16283,38 +16283,6 @@
       "createdAt": "2026-09-12T03:57:14.890Z"
     },
     {
-      "slug": "henk-helmantel-nova-vida-nieuw-leven-nova-vida",
-      "title": "Nova vida",
-      "subtitle": "Nieuw Leven",
-      "artistOrDirector": "Henk Helmantel - Nova vida (Nieuw Leven)",
-      "year": "1999",
-      "category": "painting",
-      "description": "**Nieuw Leven** (1999) é uma comovente e precisa pintura a óleo sobre painel do mestre realista contemporâneo holandês **Henk Helmantel**, reconhecido internacionalmente por suas naturezas-mortas meditativas e de profunda reverência espiritual.\n\nA composição constrói uma sutil e poderosa alegoria teológica da transição da Antiga para a Nova Aliança. No centro da cena, repousa sobre um pano alvo uma venerável Bíblia holandesa antiga aberta na transição entre o Antigo e o Novo Testamento — especificamente na folha de rosto que encerra o profeta Malaquias (*Eynde des Ouden Testaments*) e inaugura o texto dos Evangelhos (*Het Nieuwe Testament van onsen Heere Iesu Christi*, segundo a tradução do Sínodo de Dordrecht de 1619). Sobre a página, um frasco de vidro límpido contendo água fresca sustenta um ramo verde vivo brotando com folhas viçosas, no qual se lê no reflexo o nome sagrado de *JESUS*.\n\nHelmantel equilibra a textura gasta das páginas seculares amareladas com a transparência cristalina da água e o vigor botânico do renovo. A luz oblíqua, límpida e serena evoca o espírito dos mestres do Século de Ouro holandês, transformando objetos inanimados em testemunhas silenciosas da fidelidade divina.\n\n### Contexto Histórico\n\nResidente na histórica vicariato de Westeremden, no norte da Holanda, **Henk Helmantel** (n. 1945) é um dos maiores expoentes do Realismo Nórdico contemporâneo. Membro confessional da tradição reformada, Helmantel concebe a pintura de naturezas-mortas e interiores de igrejas românicas e góticas como um ato de louvor e gratidão pela beleza da Criação divina (*soli Deo gloria*).",
-      "imageFile": "henk-helmantel-nova-vida-nieuw-leven-nova-vida.webp",
-      "licenseType": "public-domain",
-      "location": "Museum Helmantel, Westeremden, Países Baixos",
-      "sourceUrl": "https://www.zusenzo-kunst.nl/nieuw-leven-2-henk-helmantel-giclee.html",
-      "references": [
-        {
-          "book": "Isaías",
-          "bookSlug": "isaiah",
-          "chapter": 11,
-          "verses": "1-2"
-        },
-        {
-          "book": "2 Coríntios",
-          "bookSlug": "2-corinthians",
-          "chapter": 5,
-          "verses": "17"
-        }
-      ],
-      "themes": [
-        "natureza-morta",
-        "ressurreicao"
-      ],
-      "createdAt": "2026-09-12T03:57:14.890Z"
-    },
-    {
       "slug": "henri-martin-cristo-e-a-samaritana-le-christ-et-la-samaritaine-cristo-e-a-samaritana",
       "title": "Cristo e a samaritana",
       "subtitle": "Le Christ et la samaritaine",
@@ -21109,31 +21077,6 @@
       "createdAt": "2026-09-12T03:57:14.995Z"
     },
     {
-      "slug": "josh-tiessen-alfa-e-omega-alpha-and-omega-alfa-e-omega",
-      "title": "Alfa e Ômega",
-      "subtitle": "Alpha and Omega",
-      "artistOrDirector": "Josh Tiessen - Alfa e Ômega (Alpha and Omega)",
-      "category": "painting",
-      "description": "A obra \"Alpha and Omega\" de **Josh Tiessen** retrata um pregador, figura de alta sociedade, em um ambiente árido, simbolizando a busca vã pelo conhecimento. Ele se depara com a Sabedoria, representada por uma mulher com uma planta que simboliza a árvore da vida, em um cenário exuberante além do arco de pedra decorado com símbolos das tribos de Israel e de Cristo. Cristo, elevado acima dos demais símbolos, indica a perfeição superior da sabedoria que só pode ser alcançada através d'Ele. A pintura mistura temas de ecoteologia e sabedoria espiritual, destacando o contraste entre a esterilidade do conhecimento vazio e a vitalidade da verdadeira sabedoria.\n\n### Contexto Histórico\n\nEsta obra é um valioso registro artístico que integra a rica tradição das representações visuais inspiradas nas Sagradas Escrituras. A composição reflete o rigor estético, a sensibilidade cultural de seu tempo e a devoção profunda à narrativa bíblica, funcionando não apenas como ilustração, mas como objeto de contemplação teológica.",
-      "imageFile": "josh-tiessen-alfa-e-omega-alpha-and-omega-alfa-e-omega.webp",
-      "licenseType": "public-domain",
-      "sourceUrl": "https://rehs.com/Josh_Tiessen_Alpha_and_Omega.html",
-      "references": [
-        {
-          "book": "Apocalipse",
-          "bookSlug": "revelation",
-          "chapter": 1,
-          "verses": "8",
-          "passageText": "\"Eu sou o Alfa e o Ômega, o princípio e o fim, diz o Senhor, que é, e que era, e que há de vir, o Todo-Poderoso.\""
-        }
-      ],
-      "themes": [
-        "cristo",
-        "sabedoria"
-      ],
-      "createdAt": "2026-09-12T03:57:14.996Z"
-    },
-    {
       "slug": "joshua-reynolds-o-pequeno-samuel-em-oracao-the-infant-samuel-o-pequeno-samuel-em-oracao",
       "title": "O Pequeno Samuel em Oração",
       "subtitle": "The Infant Samuel",
@@ -22321,32 +22264,6 @@
       "createdAt": "2026-09-12T03:57:15.052Z"
     },
     {
-      "slug": "luke-hua-xiaoxian-o-anjo-traz-boas-novas-aos-pastores-the-angel-brings-good-news-to-the-shepherds-o-",
-      "title": "O anjo traz Boas Novas aos pastores",
-      "subtitle": "天使向牧人傳佈嘉訊 (The Angel Brings Good News to the Shepherds)",
-      "artistOrDirector": "Luke Hua Xiaoxian - O anjo traz Boas Novas aos pastores (天使向牧人傳佈嘉訊 (The Angel Brings Good News to the Shepherds))",
-      "year": "1948",
-      "category": "painting",
-      "description": "**Luke Hua Xiaoxian** retrata o momento em que um anjo aparece aos pastores nos campos de Belém, anunciando o nascimento de Jesus Cristo. A composição segue a tradição de rolo pendurado (*hanging scroll*) chinês: os pastores, vestidos com trajes tradicionais chineses, erguem os olhos em direção à figura celeste que brilha no céu noturno. A paisagem montanhosa ao fundo evoca tanto a Judeia como as paisagens clássicas da pintura chinesa.\n\nA obra é um exemplo notável de **inculturação** artística: a cena bíblica é reinterpretada através da estética chinesa, com aquarela sobre seda, traços de pincel caligráficos e composição vertical que segue a tradição dos rolos pendurados. O anjo não é um querube barroco occidental, mas uma figura etérea que se dissolve na luz, evocando both a tradição cristã ocidental e a sensibilidade estética chinesa.\n\n### Contexto Histórico\n\n**Luke Hua Xiaoxian** (華效先, também escrito 華效先(路加)) foi um pintor cristão chinês ativo no século XX, parte de um movimento de artistas chineses que criaram **arte sacra** usando técnicas tradicionais chinesas para evangelização católica na China. As suas obras combinam a estética do rolo pendurado chinês com iconografia cristã ocidental — um exemplo emblemático de inculturação.\n\n*O anjo traz Boas Novas aos pastores* (1948), aquarela sobre seda montada como rolo pendurado (pintura: 47.5 × 53 cm; montagem: 123 × 65.5 cm), encontra-se no **Instituto Ricci** para História Cultural Chinês-Ocidental, Boston College (anteriormente na University of San Francisco). A obra faz parte da série \"Celestial Icons\" e está entre diversas pinturas de tema mariano e natalício criadas entre 1947–1948, incluindo *A Natividade*, *Os Três Reis* e *Nossa Senhora entre as Nuvens*.",
-      "imageFile": "luke-hua-xiaoxian-o-anjo-traz-boas-novas-aos-pastores-the-angel-brings-good-news-to-the-shepherds-o-.webp",
-      "licenseType": "public-domain",
-      "location": "Ricci Institute for Chinese-Western Cultural History, Boston College, Boston, EUA",
-      "sourceUrl": "https://artandtheology.org/tag/luke-hua-xiaoxian/",
-      "references": [
-        {
-          "book": "Lucas",
-          "bookSlug": "luke",
-          "chapter": 2,
-          "verses": "8-12",
-          "passageText": "\"Ora, havia naquela mesma comarca pastores que estavam no campo, e guardavam, durante as vigílias da noite, o seu rebanho. E eis que o anjo do Senhor veio sobre eles, e a glória do Senhor os cercou de resplendor, e tiveram grande temor. E o anjo lhes disse: Não temais, porque eis aqui vos trago novas de grande alegria, que será para todo o povo: Pois, na cidade de Davi, vos nasceu hoje o Salvador, que é Cristo, o Senhor. E isto vos será por sinal: Achareis o menino envolto em panos, e deitado numa manjedoura.\""
-        }
-      ],
-      "themes": [
-        "natal"
-      ],
-      "createdAt": "2026-09-12T03:57:15.054Z"
-    },
-    {
       "slug": "leo-paul-robert-a-justica-eleva-as-nacoes",
       "title": "A Justiça Eleva as Nações",
       "subtitle": "La Justice instruit les nations",
@@ -22544,32 +22461,6 @@
         "gideao"
       ],
       "createdAt": "2026-09-12T03:57:15.056Z"
-    },
-    {
-      "slug": "mariusz-lewandowski-desejo-imortal-immortal-desire-desejo-imortal",
-      "title": "Desejo Imortal",
-      "subtitle": "Immortal Desire",
-      "artistOrDirector": "Mariusz Lewandowski - Desejo Imortal (Immortal Desire)",
-      "year": "s/d",
-      "category": "painting",
-      "description": "Composição surrealista que evoca a busca humana pelo eterno e pelo transcendente. A obra explora a tensão entre o tempo terreno e o desejo de infinito, tematizando a inquietação existencial descrita em Eclesiastes: \"Também pôs o mundo no coração do homem, sem que este possa descobrir a obra que Deus fez desde o princípio até ao fim.\"\n\n### Contexto Histórico\n\n**Mariusz Lewandowski** (1960–2022) foi um pintor polonês conhecido por suas composições surrealistas que exploram temas de espiritualidade, memória e transcendência. Sua obra combina técnica realista com imaginação onírica, criando paisagens que evocam o sublime e o mistério da existência humana.\n\n*Desejo Imortal* (Odwieczne pragnienie) integra uma série de obras que exploram a busca humana pelo eterno, tema caro à tradição filosófica e teológica cristã.",
-      "imageFile": "mariusz-lewandowski-desejo-imortal-immortal-desire-desejo-imortal.webp",
-      "licenseType": "public-domain",
-      "location": "Acervo de Arte Sacra — Mariusz Lewandowski",
-      "sourceUrl": "https://lewandowski.art/en_US/p/Immemorial-Desire-Fine-Art-Print-/40",
-      "references": [
-        {
-          "book": "Eclesiastes",
-          "bookSlug": "ecclesiastes",
-          "chapter": 3,
-          "verses": "11",
-          "passageText": "\"Também pôs o mundo no coração do homem, sem que este possa descobrir a obra que Deus fez desde o princípio até ao fim.\""
-        }
-      ],
-      "themes": [
-        "espiritualidade"
-      ],
-      "createdAt": "2026-09-12T03:57:15.057Z"
     },
     {
       "slug": "marten-van-valckenborch-a-parabola-dos-lirios-do-campo-parable-of-the-lily-of-the-field-may-a-parabo",
@@ -22849,40 +22740,6 @@
         "parabola"
       ],
       "createdAt": "2026-09-12T03:57:15.060Z"
-    },
-    {
-      "slug": "maximino-cerezo-barredo-viver-em-comunhao-vivir-en-comunion-viver-em-comunhao",
-      "title": "Viver em comunhão",
-      "subtitle": "Vivir en comunión",
-      "artistOrDirector": "Maximino Cerezo Barredo - Viver em comunhão (Vivir en comunión)",
-      "year": "1985",
-      "category": "painting",
-      "description": "**Vivir en comunión** é uma expressiva pintura mural do sacerdote claretiano e artista plástico espanhol **Maximino Cerezo Barredo** (conhecido popularmente como \"Mino\"), cuja obra visual tornou-se um dos maiores patrimônios da arte sacra popular latino-americana.\n\nA composição constrói uma representação vibrante e comunitária da comunhão cristã (*koinonia*). Homens, mulheres e crianças de feições populares e mãos calejadas reúnem-se ao redor da mesa fraterna da partilha do pão e do cálice, onde a presença de Cristo não é isolada em um altar distante, mas viva no meio do Seu povo reunido. As cores quentes e terrosas, com contornos lineares pretos e grossos inspirados no muralismo moderno, enfatizam o abraço, a solidariedade e o calor das relações humanas restauradas pelo Evangelho.\n\nCerezo Barredo concebe a Eucaristia e a comunhão não como um rito estático ou intimista, mas como um ato profético de fraternidade concreta, onde ninguém passa necessidade e o pão é partido em memória da vida e ressurreição de Jesus.",
-      "imageFile": "maximino-cerezo-barredo-viver-em-comunhao-vivir-en-comunion-viver-em-comunhao.webp",
-      "licenseType": "public-domain",
-      "location": "Mural eclesial latino-americano",
-      "sourceUrl": "https://www.servicioskoinonia.org/cerezo/",
-      "references": [
-        {
-          "book": "Atos",
-          "bookSlug": "acts",
-          "chapter": 2,
-          "verses": "42,",
-          "passageText": "\"E perseveravam na doutrina dos apóstolos, e na comunhão, e no partir do pão, e nas orações... E todos os que criam estavam juntos, e tinham tudo em comum. E vendiam suas propriedades e bens, e repartiam com todos, segundo cada um havia de mister.\""
-        },
-        {
-          "book": "1 Coríntios",
-          "bookSlug": "1-corinthians",
-          "chapter": 10,
-          "verses": "17",
-          "passageText": "\"Porque nós, sendo muitos, somos um só pão e um só corpo, porque todos participamos do mesmo pão.\""
-        }
-      ],
-      "themes": [
-        "comunhao",
-        "eucaristia"
-      ],
-      "createdAt": "2026-09-12T03:57:15.062Z"
     },
     {
       "slug": "mestre-andre-lublin-capela-da-santa-trindade",
@@ -23323,50 +23180,6 @@
       "createdAt": "2026-09-12T03:57:15.074Z"
     },
     {
-      "slug": "natalya-rusetska-jesus-a-vinha-e-a-ultima-ceia-jesus-the-grapevine-and-the-last-supper-jesus-a-vinha",
-      "title": "Jesus, a vinha e a última ceia",
-      "subtitle": "Jesus the Grapevine and The Last Supper",
-      "artistOrDirector": "Natalya Rusetska - Jesus, a vinha e a última ceia (Jesus the Grapevine and The Last Supper)",
-      "year": "2021",
-      "category": "painting",
-      "description": "**\"Jesus, a Vinha e a Última Ceia\"** — Natalya Rusetska, 2021. Ícone contemporâneo em técnica bizantino-ucraniana.\n\nA composição vertical divide-se em dois registros. No superior, Cristo — meio corpo, cercado por um círculo de videiras douradas carregadas de cachos — segura em suas próprias mãos um cálice do qual escorre um líquido vermelho vivo (o vinho-sangue). No inferior, os doze apóstolos, em fileira compacta e frontal, participam da Última Ceia, cada um com seu halo próprio e expressão individualizada.\n\nA técnica combina folha de ouro, pigmento mineral e traço fino — padrão da iconografia bizantino-ucraniana contemporânea. Ao unir a imagem da videira (João 15) com a instituição da ceia (a fileira dos doze na base), Rusetska torna visualmente explícito o que os dois textos apenas implicam separadamente: o vinho da ceia é o próprio sangue da videira verdadeira.\n\n### Contexto Histórico\n\n**Natalya Rusetska** é uma iconógrafa ucraniana contemporânea, formada na tradição da iconografia bizantino-ucraina (continuação da escola de Kiev e de Moscou). Seu trabalho combina os padrões canônicos da tradição ortodoxa (tipos iconográficos, cores simbólicas, inscrições emigreus) com uma sensibilidade contemporânea de cor e composição. A presente obra é proprietária da galeria Iconart (Lviv, Ucrânia), que promove a arte sacra ucraniana no contexto da diáspora ortodoxa.",
-      "imageFile": "natalya-rusetska-jesus-a-vinha-e-a-ultima-ceia-jesus-the-grapevine-and-the-last-supper-jesus-a-vinha.webp",
-      "licenseType": "public-domain",
-      "location": "Acervo de Arte Sacra — Natalya Rusetska",
-      "sourceUrl": "https://artandtheology.org/2025/04/08/vulning-pelican-allegory-of-christ/",
-      "references": [
-        {
-          "book": "João",
-          "bookSlug": "john",
-          "chapter": 15,
-          "verses": "1-2,5",
-          "passageText": "*\"Eu sou a videira verdadeira, e meu Pai é o lavrador. Toda a vara em mim, que não dá fruto, a tira; e limpa toda aquela que dá fruto, para que dê mais fruto. [...] Eu sou a videira, vós as varas; quem está em mim, e eu nele, esse dá muito fruto; porque sem mim nada podeis fazer.\"*"
-        },
-        {
-          "book": "Mateus",
-          "bookSlug": "matthew",
-          "chapter": 26,
-          "verses": "26-28",
-          "passageText": "*\"Tomando o pão, tendo dado graças, partiu e deu-lhos, dizendo: Tomai, comei; isto é o meu corpo. E, tomando o cálice, tendo dado graças, deu-lho, dizendo: Bebei dele todos; porque isto é o meu sangue, o sangue da nova aliança, que é derramado por muitos para remissão dos pecados.\"*"
-        },
-        {
-          "book": "Lucas",
-          "bookSlug": "luke",
-          "chapter": 22
-        },
-        {
-          "book": "1 Coríntios",
-          "bookSlug": "1-corinthians",
-          "chapter": 11
-        }
-      ],
-      "themes": [
-        "ultima-ceia",
-        "videira"
-      ],
-      "createdAt": "2026-09-12T03:57:15.073Z"
-    },
-    {
       "slug": "nicolaes-berchem-anunciacao-aos-pastores",
       "title": "Anunciação aos pastores",
       "subtitle": "The Annunciation to the Shepherds (1649)",
@@ -23691,93 +23504,6 @@
         "pilatos"
       ],
       "createdAt": "2026-09-12T03:57:15.079Z"
-    },
-    {
-      "slug": "nobleheart-a-espada-do-espirito-sword-of-the-spirit-a-espada-do-espirito",
-      "title": "A espada do Espírito",
-      "subtitle": "Sword of the Spirit",
-      "artistOrDirector": "Nobleheart - A espada do Espírito (Sword of the Spirit)",
-      "year": "2020s",
-      "category": "painting",
-      "description": "**Nobleheart**, artista digital de arte cristã devocional, retrata visualmente a \"Espada do Espírito\" — a arma ofensiva descrita na metáfora da Armadura de Deus (Efésios 6:10-17). A composição mostra uma espada reluzente, frequentemente associada a um scroll de escrituras antigas, iluminada por uma luz dramática que evoca a presença divina.\n\nA obra é um exemplo de **arte digital devocional** contemporânea, um gênero que combina técnicas de ilustração digital com iconografia cristã para criar imagens de meditação e adoração. O estilo de Nobleheart caracteriza-se por contrastes luminosos (chiaroscuro digital) e uma estética que une o épico à intimidade, adequada à natureza pessoal da oração e da guerra espiritual.\n\n### Contexto Histórico\n\n**Nobleheart** é um pseudônimo/brand de arte cristã digital contemporânea, ativo nas redes sociais (X/Twitter). A identidade do artista não é publicamente detalhada — Nobleheart aparece como marca de arte devocional digital, produzindo ilustrações para o mercado de arte cristã online (Etsy, lojas de arte devocional).\n\nA Armadura de Deus (Efésios 6:10-17) é um dos temas mais populares da arte cristã devocional contemporânea, frequentemente retratada como uma armadura brilhante, uma espada luminosa ou um guerreiro em pé na presença de Deus. A escolha do tema reflete o interesse crescente de cristãos evangélicos e carismáticos pela \"guerra espiritual\" como prática devocional.",
-      "imageFile": "nobleheart-a-espada-do-espirito-sword-of-the-spirit-a-espada-do-espirito.webp",
-      "licenseType": "public-domain",
-      "location": "Arte digital devocional — Nobleheart",
-      "sourceUrl": "https://x.com/Nobleheart/status/2045943662459113854",
-      "references": [
-        {
-          "book": "Efésios",
-          "bookSlug": "ephesians",
-          "chapter": 6,
-          "verses": "17",
-          "passageText": "\"Tomai também o capacete da salvação, e a espada do Espírito, que é a palavra de Deus;\""
-        }
-      ],
-      "themes": [
-        "armadura-de-deus"
-      ],
-      "createdAt": "2026-09-12T03:57:15.080Z"
-    },
-    {
-      "slug": "olivia-mcleod-salmo-148-psalm-148-salmo-148",
-      "title": "Salmo 148",
-      "subtitle": "Psalm 148",
-      "artistOrDirector": "Olivia McLeod - Salmo 148 (Psalm 148)",
-      "category": "painting",
-      "description": "**\"Salmo 148\"** — Olivia McLeod. Ilustração contemporânea em técnica mista sobre papel.\n\nA composição circular centraliza um olho gigante: dentro da íris, montanhas e nuvens em tons de azul profundo; ao redor, o sol, a lua crescente, uma estrela guia (remetendo à Estrela de Belém) e inúmeras outras estrelas preenchem o espaço cósmico. A paleta transita do azul-noite do cosmos ao dourado dos astros, criando um efeito de profundidade concêntrica.\n\nO estilo mescla o simbólico com o decorativo, numa tradição que lembra os manuscritos iluminados medievais e os mandalas budistas — mas com iconografia inteiramente salmística. A composição circular e a repetição de motivos estelares criam sensação de harmonia e vastidão universal.\n\nO olho como moldura da cena funciona em dois sentidos: a criação inteira sendo *vista* pelo Criador (o olho divino) e, simultaneamente, o convite para que o espectador veja o cosmos como o salmista o via — como um coro em potência, pronto para cantar.\n\n### Contexto Histórico\n\n**Olivia McLeod** é uma ilustradora e artista visual canadense contemporânea, especializada em interpretações visuais de textos bíblicos com linguagem contemporânea e acessível. Seu trabalho insere-se na tradição de ilustração salmística que remonta aos manuscritos iluminados medievais (como os Saltérios de Utrecht e de Luttrell), mas atualiza a linguagem com referências ao design gráfico, à arte psicodélica dos anos 1960 e à iconografia oriental. A ausência de data exata na nota reflete a prática contemporânea de publicação digital sem marcação temporal fixa.",
-      "imageFile": "olivia-mcleod-salmo-148-psalm-148-salmo-148.webp",
-      "licenseType": "public-domain",
-      "location": "Acervo de Arte Sacra — Olivia McLeod",
-      "sourceUrl": "https://parkchurch.org/2024/07/30/psalm-148-artwork/",
-      "references": [
-        {
-          "book": "Salmos",
-          "bookSlug": "psalms",
-          "chapter": 148,
-          "verses": "1-5",
-          "passageText": "*\"Louvai ao Senhor. Louvai ao Senhor desde os céus, louvai-o nas alturas. Louvai-o, todos os seus anjos; louvai-o, todos os seus exércitos. Louvai-o, sol e lua; louvai-o, todas as estrelas luzentes. Louvai-o, céus dos céus, e as águas que estão sobre os céus. Louvem o nome do Senhor, pois mandou, e logo foram criados.\"*"
-        }
-      ],
-      "themes": [
-        "criacao",
-        "louvor",
-        "salmos"
-      ],
-      "createdAt": "2026-09-12T03:57:15.081Z"
-    },
-    {
-      "slug": "olya-kravchenko-sacrificio-e-vitoria-sacrifice-and-victory-sacrificio-e-vitoria",
-      "title": "Sacrifício e vitória",
-      "subtitle": "Sacrifice and Victory",
-      "artistOrDirector": "Olya Kravchenko - Sacrifício e vitória (Sacrifice and Victory)",
-      "year": "2022",
-      "category": "painting",
-      "description": "**Sacrifício e Vitória** (2022), de **Olya Kravchenko**, retoma a antiga iconografia cristã do **pelicano em sua piedade** (*Vulning Pelican*) — a mãe pelicano que perfura o próprio peito para alimentar os filhotes com o próprio sangue, símbolo medieval do sacrifício de Cristo (ver Autor desconhecido - Um pelicano em sua piedade (Pelican in Her Piety (designação convencional; sem título histórico)) e Kateryna Kuziv - O pelicano (The Pelican)). \n\nKravchenko resgata uma variante medieval específica da lenda do pelicano encontrada no tratado *De natura rerum* de Thomas de Cantimpré (c. 1200–1272) e no *De animalibus* de Santo Alberto Magno (c. 1200–1280): ao sair do ninho, uma serpente venenosa (o dragão) ataca e mata os filhotes; a mãe retorna e, ao ver a morte de sua ninhada, fende o próprio peito para banhá-los com seu sangue, cujo poder vivificante neutraliza o veneno e restaura-lhes a vida.\n\nNa obra de Kravchenko, a pelicana triunfa diretamente sobre o dragão negro subjugado aos seus pés, tendo sangue na boca e asas abertas em forma de cruz. Ao fundo, as flechas que não atingem a ave nem seus filhotes simbolizam a invulnerabilidade espiritual da Igreja sob o sangue da Nova Aliança.\n\nA obra não ilustra apenas a **expiação vicária** (Cristo que dá a vida pelos filhos), mas expressa o tema clássico do ***Christus Victor*** — a vitória ontológica e cósmica de Cristo sobre Satanás e a morte.\n\n### Contexto Histórico\n\nObra representativa de **Olya Kravchenko**, integrada ao acervo histórico do Bíblia na Arte. As representações visuais inspiradas nas Sagradas Escrituras produzidas por este mestre combinam rigor estético, sensibilidade cultural e devoção à narrativa bíblica.",
-      "imageFile": "olya-kravchenko-sacrificio-e-vitoria-sacrifice-and-victory-sacrificio-e-vitoria.webp",
-      "licenseType": "public-domain",
-      "location": "Acervo de Arte Sacra — Olya Kravchenko",
-      "sourceUrl": "https://www.instagram.com/p/Cd2hLnmNvz8/",
-      "references": [
-        {
-          "book": "Salmos",
-          "bookSlug": "psalms",
-          "chapter": 102,
-          "verses": "6",
-          "passageText": "\"Sou semelhante ao pelicano no deserto.\""
-        },
-        {
-          "book": "Efésios",
-          "bookSlug": "ephesians",
-          "chapter": 6,
-          "verses": "16",
-          "passageText": "\"Tomando sobretudo o escudo da fé, com o qual podereis apagar todos os dardos inflamados do maligno.\""
-        }
-      ],
-      "themes": [
-        "christus-victor",
-        "pelicano"
-      ],
-      "createdAt": "2026-09-12T03:57:15.082Z"
     },
     {
       "slug": "orazio-borgianni-cristo-entre-os-doutores-christ-among-the-doctors-cristo-entre-os-doutores",
@@ -27502,33 +27228,6 @@
         "natividade"
       ],
       "createdAt": "2026-09-12T03:57:15.158Z"
-    },
-    {
-      "slug": "takato-yamamoto-a-anunciacao-a-anunciacao",
-      "title": "A anunciação",
-      "subtitle": "聖告",
-      "artistOrDirector": "Takato Yamamoto - A anunciação (聖告)",
-      "year": "1998",
-      "category": "painting",
-      "description": "**The Annunciation** (1998) é uma marcante pintura do ilustrador e pintor japonês **Takato Yamamoto**, criador do estilo singular conhecido como *Esteticismo Heisei* (*Heisei Ishigaku*).\n\nA obra propõe uma audaciosa e transgressora releitura contemporânea da clássica iconografia cristã da Anunciação do anjo Gabriel a Maria. Yamamoto funde a precisão linear da gravura tradicional japonesa (*ukiyo-e*) com a atmosfera decadente do Simbolismo e do *Art Nouveau* europeu. A figura feminina é retratada em uma composição densamente ornamentada e claustrofóbica, onde lírios brancos — símbolos tradicionais da pureza virginal mariana — entrelaçam-se a fitas, ramos espinhosos e detalhes anatômicos que exploram a tensão liminar entre a sacralidade espiritual e a fragilidade carnal.\n\nA técnica de Yamamoto distingue-se pelo traço microscópico a nanquim e acrílica sobre papel, criando um ambiente de beleza hipnótica e melancólica que questiona os limites entre o êxtase místico, a entrega existencial e o *memento mori*.\n\n### Contexto Histórico\n\nNascido na província de Akita, **Takato Yamamoto** (n. 1960) formou-se na Universidade Zokei de Tóquio. Ao desenvolver o *Esteticismo Heisei* a partir da década de 1990, Yamamoto conquistou aclamação internacional ao reinterpretar temas mitológicos ocidentais e orientais através de uma estética gótica refinada, unindo a herança das xilogravuras do período Edo à sensibilidade dark contemporânea.",
-      "imageFile": "takato-yamamoto-a-anunciacao-a-anunciacao.webp",
-      "licenseType": "public-domain",
-      "location": "Coleção privada",
-      "sourceUrl": "https://www.akatako.net/lib/takato-yamamoto/works/annunciation-1998",
-      "references": [
-        {
-          "book": "Lucas",
-          "bookSlug": "luke",
-          "chapter": 1,
-          "verses": "28-31",
-          "passageText": "\"E, vindo o anjo até ela, disse: Salve, agraciada; o Senhor é contigo; bendita és tu entre as mulheres. E, vendo-o ela, turbou-se muito com sua palavra, e considerava que saudação seria esta. Disse-lhe, então, o anjo: Maria, não temas, porque achaste graça diante de Deus. E eis que em teu ventre conceberás e darás à luz um filho, e chamarás o seu nome Jesus.\""
-        }
-      ],
-      "themes": [
-        "anunciacao",
-        "maria"
-      ],
-      "createdAt": "2026-09-12T03:57:15.159Z"
     },
     {
       "slug": "takehisa-yumeji-oracao",
@@ -31758,11 +31457,6 @@
       "bio": "**Hendrik Goltzius** (1558-1617) foi um gravurista e pintor neerlandês, um dos maiores gravadores da história. Dominou o maneirismo na gravura e depois a pintura naturalista, com temas bíblicos e mitológicos. Sua técnica de buril é considerada insuperável."
     },
     {
-      "name": "Henk Helmantel - Nova vida (Nieuw Leven)",
-      "slug": "henk-helmantel-nova-vida-nieuw-leven",
-      "bio": null
-    },
-    {
       "name": "Henri Martin - Cristo e a samaritana (Le Christ et la samaritaine)",
       "slug": "henri-martin-cristo-e-a-samaritana-le-christ-et-la-samaritaine",
       "bio": null
@@ -32053,11 +31747,6 @@
       "bio": "**Joseph von Führich** (1800-1876) foi um pintor austríaco do Romantismo, ligado ao movimento nazareno. Dedicou-se à arte religiosa, com obras como *A Estrada para o Calvário* e ciclos de afrescos. Foi professor na Academia de Belas Artes de Viena."
     },
     {
-      "name": "Josh Tiessen - Alfa e Ômega (Alpha and Omega)",
-      "slug": "josh-tiessen-alfa-e-omega-alpha-and-omega",
-      "bio": null
-    },
-    {
       "name": "Joshua Reynolds - O Pequeno Samuel em Oração (The Infant Samuel)",
       "slug": "joshua-reynolds-o-pequeno-samuel-em-oracao-the-infant-samuel",
       "bio": null
@@ -32208,11 +31897,6 @@
       "bio": "**Ludolf Bakhuizen** (1630-1708) foi um pintor neerlandês da Idade de Ouro, o maior pintor de marinhas de Amsterdã após van de Velde. Pintou tempestades, portos e navios com grande dramaticidade. Foi admirado por Pedro, o Grande, da Rússia."
     },
     {
-      "name": "Luke Hua Xiaoxian - O anjo traz Boas Novas aos pastores (天使向牧人傳佈嘉訊 (The Angel Brings Good News to the Shepherds))",
-      "slug": "luke-hua-xiaoxian-o-anjo-traz-boas-novas-aos-pastores-the-angel-brings-good-news-to-the-shepherds",
-      "bio": null
-    },
-    {
       "name": "Léo-Paul Robert",
       "slug": "leo-paul-robert",
       "bio": "**Léo-Paul Robert** (1851-1923) foi um pintor suíço, membro da família de artistas Robert, ativo em Neuchâtel e Paris. Pintou paisagens, retratos e temas religiosos e simbolistas. É conhecido pelas suas cenas do lago de Neuchâtel."
@@ -32241,11 +31925,6 @@
       "name": "Maarten van Heemskerck",
       "slug": "maarten-van-heemskerck",
       "bio": "**Maarten van Heemskerck** (1º de junho de 1498, Heemskerk – 1º de outubro de 1574, Haarlem) foi um dos principais pintores maneiristas dos Países Baixos. Filho de um lavrador, deixou a casa paterna após uma discussão e foi estudar em Delft sob Jan Lucasz antes de se mudar para Haarlem, onde se tornou discípulo de Jan van Scorel — foi Van Scorel quem lhe ensinou o estilo italianizante que marcaria toda a sua obra, a ponto de algumas de suas pinturas terem sido, mais tarde, erroneamente atribuídas ao próprio mestre.\n\nPouco depois de 23 de maio de 1532, partiu de Haarlem para Roma, chegando à cidade antes de meados de julho, munido de uma carta de recomendação de Van Scorel para o cardeal neerlandês Willem van Enckenvoirt, que lhe abriu portas no meio artístico romano. Durante a estadia na Itália, produziu uma extensa série de desenhos minuciosos das ruínas e esculturas clássicas — reunidos hoje nos chamados \"cadernos de esboços romanos\" —, que se tornaram fonte fundamental para a história da arte do período. Voltou a Haarlem no fim de 1536 ou início de 1537, onde permaneceu pelo resto da vida, com exceção de uma curta temporada em Amsterdã durante o cerco de Haarlem de 1572-73. Extremamente produtivo, deixou mais de cem pinturas, dois álbuns de desenhos romanos e cerca de seiscentos projetos de gravura, tornando-se um dos artistas mais influentes de sua geração nos Países Baixos, com composições de figuras monumentais e musculosas claramente devedoras de Michelangelo e da estatuária antiga que estudara em Roma."
-    },
-    {
-      "name": "Mariusz Lewandowski - Desejo Imortal (Immortal Desire)",
-      "slug": "mariusz-lewandowski-desejo-imortal-immortal-desire",
-      "bio": null
     },
     {
       "name": "Marten van Valckenborch - A parábola dos lírios do campo (Parable of the lily of the field (May))",
@@ -32285,11 +31964,6 @@
     {
       "name": "Maximilien Luce - O bom samaritano (The Good Samaritan)",
       "slug": "maximilien-luce-o-bom-samaritano-the-good-samaritan",
-      "bio": null
-    },
-    {
-      "name": "Maximino Cerezo Barredo - Viver em comunhão (Vivir en comunión)",
-      "slug": "maximino-cerezo-barredo-viver-em-comunhao-vivir-en-comunion",
       "bio": null
     },
     {
@@ -32333,11 +32007,6 @@
       "bio": "**N. C. Wyeth** (1882-1945) foi um ilustrador e pintor americano, um dos mais célebres do século XX. Ilustrou clássicos como *A Ilha do Tesouro*, *Robin Hood* e *A Guerra dos Mundos*. Foi pai do pintor Andrew Wyeth."
     },
     {
-      "name": "Natalya Rusetska - Jesus, a vinha e a última ceia (Jesus the Grapevine and The Last Supper)",
-      "slug": "natalya-rusetska-jesus-a-vinha-e-a-ultima-ceia-jesus-the-grapevine-and-the-last-supper",
-      "bio": null
-    },
-    {
       "name": "Nicolaes Berchem",
       "slug": "nicolaes-berchem",
       "bio": "**Nicolaes Pieterszoon Berchem** nasceu em Haarlem em 1º de outubro de 1620 e morreu em Amsterdã em 18 de fevereiro de 1683. Filho do pintor de natureza-morta Pieter Claesz, passou por diversos mestres em sua formação — entre eles Jan van Goyen, Jan Baptist Weenix, Pieter de Grebber, Jan Wils e Claes Cornelisz Moeyaert —, um percurso incomum que ajuda a explicar a versatilidade técnica de sua obra madura.\n\nViajou à Itália entre 1642 e 1645 na companhia de Jan Baptist Weenix, a quem chamava de primo, e essa experiência definiu sua identidade artística: tornou-se um dos principais representantes da paisagem italianizante holandesa, gênero que combinava a luz dourada e as ruínas clássicas do Sul europeu com pastores, rebanhos e figuras bíblicas ou mitológicas em primeiro plano. Foi também um professor procurado, com discípulos importantes como Karel Dujardin, Pieter de Hooch e Jacob Ochtervelt, e sua influência alcançou pintores posteriores como Jean-Baptiste Pillement e Barend Cornelis Koekkoek.\n\nBerchem foi extraordinariamente prolífico: estima-se (segundo o catalogador Cornelis Hofstede de Groot) que tenha produzido cerca de 850 pinturas, além de 80 gravuras e 500 desenhos — embora parte significativa das obras a ele atribuídas ao longo do tempo seja hoje questionada. Cenas como *Anunciação aos Pastores*, *O Chamado de São Mateus* e *Rute e Boaz* ilustram bem sua fórmula característica: temas bíblicos ambientados em paisagens pastoris de tom italiano, povoadas de animais cuidadosamente observados."
@@ -32366,21 +32035,6 @@
       "name": "Nikolai Ge",
       "slug": "nikolai-ge",
       "bio": "**Nikolai Nikolaievich Ge** (Voronej, 27 de fevereiro de 1831 – 13 de junho de 1894) foi um pintor russo de origem nobre e ascendência francesa, figura influente no desenvolvimento do realismo e do simbolismo russos, conhecido sobretudo por obras de tema histórico e religioso.\n\nDeixou São Petersburgo em abril de 1857 para uma viagem de estudos pela Europa e viveu na Itália por treze anos, a maior parte deles em Florença, retornando à Rússia apenas em maio de 1870. Foi nesse período italiano que pintou *Cristo no Jardim do Getsêmani* (1869), buscando modelos reais — inclusive, segundo relatos, moradores locais de Fiesole — em vez da idealização acadêmica convencional para figuras bíblicas.\n\nNos últimos anos de vida, Ge radicalizou essa abordagem num ciclo dedicado à Paixão de Cristo — incluindo *O Julgamento do Sinédrio* (1892), *Gólgota* (1892) e *Crucificação* (1894), todos hoje na Galeria Tretyakov — em que buscava deliberadamente chocar o público com o sofrimento físico e humano de Cristo, forçando reflexão sobre questões morais e existenciais em vez de devoção convencional. Vários de seus quadros religiosos foram recebidos com hostilidade pela crítica e pela censura eclesiástica russa da época, precisamente por essa recusa da idealização."
-    },
-    {
-      "name": "Nobleheart - A espada do Espírito (Sword of the Spirit)",
-      "slug": "nobleheart-a-espada-do-espirito-sword-of-the-spirit",
-      "bio": null
-    },
-    {
-      "name": "Olivia McLeod - Salmo 148 (Psalm 148)",
-      "slug": "olivia-mcleod-salmo-148-psalm-148",
-      "bio": null
-    },
-    {
-      "name": "Olya Kravchenko - Sacrifício e vitória (Sacrifice and Victory)",
-      "slug": "olya-kravchenko-sacrificio-e-vitoria-sacrifice-and-victory",
-      "bio": null
     },
     {
       "name": "Orazio Borgianni - Cristo Entre os Doutores (Christ Among the Doctors)",
@@ -32626,11 +32280,6 @@
       "name": "Tadessa Wolde Aregay",
       "slug": "tadessa-wolde-aregay",
       "bio": "**Tadessa Wolde Aregay** (1953-2019) foi um pintor e conservador etíope, nascido em Axum. Estudou na Escola de Belas Artes de Adis Abeba e na Real Academia de Belas Artes de Copenhague, e foi conservador-chefe de arte no Ministério da Cultura da Etiópia. Recriou a iconografia religiosa da Igreja Ortodoxa Etíope em abordagem abstrata e contemporânea."
-    },
-    {
-      "name": "Takato Yamamoto - A anunciação (聖告)",
-      "slug": "takato-yamamoto-a-anunciacao",
-      "bio": null
     },
     {
       "name": "Takehisa Yumeji",
