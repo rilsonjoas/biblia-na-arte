@@ -2,6 +2,7 @@ import { and, desc, eq, gte, inArray, isNotNull, lt, sql } from 'drizzle-orm';
 import { db } from './client.js';
 import {
   artists,
+  artworkRedirects,
   artworks,
   artworkThemes,
   bibleBooks,
@@ -153,6 +154,23 @@ export async function getArtworkById(id: string): Promise<ArtworkWithReferences 
  *  ...)` estoura "invalid input syntax for type uuid" em vez de só não
  *  achar nada, então a coluna certa tem que ser decidida ANTES da query. */
 export async function getArtworkBySlugOrId(idOrSlug: string): Promise<ArtworkWithReferences | undefined> {
+  let row = await findActiveArtwork(idOrSlug);
+
+  // ADR 007: obra que mudou de slug. SÓ consulta o redirecionamento quando a
+  // busca normal não achou nada, então um slug ou UUID vivo nunca é sombreado, e
+  // com a tabela vazia o comportamento é idêntico ao de antes. Um salto só: o
+  // reseed achata cadeias. Destino inativo ou inexistente continua 404.
+  if (!row) {
+    const newSlug = await findRedirectTargetSlug(idOrSlug);
+    if (newSlug) row = await findActiveArtwork(newSlug);
+  }
+  if (!row) return undefined;
+
+  const [withRefs] = await attachReferences([row]);
+  return withRefs;
+}
+
+async function findActiveArtwork(idOrSlug: string): Promise<ArtworkRow | undefined> {
   const [row] = await db
     .select()
     .from(artworks)
@@ -163,10 +181,27 @@ export async function getArtworkBySlugOrId(idOrSlug: string): Promise<ArtworkWit
       ),
     )
     .limit(1);
-  if (!row) return undefined;
+  return row;
+}
 
-  const [withRefs] = await attachReferences([row]);
-  return withRefs;
+/** Slug atual de uma obra que mudou de slug, achado pelo slug OU pelo UUID
+ *  antigo (`old_id`) — mesma decisão de coluna de `findActiveArtwork`: um slug
+ *  mandado pra uma coluna `uuid` estoura em vez de só não achar. */
+async function findRedirectTargetSlug(idOrSlug: string): Promise<string | undefined> {
+  try {
+    const [row] = await db
+      .select({ newSlug: artworkRedirects.newSlug })
+      .from(artworkRedirects)
+      .where(looksLikeUuid(idOrSlug) ? eq(artworkRedirects.oldId, idOrSlug) : eq(artworkRedirects.oldSlug, idOrSlug))
+      .limit(1);
+    return row?.newSlug;
+  } catch (error) {
+    // O redirecionamento é um recurso a mais: se a tabela falhar (ausente, banco
+    // engasgado), o pior caso tem que ser o 404 de sempre, nunca um 500. A busca
+    // normal já rodou antes e, se o banco estivesse fora, teria falhado ali.
+    console.error('[redirect] falha ao consultar artwork_redirects; seguindo como 404', error);
+    return undefined;
+  }
 }
 
 /** Slug único pra uma obra nova (aprovação de submissão, ver
