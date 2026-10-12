@@ -31,6 +31,11 @@ pnpm --filter web dev   # olhar as obras novas/alteradas em localhost
 #    ATENÇÃO até 01/10/2026: cota de LFS estourada, não commitar imagem
 #    nova (ver "Cota de banda do Git LFS").
 
+# ATENÇÃO (ADR 008): o reseed agora é em dois tempos. O job `deploy` roda o ENSAIO sozinho
+#    quando vault-export.json, slug-redirects.json ou removed-slugs.json mudam (relatório no
+#    log do job); gravar é o workflow manual "Reseed do catálogo" (Actions → Run workflow →
+#    GRAVAR). O comando abaixo só é necessário fora desse fluxo (reparo).
+#
 # 5. Seed dos dados no Postgres de produção — via SSH, container one-off
 #    na proxy-network (não roda local contra prod). Espera o job `deploy` do "CI"
 #    (dispara sozinho no push) terminar primeiro — reseed usa o código já
@@ -98,6 +103,15 @@ docker run --rm --network proxy-network \
 #     ATENÇÃO, efeito colateral conhecido: o reseed grava `created_at` a partir da data
 #     de criação do ARQUIVO da nota. Notas regravadas por edição ganham data nova e a
 #     ordenação "Mais Recentes" (listagens e busca) é reembaralhada para elas.
+
+# 5c. ENSAIO DO PRÓPRIO SCRIPT DE RESEED (scripts/reseed-if-data-changed.sh), sempre que ele
+#     mudar. Sem tocar na produção: Postgres descartável (docker run --tmpfs, porta livre),
+#     um container qualquer com healthcheck fingindo ser a API, clone do repo em disco
+#     (não em /tmp), migrations aplicadas, e as variáveis RESEED_NETWORK=host,
+#     RESEED_API_CONTAINER=<container fake>, RESEED_ENV_FILE. Cenários validados em
+#     2026-10-12: `dry` sem mudança de dados (nada a ensaiar); `dry` com RESEED_FORCE=1
+#     (relatório, banco intacto); `apply` (grava 1084 obras); `apply` de novo (0 novas);
+#     export sem uma obra ativa (trava aborta no `dry` e no `apply`, banco intacto).
 
 # 6. Sitemap (se mudou quantidade de páginas indexáveis)
 pnpm --filter server sitemap:generate

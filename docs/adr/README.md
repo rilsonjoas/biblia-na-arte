@@ -12,4 +12,6 @@ Formato: Contexto / Decisão / Consequências.
 - [004 — Dedupe determinístico de slug](004-dedupe-slug.md)
 - [005 — PWA antes de app nativo](005-pwa-antes-de-nativo.md)
 - [006 — URL amigável de obra, UUID nunca aposentado](006-url-amigavel-obra.md)
+- [007 — Redirecionamento de slug antigo](007-redirecionamento-de-slug.md)
+- [008 — Reseed do catálogo dentro do deploy](008-reseed-no-deploy.md)
 - [007 — Redirecionamento de slug antigo, sem 404 e sem perder o histórico](007-redirecionamento-de-slug.md)
