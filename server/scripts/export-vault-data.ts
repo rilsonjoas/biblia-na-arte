@@ -34,6 +34,7 @@ import {
   extractWikilink,
   findImageFile,
   deriveArtistFromFilename,
+  findExcludedArtist,
   normalizeForComparison,
   parseChapterLink,
   parseTitleParts,
@@ -354,8 +355,12 @@ async function main() {
       continue;
     }
 
-    if (EXCLUDED_ARTISTS_NORMALIZED.has(normalizeForComparison(artist))) {
-      skipped.push({ file, reason: `artista excluído: ${artist}` });
+    // Confere também o artista do NOME DO ARQUIVO: o `autor:` da nota às vezes
+    // aponta pra própria nota e a lista (nome exato) nunca casava — ver
+    // findExcludedArtist.
+    const excludedArtist = findExcludedArtist(EXCLUDED_ARTISTS_NORMALIZED, artist, file);
+    if (excludedArtist) {
+      skipped.push({ file, reason: `artista excluído: ${excludedArtist}` });
       continue;
     }
 

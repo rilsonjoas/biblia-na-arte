@@ -13,6 +13,7 @@ import {
   extractThemes,
   parseChapterLink,
   deriveArtistFromFilename,
+  findExcludedArtist,
   normalizeForComparison,
   parseTitleParts,
   restoreQuestionMark,
@@ -438,6 +439,49 @@ describe('normalizeForComparison', () => {
   it('ignora acentos, maiúsculas e espaços', () => {
     expect(normalizeForComparison('Autor Desconhecido')).toBe('autor desconhecido');
     expect(normalizeForComparison('  AUTOR desconhecido  ')).toBe('autor desconhecido');
+  });
+});
+
+// Achado 2026-10-12: 10 obras de artistas da lista de exclusão por direitos autorais
+// estavam no ar porque o campo `autor:` da nota apontava pra própria nota
+// ("Henk Helmantel - Nova vida (Nieuw Leven)"), e a lista compara nome exato de
+// artista. A exclusão tem que valer também pro artista do NOME DO ARQUIVO.
+describe('findExcludedArtist', () => {
+  const excluidos = new Set(['henk helmantel', 'josh tiessen', 'kim ki-chang', 'salvador dali'].map(normalizeForComparison));
+
+  it('exclui quando o autor resolvido é exatamente o artista excluído', () => {
+    expect(findExcludedArtist(excluidos, 'Josh Tiessen', 'Josh Tiessen - Alfa e Ômega (Alpha and Omega).md')).toBe('Josh Tiessen');
+  });
+
+  it('exclui quando o `autor:` é o título da nota (o caso do Helmantel)', () => {
+    const arquivo = 'Henk Helmantel - Nova vida (Nieuw Leven).md';
+    expect(findExcludedArtist(excluidos, 'Henk Helmantel - Nova vida (Nieuw Leven)', arquivo)).toBe('Henk Helmantel');
+  });
+
+  it('exclui pelo artista do nome do arquivo mesmo quando o autor resolvido não tem relação', () => {
+    expect(findExcludedArtist(excluidos, 'Alfa e Ômega', 'Josh Tiessen - Alfa e Ômega.md')).toBe('Josh Tiessen');
+  });
+
+  it('ignora acento e caixa, como o resto da lista (Kim Ki-Chang, Dalí)', () => {
+    expect(findExcludedArtist(excluidos, 'Kim Ki-Chang', 'Kim Ki-Chang - Obra.md')).toBe('Kim Ki-Chang');
+    expect(findExcludedArtist(excluidos, 'Salvador Dalí', 'Salvador Dalí - Obra.md')).toBe('Salvador Dalí');
+  });
+
+  it('não exclui artista que não está na lista, nem com o autor poluído', () => {
+    expect(findExcludedArtist(excluidos, 'Rembrandt van Rijn', 'Rembrandt van Rijn - O filho pródigo.md')).toBeUndefined();
+    expect(
+      findExcludedArtist(excluidos, 'Jan Styka - Pregação de Pedro (St. Peter Preaching)', 'Jan Styka - Pregação de Pedro (St. Peter Preaching).md'),
+    ).toBeUndefined();
+  });
+
+  it('não casa por pedaço de nome (só nome inteiro)', () => {
+    expect(findExcludedArtist(excluidos, 'Josh Tiessenberg', 'Josh Tiessenberg - Obra.md')).toBeUndefined();
+    expect(findExcludedArtist(excluidos, 'Obra de Josh Tiessen Junior', 'Obra de Josh Tiessen Junior.md')).toBeUndefined();
+  });
+
+  it('não quebra com valor vazio ou arquivo fora da convenção "Autor - Título"', () => {
+    expect(findExcludedArtist(excluidos, '', 'Jesus chorou.md')).toBeUndefined();
+    expect(findExcludedArtist(excluidos, 'Rembrandt van Rijn', '')).toBeUndefined();
   });
 });
 
