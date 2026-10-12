@@ -2,10 +2,26 @@
 import { writeFileSync, existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { bibleBooksSeed } from '../src/db/seed-data/bible-books.js';
+import { dropSitemapSlugs } from '../src/lib/catalog-diff.js';
 
 const DOMAIN = process.env.SITE_DOMAIN ?? 'https://biblianaarte.narniano.com';
 const OUTPUT_SITEMAP = path.resolve(import.meta.dirname, '../../web/public/sitemap.xml');
 const VAULT_EXPORT_JSON = path.resolve(import.meta.dirname, 'vault-export.json');
+const REDIRECTS_JSON = path.resolve(import.meta.dirname, 'slug-redirects.json');
+const REMOVED_JSON = path.resolve(import.meta.dirname, 'removed-slugs.json');
+
+/** Slugs que mudaram de endereço (chaves de slug-redirects.json) ou saíram de propósito
+ *  (removed-slugs.json): a única exceção à regra de nunca derrubar URL do sitemap. */
+function slugsAposentados(): Set<string> {
+  const out = new Set<string>();
+  try {
+    if (existsSync(REDIRECTS_JSON)) for (const k of Object.keys(JSON.parse(readFileSync(REDIRECTS_JSON, 'utf-8')))) out.add(k);
+    if (existsSync(REMOVED_JSON)) for (const k of JSON.parse(readFileSync(REMOVED_JSON, 'utf-8')) as string[]) out.add(k);
+  } catch {
+    // arquivo ilegível: não derruba nada
+  }
+  return out;
+}
 
 interface ExportedArtwork {
   id?: string;
@@ -113,7 +129,8 @@ function generateSitemap() {
       byLoc.set(prev.loc, prev);
     }
   }
-  const merged = [...byLoc.values()];
+  const mantidas = new Set(dropSitemapSlugs([...byLoc.keys()], slugsAposentados()));
+  const merged = [...byLoc.values()].filter((u) => mantidas.has(u.loc));
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">

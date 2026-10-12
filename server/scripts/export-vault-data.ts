@@ -23,6 +23,7 @@
 import { readFileSync, writeFileSync, mkdirSync, rmSync, existsSync, readdirSync, statSync } from 'node:fs';
 import path from 'node:path';
 import sharp from 'sharp';
+import { catalogContentEquals, preserveCreatedAt, type CatalogArtwork } from '../src/lib/catalog-diff.js';
 import {
   extractBiography,
   extractClassicCommentary,
@@ -53,6 +54,7 @@ const VAULT_ANEXOS = '/home/narniano/Documentos/Rilson/0 - Anexos';
 const VAULT_AUTORES = '/home/narniano/Documentos/Rilson/10 - Arte e literatura/Autores';
 const OUTPUT_IMAGES_DIR = path.resolve(import.meta.dirname, '../../web/public/images');
 const OUTPUT_JSON = path.resolve(import.meta.dirname, 'vault-export.json');
+const REDIRECTS_JSON = path.resolve(import.meta.dirname, 'slug-redirects.json');
 
 // ---------------------------------------------------------------------
 // Listas de exclusão — fonte da verdade é a nota de auditoria no vault.
@@ -589,10 +591,33 @@ async function main() {
     }
   }
 
-  writeFileSync(
-    OUTPUT_JSON,
-    JSON.stringify({ artworks, artists, themes, exportedAt: new Date().toISOString() }, null, 2),
-  );
+  // `createdAt` vem da data do ARQUIVO da nota e muda a cada regravação/clone do vault:
+  // obra que já estava no export anterior mantém a data de antes (ver preserveCreatedAt).
+  let artworksOut = artworks;
+  let exportedAt = new Date().toISOString();
+  if (existsSync(OUTPUT_JSON)) {
+    try {
+      const prev = JSON.parse(readFileSync(OUTPUT_JSON, 'utf-8')) as {
+        artworks: CatalogArtwork[];
+        artists: unknown;
+        themes: unknown;
+        exportedAt?: string;
+      };
+      const redirects = existsSync(REDIRECTS_JSON)
+        ? (JSON.parse(readFileSync(REDIRECTS_JSON, 'utf-8')) as Record<string, string>)
+        : {};
+      artworksOut = preserveCreatedAt(artworks, prev.artworks, redirects);
+      // Conteúdo idêntico ao anterior: mantém exportedAt, para um export sem mudança não
+      // virar diff no git.
+      if (prev.exportedAt && catalogContentEquals(prev, { artworks: artworksOut, artists, themes })) {
+        exportedAt = prev.exportedAt;
+      }
+    } catch (err) {
+      console.warn(`⚠️  Não consegui preservar createdAt do export anterior: ${(err as Error).message}`);
+    }
+  }
+
+  writeFileSync(OUTPUT_JSON, JSON.stringify({ artworks: artworksOut, artists, themes, exportedAt }, null, 2));
 
   console.log(`✅ ${artworks.length} pinturas exportadas (imagens já em WebP)`);
   console.log(`👤 ${artists.length} artistas (${artists.filter((a) => a.bio).length} com biografia do vault)`);
