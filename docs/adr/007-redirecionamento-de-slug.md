@@ -89,3 +89,17 @@ Cada etapa é um commit/PR que se implanta e se desfaz sozinho.
 Com `artwork_redirects` vazia (estado das etapas 1 e 2), o sistema se comporta
 exatamente como antes. Só a etapa 3 popula a tabela, e só depois do ensaio geral num
 dump de produção restaurado em Postgres descartável.
+
+## Estado e ensaio geral (2026-10-12)
+Etapas 0 a 3 implementadas. O ensaio geral rodou num dump de produção (1.090 obras, 39
+linhas de histórico; `users` e `submissions` sem conteúdo) restaurado em Postgres
+descartável, com a migration 0012 aplicada e o export novo gerado do vault de hoje:
+
+| Verificação | Resultado |
+|---|---|
+| reseed sem o mapa | **abortou**, listando as 10 obras ativas que sumiriam; banco intacto |
+| DRY_RUN com o mapa | 14 novas, 10 removidas ativas, 10 inativas, 1 linha de histórico remapeada, 10 redirecionamentos; nada gravado |
+| reseed real | 1.084 obras; histórico 39 → 38 (37 intactas, 1 remapeada, 1 removida: a obra de Helmantel, retirada por direitos) |
+| API real, 45 verificações | slug e UUID antigos → 200 com a obra nova (×10); obras vivas, 404 dos excluídos e inexistentes, `daily`, listagem e `og:url` dos bots: tudo ok |
+| IDs | 20 saíram (10 renomeadas + 10 de direitos), 14 novos, o resto idêntico |
+| segundo reseed | 0 novas, 0 removidas |
