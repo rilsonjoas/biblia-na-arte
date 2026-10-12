@@ -30,3 +30,15 @@ onlyBuiltDependencies:
   - esbuild
   - sharp
   - "@swc/core"
+
+# Avisos que o `pnpm audit` acusa e que NÃO têm correção publicada. Cada item
+# precisa de justificativa e de uma condição de remoção; lista curta de propósito.
+auditConfig:
+  ignoreGhsas:
+    # braces <= 3.0.3 (DoS por padrões de chaves aninhados em excesso). Achado
+    # 2026-10-12. Sem versão corrigida: 3.0.3 é a última publicada. Caminho:
+    # web>tailwindcss>chokidar>braces, ferramenta de build lendo os padrões de
+    # arquivo do próprio repo; não vai pro bundle, não roda no servidor e nenhuma
+    # entrada externa chega nela. REMOVER este item quando o braces publicar
+    # versão corrigida (ou quando o tailwindcss sair do chokidar 3).
+    - GHSA-vfj7-8cjw-p6xm
