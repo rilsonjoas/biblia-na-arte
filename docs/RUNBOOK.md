@@ -31,6 +31,21 @@ pnpm --filter web dev   # olhar as obras novas/alteradas em localhost
 #    ATENÇÃO até 01/10/2026: cota de LFS estourada, não commitar imagem
 #    nova (ver "Cota de banda do Git LFS").
 
+# 4b. ATUALIZAR O CATÁLOGO A PARTIR DO VAULT, EM UM COMANDO (ADR 008). No computador onde
+#     está o vault, num clone do repositório. Preparo (uma vez):
+#       GIT_LFS_SKIP_SMUDGE=1 git clone git@github.com:rilsonjoas/biblia-na-arte.git ~/Projetos/biblia-na-arte
+#       (SKIP_SMUDGE: o exportador regenera todas as imagens; baixar as ~1000 do LFS só gasta cota.)
+#       cd ~/Projetos/biblia-na-arte && pnpm install
+#     Uso, sempre que o vault mudar:
+#       scripts/publicar-catalogo.sh
+#     Ele cria a branch dados/AAAA-MM-DD, exporta o vault (preservando createdAt), compara
+#     com o export anterior, fecha os redirecionamentos de mesmo título, regenera o sitemap,
+#     mostra o resumo e PERGUNTA antes de commitar, dar push e abrir o PR. Se sobrar obra que
+#     sumiu sem explicação, ele para e diz o que fazer (removed-slugs.json, `direitos:` na
+#     nota ou slug-redirects.json). Depois: mesclar o PR, ler o ensaio no log do deploy e rodar
+#     o workflow "Reseed do catálogo". Imagens de slugs aposentados saem do repositório no
+#     mesmo PR (o diretório de imagens é 100% derivado do export).
+#
 # ATENÇÃO (ADR 008): o reseed agora é em dois tempos. O job `deploy` roda o ENSAIO sozinho
 #    quando vault-export.json, slug-redirects.json ou removed-slugs.json mudam (relatório no
 #    log do job); gravar é o workflow manual "Reseed do catálogo" (Actions → Run workflow →

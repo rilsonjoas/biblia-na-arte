@@ -26,8 +26,9 @@ Dois tempos, com um humano entre eles:
 continua válido para reparos fora do fluxo.
 
 ## Fluxo de quem atualiza o catálogo
-1. Exportar o vault e abrir o PR de dados (o relatório de autor torto e as marcas
-   `direitos:`/`publicar:`/`slug:` das notas já entram aqui).
+1. Rodar `scripts/publicar-catalogo.sh`: exporta o vault, compara com o export anterior,
+   fecha os redirecionamentos de mesmo título e abre o PR de dados (o relatório de autor torto
+   e as marcas `direitos:`/`publicar:`/`slug:` das notas já entram aqui).
 2. Ler o PR e mesclar.
 3. Esperar o deploy e ler o relatório do ensaio no log do job `deploy`.
 4. Se o relatório estiver como esperado, rodar "Reseed do catálogo". Se não, corrigir por PR
