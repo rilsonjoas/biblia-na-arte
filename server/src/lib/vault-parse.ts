@@ -9,6 +9,9 @@ import { parse as parseYaml } from 'yaml';
 
 export interface RawFrontmatter {
   autor?: string;
+  // Direitos autorais declarados NA PRÓPRIA NOTA (ver frontmatterExclusionReason).
+  direitos?: unknown;
+  publicar?: unknown;
   ano?: string | number;
   data?: string | number;
   titulo_original?: string;
@@ -589,3 +592,33 @@ export function findImageFile(content: string, anexosDir: string): string | null
   return existsSync(fullPath) ? fullPath : null;
 }
 
+const DIREITOS_QUE_BLOQUEIAM = new Set(['excluir', 'bloqueado', 'bloquear', 'proibido', 'nao publicar', 'nao liberado']);
+
+/** A própria nota pode dizer que não se publica: `direitos: excluir` (ou bloqueado,
+ *  proibido, "não publicar") ou `publicar: false` / `publicar: não`. Decisão de
+ *  2026-10-12, depois que 10 obras de artistas da lista de exclusão foram ao ar porque a
+ *  lista compara NOME de artista e o campo `autor:` de várias notas estava torto: uma
+ *  marca na nota não depende de nome nenhum. Outro valor (liberado, domínio público) não
+ *  exclui, e tipo inesperado (número, lista) é ignorado em vez de quebrar o export. */
+export function frontmatterExclusionReason(fm: RawFrontmatter | null): string | undefined {
+  if (!fm) return undefined;
+  if (typeof fm.direitos === 'string' && DIREITOS_QUE_BLOQUEIAM.has(normalizeForComparison(fm.direitos))) {
+    return `direitos: ${fm.direitos.trim()}`;
+  }
+  const publicar = fm.publicar;
+  if (publicar === false || (typeof publicar === 'string' && ['nao', 'false', 'no'].includes(normalizeForComparison(publicar)))) {
+    return `publicar: ${String(publicar)}`;
+  }
+  return undefined;
+}
+
+/** `autor:` que na verdade é o título da nota ("Henk Helmantel - Nova vida (Nieuw
+ *  Leven)") ou o nome do próprio arquivo. Nome de artista não tem " - " (hífen sem
+ *  espaços, como em "Kim Ki-chang", é normal). Foi esse campo torto que fez a lista de
+ *  exclusão por direitos não pegar 10 obras. */
+export function isPollutedAuthor(artist: string, filename: string): boolean {
+  const name = artist.trim();
+  if (!name) return false;
+  if (name.includes(' - ')) return true;
+  return normalizeForComparison(name) === normalizeForComparison(filename.replace(/\.md$/i, ''));
+}
