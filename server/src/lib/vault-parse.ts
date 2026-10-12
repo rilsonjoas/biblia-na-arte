@@ -483,6 +483,32 @@ export function parseTitleParts(rawTitle: string): { title: string; subtitle?: s
   return { title: stripTrailingNumber(trimmed) };
 }
 
+/** O vault não pode ter "?" no nome do arquivo (o Windows não aceita; ver seção
+ *  4.5 do Manual de Padronização), então "Weib, warum weinest du?" vira
+ *  "...weinest du" no subtítulo que sai do nome. O "?" faz parte do nome real
+ *  de algumas obras (Frye Museum, Tretyakov), e o `titulo_original` do
+ *  frontmatter guarda o texto verdadeiro. Esta função devolve o `titulo_original`
+ *  como subtítulo SÓ quando ele tem "?" e a única diferença pro subtítulo do
+ *  arquivo é a pontuação que o Windows proíbe (":" e "/" viram " - ", "?" some,
+ *  aspas duplas viram simples). Qualquer outra diferença mantém o subtítulo do
+ *  arquivo; ":" sem "?" também (muitas vezes é etiqueta de catálogo, "ES:", "nl:",
+ *  não parte do nome). */
+export function restoreQuestionMark(subtitle: string | undefined, tituloOriginal: string | undefined): string | undefined {
+  if (!subtitle || !tituloOriginal || !tituloOriginal.includes('?')) return subtitle;
+
+  const original = tituloOriginal.trim();
+  const windowsSafe = original
+    .replace(/\s*[:/]\s*/g, ' - ')
+    .replace(/\?/g, '')
+    .replace(/"/g, "'")
+    .replace(/\s+/g, ' ')
+    .trim();
+
+  // A barra nunca pôde estar no nome do arquivo, então o site sempre mostrou
+  // " - " no lugar dela; mantém isso, só o "?" volta.
+  return windowsSafe === subtitle.replace(/\s+/g, ' ').trim() ? original.replace(/\s*\/\s*/g, ' - ') : subtitle;
+}
+
 /** "Vozes dos clássicos" (roadmap Fase 5, 2026-08-23) — extrai a seção
  *  opcional "### Na leitura de {Autor}", onde Rookmaaker/Schaeffer/Lewis
  *  já comentaram (com fonte verificada, citação breve) a obra específica

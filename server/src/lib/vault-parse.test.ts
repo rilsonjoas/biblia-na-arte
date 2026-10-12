@@ -16,6 +16,7 @@ import {
   findExcludedArtist,
   normalizeForComparison,
   parseTitleParts,
+  restoreQuestionMark,
   titleFromFilename,
   findImageFile,
 } from './vault-parse.js';
@@ -545,6 +546,62 @@ describe('parseTitleParts', () => {
 
   it('não remove número de 3 dígitos como título de salmo', () => {
     expect(parseTitleParts('Salmo 148')).toEqual({ title: 'Salmo 148', subtitle: undefined });
+  });
+});
+
+// O vault tira "?" do nome do arquivo (o Windows não aceita), mas o "?" faz parte
+// do nome real de algumas obras. `titulo_original` no frontmatter guarda o
+// texto verdadeiro; o subtítulo do site só volta a ele quando a ÚNICA diferença
+// é a pontuação que o Windows proíbe.
+describe('restoreQuestionMark', () => {
+  it('devolve o "?" ao subtítulo (Fritz von Uhde, Frye Museum)', () => {
+    expect(restoreQuestionMark('Weib, warum weinest du', 'Weib, warum weinest du?')).toBe('Weib, warum weinest du?');
+  });
+
+  it('devolve o "?" no meio do texto, entre aspas francesas (Nikolai Ge)', () => {
+    expect(restoreQuestionMark('«Что есть истина» Христос и Пилат (1890)', '«Что есть истина?» Христос и Пилат (1890)')).toBe(
+      '«Что есть истина?» Христос и Пилат (1890)',
+    );
+  });
+
+  it('aceita a barra do frontmatter no lugar do " - " do arquivo e mantém o " - " que o site já mostrava (Polenov)', () => {
+    expect(
+      restoreQuestionMark(
+        '«Христос и грешница» («Кто без греха») - Christ and the Woman Taken in Adultery',
+        '«Христос и грешница» («Кто без греха?») / Christ and the Woman Taken in Adultery',
+      ),
+    ).toBe('«Христос и грешница» («Кто без греха?») - Christ and the Woman Taken in Adultery');
+  });
+
+  it('quando o título tem "?" e ":" juntos, devolve o texto original inteiro', () => {
+    expect(restoreQuestionMark('What is truth - a study', 'What is truth?: a study')).toBe('What is truth?: a study');
+  });
+
+  it('tolera espaços repetidos e nas pontas', () => {
+    expect(restoreQuestionMark('Where Have They Taken Him', '  Where Have  They Taken Him? ')).toBe('Where Have  They Taken Him?');
+  });
+
+  it('não mexe quando o original não tem "?" (":" de etiqueta de idioma continua virando " - ")', () => {
+    expect(
+      restoreQuestionMark(
+        'The Prodigal Son Feeding Swine (ES convencional - El hijo pródigo alimentando a los cerdos)',
+        'The Prodigal Son Feeding Swine (ES convencional: El hijo pródigo alimentando a los cerdos)',
+      ),
+    ).toBe('The Prodigal Son Feeding Swine (ES convencional - El hijo pródigo alimentando a los cerdos)');
+  });
+
+  it('não troca um subtítulo que difere do original em mais que pontuação', () => {
+    expect(restoreQuestionMark('The Last Supper', 'Das Abendmahl?')).toBe('The Last Supper');
+  });
+
+  it('não duplica o "?" quando o subtítulo do arquivo já o tem', () => {
+    expect(restoreQuestionMark('Who is this?', 'Who is this?')).toBe('Who is this?');
+  });
+
+  it('devolve o subtítulo como veio quando falta um dos dois lados', () => {
+    expect(restoreQuestionMark(undefined, 'Algo?')).toBeUndefined();
+    expect(restoreQuestionMark('Algo', undefined)).toBe('Algo');
+    expect(restoreQuestionMark('Algo', '')).toBe('Algo');
   });
 });
 
