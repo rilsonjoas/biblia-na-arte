@@ -1,0 +1,40 @@
+name: Reseed do catálogo
+
+# 2º tempo do reseed (ADR 008). O deploy já rodou o ENSAIO e deixou o relatório no log
+# do job "deploy" do CI. Este workflow, disparado à mão, refaz o ensaio e só então GRAVA
+# no banco de produção (uma transação: ou grava tudo ou nada).
+#
+# Como usar: GitHub → Actions → "Reseed do catálogo" → Run workflow → digite GRAVAR.
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirmar:
+        description: 'Digite GRAVAR para escrever o catálogo no banco de produção (leia antes o relatório do ensaio no log do deploy)'
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  reseed:
+    if: github.ref == 'refs/heads/main' && inputs.confirmar == 'GRAVAR'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    # Mesma fila do deploy: nunca reseeda no meio de um deploy.
+    concurrency:
+      group: deploy-vps
+      cancel-in-progress: false
+
+    steps:
+      - name: Ensaio + reseed no VPS
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.DEPLOY_SSH_KEY }}
+          script: |
+            set -euo pipefail
+            cd /opt/biblia-na-arte
+            scripts/reseed-if-data-changed.sh apply

@@ -31,6 +31,11 @@ pnpm --filter web dev   # olhar as obras novas/alteradas em localhost
 #    ATENÇÃO até 01/10/2026: cota de LFS estourada, não commitar imagem
 #    nova (ver "Cota de banda do Git LFS").
 
+# ATENÇÃO (ADR 008): o reseed agora é em dois tempos. O job `deploy` roda o ENSAIO sozinho
+#    quando vault-export.json, slug-redirects.json ou removed-slugs.json mudam (relatório no
+#    log do job); gravar é o workflow manual "Reseed do catálogo" (Actions → Run workflow →
+#    GRAVAR). O comando abaixo só é necessário fora desse fluxo (reparo).
+#
 # 5. Seed dos dados no Postgres de produção — via SSH, container one-off
 #    na proxy-network (não roda local contra prod). Espera o job `deploy` do "CI"
 #    (dispara sozinho no push) terminar primeiro — reseed usa o código já

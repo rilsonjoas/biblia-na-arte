@@ -161,9 +161,15 @@ jobs:
               exit 1
             fi
             cd /opt/biblia-na-arte
+            ANTES=$(git rev-parse HEAD)
             git pull --ff-only origin main
             cd ~/hetzner-infra
             make deploy service=biblia-na-arte
+            # Reseed do catálogo, 1º tempo (ADR 008): se os arquivos de dados mudaram,
+            # roda só o ENSAIO (DRY_RUN) e imprime o relatório; não grava. Se a trava
+            # abortar, o job fica vermelho. Gravar é o workflow manual "Reseed do catálogo".
+            cd /opt/biblia-na-arte
+            scripts/reseed-if-data-changed.sh dry "$ANTES"
             # Prune total pós-deploy (INCIDENTES.md 2026-08-23): sem filtro de
             # tempo — filtros semanais não pegam rajadas; e o prune simples (-f)
             # deixa registros compartilhados no disco (17,9GB invisíveis).
