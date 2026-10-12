@@ -20,6 +20,11 @@ overrides:
   # devDependency, nunca chega em produção, mas o pnpm audit não
   # diferencia isso e o CI trava mesmo assim.
   js-yaml: ">=4.3.2"
+  # CVE "high" de source-map-js (achado 2026-10-12, GHSA-68fv-2mgg-jv7q: DoS no
+  # event loop por offsets de seção em source map indexado, corrigido em 1.2.2)
+  # — transitiva via web>jsdom>css-tree, só em teste; css-tree aceita ^1.2.1, então
+  # o piso 1.2.2 é compatível. O pnpm audit não diferencia dev de prod.
+  source-map-js: ">=1.2.2"
 
 onlyBuiltDependencies:
   - esbuild
