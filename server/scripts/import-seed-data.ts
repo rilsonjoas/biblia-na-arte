@@ -19,15 +19,34 @@
  *
  * Uso: pnpm --filter server db:seed
  */
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
-import { and, eq, inArray, notInArray, sql } from 'drizzle-orm';
+import { TransactionRollbackError, and, eq, inArray, notInArray, sql } from 'drizzle-orm';
 import { db, closeDb } from '../src/db/client.js';
 import { artists, artworks, artworkThemes, bibleBooks, bibleReferences, themes } from '../src/db/schema.js';
 import { bibleBooksSeed } from '../src/db/seed-data/bible-books.js';
+import { listActiveVaultSlugs, remapDailyHistory, replaceArtworkRedirects } from '../src/db/seed-redirects.js';
 import { artworkIdFromSlug } from '../src/lib/deterministic-uuid.js';
+import {
+  findUnexplainedRemovals,
+  flattenRedirects,
+  formatProblems,
+  parseRedirectConfig,
+  validateRedirects,
+} from '../src/lib/slug-redirects.js';
 
 const EXPORT_JSON = path.resolve(import.meta.dirname, 'vault-export.json');
+// ADR 007: slug que mudou -> slug atual, e obras de propósito fora do site.
+const REDIRECTS_JSON = path.resolve(import.meta.dirname, 'slug-redirects.json');
+const REMOVED_JSON = path.resolve(import.meta.dirname, 'removed-slugs.json');
+
+/** DRY_RUN=1 faz o reseed inteiro dentro da transação, imprime o relatório e dá
+ *  rollback: nada é gravado. É o jeito de ver o que um reseed faria em produção. */
+const DRY_RUN = process.env.DRY_RUN === '1';
+
+function readOptionalJson(file: string): unknown {
+  return existsSync(file) ? JSON.parse(readFileSync(file, 'utf-8')) : undefined;
+}
 
 interface ExportedArtwork {
   slug: string;
@@ -76,9 +95,49 @@ async function main() {
     themes?: ExportedTheme[];
   };
 
-  console.log(`▶ ${exported.length} obras no export, importando...`);
+  console.log(`▶ ${exported.length} obras no export, ${DRY_RUN ? 'ENSAIO (DRY_RUN, nada será gravado)' : 'importando'}...`);
 
-  await db.transaction(async (tx) => {
+  // Redirecionamentos (ADR 007): valida ANTES de abrir a transação. Mapa torto,
+  // ciclo, destino fora do export ou slug vivo sombreado param o reseed aqui.
+  const config = parseRedirectConfig(readOptionalJson(REDIRECTS_JSON), readOptionalJson(REMOVED_JSON));
+  const { flat: redirects, problems: flattenProblems } = flattenRedirects(config.redirects);
+  const exportSlugs = new Set(exported.map((item) => item.slug));
+  const removedSlugs = new Set(config.removed);
+  const configProblems = [
+    ...config.problems,
+    ...flattenProblems,
+    ...validateRedirects(redirects, { exportSlugs, removedSlugs }),
+  ];
+  if (configProblems.length > 0) {
+    throw new Error(`Configuração de redirecionamento inválida (${configProblems.length}):\n${formatProblems(configProblems)}`);
+  }
+  console.log(`▶ ${Object.keys(redirects).length} redirecionamento(s) e ${removedSlugs.size} remoção(ões) declarada(s).`);
+
+  // O DRY_RUN termina a transação com tx.rollback(), que lança TransactionRollbackError:
+  // aqui isso vira `rolledBack = true`; qualquer outro erro continua subindo.
+  const rolledBack = await db.transaction(async (tx) => {
+    // Trava de "sumiço sem explicação" (ADR 007): obra ATIVA no banco que não está
+    // no export, sem redirecionamento nem remoção declarada, sumiria do site em
+    // silêncio (404 pra quem tem o link). Para antes de qualquer escrita.
+    const activeDbSlugs = await listActiveVaultSlugs(tx);
+    const unexplained = findUnexplainedRemovals({
+      activeDbSlugs,
+      exportSlugs,
+      redirectSources: new Set(Object.keys(redirects)),
+      removedSlugs,
+    });
+    if (unexplained.length > 0) {
+      throw new Error(
+        `${unexplained.length} obra(s) ativa(s) sumiriam do site sem explicação:\n` +
+          unexplained.map((slug) => `  - ${slug}`).join('\n') +
+          '\nSe o slug mudou, acrescente em server/scripts/slug-redirects.json ("antigo": "novo"). ' +
+          'Se a remoção é de propósito (ex.: direitos autorais), acrescente em server/scripts/removed-slugs.json.',
+      );
+    }
+    const existingVaultSlugs = new Set(
+      (await tx.select({ slug: artworks.slug }).from(artworks).where(eq(artworks.origem, 'vault'))).map((row) => row.slug),
+    );
+
     // bible_books/artists/themes não têm identidade externa que valha
     // preservar (nenhuma tem link público nem timestamp que importe) —
     // seguem truncados e recriados do zero, mesma simplicidade de
@@ -114,10 +173,25 @@ async function main() {
     // de submissão (origem 'submissao') nunca existiu no vault pra
     // "sair" dele, e não pode ser apagada por um reseed (ver ROADMAP,
     // "Submissão de artistas + painel administrativo").
-    console.log('▶ Removendo obras que saíram do vault...');
-    await tx
+    //
+    // O DELETE das obras que saíram agora roda DEPOIS do upsert (ADR 007: o
+    // histórico de daily_artwork precisa ser remapeado antes, porque a FK tem ON
+    // DELETE CASCADE). Mas uma linha antiga cujo id não bate com o do próprio slug
+    // (legado) bateria no UNIQUE do slug quando a obra nova fosse gravada; então
+    // essas, e só elas, continuam saindo ANTES do upsert, como sempre foi.
+    const conflictingLegacy = await tx
       .delete(artworks)
-      .where(and(notInArray(artworks.id, validIds), eq(artworks.origem, 'vault')));
+      .where(
+        and(
+          notInArray(artworks.id, validIds),
+          eq(artworks.origem, 'vault'),
+          inArray(artworks.slug, [...exportSlugs]),
+        ),
+      )
+      .returning({ slug: artworks.slug });
+    if (conflictingLegacy.length > 0) {
+      console.log(`▶ ${conflictingLegacy.length} linha(s) legada(s) com ID fora do padrão removida(s) antes do upsert.`);
+    }
 
     // bible_references não tem identidade própria (nada externo linka
     // pra uma referência individual) — mais simples limpar tudo dos
@@ -175,6 +249,28 @@ async function main() {
       }
     }
 
+    // ADR 007: histórico da Pintura do Dia das obras renomeadas passa pro ID novo ANTES
+    // do DELETE (a FK tem ON DELETE CASCADE e levaria o histórico junto).
+    console.log('▶ Remapeando o histórico da Pintura do Dia das obras renomeadas...');
+    const remappedHistory = await remapDailyHistory(tx, redirects);
+
+    console.log('▶ Removendo obras que saíram do vault...');
+    const removedRows = await tx
+      .delete(artworks)
+      .where(and(notInArray(artworks.id, validIds), eq(artworks.origem, 'vault')))
+      .returning({ slug: artworks.slug, active: artworks.active });
+
+    const redirectRows = await replaceArtworkRedirects(tx, redirects);
+
+    const newSlugs = [...exportSlugs].filter((slug) => !existingVaultSlugs.has(slug));
+    const removedActive = removedRows.filter((row) => row.active).map((row) => row.slug);
+    console.log('▶ Relatório do reseed:');
+    console.log(`    obras novas ................ ${newSlugs.length}`);
+    console.log(`    obras removidas (ativas) ... ${removedActive.length}${removedActive.length ? `  ${removedActive.slice(0, 5).join(', ')}` : ''}`);
+    console.log(`    obras removidas (inativas) . ${removedRows.length - removedActive.length}`);
+    console.log(`    histórico remapeado ........ ${remappedHistory} linha(s) de daily_artwork`);
+    console.log(`    redirecionamentos gravados . ${redirectRows}`);
+
     if (exportedArtists.length > 0) {
       console.log(`▶ Semeando artists (${exportedArtists.length})...`);
       await tx.insert(artists).values(
@@ -185,7 +281,21 @@ async function main() {
         })),
       );
     }
-  });
+
+    if (DRY_RUN) tx.rollback();
+  }).then(
+    () => false,
+    (error: unknown) => {
+      if (error instanceof TransactionRollbackError) return true;
+      throw error;
+    },
+  );
+
+  if (rolledBack) {
+    console.log('🧪 DRY_RUN: tudo foi feito dentro de uma transação e DESFEITO. Nada foi gravado.');
+    await closeDb();
+    return;
+  }
 
   console.log(
     `✅ Importação concluída: ${exported.length} obras, ${exportedArtists.length} artistas, ${exportedThemes.length} temas.`,

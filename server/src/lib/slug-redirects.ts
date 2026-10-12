@@ -13,7 +13,8 @@ export type RedirectProblemCode =
   | 'destino-fora-do-export'
   | 'slug-vivo-sombreado'
   | 'destino-removido'
-  | 'removido-ainda-no-export';
+  | 'removido-ainda-no-export'
+  | 'formato-invalido';
 
 export interface RedirectProblem {
   code: RedirectProblemCode;
@@ -124,4 +125,44 @@ export function findUnexplainedRemovals(args: {
 
 export function formatProblems(problems: readonly RedirectProblem[]): string {
   return problems.map((p) => `  ${p.code.padEnd(24)} ${p.slug || '(vazio)'}  ${p.detail}`).join('\n');
+}
+
+/** Lê o JSON já parseado de `slug-redirects.json` (`{ "antigo": "novo" }`) e de
+ *  `removed-slugs.json` (`["slug", ...]`). Arquivo ausente chega como `undefined`
+ *  e vale como vazio. Qualquer coisa fora do formato vira `formato-invalido` em
+ *  vez de ser lida pela metade: o reseed prefere parar a gravar com dado torto. */
+export function parseRedirectConfig(
+  rawRedirects: unknown,
+  rawRemoved: unknown,
+): { redirects: Record<string, string>; removed: string[]; problems: RedirectProblem[] } {
+  const redirects: Record<string, string> = {};
+  const removed: string[] = [];
+  const problems: RedirectProblem[] = [];
+
+  if (rawRedirects !== undefined) {
+    if (typeof rawRedirects !== 'object' || rawRedirects === null || Array.isArray(rawRedirects)) {
+      problems.push({ code: 'formato-invalido', slug: 'slug-redirects.json', detail: 'esperado um objeto { "slug-antigo": "slug-novo" }' });
+    } else {
+      for (const [from, to] of Object.entries(rawRedirects)) {
+        if (typeof to === 'string') redirects[from] = to;
+        else problems.push({ code: 'formato-invalido', slug: from, detail: `o destino de "${from}" precisa ser texto` });
+      }
+    }
+  }
+
+  if (rawRemoved !== undefined) {
+    if (!Array.isArray(rawRemoved)) {
+      problems.push({ code: 'formato-invalido', slug: 'removed-slugs.json', detail: 'esperada uma lista ["slug", ...]' });
+    } else {
+      for (const item of rawRemoved) {
+        if (typeof item !== 'string' || item === '') {
+          problems.push({ code: 'formato-invalido', slug: String(item), detail: 'item de removed-slugs.json precisa ser texto não vazio' });
+        } else if (!removed.includes(item)) {
+          removed.push(item);
+        }
+      }
+    }
+  }
+
+  return { redirects, removed, problems };
 }

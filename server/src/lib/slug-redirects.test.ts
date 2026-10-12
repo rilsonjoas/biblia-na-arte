@@ -4,6 +4,7 @@ import {
   findUnexplainedRemovals,
   flattenRedirects,
   formatProblems,
+  parseRedirectConfig,
   validateRedirects,
 } from './slug-redirects.js';
 
@@ -118,6 +119,46 @@ describe('findUnexplainedRemovals', () => {
 
   it('lida com banco vazio', () => {
     expect(findUnexplainedRemovals({ ...base, activeDbSlugs: [] })).toEqual([]);
+  });
+});
+
+describe('parseRedirectConfig', () => {
+  it('aceita um mapa de strings e uma lista de strings', () => {
+    const cfg = parseRedirectConfig({ antigo: 'novo' }, ['retirada']);
+    expect(cfg).toEqual({ redirects: { antigo: 'novo' }, removed: ['retirada'], problems: [] });
+  });
+
+  it('arquivo ausente (undefined) vale como vazio, sem problema', () => {
+    expect(parseRedirectConfig(undefined, undefined)).toEqual({ redirects: {}, removed: [], problems: [] });
+  });
+
+  it('recusa mapa que não é objeto (lista, null, texto)', () => {
+    for (const raw of [['a', 'b'], null, 'texto', 42]) {
+      const cfg = parseRedirectConfig(raw, []);
+      expect(cfg.redirects).toEqual({});
+      expect(cfg.problems.map((p) => p.code)).toEqual(['formato-invalido']);
+    }
+  });
+
+  it('recusa destino que não é texto e mantém as entradas boas', () => {
+    const cfg = parseRedirectConfig({ bom: 'novo', ruim: 7, pior: null }, []);
+    expect(cfg.redirects).toEqual({ bom: 'novo' });
+    expect(cfg.problems.map((p) => [p.code, p.slug]).sort()).toEqual([
+      ['formato-invalido', 'pior'],
+      ['formato-invalido', 'ruim'],
+    ]);
+  });
+
+  it('recusa lista de removidos que não é lista', () => {
+    const cfg = parseRedirectConfig({}, { a: 1 });
+    expect(cfg.removed).toEqual([]);
+    expect(cfg.problems.map((p) => p.code)).toEqual(['formato-invalido']);
+  });
+
+  it('recusa item de removidos vazio ou que não é texto, e tira duplicata', () => {
+    const cfg = parseRedirectConfig({}, ['a', 'a', '', 5, 'b']);
+    expect(cfg.removed).toEqual(['a', 'b']);
+    expect(cfg.problems).toHaveLength(2);
   });
 });
 
