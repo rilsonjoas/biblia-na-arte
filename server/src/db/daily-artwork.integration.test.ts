@@ -4,6 +4,7 @@ import postgres from 'postgres';
 import { drizzle } from 'drizzle-orm/postgres-js';
 import { migrate } from 'drizzle-orm/postgres-js/migrator';
 import { getDailyArtwork } from './queries.js';
+import { getDateSeed } from '../lib/daily-artwork.js';
 
 const MIGRATIONS_DIR = path.join(import.meta.dirname, 'migrations');
 
@@ -32,10 +33,16 @@ describe('getDailyArtwork — persistência e janela de não-repetição (Postgr
   // arquivo e reativa exatamente essas no fim, sem apagar dado alheio.
   let desativadasPorNos: string[] = [];
 
-  async function criarObra(artworkId: string, titulo: string, livroSlug: string, capitulo: number) {
+  async function criarObra(
+    artworkId: string,
+    titulo: string,
+    livroSlug: string,
+    capitulo: number,
+    comImagem = true,
+  ) {
     await sql`
       INSERT INTO artworks (id, title, artist_or_director, category, description, image_url)
-      VALUES (${artworkId}, ${titulo}, 'Artista de teste', 'painting', 'descrição', ${`/img/${artworkId}.jpg`})
+      VALUES (${artworkId}, ${titulo}, 'Artista de teste', 'painting', 'descrição', ${comImagem ? `/img/${artworkId}.jpg` : null})
     `;
     await sql`
       INSERT INTO bible_references (artwork_id, book, book_slug, chapter)
@@ -104,6 +111,41 @@ describe('getDailyArtwork — persistência e janela de não-repetição (Postgr
     const depois = await getDailyArtwork(DIA_29, DIA_29);
 
     expect(depois?.id).toBe(JETRO);
+  });
+
+  // Quem cadastra uma obra pode deixá-la incompleta (sem imagem) ou desativá-la. O pool precisa ignorar
+  // essas obras, senão a Pintura do Dia mostra um quadro sem imagem. Datas escolhidas para a obra ruim
+  // ser a primeira do pool (seed par, ordenada antes de JETRO): sem o filtro, ela seria a escolhida.
+  it('obra sem imagem NÃO entra no pool do capítulo', async () => {
+    await criarObra(JETRO, 'Jetro aconselhando a Moisés', 'exodus', 18);
+    await criarObra(OBRA_NOVA_EXODO, 'Obra sem imagem', 'exodus', 18, false);
+
+    expect(getDateSeed(DIA_29) % 2).toBe(0); // 1ª do pool = a obra sem imagem, se não fosse filtrada
+    const obra = await getDailyArtwork(DIA_29, DIA_29);
+    expect(obra?.id).toBe(JETRO);
+  });
+
+  it('obra inativa NÃO entra no pool do capítulo', async () => {
+    await criarObra(JETRO, 'Jetro aconselhando a Moisés', 'exodus', 18);
+    await criarObra(OBRA_NOVA_EXODO, 'Obra inativa', 'exodus', 18);
+    await sql`UPDATE artworks SET active = false WHERE id = ${OBRA_NOVA_EXODO}`;
+
+    const obra = await getDailyArtwork(DIA_29, DIA_29);
+    expect(obra?.id).toBe(JETRO);
+  });
+
+  it('obra sem imagem NÃO entra no sorteio do acervo inteiro (dia sem leitura catalogada)', async () => {
+    await criarObra(JETRO, 'Jetro aconselhando a Moisés', 'exodus', 18);
+    await criarObra(OBRA_NOVA_EXODO, 'Obra sem imagem', 'exodus', 18, false);
+
+    // dia fora da tabela de leituras (cai no pool global [OBRA_NOVA_EXODO, JETRO] por id) com seed par
+    const dia = Array.from({ length: 28 }, (_, i) => `2031-07-${String(i + 1).padStart(2, '0')}`).find(
+      (d) => getDateSeed(d) % 2 === 0,
+    )!;
+    expect(dia).toBeDefined();
+
+    const obra = await getDailyArtwork(dia, dia);
+    expect(obra?.id).toBe(JETRO);
   });
 
   it('datas futuras e passadas são calculadas sem gravar nada', async () => {
