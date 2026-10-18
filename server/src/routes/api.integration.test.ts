@@ -264,6 +264,20 @@ describe('API v1 — integração (Postgres real de teste)', () => {
     },
   );
 
+  it('"Pintura do Dia" — o 400 traz error, message e issues (o schema do OpenAPI não corta campos)', async () => {
+    const res = await app.inject({ method: 'GET', url: '/api/v1/artworks/daily?date=2026-13-45' });
+    expect(res.statusCode).toBe(400);
+    const corpo = res.json();
+    expect(corpo.error).toBe('validation_error');
+    expect(typeof corpo.message).toBe('string');
+    expect(corpo.issues?.date).toBeTruthy();
+  });
+
+  it('"Pintura do Dia" — a especificação OpenAPI declara a resposta 400', async () => {
+    const spec = app.swagger() as { paths: Record<string, { get?: { responses?: Record<string, unknown> } }> };
+    expect(Object.keys(spec.paths['/api/v1/artworks/daily']!.get!.responses!)).toContain('400');
+  });
+
   it('"Pintura do Dia" — ano bissexto existe (29/02/2028 → 200)', async () => {
     const res = await app.inject({ method: 'GET', url: '/api/v1/artworks/daily?date=2028-02-29' });
     expect(res.statusCode).toBe(200);

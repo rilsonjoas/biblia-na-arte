@@ -39,6 +39,16 @@ const dailyQueryJson = zodToJsonSchema(dailyArtworkQuerySchema, {
 const artworkJson = zodToJsonSchema(artworkResponseSchema, { $refStrategy: 'none' });
 const artworkListJson = zodToJsonSchema(artworkListResponseSchema, { $refStrategy: 'none' });
 const errorJson = zodToJsonSchema(errorResponseSchema, { $refStrategy: 'none' });
+// 400 de validação (`?date=` inválido ou inexistente no calendário): `error: 'validation_error'`,
+// `message` e `issues` (o Scriptorium usa `details` no lugar: diferença conhecida, registrada em
+// hetzner-infra/CONTRATOS-ENTRE-PROJETOS.md). `additionalProperties: true` para o Fastify NÃO cortar
+// `issues` da resposta: este schema só documenta no OpenAPI o que a API já devolve.
+const validationErrorJson = {
+  type: 'object',
+  properties: { error: { type: 'string' }, message: { type: 'string' } },
+  required: ['error', 'message'],
+  additionalProperties: true,
+} as const;
 
 export async function artworkRoutes(app: FastifyInstance) {
   // Cache HTTP simples — conteúdo muda raramente (curadoria manual, não
@@ -109,7 +119,7 @@ export async function artworkRoutes(app: FastifyInstance) {
         description:
           'Prioriza a leitura litúrgica do dia (tabela copiada do Lecionário — cobre domingos/festas até 2030-11-24 e dias de semana até 2028-11-29): escolhe entre as obras catalogadas na referência bíblica do dia, com hash determinístico da data. Nenhuma obra exibida nos últimos 30 dias volta: se o pool do capítulo esgotar, usa as obras das outras leituras do dia, depois as do livro, depois o acervo. Fora do período do Lecionário, ou se nenhuma leitura do dia tiver obra catalogada, cai pro sorteio determinístico sobre o acervo publicável. A obra de hoje é gravada na primeira consulta e não muda mais no dia, mesmo se o acervo crescer; `date` passado ou futuro devolve o gravado ou só calcula, sem gravar. O Lecionário consome este mesmo endpoint — as duas pontas mostram a mesma obra no mesmo dia. "Hoje" (quando `date` não é passado) é calculado no fuso de São Paulo, não UTC — achado real em produção (03/09/2026): UTC fazia virar o dia 3h antes do Lecionário, que usa hora local do dispositivo.',
         querystring: dailyQueryJson,
-        response: { 200: artworkJson, 404: errorJson },
+        response: { 200: artworkJson, 400: validationErrorJson, 404: errorJson },
       },
     },
     async (request, reply) => {
