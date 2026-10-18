@@ -39,10 +39,11 @@ const dailyQueryJson = zodToJsonSchema(dailyArtworkQuerySchema, {
 const artworkJson = zodToJsonSchema(artworkResponseSchema, { $refStrategy: 'none' });
 const artworkListJson = zodToJsonSchema(artworkListResponseSchema, { $refStrategy: 'none' });
 const errorJson = zodToJsonSchema(errorResponseSchema, { $refStrategy: 'none' });
-// 400 de validação (`?date=` inválido ou inexistente no calendário): `error: 'validation_error'`,
-// `message` e `issues` (o Scriptorium usa `details` no lugar: diferença conhecida, registrada em
-// hetzner-infra/CONTRATOS-ENTRE-PROJETOS.md). `additionalProperties: true` para o Fastify NÃO cortar
-// `issues` da resposta: este schema só documenta no OpenAPI o que a API já devolve.
+// 400 de validação (`?date=` inválido ou inexistente no calendário). Corpo único do cluster, igual ao do
+// Scriptorium (plugins/error-handler.ts): `{error: 'validation_error', message, issues: {campo: [mensagens]},
+// details: {issues: [...]}}` (hetzner-infra/CONTRATOS-ENTRE-PROJETOS.md, seção 5). `additionalProperties: true`
+// para o Fastify NÃO cortar campos da resposta: este schema só exige `error` e `message`; o resto é vigiado
+// pelo canário.
 const validationErrorJson = {
   type: 'object',
   properties: { error: { type: 'string' }, message: { type: 'string' } },
