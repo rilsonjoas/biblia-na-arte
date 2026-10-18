@@ -1,3 +1,4 @@
+import { isValidDateKey } from '../lib/date-key.js';
 import { z } from 'zod';
 import { paginationSchema } from './common.schema.js';
 
@@ -47,6 +48,7 @@ export const dailyArtworkQuerySchema = z.object({
   date: z
     .string()
     .regex(/^\d{4}-\d{2}-\d{2}$/, 'use o formato YYYY-MM-DD')
+    .refine(isValidDateKey, 'data inexistente no calendário')
     .optional(),
 });
 

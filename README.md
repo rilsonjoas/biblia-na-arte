@@ -81,12 +81,12 @@ pnpm lint           # Lint em todos os pacotes do workspace
 O site roda em `biblianaarte.narniano.com` (web) e
 `api-biblianaarte.narniano.com` (API) num VPS Hetzner, atrás do Traefik.
 
-**Fluxo automático (recomendado):** o workflow `.github/workflows/deploy.yml`
-faz o deploy a cada push em `main` — conecta por SSH no VPS, faz
+**Fluxo automático (recomendado):** o job `deploy` de `.github/workflows/ci.yml`
+roda a cada push em `main`, **depois** de o CI passar (não existe `deploy.yml`) — conecta por SSH no VPS, faz
 `git pull --ff-only` em `/opt/biblia-na-arte` (que é um clone real do
 GitHub) e roda `make deploy service=biblia-na-arte` no
 `~/hetzner-infra` (rebuilda as imagens e sobe os containers). Depois faz
-um smoke test nas URLs públicas.
+um smoke test nas URLs públicas. **Qualquer push em `main` faz deploy completo, inclusive só de documentação** (diferente do Scriptorium e do Lecionário, que ignoram `*.md`): agrupe mudanças de docs com outras. Se os arquivos de dados do catálogo mudaram, o deploy também roda o 1º tempo do reseed (só ensaio, não grava; ver `docs/RUNBOOK.md`).
 
 **Fluxo manual (se precisar):**
 
@@ -100,6 +100,24 @@ O VPS acessa o GitHub via deploy key read-only do repo (nunca use uma
 chave com acesso de escrita pra isso). O GitHub Actions acessa o VPS via
 uma chave SSH própria, instalada em `~/.ssh/authorized_keys`, com os
 segredos `DEPLOY_SSH_KEY`, `VPS_HOST` e `VPS_USER` configurados no repo.
+
+## Integrações com outros projetos
+
+| Direção | Projeto | Rota ou arquivo | Para quê |
+|---|---|---|---|
+| expõe | Lecionário (web e mobile), Scriptorium web | `GET /api/v1/artworks/daily[?date=]` | Pintura do Dia |
+| consome | Lecionário | `server/src/data/daily-readings-refs.json` (cópia manual) | Escolhe a obra pela leitura litúrgica e pela estação |
+
+Formato da Pintura do Dia (o que os consumidores leem): `id`, `title`, `artistOrDirector`, `description`, `imageUrl?` (caminho relativo, o consumidor monta com o host), `sourceUrl?` e `references[]` com `book`, `chapter`, `verses?`. A resposta **não traz a data do dia**. A especificação completa está em `/docs`.
+
+**A tabela de leituras vem do Lecionário.** Se o calendário de lá mudar e esta cópia ficar para trás, a Pintura do Dia daqui e a do Lecionário passam a escolher obras diferentes no mesmo dia, sem nenhum erro. O teste `server/src/lib/lectionary-refs-sync.test.ts` compara a cópia com o arquivo oficial do Lecionário (`lecionario-web/data/daily-readings-refs.json`) e reprova se divergirem; GitHub fora do ar só avisa. Para atualizar, copie o arquivo oficial para `server/src/data/daily-readings-refs.json`.
+
+**Regras que valem para as três APIs** (o resto do cluster depende delas):
+1. O "hoje" do cluster é `America/Sao_Paulo`. Nunca monte datas com `toISOString()` (é UTC e vira o dia 3 h antes).
+2. Quem mostra um dia **manda a data que a tela mostra** (`?date=AAAA-MM-DD`). Sem isso, navegar entre dias repete o mesmo conteúdo (foi o bug da Citação do dia em 17/10/2026).
+3. Data que não existe no calendário (`2026-13-45`) responde **400** nas três APIs.
+4. Mudança de contrato é **aditiva**: campo novo e rota nova podem; remover, renomear ou trocar tipo só depois de migrar os consumidores.
+5. Um canário em produção confere o formato dessas rotas de hora em hora e avisa o Uptime Kuma. O mapa completo (todas as rotas, formatos, situações limite, runbook) fica em `CONTRATOS-ENTRE-PROJETOS.md` no repositório de infraestrutura, que é privado.
 
 ## Tecnologias Utilizadas
 

@@ -27,3 +27,8 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Segredos e caches que só existem no VPS (clone em /opt/biblia-na-arte). O token de
+# disparo do post diário NÃO estava ignorado (scripts/trigger-daily-post.sh dizia que sim).
+.github-dispatch-token
+.pnpm-store/

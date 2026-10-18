@@ -256,6 +256,19 @@ describe('API v1 — integração (Postgres real de teste)', () => {
     expect(res.statusCode).toBe(400);
   });
 
+  it.each(['2026-13-45', '2026-02-30', '2027-02-29', '2026-00-10'])(
+    '"Pintura do Dia" — 400 (e não 500) pra data que não existe no calendário: %s',
+    async (d) => {
+      const res = await app.inject({ method: 'GET', url: `/api/v1/artworks/daily?date=${d}` });
+      expect(res.statusCode).toBe(400);
+    },
+  );
+
+  it('"Pintura do Dia" — ano bissexto existe (29/02/2028 → 200)', async () => {
+    const res = await app.inject({ method: 'GET', url: '/api/v1/artworks/daily?date=2028-02-29' });
+    expect(res.statusCode).toBe(200);
+  });
+
   it('filtra por livro + capítulo (base da futura página de capítulo)', async () => {
     const res = await app.inject({ method: 'GET', url: '/api/v1/artworks?bookSlug=luke&chapter=10' });
     expect(res.statusCode).toBe(200);
