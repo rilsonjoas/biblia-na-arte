@@ -4,6 +4,8 @@ on:
   push:
     branches: [main]
     tags: ['v*']
+    # Push só de documentação não refaz build nem deploy. O pull_request continua rodando sempre.
+    paths-ignore: ['**.md']
   pull_request:
 
 permissions:
