@@ -81,12 +81,12 @@ pnpm lint           # Lint em todos os pacotes do workspace
 O site roda em `biblianaarte.narniano.com` (web) e
 `api-biblianaarte.narniano.com` (API) num VPS Hetzner, atrás do Traefik.
 
-**Fluxo automático (recomendado):** o workflow `.github/workflows/deploy.yml`
-faz o deploy a cada push em `main` — conecta por SSH no VPS, faz
+**Fluxo automático (recomendado):** o job `deploy` de `.github/workflows/ci.yml`
+roda a cada push em `main`, **depois** de o CI passar (não existe `deploy.yml`) — conecta por SSH no VPS, faz
 `git pull --ff-only` em `/opt/biblia-na-arte` (que é um clone real do
 GitHub) e roda `make deploy service=biblia-na-arte` no
 `~/hetzner-infra` (rebuilda as imagens e sobe os containers). Depois faz
-um smoke test nas URLs públicas.
+um smoke test nas URLs públicas. **Qualquer push em `main` faz deploy completo, inclusive só de documentação** (diferente do Scriptorium e do Lecionário, que ignoram `*.md`): agrupe mudanças de docs com outras. Se os arquivos de dados do catálogo mudaram, o deploy também roda o 1º tempo do reseed (só ensaio, não grava; ver `docs/RUNBOOK.md`).
 
 **Fluxo manual (se precisar):**
 
