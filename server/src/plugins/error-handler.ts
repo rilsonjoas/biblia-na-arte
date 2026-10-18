@@ -12,6 +12,16 @@ export class NotFoundError extends Error {
   }
 }
 
+/** Mapa campo → mensagens a partir do erro de validação do Fastify (schema JSON da rota). */
+function issuesDoFastify(validation: NonNullable<FastifyError['validation']>): Record<string, string[]> {
+  const out: Record<string, string[]> = {};
+  for (const v of validation) {
+    const campo = v.instancePath.replace(/^\//, '') || String(v.params?.missingProperty ?? 'parametros');
+    (out[campo] ??= []).push(v.message ?? 'inválido');
+  }
+  return out;
+}
+
 export function registerErrorHandler(app: FastifyInstance) {
   app.setErrorHandler((error: FastifyError | Error, request, reply) => {
     if (error instanceof ZodError) {
@@ -19,6 +29,7 @@ export function registerErrorHandler(app: FastifyInstance) {
         error: 'validation_error',
         message: 'Parâmetros inválidos',
         issues: error.flatten().fieldErrors,
+        details: { issues: error.issues },
       });
     }
 
@@ -38,13 +49,15 @@ export function registerErrorHandler(app: FastifyInstance) {
       return reply.status(502).send({ error: 'upstream_error', message: error.message });
     }
 
-    // Validação do Fastify (schemas JSON das rotas) — mesmo formato do Zod,
-    // pra quem consome a API não precisar saber de qual camada veio o 400.
+    // Validação do Fastify (schemas JSON das rotas) — mesmo corpo do Zod, pra quem consome a API não
+    // precisar saber de qual camada veio o 400. Igual ao Scriptorium (hetzner-infra/CONTRATOS-ENTRE-PROJETOS.md,
+    // seção 5): `issues` é sempre um mapa campo → mensagens; `details.issues` guarda a lista crua.
     if ('validation' in error && error.validation) {
       return reply.status(400).send({
         error: 'validation_error',
         message: 'Parâmetros inválidos',
-        issues: error.validation,
+        issues: issuesDoFastify(error.validation),
+        details: { issues: error.validation },
       });
     }
 

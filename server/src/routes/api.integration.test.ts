@@ -273,6 +273,19 @@ describe('API v1 — integração (Postgres real de teste)', () => {
     expect(corpo.issues?.date).toBeTruthy();
   });
 
+  // Corpo único do 400 nas duas APIs (hetzner-infra/CONTRATOS-ENTRE-PROJETOS.md, seção 5); o teste irmão
+  // do Scriptorium está em quotes-gravada.integration.test.ts. Zod e validação do Fastify dão o mesmo corpo.
+  it.each(['2026-13-45', 'abc'])('"Pintura do Dia" — o corpo do 400 é o padrão do cluster (date=%s)', async (d) => {
+    const res = await app.inject({ method: 'GET', url: `/api/v1/artworks/daily?date=${d}` });
+    expect(res.statusCode).toBe(400);
+    const corpo = res.json();
+    expect(corpo.error).toBe('validation_error');
+    expect(corpo.message).toBe('Parâmetros inválidos');
+    expect(Array.isArray(corpo.issues.date)).toBe(true);
+    expect(typeof corpo.issues.date[0]).toBe('string');
+    expect(Array.isArray(corpo.details.issues)).toBe(true);
+  });
+
   it('"Pintura do Dia" — a especificação OpenAPI declara a resposta 400', async () => {
     const spec = app.swagger() as { paths: Record<string, { get?: { responses?: Record<string, unknown> } }> };
     expect(Object.keys(spec.paths['/api/v1/artworks/daily']!.get!.responses!)).toContain('400');
