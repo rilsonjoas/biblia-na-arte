@@ -54,12 +54,20 @@ async function main() {
 
   console.log('2/3 Trocando short → long-lived...');
   const ex = await fetch(
-    `https://graph.instagram.com/access_token?grant_type=ig_exchange_code&client_secret=${encodeURIComponent(secret)}&access_token=${encodeURIComponent(shortToken)}`,
+    `https://graph.instagram.com/access_token?grant_type=ig_exchange_token&client_secret=${encodeURIComponent(secret)}&access_token=${encodeURIComponent(shortToken)}`,
   );
   const exBody = await ex.json();
-  if (exBody.error) { console.error(`✗ Exchange falhou: ${JSON.stringify(exBody.error)}`); process.exit(1); }
-  const longToken = exBody.access_token;
-  console.log(`   ✓ Long-lived OK (expira em ~${Math.round((exBody.expires_in ?? 0) / 86400)} dias)`);
+  let longToken;
+  if (exBody.error?.error_subcode === 2207055) {
+    // Token gerado no painel do app já é long-lived (60 dias); a troca só aceita short-lived.
+    longToken = shortToken;
+    console.log('   ✓ Token já é long-lived (gerado no painel); usando como está');
+  } else if (exBody.error) {
+    console.error(`✗ Exchange falhou: ${JSON.stringify(exBody.error)}`); process.exit(1);
+  } else {
+    longToken = exBody.access_token;
+    console.log(`   ✓ Long-lived OK (expira em ~${Math.round((exBody.expires_in ?? 0) / 86400)} dias)`);
+  }
 
   console.log('3/3 Gravando secret no GitHub...');
   execSync('gh secret set INSTAGRAM_ACCESS_TOKEN', { input: `${longToken}\n`, stdio: ['pipe', 'ignore', 'inherit'] });
