@@ -1,0 +1,86 @@
+{
+  "fonte": "hetzner-infra/vetores/hoje-sao-paulo.json (a cópia nos repositórios deve ser idêntica; make test-vetores confere)",
+  "descricao": "Instante UTC e a data civil de America/Sao_Paulo esperada. O 'hoje' do cluster é essa data (UTC-3 fixo desde 2019).",
+  "casos": [
+    {
+      "utc": "2026-10-30T02:59:59Z",
+      "esperado": "2026-10-29",
+      "nota": "um segundo antes da meia-noite de SP"
+    },
+    {
+      "utc": "2026-10-30T03:00:00Z",
+      "esperado": "2026-10-30",
+      "nota": "meia-noite exata de SP: dia novo"
+    },
+    {
+      "utc": "2026-10-30T03:00:01Z",
+      "esperado": "2026-10-30",
+      "nota": "um segundo depois da meia-noite de SP"
+    },
+    {
+      "utc": "2026-10-30T12:00:00Z",
+      "esperado": "2026-10-30",
+      "nota": "meio-dia UTC (09:00 em SP)"
+    },
+    {
+      "utc": "2026-10-30T23:59:59Z",
+      "esperado": "2026-10-30",
+      "nota": "fim do dia UTC ainda é o mesmo dia em SP (20:59)"
+    },
+    {
+      "utc": "2026-10-31T02:59:59Z",
+      "esperado": "2026-10-30",
+      "nota": "última hora do dia de SP, já no dia seguinte em UTC"
+    },
+    {
+      "utc": "2026-10-31T03:00:00Z",
+      "esperado": "2026-10-31",
+      "nota": "meia-noite de SP no dia seguinte"
+    },
+    {
+      "utc": "2026-12-31T23:59:59Z",
+      "esperado": "2026-12-31",
+      "nota": "último segundo do ano em UTC ainda é 31/12 em SP"
+    },
+    {
+      "utc": "2027-01-01T02:59:59Z",
+      "esperado": "2026-12-31",
+      "nota": "virada de ano: ainda 31/12 em SP"
+    },
+    {
+      "utc": "2027-01-01T03:00:00Z",
+      "esperado": "2027-01-01",
+      "nota": "virada de ano: 01/01 em SP"
+    },
+    {
+      "utc": "2026-03-01T02:59:59Z",
+      "esperado": "2026-02-28",
+      "nota": "virada de mês: fim de fevereiro de 2026 (não bissexto)"
+    },
+    {
+      "utc": "2026-03-01T03:00:00Z",
+      "esperado": "2026-03-01",
+      "nota": "virada de mês: 1º de março"
+    },
+    {
+      "utc": "2028-03-01T02:59:59Z",
+      "esperado": "2028-02-29",
+      "nota": "ano bissexto: 29/02/2028 existe"
+    },
+    {
+      "utc": "2028-03-01T03:00:00Z",
+      "esperado": "2028-03-01",
+      "nota": "ano bissexto: depois do 29/02"
+    },
+    {
+      "utc": "2026-01-15T02:30:00Z",
+      "esperado": "2026-01-14",
+      "nota": "janeiro (antigo horário de verão, UTC-2): ainda 14/01; o fuso hoje é UTC-3 o ano todo"
+    },
+    {
+      "utc": "2026-07-01T02:59:59Z",
+      "esperado": "2026-06-30",
+      "nota": "meio do ano: virada de mês em junho/julho"
+    }
+  ]
+}

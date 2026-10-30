@@ -33,9 +33,10 @@ export function getLectionaryEntry(dateStr: string): LectionaryEntry | undefined
  *  no código. Espelha `web/src/lib/api-data.ts` (`todaySaoPaulo`), sem
  *  pacote compartilhado, mesmo padrão de duplicação do resto do
  *  projeto. `Intl.DateTimeFormat('en-CA', ...)` formata como
- *  YYYY-MM-DD nativamente, sem precisar de date-fns-tz. */
-export function todaySaoPaulo(): string {
-  return new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Sao_Paulo' }).format(new Date());
+ *  YYYY-MM-DD nativamente, sem precisar de date-fns-tz. `now` existe para os
+ *  vetores de teste do cluster (hetzner-infra/vetores/hoje-sao-paulo.json). */
+export function todaySaoPaulo(now: Date = new Date()): string {
+  return new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Sao_Paulo' }).format(now);
 }
 
 /** Estação litúrgica → slugs de tema já cadastrados no catálogo (checado
