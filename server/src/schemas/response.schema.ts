@@ -48,6 +48,12 @@ export const artworkResponseSchema = z.object({
   references: z.array(bibleReferenceResponseSchema),
 });
 
+// `GET /artworks/daily`: a obra mais o dia a que ela se refere (`AAAA-MM-DD`, o `?date=` pedido ou o "hoje" de
+// São Paulo). Campo aditivo (R1); permite ao canário conferir o fuso (CONTRATOS 2.3).
+export const dailyArtworkResponseSchema = artworkResponseSchema.extend({
+  date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
+});
+
 export const artworkListResponseSchema = z.object({
   items: z.array(artworkResponseSchema),
   total: z.number().int().nonnegative(),

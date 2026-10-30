@@ -105,7 +105,7 @@ segredos `DEPLOY_SSH_KEY`, `VPS_HOST` e `VPS_USER` configurados no repo.
 
 | Direção | Projeto | Rota ou arquivo | Para quê |
 |---|---|---|---|
-| expõe | Lecionário (web e mobile), Scriptorium web | `GET /api/v1/artworks/daily[?date=]` | Pintura do Dia |
+| expõe | Lecionário (web e mobile), Scriptorium web | `GET /api/v1/artworks/daily[?date=]` | Pintura do Dia (a resposta traz também `date`, AAAA-MM-DD, desde 30/10/2026) |
 | consome | Lecionário | `server/src/data/daily-readings-refs.json` (cópia manual) | Escolhe a obra pela leitura litúrgica e pela estação |
 
 Formato da Pintura do Dia (o que os consumidores leem): `id`, `title`, `artistOrDirector`, `description`, `imageUrl?` (caminho relativo, o consumidor monta com o host), `sourceUrl?` e `references[]` com `book`, `chapter`, `verses?`. A resposta **não traz a data do dia**. A especificação completa está em `/docs`.
