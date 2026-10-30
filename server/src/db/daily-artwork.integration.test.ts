@@ -148,15 +148,88 @@ describe('getDailyArtwork — persistência e janela de não-repetição (Postgr
     expect(obra?.id).toBe(JETRO);
   });
 
-  it('datas futuras e passadas são calculadas sem gravar nada', async () => {
-    await criarObra(JETRO, 'Jetro aconselhando a Moisés', 'exodus', 18);
+  // Janela de gravação (F6b): fora do calendário do Lecionário, sorteio sobre o acervo. Pool maior que a
+  // janela de não repetição, para toda escolha ser distinta e a sequência ficar determinística.
+  const HOJE = '2035-03-01';
+  const dia = (n: number) => `2035-03-${String(n).padStart(2, '0')}`;
+  const poolId = (n: number) => id(1000 + n);
 
-    const futura = await getDailyArtwork('2026-09-30', DIA_29);
-    const passada = await getDailyArtwork('2026-09-01', DIA_29);
+  async function criarPool(tamanho: number, de = 0) {
+    for (let i = de; i < de + tamanho; i++) await criarObra(poolId(i), `Obra ${i}`, 'genesis', 1);
+  }
 
-    expect(futura).toBeDefined();
-    expect(passada).toBeDefined();
-    expect(await gravados()).toEqual([]);
+  async function sequenciaGravada(): Promise<string[]> {
+    return (await gravados()).map((g) => g.artwork_id);
+  }
+
+  it('grava de hoje até a data pedida dentro dos próximos 30 dias; passado e além disso só calculam', async () => {
+    await criarPool(40);
+
+    expect(await getDailyArtwork(dia(4), HOJE)).toBeDefined();
+    expect((await gravados()).map((g) => g.date)).toEqual([dia(1), dia(2), dia(3), dia(4)]);
+
+    expect(await getDailyArtwork('2035-02-01', HOJE)).toBeDefined(); // passado
+    expect(await gravados()).toHaveLength(4);
+
+    expect(await getDailyArtwork(dia(31), HOJE)).toBeDefined(); // hoje + 30: grava tudo
+    expect(await gravados()).toHaveLength(31);
+
+    expect(await getDailyArtwork('2035-04-01', HOJE)).toBeDefined(); // hoje + 31: só calcula
+    expect(await gravados()).toHaveLength(31);
+  });
+
+  it('pedir um dia distante primeiro dá a mesma sequência de pedir dia a dia', async () => {
+    await criarPool(40);
+    for (let n = 1; n <= 10; n++) await getDailyArtwork(dia(n), HOJE);
+    const diaADia = await sequenciaGravada();
+    await sql`DELETE FROM daily_artwork`;
+
+    await getDailyArtwork(dia(10), HOJE);
+
+    expect(await sequenciaGravada()).toEqual(diaADia);
+    expect(new Set(diaADia).size).toBe(10);
+  });
+
+  it('obra de um dia futuro retirada por direitos: o dia é recalculado, os outros não mudam e nada repete na janela', async () => {
+    await criarPool(4);
+    await getDailyArtwork(dia(3), HOJE); // dias 1, 2 e 3 gravados; sobra 1 obra do pool
+    const antes = await gravados();
+    const escolhaDoDia2 = antes[1]!.artwork_id;
+    const sobra = [0, 1, 2, 3].map(poolId).find((a) => !antes.some((g) => g.artwork_id === a))!;
+
+    await sql`UPDATE artworks SET active = false WHERE id = ${escolhaDoDia2}`;
+    const depois = await getDailyArtwork(dia(2), HOJE);
+
+    expect(depois?.id).toBe(sobra); // a única que não repete nem o dia 1 nem o dia 3
+    const gravadosDepois = await gravados();
+    expect(gravadosDepois.map((g) => g.date)).toEqual([dia(1), dia(2), dia(3)]);
+    expect(gravadosDepois[0]).toEqual(antes[0]);
+    expect(gravadosDepois[2]).toEqual(antes[2]);
+    expect(gravadosDepois[1]!.artwork_id).toBe(sobra);
+  });
+
+  it('chamadas simultâneas de datas diferentes gravam uma linha por dia, com as escolhas da sequência', async () => {
+    await criarPool(40);
+    for (let n = 1; n <= 8; n++) await getDailyArtwork(dia(n), HOJE);
+    const esperado = await sequenciaGravada();
+    await sql`DELETE FROM daily_artwork`;
+
+    const datas = [3, 5, 2, 8, 8, 1, 4, 6, 7, 5].map(dia);
+    await Promise.all(datas.map((d) => getDailyArtwork(d, HOJE)));
+
+    expect(await gravados()).toHaveLength(8);
+    expect(await sequenciaGravada()).toEqual(esperado);
+  });
+
+  it('obra nova no acervo não muda os dias futuros já gravados', async () => {
+    await criarPool(40);
+    await getDailyArtwork(dia(5), HOJE);
+    const antes = await gravados();
+
+    await criarPool(15, 100);
+    await getDailyArtwork(dia(5), HOJE);
+
+    expect(await gravados()).toEqual(antes);
   });
 
   it('a prévia de amanhã leva em conta o que já foi gravado hoje', async () => {

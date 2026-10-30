@@ -17,6 +17,7 @@ import type { CreateSubmissionInput, UpdateSubmissionInput } from '../schemas/su
 import { getLectionaryEntry, SEASON_THEME_SLUGS, todaySaoPaulo } from '../lib/lectionary-refs.js';
 import {
   DAILY_NO_REPEAT_WINDOW_DAYS,
+  DAILY_PERSIST_AHEAD_DAYS,
   buildDailyTiers,
   chapterKey,
   getDateSeed,
@@ -256,8 +257,8 @@ export async function getRandomArtwork(): Promise<ArtworkWithReferences | undefi
  *  dia" e ela não ter imagem pra mostrar). `orderBy(artworks.id)` pra
  *  ordem estável — o `seed % length` precisa ser reprodutível entre
  *  chamadas. Devolve só os ids. */
-async function getArtworkIdsForReference(bookSlug: string, chapter: number): Promise<string[]> {
-  const rows = await db
+async function getArtworkIdsForReference(bookSlug: string, chapter: number, exec: Executor = db): Promise<string[]> {
+  const rows = await exec
     .selectDistinct({ id: artworks.id })
     .from(bibleReferences)
     .innerJoin(artworks, eq(artworks.id, bibleReferences.artworkId))
@@ -274,8 +275,8 @@ async function getArtworkIdsForReference(bookSlug: string, chapter: number): Pro
 }
 
 /** Obras publicáveis com alguma referência no livro (qualquer capítulo). */
-async function getArtworkIdsForBook(bookSlug: string): Promise<string[]> {
-  const rows = await db
+async function getArtworkIdsForBook(bookSlug: string, exec: Executor = db): Promise<string[]> {
+  const rows = await exec
     .selectDistinct({ id: artworks.id })
     .from(bibleReferences)
     .innerJoin(artworks, eq(artworks.id, bibleReferences.artworkId))
@@ -287,8 +288,8 @@ async function getArtworkIdsForBook(bookSlug: string): Promise<string[]> {
 /** Acervo inteiro publicável (ativo e com imagem) — o último recurso da
  *  escolha do dia. Antes o sorteio global não exigia imagem, e o script de
  *  publicação aborta em obra sem imagem. */
-async function getPublishableArtworkIds(): Promise<string[]> {
-  const rows = await db
+async function getPublishableArtworkIds(exec: Executor = db): Promise<string[]> {
+  const rows = await exec
     .select({ id: artworks.id })
     .from(artworks)
     .where(and(eq(artworks.active, true), isNotNull(artworks.imageUrl)))
@@ -300,9 +301,9 @@ async function getPublishableArtworkIds(): Promise<string[]> {
  *  litúrgica da Pintura do Dia", 2026-09-03): quais obras do pool têm um dos
  *  temas da estação. Quem usa (`buildDailyTiers`) ignora o refinamento se
  *  ele zerar o pool — estritamente aditivo, nunca perde candidato. */
-async function getThemedArtworkIds(ids: string[], themeSlugs: string[]): Promise<Set<string>> {
+async function getThemedArtworkIds(ids: string[], themeSlugs: string[], exec: Executor = db): Promise<Set<string>> {
   if (ids.length === 0 || themeSlugs.length === 0) return new Set();
-  const matches = await db
+  const matches = await exec
     .select({ artworkId: artworkThemes.artworkId })
     .from(artworkThemes)
     .where(and(inArray(artworkThemes.artworkId, ids), inArray(artworkThemes.themeSlug, themeSlugs)));
@@ -315,27 +316,37 @@ function shiftDate(dateStr: string, days: number): string {
   return date.toISOString().slice(0, 10);
 }
 
+/** `db` ou a transação em andamento: a gravação sequencial da janela precisa ler as linhas que ela
+ *  mesma acabou de gravar, e isso só é visível dentro da transação. */
+type Executor = Pick<typeof db, 'select' | 'selectDistinct' | 'delete' | 'insert' | 'execute'>;
+
 /** Obras mostradas nos `DAILY_NO_REPEAT_WINDOW_DAYS` dias antes de `dateStr`
  *  (o próprio dia fica de fora). Dia sem linha simplesmente não exclui nada
- *  — ninguém viu obra nenhuma nele. */
-async function getRecentDailyArtworkIds(dateStr: string): Promise<Set<string>> {
-  const rows = await db
-    .select({ artworkId: dailyArtwork.artworkId })
+ *  — ninguém viu obra nenhuma nele. Com `bothSides`, olha também os dias
+ *  DEPOIS: usado ao recalcular um dia no meio de uma janela já gravada (obra
+ *  retirada por direitos), para a nova escolha não repetir a de um dia seguinte. */
+async function getRecentDailyArtworkIds(
+  dateStr: string,
+  exec: Executor = db,
+  bothSides = false,
+): Promise<Set<string>> {
+  const rows = await exec
+    .select({ artworkId: dailyArtwork.artworkId, date: dailyArtwork.date })
     .from(dailyArtwork)
     .where(
       and(
         gte(dailyArtwork.date, shiftDate(dateStr, -DAILY_NO_REPEAT_WINDOW_DAYS)),
-        lt(dailyArtwork.date, dateStr),
+        bothSides ? lt(dailyArtwork.date, shiftDate(dateStr, DAILY_NO_REPEAT_WINDOW_DAYS + 1)) : lt(dailyArtwork.date, dateStr),
       ),
     );
-  return new Set(rows.map((r) => r.artworkId));
+  return new Set(rows.filter((r) => r.date !== dateStr).map((r) => r.artworkId));
 }
 
 /** Obra gravada pra essa data, só se ainda for publicável — obra desativada
  *  depois (ex.: retirada por direitos autorais, docs/AUDITORIA-COPYRIGHT.md)
  *  não pode continuar sendo servida por já estar gravada. */
-async function findPersistedDailyArtwork(dateStr: string): Promise<ArtworkRow | undefined> {
-  const [row] = await db
+async function findPersistedDailyArtwork(dateStr: string, exec: Executor = db): Promise<ArtworkRow | undefined> {
+  const [row] = await exec
     .select({ artwork: artworks })
     .from(dailyArtwork)
     .innerJoin(artworks, eq(artworks.id, dailyArtwork.artworkId))
@@ -346,10 +357,14 @@ async function findPersistedDailyArtwork(dateStr: string): Promise<ArtworkRow | 
 /** Calcula (sem gravar) a obra da data: candidatas da leitura litúrgica do
  *  dia, da mais ligada à leitura pra menos (`buildDailyTiers`), pulando as
  *  que saíram na janela de não-repetição. */
-async function computeDailyArtworkId(dateStr: string): Promise<string | undefined> {
+async function computeDailyArtworkId(
+  dateStr: string,
+  exec: Executor = db,
+  bothSides = false,
+): Promise<string | undefined> {
   const [recentIds, globalPool] = await Promise.all([
-    getRecentDailyArtworkIds(dateStr),
-    getPublishableArtworkIds(),
+    getRecentDailyArtworkIds(dateStr, exec, bothSides),
+    getPublishableArtworkIds(exec),
   ]);
 
   const entry = getLectionaryEntry(dateStr);
@@ -360,17 +375,17 @@ async function computeDailyArtworkId(dateStr: string): Promise<string | undefine
   const bookPools = new Map<string, string[]>();
   await Promise.all([
     ...chapters.map(async (c) => {
-      chapterPools.set(chapterKey(c.bookSlug, c.chapter), await getArtworkIdsForReference(c.bookSlug, c.chapter));
+      chapterPools.set(chapterKey(c.bookSlug, c.chapter), await getArtworkIdsForReference(c.bookSlug, c.chapter, exec));
     }),
     ...books.map(async (book) => {
-      bookPools.set(book, await getArtworkIdsForBook(book));
+      bookPools.set(book, await getArtworkIdsForBook(book, exec));
     }),
   ]);
 
   const themeSlugs = (entry && SEASON_THEME_SLUGS[entry.season]) ?? [];
   const themedIds =
     themeSlugs.length > 0
-      ? await getThemedArtworkIds([...new Set([...chapterPools.values()].flat())], themeSlugs)
+      ? await getThemedArtworkIds([...new Set([...chapterPools.values()].flat())], themeSlugs, exec)
       : undefined;
 
   const tiers = buildDailyTiers(refs, { chapterPools, bookPools, ...(themedIds ? { themedIds } : {}) }, globalPool);
@@ -407,33 +422,63 @@ export async function getDailyArtwork(
   dateStr: string,
   today: string = todaySaoPaulo(),
 ): Promise<ArtworkWithReferences | undefined> {
+  const naJanela = dateStr >= today && dateStr <= shiftDate(today, DAILY_PERSIST_AHEAD_DAYS);
+  if (naJanela) await garantirEscolhasAte(dateStr, today);
+
   const persisted = await findPersistedDailyArtwork(dateStr);
   if (persisted) {
     const [withRefs] = await attachReferences([persisted]);
     return withRefs;
   }
+  // Dentro da janela, sem linha depois de garantir = nenhuma obra calculável para o dia.
+  if (naJanela) return undefined;
 
   const artworkId = await computeDailyArtworkId(dateStr);
   if (!artworkId) return undefined;
 
-  let finalId = artworkId;
-  if (dateStr === today) {
-    // Linha gravada mas com obra que deixou de ser publicável: sai do caminho.
-    await db.execute(sql`
-      DELETE FROM daily_artwork d
-      USING artworks a
-      WHERE d.date = ${dateStr} AND a.id = d.artwork_id AND (a.active = false OR a.image_url IS NULL)
-    `);
-    await db.insert(dailyArtwork).values({ date: dateStr, artworkId }).onConflictDoNothing();
-    // Se duas requisições calcularam ao mesmo tempo, vale a linha que ganhou.
-    finalId = (await findPersistedDailyArtwork(dateStr))?.id ?? artworkId;
-  }
-
-  const [row] = await db.select().from(artworks).where(eq(artworks.id, finalId));
+  const [row] = await db.select().from(artworks).where(eq(artworks.id, artworkId));
   if (!row) return undefined;
 
   const [withRefs] = await attachReferences([row]);
   return withRefs;
+}
+
+function diasEntre(de: string, ate: string): number {
+  return Math.round((Date.parse(`${ate}T00:00:00Z`) - Date.parse(`${de}T00:00:00Z`)) / 86_400_000) + 1;
+}
+
+/** Quantos dias de `de` a `ate` têm linha gravada com obra ainda publicável. */
+async function diasGravadosValidos(de: string, ate: string): Promise<number> {
+  const [row] = await db
+    .select({ n: sql<number>`count(*)::int` })
+    .from(dailyArtwork)
+    .innerJoin(artworks, eq(artworks.id, dailyArtwork.artworkId))
+    .where(
+      and(gte(dailyArtwork.date, de), lt(dailyArtwork.date, shiftDate(ate, 1)), eq(artworks.active, true), isNotNull(artworks.imageUrl)),
+    );
+  return row?.n ?? 0;
+}
+
+/** Grava a escolha de cada dia de `today` até `dateStr`, em ordem. A ordem é o ponto: a janela de
+ *  não repetição de um dia lê as linhas dos dias anteriores, então calcular D+5 sem ter gravado
+ *  D+1..D+4 daria uma obra diferente da sequência dia a dia. Uma transação com trava consultiva
+ *  serializa quem chega junto (as chamadas seguintes encontram tudo gravado). Dia cuja obra
+ *  gravada deixou de ser publicável é apagado e recalculado olhando os dois lados da janela. */
+async function garantirEscolhasAte(dateStr: string, today: string): Promise<void> {
+  // Caminho comum (tudo já gravado): uma leitura, sem transação nem trava.
+  if (await diasGravadosValidos(today, dateStr) === diasEntre(today, dateStr)) return;
+  // Toda a leitura abaixo usa a conexão da transação: quem espera a trava ocupa uma conexão do
+  // pool (10), e quem a segura não pode depender de uma conexão a mais para terminar.
+  await db.transaction(async (tx) => {
+    await tx.execute(sql`SELECT pg_advisory_xact_lock(hashtext('daily_artwork'))`);
+    for (let d = today; d <= dateStr; d = shiftDate(d, 1)) {
+      if (await findPersistedDailyArtwork(d, tx)) continue;
+      const removidas = await tx.delete(dailyArtwork).where(eq(dailyArtwork.date, d)).returning({ date: dailyArtwork.date });
+      const artworkId = await computeDailyArtworkId(d, tx, removidas.length > 0);
+      if (!artworkId) continue;
+      await tx.insert(dailyArtwork).values({ date: d, artworkId }).onConflictDoNothing();
+    }
+  });
 }
 
 /** Usa a função search_artworks() (full-text search em português, com

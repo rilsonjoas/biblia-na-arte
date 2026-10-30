@@ -7,6 +7,11 @@ import { parseLectionaryRef, type ParsedLectionaryRef } from './lectionary-refs.
  *  leitura, sem cair no sorteio global. */
 export const DAILY_NO_REPEAT_WINDOW_DAYS = 30;
 
+/** A escolha é gravada de hoje até hoje + este número de dias (F6b, 2026-10-30): a prévia de
+ *  amanhã deixa de mudar quando o acervo cresce, e um dia retirado por direitos é trocado na
+ *  gravação (R4 do desenho do painel de citações). */
+export const DAILY_PERSIST_AHEAD_DAYS = 30;
+
 /** Pools já buscados no banco (ids de obras ativas e com imagem, ordenados
  *  por id) — o módulo é puro pra dar pra testar o calendário inteiro sem
  *  banco. `themedIds` é o subconjunto com tema da estação litúrgica. */
