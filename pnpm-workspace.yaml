@@ -6,7 +6,7 @@ packages:
 # package.json — movido pra cá (achado 2026-08-16 ao reseedar em produção:
 # o campo antigo era silenciosamente ignorado, com aviso no stderr).
 overrides:
-  vite: "^6.4.3"
+  vite: "^6.4.4"
   esbuild: "^0.25.0"
   # CVEs "high" de fast-uri (achado 2026-09-02) — movido de package.json
   # (`pnpm.overrides`) pro lugar certo em 2026-09-03: o campo antigo
@@ -25,6 +25,10 @@ overrides:
   # — transitiva via web>jsdom>css-tree, só em teste; css-tree aceita ^1.2.1, então
   # o piso 1.2.2 é compatível. O pnpm audit não diferencia dev de prod.
   source-map-js: ">=1.2.2"
+  # CVEs "high" de undici 8.x (achado 2026-10-30; GHSA-4w7w-5xrc-9h26, GHSA-2m5v-pch6-74hx,
+  # GHSA-qrxm-fqhp-jwvm e outras: TLS, cache e DoS no cliente HTTP, corrigidos em 8.12.2) —
+  # transitiva via web>jsdom, só em teste; o piso 8.12.2 é compatível com o jsdom.
+  undici: ">=8.12.2"
 
 onlyBuiltDependencies:
   - esbuild
@@ -42,3 +46,10 @@ auditConfig:
     # entrada externa chega nela. REMOVER este item quando o braces publicar
     # versão corrigida (ou quando o tailwindcss sair do chokidar 3).
     - GHSA-vfj7-8cjw-p6xm
+    # zod < 4.6.6 (GHSA-mrhx-c7xc-m3w5: memória esgotada ao validar coleções com limite
+    # muito grandes). Achado 2026-10-30; a correção só existe no zod 4 e o servidor está no 3.
+    # Não explorável aqui: nenhum `z.array`/`z.set`/`z.record` valida entrada externa (a única
+    # rota que recebe corpo é o multipart de submissões, com campos de texto e um arquivo, e os
+    # `z.array` do repositório são schemas de RESPOSTA). REMOVER quando o servidor migrar para
+    # o zod 4 ou se algum schema de entrada passar a validar coleção.
+    - GHSA-mrhx-c7xc-m3w5
