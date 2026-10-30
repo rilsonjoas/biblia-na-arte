@@ -103,7 +103,7 @@ export const artistDetailResponseSchema = z.object({
 export const errorResponseSchema = z.object({
   error: z.string(),
   message: z.string(),
-  details: z.record(z.unknown()).optional(),
+  details: z.record(z.string(), z.unknown()).optional(),
 });
 
 // "Mapa de obras ↔ referências bíblicas" (/explorar, aprovada 2026-09-02).
