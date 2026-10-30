@@ -1,5 +1,5 @@
 import type { FastifyInstance } from 'fastify';
-import { zodToJsonSchema } from 'zod-to-json-schema';
+import { zodToJsonSchema } from '../lib/json-schema.js';
 import { getExploreByChapter } from '../db/queries.js';
 import { exploreParamsSchema } from '../schemas/common.schema.js';
 import { exploreResponseSchema, errorResponseSchema } from '../schemas/response.schema.js';

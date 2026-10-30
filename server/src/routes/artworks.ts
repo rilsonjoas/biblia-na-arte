@@ -1,5 +1,5 @@
 import type { FastifyInstance } from 'fastify';
-import { zodToJsonSchema } from 'zod-to-json-schema';
+import { zodToJsonSchema } from '../lib/json-schema.js';
 import { listArtworks, getArtworkBySlugOrId, getRandomArtwork, getDailyArtwork, searchArtworks } from '../db/queries.js';
 import { todaySaoPaulo } from '../lib/lectionary-refs.js';
 import { generateSocialImage, SocialImageUpstreamError } from '../lib/image-processing.js';

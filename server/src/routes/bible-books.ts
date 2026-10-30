@@ -1,6 +1,6 @@
 import type { FastifyInstance } from 'fastify';
 import { z } from 'zod';
-import { zodToJsonSchema } from 'zod-to-json-schema';
+import { zodToJsonSchema } from '../lib/json-schema.js';
 import { listBibleBooks, getBibleBookBySlug } from '../db/queries.js';
 import { slugParamSchema } from '../schemas/common.schema.js';
 import {
