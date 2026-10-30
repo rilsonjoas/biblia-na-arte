@@ -1,4 +1,6 @@
 import { describe, expect, it } from 'vitest';
+import { readFileSync } from 'node:fs';
+import path from 'node:path';
 import { getLectionaryEntry, parseLectionaryRef, todaySaoPaulo } from './lectionary-refs.js';
 
 describe('parseLectionaryRef', () => {
@@ -49,6 +51,16 @@ describe('getLectionaryEntry', () => {
 
   it('devolve undefined pra data fora da tabela (ex.: muito no futuro)', () => {
     expect(getLectionaryEntry('2099-01-01')).toBeUndefined();
+  });
+});
+
+const vetores = JSON.parse(
+  readFileSync(path.join(import.meta.dirname, 'hoje-sao-paulo.vetores.json'), 'utf-8'),
+) as { casos: { utc: string; esperado: string; nota: string }[] };
+
+describe('todaySaoPaulo — vetores do cluster (hetzner-infra/vetores/hoje-sao-paulo.json)', () => {
+  it.each(vetores.casos)('$utc → $esperado ($nota)', ({ utc, esperado }) => {
+    expect(todaySaoPaulo(new Date(utc))).toBe(esperado);
   });
 });
 
