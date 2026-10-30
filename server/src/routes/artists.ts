@@ -1,5 +1,5 @@
 import type { FastifyInstance } from 'fastify';
-import { zodToJsonSchema } from 'zod-to-json-schema';
+import { zodToJsonSchema } from '../lib/json-schema.js';
 import { getArtistBySlug, listArtists } from '../db/queries.js';
 import { slugParamSchema } from '../schemas/common.schema.js';
 import {

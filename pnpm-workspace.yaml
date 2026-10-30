@@ -46,10 +46,3 @@ auditConfig:
     # entrada externa chega nela. REMOVER este item quando o braces publicar
     # versão corrigida (ou quando o tailwindcss sair do chokidar 3).
     - GHSA-vfj7-8cjw-p6xm
-    # zod < 4.6.6 (GHSA-mrhx-c7xc-m3w5: memória esgotada ao validar coleções com limite
-    # muito grandes). Achado 2026-10-30; a correção só existe no zod 4 e o servidor está no 3.
-    # Não explorável aqui: nenhum `z.array`/`z.set`/`z.record` valida entrada externa (a única
-    # rota que recebe corpo é o multipart de submissões, com campos de texto e um arquivo, e os
-    # `z.array` do repositório são schemas de RESPOSTA). REMOVER quando o servidor migrar para
-    # o zod 4 ou se algum schema de entrada passar a validar coleção.
-    - GHSA-mrhx-c7xc-m3w5

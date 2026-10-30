@@ -1,6 +1,6 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
+import { createUserFormSchema, type CreateUserForm } from './admin-users.schema';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Link } from 'react-router';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -30,13 +30,8 @@ import { useAdminAuth } from '@/contexts/AdminAuthContext';
 import { listUsers, createPanelUser, deletePanelUser, AdminApiError } from '@/lib/admin-api';
 import { ArrowLeft, UserPlus, Trash2 } from 'lucide-react';
 
-const createUserFormSchema = z.object({
-  email: z.string().trim().email('E-mail inválido'),
-  password: z.string().min(12, 'Senha precisa ter pelo menos 12 caracteres'),
-  role: z.enum(['admin', 'revisor']),
-});
 
-type CreateUserForm = z.infer<typeof createUserFormSchema>;
+
 
 /** Gestão de usuários do painel (roadmap, 2026-09-06) — só admin
  *  (rota protegida com requireAdminRole em App.tsx). Sem edição de
