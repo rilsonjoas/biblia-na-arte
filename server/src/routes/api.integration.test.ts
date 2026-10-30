@@ -6,6 +6,7 @@ import { drizzle } from 'drizzle-orm/postgres-js';
 import { migrate } from 'drizzle-orm/postgres-js/migrator';
 import { buildApp } from '../app.js';
 import { db, closeDb } from '../db/client.js';
+import { todaySaoPaulo } from '../lib/lectionary-refs.js';
 
 const MIGRATIONS_DIR = path.join(import.meta.dirname, '../db/migrations');
 const FUNCTIONS_SQL = path.join(import.meta.dirname, '../db/custom-sql/functions.sql');
@@ -289,6 +290,36 @@ describe('API v1 — integração (Postgres real de teste)', () => {
   it('"Pintura do Dia" — a especificação OpenAPI declara a resposta 400', async () => {
     const spec = app.swagger() as { paths: Record<string, { get?: { responses?: Record<string, unknown> } }> };
     expect(Object.keys(spec.paths['/api/v1/artworks/daily']!.get!.responses!)).toContain('400');
+  });
+
+  it.each(['2025-07-13', '2026-08-23'])('"Pintura do Dia" — devolve `date` igual à data pedida (%s)', async (d) => {
+    const res = await app.inject({ method: 'GET', url: `/api/v1/artworks/daily?date=${d}` });
+    expect(res.statusCode).toBe(200);
+    expect(res.json().date).toBe(d);
+  });
+
+  it('"Pintura do Dia" — sem ?date, `date` é o dia de hoje em São Paulo', async () => {
+    const antes = todaySaoPaulo();
+    const res = await app.inject({ method: 'GET', url: '/api/v1/artworks/daily' });
+    const depois = todaySaoPaulo();
+    expect(res.json().date).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+    expect([antes, depois]).toContain(res.json().date);
+  });
+
+  it('"Pintura do Dia" — `date` não vaza para /artworks/:id', async () => {
+    const res = await app.inject({ method: 'GET', url: `/api/v1/artworks/${ARTWORK_SAMARITAN}` });
+    expect(res.statusCode).toBe(200);
+    expect(res.json()).not.toHaveProperty('date');
+  });
+
+  it('"Pintura do Dia" — a OpenAPI declara `date` só na resposta da rota daily', async () => {
+    const spec = app.swagger() as {
+      paths: Record<string, { get?: { responses?: Record<string, { content?: Record<string, { schema?: { properties?: Record<string, unknown> } }> }> } }>;
+    };
+    const props = (rota: string) =>
+      spec.paths[rota]!.get!.responses!['200']!.content!['application/json']!.schema!.properties!;
+    expect(props('/api/v1/artworks/daily')).toHaveProperty('date');
+    expect(props('/api/v1/artworks/{id}')).not.toHaveProperty('date');
   });
 
   it('"Pintura do Dia" — ano bissexto existe (29/02/2028 → 200)', async () => {
