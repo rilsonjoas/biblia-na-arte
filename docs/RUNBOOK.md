@@ -318,6 +318,26 @@ decisão explícita — e o lugar de escrever isso é este arquivo, não um
 - **Repor o post do dia só no Instagram:** `gh workflow run
   post-daily-social.yml -f platforms=instagram`. Foi feito em 01/10.
 
+## Renovar o token do Threads ou do Instagram (60 dias)
+
+Os tokens long-lived duram 60 dias. Quando o post falha com `OAuthException code 190`, olhe o `error_subcode` antes de
+regerar nada (ver "Threads"/"Instagram" acima e `docs/ROADMAP.md`, seção "Publicação automática"). Para renovar de propósito,
+**no seu terminal, nunca no chat**:
+
+```
+node scripts/renew-token.mjs threads      # ou: instagram
+```
+
+Ele pede o token (sem eco), confere de quem é (`/me`), renova pelo endpoint de refresh (só precisa do token, que tem de estar
+válido e com mais de 24 h) e grava `THREADS_ACCESS_TOKEN` / `INSTAGRAM_ACCESS_TOKEN` com `gh secret set`. Se o refresh recusar
+(token curto gerado no painel do app da Meta, ou já vencido), ele pede o App Secret (sem eco) e troca por um long-lived. Se o
+token já venceu e a Meta recusar a troca, gere um novo no painel do app e rode de novo. `--dry-run` faz tudo menos gravar.
+Depois de gravar, confira: `gh secret list --repo rilsonjoas/biblia-na-arte` (data nova) e o post do dia seguinte.
+
+**Datas de referência (conferidas em 30/10/2026):** `INSTAGRAM_ACCESS_TOKEN` regravado em 28/10/2026 (renovar por volta de
+fim de dezembro); `THREADS_ACCESS_TOKEN` gravado em 04/09/2026 (**vence por volta de 03/11/2026**). O `gh secret list` mostra
+só a data de gravação; o vencimento real não é legível.
+
 ## Testes dos scripts de publicação
 
 `scripts/` **não é pacote do pnpm workspace** (o `pnpm-workspace.yaml`
@@ -332,8 +352,8 @@ rodava sem nenhum teste no CI.
 | `social-caption.mjs` | coberto (montagem de legenda) |
 | `graph-api.mjs` | coberto (retry, poll de container, `PLATFORMS`) |
 | `post-daily-social.mjs` | orquestrador, sem teste próprio — o risco está nos módulos |
-| `renew-ig-token.mjs` | **sem teste** |
-| `renew-threads-token.mjs` | **sem teste** |
+| `token-renewal.mjs` | coberto (URLs de refresh/troca e leitura da resposta da Meta) |
+| `renew-token.mjs` | script interativo, sem teste automatizado: a leitura sem eco foi conferida num terminal falso e o caminho de erro com token inválido; o fluxo completo só roda com token real |
 
 Rodar só os de script, que é bem mais rápido que a suíte toda:
 `pnpm test:scripts`.
