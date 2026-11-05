@@ -1,10 +1,12 @@
 name: Conferir tokens (Instagram + Threads)
 
 # Só pergunta à Meta "esse token ainda é aceito?". Não publica nada.
+# 08:00 UTC = 05:00 em São Paulo, 3h antes do post das 08:13. Se falhar, o GitHub avisa por e-mail.
+# Obs.: o `schedule:` do Actions é best-effort e pode atrasar; o disparo manual sempre funciona.
 on:
   workflow_dispatch:
-  push:
-    branches: [chore/check-tokens]
+  schedule:
+    - cron: '0 8 * * *'
 
 permissions:
   contents: read
