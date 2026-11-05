@@ -3,6 +3,8 @@ name: Conferir tokens (Instagram + Threads)
 # Só pergunta à Meta "esse token ainda é aceito?". Não publica nada.
 on:
   workflow_dispatch:
+  push:
+    branches: [chore/check-tokens]
 
 permissions:
   contents: read
