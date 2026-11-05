@@ -1,0 +1,33 @@
+name: Conferir tokens (Instagram + Threads)
+
+# Só pergunta à Meta "esse token ainda é aceito?". Não publica nada.
+# 08:00 UTC = 05:00 em São Paulo, 3h antes do post das 08:13. Se falhar, o GitHub avisa por e-mail.
+# Obs.: o `schedule:` do Actions é best-effort e pode atrasar; o disparo manual sempre funciona.
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 8 * * *'
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Instagram
+        env:
+          TOKEN: ${{ secrets.INSTAGRAM_ACCESS_TOKEN }}
+          ID: ${{ secrets.INSTAGRAM_ACCOUNT_ID }}
+        run: |
+          out=$(curl -s -G "https://graph.instagram.com/v21.0/$ID" --data-urlencode "fields=username" --data-urlencode "access_token=$TOKEN")
+          echo "$out" | jq -c 'del(.access_token)'
+          echo "$out" | jq -e '.username' >/dev/null
+      - name: Threads
+        env:
+          TOKEN: ${{ secrets.THREADS_ACCESS_TOKEN }}
+          ID: ${{ secrets.THREADS_USER_ID }}
+        run: |
+          out=$(curl -s -G "https://graph.threads.net/v1.0/$ID" --data-urlencode "fields=username" --data-urlencode "access_token=$TOKEN")
+          echo "$out" | jq -c 'del(.access_token)'
+          echo "$out" | jq -e '.username' >/dev/null
