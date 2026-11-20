@@ -15,6 +15,7 @@ import {
 import type { ListArtworksQuery, SearchArtworksQuery } from '../schemas/artwork.schema.js';
 import type { CreateSubmissionInput, UpdateSubmissionInput } from '../schemas/submission.schema.js';
 import { getLectionaryEntry, SEASON_THEME_SLUGS, todaySaoPaulo } from '../lib/lectionary-refs.js';
+import { getAdventPlanSlugs } from '../lib/advent-plan.js';
 import {
   DAILY_NO_REPEAT_WINDOW_DAYS,
   DAILY_PERSIST_AHEAD_DAYS,
@@ -354,6 +355,37 @@ async function findPersistedDailyArtwork(dateStr: string, exec: Executor = db): 
   return row?.artwork;
 }
 
+/** Obra do plano curado do Advento ao Natal (`advent-plan.ts`) para cada data de `de` a `ate`: a primeira
+ *  candidata do dia que ainda é publicável (ativa e com imagem). Data sem plano, ou sem nenhuma candidata
+ *  publicável, fica de fora e segue a escolha pelo lecionário. */
+async function getPlannedArtworkIds(de: string, ate: string, exec: Executor = db): Promise<Map<string, string>> {
+  const slugsPorData = new Map<string, readonly string[]>();
+  for (let d = de; d <= ate; d = shiftDate(d, 1)) {
+    const slugs = getAdventPlanSlugs(d);
+    if (slugs) slugsPorData.set(d, slugs);
+  }
+  if (slugsPorData.size === 0) return new Map();
+
+  const rows = await exec
+    .select({ id: artworks.id, slug: artworks.slug })
+    .from(artworks)
+    .where(
+      and(
+        inArray(artworks.slug, [...new Set([...slugsPorData.values()].flat())]),
+        eq(artworks.active, true),
+        isNotNull(artworks.imageUrl),
+      ),
+    );
+  const idPorSlug = new Map(rows.map((r) => [r.slug, r.id]));
+
+  const planejadas = new Map<string, string>();
+  for (const [data, slugs] of slugsPorData) {
+    const id = slugs.map((slug) => idPorSlug.get(slug)).find((candidato) => candidato !== undefined);
+    if (id) planejadas.set(data, id);
+  }
+  return planejadas;
+}
+
 /** Calcula (sem gravar) a obra da data: candidatas da leitura litúrgica do
  *  dia, da mais ligada à leitura pra menos (`buildDailyTiers`), pulando as
  *  que saíram na janela de não-repetição. */
@@ -362,6 +394,10 @@ async function computeDailyArtworkId(
   exec: Executor = db,
   bothSides = false,
 ): Promise<string | undefined> {
+  // Advento e Natal (até 06/01): lista curada, por cima do lecionário e da janela de não repetição.
+  const planejada = (await getPlannedArtworkIds(dateStr, dateStr, exec)).get(dateStr);
+  if (planejada) return planejada;
+
   const [recentIds, globalPool] = await Promise.all([
     getRecentDailyArtworkIds(dateStr, exec, bothSides),
     getPublishableArtworkIds(exec),
@@ -459,19 +495,46 @@ async function diasGravadosValidos(de: string, ate: string): Promise<number> {
   return row?.n ?? 0;
 }
 
+/** Algum dia com plano curado entre `de` e `ate` tem gravada uma obra diferente da planejada (ou nenhuma). */
+async function planoDivergeDoGravado(de: string, ate: string): Promise<boolean> {
+  const planejadas = await getPlannedArtworkIds(de, ate);
+  if (planejadas.size === 0) return false;
+  const gravadas = await db
+    .select({ date: dailyArtwork.date, artworkId: dailyArtwork.artworkId })
+    .from(dailyArtwork)
+    .where(and(gte(dailyArtwork.date, de), lt(dailyArtwork.date, shiftDate(ate, 1))));
+  const idPorData = new Map(gravadas.map((g) => [g.date, g.artworkId]));
+  return [...planejadas].some(([data, id]) => idPorData.get(data) !== id);
+}
+
 /** Grava a escolha de cada dia de `today` até `dateStr`, em ordem. A ordem é o ponto: a janela de
  *  não repetição de um dia lê as linhas dos dias anteriores, então calcular D+5 sem ter gravado
  *  D+1..D+4 daria uma obra diferente da sequência dia a dia. Uma transação com trava consultiva
  *  serializa quem chega junto (as chamadas seguintes encontram tudo gravado). Dia cuja obra
  *  gravada deixou de ser publicável é apagado e recalculado olhando os dois lados da janela. */
 async function garantirEscolhasAte(dateStr: string, today: string): Promise<void> {
-  // Caminho comum (tudo já gravado): uma leitura, sem transação nem trava.
-  if (await diasGravadosValidos(today, dateStr) === diasEntre(today, dateStr)) return;
+  // Caminho comum (tudo já gravado e conforme o plano): leituras, sem transação nem trava.
+  if (
+    (await diasGravadosValidos(today, dateStr)) === diasEntre(today, dateStr) &&
+    !(await planoDivergeDoGravado(today, dateStr))
+  ) {
+    return;
+  }
   // Toda a leitura abaixo usa a conexão da transação: quem espera a trava ocupa uma conexão do
   // pool (10), e quem a segura não pode depender de uma conexão a mais para terminar.
   await db.transaction(async (tx) => {
     await tx.execute(sql`SELECT pg_advisory_xact_lock(hashtext('daily_artwork'))`);
+    const planejadas = await getPlannedArtworkIds(today, dateStr, tx);
     for (let d = today; d <= dateStr; d = shiftDate(d, 1)) {
+      const planejada = planejadas.get(d);
+      if (planejada) {
+        // O plano manda: troca o que já estava gravado (escolha antiga pelo lecionário) pela obra curada.
+        const gravada = await findPersistedDailyArtwork(d, tx);
+        if (gravada?.id === planejada) continue;
+        await tx.delete(dailyArtwork).where(eq(dailyArtwork.date, d));
+        await tx.insert(dailyArtwork).values({ date: d, artworkId: planejada }).onConflictDoNothing();
+        continue;
+      }
       if (await findPersistedDailyArtwork(d, tx)) continue;
       const removidas = await tx.delete(dailyArtwork).where(eq(dailyArtwork.date, d)).returning({ date: dailyArtwork.date });
       const artworkId = await computeDailyArtworkId(d, tx, removidas.length > 0);

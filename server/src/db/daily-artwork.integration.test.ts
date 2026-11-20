@@ -287,3 +287,117 @@ describe('getDailyArtwork — persistência e janela de não-repetição (Postgr
     expect((await gravados()).map((g) => g.date)).toEqual([semEntrada]);
   });
 });
+
+/** Plano curado do Advento ao Natal (docs/PLANO-ADVENTO-NATAL.md): manda sobre o lecionário e substitui
+ *  o que já estava gravado, porque a janela de 30 dias já foi gravada antes de o plano existir. */
+describe('getDailyArtwork — plano do Advento e do Natal (Postgres real de teste)', () => {
+  let sql: postgres.Sql;
+  const criadas: string[] = [];
+  let desativadasPorNos: string[] = [];
+
+  const RIEBER = 'michael-rieser-a-noite-antes-do-nascimento-de-cristo-am-abend-vor-christi-geburt-a-noite-antes-do-na';
+  const BRUEGEL_ISAIAS = 'jan-bruegel-o-velho-profecia-do-profeta-isaias';
+  const DORE_ISAIAS = 'gustave-dore-o-profeta-isaias';
+  const GEERTGEN = 'geertgen-tot-sint-jans-a-natividade-a-noite';
+
+  async function criarObraComSlug(artworkId: string, slug: string, ativa = true) {
+    await sql`
+      INSERT INTO artworks (id, slug, title, artist_or_director, category, description, image_url, active)
+      VALUES (${artworkId}, ${slug}, ${slug}, 'Artista de teste', 'painting', 'descrição', ${`/img/${artworkId}.jpg`}, ${ativa})
+    `;
+    criadas.push(artworkId);
+  }
+
+  async function criarObra(artworkId: string, titulo: string, livroSlug: string, capitulo: number) {
+    await sql`
+      INSERT INTO artworks (id, title, artist_or_director, category, description, image_url)
+      VALUES (${artworkId}, ${titulo}, 'Artista de teste', 'painting', 'descrição', ${`/img/${artworkId}.jpg`})
+    `;
+    await sql`
+      INSERT INTO bible_references (artwork_id, book, book_slug, chapter)
+      VALUES (${artworkId}, ${livroSlug}, ${livroSlug}, ${capitulo})
+    `;
+    criadas.push(artworkId);
+  }
+
+  beforeAll(async () => {
+    const url = process.env.DATABASE_URL;
+    if (!url) throw new Error('DATABASE_URL não definida nos testes de integração');
+    sql = postgres(url, { max: 4 });
+    await migrate(drizzle(sql), { migrationsFolder: MIGRATIONS_DIR });
+    const rows = await sql<{ id: string }[]>`UPDATE artworks SET active = false WHERE active RETURNING id`;
+    desativadasPorNos = rows.map((r) => r.id);
+  });
+
+  afterEach(async () => {
+    await sql`DELETE FROM daily_artwork`;
+    if (criadas.length > 0) await sql`DELETE FROM artworks WHERE id IN ${sql(criadas)}`;
+    criadas.length = 0;
+  });
+
+  afterAll(async () => {
+    if (desativadasPorNos.length > 0) {
+      await sql`UPDATE artworks SET active = true WHERE id IN ${sql(desativadasPorNos)}`;
+    }
+    await sql.end();
+  });
+
+  it('24/12, que não tem leitura cadastrada, mostra a obra planejada em vez de sortear o acervo', async () => {
+    await criarObraComSlug(id(10), RIEBER);
+    await criarObra(id(11), 'Qualquer outra', 'genesis', 22);
+
+    const obra = await getDailyArtwork('2026-12-24', '2026-12-24');
+
+    expect(obra?.id).toBe(id(10));
+  });
+
+  it('troca a obra que já estava gravada antes do plano, só nos dias do plano', async () => {
+    await criarObraComSlug(id(12), BRUEGEL_ISAIAS);
+    await criarObra(id(13), 'Obra antiga do lecionário', 'micah', 4);
+    // Estado de produção em 20/11: janela já gravada pelo lecionário.
+    await sql`INSERT INTO daily_artwork (date, artwork_id) VALUES ('2026-11-30', ${id(13)}), ('2026-11-28', ${id(13)})`;
+
+    const obra = await getDailyArtwork('2026-11-30', '2026-11-28');
+
+    expect(obra?.id).toBe(id(12));
+    const g = await sql<{ date: string; artwork_id: string }[]>`
+      SELECT to_char(date, 'YYYY-MM-DD') AS date, artwork_id FROM daily_artwork ORDER BY date
+    `;
+    // 28/11 é anterior ao Advento: continua como estava. 30/11 foi trocado.
+    expect(g.find((x) => x.date === '2026-11-28')?.artwork_id).toBe(id(13));
+    expect(g.find((x) => x.date === '2026-11-30')?.artwork_id).toBe(id(12));
+  });
+
+  it('o plano vale também para o dia de hoje já gravado (Instagram lê a mesma rota)', async () => {
+    await criarObraComSlug(id(14), DORE_ISAIAS);
+    await criarObra(id(15), 'Baal', 'kings1', 18);
+    await sql`INSERT INTO daily_artwork (date, artwork_id) VALUES ('2026-11-29', ${id(15)})`;
+
+    const obra = await getDailyArtwork('2026-11-29', '2026-11-29');
+
+    expect(obra?.id).toBe(id(14));
+  });
+
+  it('obra do plano retirada: usa a próxima candidata do dia; sem nenhuma, volta ao lecionário', async () => {
+    await criarObraComSlug(id(16), RIEBER, false); // retirada
+    await criarObraComSlug(id(17), GEERTGEN);
+
+    expect((await getDailyArtwork('2026-12-24', '2026-12-24'))?.id).toBe(id(17));
+
+    await sql`DELETE FROM daily_artwork`;
+    await sql`UPDATE artworks SET active = false WHERE id = ${id(17)}`;
+    await criarObra(id(18), 'Obra qualquer', 'genesis', 22);
+    const obra = await getDailyArtwork('2026-12-24', '2026-12-24');
+    expect(obra?.id).toBe(id(18)); // sem plano publicável, cai no acervo, como antes
+  });
+
+  it('depois do plano (07/01) volta a seguir o lecionário', async () => {
+    await criarObraComSlug(id(19), 'ticiano-a-sagrada-familia-com-um-pastor');
+    await criarObra(id(20), 'Obra de Gênesis', 'genesis', 22);
+
+    const obra = await getDailyArtwork('2027-01-07', '2027-01-07');
+
+    expect(obra).toBeDefined();
+    expect(obra?.id).not.toBe(id(19));
+  });
+});
