@@ -24,8 +24,8 @@ const SEMANAS: Record<number, Record<number, readonly string[]>> = {
     1: ['jan-bruegel-o-velho-profecia-do-profeta-isaias', 'gustave-dore-a-visao-de-zacarias-dos-quatro-carros'],
     2: ['hieronymus-francken-ii-a-parabola-das-dez-virgens', 'ernst-friedrich-von-liphart-a-parabola-das-virgens-prudentes-e-insensatas'],
     3: ['james-tissot-o-profeta-habacuque', 'james-tissot-o-profeta-ageu'],
-    4: ['william-blake-as-virgens-prudentes-e-insensatas', 'friedrich-wilhelm-schadow-as-virgens-prudentes-e-insensatas'],
-    5: ['john-martin-o-juizo-final', 'john-fleetwood-as-virgens-prudentes-e-insensatas'],
+    4: ['friedrich-wilhelm-schadow-as-virgens-prudentes-e-insensatas', 'john-fleetwood-as-virgens-prudentes-e-insensatas'],
+    5: ['john-martin-o-juizo-final', 'gustave-dore-o-juizo-final'],
     6: ['gustave-dore-miqueias-exorta-os-israelitas-ao-arrependimento', 'james-tissot-o-profeta-naum'],
   },
   // Semana 2: preparai o caminho (João Batista e os profetas)
