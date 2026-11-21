@@ -397,6 +397,30 @@ BÍBLIA. Português. *Almeida Corrigida Fiel*. Lucas 1:19-30.`),
     expect(d2).not.toContain('KMS3141');
   });
 
+  it('callout do Obsidian vira parágrafo comum; pendência e fala sobre o vault saem', () => {
+    const d = extractDescription(
+      nota(`Prosa da obra.
+
+> [!NOTE] Conexão bíblica indireta
+> Esta obra não narra um episódio bíblico específico; é uma cena de gênero.
+
+> [!warning] Pendência de pesquisa
+> Dimensões divergentes entre fontes.
+
+> [!warning] Atribuição não confirmada
+> Esta nota atribui a obra a X, seguindo uma indicação já presente no vault.
+
+A tela está em Roma. Fica registrado como pendência a proveniência anterior a 1900. A data é de 1633.`),
+    );
+    expect(d).toContain('**Conexão bíblica indireta.** Esta obra não narra um episódio bíblico específico');
+    expect(d).not.toContain('[!');
+    expect(d).not.toContain('Dimensões divergentes');
+    expect(d).not.toContain('vault');
+    expect(d).toContain('A tela está em Roma.');
+    expect(d).toContain('A data é de 1633.');
+    expect(d).not.toContain('pendência');
+  });
+
   it('fonte com autor em caixa mista e fonte no meio da linha também saem', () => {
     const d = extractDescription(
       nota(`Prosa da obra, dados por confirmar. Fonte: MUSÉE D'ORSAY. *La Cène*. Disponível em: https://x.
