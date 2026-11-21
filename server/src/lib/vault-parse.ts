@@ -157,6 +157,50 @@ function isBadLine(line: string): boolean {
  *  dentro de um bloco `> [!tipo]` é removida até a primeira linha que não
  *  começa com `>` (fim do blockquote) — funciona com qualquer número de
  *  linhas, não só uma. */
+/** Linguagem de trabalho do vault: nunca deve chegar ao visitante do site (decisão do autor,
+ *  2026-11-21: "a menos que melhore a experiência do usuário, não faz sentido"). */
+const VAULT_SPEAK_RE =
+  /pendência|n[ãa]o aberta|nota anterior|\b(?:esta|desta|nesta) nota\b|a nota (?:anterior|antiga|antes|do vault)|\bvault\b|nesta revisão|esta revisão|fonte_localizacao|frontmatter|(?:título|nome) do arquivo|não confirmei|fontes? consultadas?|resumo de busca|resultado de busca|herdad[ao] da nota|a pesquisa feita agora|nesta sessão|erro 40\d|bloqueou o acesso|acesso automático|devolveu (?:erro|bloqueio)|busca de confirmação/i;
+
+/** Callout do Obsidian (`> [!tipo] Título` + linhas `>`): descartado se falar do vault, se for pendência
+ *  ou cartão de link; senão vira parágrafo comum ("**Título.** texto"), sem o marcador `[!tipo]`. */
+function calloutToProse(block: string[]): string[] | null {
+  const head = /^>\s*\[!\w+\][+-]?\s*(.*)$/.exec((block[0] ?? '').trim());
+  const title = (head?.[1] ?? '').trim();
+  const body = block
+    .slice(1)
+    .map((l) => l.replace(/^>\s?/, '').trimEnd())
+    .join('\n')
+    .trim();
+  const whole = `${title}\n${body}`;
+  if (VAULT_SPEAK_RE.test(whole)) return null;
+  if (/^(?:Pend[eê]ncia|Fontes e limites|Descrição anterior|Não é gravura)/i.test(title)) return null;
+  if (/https?:\/\//.test(whole)) return null;
+  // Callout de uma linha só: o texto está no "título" (`> [!note] Uma pintura restaurada em 2020...`).
+  if (!body) return title.length >= 25 ? ['', title, ''] : null;
+  const label = /Honestidade/i.test(title) || title === '' ? '' : `**${title.replace(/[.:]\s*$/, '')}.** `;
+  return ['', `${label}${body}`, ''];
+}
+
+/** Tira do parágrafo as frases de processo ("Fica registrado como pendência..."), sem mexer no resto. */
+function dropWorkflowSentences(text: string): string {
+  return text
+    .split('\n')
+    .map((line) => {
+      if (/^\s*(#|>)/.test(line) || !VAULT_SPEAK_RE.test(line)) return line;
+      // Antes de descartar frases: tira só o trecho de processo preso a uma frase que tem fato
+      // ("(assinatura registrada na nota anterior...)", ", segundo a nota anterior").
+      const trimmed = line
+        .replace(/\s*\([^()]*\)/g, (m) => (VAULT_SPEAK_RE.test(m) ? '' : m))
+        .replace(/,\s*(?:segundo|conforme|como|a partir d[aeo]s?|de acordo com)\s[^,.;]*(?:nota anterior|esta nota|a nota)[^,.;]*(?=[,.;])/gi, '');
+      const sentences = trimmed.split(/(?<=[.!?])\s+(?=[A-ZÀ-Ý*"“(])/);
+      const kept = sentences.filter((s) => !VAULT_SPEAK_RE.test(s)).join(' ');
+      // Item de lista que ficou só com o rótulo em negrito ("- **Datação:**") não diz mais nada.
+      return /^\s*[-*]\s+\*\*[^*]+\*\*:?\s*$/.test(kept) || kept.trim() === '' ? '' : kept;
+    })
+    .join('\n');
+}
+
 export function sanitizeDescription(text: string): string {
   if (!text) return '';
 
@@ -192,7 +236,35 @@ export function sanitizeDescription(text: string): string {
   // depois do fix "completo" original). Qualquer linha que COMECE com
   // "Fonte:" é sempre só a citação, nunca mais nada — corta a linha
   // inteira sem tentar entender o que vem depois.
-  const FONTE_LINE_RE = /^\*?Fonte:/i;
+  const FONTE_LINE_RE = /^\*{0,2}Fontes?:/i;
+
+  // Lista de fontes em ABNT (Manual de Padronização, seção de fontes, desde 18/11/2026): uma fonte por
+  // linha no fim de "Contexto Histórico", com marcas internas como "[não aberta]". Isso é registro de
+  // trabalho do vault, não texto para o visitante (o site tem `sourceUrl` e o botão da fonte do
+  // museu). Achado 2026-11-21, rodando o export depois dos lotes UUU a UVP: 149 descrições levavam a
+  // lista inteira. Começa numa linha de fonte (autor ou instituição em CAIXA ALTA, ponto ou vírgula, e
+  // algum marcador de referência) e vai até o fim do bloco; leva junto o rótulo "Fontes:" que a precede.
+  const FONTES_LABEL_RE = /^\*{0,2}Fontes?:?\*{0,2}$/i;
+  const FONTE_ABNT_RE = /^(?:[-*]\s*)?[A-ZÀ-Ý][A-ZÀ-Ý'’ -]{2,}[,.]\s.*(?:Disponível em|Acesso em|\*[^*]+\*|\b(?:1[0-9]|20)\d\d\b|Vol\.|\[não aberta)/;
+  // Fonte no meio da linha ("... erro 403. Fonte: MUSÉE D'ORSAY. *La Cène*. Disponível em: ...").
+  for (let k = 0; k < lines.length; k++) {
+    if (/Disponível em:/.test(lines[k] ?? '')) lines[k] = (lines[k] ?? '').replace(/\s+\*{0,2}Fontes?:\*{0,2}\s.*$/, '');
+  }
+  // Primeira linha de fonte: autor em CAIXA ALTA, ou qualquer linha com "Disponível em:" (autor em caixa
+  // mista, "In: WIKIPEDIA", instituição com parêntese). Leva junto os marcadores "- " e o rótulo antes dela.
+  const abntStart = lines.findIndex((l) => FONTE_ABNT_RE.test(l.trim()) || /Disponível em:/.test(l));
+  if (abntStart >= 0) {
+    let cut = abntStart;
+    while (
+      cut > 0 &&
+      ((lines[cut - 1] ?? '').trim() === '' ||
+        FONTES_LABEL_RE.test((lines[cut - 1] ?? '').trim()) ||
+        /^\s*[-*]\s/.test(lines[cut - 1] ?? ''))
+    ) {
+      cut--;
+    }
+    lines.length = cut;
+  }
 
   while (i < lines.length) {
     const line = lines[i] ?? '';
@@ -223,7 +295,10 @@ export function sanitizeDescription(text: string): string {
       let j = i + 1;
       while (j < lines.length && (lines[j] ?? '').trim().startsWith('>')) j++;
       const block = lines.slice(i, j).join('\n');
-      if (!isBadLine(block)) kept.push(...lines.slice(i, j));
+      if (!isBadLine(block)) {
+        const converted = calloutToProse(lines.slice(i, j));
+        if (converted) kept.push(...converted);
+      }
       i = j;
       continue;
     }
@@ -243,11 +318,14 @@ export function sanitizeDescription(text: string): string {
     i++;
   }
 
-  return kept
+  const cleaned = kept
     .join('\n')
+    // Marca interna de fonte não aberta, solta no meio da prosa ("[não aberta]", "[não aberta; citada pela ficha]").
+    .replace(/[ \t]*\[não aberta[^\]]*\]/g, '')
     .replace(/<!--[\s\S]*?-->/g, '') // comentários HTML, mesma lógica
     .replace(/\n{3,}/g, '\n\n')
     .trim();
+  return dropWorkflowSentences(cleaned).replace(/\n{3,}/g, '\n\n').trim();
 }
 
 export function extractHistoricalContext(content: string): string | null {
