@@ -138,3 +138,43 @@ WHERE slug IN (
     'olya-kravchenko-sacrificio-e-vitoria-sacrifice-and-victory-sacrificio-e-vitoria',
     'takato-yamamoto-a-anunciacao-a-anunciacao'
 );
+
+-- Achado 2026-11-21 (conferência da API de produção contra o vault): 6 obras de autores vivos ou
+-- falecidos depois de 1955 estavam no ar. O UPDATE da Cecília Rosa acima nunca casou: procura o
+-- título com hífen ("sei- eu") e o título no banco tem vírgula. As demais não estavam em nenhuma
+-- lista. Por SLUG exato, pela mesma razão do bloco de 2026-10-12. Autores: Cecília Rosa (viva),
+-- George Hughes (1907-1990), Konstantin Korobov (vivo), Sylwia Perczak (viva), Tadessa Wolde Aregay
+-- (n. 1953) e Wang Suda (c. 1910-1963). Se alguma ganhar licença formal, NÃO remover o bloco:
+-- reativar o registro específico (ver cabeçalho).
+UPDATE artworks SET active = false, license_type = 'in-copyright'
+WHERE slug IN (
+    'cecilia-rosa-uma-coisa-sei-eu-era-cego-e-agora-vejo',
+    'george-hughes-visitas-de-domingo',
+    'konstantin-korobov-agnus-dei-lamb-of-god-agnus-dei',
+    'sylwia-perczak-por-que-dormes',
+    'tadessa-wolde-aregay-belem',
+    'wang-suda-jesus-acalma-a-tempestade'
+);
+
+-- Retiradas de 2026-11-21 (triagem das pendências da padronização do vault, não por direitos):
+-- atribuição não confirmada, obra ou imagem não identificada, ou sem passagem bíblica própria.
+-- Por SLUG exato. As notas do vault levam `publicar: não`; quando o próximo export tirar estas obras
+-- do JSON, este bloco vira rede de segurança. Para voltar ao ar: corrigir a nota, tirar `publicar: não`
+-- e reativar o registro específico (active = true).
+UPDATE artworks SET active = false
+WHERE slug IN (
+    'william-henry-margetson-neemias-le-a-lei',
+    'william-henry-margetson-o-bom-samaritano-1950',
+    'rembrandt-van-rijn-adoracao-dos-magos',
+    'piotr-stachiewicz-o-pai-nosso',
+    'vasily-surikov-a-tentacao-de-cristo',
+    'viktor-vasnetsov-arcanjo-no-julgamento-final',
+    'william-ladd-taylor-culto-de-inverno-na-igreja',
+    'william-ladd-taylor-os-ceus-declaram-a-gloria-de-deus',
+    'william-ladd-taylor-um-salmo-de-davi',
+    'theodor-galle-abuso-de-justica-abuse-of-justice-abuso-de-justica',
+    'william-preston-o-olho-da-providencia-the-eye-of-providence-o-olho-da-providencia',
+    'rembrandt-van-rijn-juda-e-tamar',
+    'rembrandt-van-rijn-filosofo-lendo',
+    'peter-paul-rubens-paisagem-com-arco-iris'
+);

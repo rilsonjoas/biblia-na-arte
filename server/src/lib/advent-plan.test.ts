@@ -15,7 +15,7 @@ const PLANO_2026_APROVADO: Record<string, string> = {
   '2026-11-30': 'jan-bruegel-o-velho-profecia-do-profeta-isaias',
   '2026-12-01': 'hieronymus-francken-ii-a-parabola-das-dez-virgens',
   '2026-12-02': 'james-tissot-o-profeta-habacuque',
-  '2026-12-03': 'william-blake-as-virgens-prudentes-e-insensatas',
+  '2026-12-03': 'friedrich-wilhelm-schadow-as-virgens-prudentes-e-insensatas',
   '2026-12-04': 'john-martin-o-juizo-final',
   '2026-12-05': 'gustave-dore-miqueias-exorta-os-israelitas-ao-arrependimento',
   '2026-12-06': 'rembrandt-van-rijn-a-pregacao-de-joao-batista',

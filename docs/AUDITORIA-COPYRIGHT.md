@@ -149,6 +149,20 @@ localmente antes de depurar via deploy** pegou os três problemas sem
 nenhum minuto de indisponibilidade real (o deploy quebrado falhou antes
 de trocar o container).
 
+## Conferência de 2026-11-21 (API de produção contra o vault)
+
+Cruzando as obras ativas na API com as datas dos autores, 6 obras de autores vivos ou falecidos depois
+de 1955 estavam no ar sem cobertura: Cecília Rosa (o UPDATE por título nunca casou: o título no banco
+tem vírgula e o fix procurava "sei- eu"), George Hughes (1907-1990), Konstantin Korobov, Sylwia Perczak
+(*Por Que Dormes*, a 3ª dela), Tadessa Wolde Aregay (n. 1953) e Wang Suda (c. 1910-1963). Cobertas em
+`data-fixes.sql` por slug e, para o próximo export, em `EXCLUDED_ARTISTS`. Mesma classe de falha das
+anteriores: cobertura por nome ou título, sensível a pontuação e a variações de grafia. Lição: conferir
+sempre por slug e comparar as obras ativas na API com a lista do vault depois de cada lote.
+
+Outras 14 obras saíram do ar no mesmo dia por motivo diferente (atribuição não confirmada, obra ou
+imagem não identificada, ou sem passagem bíblica própria); ver o bloco de 2026-11-21 em `data-fixes.sql`
+e a "Triagem de pendências" no vault.
+
 ## Checklist para qualquer inclusão futura
 
 - [ ] Autor morreu ≤ **1955**? → pode incluir como `public-domain`

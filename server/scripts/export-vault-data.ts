@@ -104,6 +104,12 @@ const EXCLUDED_ARTISTS = new Set([
   'Natalya Rusetska',
   'Luke Hua Xiaoxian',
   'Nobleheart', // achado 2026-08-08, mesmo perfil dos outros contemporâneos
+  'Cecília Rosa', // viva; o fix por título não casava (achado 2026-11-21)
+  'George Hughes', // 1907-1990
+  'Konstantin Korobov', // vivo
+  'Sylwia Perczak', // viva
+  'Tadessa Wolde Aregay', // n. 1953
+  'Wang Suda', // c. 1910-1963
 ]);
 
 // Comparação normalizada (sem acento, sem caixa) — achado real 2026-08-23:
