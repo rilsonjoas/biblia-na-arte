@@ -346,6 +346,75 @@ Descrição real da obra.
   });
 });
 
+describe('extractDescription: lista de fontes em ABNT não vaza para o site', () => {
+  const nota = (hist: string) => `---
+autor: "[[X]]"
+---
+### Descrição da Obra
+Texto da obra.
+
+### Contexto Bíblico
+Mt 1:1.
+
+### Contexto Histórico
+${hist}
+
+### Ver também
+[[Y]]
+`;
+
+  it('corta as fontes e o rótulo "Fontes:" e mantém a prosa', () => {
+    const d = extractDescription(
+      nota(`A tela foi feita em 1633.
+
+Fontes:
+MITCHELL, Leah. *An Allegory of Eve and Mary*. Disponível em: https://leahmitchell.com/collections/165983. [não aberta]
+BÍBLIA. Português. *Almeida Corrigida Fiel*. Lucas 1:19-30.`),
+    );
+    expect(d).toContain('A tela foi feita em 1633.');
+    expect(d).not.toContain('MITCHELL');
+    expect(d).not.toContain('não aberta');
+    expect(d).not.toContain('Fontes:');
+    expect(d).not.toContain('BÍBLIA.');
+  });
+
+  it('não corta prosa que começa com sigla ou número de inventário', () => {
+    const d = extractDescription(nota('NG6350, de 1635, mede 167 cm e é a maior tela do museu.'));
+    expect(d).toContain('NG6350, de 1635');
+  });
+
+  it('linha "Fontes:" em itálico, negrito ou simples também sai, e a marca [não aberta] some da prosa', () => {
+    const d = extractDescription(
+      nota(`A obra foi encomendada em 1520 (original [não aberta]).
+
+*Fontes: [página da Tate](https://www.tate.org.uk/x); Wikipédia.*`),
+    );
+    expect(d).toContain('A obra foi encomendada em 1520 (original).');
+    expect(d).not.toContain('Fontes');
+    expect(d).not.toContain('não aberta');
+    const d2 = extractDescription(nota('Prosa.\n\n**Fonte:** Statens Museum for Kunst, registro KMS3141.'));
+    expect(d2).toContain('Prosa.');
+    expect(d2).not.toContain('KMS3141');
+  });
+
+  it('fonte com autor em caixa mista e fonte no meio da linha também saem', () => {
+    const d = extractDescription(
+      nota(`Prosa da obra, dados por confirmar. Fonte: MUSÉE D'ORSAY. *La Cène*. Disponível em: https://x.
+
+- Konstantin Flavitsky. In: WIKIPEDIA. Disponível em: https://en.wikipedia.org/wiki/K. Acesso em: 13 nov. 2026.`),
+    );
+    expect(d).toContain('Prosa da obra, dados por confirmar.');
+    expect(d).not.toContain('Disponível');
+    expect(d).not.toContain('Flavitsky');
+  });
+
+  it('fonte sem rótulo e com bullet também sai', () => {
+    const d = extractDescription(nota('Prosa.\n\n- WIKIPÉDIA. *Titian*. Disponível em: https://x. Acesso em: 18 nov. 2026.'));
+    expect(d).toContain('Prosa.');
+    expect(d).not.toContain('WIKIPÉDIA');
+  });
+});
+
 describe('extractBiography', () => {
   it('extrai a seção Biografia de uma nota de Autor', () => {
     const note = `---

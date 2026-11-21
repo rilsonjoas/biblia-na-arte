@@ -192,7 +192,35 @@ export function sanitizeDescription(text: string): string {
   // depois do fix "completo" original). Qualquer linha que COMECE com
   // "Fonte:" é sempre só a citação, nunca mais nada — corta a linha
   // inteira sem tentar entender o que vem depois.
-  const FONTE_LINE_RE = /^\*?Fonte:/i;
+  const FONTE_LINE_RE = /^\*{0,2}Fontes?:/i;
+
+  // Lista de fontes em ABNT (Manual de Padronização, seção de fontes, desde 18/11/2026): uma fonte por
+  // linha no fim de "Contexto Histórico", com marcas internas como "[não aberta]". Isso é registro de
+  // trabalho do vault, não texto para o visitante (o site tem `sourceUrl` e o botão da fonte do
+  // museu). Achado 2026-11-21, rodando o export depois dos lotes UUU a UVP: 149 descrições levavam a
+  // lista inteira. Começa numa linha de fonte (autor ou instituição em CAIXA ALTA, ponto ou vírgula, e
+  // algum marcador de referência) e vai até o fim do bloco; leva junto o rótulo "Fontes:" que a precede.
+  const FONTES_LABEL_RE = /^\*{0,2}Fontes?:?\*{0,2}$/i;
+  const FONTE_ABNT_RE = /^(?:[-*]\s*)?[A-ZÀ-Ý][A-ZÀ-Ý'’ -]{2,}[,.]\s.*(?:Disponível em|Acesso em|\*[^*]+\*|\b(?:1[0-9]|20)\d\d\b|Vol\.|\[não aberta)/;
+  // Fonte no meio da linha ("... erro 403. Fonte: MUSÉE D'ORSAY. *La Cène*. Disponível em: ...").
+  for (let k = 0; k < lines.length; k++) {
+    if (/Disponível em:/.test(lines[k] ?? '')) lines[k] = (lines[k] ?? '').replace(/\s+\*{0,2}Fontes?:\*{0,2}\s.*$/, '');
+  }
+  // Primeira linha de fonte: autor em CAIXA ALTA, ou qualquer linha com "Disponível em:" (autor em caixa
+  // mista, "In: WIKIPEDIA", instituição com parêntese). Leva junto os marcadores "- " e o rótulo antes dela.
+  const abntStart = lines.findIndex((l) => FONTE_ABNT_RE.test(l.trim()) || /Disponível em:/.test(l));
+  if (abntStart >= 0) {
+    let cut = abntStart;
+    while (
+      cut > 0 &&
+      ((lines[cut - 1] ?? '').trim() === '' ||
+        FONTES_LABEL_RE.test((lines[cut - 1] ?? '').trim()) ||
+        /^\s*[-*]\s/.test(lines[cut - 1] ?? ''))
+    ) {
+      cut--;
+    }
+    lines.length = cut;
+  }
 
   while (i < lines.length) {
     const line = lines[i] ?? '';
@@ -245,6 +273,8 @@ export function sanitizeDescription(text: string): string {
 
   return kept
     .join('\n')
+    // Marca interna de fonte não aberta, solta no meio da prosa ("[não aberta]", "[não aberta; citada pela ficha]").
+    .replace(/[ \t]*\[não aberta[^\]]*\]/g, '')
     .replace(/<!--[\s\S]*?-->/g, '') // comentários HTML, mesma lógica
     .replace(/\n{3,}/g, '\n\n')
     .trim();
