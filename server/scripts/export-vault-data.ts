@@ -44,6 +44,7 @@ import {
   restoreQuestionMark,
   slugify,
   assignFrozenSlugs,
+  excludedSlugOf,
   titleFromFilename,
 } from '../src/lib/vault-parse.js';
 import { resolveBibleBook } from '../src/db/seed-data/bible-books.js';
@@ -623,7 +624,24 @@ async function main() {
     }
   }
 
-  writeFileSync(OUTPUT_JSON, JSON.stringify({ artworks: artworksOut, artists, themes, exportedAt }, null, 2));
+  // Obras que o vault decidiu NÃO publicar (marca na nota, artista excluído, sem tema bíblico, autor desconhecido).
+  // Vão para o JSON para o reseed tratá-las como remoção declarada: a marca na nota é a única fonte da exclusão
+  // (antes era preciso lembrar de `removed-slugs.json` e `data-fixes.sql`). Falhas técnicas (sem imagem, WebP) não entram.
+  const exportedSlugs = new Set(artworks.map((a) => a.slug));
+  const EXCLUSION_REASONS = ['stub sem tema bíblico', 'marcada na nota', 'artista excluído', 'autor desconhecido'];
+  const excluded = [
+    ...new Map(
+      skipped
+        .filter((s) => EXCLUSION_REASONS.some((r) => s.reason.startsWith(r)))
+        .flatMap((s) => {
+          const fm = extractFrontmatter(readFileSync(path.join(VAULT_PINTURAS, s.file), 'utf-8'));
+          const slug = excludedSlugOf(s.file, fm, frozen.byFile.get(s.file));
+          return slug && !exportedSlugs.has(slug) ? [[slug, { slug, reason: s.reason }] as const] : [];
+        }),
+    ).values(),
+  ].sort((a, b) => a.slug.localeCompare(b.slug));
+
+  writeFileSync(OUTPUT_JSON, JSON.stringify({ artworks: artworksOut, artists, themes, excluded, exportedAt }, null, 2));
 
   console.log(`✅ ${artworks.length} pinturas exportadas (imagens já em WebP)`);
   console.log(`👤 ${artists.length} artistas (${artists.filter((a) => a.bio).length} com biografia do vault)`);

@@ -89,10 +89,13 @@ async function main() {
     artworks: exported,
     artists: exportedArtists = [],
     themes: exportedThemes = [],
+    excluded: excludedByVault = [],
   } = JSON.parse(raw) as {
     artworks: ExportedArtwork[];
     artists?: ExportedArtist[];
     themes?: ExportedTheme[];
+    /** Obras que o vault decidiu não publicar (marca na nota etc.); contam como remoção declarada. */
+    excluded?: { slug: string; reason: string }[];
   };
 
   console.log(`▶ ${exported.length} obras no export, ${DRY_RUN ? 'ENSAIO (DRY_RUN, nada será gravado)' : 'importando'}...`);
@@ -102,7 +105,7 @@ async function main() {
   const config = parseRedirectConfig(readOptionalJson(REDIRECTS_JSON), readOptionalJson(REMOVED_JSON));
   const { flat: redirects, problems: flattenProblems } = flattenRedirects(config.redirects);
   const exportSlugs = new Set(exported.map((item) => item.slug));
-  const removedSlugs = new Set(config.removed);
+  const removedSlugs = new Set([...config.removed, ...excludedByVault.map((e) => e.slug)]);
   const configProblems = [
     ...config.problems,
     ...flattenProblems,
@@ -111,7 +114,9 @@ async function main() {
   if (configProblems.length > 0) {
     throw new Error(`Configuração de redirecionamento inválida (${configProblems.length}):\n${formatProblems(configProblems)}`);
   }
-  console.log(`▶ ${Object.keys(redirects).length} redirecionamento(s) e ${removedSlugs.size} remoção(ões) declarada(s).`);
+  console.log(
+    `▶ ${Object.keys(redirects).length} redirecionamento(s) e ${removedSlugs.size} remoção(ões) declarada(s) (${excludedByVault.length} pelas marcas do vault).`,
+  );
 
   // O DRY_RUN termina a transação com tx.rollback(), que lança TransactionRollbackError:
   // aqui isso vira `rolledBack = true`; qualquer outro erro continua subindo.

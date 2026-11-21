@@ -33,6 +33,8 @@ const prev = readArtworks(prevPath);
 const next = readArtworks(NEW_JSON);
 const redirects: Record<string, string> = existsSync(REDIRECTS_JSON) ? JSON.parse(readFileSync(REDIRECTS_JSON, 'utf-8')) : {};
 const removedSlugs = new Set<string>(existsSync(REMOVED_JSON) ? (JSON.parse(readFileSync(REMOVED_JSON, 'utf-8')) as string[]) : []);
+// Exclusões decididas no vault (marca na nota) vêm no próprio export novo.
+for (const e of (JSON.parse(readFileSync(NEW_JSON, 'utf-8')) as { excluded?: { slug: string }[] }).excluded ?? []) removedSlugs.add(e.slug);
 
 const d = diffCatalog(prev, next);
 const s = suggestRedirects(d.removed, d.added, redirects, removedSlugs);
