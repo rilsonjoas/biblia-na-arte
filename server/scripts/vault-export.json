@@ -26722,6 +26722,8 @@
       "licenseType": "public-domain",
       "location": "Alte Pinakothek, Munique, Alemanha",
       "sourceUrl": "https://www.wikidata.org/wiki/Q21372308",
+      "classicCommentaryAuthor": "Rookmaaker",
+      "classicCommentary": "Hans Rookmaaker cita esta obra por nome no artigo \"Normas para a arte e a educação artística?\", ao propor seis critérios pra julgar uma obra de arte. Um dos critérios — \"cosmovisão do artista\", a visão de realidade que a obra expressa — ele ilustra contrastando diretamente esta pintura com a *Crucificação* (1930) de Picasso:\n\n> \"[...] a diferença entre a *Crucificação* (1930) de Picasso e o *Erguimento da Cruz* (1633) de Rembrandt.\"\n> — Hans Rookmaaker, *Filosofia e Estética*, p. 199-202\n\nRookmaaker não desenvolve o contraste em detalhe nesse trecho específico (é um exemplo dentro de uma lista de critérios, não uma análise estendida da obra), mas a escolha das duas obras não é arbitrária: Picasso fragmenta a cena em formas abstratas, sem rosto reconhecível de sofrimento; Rembrandt, um século e meio antes de qualquer vanguarda, já filma o acontecimento como drama humano concreto — com um rosto (o seu próprio) entre os que erguem a cruz. Para Rookmaaker, essa é precisamente a diferença entre uma cosmovisão que abstrai o sofrimento e uma que se implica nele.",
       "references": [
         {
           "book": "Mateus",
@@ -33778,5 +33780,5 @@
       "name": "Zombaria"
     }
   ],
-  "exportedAt": "2026-11-21T15:15:04.428Z"
+  "exportedAt": "2026-11-21T15:30:54.613Z"
 }
