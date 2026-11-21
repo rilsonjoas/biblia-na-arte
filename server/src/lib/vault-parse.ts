@@ -742,3 +742,16 @@ export function assignFrozenSlugs(entries: { file: string; fm: RawFrontmatter | 
   }
   return { byFile, bySlug, problems };
 }
+
+/** Slug que uma nota TERIA no site (o `slug:` congelado, ou autor + título), para as notas que o exportador
+ *  deixa de fora por decisão (marca na nota, artista excluído, sem tema bíblico). O export grava esses slugs em
+ *  `excluded`, e o reseed os trata como remoção declarada: a marca no vault é a fonte única da exclusão. */
+export function excludedSlugOf(file: string, fm: RawFrontmatter | null, frozen?: string): string | undefined {
+  if (frozen && frozen.trim() !== '') return frozen.trim();
+  const artist = (fm?.autor ? extractWikilink(fm.autor) : '') || deriveArtistFromFilename(file);
+  if (!artist) return undefined;
+  const title = parseTitleParts(titleFromFilename(file)).title;
+  const slug = slugify(`${artist}-${title}`);
+  return slug === '' ? undefined : slug;
+}
+

@@ -3,6 +3,7 @@ import { mkdtempSync, mkdirSync, writeFileSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import {
+  excludedSlugOf,
   slugify,
   extractFrontmatter,
   extractWikilink,
@@ -436,6 +437,17 @@ A tela está em Roma. Fica registrado como pendência a proveniência anterior a
     const d = extractDescription(nota('Prosa.\n\n- WIKIPÉDIA. *Titian*. Disponível em: https://x. Acesso em: 18 nov. 2026.'));
     expect(d).toContain('Prosa.');
     expect(d).not.toContain('WIKIPÉDIA');
+  });
+});
+
+describe('excludedSlugOf', () => {
+  it('usa o slug congelado; senão deriva de autor e título sem o parêntese final', () => {
+    expect(excludedSlugOf('A - B (C).md', { autor: '[[Pintor]]' }, 'meu-slug')).toBe('meu-slug');
+    expect(excludedSlugOf('Pintor - A Obra (The Work).md', { autor: '[[Pintor]]' })).toBe('pintor-a-obra');
+  });
+  it('sem autor no frontmatter, deriva do nome do arquivo; sem nenhum, não há slug', () => {
+    expect(excludedSlugOf('Pintor - A Obra (The Work).md', null)).toBe('pintor-a-obra');
+    expect(excludedSlugOf('SemConvencao.md', null)).toBeUndefined();
   });
 });
 

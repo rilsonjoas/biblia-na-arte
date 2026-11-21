@@ -163,6 +163,18 @@ Outras 12 obras saíram do ar no mesmo dia por motivo diferente (atribuição n�
 imagem não identificada, ou sem inspiração bíblica identificável); ver o bloco de 2026-11-21 em `data-fixes.sql`
 e a "Triagem de pendências" no vault.
 
+## Fonte única das exclusões (2026-11-21)
+
+Antes, tirar uma obra do site exigia lembrar de até quatro lugares (`EXCLUDED_ARTISTS` por nome,
+`EXCLUDED_NON_BIBLICAL_KEYS` por arquivo, `data-fixes.sql` por título ou slug e `removed-slugs.json`), e
+foi nessa divisão que obras de autores vivos passaram (uma por causa de uma vírgula). Agora **a marca na
+nota (`direitos: excluir` ou `publicar: não`) basta**: o export grava em `vault-export.json`, na chave
+`excluded`, o slug de toda nota que deixou de fora por decisão (marca, artista excluído, sem tema
+bíblico, autor desconhecido), e o reseed trata esses slugs como remoção declarada (`removed-slugs.json` e
+a trava de "obra ativa sumindo" não precisam mais ser editados à mão). O relatório do ensaio continua
+listando as "obras removidas (ativas)", então uma marca posta por engano numa obra no ar aparece antes de
+gravar. `data-fixes.sql` e `EXCLUDED_ARTISTS` ficam como rede de segurança entre o merge e o reseed.
+
 ## Checklist para qualquer inclusão futura
 
 - [ ] Autor morreu ≤ **1955**? → pode incluir como `public-domain`
