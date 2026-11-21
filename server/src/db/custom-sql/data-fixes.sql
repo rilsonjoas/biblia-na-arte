@@ -157,7 +157,8 @@ WHERE slug IN (
 );
 
 -- Retiradas de 2026-11-21 (triagem das pendências da padronização do vault, não por direitos):
--- atribuição não confirmada, obra ou imagem não identificada, ou sem passagem bíblica própria.
+-- atribuição não confirmada, obra ou imagem não identificada, ou sem inspiração bíblica identificável (obras
+-- cujo título é versículo ou salmo, como *Os céus declaram a glória de Deus* e *Um salmo de Davi*, ficam no ar).
 -- Por SLUG exato. As notas do vault levam `publicar: não`; quando o próximo export tirar estas obras
 -- do JSON, este bloco vira rede de segurança. Para voltar ao ar: corrigir a nota, tirar `publicar: não`
 -- e reativar o registro específico (active = true).
@@ -170,8 +171,6 @@ WHERE slug IN (
     'vasily-surikov-a-tentacao-de-cristo',
     'viktor-vasnetsov-arcanjo-no-julgamento-final',
     'william-ladd-taylor-culto-de-inverno-na-igreja',
-    'william-ladd-taylor-os-ceus-declaram-a-gloria-de-deus',
-    'william-ladd-taylor-um-salmo-de-davi',
     'theodor-galle-abuso-de-justica-abuse-of-justice-abuso-de-justica',
     'william-preston-o-olho-da-providencia-the-eye-of-providence-o-olho-da-providencia',
     'rembrandt-van-rijn-juda-e-tamar',

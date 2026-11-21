@@ -159,8 +159,8 @@ tem vírgula e o fix procurava "sei- eu"), George Hughes (1907-1990), Konstantin
 anteriores: cobertura por nome ou título, sensível a pontuação e a variações de grafia. Lição: conferir
 sempre por slug e comparar as obras ativas na API com a lista do vault depois de cada lote.
 
-Outras 14 obras saíram do ar no mesmo dia por motivo diferente (atribuição não confirmada, obra ou
-imagem não identificada, ou sem passagem bíblica própria); ver o bloco de 2026-11-21 em `data-fixes.sql`
+Outras 12 obras saíram do ar no mesmo dia por motivo diferente (atribuição não confirmada, obra ou
+imagem não identificada, ou sem inspiração bíblica identificável); ver o bloco de 2026-11-21 em `data-fixes.sql`
 e a "Triagem de pendências" no vault.
 
 ## Checklist para qualquer inclusão futura
