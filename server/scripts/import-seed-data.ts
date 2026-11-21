@@ -203,25 +203,28 @@ async function main() {
     console.log('▶ Upsert de obras + referências...');
     for (const item of exported) {
       const id = artworkIdFromSlug(item.slug);
+      // Campo que deixou de existir no vault chega aqui como `undefined` (o JSON não tem a chave) e o Drizzle
+      // IGNORA `undefined` no `set` do upsert: o valor antigo ficava no banco (achado 2026-11-21: `ano: "não
+      // confirmado"`, retirado das notas, seguia no ar). `?? null` limpa de verdade.
       const values = {
         slug: item.slug,
         title: item.title,
-        subtitle: item.subtitle,
+        subtitle: item.subtitle ?? null,
         artistOrDirector: item.artistOrDirector,
-        year: item.year,
+        year: item.year ?? null,
         category: item.category,
         description: item.description,
         imageUrl: `/images/${item.imageFile}`,
         licenseType: item.licenseType,
-        attributionText: item.attributionText,
-        location: item.location,
-        period: item.period,
-        tradition: item.tradition,
-        technique: item.technique,
-        country: item.country,
-        sourceUrl: item.sourceUrl,
-        classicCommentaryAuthor: item.classicCommentaryAuthor,
-        classicCommentary: item.classicCommentary,
+        attributionText: item.attributionText ?? null,
+        location: item.location ?? null,
+        period: item.period ?? null,
+        tradition: item.tradition ?? null,
+        technique: item.technique ?? null,
+        country: item.country ?? null,
+        sourceUrl: item.sourceUrl ?? null,
+        classicCommentaryAuthor: item.classicCommentaryAuthor ?? null,
+        classicCommentary: item.classicCommentary ?? null,
         origem: 'vault' as const,
         createdAt: new Date(item.createdAt),
       };

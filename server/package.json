@@ -19,7 +19,8 @@
     "db:seed": "tsx scripts/import-seed-data.ts",
     "images:optimize": "tsx scripts/optimize-images.ts",
     "sitemap:generate": "tsx scripts/generate-sitemap.ts",
-    "lint:vault": "tsx scripts/vault-lint.ts"
+    "lint:vault": "tsx scripts/vault-lint.ts",
+    "audit:live": "tsx scripts/audit-live.ts"
   },
   "dependencies": {
     "@fastify/cors": "^10.0.1",
